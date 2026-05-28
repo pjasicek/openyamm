@@ -1,0 +1,56 @@
+;--------------------------------------------------
+;Orb.scr
+; timmy
+; handles checking to see if the party got 6 orbs of linking.
+;
+
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#number			Params
+
+;Parameters:
+; P0...key to give
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+
+	giveitem 252
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+
+
+exit
+
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+haskey 337 g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+endif
+
+
+exit
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon  ; delete me
+
+GetParam 0, Params
+Addtrigger use OnUse
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+
+

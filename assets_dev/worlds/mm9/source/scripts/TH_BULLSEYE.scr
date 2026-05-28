@@ -1,0 +1,168 @@
+;-----------------------------------------------------
+;
+;	TH_BullsEye.scr
+;
+;	Karl Drown 11-15-01
+;	shoot the target's bulleye and get rewarded.
+;	
+;	
+;-----------------------------------------------------
+
+#include Globals.inc
+#include Flags.inc
+
+
+#hObject	hDummy
+#hObject	hMe
+#hObject	hTrigger
+#hObject	hResetTrigger
+#hObject	hCloseTrigger
+
+#string		sTargetObject
+#string		sTrigger
+#string		sResetTrigger
+#string		sCloseTrigger
+#number		nRing
+
+
+#number		nLoop
+#number		nTargetNum
+#string		sRingName
+
+
+;-----------------------------------------------------
+:Done
+;-----------------------------------------------------
+
+	OnDamage DoNothing
+	RemoveTrigger Done
+
+	Exit True
+
+;-----------------------------------------------------
+:TurnOn
+;-----------------------------------------------------
+
+	GetMyHandle hDummy
+	SetFlag hDummy, FLAG_SOLID
+
+	Exit True
+;-----------------------------------------------------
+:TurnOff
+;-----------------------------------------------------
+
+	GetMyHandle hDummy
+	ClearFlag hDummy, FLAG_SOLID
+
+	Exit True
+;-----------------------------------------------------
+:StopHere
+;-----------------------------------------------------
+Cprint StopHere
+	;playsound Sounds\Door\doorslammetal01.wav DoNothing 500 1000 FALSE 100
+
+	;GetObjectHandle sResetTrigger, hResetTrigger
+	;GetObjectHandle sCloseTrigger, hCloseTrigger
+
+	;RemoveObject hResetTrigger
+	;RemoveObject hCloseTrigger
+
+
+	nLoop = 0
+
+	while (nLoop < 4)
+		if (nLoop == 0)
+			sRingName = "centertarget" + nTargetNum
+		else
+			if (nLoop == 1)
+				sRingName = "FirstRing" + nTargetNum
+			else
+				if (nLoop == 2)
+					sRingName = "SecondRing" + nTargetNum
+				else
+					if (nLoop == 3)
+						sRingName = "ThirdRing" + nTargetNum
+					endif
+				endif
+			endif
+		endif
+		GetObjectHandle sRingName hTrigger
+		Trigger hTrigger Done
+		nLoop = nLoop + 1
+	endwhile
+
+	Exit TRUE
+;-----------------------------------------------------
+:CloseMe
+;-----------------------------------------------------
+	playsound Sounds\Events\Gold01.wav DoNothing 500 4000 FALSE 100
+	if (nRing==0)
+		GiveGold 8000
+		playsound Sounds\spells\DivineIntervention.wav DoNothing 500 1000 FALSE 100
+	else
+		if(nRing==1)
+			GiveGold 4000
+			playsound Sounds\spells\phantom.wav DoNothing 500 1000 FALSE 100
+		else
+			if(nRing==2)
+				GiveGold 2000
+				playsound Sounds\spells\spellreaver.wav DoNothing 500 1000 FALSE 100
+			else
+				if(nRing==3)
+					GiveGold 1000
+					playsound Sounds\spells\Regeneration.wav DoNothing 500 1000 FALSE 100
+				else
+					if(nRing==4)
+						GiveGold 750
+						playsound Sounds\spells\leggib.wav DoNothing 500 1000 FALSE 100
+					else
+						if(nRing==5)
+							GiveGold 500
+							playsound Sounds\spells\mine01.wav DoNothing 500 1000 FALSE 100
+						else
+							if(nRing==6)		
+								GiveGold 250
+								playsound Sounds\spells\paralyze.wav DoNothing 500 1000 FALSE 100
+							endif
+						endif
+					endif
+				endif
+			endif
+		endif
+	endif
+
+	GetMyHandle hMe
+	GetObjectHandle sTargetObject, hDummy
+	GetObjectHandle sTrigger, hTrigger
+	Trigger hMe, Open
+	Trigger hDummy, Open
+	Trigger hMe, Lock
+	Trigger hDummy, Lock
+	Trigger hTrigger, Trigger
+	Gosub StopHere
+	
+	Exit
+
+;-----------------------------------------------------
+:TargetInit
+;-----------------------------------------------------
+	GetMyHandle hDummy
+	SetFlag hDummy, FLAG_SOLID
+
+	Exit True
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	GetParam 0, sTargetObject
+	GetParam 1, sTrigger
+	GetParam 2, nRing
+	GetParam 3, sResetTrigger
+	GetParam 4, sCloseTrigger
+	GetParam 5, nTargetNum
+	OnDamage CloseMe
+	AddTrigger Stop, TurnOff
+	AddTrigger Go, TurnOn
+	AddTrigger Done Done
+	Wait 0, 2, TargetInit
+	Exit
+;------------- E n d - O f - F i l e -------------------

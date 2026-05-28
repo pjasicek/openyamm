@@ -1,0 +1,56 @@
+;---------------------------------
+;	PigRacer.scr
+;	by SJR
+;	12-11-01
+;	Purpose:player races against this pig
+;			during Thjorgard races.
+;---------------------------------
+#include BaseGlobals.inc
+#include ListTraverse.inc
+
+#hobject	hMe = 0
+
+#number		nTemp = 0
+#number		nRandom = 0
+
+;------------------
+:Main
+;------------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+
+	Wait 0, 3, InitPigRacerAI
+
+	Exit TRUE
+
+;------------------
+:InitPigRacerAI
+;------------------
+	GetMyHandle hMe
+
+	GetRandomInt 5, 8, nRandom
+	GetStat hMe, RunVel, nTemp
+	nTemp = nTemp * nRandom
+	SetStat hMe, RunVel, nTemp
+
+	gosub SetTraverseRun
+	gosub SetTraverseOnce
+	TRAVERSERADIUS = 64
+
+	AddTrigger Start, TraverseBegin
+
+	SetIdle
+
+	Exit TRUE
+
+;------------------
+:OnTraverseDone
+;------------------
+	if( LISTINDEX==LISTLAST )
+		gosub TraversePause
+		gosub ReversePath
+		gosub TraverseResume
+	endif
+
+	Exit TRUE

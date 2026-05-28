@@ -1,0 +1,297 @@
+schema: openyamm.model3d.v1
+id: crystal
+model: crystal.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/CRYSTAL.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: Object11
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+- name: Object02
+  materialIndex: 0
+  lods:
+  - faces: 5
+    vertices: 7
+- name: Object03
+  materialIndex: 0
+  lods:
+  - faces: 2
+    vertices: 4
+- name: Object04
+  materialIndex: 0
+  lods:
+  - faces: 2
+    vertices: 4
+- name: Object05
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+- name: Object06
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+- name: Object07
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+- name: Object08
+  materialIndex: 0
+  lods:
+  - faces: 2
+    vertices: 4
+- name: Object09
+  materialIndex: 0
+  lods:
+  - faces: 3
+    vertices: 5
+- name: Object10
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+- name: Crystal
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+- name: Object12
+  materialIndex: 0
+  lods:
+  - faces: 3
+    vertices: 5
+- name: Object13
+  materialIndex: 0
+  lods:
+  - faces: 3
+    vertices: 5
+- name: Object14
+  materialIndex: 0
+  lods:
+  - faces: 3
+    vertices: 5
+- name: Object15
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+- name: Object16
+  materialIndex: 0
+  lods:
+  - faces: 2
+    vertices: 4
+- name: Object17
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+- name: Object18
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+- name: Object19
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+- name: Object20
+  materialIndex: 0
+  lods:
+  - faces: 2
+    vertices: 4
+- name: Object21
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+materials:
+- index: 0
+  texture: skins_preview/props/crystal.png
+  runtime_texture: skins/props/crystal.dtx
+  preview_texture: skins_preview/props/crystal.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/CRYSTAL.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+    - 17
+    - 18
+    - 19
+    - 20
+    - 21
+    - 22
+    - 23
+  - index: 2
+    name: Bone02
+    parent: 1
+    flags: 0
+    children: []
+  - index: 3
+    name: Object11
+    parent: 1
+    flags: 0
+    children: []
+  - index: 4
+    name: Object02
+    parent: 1
+    flags: 0
+    children: []
+  - index: 5
+    name: Object03
+    parent: 1
+    flags: 0
+    children: []
+  - index: 6
+    name: Object04
+    parent: 1
+    flags: 0
+    children: []
+  - index: 7
+    name: Object05
+    parent: 1
+    flags: 0
+    children: []
+  - index: 8
+    name: Object06
+    parent: 1
+    flags: 0
+    children: []
+  - index: 9
+    name: Object07
+    parent: 1
+    flags: 0
+    children: []
+  - index: 10
+    name: Object08
+    parent: 1
+    flags: 0
+    children: []
+  - index: 11
+    name: Object09
+    parent: 1
+    flags: 0
+    children: []
+  - index: 12
+    name: Object10
+    parent: 1
+    flags: 0
+    children: []
+  - index: 13
+    name: Crystal
+    parent: 1
+    flags: 0
+    children: []
+  - index: 14
+    name: Object12
+    parent: 1
+    flags: 0
+    children: []
+  - index: 15
+    name: Object13
+    parent: 1
+    flags: 0
+    children: []
+  - index: 16
+    name: Object14
+    parent: 1
+    flags: 0
+    children: []
+  - index: 17
+    name: Object15
+    parent: 1
+    flags: 0
+    children: []
+  - index: 18
+    name: Object16
+    parent: 1
+    flags: 0
+    children: []
+  - index: 19
+    name: Object17
+    parent: 1
+    flags: 0
+    children: []
+  - index: 20
+    name: Object18
+    parent: 1
+    flags: 0
+    children: []
+  - index: 21
+    name: Object19
+    parent: 1
+    flags: 0
+    children: []
+  - index: 22
+    name: Object20
+    parent: 1
+    flags: 0
+    children: []
+  - index: 23
+    name: Object21
+    parent: 1
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: Crystal
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Crystal
+  extents:
+  - 32.0
+  - 32.0
+  - 32.0
+  origin:
+  - 0.0
+  - -32.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/crystal.abc

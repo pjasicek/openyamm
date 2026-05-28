@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: guberland
+display_name: Guberland
+source:
+  dat: ../source/worlds/GUBERLAND.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/GUBERLAND.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 60eeba67a3841502843d1f7f8ea080098c864fb8f6af7ff1764ea07b31052481
+runtime:
+  world_backend: dat_world
+  classification: outdoor_like
+  classification_confidence: high
+  visibility: dat_spatial
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: guberland.dat_world.yml
+  raw_objects: guberland.raw_objects.yml
+  materials: guberland.material_aliases.yml
+  events: guberland.events.yml
+  scene_compat: guberland.scene.yml
+  source_metadata_compat: guberland.mm9.yml
+  bsp_compat: null
+  geometry_compat: null
+  model_assets_compat: guberland.model_assets.yml
+  odm_compat: guberland.odm
+  blv_compat: null
+scripts:
+  level: ../events/guberland.lua
+  script_ir: ../events/guberland.script_ir.yml
+compatibility:
+  legacy_target_format: odm
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

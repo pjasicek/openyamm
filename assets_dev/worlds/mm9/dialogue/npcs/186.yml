@@ -1,0 +1,832 @@
+format_version: 1
+source_file: NPC186.rude
+rows:
+  - source:
+      file: NPC186.rude
+      row: 1
+    raw_columns:
+      - 186
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 186
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC186.rude
+      row: 2
+    raw_columns:
+      - 186
+      - 10
+      - 1
+      - Yeah.
+      - Well thanks for your help.  Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 186
+      node_id: 10
+      choice_slot: 1
+      prompt: Yeah.
+      response: Well thanks for your help.  Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC186.rude
+      row: 3
+    raw_columns:
+      - 186
+      - 1
+      - 1
+      - Do you have any news?
+      - Business has been pretty bad around here.  It's time for me to move on to greener pastures, I think.  I'd like to go to Thronheim, but it is a dangerous journey, and I couldn't do it alone.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 186
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: Business has been pretty bad around here.  It's time for me to move on to greener pastures, I think.  I'd like to go to Thronheim, but it is a dangerous journey, and I couldn't do it alone.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC186.rude
+      row: 4
+    raw_columns:
+      - 186
+      - 186
+      - 1
+      - We've come to guard your boat.
+      - You have?!  Great! I plan on leaving at six tomorrow morning.  Show up at the dock at 3 am and relieve the late guard.  I'll come and relieve you myself around 6.
+      - 999
+      - 124
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 125
+      - 0
+      - 0
+      - 0
+      - 0
+      - 126
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 186
+      node_id: 186
+      choice_slot: 1
+      prompt: We've come to guard your boat.
+      response: You have?!  Great! I plan on leaving at six tomorrow morning.  Show up at the dock at 3 am and relieve the late guard.  I'll come and relieve you myself around 6.
+      next: 999
+      raw_fields:
+        c07: 124
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 125
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 126
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 124
+            qbit_id: 9124
+            state_id: mm9.keys.124
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 124
+          qbit_id: 9124
+          state_id: mm9.keys.124
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 125
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 126
+        status: raw_value_preserved
+  - source:
+      file: NPC186.rude
+      row: 5
+    raw_columns:
+      - 186
+      - 1
+      - 2
+      - What do you know about Thronheim?
+      - Thronheim is a wonderful place!  I'm sure it will make me a fortune!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 186
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about Thronheim?
+      response: Thronheim is a wonderful place!  I'm sure it will make me a fortune!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC186.rude
+      row: 6
+    raw_columns:
+      - 186
+      - 186
+      - 2
+      - We'd like to ask you some questions.
+      - Okay.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 186
+      node_id: 186
+      choice_slot: 2
+      prompt: We'd like to ask you some questions.
+      response: Okay.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC186.rude
+      row: 7
+    raw_columns:
+      - 186
+      - 186
+      - 3
+      - When is our shift again?
+      - Three to six AM!
+      - 186
+      - 125
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 126
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 186
+      node_id: 186
+      choice_slot: 3
+      prompt: When is our shift again?
+      response: Three to six AM!
+      next: 186
+      raw_fields:
+        c07: 125
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 126
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 186
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 125
+            qbit_id: 9125
+            state_id: mm9.keys.125
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 125
+          qbit_id: 9125
+          state_id: mm9.keys.125
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 126
+        status: raw_value_preserved
+  - source:
+      file: NPC186.rude
+      row: 8
+    raw_columns:
+      - 186
+      - 186
+      - 4
+      - How's business?
+      - Great, thanks to you!
+      - 186
+      - 127
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 186
+      node_id: 186
+      choice_slot: 4
+      prompt: How's business?
+      response: Great, thanks to you!
+      next: 186
+      raw_fields:
+        c07: 127
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 186
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 127
+            qbit_id: 9127
+            state_id: mm9.keys.127
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 127
+          qbit_id: 9127
+          state_id: mm9.keys.127
+  - source:
+      file: NPC186.rude
+      row: 9
+    raw_columns:
+      - 186
+      - 186
+      - 5
+      - Good luck on your journey.
+      - Thank you!  Thorfinn told me to pay you this gold for your help.  I guess this makes you a Mercenary now?
+      - 10
+      - 126
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 127
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 186
+      node_id: 186
+      choice_slot: 5
+      prompt: Good luck on your journey.
+      response: Thank you!  Thorfinn told me to pay you this gold for your help.  I guess this makes you a Mercenary now?
+      next: 10
+      raw_fields:
+        c07: 126
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 127
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 126
+            qbit_id: 9126
+            state_id: mm9.keys.126
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 126
+          qbit_id: 9126
+          state_id: mm9.keys.126
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 127
+        status: raw_value_preserved
+  - source:
+      file: NPC186.rude
+      row: 10
+    raw_columns:
+      - 186
+      - 1
+      - 7
+      - Thanks for your time.
+      - Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 186
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC186.rude
+      row: 11
+    raw_columns:
+      - 186
+      - 186
+      - 7
+      - Thanks for your time.
+      - Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 186
+      node_id: 186
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

@@ -1,0 +1,3812 @@
+format_version: 1
+source_file: NPC87.rude
+rows:
+  - source:
+      file: NPC87.rude
+      row: 1
+    raw_columns:
+      - 87
+      - 5
+      - 1
+      - The Beldonian Hordes are marching to Chedian.
+      - Oh no!  This is too much!  I mean it only figures, of course, all the problems land on my head.  What if they come here?  What if they army is too strong for us?  What can I do?  Drangheim will be destroyed!
+      - 6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 43
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 5
+      choice_slot: 1
+      prompt: The Beldonian Hordes are marching to Chedian.
+      response: Oh no!  This is too much!  I mean it only figures, of course, all the problems land on my head.  What if they come here?  What if they army is too strong for us?  What can I do?  Drangheim will be destroyed!
+      next: 6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 43
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 6
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 43
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 2
+    raw_columns:
+      - 87
+      - 10
+      - 1
+      - Thank you.
+      - No, thank you!  Was there anything else you wanted today?
+      - 87
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 10
+      choice_slot: 1
+      prompt: Thank you.
+      response: No, thank you!  Was there anything else you wanted today?
+      next: 87
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 87
+  - source:
+      file: NPC87.rude
+      row: 3
+    raw_columns:
+      - 87
+      - 32
+      - 1
+      - What if we got him to sign a treaty?
+      - A treaty?!  Yes, I suppose that would work.  Find someone to write us a treaty, and bring it to me.  I will sign it.
+      - 33
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 32
+      choice_slot: 1
+      prompt: What if we got him to sign a treaty?
+      response: A treaty?!  Yes, I suppose that would work.  Find someone to write us a treaty, and bring it to me.  I will sign it.
+      next: 33
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 33
+  - source:
+      file: NPC87.rude
+      row: 4
+    raw_columns:
+      - 87
+      - 30
+      - 1
+      - Sturmford didn't do it.  We did.
+      - YOU!??  Why on earth would you do such a thing?
+      - 31
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 30
+      choice_slot: 1
+      prompt: Sturmford didn't do it.  We did.
+      response: YOU!??  Why on earth would you do such a thing?
+      next: 31
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 31
+  - source:
+      file: NPC87.rude
+      row: 5
+    raw_columns:
+      - 87
+      - 9
+      - 1
+      - We will do this for you.
+      - Great!  Chasm of the Dead is located just outside Drangheim.  I must give you this warning.  Chasm of the Dead is heavily trapped and EXTREMELY dangerous.  Stick close to the walls if you value your lives.  Good luck.
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 46
+      - 0
+      - 0
+      - 0
+      - 0
+      - 169
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 9
+      choice_slot: 1
+      prompt: We will do this for you.
+      response: Great!  Chasm of the Dead is located just outside Drangheim.  I must give you this warning.  Chasm of the Dead is heavily trapped and EXTREMELY dangerous.  Stick close to the walls if you value your lives.  Good luck.
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 46
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 169
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 46
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 169
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 6
+    raw_columns:
+      - 87
+      - 8
+      - 1
+      - We will do this for you.
+      - Great!  Good luck.
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 44
+      - 0
+      - 0
+      - 0
+      - 0
+      - 372
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 8
+      choice_slot: 1
+      prompt: We will do this for you.
+      response: Great!  Good luck.
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 44
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 372
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 44
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 372
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 7
+    raw_columns:
+      - 87
+      - 11
+      - 1
+      - Yes.
+      - Great!  One less thing I have to worry about.  When is the war council?
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 51
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 11
+      choice_slot: 1
+      prompt: Yes.
+      response: Great!  One less thing I have to worry about.  When is the war council?
+      next: 12
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 51
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 51
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 8
+    raw_columns:
+      - 87
+      - 6
+      - 1
+      - Join us!  We are trying to unite the Clans against them.
+      - Join you?  Hmmm.  I've got my hands full with Sturmford these days.  Perhaps if you would help me with that, I would be able to help you.
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 6
+      choice_slot: 1
+      prompt: Join us!  We are trying to unite the Clans against them.
+      response: Join you?  Hmmm.  I've got my hands full with Sturmford these days.  Perhaps if you would help me with that, I would be able to help you.
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+  - source:
+      file: NPC87.rude
+      row: 9
+    raw_columns:
+      - 87
+      - 33
+      - 1
+      - We will get you a treaty.
+      - Very well.  Once Bjarni has signed it, I will withdraw my troops.  Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 87
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 33
+      choice_slot: 1
+      prompt: We will get you a treaty.
+      response: Very well.  Once Bjarni has signed it, I will withdraw my troops.  Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 87
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 87
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 10
+    raw_columns:
+      - 87
+      - 4
+      - 1
+      - We will do this.
+      - When you find the source, try to make them stop.  If you cannot, tell me.  I will find a way to silence their foul mouth.  Good luck!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 52
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 4
+      choice_slot: 1
+      prompt: We will do this.
+      response: When you find the source, try to make them stop.  If you cannot, tell me.  I will find a way to silence their foul mouth.  Good luck!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 52
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 52
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 11
+    raw_columns:
+      - 87
+      - 3
+      - 1
+      - That is a problem.
+      - Why don't you do that for me?  Yes!  I think you should.  Go find Greudach A'Dorad.  She should be somewhere around town.  Ask her where she got the rumor from, and keep asking until you find the source!
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 3
+      choice_slot: 1
+      prompt: That is a problem.
+      response: Why don't you do that for me?  Yes!  I think you should.  Go find Greudach A'Dorad.  She should be somewhere around town.  Ask her where she got the rumor from, and keep asking until you find the source!
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC87.rude
+      row: 12
+    raw_columns:
+      - 87
+      - 2
+      - 1
+      - What rumors?
+      - Well, Greudach A'Dorad has often been telling me troubling news as of late.  I think she's quite taken with gossip.  I'd like to know who is at the root of these rumors.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 2
+      choice_slot: 1
+      prompt: What rumors?
+      response: Well, Greudach A'Dorad has often been telling me troubling news as of late.  I think she's quite taken with gossip.  I'd like to know who is at the root of these rumors.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC87.rude
+      row: 13
+    raw_columns:
+      - 87
+      - 1
+      - 1
+      - Do you have any news?
+      - I'm worried about the rumors.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 55
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I'm worried about the rumors.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 55
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 55
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 14
+    raw_columns:
+      - 87
+      - 87
+      - 1
+      - We have come seeking your aid.
+      - What is it that you want?
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 43
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 87
+      choice_slot: 1
+      prompt: We have come seeking your aid.
+      response: What is it that you want?
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 43
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 43
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 15
+    raw_columns:
+      - 87
+      - 21
+      - 1
+      - Tell them we are meeting in Thronheim in two weeks.
+      - I will let them know!  See you at the council!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 21
+      choice_slot: 1
+      prompt: Tell them we are meeting in Thronheim in two weeks.
+      response: I will let them know!  See you at the council!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC87.rude
+      row: 16
+    raw_columns:
+      - 87
+      - 7
+      - 1
+      - What do you need done?
+      - There is a fort called Anskram Keep along our border located in Sturmford.  It is rightfully ours.  Go to this fort, and disable all of its defenses.  Take this key.  One of our agents returned with it.
+      - 8
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 44
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 7
+      choice_slot: 1
+      prompt: What do you need done?
+      response: There is a fort called Anskram Keep along our border located in Sturmford.  It is rightfully ours.  Go to this fort, and disable all of its defenses.  Take this key.  One of our agents returned with it.
+      next: 8
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 44
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 8
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 44
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 17
+    raw_columns:
+      - 87
+      - 16
+      - 1
+      - Thank you.
+      - Is there anything else I can help you with?
+      - 87
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 16
+      choice_slot: 1
+      prompt: Thank you.
+      response: Is there anything else I can help you with?
+      next: 87
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 87
+  - source:
+      file: NPC87.rude
+      row: 18
+    raw_columns:
+      - 87
+      - 20
+      - 1
+      - Certainly.
+      - What a beautiful artifact!  No one will dispute my claim to the Jarlship now!  Here's a little something for your troubles.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 20
+      choice_slot: 1
+      prompt: Certainly.
+      response: What a beautiful artifact!  No one will dispute my claim to the Jarlship now!  Here's a little something for your troubles.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC87.rude
+      row: 19
+    raw_columns:
+      - 87
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC87.rude
+      row: 20
+    raw_columns:
+      - 87
+      - 46
+      - 1
+      - We shall see you there.
+      - Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 46
+      choice_slot: 1
+      prompt: We shall see you there.
+      response: Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC87.rude
+      row: 21
+    raw_columns:
+      - 87
+      - 45
+      - 1
+      - You and Bjarni will both sign it in Thronheim.
+      - Thronheim?!  That Bjarni doesn't trust me enough to sign it first?!  Very well, I will go to Thronheim and sign this treaty.
+      - 46
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 91
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 45
+      choice_slot: 1
+      prompt: You and Bjarni will both sign it in Thronheim.
+      response: Thronheim?!  That Bjarni doesn't trust me enough to sign it first?!  Very well, I will go to Thronheim and sign this treaty.
+      next: 46
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 91
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 46
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 91
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 22
+    raw_columns:
+      - 87
+      - 31
+      - 1
+      - Bjarni said he needed his general.  We gave it to him.
+      - You did it!  It doesn't matter anyway.  Sturmford wouldn't stop now anyway.
+      - 32
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 31
+      choice_slot: 1
+      prompt: Bjarni said he needed his general.  We gave it to him.
+      response: You did it!  It doesn't matter anyway.  Sturmford wouldn't stop now anyway.
+      next: 32
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 32
+  - source:
+      file: NPC87.rude
+      row: 23
+    raw_columns:
+      - 87
+      - 12
+      - 1
+      - We have much to do, yet.  We'll let you know.
+      - Great!  I shall be ready.  Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 178
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 12
+      choice_slot: 1
+      prompt: We have much to do, yet.  We'll let you know.
+      response: Great!  I shall be ready.  Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 178
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 178
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 24
+    raw_columns:
+      - 87
+      - 15
+      - 1
+      - A person named Marsaili A'Lanth in Sturmford.
+      - In Sturmford?  Must be one of Bjarni's spies.  Very well.  I shall take care of it.  Thank you.  Here is something for your hard work.
+      - 16
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 55
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 15
+      choice_slot: 1
+      prompt: A person named Marsaili A'Lanth in Sturmford.
+      response: In Sturmford?  Must be one of Bjarni's spies.  Very well.  I shall take care of it.  Thank you.  Here is something for your hard work.
+      next: 16
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 55
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 16
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 55
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 25
+    raw_columns:
+      - 87
+      - 87
+      - 2
+      - We'd like to ask you a few questions.
+      - Very well.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 87
+      choice_slot: 2
+      prompt: We'd like to ask you a few questions.
+      response: Very well.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC87.rude
+      row: 26
+    raw_columns:
+      - 87
+      - 12
+      - 2
+      - The clans are united.  Now is the time for the war council.
+      - That is great!  I shall dispatch messengers to the Jarls immediately.
+      - 21
+      - 51
+      - 0
+      - 178
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 12
+      choice_slot: 2
+      prompt: The clans are united.  Now is the time for the war council.
+      response: That is great!  I shall dispatch messengers to the Jarls immediately.
+      next: 21
+      raw_fields:
+        c07: 51
+        c08: 0
+        c09: 178
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 83
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 83
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 21
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 51
+            qbit_id: 9051
+            state_id: mm9.keys.51
+          - column: c09
+            raw_id: 178
+            qbit_id: 9178
+            state_id: mm9.keys.178
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 51
+          qbit_id: 9051
+          state_id: mm9.keys.51
+        - domain: mm9.keys
+          raw_id: 178
+          qbit_id: 9178
+          state_id: mm9.keys.178
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 83
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 83
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 27
+    raw_columns:
+      - 87
+      - 9
+      - 2
+      - We've already retrieved that.
+      - You have?  Let me see it!
+      - 20
+      - 169
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 46
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 9
+      choice_slot: 2
+      prompt: We've already retrieved that.
+      response: You have?  Let me see it!
+      next: 20
+      raw_fields:
+        c07: 169
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 46
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 20
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 169
+            qbit_id: 9169
+            state_id: mm9.keys.169
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 169
+          qbit_id: 9169
+          state_id: mm9.keys.169
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 46
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 28
+    raw_columns:
+      - 87
+      - 4
+      - 2
+      - Sorry.  We're much to busy to root out rumors.
+      - Very well.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 4
+      choice_slot: 2
+      prompt: Sorry.  We're much to busy to root out rumors.
+      response: Very well.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC87.rude
+      row: 29
+    raw_columns:
+      - 87
+      - 8
+      - 2
+      - We can't do this for you right now.
+      - Very well.
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 372
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 8
+      choice_slot: 2
+      prompt: We can't do this for you right now.
+      response: Very well.
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 372
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 372
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 30
+    raw_columns:
+      - 87
+      - 1
+      - 2
+      - Do you have any news?
+      - No, thanks to you!  The rumors have quieted down.  I am in you debt.
+      - 1
+      - 55
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 1
+      choice_slot: 2
+      prompt: Do you have any news?
+      response: No, thanks to you!  The rumors have quieted down.  I am in you debt.
+      next: 1
+      raw_fields:
+        c07: 55
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 55
+            qbit_id: 9055
+            state_id: mm9.keys.55
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 55
+          qbit_id: 9055
+          state_id: mm9.keys.55
+  - source:
+      file: NPC87.rude
+      row: 31
+    raw_columns:
+      - 87
+      - 10
+      - 2
+      - Now that we've done both tasks for you, will you join us?
+      - Of course I will!  I assume that you will be working out all the details?
+      - 11
+      - 49
+      - 0
+      - 50
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 10
+      choice_slot: 2
+      prompt: Now that we've done both tasks for you, will you join us?
+      response: Of course I will!  I assume that you will be working out all the details?
+      next: 11
+      raw_fields:
+        c07: 49
+        c08: 0
+        c09: 50
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 49
+            qbit_id: 9049
+            state_id: mm9.keys.49
+          - column: c09
+            raw_id: 50
+            qbit_id: 9050
+            state_id: mm9.keys.50
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 49
+          qbit_id: 9049
+          state_id: mm9.keys.49
+        - domain: mm9.keys
+          raw_id: 50
+          qbit_id: 9050
+          state_id: mm9.keys.50
+  - source:
+      file: NPC87.rude
+      row: 32
+    raw_columns:
+      - 87
+      - 7
+      - 2
+      - What else do you need done?
+      - There is some question about my legitimacy to serve as Jarl of Drangheim.  There is an item, called the Crona Kiga that will erase any questions of that.  I would like you to visit Chasm of the Dead and retrieve it.
+      - 9
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 46
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 7
+      choice_slot: 2
+      prompt: What else do you need done?
+      response: There is some question about my legitimacy to serve as Jarl of Drangheim.  There is an item, called the Crona Kiga that will erase any questions of that.  I would like you to visit Chasm of the Dead and retrieve it.
+      next: 9
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 46
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 9
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 46
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 33
+    raw_columns:
+      - 87
+      - 8
+      - 3
+      - We've already done that.
+      - You have?  That's great news!  Oh, are those Sturmfordians going to pay now!!  Here's a little something for you, too.
+      - 10
+      - 372
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 49
+      - 0
+      - 0
+      - 0
+      - 0
+      - 49
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 8
+      choice_slot: 3
+      prompt: We've already done that.
+      response: You have?  That's great news!  Oh, are those Sturmfordians going to pay now!!  Here's a little something for you, too.
+      next: 10
+      raw_fields:
+        c07: 372
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 49
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 49
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 372
+            qbit_id: 9372
+            state_id: mm9.keys.372
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 372
+          qbit_id: 9372
+          state_id: mm9.keys.372
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 49
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 49
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 34
+    raw_columns:
+      - 87
+      - 1
+      - 3
+      - What do you know about Bjarni?
+      - He's the guy in charge of Sturmford!  Those Sturmfordians must have rocks in their brains for picking him!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 1
+      choice_slot: 3
+      prompt: What do you know about Bjarni?
+      response: He's the guy in charge of Sturmford!  Those Sturmfordians must have rocks in their brains for picking him!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC87.rude
+      row: 35
+    raw_columns:
+      - 87
+      - 7
+      - 3
+      - We haven't finished them yet.
+      - Well hurry up!
+      - 999
+      - 44
+      - 0
+      - 46
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 7
+      choice_slot: 3
+      prompt: We haven't finished them yet.
+      response: Well hurry up!
+      next: 999
+      raw_fields:
+        c07: 44
+        c08: 0
+        c09: 46
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 44
+            qbit_id: 9044
+            state_id: mm9.keys.44
+          - column: c09
+            raw_id: 46
+            qbit_id: 9046
+            state_id: mm9.keys.46
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 44
+          qbit_id: 9044
+          state_id: mm9.keys.44
+        - domain: mm9.keys
+          raw_id: 46
+          qbit_id: 9046
+          state_id: mm9.keys.46
+  - source:
+      file: NPC87.rude
+      row: 36
+    raw_columns:
+      - 87
+      - 9
+      - 3
+      - Perhaps some other time.
+      - Very well.
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 9
+      choice_slot: 3
+      prompt: Perhaps some other time.
+      response: Very well.
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+  - source:
+      file: NPC87.rude
+      row: 37
+    raw_columns:
+      - 87
+      - 87
+      - 4
+      - About those things you needed done..
+      - Yes?
+      - 7
+      - 43
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 51
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 87
+      choice_slot: 4
+      prompt: About those things you needed done..
+      response: Yes?
+      next: 7
+      raw_fields:
+        c07: 43
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 51
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 43
+            qbit_id: 9043
+            state_id: mm9.keys.43
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 43
+          qbit_id: 9043
+          state_id: mm9.keys.43
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 51
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 38
+    raw_columns:
+      - 87
+      - 87
+      - 5
+      - We've disabled Anskram Keep's defenses.
+      - That's great news!  Oh, are those Sturmfordians going to pay now!!  Here's a little something for you, too.
+      - 10
+      - 47
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 49
+      - 0
+      - 0
+      - 0
+      - 0
+      - 49
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 87
+      choice_slot: 5
+      prompt: We've disabled Anskram Keep's defenses.
+      response: That's great news!  Oh, are those Sturmfordians going to pay now!!  Here's a little something for you, too.
+      next: 10
+      raw_fields:
+        c07: 47
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 49
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 49
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 47
+            qbit_id: 9047
+            state_id: mm9.keys.47
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 47
+          qbit_id: 9047
+          state_id: mm9.keys.47
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 49
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 49
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 39
+    raw_columns:
+      - 87
+      - 87
+      - 6
+      - We've got the Crona Kiga.
+      - You have?  Let me see it!
+      - 20
+      - 48
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 50
+      - 0
+      - 0
+      - 0
+      - 0
+      - 50
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 87
+      choice_slot: 6
+      prompt: We've got the Crona Kiga.
+      response: You have?  Let me see it!
+      next: 20
+      raw_fields:
+        c07: 48
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 50
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 50
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 20
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 48
+            qbit_id: 9048
+            state_id: mm9.keys.48
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 48
+          qbit_id: 9048
+          state_id: mm9.keys.48
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 50
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 50
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 40
+    raw_columns:
+      - 87
+      - 87
+      - 7
+      - Now that we've done both tasks for you, will you join us?
+      - Of course I will!  I assume that you will be working out all the details?
+      - 11
+      - 49
+      - 0
+      - 50
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 51
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 87
+      choice_slot: 7
+      prompt: Now that we've done both tasks for you, will you join us?
+      response: Of course I will!  I assume that you will be working out all the details?
+      next: 11
+      raw_fields:
+        c07: 49
+        c08: 0
+        c09: 50
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 51
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 49
+            qbit_id: 9049
+            state_id: mm9.keys.49
+          - column: c09
+            raw_id: 50
+            qbit_id: 9050
+            state_id: mm9.keys.50
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 49
+          qbit_id: 9049
+          state_id: mm9.keys.49
+        - domain: mm9.keys
+          raw_id: 50
+          qbit_id: 9050
+          state_id: mm9.keys.50
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 51
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 41
+    raw_columns:
+      - 87
+      - 1
+      - 7
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC87.rude
+      row: 42
+    raw_columns:
+      - 87
+      - 7
+      - 7
+      - Thanks for your time.
+      - Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 7
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC87.rude
+      row: 43
+    raw_columns:
+      - 87
+      - 87
+      - 8
+      - We've found out who's been spreading the gossip.
+      - Is that so?  Who has been spreading these foul lies?
+      - 15
+      - 54
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 55
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 87
+      choice_slot: 8
+      prompt: We've found out who's been spreading the gossip.
+      response: Is that so?  Who has been spreading these foul lies?
+      next: 15
+      raw_fields:
+        c07: 54
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 55
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 54
+            qbit_id: 9054
+            state_id: mm9.keys.54
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 54
+          qbit_id: 9054
+          state_id: mm9.keys.54
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 55
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 44
+    raw_columns:
+      - 87
+      - 87
+      - 9
+      - The Clans are united.  It is time for the war council.
+      - That is great!  I shall dispatch messengers to the Jarls immediately.
+      - 21
+      - 51
+      - 0
+      - 178
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 87
+      choice_slot: 9
+      prompt: The Clans are united.  It is time for the war council.
+      response: That is great!  I shall dispatch messengers to the Jarls immediately.
+      next: 21
+      raw_fields:
+        c07: 51
+        c08: 0
+        c09: 178
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 83
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 83
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 21
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 51
+            qbit_id: 9051
+            state_id: mm9.keys.51
+          - column: c09
+            raw_id: 178
+            qbit_id: 9178
+            state_id: mm9.keys.178
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 51
+          qbit_id: 9051
+          state_id: mm9.keys.51
+        - domain: mm9.keys
+          raw_id: 178
+          qbit_id: 9178
+          state_id: mm9.keys.178
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 83
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 83
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 45
+    raw_columns:
+      - 87
+      - 87
+      - 10
+      - Why have you gone to war with Sturmford?!
+      - Why?  I'll tell you why!  Because some filthy agents from Sturmford broke into my prison and stole away with Ivsar Forktooth, that's why!!  They are no good, and don't deserve to be on this continent, let along the same island as we!
+      - 30
+      - 84
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 87
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 87
+      choice_slot: 10
+      prompt: Why have you gone to war with Sturmford?!
+      response: Why?  I'll tell you why!  Because some filthy agents from Sturmford broke into my prison and stole away with Ivsar Forktooth, that's why!!  They are no good, and don't deserve to be on this continent, let along the same island as we!
+      next: 30
+      raw_fields:
+        c07: 84
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 87
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 30
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 84
+            qbit_id: 9084
+            state_id: mm9.keys.84
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 84
+          qbit_id: 9084
+          state_id: mm9.keys.84
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 87
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 46
+    raw_columns:
+      - 87
+      - 87
+      - 11
+      - We have a peace treaty written by Kira the Cold.
+      - Kira wrote it?  She is a fair and just ruler, I will trust her words.  Very well, as soon as Bjarni signs it, so will I.
+      - 45
+      - 89
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 91
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 87
+      choice_slot: 11
+      prompt: We have a peace treaty written by Kira the Cold.
+      response: Kira wrote it?  She is a fair and just ruler, I will trust her words.  Very well, as soon as Bjarni signs it, so will I.
+      next: 45
+      raw_fields:
+        c07: 89
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 91
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 45
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 89
+            qbit_id: 9089
+            state_id: mm9.keys.89
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 89
+          qbit_id: 9089
+          state_id: mm9.keys.89
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 91
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 47
+    raw_columns:
+      - 87
+      - 87
+      - 13
+      - We are sorry, Sigmund.  Our ignorance killed you.
+      - Perservere.  Your ignorance has not failed us yet.
+      - 999
+      - 382
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 503
+      - 0
+      - 0
+      - 0
+      - 0
+      - 503
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 87
+      choice_slot: 13
+      prompt: We are sorry, Sigmund.  Our ignorance killed you.
+      response: Perservere.  Your ignorance has not failed us yet.
+      next: 999
+      raw_fields:
+        c07: 382
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 503
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 503
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 382
+            qbit_id: 9382
+            state_id: mm9.keys.382
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 382
+          qbit_id: 9382
+          state_id: mm9.keys.382
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 503
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 503
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 48
+    raw_columns:
+      - 87
+      - 87
+      - 14
+      - Greudach A'Dorad talked.
+      - She did, did she?  Well go find the person responsible!
+      - 999
+      - 53
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 54
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 87
+      choice_slot: 14
+      prompt: Greudach A'Dorad talked.
+      response: She did, did she?  Well go find the person responsible!
+      next: 999
+      raw_fields:
+        c07: 53
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 54
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 53
+            qbit_id: 9053
+            state_id: mm9.keys.53
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 53
+          qbit_id: 9053
+          state_id: mm9.keys.53
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 54
+        status: raw_value_preserved
+  - source:
+      file: NPC87.rude
+      row: 49
+    raw_columns:
+      - 87
+      - 87
+      - 17
+      - Thanks for your time.
+      - Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 87
+      node_id: 87
+      choice_slot: 17
+      prompt: Thanks for your time.
+      response: Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999

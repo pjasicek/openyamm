@@ -1,0 +1,654 @@
+format_version: 1
+source_file: NPC425.rude
+rows:
+  - source:
+      file: NPC425.rude
+      row: 1
+    raw_columns:
+      - 425
+      - 999
+      - 1
+      - Goodbye.
+      - blank
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 425
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: blank
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC425.rude
+      row: 2
+    raw_columns:
+      - 425
+      - 1
+      - 1
+      - Alright.  Anything else?
+      - Stay away from the lower level.  We abandoned that to those infernal insects years ago.  We are not responsible for your safety if you find your way down there.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 425
+      node_id: 1
+      choice_slot: 1
+      prompt: Alright.  Anything else?
+      response: Stay away from the lower level.  We abandoned that to those infernal insects years ago.  We are not responsible for your safety if you find your way down there.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC425.rude
+      row: 3
+    raw_columns:
+      - 425
+      - 425
+      - 1
+      - We want to get into the prison.
+      - See the man at the counter.  He'll give you a Visitor's Pass.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5007
+      - 5008
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 425
+      node_id: 425
+      choice_slot: 1
+      prompt: We want to get into the prison.
+      response: See the man at the counter.  He'll give you a Visitor's Pass.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5007
+        c22: 5008
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5007
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 5008
+        status: raw_value_preserved
+  - source:
+      file: NPC425.rude
+      row: 4
+    raw_columns:
+      - 425
+      - 425
+      - 2
+      - We want to get in.
+      - "You have a Visitor's Pass?  Very well.  Here are the rules:  No consorting with the prisoners.  Stay out of the way of the guards, and do not go into any of the security booths.  Should you do any of those, you will find yourself in deep trouble."
+      - 1
+      - 5007
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5008
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 425
+      node_id: 425
+      choice_slot: 2
+      prompt: We want to get in.
+      response: "You have a Visitor's Pass?  Very well.  Here are the rules:  No consorting with the prisoners.  Stay out of the way of the guards, and do not go into any of the security booths.  Should you do any of those, you will find yourself in deep trouble."
+      next: 1
+      raw_fields:
+        c07: 5007
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5008
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5007
+            qbit_id: 14007
+            state_id: mm9.keys.5007
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5007
+          qbit_id: 14007
+          state_id: mm9.keys.5007
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5008
+        status: raw_value_preserved
+  - source:
+      file: NPC425.rude
+      row: 5
+    raw_columns:
+      - 425
+      - 425
+      - 3
+      - We have a criminal here.
+      - Been caught stealing, eh?  Very well.  I'll let him in.
+      - 999
+      - 5008
+      - 0
+      - 154
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5009
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 425
+      node_id: 425
+      choice_slot: 3
+      prompt: We have a criminal here.
+      response: Been caught stealing, eh?  Very well.  I'll let him in.
+      next: 999
+      raw_fields:
+        c07: 5008
+        c08: 0
+        c09: 154
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5009
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5008
+            qbit_id: 14008
+            state_id: mm9.keys.5008
+          - column: c09
+            raw_id: 154
+            qbit_id: 9154
+            state_id: mm9.keys.154
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5008
+          qbit_id: 14008
+          state_id: mm9.keys.5008
+        - domain: mm9.keys
+          raw_id: 154
+          qbit_id: 9154
+          state_id: mm9.keys.154
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5009
+        status: raw_value_preserved
+  - source:
+      file: NPC425.rude
+      row: 6
+    raw_columns:
+      - 425
+      - 425
+      - 4
+      - We want you to open the door.
+      - Very well.
+      - 999
+      - 5008
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5018
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5018
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 425
+      node_id: 425
+      choice_slot: 4
+      prompt: We want you to open the door.
+      response: Very well.
+      next: 999
+      raw_fields:
+        c07: 5008
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 5018
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5018
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5008
+            qbit_id: 14008
+            state_id: mm9.keys.5008
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5008
+          qbit_id: 14008
+          state_id: mm9.keys.5008
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 5018
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5018
+        status: raw_value_preserved
+  - source:
+      file: NPC425.rude
+      row: 7
+    raw_columns:
+      - 425
+      - 425
+      - 5
+      - Thanks.  You can close the door now.
+      - Very well.
+      - 999
+      - 5008
+      - 0
+      - 5018
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5019
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 425
+      node_id: 425
+      choice_slot: 5
+      prompt: Thanks.  You can close the door now.
+      response: Very well.
+      next: 999
+      raw_fields:
+        c07: 5008
+        c08: 0
+        c09: 5018
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 5019
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5008
+            qbit_id: 14008
+            state_id: mm9.keys.5008
+          - column: c09
+            raw_id: 5018
+            qbit_id: 14018
+            state_id: mm9.keys.5018
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5008
+          qbit_id: 14008
+          state_id: mm9.keys.5008
+        - domain: mm9.keys
+          raw_id: 5018
+          qbit_id: 14018
+          state_id: mm9.keys.5018
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 5019
+        status: raw_value_preserved
+  - source:
+      file: NPC425.rude
+      row: 8
+    raw_columns:
+      - 425
+      - 425
+      - 7
+      - Nothing.  Goodbye.
+      - blank.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 425
+      node_id: 425
+      choice_slot: 7
+      prompt: Nothing.  Goodbye.
+      response: blank.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

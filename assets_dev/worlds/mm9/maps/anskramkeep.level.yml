@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: anskramkeep
+display_name: Anskram Keep
+source:
+  dat: ../source/worlds/ANSKRAMKEEP.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/ANSKRAMKEEP.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: be9bb98d3bef6df67b52764cf574d9af5725c989b075c09cd1367e31a3de0936
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: anskramkeep.dat_world.yml
+  raw_objects: anskramkeep.raw_objects.yml
+  materials: anskramkeep.material_aliases.yml
+  events: anskramkeep.events.yml
+  scene_compat: anskramkeep.scene.yml
+  source_metadata_compat: anskramkeep.mm9.yml
+  bsp_compat: anskramkeep.bsp.yml
+  geometry_compat: anskramkeep.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: anskramkeep.blv
+scripts:
+  level: ../events/anskramkeep.lua
+  script_ir: ../events/anskramkeep.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

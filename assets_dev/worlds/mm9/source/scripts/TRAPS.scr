@@ -1,0 +1,79 @@
+;------------------------------------------
+;	traps.scr
+;	John Machin
+;	
+;	This script will handle certain trap
+;	types.
+;
+;------------------------------------------
+
+#include globals.inc
+
+;Spike Trap Vars
+#number		X				= 0
+#number		Y				= 0
+#number		Z				= 0
+#number		g_nRate			= 0
+#number		g_nDist			= 0
+#number		g_nReturnRate	= 0
+#number		g_bMoving		= 0 
+#number		g_nTrapRecycle	= 0
+
+
+;------------------------------------------
+:TrapsSpike
+;------------------------------------------		
+	if( g_bMoving == TRUE )
+		Exit
+	endif
+
+	GetParam 1, X
+	GetParam 2, Y
+	GetParam 3, Z
+	GetParam 4, g_nDist
+	GetParam 5, g_nRate
+	GetParam 6, g_nReturnRate
+	GetParam 7, g_nTrapRecycle
+	
+	PlaySound sounds\gibs\GIB_IMPACT1.WAV
+	MoveDir( X, Y, Z, g_nDist, g_nRate, TrapsSpikeMoveDone ) 	
+
+	Set g_bMoving, TRUE
+
+	Exit
+
+;------------------------------------------
+:TrapsSpikeMoveDone
+;------------------------------------------				
+	;Now move the spikes back to where they came from	
+	MoveToPos( g_posX, g_posY, g_posZ, g_nReturnRate, TrapsMoveBackDone )
+		
+	Exit
+
+;------------------------------------------
+:TrapsMoveBackDone
+;------------------------------------------		
+	Wait g_nTrapRecycle, TrapsMoveWaitDone
+	
+	Exit
+
+;------------------------------------------	
+:TrapsMoveWaitDone
+;------------------------------------------			
+	Set g_bMoving, FALSE
+
+	Exit
+
+;------------------------------------------
+:Main
+;------------------------------------------	
+	;First Get my objects handle
+	GetMyHandle g_hMyObject
+
+	;Get the position of the object
+	GetPos( g_hMyObject, g_posX, g_posY, g_posZ )
+	
+	;Traps we currently support
+	AddTrigger Spikes, TrapsSpike
+
+	Exit

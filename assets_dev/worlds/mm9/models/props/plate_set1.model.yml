@@ -1,0 +1,95 @@
+schema: openyamm.model3d.v1
+id: plate_set1
+model: plate_set1.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/PLATE-SET1.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: Plate-Set1
+  materialIndex: 0
+  lods:
+  - faces: 84
+    vertices: 58
+- name: Knife1
+  materialIndex: 0
+  lods:
+  - faces: 36
+    vertices: 20
+- name: Spoon1
+  materialIndex: 0
+  lods:
+  - faces: 118
+    vertices: 78
+- name: Fork1
+  materialIndex: 0
+  lods:
+  - faces: 60
+    vertices: 32
+materials:
+- index: 0
+  texture: skins_preview/props/plate-set1.png
+  runtime_texture: skins/props/plate-set1.dtx
+  preview_texture: skins_preview/props/plate-set1.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/PLATE-SET1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone05
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Bone07
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 30.72
+  - 1.28
+  - 20.48
+  origin:
+  - 10.24
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/plate-set1.abc

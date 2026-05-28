@@ -1,0 +1,581 @@
+;---------------------------------------
+;	ForemanMinerEd.scr
+;	Ed Campos
+;	10-15-01
+;	Script Sets up a Leading Dwarf that
+;	Initiates the movement of group Miners
+;---------------------------------------
+;---------------------------------------
+;	ScriptParams are:
+;		
+;		p0 = Name of OrderArea0
+;		p1 = Name of OrderArea1
+;		p2 = Name of OrderArea2
+;		p3 = Name of OrderArea3
+;		p4 = Name of WorkArea0
+;		p5 = Name of WorkArea1
+;		p6 = Name of WorkArea2
+;		p7 = Name of WorkArea3
+;		p8 = Name of MidSpot
+;		p9 = Name of place to run to during "panic"
+;		p10 = Name of DwarvenMinion0
+;		p11 = Name of DwarvenMinion1
+;		p12 = Name of DwarvenMinion2
+;
+;	Miners will "panic" and run around
+;	and start their emergency routine
+;	when "FreakOut" is triggered
+;---------------------------------------
+
+#include globals.inc
+
+#string		sOrderArea0Name=""
+#string		sOrderArea1Name=""
+#string		sOrderArea2Name=""
+#string		sOrderArea3Name=""
+
+#string		sWorkArea0Name=""
+#string		sWorkArea1Name=""
+#string		sWorkArea2Name=""
+#string		sWorkArea3Name=""
+#string		sWorkArea4Name=""
+#string		sWorkArea5Name=""
+
+#string		sMidSpotName=""
+#string		sBunkerName=""
+
+
+#string		sDwarvenMinion0Name=""
+#string		sDwarvenMinion1Name=""
+#string		sDwarvenMinion2Name=""
+
+
+#hobject	hOrderSpot0 = 0
+#hobject	hOrderSpot1 = 0
+#hobject	hOrderSpot2 = 0
+#hobject	hOrderSpot3 = 0
+
+#hobject	hTarget = 0
+#hobject	hTarget0 = 0
+#hobject	hTarget1 = 0
+#hobject	hTarget2 = 0
+
+#hobject	hBunker = 0
+#hobject	hMidspot = 0
+
+#hobject	hMinionTarget0 = 0
+#hobject	hMinionTarget1 = 0
+#hobject	hMinionTarget2 = 0
+
+#hobject	hSound = 0
+
+#number		rand = 0
+#number		NewArea = 0
+
+#number		StopWorking = TRUE
+;#number	TRUE = 1
+;#number	FALSE = 0
+
+
+
+;---------------------------------------
+:InitForemanMiner
+;
+;	Get Handles on all Markers within 
+;	the world. Set Triggers
+;
+;---------------------------------------
+
+	OnAlert OnPanic
+	OnDamage OnDamage
+
+	AddTrigger FreakOut, FreakOut
+	
+	GetObjectHandle sBunkerName, hBunker
+
+	GetObjectHandle DwarvenMinion0, hMinionTarget0
+	GetObjectHandle DwarvenMinion1, hMinionTarget1
+	GetObjectHandle DwarvenMinion2, hMinionTarget2
+	GetObjectHandle TrackMarker4, hMidSpot
+
+
+;	@M 6 : 15, ArrivedMidSpot, NewArea1
+;	@M 7 : 30, GiveMoveOutOrders, NewArea2
+;	@M 9 : 00, GiveMoveOutOrders, NewArea1
+;	@M 10 : 30, GiveMoveOutOrders, NewArea2
+;	@M 12 : 00, GiveMoveOutOrders, NewArea1
+;	@M 13 : 30, GiveMoveOutOrders, NewArea2
+;	@M 15 : 00, GiveMoveOutOrders, NewArea1
+;	@M 16 : 30, GiveMoveOutOrders, NewArea2
+;	@M 18 : 00, GiveMoveOutOrders, NewArea1
+
+	Gosub ArrivedMidSpot
+	Exit TRUE
+
+;---------------------------------------
+:StartPositionA
+;---------------------------------------
+
+	
+	GetObjectHandle sOrderArea0Name, hOrderSpot0
+	GetObjectHandle sOrderArea1Name, hOrderSpot1
+;	GetObjectHandle sWorkArea0Name, hTarget0
+;	GetObjectHandle sWorkArea1Name, hTarget1
+;	GetObjectHandle sWorkArea2Name, hTarget2
+	WalkTo hOrderSpot1, 10, Arrived1stSpot
+	
+
+	Exit TRUE
+
+;---------------------------------------
+:StartPositionB
+;---------------------------------------
+
+	
+	GetObjectHandle sOrderArea3Name, hOrderSpot0
+	GetObjectHandle sOrderArea2Name, hOrderSpot1
+;	GetObjectHandle sWorkArea0Name, hTarget0
+;	GetObjectHandle sWorkArea1Name, hTarget1
+;	GetObjectHandle sWorkArea2Name, hTarget2
+	WalkTo hOrderSpot1, 10, Arrived1stSpot
+	
+
+	Exit TRUE
+
+;---------------------------------------
+:ArrivedMidSpot
+;---------------------------------------
+
+	if (NewArea == 0)
+
+		Gosub StartPositionA
+	
+		else
+			Gosub StartPositionB
+	endif
+
+	Exit TRUE
+
+;---------------------------------------
+:Arrived1stSpot
+;---------------------------------------
+
+	Stop
+	Target hMinionTarget0, TRUE
+	Wait 0, .1, ThreatenWorker
+
+	Exit TRUE
+
+;---------------------------------------
+:ThreatenWorker
+;---------------------------------------
+
+		
+	DoCallback 0
+	Wait 0, 3, MicroManage1
+	
+	Exit TRUE
+
+;---------------------------------------
+:MicroManage1
+;---------------------------------------
+
+	Target NULL
+	WalkTo hOrderSpot0, 0, ThreatenWorker2
+		
+	Exit TRUE
+
+;---------------------------------------
+:ThreatenWorker2
+;---------------------------------------
+
+	Stop
+	FaceObject hMinionTarget2, 180, DoNothing
+	Wait 0, 10, ThreatenWorker2A
+	Exit TRUE
+
+;---------------------------------------
+:ThreatenWorker2A
+;---------------------------------------
+
+	
+	DoCallback 1
+	Wait 0, 10, MicroManage2
+	Exit TRUE
+	
+
+;---------------------------------------
+:MicroManage2
+;---------------------------------------
+
+	Target NULL
+	WalkTo hOrderSpot1, 0, ChooseVictim1
+
+	Exit TRUE
+;---------------------------------------
+:ChooseVictim1
+;---------------------------------------
+
+	Stop
+	FaceObject hMinionTarget1, 180, RandomTaunt1
+	Wait 0, 10, DoWait
+
+	Exit TRUE
+;---------------------------------------
+:DoWait
+;---------------------------------------
+
+	Target NULL
+	FaceObject hMinionTarget2, 180, RandomTaunt1
+	Wait 0, 10, Micromanage3
+	Exit TRUE
+
+;---------------------------------------
+:MicroManage3
+;---------------------------------------
+
+	Target NULL
+	WalkTo hOrderSpot0, 0, ChooseVictim2
+
+	Exit TRUE
+;---------------------------------------
+:ChooseVictim2
+;---------------------------------------
+
+	Stop
+	Target NULL
+	FaceObject hMinionTarget0, 180, RandomTaunt1
+	Wait 0, 20, MicroManage4
+	Exit TRUE
+;---------------------------------------
+:MicroManage4
+;---------------------------------------
+
+	Target NULL
+	WalkTo hOrderSpot1, 0, ChooseVictim3
+
+	Exit TRUE
+
+
+;---------------------------------------
+:ChooseVictim3
+;---------------------------------------
+
+	Stop
+	FaceObject hMinionTarget2, 180, RandomTaunt1
+	Wait 0, 20, TempMicromanage1C
+	
+	Exit TRUE
+;---------------------------------------
+:TempMicromanage1C
+;---------------------------------------
+	Stop
+	Target NULL
+	Wait 0, 20, DoNothing
+	WalkTo hOrderSpot1, 10, GiveMoveOutOrders
+	
+	Exit TRUE
+;---------------------------------------
+:GiveMoveOutOrders
+;---------------------------------------
+
+	Stop
+
+	Trigger hMinionTarget0, NextSite
+	Trigger hMinionTarget1, NextSite
+	Trigger hMinionTarget2, NextSite
+	DoCallback 3
+	Wait 0, 20, MoveOut
+
+
+	Exit TRUE
+
+
+;---------------------------------------
+:MoveOut
+;---------------------------------------
+	
+	If ( NewArea == 1)
+		Set NewArea, 0
+		
+	endif
+			
+	Gosub ArrivedMidspot
+
+	Exit TRUE
+
+;---------------------------------------
+:GotoLunch
+;---------------------------------------
+	
+		
+	Exit TRUE
+
+;---------------------------------------
+:GotoBed
+;---------------------------------------
+	
+	
+	Exit TRUE
+
+;---------------------------------------
+:NewArea1
+;---------------------------------------
+	
+	if ( NewArea == 1)
+
+		Gosub ArrivedMidSpot
+
+	else DoNothing
+
+	endif
+	
+	
+	Exit TRUE
+
+;---------------------------------------
+:NewArea2
+;---------------------------------------
+
+	if ( NewArea == 0)
+
+		Gosub ArrivedMidSpot
+
+	else DoNothing
+
+	endif
+	
+	
+	Exit TRUE
+
+
+;---------------------------------------
+:OnDamage
+;---------------------------------------
+
+
+	
+	Stop
+;play sound "monster!!!"
+	Set StopWorking, TRUE
+	OnAlert DoNothing
+	OnDamage DoNothing
+	GetParam 0, hTarget
+	Target hTarget, TRUE
+
+	Wait 0, 1, GoDamagePanic
+
+	Exit TRUE
+	
+
+;---------------------------------------
+:OnPanic
+;---------------------------------------
+
+
+	Stop
+	OnAlert DoNothing
+	OnDamage DoNothing
+	Set StopWorking, TRUE
+;	GetParam 0, hTarget0
+;	GetParam 1, hTarget2
+	Wait 0, 2, DoNothing
+
+	Target hTarget, TRUE
+	Wait 0, 1.3, FindTarget
+
+	Exit TRUE
+
+
+;---------------------------------------
+:FindTarget
+;---------------------------------------
+
+;play sound "monster!!!"
+	
+	Stop
+	Target NULL
+;	GetParam 1, hTarget2
+;	Target hTarget2, TRUE
+
+	Wait 0, .7, GoPanic
+
+	Exit TRUE
+
+;---------------------------------------
+:FreakOut
+;---------------------------------------
+
+	Stop
+
+;	GetObjectHandle Trigger0, hTarget3
+;	Target hTarget3, TRUE
+	Wait 0, 1, GoPanic
+	
+	Exit TRUE
+
+;---------------------------------------
+:GoDamagePanic
+;---------------------------------------
+
+	PlayAnim Aware, GoDamagePanic2
+	SendAlert NULL
+
+	
+	Exit TRUE
+
+;---------------------------------------
+:GoDamagePanic2
+;---------------------------------------
+
+	
+;	Target NULL
+	Gosub BunkerRun
+
+	
+	Exit TRUE
+;---------------------------------------
+:GoPanic
+;---------------------------------------
+
+	PlayAnim Aware, DoNothing
+	Wait 0, 1, BunkerRun
+	
+	Exit TRUE
+;---------------------------------------
+:BunkerRun
+;---------------------------------------
+	RunTo hBunker, 40, GoLockDown
+
+	Exit TRUE
+;---------------------------------------
+:GoLockDown
+;---------------------------------------
+	Stop
+	Exit 
+
+;---------------------------------------
+:RandomTaunt1
+;---------------------------------------
+
+		GetRandomInt 1, 5, rand
+	if( rand==1 )
+		gosub Anim1
+	endif
+		if( rand==2 )
+			gosub Anim2
+		endif
+			if( rand==3 )
+				gosub Anim3
+			endif
+					if( rand==4 )
+					gosub Anim4
+				endif
+						if( rand==5 )
+							gosub Anim5
+						endif
+	
+
+	Exit TRUE
+;---------------------------------------
+:Anim0
+;---------------------------------------
+	Stop
+
+	PlaySound Sounds\AnimSounds\dwarfkingAware.wav, OnSoundFinished, hSound, 10000, FALSE, 100
+	PlayAnim WAttack2, DoNothing
+
+	Exit
+
+;---------------------------------------
+:Anim1
+;---------------------------------------
+	Stop
+
+	PlaySound Sounds\AnimSounds\dwarfkingTaunt.wav, OnSoundFinished, hSound, 10000, FALSE, 100
+	PlayAnim HAttack1, DoNothing
+
+
+	Exit
+;---------------------------------------
+:Anim2
+;---------------------------------------
+	Stop
+	
+	PlaySound Sounds\AnimSounds\dwarfkingAware.wav, OnSoundFinished, hSound, 10000, FALSE, 100
+	PlayAnim Taunt, DoNothing
+
+	Exit
+
+;---------------------------------------
+:Anim3
+;---------------------------------------
+	Stop
+
+	PlaySound Sounds\AnimSounds\dwarfAware.wav, OnSoundFinished, hSound, 10000, FALSE, 100
+	PlayAnim Aware, DoNothing
+
+	Exit
+
+;---------------------------------------
+:Anim4
+;---------------------------------------
+	Stop
+
+
+	PlayAnim Search, DoNothing
+
+	Exit
+
+;---------------------------------------
+:Anim5
+;---------------------------------------
+	Stop
+
+	PlayAnim Fidget1, DoNothing
+
+	Exit
+;---------------------------------------
+:OnSoundFinished
+;---------------------------------------
+	KillSound hSound
+	Exit TRUE
+
+;---------------------------------------
+:Main
+;
+;	Retrieve Parameters from AI Actor
+;---------------------------------------
+
+;	TraceOn
+
+	GetParam 0, sOrderArea0Name
+	GetParam 1,	sOrderArea1Name
+	GetParam 2,	sOrderArea2Name
+	GetParam 3,	sOrderArea3Name
+	GetParam 4, sWorkArea0Name
+	GetParam 5,	sWorkArea1Name
+	GetParam 6,	sWorkArea2Name
+	GetParam 7,	sWorkArea3Name
+	GetParam 8,	sWorkArea4Name
+	GetParam 9,	sWorkArea5Name
+	GetParam 10, sMidSpotName
+	GetParam 11, sBunkerName
+	GetParam 12, sDwarvenMinion0Name
+	GetParam 13, sDwarvenMinion1Name
+	GetParam 14, sDwarvenMinion2Name
+
+	SetCallback 0 Anim0
+	SetCallback 1 Anim1
+	SetCallback 2 Anim2
+	SetCallback 3 Anim3
+	SetCallback 4 Anim4
+	SetCallback 5 Anim5
+
+	CacheSound sounds\AnimSounds\dwarfkingTaunt.wav
+	CacheSound sounds\AnimSounds\dwarfAware.wav
+	CacheSound sounds\AnimSounds\dwarfkingAware.wav
+
+	Wait 0, 5, InitForemanMiner
+
+	Exit TRUE

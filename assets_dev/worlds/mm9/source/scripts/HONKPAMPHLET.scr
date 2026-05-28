@@ -1,0 +1,113 @@
+;-------------------------------------
+;	HONKpamphlet.scr
+;	Purpose: pamphlet holding honk
+;		 with hostility check
+;-------------------------------------
+#include HonkHostility.inc
+
+;activate prop
+#hobject	hProp = 0
+
+#hobject	hParam = 0
+#number		bIsPlayer = 0
+
+;prop anim setup
+#string		sAnimName = "prop-fidget2"
+#string		sPauseName = "prop-stand"
+#string		Fidget_Name = "prop-fidget1"
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	OnPostStartWorld InitHonkGuardBasic
+
+	Exit TRUE
+
+;-------------------------------------
+:InitHonkGuardBasic
+;-------------------------------------
+	gosub BaseWanderInit
+	gosub BaseWanderStartup
+
+	gosub StartWork
+
+	OnDamage OnDamage
+
+	Exit TRUE
+
+;--------------------------------------------------
+:BaseWanderStopTick
+;	this happens every time he stops wandering
+;	so, run the animation stuff here
+;--------------------------------------------------
+	gosub StartWork
+
+	Exit TRUE
+
+;-------------------------------------
+:StartWork
+;	if we dont have prop, attach it,
+;	then start animating
+;-------------------------------------
+	if( hProp==0 )
+		gosub AttachTool
+	endif
+
+	LoopAnim sAnimName 2 StartFidget
+
+	Exit TRUE
+
+;-------------------------------------
+:StartFidget
+;-------------------------------------
+	LoopAnim Fidget_Name 2 StopWork
+
+	Exit TRUE
+
+;-------------------------------------
+:StopWork
+;	since this is the end of the animations,
+;	go back to wandering...
+;-------------------------------------
+	LoopAnim sPauseName 1 StartWork
+
+	;;This is what normally happens
+	;;each time he stops. Resume wander...
+	gosub BaseWanderStopTick, 1
+
+	Exit TRUE
+
+;-------------------------------------
+:AttachTool
+;	pamphlet attachment to model
+;-------------------------------------
+	gosub SafeDetach
+
+	AttachProp "HonkPamphlet.ABC", "Pamphlet.DTX", "Pamphlet", hProp
+
+	Exit TRUE
+
+;--------------------------------------------------
+:SafeDetach
+;	remove the prop from the world safely
+;--------------------------------------------------
+	if( hProp!=0 )
+		DetachProp hProp, FALSE
+		RemoveObject hProp
+		hProp = NULL
+	endif
+
+	Exit TRUE
+
+;--------------------------------------------------
+:OnDamage
+;	if player hit us, remove prop, attack
+;--------------------------------------------------
+	GetParam 0, hParam
+	IsPlayer hParam, bIsPlayer
+	if( bIsPlayer==TRUE )
+		gosub SafeDetach
+		gosub BecomeHostile
+	endif
+
+	Exit TRUE

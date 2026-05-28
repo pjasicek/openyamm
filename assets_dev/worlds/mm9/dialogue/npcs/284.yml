@@ -1,0 +1,640 @@
+format_version: 1
+source_file: NPC284.rude
+rows:
+  - source:
+      file: NPC284.rude
+      row: 1
+    raw_columns:
+      - 284
+      - 3
+      - 1
+      - Thank you.
+      - asdf
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 284
+      node_id: 3
+      choice_slot: 1
+      prompt: Thank you.
+      response: asdf
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC284.rude
+      row: 2
+    raw_columns:
+      - 284
+      - 11
+      - 1
+      - Alright.  Perhaps we'll see you there.  Farewell.
+      - asdf
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 255
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 284
+      node_id: 11
+      choice_slot: 1
+      prompt: Alright.  Perhaps we'll see you there.  Farewell.
+      response: asdf
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 255
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 255
+        status: raw_value_preserved
+  - source:
+      file: NPC284.rude
+      row: 3
+    raw_columns:
+      - 284
+      - 10
+      - 1
+      - To a new temple we're helping to build in Guberland.
+      - I see.  I know the way.  Please continue with your important work.  I will gather the things I will need and travel there on my own.
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 284
+      node_id: 10
+      choice_slot: 1
+      prompt: To a new temple we're helping to build in Guberland.
+      response: I see.  I know the way.  Please continue with your important work.  I will gather the things I will need and travel there on my own.
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC284.rude
+      row: 4
+    raw_columns:
+      - 284
+      - 1
+      - 1
+      - Do you have any news?
+      - I just reached the rank of Priest.  Abbot Leffery himself conducted the ceremony!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 284
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I just reached the rank of Priest.  Abbot Leffery himself conducted the ceremony!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC284.rude
+      row: 5
+    raw_columns:
+      - 284
+      - 284
+      - 1
+      - Yes, we are ready to take you if you are ready to leave.
+      - Where exactly is it that I am to be going?
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 255
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 284
+      node_id: 284
+      choice_slot: 1
+      prompt: Yes, we are ready to take you if you are ready to leave.
+      response: Where exactly is it that I am to be going?
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 255
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 255
+        status: raw_value_preserved
+  - source:
+      file: NPC284.rude
+      row: 6
+    raw_columns:
+      - 284
+      - 1
+      - 2
+      - What do you know about Ramnivar?
+      - That dirty rat stole our relic!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 284
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about Ramnivar?
+      response: That dirty rat stole our relic!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC284.rude
+      row: 7
+    raw_columns:
+      - 284
+      - 284
+      - 2
+      - We'd like to ask you some questions.
+      - Certainly.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 284
+      node_id: 284
+      choice_slot: 2
+      prompt: We'd like to ask you some questions.
+      response: Certainly.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC284.rude
+      row: 8
+    raw_columns:
+      - 284
+      - 284
+      - 3
+      - Not quite yet.
+      - Alright.  I will be here when you are ready to go.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 284
+      node_id: 284
+      choice_slot: 3
+      prompt: Not quite yet.
+      response: Alright.  I will be here when you are ready to go.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC284.rude
+      row: 9
+    raw_columns:
+      - 284
+      - 1
+      - 7
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 284
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

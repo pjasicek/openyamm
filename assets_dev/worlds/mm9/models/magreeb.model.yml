@@ -1,0 +1,708 @@
+schema: openyamm.model3d.v1
+id: magreeb
+model: magreeb.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/MAGREEB.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Magreeb
+  materialIndex: 0
+  lods:
+  - faces: 602
+    vertices: 311
+  - faces: 452
+    vertices: 236
+  - faces: 300
+    vertices: 160
+materials:
+- index: 0
+  texture: skins_preview/magreeb1.png
+  runtime_texture: skins/magreeb1.dtx
+  preview_texture: skins_preview/magreeb1.png
+  source: mm9/extracted/SKINS/SKINS/MAGREEB1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone37
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 6
+    - 36
+    - 40
+    - 44
+    - 48
+  - index: 2
+    name: Bone30
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 5
+  - index: 3
+    name: Bone31
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bone48
+    parent: 3
+    flags: 1
+    children: []
+  - index: 5
+    name: Bone46
+    parent: 2
+    flags: 1
+    children: []
+  - index: 6
+    name: Bone33
+    parent: 1
+    flags: 1
+    children:
+    - 7
+    - 35
+  - index: 7
+    name: Bone34
+    parent: 6
+    flags: 1
+    children:
+    - 8
+    - 18
+    - 26
+    - 34
+  - index: 8
+    name: Bone35
+    parent: 7
+    flags: 1
+    children:
+    - 9
+    - 17
+  - index: 9
+    name: Bone36
+    parent: 8
+    flags: 1
+    children:
+    - 10
+    - 11
+    - 15
+  - index: 10
+    name: Bone09
+    parent: 9
+    flags: 1
+    children: []
+  - index: 11
+    name: Bone04
+    parent: 9
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Bone05
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bone06
+    parent: 12
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: Bone07
+    parent: 13
+    flags: 1
+    children: []
+  - index: 15
+    name: Bone01
+    parent: 9
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bone02
+    parent: 15
+    flags: 1
+    children: []
+  - index: 17
+    name: Bone40
+    parent: 8
+    flags: 1
+    children: []
+  - index: 18
+    name: Bone39
+    parent: 7
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bone12
+    parent: 18
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Bone13
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bone14
+    parent: 20
+    flags: 1
+    children:
+    - 22
+    - 24
+  - index: 22
+    name: Bone15
+    parent: 21
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bone16
+    parent: 22
+    flags: 1
+    children: []
+  - index: 24
+    name: Bone18
+    parent: 21
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bone19
+    parent: 24
+    flags: 1
+    children: []
+  - index: 26
+    name: Bone38
+    parent: 7
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Bone21
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Bone22
+    parent: 27
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Bone23
+    parent: 28
+    flags: 1
+    children:
+    - 30
+    - 32
+  - index: 30
+    name: Bone24
+    parent: 29
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: Bone25
+    parent: 30
+    flags: 1
+    children: []
+  - index: 32
+    name: Bone27
+    parent: 29
+    flags: 1
+    children:
+    - 33
+  - index: 33
+    name: Bone28
+    parent: 32
+    flags: 1
+    children: []
+  - index: 34
+    name: Bone42
+    parent: 7
+    flags: 1
+    children: []
+  - index: 35
+    name: Bone44
+    parent: 6
+    flags: 1
+    children: []
+  - index: 36
+    name: Bone56
+    parent: 1
+    flags: 1
+    children:
+    - 37
+  - index: 37
+    name: Bone57
+    parent: 36
+    flags: 1
+    children:
+    - 38
+  - index: 38
+    name: Bone58
+    parent: 37
+    flags: 1
+    children:
+    - 39
+  - index: 39
+    name: Bone59
+    parent: 38
+    flags: 1
+    children: []
+  - index: 40
+    name: Bone61
+    parent: 1
+    flags: 1
+    children:
+    - 41
+  - index: 41
+    name: Bone62
+    parent: 40
+    flags: 1
+    children:
+    - 42
+  - index: 42
+    name: Bone63
+    parent: 41
+    flags: 1
+    children:
+    - 43
+  - index: 43
+    name: Bone64
+    parent: 42
+    flags: 1
+    children: []
+  - index: 44
+    name: Bone108
+    parent: 1
+    flags: 1
+    children:
+    - 45
+  - index: 45
+    name: Bone109
+    parent: 44
+    flags: 1
+    children:
+    - 46
+  - index: 46
+    name: Bone110
+    parent: 45
+    flags: 1
+    children:
+    - 47
+  - index: 47
+    name: Bone111
+    parent: 46
+    flags: 1
+    children: []
+  - index: 48
+    name: Bone114
+    parent: 1
+    flags: 1
+    children:
+    - 49
+  - index: 49
+    name: Bone115
+    parent: 48
+    flags: 1
+    children:
+    - 50
+  - index: 50
+    name: Bone116
+    parent: 49
+    flags: 1
+    children:
+    - 51
+  - index: 51
+    name: Bone117
+    parent: 50
+    flags: 1
+    children: []
+sockets:
+- name: LHand1
+  node: 23
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.02022751048207283
+  - -0.9588675498962402
+  - -0.2838602364063263
+  - 0.005991402082145214
+- name: RHand1
+  node: 31
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -1.5762884686409961e-07
+  - -0.28385642170906067
+  - 0.9588667750358582
+  - -5.552055881707929e-07
+animations:
+- name: static_model
+  durationMs: 66
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand
+  durationMs: 3000
+  keyframes: 8
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 666
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 300
+    event: footstep
+  - timeMs: 666
+    event: footstep
+- name: run
+  durationMs: 400
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 120
+    event: footstep
+  - timeMs: 160
+    event: footstep
+- name: fidget1
+  durationMs: 3000
+  keyframes: 22
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 571
+    event: playanimsound
+- name: fidget2
+  durationMs: 2200
+  keyframes: 20
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 231
+    event: playanimsound
+- name: Hattack1
+  durationMs: 1133
+  keyframes: 18
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+  - timeMs: 66
+    event: lunge
+  - timeMs: 533
+    event: Lattack
+- name: Hattack2
+  durationMs: 1008
+  keyframes: 23
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 45
+    event: lunge
+  - timeMs: 183
+    event: speakanimsound
+  - timeMs: 413
+    event: Lattack; Rattack
+- name: wince1
+  durationMs: 1300
+  keyframes: 20
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 137
+    event: speakanimsound
+- name: wince2
+  durationMs: 1200
+  keyframes: 19
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 67
+    event: speakanimsound
+- name: die1
+  durationMs: 1700
+  keyframes: 19
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 95
+    event: speakanimsound
+  - timeMs: 862
+    event: playdeathsound
+  - timeMs: 1533
+    event: 'deaddims 0 0 0 '
+- name: die2
+  durationMs: 1500
+  keyframes: 14
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 235
+    event: speakanimsound
+  - timeMs: 706
+    event: playdeathsound
+  - timeMs: 1294
+    event: 'deaddims 0 0 0 '
+- name: Backpedal
+  durationMs: 666
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: footstep
+  - timeMs: 366
+    event: footstep
+- name: Backpedalrun
+  durationMs: 400
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 240
+    event: footstep
+  - timeMs: 280
+    event: footstep
+- name: Taunt
+  durationMs: 1000
+  keyframes: 20
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 158
+    event: playanimsound
+- name: Jumping
+  durationMs: 666
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 300
+    event: footstep
+  - timeMs: 666
+    event: footstep
+animationBindings:
+- name: static_model
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: stand
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: walk
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: run
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: fidget1
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: fidget2
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: Hattack1
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: Hattack2
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: wince1
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: wince2
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: die1
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: die2
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: Backpedal
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: Backpedalrun
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: Taunt
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+- name: Jumping
+  extents:
+  - 76.8
+  - 89.60000000000001
+  - 76.8
+  origin:
+  - 0.0
+  - 33.28
+  - 0.0
+roles:
+- actor_model
+source_model: models/magreeb.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: magreeb_magreeb1
+  source_skins:
+  - skins/magreeb1.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 257
+    number: '276'
+    monster_name: Magreeb Spawn
+    type_picture: mantis monster
+    base_name: ''
+  - table: ACTOR
+    row: 258
+    number: '277'
+    monster_name: Magreeb
+    type_picture: mantis monster
+    base_name: ''
+  - table: MONSTERS
+    row: 225
+    number: '244'
+    monster_name: MagreebBaby
+    type_picture: mantis monster
+    base_name: magreeb
+  - table: MONSTERS
+    row: 257
+    number: '276'
+    monster_name: Magreeb Spawn
+    type_picture: mantis monster
+    base_name: Magreeb
+  - table: MONSTERS
+    row: 258
+    number: '277'
+    monster_name: Magreeb
+    type_picture: mantis monster
+    base_name: Magreeb
+- id: magreeb_magreeb2
+  source_skins:
+  - skins/magreeb2.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 259
+    number: '278'
+    monster_name: Armored Magreeb
+    type_picture: mantis monster
+    base_name: ''
+  - table: MONSTERS
+    row: 259
+    number: '278'
+    monster_name: Armored Magreeb
+    type_picture: mantis monster
+    base_name: Magreeb

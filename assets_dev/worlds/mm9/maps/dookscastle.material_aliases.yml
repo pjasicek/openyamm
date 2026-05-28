@@ -1,0 +1,543 @@
+format_version: 1
+kind: "mm9_material_aliases"
+source_dat: "mm9/extracted/WORLDS/WORLDS/DOOKSCASTLE.dat"
+notes:
+  - "ODM face texture names are limited to 10 bytes; aliases preserve editor compatibility."
+stats:
+  source_models: 88
+  source_polies: 7184
+  emitted_faces: 14109
+  skipped_polies: 0
+  triangulated_polies: 4296
+  skipped_degenerate_triangles: 2324
+  source_plane_orientation_flips: 2342
+  clamped_plane_distances: 0
+textures:
+  - alias: "ARCHEDG000"
+    source_texture: "TEXTURES\\LevelTextures\\Doors\\ArchedGoldenDoor.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/DOORS/ARCHEDGOLDENDOOR.dtx"
+    emitted_bitmap: "ARCHEDG000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_03.dtx"
+  - alias: "BLUEROCK"
+    source_texture: "TEXTURES\\LevelTextures\\WallsStone\\bluerock.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/WALLSSTONE/BLUEROCK.dtx"
+    emitted_bitmap: "BLUEROCK.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_10.dtx"
+  - alias: "BWALL01"
+    source_texture: "TEXTURES\\LevelTextures\\WallsPlaster\\b_wall_01.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/WALLSPLASTER/B_WALL_01.dtx"
+    emitted_bitmap: "BWALL01.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_09.dtx"
+  - alias: "CAVEWAL000"
+    source_texture: "TEXTURES\\LevelTextures\\Terrain\\cave_wall_lava.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TERRAIN/CAVE_WALL_LAVA.dtx"
+    emitted_bitmap: "CAVEWAL000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_04.dtx"
+  - alias: "CEILING000"
+    source_texture: "TEXTURES\\LevelTextures\\Ceilings\\ceilinglightbeam128.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/CEILINGS/CEILINGLIGHTBEAM128.dtx"
+    emitted_bitmap: "CEILING000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "CHAINLI000"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\ChainLink_Copper.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/CHAINLINK_COPPER.dtx"
+    emitted_bitmap: "CHAINLI000.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 8
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 136
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "CLANKER000"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\ClankersCeiling.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/CLANKERSCEILING.dtx"
+    emitted_bitmap: "CLANKER000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 10
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_05.dtx"
+  - alias: "DOOKCEI000"
+    source_texture: "TEXTURES\\A5Guberland\\ceilings\\dookceiling.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/CEILINGS/DOOKCEILING.dtx"
+    emitted_bitmap: "DOOKCEI000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DOOKCENTER"
+    source_texture: "TEXTURES\\A5Guberland\\misc\\dookcenter.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/MISC/DOOKCENTER.dtx"
+    emitted_bitmap: "DOOKCENTER.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 15
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DOOKCOLUMN"
+    source_texture: "TEXTURES\\A5Guberland\\misc\\dookcolumn.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/MISC/DOOKCOLUMN.dtx"
+    emitted_bitmap: "DOOKCOLUMN.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DOOKDOOR2"
+    source_texture: "TEXTURES\\A5Guberland\\doors\\dookdoor2.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/DOORS/DOOKDOOR2.dtx"
+    emitted_bitmap: "DOOKDOOR2.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DOOKFLOOR"
+    source_texture: "TEXTURES\\A5Guberland\\floors\\dookfloor.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/FLOORS/DOOKFLOOR.dtx"
+    emitted_bitmap: "DOOKFLOOR.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DOOKGLASS"
+    source_texture: "TEXTURES\\A5Guberland\\misc\\dookglass.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/MISC/DOOKGLASS.dtx"
+    emitted_bitmap: "DOOKGLASS.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 15
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DOOKINSIDE"
+    source_texture: "TEXTURES\\A5Guberland\\walls\\dookinside.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/WALLS/DOOKINSIDE.dtx"
+    emitted_bitmap: "DOOKINSIDE.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DOOKPANEL"
+    source_texture: "TEXTURES\\A5Guberland\\walls\\dookpanel.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/WALLS/DOOKPANEL.dtx"
+    emitted_bitmap: "DOOKPANEL.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DOOKSOLID"
+    source_texture: "TEXTURES\\A5Guberland\\walls\\dooksolid.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/WALLS/DOOKSOLID.dtx"
+    emitted_bitmap: "DOOKSOLID.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DOOKTOP"
+    source_texture: "TEXTURES\\A5Guberland\\ceilings\\dooktop.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/CEILINGS/DOOKTOP.dtx"
+    emitted_bitmap: "DOOKTOP.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DOOKWAL000"
+    source_texture: "TEXTURES\\A5Guberland\\walls\\dookwalltop.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/WALLS/DOOKWALLTOP.dtx"
+    emitted_bitmap: "DOOKWAL000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DOOKWALL"
+    source_texture: "TEXTURES\\A5Guberland\\walls\\dookwall.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/WALLS/DOOKWALL.dtx"
+    emitted_bitmap: "DOOKWALL.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DOOKWALL2"
+    source_texture: "TEXTURES\\A5Guberland\\walls\\dookwall2.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/WALLS/DOOKWALL2.dtx"
+    emitted_bitmap: "DOOKWALL2.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DOOKWOOD"
+    source_texture: "TEXTURES\\A5Guberland\\misc\\dookwood.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/MISC/DOOKWOOD.dtx"
+    emitted_bitmap: "DOOKWOOD.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 11
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DUNGBEAM01"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\dung_beam01.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/DUNG_BEAM01.dtx"
+    emitted_bitmap: "DUNGBEAM01.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 11
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "EXTWALL00A"
+    source_texture: "TEXTURES\\LevelTextures\\WallsPlaster\\ExtWall00a.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/WALLSPLASTER/EXTWALL00A.dtx"
+    emitted_bitmap: "EXTWALL00A.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_09.dtx"
+  - alias: "INVISIBLE"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\Invisible.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/INVISIBLE.dtx"
+    emitted_bitmap: "INVISIBLE.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 202
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 1
+    dtx_flags: 265
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "IRON"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\Iron.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/IRON.dtx"
+    emitted_bitmap: "IRON.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 9
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "METALPL000"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\MetalPlate64.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/METALPLATE64.dtx"
+    emitted_bitmap: "METALPL000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 8
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "RAIL"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\rail.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/RAIL.dtx"
+    emitted_bitmap: "RAIL.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "RUST2"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\rust2.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/RUST2.dtx"
+    emitted_bitmap: "RUST2.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 11
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "SEWERTOP2"
+    source_texture: "TEXTURES\\LevelTextures\\Terrain\\sewertop2.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TERRAIN/SEWERTOP2.dtx"
+    emitted_bitmap: "SEWERTOP2.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_04.dtx"
+  - alias: "STAIRS3"
+    source_texture: "TEXTURES\\LevelTextures\\FloorsStone\\Stairs3.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/FLOORSSTONE/STAIRS3.dtx"
+    emitted_bitmap: "STAIRS3.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_07.dtx"
+  - alias: "STREET"
+    source_texture: "TEXTURES\\LevelTextures\\FloorsStone\\street.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/FLOORSSTONE/STREET.dtx"
+    emitted_bitmap: "STREET.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_07.dtx"
+  - alias: "TAPESTR000"
+    source_texture: "TEXTURES\\LevelTextures\\Carpets\\tapestry_burgundy.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/CARPETS/TAPESTRY_BURGUNDY.dtx"
+    emitted_bitmap: "TAPESTR000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 19
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "WOOD1"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\wood1.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/WOOD1.dtx"
+    emitted_bitmap: "WOOD1.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 11
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"

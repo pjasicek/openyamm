@@ -1,0 +1,729 @@
+schema: openyamm.model3d.v1
+id: guard
+model: guard.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/GUARD.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: guard
+  materialIndex: 0
+  lods:
+  - faces: 662
+    vertices: 336
+  - faces: 514
+    vertices: 262
+  - faces: 336
+    vertices: 173
+  - faces: 160
+    vertices: 85
+- name: pole
+  materialIndex: 1
+  lods:
+  - faces: 56
+    vertices: 32
+  - faces: 24
+    vertices: 16
+  - faces: 22
+    vertices: 15
+  - faces: 20
+    vertices: 14
+materials:
+- index: 0
+  texture: skins_preview/guard1.png
+  runtime_texture: skins/guard1.dtx
+  preview_texture: skins_preview/guard1.png
+  source: mm9/extracted/SKINS/SKINS/GUARD1.dtx
+- index: 1
+  texture: skins_preview/guardpole.png
+  runtime_texture: skins/guardpole.dtx
+  preview_texture: skins_preview/guardpole.png
+  source: mm9/extracted/SKINS/SKINS/GUARDPOLE.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 27
+    - 31
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bip01 Neck
+    parent: 4
+    flags: 1
+    children:
+    - 6
+    - 7
+    - 16
+  - index: 6
+    name: Bip01 Head
+    parent: 5
+    flags: 1
+    children: []
+  - index: 7
+    name: Bip01 L Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Bip01 L UpperArm
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bip01 L Forearm
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bip01 L Hand
+    parent: 9
+    flags: 1
+    children:
+    - 11
+    - 13
+  - index: 11
+    name: Bip01 L Finger0
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Bip01 L Finger02
+    parent: 11
+    flags: 1
+    children: []
+  - index: 13
+    name: Bip01 L Finger1
+    parent: 10
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: Bip01 L Finger11
+    parent: 13
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 L Finger12
+    parent: 14
+    flags: 1
+    children: []
+  - index: 16
+    name: Bip01 R Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bip01 R UpperArm
+    parent: 16
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Bip01 R Forearm
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bip01 R Hand
+    parent: 18
+    flags: 1
+    children:
+    - 20
+    - 22
+    - 25
+  - index: 20
+    name: Bip01 R Finger0
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bip01 R Finger02
+    parent: 20
+    flags: 1
+    children: []
+  - index: 22
+    name: Bip01 R Finger1
+    parent: 19
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bip01 R Finger11
+    parent: 22
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bip01 R Finger12
+    parent: 23
+    flags: 1
+    children: []
+  - index: 25
+    name: Xbase
+    parent: 19
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: Xmid
+    parent: 25
+    flags: 1
+    children: []
+  - index: 27
+    name: Bip01 L Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Bip01 L Calf
+    parent: 27
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Bip01 L Foot
+    parent: 28
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Bip01 L Toe0
+    parent: 29
+    flags: 1
+    children: []
+  - index: 31
+    name: Bip01 R Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 32
+  - index: 32
+    name: Bip01 R Calf
+    parent: 31
+    flags: 1
+    children:
+    - 33
+  - index: 33
+    name: Bip01 R Foot
+    parent: 32
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: Bip01 R Toe0
+    parent: 33
+    flags: 1
+    children: []
+sockets:
+- name: RHand1
+  node: 26
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -1.234285633699983e-07
+  - 4.9722668649110346e-08
+  - 0.056487422436475754
+  - 0.9984033107757568
+animations:
+- name: guardsetup
+  durationMs: 166
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand
+  durationMs: 1700
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 206
+    event: Stand
+- name: aware
+  durationMs: 1400
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 274
+    event: playanimsound
+- name: fidget1
+  durationMs: 2000
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: fidget2
+  durationMs: 2000
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: sleep
+  durationMs: 1800
+  keyframes: 10
+  interpolationTimeMs: 600
+  events:
+  - timeMs: 218
+    event: Sleep
+- name: cowerstart
+  durationMs: 700
+  keyframes: 6
+  interpolationTimeMs: 200
+  events: []
+- name: cower
+  durationMs: 900
+  keyframes: 6
+  interpolationTimeMs: 200
+  events: []
+- name: cowerend
+  durationMs: 1000
+  keyframes: 7
+  interpolationTimeMs: 200
+  events: []
+- name: Taunt
+  durationMs: 1400
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 274
+    event: playanimsound
+- name: walk
+  durationMs: 1000
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 120
+    event: Stand
+  - timeMs: 370
+    event: footstep
+  - timeMs: 850
+    event: footstep
+- name: run
+  durationMs: 500
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 250
+    event: footstep
+  - timeMs: 500
+    event: footstep
+- name: Hattack1
+  durationMs: 1100
+  keyframes: 17
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 134
+    event: lunge
+  - timeMs: 268
+    event: speakanimsound
+  - timeMs: 403
+    event: playsoundFX
+  - timeMs: 456
+    event: Rattack
+- name: Hattack2
+  durationMs: 1200
+  keyframes: 18
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 146
+    event: lunge
+  - timeMs: 293
+    event: speakanimsound
+  - timeMs: 409
+    event: playsoundFX
+  - timeMs: 497
+    event: Rattack
+- name: wince1
+  durationMs: 900
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 250
+    event: playanimsound
+- name: wince2
+  durationMs: 800
+  keyframes: 14
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 266
+    event: playanimsound
+- name: die1
+  durationMs: 1900
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0 0 -6
+  - timeMs: 186
+    event: Velocity  2 0 -2
+  - timeMs: 372
+    event: Velocity  2 0 -2; playanimsound
+  - timeMs: 559
+    event: Velocity  1 0 -32
+  - timeMs: 744
+    event: Velocity  15 0 -56
+  - timeMs: 931
+    event: Velocity -3 0 -26
+  - timeMs: 1118
+    event: Velocity -6 0 -2; playdeathsound
+  - timeMs: 1303
+    event: Velocity  0 0 -8
+  - timeMs: 1490
+    event: Velocity  0 0 -1
+  - timeMs: 1676
+    event: Velocity  0 0 -1
+  - timeMs: 1862
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: die2
+  durationMs: 1500
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity -4 0 -2
+  - timeMs: 166
+    event: Velocity -2 0 -28; playanimsound
+  - timeMs: 333
+    event: Velocity -4 0 -56
+  - timeMs: 500
+    event: Velocity -6 0 -117
+  - timeMs: 666
+    event: Velocity -4 0 -33
+  - timeMs: 766
+    event: Velocity -2 0 -15
+  - timeMs: 933
+    event: Velocity  0 0 -13; playdeathsound
+  - timeMs: 1166
+    event: Velocity  0 0 -15
+  - timeMs: 1333
+    event: Velocity  0 0  0
+  - timeMs: 1500
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: Backpedal
+  durationMs: 1100
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 160
+    event: footstep
+  - timeMs: 698
+    event: footstep
+- name: BackpedalRun
+  durationMs: 500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 72
+    event: footstep
+  - timeMs: 318
+    event: footstep
+animationBindings:
+- name: guardsetup
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: stand
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: aware
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fidget1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fidget2
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: sleep
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: cowerstart
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: cower
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: cowerend
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Taunt
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: walk
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: run
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Hattack1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Hattack2
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: wince1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: wince2
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: die1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: die2
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Backpedal
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: BackpedalRun
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- actor_model
+source_model: models/guard.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: guard_guard1_guardpole
+  source_skins:
+  - skins/guard1.dtx
+  - skins/guardpole.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 108
+    number: '107'
+    monster_name: Poor-Town Guard
+    type_picture: Guard A
+    base_name: Guard
+  - table: ACTOR
+    row: 112
+    number: '111'
+    monster_name: Guard
+    type_picture: Guard A
+    base_name: Guard
+  - table: MONSTERS
+    row: 108
+    number: '107'
+    monster_name: Town Guard
+    type_picture: Guard A
+    base_name: Guard
+  - table: MONSTERS
+    row: 112
+    number: '111'
+    monster_name: Guard
+    type_picture: Guard A
+    base_name: Guard
+- id: guard_guard2_guardpole
+  source_skins:
+  - skins/guard2.dtx
+  - skins/guardpole.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 113
+    number: '112'
+    monster_name: Guard Segeant
+    type_picture: Guard B
+    base_name: Guard
+  - table: MONSTERS
+    row: 113
+    number: '112'
+    monster_name: Guard Segeant
+    type_picture: Guard B
+    base_name: Guard
+- id: guard_guard3_guardpole2
+  source_skins:
+  - skins/guard3.dtx
+  - skins/guardpole2.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 110
+    number: '109'
+    monster_name: Wealthy-Town Guard
+    type_picture: Guard C
+    base_name: Guard
+  - table: ACTOR
+    row: 114
+    number: '113'
+    monster_name: Guard Captain
+    type_picture: Guard C
+    base_name: Guard
+  - table: MONSTERS
+    row: 110
+    number: '109'
+    monster_name: Town Guard
+    type_picture: Guard C
+    base_name: Guard
+  - table: MONSTERS
+    row: 114
+    number: '113'
+    monster_name: Guard Captain
+    type_picture: Guard C
+    base_name: Guard

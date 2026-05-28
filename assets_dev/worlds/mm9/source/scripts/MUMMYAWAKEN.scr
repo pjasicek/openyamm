@@ -1,0 +1,96 @@
+;-------------------------------------
+;	MummyAwaken.scr
+;	by SJR
+;	11-07-01
+;	Purpose:mummy stands still until
+;			triggered to be awake
+;
+;	ScriptParams:
+;		p0 = 1 if you want to trigger next one OnDeath
+;			 0 if you want to trigger next one immediately
+;		p1 = name of next mummy to trigger
+;		p2 = true for laying down, false for standing up
+;		p3 = name of coffin to blow up
+;-------------------------------------
+#include baseMelee.inc
+
+#hobject	hMe = 0
+
+#string		sNextName = ""
+#hobject	hNext = 0
+
+#number		bNoChain = 0
+#number		bAnimOk = 0
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	GetParam 0, bNoChain
+	GetParam 1, sNextName
+
+	OnPostStartWorld InitMummyAwaken
+
+	Exit TRUE
+
+;-------------------------------------
+:InitMummyAwaken
+;-------------------------------------
+	GetMyHandle hMe
+
+	GetObjectHandle sNextName, hNext
+	if( hNext!=0 )
+		CreateObjectLink hNext
+		OnObjectLinkBroken OnObjectLinkBroken
+	endif
+
+	IsClass hMe, "Mummy", bAnimOk
+	if( bAnimOk==FALSE )
+		IsClass hMe, "Zombie", bAnimOk
+	endif
+
+	if( bAnimOk==TRUE )
+		LoopAnim "coffin", 0
+	endif
+
+	if( bNoChain==TRUE )
+		OnDeath OnDeath
+	else
+		OnDeath DoNothing
+	endif
+
+	AddTrigger awaken, WakeUp
+	OnDamage WakeUp
+
+	Exit TRUE
+
+;-------------------------------------
+:WakeUp
+;	start attack, setup OnDeath
+;-------------------------------------
+	RemoveTrigger awaken
+	OnDamage DoNothing
+
+	gosub BaseInit
+
+	if( bNoChain==FALSE )
+		gosub OnDeath
+	endif
+
+	Exit TRUE
+
+;-------------------------------------
+:OnDeath
+;	trigger next mummy
+;-------------------------------------
+	if( hNext!=0 )
+		Trigger hNext, awaken
+	endif
+
+	Exit TRUE
+
+;-------------------------------------
+:OnObjectLinkBroken
+;-------------------------------------
+	hNext = NULL
+
+	Exit TRUE

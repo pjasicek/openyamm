@@ -1,0 +1,723 @@
+format_version: 1
+source_file: NPC59.rude
+rows:
+  - source:
+      file: NPC59.rude
+      row: 1
+    raw_columns:
+      - 59
+      - 999
+      - 1
+      - Goodbye.
+      - asdf
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 59
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: asdf
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC59.rude
+      row: 2
+    raw_columns:
+      - 59
+      - 2
+      - 1
+      - Maybe we can ask you something else.
+      - Sho'!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 59
+      node_id: 2
+      choice_slot: 1
+      prompt: Maybe we can ask you something else.
+      response: Sho'!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC59.rude
+      row: 3
+    raw_columns:
+      - 59
+      - 1
+      - 1
+      - What do you know about Bjarni?
+      - He's in love with that Kira the Cold over in Thronheim.  I heard he's composed love sonnets to her an everthin'!
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 59
+      node_id: 1
+      choice_slot: 1
+      prompt: What do you know about Bjarni?
+      response: He's in love with that Kira the Cold over in Thronheim.  I heard he's composed love sonnets to her an everthin'!
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC59.rude
+      row: 4
+    raw_columns:
+      - 59
+      - 59
+      - 1
+      - We'd like to see your wares.
+      - Sho'!  Have a look!
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 59
+      node_id: 59
+      choice_slot: 1
+      prompt: We'd like to see your wares.
+      response: Sho'!  Have a look!
+      next: -2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5017
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -2
+        service: shop
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -2
+        service: shop
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5017
+        status: raw_value_preserved
+  - source:
+      file: NPC59.rude
+      row: 5
+    raw_columns:
+      - 59
+      - 59
+      - 2
+      - We'd like to see your wares.
+      - Sorry, we're closed for the evening.
+      - 999
+      - 5017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 59
+      node_id: 59
+      choice_slot: 2
+      prompt: We'd like to see your wares.
+      response: Sorry, we're closed for the evening.
+      next: 999
+      raw_fields:
+        c07: 5017
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5017
+            qbit_id: 14017
+            state_id: mm9.keys.5017
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5017
+          qbit_id: 14017
+          state_id: mm9.keys.5017
+  - source:
+      file: NPC59.rude
+      row: 6
+    raw_columns:
+      - 59
+      - 2
+      - 2
+      - Thanks for your time.
+      - Sho'!  You want ta do some shoppin'?
+      - 59
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 59
+      node_id: 2
+      choice_slot: 2
+      prompt: Thanks for your time.
+      response: Sho'!  You want ta do some shoppin'?
+      next: 59
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 59
+  - source:
+      file: NPC59.rude
+      row: 7
+    raw_columns:
+      - 59
+      - 1
+      - 2
+      - What do you know about Hallenhalt?
+      - Nuthin'.  What is it?
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 59
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about Hallenhalt?
+      response: Nuthin'.  What is it?
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC59.rude
+      row: 8
+    raw_columns:
+      - 59
+      - 59
+      - 3
+      - We'd like to ask you a few questions
+      - Sho'!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 59
+      node_id: 59
+      choice_slot: 3
+      prompt: We'd like to ask you a few questions
+      response: Sho'!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC59.rude
+      row: 9
+    raw_columns:
+      - 59
+      - 59
+      - 4
+      - Sorry to bother you.
+      - Come back soon!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 59
+      node_id: 59
+      choice_slot: 4
+      prompt: Sorry to bother you.
+      response: Come back soon!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC59.rude
+      row: 10
+    raw_columns:
+      - 59
+      - 1
+      - 7
+      - Thanks for your time.
+      - Sho'!  Anything else?
+      - 59
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 59
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Sho'!  Anything else?
+      next: 59
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 59

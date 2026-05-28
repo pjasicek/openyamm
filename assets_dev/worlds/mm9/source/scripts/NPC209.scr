@@ -1,0 +1,58 @@
+;--------------------------------------------------
+;NPC209.scr
+; timmy
+; handles boat dude voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub book
+
+
+exit
+
+
+;--------------------------------------------------
+:Book
+;--------------------------------------------------
+
+haskey 378 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+haskey 72 g_ntemp
+if (g_ntemp==TRUE)
+	giveitem 562
+	givekey 378
+	exit
+endif
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+
+exit
+

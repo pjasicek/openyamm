@@ -1,0 +1,103 @@
+;------------------------
+;	BattleJukebox.scr
+;	by SJR
+;	10-23-01
+;	Purpose:handle all the sound
+;			effects for a huge
+;			battle. Attach to
+;			ScriptObject.
+;
+;	Triggers:
+;		"Play" = start the play loop
+;		"Stop" = stop the loop
+;------------------------
+
+#include BaseGlobals.inc
+
+#number		nCurSound = 0
+#number		nCounter = 0
+#number		bPlaying = 0
+#number		nWait = 0
+
+#number		NUMSOUNDS = 13
+#stringarray	spSounds[13]
+#string			sTemp
+
+;-------------
+:Main
+;-------------
+	Wait 0, 1, InitBattleJukebox
+
+	gosub InitStrings
+	gosub CacheAllSounds
+
+	Exit TRUE
+
+;-------------
+:InitBattleJukebox
+;-------------
+	bPlaying = FALSE
+	nCurSound = 0
+
+	AddTrigger Play, StartPlayLoop
+	AddTrigger Stop, StopPlayLoop
+
+	Exit TRUE
+
+;-------------
+:StartPlayLoop
+;-------------
+	bPlaying = TRUE
+	gosub PlayLoop
+	Exit TRUE
+
+;-------------
+:PlayLoop
+;-------------
+	if( bPlaying==FALSE )
+		Exit TRUE
+	endif
+	GetRandomInt 0, nCounter, nCurSound
+	ArrayGet spSounds, nCurSound, sTemp
+	PlaySound sTemp, DoNothing, 1, 1000, FALSE, 100
+	GetRandomFloat 0, 1, nWait
+	;;loop the sound
+	Wait 1, nWait, PlayLoop
+	Exit TRUE
+
+;-------------
+:StopPlayLoop
+;-------------
+	bPlaying = FALSE
+	Exit TRUE
+
+;-------------
+:CacheAllSounds
+;-------------
+	nCounter = 0
+	while( nCounter<NUMSOUNDS )
+		ArrayGet spSounds, nCounter, sTemp
+		CacheSound sTemp
+		nCounter = nCounter + 1
+	endwhile
+	nCounter = nCounter - 1
+	Exit TRUE
+
+;-------------
+:InitStrings
+;-------------
+	ArrayPut spSounds, 0, sounds\Weapons\nmetalhollow.wav
+	ArrayPut spSounds, 1, sounds\Weapons\SwordClang.wav
+	ArrayPut spSounds, 2, sounds\Weapons\ArrowImpact01.wav
+	ArrayPut spSounds, 3, sounds\Weapons\FleshHit01.wav
+	ArrayPut spSounds, 4, sounds\Weapons\FleshHit03.wav
+	ArrayPut spSounds, 5, sounds\Weapons\carmorchain.wav
+	ArrayPut spSounds, 6, sounds\Weapons\LargeMeleeSwish.wav
+	ArrayPut spSounds, 7, sounds\Weapons\cmetalsolid.wav
+	ArrayPut spSounds, 8, sounds\AnimSounds\SoldierWattack1.wav
+	ArrayPut spSounds, 9, sounds\events\metalhitmetal02.wav
+	ArrayPut spSounds, 10, sounds\AnimSounds\TrellborgWattack1.wav
+	ArrayPut spSounds, 11, sounds\AnimSounds\TrellborgWattack2.wav
+	ArrayPut spSounds, 12, sounds\events\metalmetal01.wav
+	 
+	Exit TRUE

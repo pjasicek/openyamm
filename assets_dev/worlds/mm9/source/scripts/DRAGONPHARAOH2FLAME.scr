@@ -1,0 +1,68 @@
+;--------------------------------------------------
+;DragonPharaoh2flame.scr
+; timmy
+;--------------------------------------------------
+
+#include globals.inc
+
+#number			B_Enable
+#number			FlameId
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+if ( B_Enable==true )
+
+	
+
+	GetObjectHandle FlameBoss, g_hObject
+
+	if ( g_hObject==NULL )
+		DebugOut Error!  No FlameBoss????
+		Exit
+	endif
+
+;	set g_ntemp, FlameId
+;	Set g_stemp,g_ntemp
+	Set g_stemp,FlameId
+	set g_sout, FlameOn 
+	add g_sout, g_stemp
+
+	Trigger g_hMyObject, On
+	Trigger g_hObject, g_sout
+	debugout g_sout
+	
+endif
+
+
+exit
+
+;--------------------------------------------------
+:Enable
+;--------------------------------------------------
+
+set B_Enable, true
+exit
+
+;--------------------------------------------------
+:Disable
+;--------------------------------------------------
+
+set B_Enable, false
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+AddTrigger use, OnUse
+AddTrigger enable, Enable
+AddTrigger disable, disable
+GetMyHandle g_hMyObject
+GetParam 0, FlameId
+
+exit
+

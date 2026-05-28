@@ -1,0 +1,366 @@
+;---------------------------------------
+;	ForemanMiner.scr
+;	by Sean Rostami/Ed Campos
+;	10-04-01
+;	Script Sets up a Leading Dwarf that
+;	Initiates the movement of group Miners
+;---------------------------------------
+;---------------------------------------
+;	ScriptParams are:
+;		
+;		p0 = Name of WorkArea0
+;		p1 = Name of WorkArea1
+;		p2 = Name of WorkArea2
+;		p3 = Name of WorkArea3
+;		p4 = Name of place to run to during "panic"
+;
+;	Miners will "panic" and run around
+;	and start their emergency routine
+;	when "FreakOut" is triggered
+;---------------------------------------
+
+#include globals.inc
+
+#string		sWorkArea0Name=""
+#string		sWorkArea1Name=""
+#string		sWorkArea2Name=""
+#string		sWorkArea3Name=""
+#string		sBunkerName=""
+
+#hobject	hOrderSpot0=0
+#hobject	hOrderSpot1=0
+#hobject	hOrderSpot2=0
+#hobject	hOrderSpot3=0
+#hobject	hBunker=0
+
+
+
+#hobject	hTarget = 0
+#hobject	hTarget0 = 0
+#hobject	hTarget1 = 0
+#hobject	hTarget2 = 0
+
+#number		TRUE=1
+#number		FALSE=0
+#number		NewArea = 0
+#number		StopWorking = TRUE
+
+
+
+;---------------------------------------
+:InitForemanMiner
+;
+;	Get Handles on all Markers within 
+;	the world. Set Triggers
+;
+;---------------------------------------
+
+	OnAlert OnPanic
+	OnDamage OnDamage
+
+	AddTrigger FreakOut, FreakOut
+	
+	
+	GetObjectHandle sBunkerName, hBunker
+
+	GetObjectHandle DwarvenMinion0, hTarget0
+	GetObjectHandle DwarvenMinion1, hTarget1
+	GetObjectHandle DwarvenMinion2, hTarget2
+
+	Gosub StartPositionA
+	Exit TRUE
+
+;---------------------------------------
+:StartPositionA
+;---------------------------------------
+
+	Set NewArea, 1
+	GetObjectHandle sWorkArea0Name, hOrderSpot0
+	GetObjectHandle sWorkArea1Name, hOrderSpot1
+	WalkTo hOrderSpot0, 10, Arrived1stSpot
+	
+
+	Exit TRUE
+
+;---------------------------------------
+:StartPositionB
+;---------------------------------------
+
+	Set NewArea, 0
+	GetObjectHandle sWorkArea2Name, hOrderSpot0
+	GetObjectHandle sWorkArea3Name, hOrderSpot1
+	WalkTo hOrderSpot0, 10, Arrived1stSpot
+	
+
+	Exit TRUE
+
+;---------------------------------------
+:Arrived1stSpot
+;---------------------------------------
+
+	Stop
+	Wait 0, 5, Threat1A
+	Target hTarget0, TRUE
+
+	Exit TRUE
+
+;---------------------------------------
+:Threat1A
+;---------------------------------------
+
+	Stop
+	
+	PlayAnim HAttack1, DoNothing
+	Wait 0, 5, DoNothing
+	PlayAnim Taunt, DoNothing
+	Wait 0, 20, MicroManage1A
+	
+	Exit TRUE
+
+;---------------------------------------
+:MicroManage1A
+;---------------------------------------
+
+	Stop
+	Wait 0, 20, DoNothing
+	WalkTo hOrderSpot1, 10, ChooseVictim1
+	
+	Exit TRUE
+
+;---------------------------------------
+:ChooseVictim1
+;---------------------------------------
+
+	Stop
+	Target NULL
+	Target hTarget0, False
+	PlayAnim Figet2, DoNothing
+	
+
+
+	Exit TRUE
+;---------------------------------------
+:DoWait1A
+;---------------------------------------
+
+	Wait 0, 20, DoWait1B
+	Target NULL
+	Target hTarget2, TRUE
+	PlayAnim HAttack1, DoNothing
+	PlayAnim WAttack2, DoNothing
+	PlayAnim Taunt, DoNothing
+
+
+	Exit TRUE
+
+;---------------------------------------
+:DoWait1B
+;---------------------------------------
+
+	Wait 0, 20, MicroManage1B
+	Target NULL
+	Target hTarget1, TRUE
+	PlayAnim Taunt, DoNothing
+
+	Exit TRUE
+;---------------------------------------
+:MicroManage1B
+;---------------------------------------
+
+	Wait 0, 20, DoNothing
+	WalkTo hOrderSpot0, 10, ChooseVictim2
+
+	Exit TRUE
+
+;---------------------------------------
+:ChooseVictim2
+;---------------------------------------
+
+	Stop
+	Target NULL
+	Target hTarget0, TRUE
+	PlayAnim Figet2, DoNothing
+	PlayAnim Search, MicroManage1C
+	
+
+
+	Exit TRUE
+;---------------------------------------
+:Micromanage1C
+;---------------------------------------
+
+	Wait 0, 20, DoNothing
+	WalkTo hOrderSpot1, 10, GiveMoveOutOrders
+	
+	Exit TRUE
+;---------------------------------------
+:GiveMoveOutOrders
+;---------------------------------------
+
+	Stop
+	Wait 0, 25, MoveOut
+
+	Trigger hTarget0, LookUp
+	Trigger hTarget1, LookUp
+	Trigger hTarget2, LookUp
+	PlayAnim Aware, DoNothing
+	PlayAnim HAttack2, DoNothing
+	PlayAnim Taunt, DoNothing
+	PlayAnim HAttack1, DoNothing
+
+
+	Exit TRUE
+
+
+;---------------------------------------
+:MoveOut
+;---------------------------------------
+	
+	Wait 0, 5, NewArea
+	Trigger hTarget0, NextSite
+	Trigger hTarget1, NextSite
+	Trigger hTarget2, NextSite
+	
+	
+
+
+	Exit TRUE
+
+;---------------------------------------
+:NewArea
+;---------------------------------------
+	
+	If ( NewArea== 0 )
+		Gosub StartPositionA
+
+	Else
+		Gosub StartPositionB
+
+	Endif
+	
+	Exit TRUE
+
+
+;---------------------------------------
+:OnDamage
+;---------------------------------------
+
+
+	
+	Stop
+;play sound "monster!!!"
+	Set StopWorking, TRUE
+	OnAlert DoNothing
+	OnDamage DoNothing
+	GetParam 0, hTarget
+	Target hTarget, TRUE
+
+	Wait 0, 1, GoDamagePanic
+
+	Exit TRUE
+	
+
+;---------------------------------------
+:OnPanic
+;---------------------------------------
+
+
+	Stop
+	OnAlert DoNothing
+	OnDamage DoNothing
+	Set StopWorking, TRUE
+	GetParam 0, hTarget
+	GetParam 1, hTarget2
+	Wait 12, 2, DoNothing
+
+	Target hTarget, TRUE
+	Wait 0, 1.3, FindTarget
+
+	Exit TRUE
+
+
+;---------------------------------------
+:FindTarget
+;---------------------------------------
+
+;play sound "monster!!!"
+	
+	Stop
+	Target NULL
+;	GetParam 1, hTarget2
+	Target hTarget2, TRUE
+
+	Wait 0, .7, GoPanic
+
+	Exit TRUE
+
+;---------------------------------------
+:FreakOut
+;---------------------------------------
+
+	Stop
+
+;	GetObjectHandle Trigger0, hTarget3
+;	Target hTarget3, TRUE
+	Wait 0, 1, GoPanic
+	
+	Exit TRUE
+
+;---------------------------------------
+:GoDamagePanic
+;---------------------------------------
+
+	PlayAnim Aware, GoDamagePanic2
+	SendAlert NULL
+
+	
+	Exit TRUE
+
+;---------------------------------------
+:GoDamagePanic2
+;---------------------------------------
+
+	
+;	Target NULL
+	Gosub BunkerRun
+
+	
+	Exit TRUE
+;---------------------------------------
+:GoPanic
+;---------------------------------------
+
+	PlayAnim Aware, DoNothing
+	Wait 0, 1, BunkerRun
+	
+	Exit TRUE
+;---------------------------------------
+:BunkerRun
+;---------------------------------------
+	RunTo hBunker, 40, GoLockDown
+
+	Exit TRUE
+;---------------------------------------
+:GoLockDown
+;---------------------------------------
+	Stop
+	Exit 
+
+
+
+
+;---------------------------------------
+:Main
+;
+;	Retrieve Parameters from AI Actor
+;---------------------------------------
+
+	GetParam 0, sWorkArea0Name
+	GetParam 1,	sWorkArea1Name
+	GetParam 2,	sWorkArea2Name
+	GetParam 3,	sWorkArea3Name
+	GetParam 4, sBunkerName
+
+	Wait 0, 5, InitForemanMiner
+
+	Exit TRUE

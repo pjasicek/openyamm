@@ -1,0 +1,48 @@
+;--------------------------------------------------
+;deadbird.scr
+; timmy
+; handles kill 10 birds for ranger promo
+;--------------------------------------------------
+
+#include globals.inc
+
+
+
+
+;-------------------------------------
+:OnDeath
+;-------------------------------------
+
+haskey 241 g_ntemp
+if (g_ntemp==0, )
+	if (g_ncounter>=10, )
+		givekey 241
+		exit
+	else
+		add g_ncounter, 1
+		exit
+	endif
+endif
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+OnDeath OnDeath
+set g_ncounter, 0
+;...................
+;for debug..delete
+addtrigger use Ondeath
+;.....................
+
+exit
+

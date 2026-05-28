@@ -1,0 +1,107 @@
+schema: openyamm.model3d.v1
+id: shelfitem03
+model: shelfitem03.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/SHELFITEM03.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Crystals1
+  materialIndex: 0
+  lods:
+  - faces: 72
+    vertices: 52
+  - faces: 72
+    vertices: 52
+- name: Hourglass1
+  materialIndex: 0
+  lods:
+  - faces: 128
+    vertices: 96
+  - faces: 112
+    vertices: 88
+- name: Flasks1
+  materialIndex: 0
+  lods:
+  - faces: 234
+    vertices: 135
+  - faces: 164
+    vertices: 100
+- name: Wands1
+  materialIndex: 0
+  lods:
+  - faces: 42
+    vertices: 30
+  - faces: 8
+    vertices: 13
+materials:
+- index: 0
+  texture: skins_preview/props/shelfitem03.png
+  runtime_texture: skins/props/shelfitem03.dtx
+  preview_texture: skins_preview/props/shelfitem03.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SHELFITEM03.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone05
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Bone07
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 46.08
+  - 15.36
+  - 15.36
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/shelfitem03.abc

@@ -1,0 +1,69 @@
+;--------------------------------------------------
+;NPC11.scr
+; timmy
+; handles shopkeeper voice and anims
+;--------------------------------------------------
+
+#include globals.inc
+
+#String    Params          
+#String    sound
+
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:Off
+;--------------------------------------------------
+
+
+debugout Done!!
+exit
+; Delete this when the script works the way it's supposed to!!!
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+hasitem 399 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 1023
+endif
+Playsound sound, DoNothing, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnStart
+;-------------------------------------
+
+getobjectHandle CommonerDwarfMaleB4 g_hobject
+FaceObject g_hobject 200 DoNothing
+;LoopAnim conv1, 0 Donothing
+exit
+
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+takekey 1023
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+OnRudeExit OnExit
+Addtrigger Use, OnUse
+Addtrigger Talk OnStart
+GetParam 0, sound
+GetParam 1, Params
+GetParam 2, g_ntemp
+LoopAnim Params,g_ntemp Off
+exit
+

@@ -1,0 +1,95 @@
+;--------------------------------------------------------
+;	ILShurtroom.scr
+;	Timmy
+;
+;	This script Handles the hurting room
+;
+;
+;	Parameters:
+;
+
+
+;
+;--------------------------------------------------------
+#include globals.inc
+
+
+#Number					counter=0
+#Number					doorclosed=1
+#Number					Broken=0
+#Number					BookOpen=0
+
+			
+;--------------------------------------------------------
+:OnUse
+;--------------------------------------------------------
+
+If (BookOpen==true)
+	goto closebook
+Endif
+
+If (doorclosed==False)
+	exit
+Endif
+
+
+getobjecthandle healinside2, g_hobject
+trigger g_hobject DamageOn
+Playanim OpenBook
+set BookOpen, true
+exit
+;--------------------------------------------------------
+:Onopen
+;--------------------------------------------------------
+
+set doorclosed, false
+
+getobjecthandle healinside2, g_hobject
+trigger g_hobject DamageOff
+exit
+
+;--------------------------------------------------------
+:Onclose
+;--------------------------------------------------------
+
+set doorclosed, true
+exit
+
+
+;--------------------------------------------------------
+:Onbreak
+;--------------------------------------------------------
+
+set broken, true
+
+getobjecthandle healinside2, g_hobject
+trigger g_hobject DamageOff
+exit
+
+
+
+;--------------------------------------------------------
+:CloseBook
+;--------------------------------------------------------
+
+Playanim CloseBook
+getobjecthandle healinside2, g_hobject
+trigger g_hobject DamageOff
+set BookOpen, false
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+;TRACEON
+
+
+
+
+
+
+Addtrigger use, OnUse
+Addtrigger open, Onopen
+Addtrigger close, Onclose
+Addtrigger break, Onbreak
+	exit

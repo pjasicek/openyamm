@@ -1,0 +1,154 @@
+schema: openyamm.model3d.v1
+id: lichengine
+model: lichengine.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/LICHENGINE.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Tower
+  materialIndex: 0
+  lods:
+  - faces: 180
+    vertices: 106
+  - faces: 132
+    vertices: 82
+  - faces: 90
+    vertices: 61
+- name: InnerRing
+  materialIndex: 0
+  lods:
+  - faces: 96
+    vertices: 48
+  - faces: 74
+    vertices: 37
+  - faces: 48
+    vertices: 24
+- name: OuterRing
+  materialIndex: 0
+  lods:
+  - faces: 96
+    vertices: 48
+  - faces: 72
+    vertices: 36
+  - faces: 48
+    vertices: 24
+materials:
+- index: 0
+  texture: skins_preview/props/lichengine.png
+  runtime_texture: skins/props/lichengine.dtx
+  preview_texture: skins_preview/props/lichengine.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/LICHENGINE.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+  - index: 1
+    name: Bone-Tower1
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone-InnerRing1
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone-OuterRing1
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: static_model
+  durationMs: 1
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: StartUp
+  durationMs: 3500
+  keyframes: 110
+  interpolationTimeMs: 200
+  events: []
+- name: SpinCycle
+  durationMs: 3000
+  keyframes: 91
+  interpolationTimeMs: 200
+  events: []
+- name: ShutDown
+  durationMs: 3500
+  keyframes: 107
+  interpolationTimeMs: 200
+  events: []
+- name: FullCycle
+  durationMs: 10000
+  keyframes: 306
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: static_model
+  extents:
+  - 25.6
+  - 143.36
+  - 25.6
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: StartUp
+  extents:
+  - 25.6
+  - 143.36
+  - 25.6
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: SpinCycle
+  extents:
+  - 25.6
+  - 143.36
+  - 25.6
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: ShutDown
+  extents:
+  - 25.6
+  - 143.36
+  - 25.6
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: FullCycle
+  extents:
+  - 25.6
+  - 143.36
+  - 25.6
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+roles:
+- static_model
+source_model: models/props/lichengine.abc

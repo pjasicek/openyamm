@@ -1,0 +1,86 @@
+;----------------------------------------------
+;sturmgaardinn.scr
+; By Timmy
+; handles the Kenneth Wartooth (#57) and breaking his window
+;
+
+
+;----------------------------------------------
+
+#include globals.inc 
+#include nogold.inc
+
+
+#number					keycheck
+#String					  Params          
+
+
+;Parameters
+;P1  # of times animation runs
+;P0  name of animation to loop
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+haskey 5000 keycheck
+
+if ( keycheck==1, )
+	Haskey 5001, keycheck
+	if ( keycheck==1, )
+		hasgold 500 g_ntemp
+		if (g_ntemp==FALSE)
+			gosub nogold
+		else
+			takegold 500
+			takekey 5000
+			takekey 5001
+			exit
+		endif
+	endif
+	exit
+endif
+exit
+
+;-------------------------------------
+:OnBreak
+;-------------------------------------
+
+givekey 5000
+exit
+
+;-------------------------------------
+:Off
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+Playsound voices\NPC\NPC_057.wav, Off, 100, 240, FALSE, 100
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+Addtrigger break, Onbreak
+Addtrigger use, Onuse
+Onrudeexit Onexit
+CacheSound voices\NPC\NPC_057.wav
+;barkeeper animation stuff
+
+gosub voiceinit
+GetParam 0, Params
+GetParam 1, g_ntemp
+LoopAnim Params,g_ntemp Off
+
+;ExitScript
+exit
+
+
+exit

@@ -1,0 +1,22 @@
+Coordinates for options Menu Items:  Changed 2/07
+
+OptionsBG.pcx		  0x   0y	250x600	Background
+GameOptionsAnim.pcx	 36x  34y	209x100
+VideoOptionsAnim.pcx	 36x 135y	209x100
+SoundOptionsAnim.pcx	 36x 236y	209x100
+ControlsAnim.pcx	 36x 337y	209x100
+CancelAnim.pcx		 36x 438y	209x63
+DoneAnim.pcx		 36x 502y	209x63
+
+Note: Selected item (Except Cancel) will switch the right-side 
+	of the screen to the appropriate sub-screen.  Default should be 
+	the top item "Game Options"
+
+Note: Highlighted areas should play their anim at ~15 FPS
+
+Note: All Animations are 10 frames long
+
+Note: Anims should "Fade" in and out when mouse over and leaves the button.
+	Fade in and out should be about 1/2 second. (If Possible)
+
+Note: I have edited positioning so they no longer overlap.

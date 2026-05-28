@@ -1,0 +1,183 @@
+;--------------------------------------------------
+;NPC161.scr
+; timmy
+; handles Tymon the Nord voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;promo variables
+
+#number		Fighter = 0
+#number		Mercenary = 1
+#number		Crusader = 2
+#number		Assassin = 3
+#number		Gladiator = 4
+#number		Ranger = 5
+#number		Paladin = 6
+#number		Initiate = 7
+#number		Scholar = 8
+#number		Healer = 9
+#number		Mage = 10
+#number		Lich = 11
+#number		Priest = 12
+#number		Druid = 13
+#number		Char1 = 0
+#number		Char2 = 1
+#number		Char3 = 2
+#number		Char4 = 3
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub ScholarCheck
+Gosub ToScholar
+exit
+
+
+
+;--------------------------------------------------
+:ScholarCheck
+;
+; Player has already completed the quest
+; just check to see who gets promoted
+;--------------------------------------------------
+
+
+haskey 201 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+
+haskey 425 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 201
+endif
+
+haskey 426 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 201
+endif
+
+haskey 427 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 201
+endif
+
+haskey 428 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 201
+endif
+exit
+;--------------------------------------------------
+:PromoteScholar
+;
+; Player has already completed the quest
+; just check to see who gets promoted
+;--------------------------------------------------
+
+haskey 425 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Scholar Char1
+	takekey 425
+endif
+
+haskey 426 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Scholar Char2
+	takekey 426
+endif
+
+haskey 427 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Scholar Char3
+	takekey 427
+endif
+
+haskey 428 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Scholar Char4
+	takekey 428
+endif
+exit
+
+;--------------------------------------------------
+:ToScholar
+;--------------------------------------------------
+;****************
+;Initiate to Scholar Quest
+;****************
+
+Haskey 205, keycheck
+if (keycheck==0, )
+	Haskey 203 keycheck
+	if (keycheck==1, )
+		givekey 205
+		giveexp 24500
+		givegold 1000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		Gosub PromoteScholar
+		exit
+	endif
+endif
+
+Haskey 205, keycheck
+if (keycheck==0, )
+	Haskey 204 keycheck
+	if (keycheck==1, )
+		givekey 205
+		giveexp 11000
+		givegold 1000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		Gosub PromoteScholar
+		exit
+	endif
+endif
+
+
+;End Initiate to Scholar quest
+;******************
+exit
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+;Playsound voices\NPC\NPC_145.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

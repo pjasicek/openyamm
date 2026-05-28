@@ -1,0 +1,223 @@
+;--------------------------------------
+;	PentagramPuzzle.scr
+;	by SJR
+;	10-29-01
+;	Purpose:puzzle used to get
+;			the capstone from
+;			VerhoffinRuins. step
+;			on points in certain order
+;--------------------------------------
+#include BaseGlobals.inc
+
+#number		nProgress = 0
+
+#stringarray	spFlames[5]
+#stringarray	spPoints[5]
+
+#string		sDoorRName = ""
+#string		sDoorLName = ""
+
+#hobject	hDoorR = 0
+#hobject	hDoorL = 0
+#hobject	hTriggerOn = 0
+#hobject	hTriggerOff = 0
+
+;--------------------------------------
+:Main
+;--------------------------------------
+	GetParam 0, sDoorRName
+	GetParam 1, sDoorLName
+
+	OnPostStartWorld InitPentagramPuzzle
+
+	Exit TRUE
+
+;--------------------------------------
+:InitPentagramPuzzle
+;--------------------------------------
+	GetObjectHandle sDoorRName, hDoorR
+	GetObjectHandle sDoorLName, hDoorL
+	GetObjectHandle TriggerPuzzleOn, hTriggerOn
+	GetObjectHandle TriggerPuzzleOff, hTriggerOff
+
+	Trigger hDoorR, close
+	Trigger hDoorL, close
+
+	Trigger hDoorR, lock
+	Trigger hDoorL, lock
+
+	AddTrigger start, StartPuzzle
+
+	ArrayPut spFlames, 0, PentaFire1
+	ArrayPut spFlames, 1, PentaFire2
+	ArrayPut spFlames, 2, PentaFire3
+	ArrayPut spFlames, 3, PentaFire4
+	ArrayPut spFlames, 4, PentaFire5
+
+	ArrayPut spPoints, 0, TriggerPentagram1
+	ArrayPut spPoints, 1, TriggerPentagram2
+	ArrayPut spPoints, 2, TriggerPentagram3
+	ArrayPut spPoints, 3, TriggerPentagram4
+	ArrayPut spPoints, 4, TriggerPentagram5
+
+	Exit TRUE
+
+;--------------------------------------
+:StartPuzzle
+;--------------------------------------
+	if( hTriggerOn!=NULL )
+		Trigger hTriggerOn, trigger
+	endif
+
+	AddTrigger first, FirstStep
+	AddTrigger second, SecondStep
+	AddTrigger third, ThirdStep
+	AddTrigger fourth, FourthStep
+	AddTrigger fifth, FifthStep
+
+	Exit TRUE
+
+;--------------------------------------
+:FirstStep
+;--------------------------------------
+	if( nProgress!=0 )
+		gosub OnFailure
+		Exit TRUE
+	endif
+	nProgress = 1
+	gosub OnSuccess
+	Exit TRUE
+
+;--------------------------------------
+:SecondStep
+;--------------------------------------
+	if( nProgress!=1 )
+		gosub OnFailure
+		Exit TRUE
+	endif
+	nProgress = 2
+	gosub OnSuccess
+	Exit TRUE
+
+;--------------------------------------
+:ThirdStep
+;--------------------------------------
+	if( nProgress!=2 )
+		gosub OnFailure
+		Exit TRUE
+	endif
+	nProgress = 3
+	gosub OnSuccess
+	Exit TRUE
+
+;--------------------------------------
+:FourthStep
+;--------------------------------------
+	if( nProgress!=3 )
+		gosub OnFailure
+		Exit TRUE
+	endif
+	nProgress = 4
+	gosub OnSuccess
+	Exit TRUE
+
+;--------------------------------------
+:FifthStep
+;--------------------------------------
+	if( nProgress!=4 )
+		gosub OnFailure
+		Exit TRUE
+	endif
+	gosub OnSuccess
+	gosub UnlockDoor
+	Exit TRUE
+
+;--------------------------------------
+:OnSuccess
+;--------------------------------------
+	PlaySound "sounds\door\doorlatch01.wav", DoNothing, 1, 500, 0, 100
+
+	Exit TRUE
+
+;--------------------------------------
+:OnFailure
+;--------------------------------------
+	if( hTriggerOn!=NULL )
+		Trigger hTriggerOn, trigger
+	endif
+	nProgress = 0
+
+	Exit TRUE
+
+;--------------------------------------
+:UnlockDoor
+;--------------------------------------
+	if( hTriggerOff!=NULL )
+		Trigger hTriggerOff, trigger
+	endif
+	if( hDoorR!=NULL )
+		Trigger hDoorR, unlock
+		Trigger NULL, open
+	endif
+	if( hDoorL!=NULL )
+		Trigger hDoorL, unlock
+		Trigger hDoorL, open
+	endif
+
+	Exit TRUE
+
+;--------------------------------------
+:InitPentagramPuzzle
+;	overloaded -- Bones
+;--------------------------------------
+	OnPostSaveLoad StopMoving
+	OnPostMiniSaveLoad StopMoving
+	goto InitPentagramPuzzle 1
+
+;--------------------------------------
+:StopMoving
+;	overloaded -- Bones
+;--------------------------------------
+	if FALSE == 0
+		GetObjectHandle sDoorRName hDoorR
+		if hDoorR == NULL
+			wait 0 .2 StopMoving
+		else
+			GetObjectHandle sDoorLName hDoorL
+
+			GetObjectHandle TriggerPuzzleOn hTriggerOn
+			GetObjectHandle TriggerPuzzleOff hTriggerOff
+
+			Trigger hDoorR close
+			Trigger hDoorL close
+
+			SetStat hDoorR Locked TRUE
+			SetStat hDoorL Locked TRUE
+		endif
+	endif
+
+	exit
+
+;--------------------------------------
+:UnlockDoor
+;	overloaded -- Bones
+;--------------------------------------
+	GetObjectHandle TriggerPuzzleOff hTriggerOff
+	if hTriggerOff != NULL
+		Trigger hTriggerOff trigger
+	endif
+
+	GetObjectHandle sDoorRName hDoorR
+	if hDoorR != NULL
+		SetStat hDoorR Locked FALSE
+	endif
+
+	GetObjectHandle sDoorLName hDoorL
+	if hDoorL != NULL
+		SetStat hDoorL Locked FALSE
+		Trigger hDoorL, open
+	endif
+
+	set FALSE 1
+
+	Exit TRUE

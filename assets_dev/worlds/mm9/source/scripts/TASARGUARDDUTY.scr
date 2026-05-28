@@ -1,0 +1,149 @@
+;--------------------------------------------------
+;TaSarGuardDuty.scr
+;9/19
+; timmy
+; handles TaSar Academy guard walking to bed
+;--------------------------------------------------
+
+#include globals.inc
+#include baseMelee.inc
+
+
+#string			L_marker
+#string			L_marker2
+#string			Start_Marker
+#string			Face_Dir
+#String			Current_Marker
+
+#number			L_time
+#number			counter
+#number			OffDuty
+
+#Number			PosX
+#Number			PosY
+#Number			PosZ
+
+#Number			StartPosX
+#Number			StartPosY
+#Number			StartPosZ
+
+;--------------------------------------------------
+:OnOffDuty
+; checks to see if the guard is coming or going,
+; then sends them to the right place
+;--------------------------------------------------
+
+if (OffDuty==False)
+	if (counter==0)
+		Set Current_Marker L_Marker
+		Goto Walk
+		exit
+	endif
+
+	if (counter==1)
+		Set OffDuty TRUE
+		Set Current_Marker L_Marker2
+		Goto Walk
+
+		exit
+	endif
+else
+	if (counter==0)
+		Set Current_Marker Start_Marker
+		Goto Walk
+		exit
+	endif
+
+	if (counter==1)
+		GetObjectHandle Face_Dir g_hobject
+		FaceObject g_hobject 32 DoNothing
+		Set OffDuty FALSE
+		exit
+	endif
+endif
+exit
+
+
+;--------------------------------------------------
+:Walk
+; walks to current marker
+;--------------------------------------------------
+
+GetObjectHandle Current_Marker g_hobject
+walkto g_hobject 0 OnArrive
+exit
+
+;--------------------------------------------------
+:OffDuty
+; missed the go to bed time
+;--------------------------------------------------
+
+GetobjectHandle L_Marker2 G_hobject
+Getpos g_hobject PosX PosY PosZ
+GetMyHandle g_hobject
+Setpos g_hobject PosX PosY PosZ
+exit
+
+;--------------------------------------------------
+:OnArrive
+; made it to marker...going to next
+;--------------------------------------------------
+
+add counter, 1
+wait 0 1 OnOffDuty
+exit
+
+;--------------------------------------------------
+:OnOnDuty
+; if it's time to go to work & I am at work, do nothing
+;--------------------------------------------------
+
+
+GetMyHandle g_hobject
+Getpos g_hobject PosX PosY PosZ
+if (PosX!=StartPosX)
+	Goto OnOffDuty
+	exit
+endif
+
+exit
+;--------------------------------------------------
+:OnDuty
+; late to work...teleport there
+;--------------------------------------------------
+
+GetMyHandle g_hobject
+Setpos g_hobject StartPosX StartPosY StartPosZ
+exit
+
+;--------------------------------------------------
+:GetPos
+; get my current position.
+;--------------------------------------------------
+
+GetMyHandle g_hobject
+Getpos g_hobject StartPosX StartPosY StartPosZ
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+OnStuck Walk
+
+
+Gosub GetPos
+Addtrigger use, OnOffDuty
+getparam 0 L_Marker
+getParam 1 L_Marker2
+GetParam 2 Start_Marker
+getparam 3 L_time
+getparam 4 Face_Dir
+
+@m 20 : L_time OnOffDuty OffDuty
+@m 6 : L_Time OnOnDuty OnDuty
+gosub BaseInit
+exit
+

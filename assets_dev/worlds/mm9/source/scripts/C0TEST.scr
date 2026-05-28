@@ -1,0 +1,66 @@
+#include followpath.inc
+#include globals.inc
+
+#hobject hGoblin0
+
+
+;------------------------------------------
+:OnZoom
+;------------------------------------------
+
+	SetCallBack 0, OnZoomWait
+	
+	Trigger g_hMyObject,ON 	
+
+	Set g_sFollowPathName			Marker
+	Set	g_nFollowPathSpeed			96	
+	Set g_nFollowPathDoneCallback	0
+	Set g_nFollowPathLoops			1
+	gosub FollowPath
+
+	AddTrigger Zoom DoNothing
+
+	Exit
+
+
+;------------------------------------------
+:OnZoomDone
+;------------------------------------------
+	 Trigger g_hMyObject, OFF
+
+	 Exit
+
+
+;------------------------------------------
+:DoNothing
+;------------------------------------------
+	Exit
+
+
+;------------------------------------------
+:OnZoomWait
+;------------------------------------------	
+	;Wait 10,OnZoomDone	
+	GetObjectHandle Goblin0, hGoblin0
+
+	Trigger hGoblin0,Speak
+
+	Exit
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+	
+	;TraceOn
+
+	GetMyHandle g_hMyObject
+	
+	AddTrigger Zoom OnZoom
+	AddTrigger ZoomDone OnZoomDone	
+
+	Exit		
+
+
+

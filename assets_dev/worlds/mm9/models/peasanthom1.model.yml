@@ -1,0 +1,299 @@
+schema: openyamm.model3d.v1
+id: peasanthom1
+model: peasanthom1.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PEASANTHOM1.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 4.023306898564917e+25
+pieces:
+- name: ngon
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: orcmale1
+  materialIndex: 0
+  lods:
+  - faces: 700
+    vertices: 363
+  - faces: 524
+    vertices: 275
+materials:
+- index: 0
+  texture: skins_preview/peasanthom1a.png
+  runtime_texture: skins/peasanthom1a.dtx
+  preview_texture: skins_preview/peasanthom1a.png
+  source: mm9/extracted/SKINS/SKINS/PEASANTHOM1A.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 31
+    - 32
+    - 33
+    - 34
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 23
+    - 27
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bip01 Neck
+    parent: 4
+    flags: 1
+    children:
+    - 6
+    - 7
+    - 15
+  - index: 6
+    name: Bip01 Head
+    parent: 5
+    flags: 1
+    children: []
+  - index: 7
+    name: Bip01 L Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Bip01 L UpperArm
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bip01 L Forearm
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bip01 L Hand
+    parent: 9
+    flags: 1
+    children:
+    - 11
+    - 13
+  - index: 11
+    name: Bip01 L Finger0
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Bip01 L Finger01
+    parent: 11
+    flags: 1
+    children: []
+  - index: 13
+    name: Bip01 L Finger1
+    parent: 10
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: Bip01 L Finger11
+    parent: 13
+    flags: 1
+    children: []
+  - index: 15
+    name: Bip01 R Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bip01 R UpperArm
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bip01 R Forearm
+    parent: 16
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Bip01 R Hand
+    parent: 17
+    flags: 1
+    children:
+    - 19
+    - 21
+  - index: 19
+    name: Bip01 R Finger0
+    parent: 18
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Bip01 R Finger01
+    parent: 19
+    flags: 1
+    children: []
+  - index: 21
+    name: Bip01 R Finger1
+    parent: 18
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Bip01 R Finger11
+    parent: 21
+    flags: 1
+    children: []
+  - index: 23
+    name: Bip01 L Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bip01 L Calf
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bip01 L Foot
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: Bip01 L Toe0
+    parent: 25
+    flags: 1
+    children: []
+  - index: 27
+    name: Bip01 R Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Bip01 R Calf
+    parent: 27
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Bip01 R Foot
+    parent: 28
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Bip01 R Toe0
+    parent: 29
+    flags: 1
+    children: []
+  - index: 31
+    name: Bone01
+    parent: 1
+    flags: 1
+    children: []
+  - index: 32
+    name: Bone07
+    parent: 1
+    flags: 1
+    children: []
+  - index: 33
+    name: Bone04
+    parent: 1
+    flags: 1
+    children: []
+  - index: 34
+    name: Bone12
+    parent: 1
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Half_orc1
+  durationMs: 1033
+  keyframes: 32
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Half_orc1
+  extents:
+  - 38.4
+  - 107.52
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- actor_model
+source_model: models/peasanthom1.abc
+source_tables:
+- MONSTERS
+skin_bindings:
+- id: peasanthom1_peasanthom1a
+  source_skins:
+  - skins/peasanthom1a.dtx
+  actor_rows:
+  - table: MONSTERS
+    row: 58
+    number: '57'
+    monster_name: Commoner
+    type_picture: Peasant Half-Orc Male A
+    base_name: PeasantHOM
+  - table: MONSTERS
+    row: 61
+    number: '60'
+    monster_name: Prisoner
+    type_picture: Peasant Half-Orc Male D
+    base_name: PeasantHOM
+- id: peasanthom1_peasanthom1b
+  source_skins:
+  - skins/peasanthom1b.dtx
+  actor_rows:
+  - table: MONSTERS
+    row: 59
+    number: '58'
+    monster_name: Town
+    type_picture: Peasant Half-Orc Male B
+    base_name: PeasantHOM

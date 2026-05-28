@@ -1,0 +1,40 @@
+;----------------------------------------------
+;DP2steam.scr
+; By Timmy
+; turns Fire Up and Down
+;
+; Parameters:
+; P0 minimum fire scale
+;  P1 Maximum fire scale
+;----------------------------------------------
+
+#number				MinScale
+#number				MaxScale
+
+;-------------------------------------
+:FireOn
+;-------------------------------------
+
+
+SetPropNumber FireScale, MaxScale
+exit
+
+
+;-------------------------------------
+:FireOff
+;-------------------------------------
+
+SetPropNumber FireScale, MinScale
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;;;TraceOn
+AddTrigger FireOn, FireOn
+AddTrigger FireOff, FireOff
+GetParam 0, MinScale
+GetParam 1, MaxScale
+exit

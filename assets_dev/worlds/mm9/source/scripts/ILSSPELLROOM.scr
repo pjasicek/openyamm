@@ -1,0 +1,248 @@
+;--------------------------------------------------------
+;	ILSspellroom.scr
+;	Timmy
+;
+;	This script Handles the healing room
+;
+;
+;	Parameters:
+;
+
+
+;
+;--------------------------------------------------------
+#include globals.inc
+
+
+#Number					counter=0
+#Number					closed=1
+#Number					Broken=0
+
+;Volume Dims Variables
+#number					VolumeMinX
+#number					VolumeMinY
+#Number					VolumeMinZ
+#number					VolumeMaxX
+#Number					VolumeMaxY
+#Number					VolumeMaxZ
+
+
+;Player dim Variables
+
+#Number					PlayerX
+#Number					PlayerY
+#Number					PlayerZ
+
+#numberArray			PlayerIds[8]
+#number					Playercount
+
+#number				loopcounter=0
+
+; healing variables
+#numberArray			g_nPlayerHealedArray[8]
+#numberArray			g_nPlayerHealedCountArray[8]
+
+#number					g_nPlayerId
+#number					g_nPlayerNbr
+
+; Heal amount defaults to 10... Change this value in your 
+; script if you want....
+
+#number					g_nHealAmt=10
+#number					g_nHealCount=1
+
+			
+;--------------------------------------------------------
+:Onclickon
+;--------------------------------------------------------
+
+
+If (closed==false)
+	exit
+Endif
+	;gets the dims of volume brush
+
+
+
+	getobjecthandle spellinside, g_hobject
+	GetObjectMinMax g_hobject, VolumeMinX, VolumeMinY, VolumeMinZ, VolumeMaxX, VolumeMaxY, VolumeMaxZ
+
+
+	GetPlayersWithinDist -1072.0 325.763916 5419.0 512 PlayerIds 8 Playercount
+	if (Playercount==0 )
+		exit
+	Endif
+set loopcounter, 0
+
+;--------------------------------------------------------
+:CheckPlayerLoop
+;--------------------------------------------------------
+
+
+	Arrayget PlayerIds, loopCounter, g_hobject
+	gosub CheckPlayer
+	Add loopcounter, 1
+	if (loopcounter<Playercount)
+		goto CheckPlayerLoop	
+	endif
+
+exit
+		
+;--------------------------------------------------------
+:CheckPlayer
+;--------------------------------------------------------
+
+		
+
+
+	;Gets the dims of Player
+
+	GetPos g_hobject PlayerX, PlayerY, PlayerZ
+
+	If (PlayerX>=VolumeMinX )
+		If (PlayerX<=VolumeMaxX )
+			If (PlayerY>=VolumeMinY )
+				If (PlayerY<=VolumeMaxY )
+					If (PlayerZ>=VolumeMinZ )
+						If (PlayerZ<=VolumeMaxZ )
+							Gosub OnHeal
+;							DEBUGOUT healed Player
+;							DEBUGOUT loopcounter
+						EndIf
+					Endif			
+				EndIf
+			Endif
+		Endif
+	Endif
+
+exit
+
+;--------------------------------------------------------
+:OnHeal
+;--------------------------------------------------------
+
+
+If (Broken!=true )
+
+
+		if ( counter<=g_nHealCount,  )
+
+			Add counter, 1
+			gosub HealOnUse
+			exit
+		endif
+
+	
+	getobjecthandle glass1, g_hobject
+	trigger g_hobject, destroy
+	getobjecthandle DestructableBrush9, g_hobject
+	trigger g_hobject, destroy
+	getobjecthandle glassb1, g_hobject
+	trigger g_hobject, destroy
+	getobjecthandle DestructableBrush7, g_hobject
+	trigger g_hobject, destroy
+
+	Set Broken, true
+	exit
+endif
+
+getobjecthandle spellinside, g_hobject
+trigger g_hobject DamageOn
+;DEBUGOUT broken!!
+exit
+
+
+;--------------------------------------------------------
+:Onopen
+;--------------------------------------------------------
+
+set closed, false
+exit
+
+;--------------------------------------------------------
+:Onclose
+;--------------------------------------------------------
+
+set closed, true
+exit
+
+
+;--------------------------------------------------------
+:Onbreak
+;--------------------------------------------------------
+
+set broken, true
+exit
+
+
+
+
+;--------------------------------------------------------
+:HealOnUse
+;
+;	See if we should heal the object that triggered
+;	us..
+;
+;--------------------------------------------------------
+
+
+
+	GetPlayerId g_hObject, g_nPlayerId
+	GetPlayerNbr g_hObject, g_nPlayerNbr
+
+	if ( g_nPlayerNbr==-1 )
+		; Not a player!							  
+		Exit FALSE							  
+	endif
+
+	ArrayGet g_nPlayerHealedArray, g_nPlayerNbr, g_nTemp
+
+	if ( g_nTemp==g_nPlayerId )
+		ArrayGet g_nPlayerHealedCountArray, g_nPlayerNbr, g_nTemp
+			if ( g_nTemp>=g_nHealCount )
+
+				; they've already Used this item...
+				; Don't let them do it again...
+				exit FALSE
+			endif
+	else
+		ArrayPut g_nPlayerHealedCountArray, g_nPlayerNbr, 0
+
+	endif
+
+	ArrayGet g_nPlayerHealedCountArray, g_nPlayerNbr, g_nTemp
+	Add g_nTemp, 1
+	ArrayPut g_nPlayerHealedCountArray, g_nPlayerNbr, g_nTemp
+	ArrayPut g_nPlayerHealedArray, g_nPlayerNbr, g_nPlayerId
+
+	Heal g_hObject, g_nHealAmt
+
+	;CHANGE THIS TO HEAL SPELL POINTS!!
+
+	Exit
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+;TRACEON
+
+
+	GetParam 0, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set g_nHealAmt, g_nTemp
+	endif
+
+	GetParam 1, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set g_nHealCount, g_nTemp
+	endif
+
+
+
+Addtrigger use, Onclickon
+Addtrigger open, Onopen
+Addtrigger close, Onclose
+Addtrigger break, Onbreak
+	exit

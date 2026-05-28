@@ -1,0 +1,75 @@
+;--------------------------------------------------
+;DoRude.scr
+; timmy
+; Does NPC Rude
+; 10/23
+;--------------------------------------------------
+
+#include globals.inc
+#include basemelee.inc
+
+#number			NPC_ID
+#String			Top_Blurb
+#number			Hostile
+#number			Attacked
+
+;parameters:
+;p0 number of NPC to do
+;p1 the name of the sound to play.
+;p0 Whether they will turn hostile if attacked
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+if (attacked==false)
+	if (NPC_ID!=NULL)
+		Stop
+		Gosub BaseWanderStop
+		Getparam 0 g_hobject
+		FaceObject g_hobject 200 DoNothing
+		DoRude NPC_ID
+		if (top_Blurb!=NULL)
+			Playsound Top_Blurb, DoNothing, 100, 240, FALSE, 100
+		endif
+		exit
+		
+	endif
+endif
+exit
+
+
+;--------------------------------------------------
+:OnRude
+;
+;--------------------------------------------------
+
+Gosub BaseWanderStart
+exit
+
+
+;--------------------------------------------------
+:OnDamage
+;--------------------------------------------------
+
+
+if (hostile==true)
+	Set Attacked, True
+	Gosub BaseInit
+endif
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;TraceON
+Gosub BaseWanderInit
+GetParam 0 NPC_ID
+GetParam 1 Top_Blurb
+Getparam 2 Hostile
+Addtrigger Use, Onuse
+OnRudeExit OnRude
+OnDamage OnDamage
+exit
+

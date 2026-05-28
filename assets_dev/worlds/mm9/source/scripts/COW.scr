@@ -1,0 +1,129 @@
+;----------------------------------------------------------------
+;	cow.scr
+;	John Machin
+;
+;		Script for the wandering Cow
+;---------------------------------------------------------------- 
+
+#include FarmAnimal.Inc
+
+#hobject	hAttacker
+#hobject	g_hUsedBy
+
+#number		g_nDistance
+
+;Used for cow tipping.  Need player coordinates
+#number		g_nPlayerX
+#number		g_nPlayerY
+#number		g_nPlayerZ
+#number		g_nAngle
+
+#number		g_bIsTipping	= 0
+
+#number		g_nLastDamage
+
+
+;----------------------------------------------------------------
+:OnUse
+;----------------------------------------------------------------
+	if( g_bIsTipping == TRUE  )
+		Exit
+	endif
+
+	GetStat g_hMyObject, IsDead, g_bTemp
+
+	if ( g_bTemp==TRUE )
+		Exit
+	endif
+
+	if ( g_bRunningAway==TRUE )
+		Exit
+	Endif
+
+	gosub DisableWandering
+		
+	Set g_bIsTipping, TRUE
+
+	GetParam 0, g_hUsedBy	
+	GetPos g_hUsedBy, g_nPlayerX, g_nPlayerY, g_nPlayerZ	
+
+	;Gets the angle between the player and the cow
+	GetAngleToPos g_nPlayerX, g_nPlayerY, g_nPlayerZ, g_nAngle 
+	
+	;Angle determines which way cow should fall	
+	if( g_nAngle >= 0 )	
+		PlayAnim TipOver1, OnTipOver1Done
+	else
+		PlayAnim TipOver2, OnTipOver2Done
+	endif	
+
+	;Make sure we don't get another wait statement interrupting us
+	Wait 0, 0, DoNothing
+
+	Exit
+
+;----------------------------------------------------------------
+:OnTipOver1Done
+;----------------------------------------------------------------
+	PlayAnim StandUp1, OnStandUpDone
+	
+	Exit
+
+;----------------------------------------------------------------
+:OnTipOver2Done
+;----------------------------------------------------------------
+	PlayAnim StandUp2, OnStandUpDone	
+
+	Exit
+
+;----------------------------------------------------------------
+:OnStandUpDone
+;----------------------------------------------------------------
+	gosub EnableWandering
+	Set g_bIsTipping, FALSE
+
+	Exit
+
+;----------------------------------------------------------------
+:OnWalk
+;----------------------------------------------------------------
+
+	Walk
+	Exit
+
+;----------------------------------------------------------------
+:OnTurnLeft
+;----------------------------------------------------------------
+	Rotate 0,1,0,90,180
+	Exit
+
+;----------------------------------------------------------------
+:OnTurnRight
+;----------------------------------------------------------------
+	Rotate 0,1,0,-90,180
+	Exit
+
+;----------------------------------------------------------------
+:InitCow
+;----------------------------------------------------------------
+	GetMyHandle g_hMyObject
+
+	Exit
+
+
+;----------------------------------------------------------------
+:Main
+;----------------------------------------------------------------
+	;Setup the cow	
+	gosub InitCow		
+	
+
+	;Setup the following special triggers
+	AddTrigger Use,				OnUse
+	AddTrigger Walk,			OnWalk
+	AddTrigger TurnLeft,		OnTurnLeft
+	AddTrigger TurnRight,		OnTurnRight	
+
+	gosub FarmAnimalInit
+
+	Exit

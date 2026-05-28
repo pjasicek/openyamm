@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: thearena
+display_name: The Arena
+source:
+  dat: ../source/worlds/THEARENA.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/THEARENA.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: f876571468d0e00c721e9d2c423b5e315449eb691e0e06947ce70948616af380
+runtime:
+  world_backend: dat_world
+  classification: indoor_like
+  classification_confidence: medium
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: false
+sidecars:
+  dat_world: thearena.dat_world.yml
+  raw_objects: thearena.raw_objects.yml
+  materials: thearena.material_aliases.yml
+  events: thearena.events.yml
+  scene_compat: thearena.scene.yml
+  source_metadata_compat: thearena.mm9.yml
+  bsp_compat: thearena.bsp.yml
+  geometry_compat: thearena.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: thearena.blv
+scripts:
+  level: ../events/thearena.lua
+  script_ir: ../events/thearena.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

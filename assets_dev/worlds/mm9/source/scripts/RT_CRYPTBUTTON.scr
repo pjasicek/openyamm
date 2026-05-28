@@ -1,0 +1,50 @@
+;-----------------------------------------------------
+;
+;	RT_CryptButton.scr
+;
+;	Karl Drown 11-13-01
+;	Super simple "Move My World Object" script.
+;	
+;	
+;-----------------------------------------------------
+
+#include Globals.inc
+#include Flags.inc
+
+#hObject	hMarker
+#hObject	hRock
+#hObject	hDummy
+#hObject	hMe
+
+#string		sMarker
+#string		sDestBrush
+
+#number		nVarX
+#number		nVarY
+#number		nVarZ
+;-----------------------------------------------------
+:StopHere
+;-----------------------------------------------------
+	playsound Sounds\Weapons\EQHammerImpact.wav DoNothing 500 2000 FALSE 100
+
+	Exit TRUE
+;-----------------------------------------------------
+:MoveToMarker
+;-----------------------------------------------------
+	GetMyHandle hMe
+	SetFlag hMe, FLAG_GOTHRUWORLD
+	GetObjectHandle sDestBrush, hRock
+	Trigger hRock, Destroy
+	;;playsound Sounds\Events\boulderroll.wav DoNothing hDummy 1000 TRUE 100
+	GetObjectHandle sMarker, hMarker
+	GetPos hMarker, nVarX, nVarY, nVarZ
+	MoveToPos nVarX, nVarY, nVarZ, 220, StopHere
+	Exit
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	GetParam 0, sMarker
+	GetParam 1, sDestBrush
+	AddTrigger Fall, MoveToMarker
+	Exit
+;------------- E n d - O f - F i l e -------------------

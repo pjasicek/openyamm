@@ -1,0 +1,765 @@
+format_version: 1
+source_file: NPC58.rude
+rows:
+  - source:
+      file: NPC58.rude
+      row: 1
+    raw_columns:
+      - 58
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 58
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC58.rude
+      row: 2
+    raw_columns:
+      - 58
+      - 10
+      - 1
+      - Alright, we're sorry.  We'll pay for the glass.
+      - Thank you very much!  Come back later and I would be happy to heal you.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5003
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 58
+      node_id: 10
+      choice_slot: 1
+      prompt: Alright, we're sorry.  We'll pay for the glass.
+      response: Thank you very much!  Come back later and I would be happy to heal you.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 5003
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 5003
+        status: raw_value_preserved
+  - source:
+      file: NPC58.rude
+      row: 3
+    raw_columns:
+      - 58
+      - 1
+      - 1
+      - What do you know about Hallenhalt?
+      - You should not be asking questions about that place.  When the time comes.  All your questions will be answered.
+      - 58
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 58
+      node_id: 1
+      choice_slot: 1
+      prompt: What do you know about Hallenhalt?
+      response: You should not be asking questions about that place.  When the time comes.  All your questions will be answered.
+      next: 58
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 58
+  - source:
+      file: NPC58.rude
+      row: 4
+    raw_columns:
+      - 58
+      - 58
+      - 1
+      - Yes.  We would like some healing.
+      - Blessings upon you.
+      - -8
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5002
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 58
+      node_id: 58
+      choice_slot: 1
+      prompt: Yes.  We would like some healing.
+      response: Blessings upon you.
+      next: -8
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5002
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -8
+        service: healer
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -8
+        service: healer
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5002
+        status: raw_value_preserved
+  - source:
+      file: NPC58.rude
+      row: 5
+    raw_columns:
+      - 58
+      - 10
+      - 2
+      - No way!  That's way too much!
+      - Then you will have to go somewhere else for your healing!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 58
+      node_id: 10
+      choice_slot: 2
+      prompt: No way!  That's way too much!
+      response: Then you will have to go somewhere else for your healing!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC58.rude
+      row: 6
+    raw_columns:
+      - 58
+      - 58
+      - 2
+      - We would like to make a donation
+      - The blessings of the gods upon you, children.
+      - -16
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5002
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 58
+      node_id: 58
+      choice_slot: 2
+      prompt: We would like to make a donation
+      response: The blessings of the gods upon you, children.
+      next: -16
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5002
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -16
+        service: donation
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -16
+        service: donation
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5002
+        status: raw_value_preserved
+  - source:
+      file: NPC58.rude
+      row: 7
+    raw_columns:
+      - 58
+      - 58
+      - 3
+      - We would like to ask you some questions.
+      - Very well.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5002
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 58
+      node_id: 58
+      choice_slot: 3
+      prompt: We would like to ask you some questions.
+      response: Very well.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5002
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5002
+        status: raw_value_preserved
+  - source:
+      file: NPC58.rude
+      row: 8
+    raw_columns:
+      - 58
+      - 58
+      - 4
+      - We would like some healing.
+      - No!  You've been fooling around in here and you broke a window!  Those windows cost seven hundred gold!  I won't heal you until you pay for them!
+      - 10
+      - 5002
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5003
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 58
+      node_id: 58
+      choice_slot: 4
+      prompt: We would like some healing.
+      response: No!  You've been fooling around in here and you broke a window!  Those windows cost seven hundred gold!  I won't heal you until you pay for them!
+      next: 10
+      raw_fields:
+        c07: 5002
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5003
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5002
+            qbit_id: 14002
+            state_id: mm9.keys.5002
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5002
+          qbit_id: 14002
+          state_id: mm9.keys.5002
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5003
+        status: raw_value_preserved
+  - source:
+      file: NPC58.rude
+      row: 9
+    raw_columns:
+      - 58
+      - 58
+      - 5
+      - We're looking for a priest to take to a new temple.
+      - Ah, they're finally replacing that temple in Guberland, are they?  I'm afraid I can't help you.  I am the only one here.
+      - 58
+      - 250
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 253
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 58
+      node_id: 58
+      choice_slot: 5
+      prompt: We're looking for a priest to take to a new temple.
+      response: Ah, they're finally replacing that temple in Guberland, are they?  I'm afraid I can't help you.  I am the only one here.
+      next: 58
+      raw_fields:
+        c07: 250
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 253
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 58
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 250
+            qbit_id: 9250
+            state_id: mm9.keys.250
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 250
+          qbit_id: 9250
+          state_id: mm9.keys.250
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 253
+        status: raw_value_preserved
+  - source:
+      file: NPC58.rude
+      row: 10
+    raw_columns:
+      - 58
+      - 58
+      - 7
+      - Nothing today, thank you.
+      - Blessings be with you, children.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 58
+      node_id: 58
+      choice_slot: 7
+      prompt: Nothing today, thank you.
+      response: Blessings be with you, children.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

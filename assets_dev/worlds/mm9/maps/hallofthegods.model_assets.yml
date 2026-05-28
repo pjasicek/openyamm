@@ -1,0 +1,158 @@
+format_version: 1
+kind: mm9_model_assets
+source_dat: mm9/extracted/WORLDS/WORLDS/HALLOFTHEGODS.dat
+unique_model_count: 17
+models:
+- source_model: models/Fre.ABC
+  model_asset: models/fre.glb
+  instance_count: 1
+  source_object_indices:
+  - 136
+  source_classes:
+  - Prop
+- source_model: models/Lich.abc
+  model_asset: models/fre.glb
+  instance_count: 1
+  source_object_indices:
+  - 126
+  source_classes:
+  - Fre
+- source_model: models/TheGreatHonk.abc
+  model_asset: models/goose.glb
+  instance_count: 1
+  source_object_indices:
+  - 128
+  source_classes:
+  - TheGreatHonk
+- source_model: models/Krohn.abc
+  model_asset: models/krohn.glb
+  instance_count: 4
+  source_object_indices:
+  - 124
+  - 127
+  - 133
+  - 149
+  source_classes:
+  - Hanndl
+  - Krohn
+  - Prop
+- source_model: models/Njam.ABC
+  model_asset: models/njam.glb
+  instance_count: 1
+  source_object_indices:
+  - 135
+  source_classes:
+  - Prop
+- source_model: models/Props/Bench_Stone02.ABC
+  model_asset: models/props/bench_stone02.glb
+  instance_count: 8
+  source_object_indices:
+  - 38
+  - 39
+  - 40
+  - 41
+  - 78
+  - 79
+  - 80
+  - 81
+  source_classes:
+  - Prop
+- source_model: models/Props/DragonBrazier2.ABC
+  model_asset: models/props/dragonbrazier2.glb
+  instance_count: 18
+  source_object_indices:
+  - 48
+  - 51
+  - 58
+  - 61
+  - 62
+  - 75
+  - 107
+  - 108
+  - 109
+  - 110
+  - 111
+  - 112
+  - 113
+  - 114
+  - 115
+  - 116
+  - 117
+  - 118
+  source_classes:
+  - Brazier
+- source_model: models/DragonPharoah.abc
+  model_asset: models/props/dragonpharoah.glb
+  instance_count: 1
+  source_object_indices:
+  - 82
+  source_classes:
+  - Prop
+- source_model: models/Props/LionStatue.ABC
+  model_asset: models/props/lionstatue.glb
+  instance_count: 2
+  source_object_indices:
+  - 44
+  - 71
+  source_classes:
+  - Prop
+- source_model: models/Props/scroll-open.ABC
+  model_asset: models/props/scroll_open.glb
+  instance_count: 1
+  source_object_indices:
+  - 187
+  source_classes:
+  - Prop
+- source_model: models/Props/Throne.ABC
+  model_asset: models/props/throne.glb
+  instance_count: 1
+  source_object_indices:
+  - 132
+  source_classes:
+  - Prop
+- source_model: models/props/torch2.abc
+  model_asset: models/props/torch2.glb
+  instance_count: 4
+  source_object_indices:
+  - 47
+  - 54
+  - 65
+  - 68
+  source_classes:
+  - WallTorch
+- source_model: models/Lich.abc
+  model_asset: models/skraelos.glb
+  instance_count: 2
+  source_object_indices:
+  - 125
+  - 150
+  source_classes:
+  - Skraelos
+- source_model: models/Skraelos.ABC
+  model_asset: models/skraelos.glb
+  instance_count: 1
+  source_object_indices:
+  - 134
+  source_classes:
+  - Prop
+- source_model: models/wyrd_mature.ABC
+  model_asset: models/wyrd_mature.glb
+  instance_count: 1
+  source_object_indices:
+  - 138
+  source_classes:
+  - Prop
+- source_model: models/wyrd_old.ABC
+  model_asset: models/wyrd_old.glb
+  instance_count: 1
+  source_object_indices:
+  - 137
+  source_classes:
+  - Prop
+- source_model: models/wyrd_young.ABC
+  model_asset: models/wyrd_young.glb
+  instance_count: 1
+  source_object_indices:
+  - 139
+  source_classes:
+  - Prop

@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: lindisfarne
+display_name: Lindisfarne
+source:
+  dat: ../source/worlds/LINDISFARNE.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/LINDISFARNE.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 732f5ebe129bae51a2d8b6c0dd4202ae9ab8c1be0ed45b17af493e4637d537d1
+runtime:
+  world_backend: dat_world
+  classification: outdoor_like
+  classification_confidence: medium
+  visibility: dat_spatial
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: lindisfarne.dat_world.yml
+  raw_objects: lindisfarne.raw_objects.yml
+  materials: lindisfarne.material_aliases.yml
+  events: lindisfarne.events.yml
+  scene_compat: lindisfarne.scene.yml
+  source_metadata_compat: lindisfarne.mm9.yml
+  bsp_compat: null
+  geometry_compat: null
+  model_assets_compat: lindisfarne.model_assets.yml
+  odm_compat: lindisfarne.odm
+  blv_compat: null
+scripts:
+  level: ../events/lindisfarne.lua
+  script_ir: ../events/lindisfarne.script_ir.yml
+compatibility:
+  legacy_target_format: odm
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

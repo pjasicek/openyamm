@@ -1,0 +1,187 @@
+;--------------------------------------------------
+;NPC110.scr
+; timmy
+; handles Hrolf Anfarssen's speech
+;--------------------------------------------------
+
+#include globals.inc
+#include basemelee.inc
+
+#number			bSpeak
+#number			bTargetDead
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+#number					Xpos
+#number					Ypos
+#number					Zpos
+
+
+;--------------------------------------------------
+:OnStart
+;--------------------------------------------------
+
+
+if (bTargetDead==TRUE)
+	exit
+endif
+
+SetPropNumber DoRude False
+
+haskey 5010 bSpeak
+IF (bSpeak==TRUE)
+	exit
+endif
+
+getobjecthandle Alfrigg g_hobject
+target g_hobject
+trigger g_hobject Target
+
+givekey 5010
+Loopanim conv2 0 DoNothing
+Playsound \voices\cinema\dwarvesandhumans\01.wav, DoNothing, 100, 2400, FALSE, 100
+wait 1 5.5, Trigger2
+exit
+
+
+;--------------------------------------------------
+:Trigger2
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Alfrigg g_hobject
+trigger g_hobject Speak2
+exit
+
+
+;--------------------------------------------------
+:OnSpeak3
+;--------------------------------------------------
+if (bTargetDead==TRUE)
+	exit
+endif
+Loopanim conv2 0 DoNothing
+Playsound voices\cinema\dwarvesandhumans\03.wav, DoNothing, 100, 2400, FALSE, 100
+wait 1 13.3, Trigger4
+exit
+
+
+;--------------------------------------------------
+:Trigger4
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Alfrigg g_hobject
+trigger g_hobject Speak4
+exit
+
+
+;--------------------------------------------------
+:OnSpeak5
+;--------------------------------------------------
+if (bTargetDead==TRUE)
+	exit
+endif
+Loopanim conv5 0 DoNothing
+Playsound voices\cinema\dwarvesandhumans\05.wav, DoNothing, 100, 2400, FALSE, 100
+wait 1 4.5, Trigger6
+exit
+
+
+;--------------------------------------------------
+:Trigger6
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Alfrigg g_hobject
+trigger g_hobject Speak6
+exit
+
+
+;--------------------------------------------------
+:OnSpeak7
+;--------------------------------------------------
+if (bTargetDead==TRUE)
+	exit
+endif
+Loopanim conv4 0 DoNothing
+Playsound voices\cinema\dwarvesandhumans\07.wav, DoNothing, 100, 2400, FALSE, 100
+wait 1 3, Trigger8
+exit
+
+
+;--------------------------------------------------
+:Trigger8
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Alfrigg g_hobject
+trigger g_hobject target
+trigger g_hobject Fight
+target g_hobject
+addenemy commonerdwarfmaleA
+gosub baseinit
+exit
+
+
+;-------------------------------------
+:OnTargetDead
+;-------------------------------------
+
+SetPropNumber DoRude True
+removeEnemy commonerdwarfmaleA
+set bTargetDead, True
+exitscript
+
+Exit TRUE
+
+;-------------------------------------
+:OnLost
+;-------------------------------------
+
+Exit TRUE
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+haskey 5010 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle HrolfMarker g_hobject
+	getpos g_hobject xPos Ypos Zpos
+	getmyhandle g_hmyobject
+	setpos g_hmyobject xPos yPos zPos
+	exit
+endif
+
+OnFoundPlayer OnStart
+OnLosttarget ONLost
+Exit TRUE
+
+;--------------------------------------------------
+:OnStop
+;--------------------------------------------------
+
+stop
+Loopanim stand 0 DoNothing
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddTrigger Start OnStart
+Addtrigger Speak3 OnSpeak3
+AddTrigger Speak5 OnSpeak5
+Addtrigger Speak7 OnSpeak7
+
+gosub Init
+
+exit
+

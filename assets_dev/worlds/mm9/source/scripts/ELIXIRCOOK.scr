@@ -1,0 +1,52 @@
+;--------------------------------------------------
+;ElixirCook.scr
+;10/4
+; timmy
+; gives party Elixir Fluid and takes elixir ingredients
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#number			Item_ID
+#number			nGiveOnce = FALSE
+
+
+
+
+
+; Parameters
+;P0 Item number of item to give
+
+
+;--------------------------------------------------
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+hasitem 378 g_ntemp
+if (g_ntemp==true)
+	takeitem 378
+	giveitem 561
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+	exit
+endif
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Use OnUse
+Getparam 0 Item_Id
+Getparam 1 nGiveOnce
+
+
+exit
+
+

@@ -1,0 +1,442 @@
+format_version: 1
+source_file: NPC435.rude
+rows:
+  - source:
+      file: NPC435.rude
+      row: 1
+    raw_columns:
+      - 435
+      - 999
+      - 1
+      - Goodbye.
+      - blank
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 435
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: blank
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC435.rude
+      row: 2
+    raw_columns:
+      - 435
+      - 1
+      - 1
+      - We'd like more gold.
+      - Your wish is granted.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5022
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 435
+      node_id: 1
+      choice_slot: 1
+      prompt: We'd like more gold.
+      response: Your wish is granted.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 5022
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 5022
+        status: raw_value_preserved
+  - source:
+      file: NPC435.rude
+      row: 3
+    raw_columns:
+      - 435
+      - 435
+      - 1
+      - You're welcome.
+      - As a reward, I shall grant you a single benefit of your choice.  What would you like increased?
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 435
+      node_id: 435
+      choice_slot: 1
+      prompt: You're welcome.
+      response: As a reward, I shall grant you a single benefit of your choice.  What would you like increased?
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC435.rude
+      row: 4
+    raw_columns:
+      - 435
+      - 1
+      - 2
+      - We'd like more experience.
+      - Your wish is granted.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5023
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 435
+      node_id: 1
+      choice_slot: 2
+      prompt: We'd like more experience.
+      response: Your wish is granted.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 5023
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 5023
+        status: raw_value_preserved
+  - source:
+      file: NPC435.rude
+      row: 5
+    raw_columns:
+      - 435
+      - 1
+      - 3
+      - We'd like an item.
+      - Your wish is granted.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5024
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 435
+      node_id: 1
+      choice_slot: 3
+      prompt: We'd like an item.
+      response: Your wish is granted.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 5024
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 5024
+        status: raw_value_preserved
+  - source:
+      file: NPC435.rude
+      row: 6
+    raw_columns:
+      - 435
+      - 1
+      - 4
+      - We'd like an attribute bonus.
+      - Your wish is granted.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5025
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 435
+      node_id: 1
+      choice_slot: 4
+      prompt: We'd like an attribute bonus.
+      response: Your wish is granted.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 5025
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 5025
+        status: raw_value_preserved

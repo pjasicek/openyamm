@@ -1,0 +1,583 @@
+format_version: 1
+source_file: NPC12.rude
+rows:
+  - source:
+      file: NPC12.rude
+      row: 1
+    raw_columns:
+      - 12
+      - 999
+      - 1
+      - Goodbye.
+      - asdf
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 12
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: asdf
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC12.rude
+      row: 2
+    raw_columns:
+      - 12
+      - 4
+      - 1
+      - Any other news?
+      - I'm afraid not, sorry.  Perhaps you could buy something?
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 12
+      node_id: 4
+      choice_slot: 1
+      prompt: Any other news?
+      response: I'm afraid not, sorry.  Perhaps you could buy something?
+      next: 12
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12
+  - source:
+      file: NPC12.rude
+      row: 3
+    raw_columns:
+      - 12
+      - 3
+      - 1
+      - I wouldn't blame him then.
+      - Nor I.  This is going to drive up the prices of Elemental Thjorad!  That means the Thjoradric Smiths are going to charge ten times their normal prices!
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 12
+      node_id: 3
+      choice_slot: 1
+      prompt: I wouldn't blame him then.
+      response: Nor I.  This is going to drive up the prices of Elemental Thjorad!  That means the Thjoradric Smiths are going to charge ten times their normal prices!
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC12.rude
+      row: 4
+    raw_columns:
+      - 12
+      - 2
+      - 1
+      - Why?
+      - They've all stopped working!  If I were Sven, I wouldn't be too pleased with them either!
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 12
+      node_id: 2
+      choice_slot: 1
+      prompt: Why?
+      response: They've all stopped working!  If I were Sven, I wouldn't be too pleased with them either!
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC12.rude
+      row: 5
+    raw_columns:
+      - 12
+      - 12
+      - 1
+      - Let us see what you have.
+      - Here you are.  Pleasant shopping!
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 12
+      node_id: 12
+      choice_slot: 1
+      prompt: Let us see what you have.
+      response: Here you are.  Pleasant shopping!
+      next: -2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5017
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -2
+        service: shop
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -2
+        service: shop
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5017
+        status: raw_value_preserved
+  - source:
+      file: NPC12.rude
+      row: 6
+    raw_columns:
+      - 12
+      - 12
+      - 2
+      - Do you have any news?
+      - I heard Sven Forkbeard is very upset at the Thjorardic Miners.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 12
+      node_id: 12
+      choice_slot: 2
+      prompt: Do you have any news?
+      response: I heard Sven Forkbeard is very upset at the Thjorardic Miners.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC12.rude
+      row: 7
+    raw_columns:
+      - 12
+      - 12
+      - 3
+      - Let us see what you have.
+      - We're closed.  Come back tomorrow.
+      - 999
+      - 5017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 12
+      node_id: 12
+      choice_slot: 3
+      prompt: Let us see what you have.
+      response: We're closed.  Come back tomorrow.
+      next: 999
+      raw_fields:
+        c07: 5017
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5017
+            qbit_id: 14017
+            state_id: mm9.keys.5017
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5017
+          qbit_id: 14017
+          state_id: mm9.keys.5017
+  - source:
+      file: NPC12.rude
+      row: 8
+    raw_columns:
+      - 12
+      - 12
+      - 5
+      - Not interested.  Sorry
+      - Come back when you are.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 12
+      node_id: 12
+      choice_slot: 5
+      prompt: Not interested.  Sorry
+      response: Come back when you are.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

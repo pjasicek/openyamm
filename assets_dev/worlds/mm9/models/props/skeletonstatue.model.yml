@@ -1,0 +1,132 @@
+schema: openyamm.model3d.v1
+id: skeletonstatue
+model: skeletonstatue.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/SKELETONSTATUE.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: SkelStatueBase
+  materialIndex: 1
+  lods:
+  - faces: 194
+    vertices: 339
+- name: SkelStatue
+  materialIndex: 0
+  lods:
+  - faces: 964
+    vertices: 547
+materials:
+- index: 0
+  texture: skins_preview/props/skeletonstatue.png
+  runtime_texture: skins/props/skeletonstatue.dtx
+  preview_texture: skins_preview/props/skeletonstatue.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SKELETONSTATUE.dtx
+- index: 1
+  texture: skins_preview/props/skelstatuebase.png
+  runtime_texture: skins/props/skelstatuebase.dtx
+  preview_texture: skins_preview/props/skelstatuebase.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SKELSTATUEBASE.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 9
+  - index: 1
+    name: Spot01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 2
+    name: Spot01.Target
+    parent: 0
+    flags: 0
+    children: []
+  - index: 3
+    name: Omni01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 4
+    name: Omni02
+    parent: 0
+    flags: 0
+    children: []
+  - index: 5
+    name: Omni03
+    parent: 0
+    flags: 0
+    children: []
+  - index: 6
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 7
+    - 8
+  - index: 7
+    name: Bone02
+    parent: 6
+    flags: 0
+    children: []
+  - index: 8
+    name: SkelStatueBase
+    parent: 6
+    flags: 0
+    children: []
+  - index: 9
+    name: Bone03
+    parent: 0
+    flags: 0
+    children:
+    - 10
+    - 11
+  - index: 10
+    name: Bone04
+    parent: 9
+    flags: 0
+    children: []
+  - index: 11
+    name: SkelStatue
+    parent: 9
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 48.64
+  - 128.0
+  - 48.64
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/skeletonstatue.abc

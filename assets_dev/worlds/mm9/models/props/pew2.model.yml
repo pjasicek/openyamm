@@ -1,0 +1,68 @@
+schema: openyamm.model3d.v1
+id: pew2
+model: pew2.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/PEW2.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 3840.0
+  - 4.023306898564917e+25
+pieces:
+- name: Pew2
+  materialIndex: 0
+  lods:
+  - faces: 80
+    vertices: 64
+  - faces: 60
+    vertices: 54
+  - faces: 40
+    vertices: 44
+materials:
+- index: 0
+  texture: skins_preview/props/pew2.png
+  runtime_texture: skins/props/pew2.dtx
+  preview_texture: skins_preview/props/pew2.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/PEW2.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 533
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 122.88
+  - 28.16
+  - 33.28
+  origin:
+  - 0.0
+  - 28.16
+  - -5.12
+roles:
+- static_model
+source_model: models/props/pew2.abc

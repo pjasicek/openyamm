@@ -1,0 +1,98 @@
+;--------------------------------------------------
+;NPC242.scr
+; timmy
+; handles Dagfari the Peevish voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub GiveBadNews
+Gosub Reward
+
+exit
+
+
+
+;--------------------------------------------------
+:Reward
+;--------------------------------------------------
+;****************
+;Reward Quest
+;****************
+
+Haskey 321 g_ntemp
+if (g_ntemp==0)
+	haskey 320 g_ntemp
+	if (g_ntemp==1)
+		givekey 321
+		giveexp 5000
+		givegold 5000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+
+
+;End BadNews Quest
+;******************
+exit
+
+
+
+
+;--------------------------------------------------
+:GiveBadNews
+;--------------------------------------------------
+;****************
+;BadNews Quest
+;****************
+
+Haskey 317 g_ntemp
+if (g_ntemp==0)
+	haskey 316 g_ntemp
+	if (g_ntemp==1)
+		giveitem 251
+		givekey 317
+		exit
+	endif
+endif
+
+;End BadNews Quest
+;******************
+exit
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_242.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

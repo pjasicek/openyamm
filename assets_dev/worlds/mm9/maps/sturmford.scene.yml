@@ -1,0 +1,4300 @@
+format_version: 1
+kind: outdoor_scene
+source:
+  geometry_file: sturmford.odm
+  source_metadata_file: sturmford.mm9.yml
+runtime_restrictions:
+  allow_save_game: false
+  allow_lloyds_beacon: false
+  arena: false
+environment:
+  sky_texture: plansky1
+  ground_tileset_name: planset
+  master_tile: 0
+  tile_set_lookup_indices:
+  - 0
+  - 0
+  - 0
+  - 0
+  day_bits_raw: 0
+  map_extra_bits_raw: 8
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: true
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 8192
+    strong_distance: 16384
+  weather:
+    fog_mode: static
+    precipitation: none
+    daily_fog:
+      small_chance: 0
+      average_chance: 0
+      dense_chance: 0
+      small:
+        weak_distance: 8192
+        strong_distance: 16384
+      average:
+        weak_distance: 8192
+        strong_distance: 16384
+      dense:
+        weak_distance: 8192
+        strong_distance: 16384
+  ceiling: 32767
+terrain:
+  attribute_overrides: []
+  footstep_sound_overrides: []
+bmodel_faces:
+  interactive_faces: []
+entities: []
+spawns: []
+model_instances:
+- instance_id: mm9:sturmford:object:6
+  source_ref: objects/6
+  source_kind: mm9_dat_object
+  source_object_index: 6
+  source_class: CandleProp
+  source_name: Lightpost28
+  source_model: models/Props/Lamppost4.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost4.glb
+  position:
+    x: 2012
+    y: -17802
+    z: 445
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:8
+  source_ref: objects/8
+  source_kind: mm9_dat_object
+  source_object_index: 8
+  source_class: CandleProp
+  source_name: Lightpost27
+  source_model: models/Props/Lamppost4.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost4.glb
+  position:
+    x: 3323
+    y: -17249
+    z: 445
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:10
+  source_ref: objects/10
+  source_kind: mm9_dat_object
+  source_object_index: 10
+  source_class: CandleProp
+  source_name: Lightpost26
+  source_model: models/Props/Lamppost4.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost4.glb
+  position:
+    x: 4726
+    y: -16599
+    z: 445
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:12
+  source_ref: objects/12
+  source_kind: mm9_dat_object
+  source_object_index: 12
+  source_class: CandleProp
+  source_name: Lightpost29
+  source_model: models/Props/Lamppost4.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost4.glb
+  position:
+    x: 4731
+    y: -18463
+    z: 445
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:13
+  source_ref: objects/13
+  source_kind: mm9_dat_object
+  source_object_index: 13
+  source_class: Prop
+  source_name: Barrel
+  source_model: models/props/barrel.abc
+  source_skin: skins/props/barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: 5222
+    y: -17935
+    z: 379
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:sturmford:object:14
+  source_ref: objects/14
+  source_kind: mm9_dat_object
+  source_object_index: 14
+  source_class: Prop
+  source_name: Barrel0
+  source_model: models/props/barrel.abc
+  source_skin: skins/props/barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: 4813
+    y: -17157
+    z: 379
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:sturmford:object:15
+  source_ref: objects/15
+  source_kind: mm9_dat_object
+  source_object_index: 15
+  source_class: Prop
+  source_name: Rope
+  source_model: models/Props/RopeCoil.ABC
+  source_skin: Skins/Props/RopeCoil.dtx
+  model_asset: models/props/ropecoil.glb
+  position:
+    x: 4772
+    y: -17812
+    z: 297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:16
+  source_ref: objects/16
+  source_kind: mm9_dat_object
+  source_object_index: 16
+  source_class: Prop
+  source_name: Rope1
+  source_model: models/Props/RopeCoil.ABC
+  source_skin: Skins/Props/RopeCoil.dtx
+  model_asset: models/props/ropecoil.glb
+  position:
+    x: 4116
+    y: -18673
+    z: -113
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:17
+  source_ref: objects/17
+  source_kind: mm9_dat_object
+  source_object_index: 17
+  source_class: Prop
+  source_name: Boat0
+  source_model: models/props/vikingship.abc
+  source_skin: skins/props/vikingship.dtx
+  model_asset: models/props/vikingship.glb
+  position:
+    x: 4383
+    y: -19036
+    z: -241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.62524262
+    w: -0.78043044
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:30
+  source_ref: objects/30
+  source_kind: mm9_dat_object
+  source_object_index: 30
+  source_class: Prop
+  source_name: Prop19
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 509
+    y: -13878
+    z: 394
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:31
+  source_ref: objects/31
+  source_kind: mm9_dat_object
+  source_object_index: 31
+  source_class: Prop
+  source_name: Prop15
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -3341
+    y: -13468
+    z: 230
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:32
+  source_ref: objects/32
+  source_kind: mm9_dat_object
+  source_object_index: 32
+  source_class: Prop
+  source_name: Prop14
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -8742
+    y: -16822
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:33
+  source_ref: objects/33
+  source_kind: mm9_dat_object
+  source_object_index: 33
+  source_class: Prop
+  source_name: Prop10
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 3279
+    y: -11082
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:34
+  source_ref: objects/34
+  source_kind: mm9_dat_object
+  source_object_index: 34
+  source_class: Prop
+  source_name: Prop8
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 5409
+    y: -6495
+    z: 261
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:35
+  source_ref: objects/35
+  source_kind: mm9_dat_object
+  source_object_index: 35
+  source_class: Prop
+  source_name: Prop20
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -632
+    y: -13432
+    z: 404
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:36
+  source_ref: objects/36
+  source_kind: mm9_dat_object
+  source_object_index: 36
+  source_class: Prop
+  source_name: Prop17
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -2516
+    y: -13105
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:37
+  source_ref: objects/37
+  source_kind: mm9_dat_object
+  source_object_index: 37
+  source_class: Prop
+  source_name: Prop16
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -4370
+    y: -15398
+    z: 609
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:sturmford:object:38
+  source_ref: objects/38
+  source_kind: mm9_dat_object
+  source_object_index: 38
+  source_class: Prop
+  source_name: Prop11
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -10499
+    y: -11420
+    z: 282
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:39
+  source_ref: objects/39
+  source_kind: mm9_dat_object
+  source_object_index: 39
+  source_class: Prop
+  source_name: Prop9
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 7375
+    y: -4201
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:40
+  source_ref: objects/40
+  source_kind: mm9_dat_object
+  source_object_index: 40
+  source_class: Prop
+  source_name: Prop7
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 5737
+    y: -2563
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:41
+  source_ref: objects/41
+  source_kind: mm9_dat_object
+  source_object_index: 41
+  source_class: Prop
+  source_name: Prop18
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -2143
+    y: -16991
+    z: 251
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:42
+  source_ref: objects/42
+  source_kind: mm9_dat_object
+  source_object_index: 42
+  source_class: Prop
+  source_name: Prop22
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -10550
+    y: -5276
+    z: 230
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:43
+  source_ref: objects/43
+  source_kind: mm9_dat_object
+  source_object_index: 43
+  source_class: Prop
+  source_name: Prop24
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -8169
+    y: -5896
+    z: 404
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:44
+  source_ref: objects/44
+  source_kind: mm9_dat_object
+  source_object_index: 44
+  source_class: Prop
+  source_name: Prop23
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -11200
+    y: -4585
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:45
+  source_ref: objects/45
+  source_kind: mm9_dat_object
+  source_object_index: 45
+  source_class: Prop
+  source_name: Prop21
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -8696
+    y: -8963
+    z: 251
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:46
+  source_ref: objects/46
+  source_kind: mm9_dat_object
+  source_object_index: 46
+  source_class: Prop
+  source_name: Prop12
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 9587
+    y: -105
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:47
+  source_ref: objects/47
+  source_kind: mm9_dat_object
+  source_object_index: 47
+  source_class: Prop
+  source_name: Prop13
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 8399
+    y: 141
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:48
+  source_ref: objects/48
+  source_kind: mm9_dat_object
+  source_object_index: 48
+  source_class: Prop
+  source_name: Prop25
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -18281
+    y: 786
+    z: 251
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:49
+  source_ref: objects/49
+  source_kind: mm9_dat_object
+  source_object_index: 49
+  source_class: Prop
+  source_name: Prop26
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -20785
+    y: 5164
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:50
+  source_ref: objects/50
+  source_kind: mm9_dat_object
+  source_object_index: 50
+  source_class: Prop
+  source_name: Prop27
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -17754
+    y: 3853
+    z: 404
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:51
+  source_ref: objects/51
+  source_kind: mm9_dat_object
+  source_object_index: 51
+  source_class: Prop
+  source_name: Prop28
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -20134
+    y: 4472
+    z: 230
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:52
+  source_ref: objects/52
+  source_kind: mm9_dat_object
+  source_object_index: 52
+  source_class: Prop
+  source_name: Prop29
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -15864
+    y: -6669
+    z: 251
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:53
+  source_ref: objects/53
+  source_kind: mm9_dat_object
+  source_object_index: 53
+  source_class: Prop
+  source_name: Prop30
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -20887
+    y: -9853
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:54
+  source_ref: objects/54
+  source_kind: mm9_dat_object
+  source_object_index: 54
+  source_class: Prop
+  source_name: Prop31
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -19249
+    y: -11492
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:55
+  source_ref: objects/55
+  source_kind: mm9_dat_object
+  source_object_index: 55
+  source_class: Prop
+  source_name: Prop32
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -20083
+    y: -1672
+    z: 282
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:56
+  source_ref: objects/56
+  source_kind: mm9_dat_object
+  source_object_index: 56
+  source_class: Prop
+  source_name: Prop33
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -15905
+    y: -8881
+    z: 282
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:57
+  source_ref: objects/57
+  source_kind: mm9_dat_object
+  source_object_index: 57
+  source_class: Prop
+  source_name: Prop34
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -18092
+    y: -5076
+    z: 568
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:sturmford:object:58
+  source_ref: objects/58
+  source_kind: mm9_dat_object
+  source_object_index: 58
+  source_class: Prop
+  source_name: Prop35
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -16238
+    y: -2783
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:59
+  source_ref: objects/59
+  source_kind: mm9_dat_object
+  source_object_index: 59
+  source_class: Prop
+  source_name: Prop36
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -14354
+    y: -3110
+    z: 404
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:60
+  source_ref: objects/60
+  source_kind: mm9_dat_object
+  source_object_index: 60
+  source_class: Prop
+  source_name: Prop37
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -19904
+    y: -7232
+    z: 261
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:61
+  source_ref: objects/61
+  source_kind: mm9_dat_object
+  source_object_index: 61
+  source_class: Prop
+  source_name: Prop38
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -20723
+    y: -5266
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:62
+  source_ref: objects/62
+  source_kind: mm9_dat_object
+  source_object_index: 62
+  source_class: Prop
+  source_name: Prop39
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -18117
+    y: -9536
+    z: 445
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:63
+  source_ref: objects/63
+  source_kind: mm9_dat_object
+  source_object_index: 63
+  source_class: Prop
+  source_name: Prop40
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -18327
+    y: -7073
+    z: 271
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:64
+  source_ref: objects/64
+  source_kind: mm9_dat_object
+  source_object_index: 64
+  source_class: Prop
+  source_name: Prop41
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -17062
+    y: -3146
+    z: 230
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:65
+  source_ref: objects/65
+  source_kind: mm9_dat_object
+  source_object_index: 65
+  source_class: Prop
+  source_name: Prop42
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -13212
+    y: -3556
+    z: 394
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:66
+  source_ref: objects/66
+  source_kind: mm9_dat_object
+  source_object_index: 66
+  source_class: Prop
+  source_name: Prop43
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -16919
+    y: 11950
+    z: 230
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:67
+  source_ref: objects/67
+  source_kind: mm9_dat_object
+  source_object_index: 67
+  source_class: Prop
+  source_name: Prop44
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -17559
+    y: 15544
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:68
+  source_ref: objects/68
+  source_kind: mm9_dat_object
+  source_object_index: 68
+  source_class: Prop
+  source_name: Prop45
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -13898
+    y: 13425
+    z: 230
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:69
+  source_ref: objects/69
+  source_kind: mm9_dat_object
+  source_object_index: 69
+  source_class: Prop
+  source_name: Prop46
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -13074
+    y: 13061
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:70
+  source_ref: objects/70
+  source_kind: mm9_dat_object
+  source_object_index: 70
+  source_class: Prop
+  source_name: Prop47
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -14927
+    y: 15355
+    z: 568
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:sturmford:object:71
+  source_ref: objects/71
+  source_kind: mm9_dat_object
+  source_object_index: 71
+  source_class: Prop
+  source_name: Prop48
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -16740
+    y: 17510
+    z: 261
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:72
+  source_ref: objects/72
+  source_kind: mm9_dat_object
+  source_object_index: 72
+  source_class: Prop
+  source_name: Prop49
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -15163
+    y: 17352
+    z: 271
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:73
+  source_ref: objects/73
+  source_kind: mm9_dat_object
+  source_object_index: 73
+  source_class: Prop
+  source_name: Prop50
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -12700
+    y: 16947
+    z: 230
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:74
+  source_ref: objects/74
+  source_kind: mm9_dat_object
+  source_object_index: 74
+  source_class: Prop
+  source_name: Prop51
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -11190
+    y: 13389
+    z: 404
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:75
+  source_ref: objects/75
+  source_kind: mm9_dat_object
+  source_object_index: 75
+  source_class: Prop
+  source_name: Prop52
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -10048
+    y: 13834
+    z: 394
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:76
+  source_ref: objects/76
+  source_kind: mm9_dat_object
+  source_object_index: 76
+  source_class: Prop
+  source_name: Prop53
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -17723
+    y: 20132
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:77
+  source_ref: objects/77
+  source_kind: mm9_dat_object
+  source_object_index: 77
+  source_class: Prop
+  source_name: Prop54
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -16084
+    y: 21770
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:78
+  source_ref: objects/78
+  source_kind: mm9_dat_object
+  source_object_index: 78
+  source_class: Prop
+  source_name: Prop55
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -14953
+    y: 19814
+    z: 445
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:79
+  source_ref: objects/79
+  source_kind: mm9_dat_object
+  source_object_index: 79
+  source_class: Prop
+  source_name: Prop56
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -12741
+    y: 19159
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:80
+  source_ref: objects/80
+  source_kind: mm9_dat_object
+  source_object_index: 80
+  source_class: Prop
+  source_name: Prop57
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -19546
+    y: 18017
+    z: 445
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:81
+  source_ref: objects/81
+  source_kind: mm9_dat_object
+  source_object_index: 81
+  source_class: Prop
+  source_name: Prop58
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -19756
+    y: 15555
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:82
+  source_ref: objects/82
+  source_kind: mm9_dat_object
+  source_object_index: 82
+  source_class: Prop
+  source_name: Prop59
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -19520
+    y: 13558
+    z: 568
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:sturmford:object:83
+  source_ref: objects/83
+  source_kind: mm9_dat_object
+  source_object_index: 83
+  source_class: Prop
+  source_name: Prop60
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -8855
+    y: 7363
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:84
+  source_ref: objects/84
+  source_kind: mm9_dat_object
+  source_object_index: 84
+  source_class: Prop
+  source_name: Prop61
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -7342
+    y: 6863
+    z: 404
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:85
+  source_ref: objects/85
+  source_kind: mm9_dat_object
+  source_object_index: 85
+  source_class: Prop
+  source_name: Prop62
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -5829
+    y: 8136
+    z: 394
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:86
+  source_ref: objects/86
+  source_kind: mm9_dat_object
+  source_object_index: 86
+  source_class: Prop
+  source_name: Prop63
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -7708
+    y: 11343
+    z: 230
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:87
+  source_ref: objects/87
+  source_kind: mm9_dat_object
+  source_object_index: 87
+  source_class: Prop
+  source_name: Prop64
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -6884
+    y: 10980
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:88
+  source_ref: objects/88
+  source_kind: mm9_dat_object
+  source_object_index: 88
+  source_class: Prop
+  source_name: Prop68
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 13340
+    y: 12500
+    z: 1101
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:89
+  source_ref: objects/89
+  source_kind: mm9_dat_object
+  source_object_index: 89
+  source_class: Prop
+  source_name: Prop69
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 11128
+    y: 11845
+    z: 1265
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:90
+  source_ref: objects/90
+  source_kind: mm9_dat_object
+  source_object_index: 90
+  source_class: Prop
+  source_name: Prop70
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 10719
+    y: -1590
+    z: 282
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:91
+  source_ref: objects/91
+  source_kind: mm9_dat_object
+  source_object_index: 91
+  source_class: Prop
+  source_name: Prop71
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 8507
+    y: -2245
+    z: 445
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:sturmford:object:92
+  source_ref: objects/92
+  source_kind: mm9_dat_object
+  source_object_index: 92
+  source_class: Prop
+  source_name: Prop72
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -1641
+    y: 15567
+    z: 435
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:sturmford:object:103
+  source_ref: objects/103
+  source_kind: mm9_dat_object
+  source_object_index: 103
+  source_class: ShopkeeperHuman2MaleA
+  source_name: CommonerHumanMaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm6.glb
+  position:
+    x: 1475
+    y: -17695
+    z: 445
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.78747323
+    w: -0.61634885
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm6_peasantm6b
+- instance_id: mm9:sturmford:object:104
+  source_ref: objects/104
+  source_kind: mm9_dat_object
+  source_object_index: 104
+  source_class: TreasureChest
+  source_name: TreasureChest3
+  source_model: models/Props/Chest1.ABC
+  source_skin: skins/props/Chest1.dtx
+  model_asset: models/props/chest1.glb
+  position:
+    x: 17367
+    y: 17695
+    z: 1556
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:105
+  source_ref: objects/105
+  source_kind: mm9_dat_object
+  source_object_index: 105
+  source_class: Thrall
+  source_name: Thrall12
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -19907
+    y: 11796
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.34202013
+    w: 0.93969262
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall2
+- instance_id: mm9:sturmford:object:106
+  source_ref: objects/106
+  source_kind: mm9_dat_object
+  source_object_index: 106
+  source_class: Prop
+  source_name: Prop73
+  source_model: MODELS/Props/LogsBurning.ABC
+  source_skin: Skins/Props/LogsBurning.dtx
+  model_asset: models/props/logsburning.glb
+  position:
+    x: -8200
+    y: 7025
+    z: 278
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:109
+  source_ref: objects/109
+  source_kind: mm9_dat_object
+  source_object_index: 109
+  source_class: Prop
+  source_name: Prop209
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -8097
+    y: 7086
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99634529
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:110
+  source_ref: objects/110
+  source_kind: mm9_dat_object
+  source_object_index: 110
+  source_class: Prop
+  source_name: Prop210
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -8097
+    y: 6984
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42972334
+    w: -0.9029606
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:111
+  source_ref: objects/111
+  source_kind: mm9_dat_object
+  source_object_index: 111
+  source_class: Prop
+  source_name: Prop211
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -8302
+    y: 7076
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99634529
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:112
+  source_ref: objects/112
+  source_kind: mm9_dat_object
+  source_object_index: 112
+  source_class: Prop
+  source_name: Prop212
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -8200
+    y: 7127
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.39233726
+    w: -0.91982144
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:113
+  source_ref: objects/113
+  source_kind: mm9_dat_object
+  source_object_index: 113
+  source_class: Prop
+  source_name: Prop213
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -8302
+    y: 6973
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.28234145
+    w: 0.95931398
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:114
+  source_ref: objects/114
+  source_kind: mm9_dat_object
+  source_object_index: 114
+  source_class: Prop
+  source_name: Prop214
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -8200
+    y: 6922
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.76548321
+    w: 0.64345587
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:115
+  source_ref: objects/115
+  source_kind: mm9_dat_object
+  source_object_index: 115
+  source_class: FieldThrall
+  source_name: FieldThrall2
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -8192
+    y: 7537
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99953359
+    w: 0.030538535
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:116
+  source_ref: objects/116
+  source_kind: mm9_dat_object
+  source_object_index: 116
+  source_class: FieldThrall
+  source_name: FieldThrall3
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -8765
+    y: 6554
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.25881905
+    w: 0.96592582
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:117
+  source_ref: objects/117
+  source_kind: mm9_dat_object
+  source_object_index: 117
+  source_class: FieldThrall
+  source_name: FieldThrall4
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -8110
+    y: 6554
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.35510714
+    w: -0.93482561
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:118
+  source_ref: objects/118
+  source_kind: mm9_dat_object
+  source_object_index: 118
+  source_class: FieldThrall
+  source_name: FieldThrall5
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -19333
+    y: 12780
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99974261
+    w: -0.02268732
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:119
+  source_ref: objects/119
+  source_kind: mm9_dat_object
+  source_object_index: 119
+  source_class: FieldThrall
+  source_name: FieldThrall6
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -18924
+    y: 12452
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.91947877
+    w: -0.39313966
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:120
+  source_ref: objects/120
+  source_kind: mm9_dat_object
+  source_object_index: 120
+  source_class: FieldThrall
+  source_name: FieldThrall7
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -19251
+    y: 11796
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.21643972
+    w: -0.97629598
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:121
+  source_ref: objects/121
+  source_kind: mm9_dat_object
+  source_object_index: 121
+  source_class: FieldThrall
+  source_name: FieldThrall8
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -17039
+    y: 20152
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.34202013
+    w: 0.93969262
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:122
+  source_ref: objects/122
+  source_kind: mm9_dat_object
+  source_object_index: 122
+  source_class: FieldThrall
+  source_name: FieldThrall9
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -16384
+    y: 20152
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:123
+  source_ref: objects/123
+  source_kind: mm9_dat_object
+  source_object_index: 123
+  source_class: FieldThrall
+  source_name: FieldThrall10
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -16466
+    y: 21135
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99953359
+    w: 0.030538535
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:124
+  source_ref: objects/124
+  source_kind: mm9_dat_object
+  source_object_index: 124
+  source_class: FieldThrall
+  source_name: FieldThrall11
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -16876
+    y: 20808
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.84897169
+    w: 0.52843833
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:125
+  source_ref: objects/125
+  source_kind: mm9_dat_object
+  source_object_index: 125
+  source_class: FieldThrall
+  source_name: FieldThrall12
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -9994
+    y: 20808
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.38510083
+    w: 0.9228745
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:126
+  source_ref: objects/126
+  source_kind: mm9_dat_object
+  source_object_index: 126
+  source_class: FieldThrall
+  source_name: FieldThrall13
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -9339
+    y: 20808
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:127
+  source_ref: objects/127
+  source_kind: mm9_dat_object
+  source_object_index: 127
+  source_class: FieldThrall
+  source_name: FieldThrall14
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -9421
+    y: 21791
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.98901585
+    w: 0.14780948
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:128
+  source_ref: objects/128
+  source_kind: mm9_dat_object
+  source_object_index: 128
+  source_class: FieldThrall
+  source_name: FieldThrall15
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -9011
+    y: 21463
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.89725837
+    w: -0.44150586
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:129
+  source_ref: objects/129
+  source_kind: mm9_dat_object
+  source_object_index: 129
+  source_class: Basilisk
+  source_name: Basilisk0
+  source_model: models/Basilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: 16302
+    y: 17203
+    z: 1556
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.89648637
+    w: -0.44307131
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+- instance_id: mm9:sturmford:object:130
+  source_ref: objects/130
+  source_kind: mm9_dat_object
+  source_object_index: 130
+  source_class: Basilisk
+  source_name: Basilisk1
+  source_model: models/Basilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: 16220
+    y: 20234
+    z: 1556
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.94580235
+    w: 0.32474283
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+- instance_id: mm9:sturmford:object:131
+  source_ref: objects/131
+  source_kind: mm9_dat_object
+  source_object_index: 131
+  source_class: Basilisk
+  source_name: Basilisk2
+  source_model: models/Basilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: 17940
+    y: 16712
+    z: 1556
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+- instance_id: mm9:sturmford:object:132
+  source_ref: objects/132
+  source_kind: mm9_dat_object
+  source_object_index: 132
+  source_class: DragonFly
+  source_name: DragonFly8
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -17039
+    y: -7373
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:133
+  source_ref: objects/133
+  source_kind: mm9_dat_object
+  source_object_index: 133
+  source_class: DragonFly
+  source_name: DragonFly9
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -10404
+    y: -10813
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.95832257
+    w: 0.28568838
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:134
+  source_ref: objects/134
+  source_kind: mm9_dat_object
+  source_object_index: 134
+  source_class: FieldThrall
+  source_name: FieldThrall0
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -19743
+    y: 12452
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.89297892
+    w: 0.45009849
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:135
+  source_ref: objects/135
+  source_kind: mm9_dat_object
+  source_object_index: 135
+  source_class: FieldThrall
+  source_name: FieldThrall1
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -16056
+    y: 20808
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99452189
+    w: -0.10452851
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall1
+- instance_id: mm9:sturmford:object:136
+  source_ref: objects/136
+  source_kind: mm9_dat_object
+  source_object_index: 136
+  source_class: FireDragonFly
+  source_name: FireDragonFly1
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -20234
+    y: 4997
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.88006328
+    w: 0.47485642
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:sturmford:object:137
+  source_ref: objects/137
+  source_kind: mm9_dat_object
+  source_object_index: 137
+  source_class: Thrall
+  source_name: Thrall0
+  source_model: models/thrall.abc
+  source_skin: ''
+  model_asset: models/thrall.glb
+  position:
+    x: -9830
+    y: 21463
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99995393
+    w: -0.0095992243
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: thrall_thrall2
+- instance_id: mm9:sturmford:object:138
+  source_ref: objects/138
+  source_kind: mm9_dat_object
+  source_object_index: 138
+  source_class: TreasureChest
+  source_name: TreasureChest0
+  source_model: models/Props/Chest1.ABC
+  source_skin: skins/props/Chest1.dtx
+  model_asset: models/props/chest1.glb
+  position:
+    x: -17203
+    y: 21135
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.86602542
+    w: 0.49999997
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:139
+  source_ref: objects/139
+  source_kind: mm9_dat_object
+  source_object_index: 139
+  source_class: TreasureChest
+  source_name: TreasureChest1
+  source_model: models/Props/Chest1.ABC
+  source_skin: skins/props/Chest1.dtx
+  model_asset: models/props/chest1.glb
+  position:
+    x: -20316
+    y: 12042
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42261826
+    w: 0.90630779
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:140
+  source_ref: objects/140
+  source_kind: mm9_dat_object
+  source_object_index: 140
+  source_class: TreasureChest
+  source_name: TreasureChest2
+  source_model: models/Props/Chest1.ABC
+  source_skin: skins/props/Chest1.dtx
+  model_asset: models/props/chest1.glb
+  position:
+    x: -20316
+    y: 11469
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42261826
+    w: 0.90630779
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:142
+  source_ref: objects/142
+  source_kind: mm9_dat_object
+  source_object_index: 142
+  source_class: Prop
+  source_name: Prop65
+  source_model: MODELS/Props/LogsBurning.ABC
+  source_skin: Skins/Props/LogsBurning.dtx
+  model_asset: models/props/logsburning.glb
+  position:
+    x: -16474
+    y: 20623
+    z: 278
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:144
+  source_ref: objects/144
+  source_kind: mm9_dat_object
+  source_object_index: 144
+  source_class: Prop
+  source_name: Prop191
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -16371
+    y: 20685
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99634529
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:145
+  source_ref: objects/145
+  source_kind: mm9_dat_object
+  source_object_index: 145
+  source_class: Prop
+  source_name: Prop192
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -16371
+    y: 20582
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42972334
+    w: -0.9029606
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:146
+  source_ref: objects/146
+  source_kind: mm9_dat_object
+  source_object_index: 146
+  source_class: Prop
+  source_name: Prop194
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -16576
+    y: 20675
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99634529
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:147
+  source_ref: objects/147
+  source_kind: mm9_dat_object
+  source_object_index: 147
+  source_class: Prop
+  source_name: Prop195
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -16474
+    y: 20726
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.39233726
+    w: -0.91982144
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:148
+  source_ref: objects/148
+  source_kind: mm9_dat_object
+  source_object_index: 148
+  source_class: Prop
+  source_name: Prop196
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -16576
+    y: 20572
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.28234145
+    w: 0.95931398
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:149
+  source_ref: objects/149
+  source_kind: mm9_dat_object
+  source_object_index: 149
+  source_class: Prop
+  source_name: Prop193
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -16474
+    y: 20521
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.76548321
+    w: 0.64345587
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:151
+  source_ref: objects/151
+  source_kind: mm9_dat_object
+  source_object_index: 151
+  source_class: Prop
+  source_name: Prop66
+  source_model: MODELS/Props/LogsBurning.ABC
+  source_skin: Skins/Props/LogsBurning.dtx
+  model_asset: models/props/logsburning.glb
+  position:
+    x: -19341
+    y: 12268
+    z: 278
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:153
+  source_ref: objects/153
+  source_kind: mm9_dat_object
+  source_object_index: 153
+  source_class: Prop
+  source_name: Prop197
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -19238
+    y: 12329
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99634529
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:154
+  source_ref: objects/154
+  source_kind: mm9_dat_object
+  source_object_index: 154
+  source_class: Prop
+  source_name: Prop198
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -19238
+    y: 12227
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42972334
+    w: -0.9029606
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:155
+  source_ref: objects/155
+  source_kind: mm9_dat_object
+  source_object_index: 155
+  source_class: Prop
+  source_name: Prop199
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -19443
+    y: 12319
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99634529
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:156
+  source_ref: objects/156
+  source_kind: mm9_dat_object
+  source_object_index: 156
+  source_class: Prop
+  source_name: Prop200
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -19341
+    y: 12370
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.39233726
+    w: -0.91982144
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:157
+  source_ref: objects/157
+  source_kind: mm9_dat_object
+  source_object_index: 157
+  source_class: Prop
+  source_name: Prop201
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -19443
+    y: 12216
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.28234145
+    w: 0.95931398
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:158
+  source_ref: objects/158
+  source_kind: mm9_dat_object
+  source_object_index: 158
+  source_class: Prop
+  source_name: Prop202
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -19341
+    y: 12165
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.76548321
+    w: 0.64345587
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:160
+  source_ref: objects/160
+  source_kind: mm9_dat_object
+  source_object_index: 160
+  source_class: Prop
+  source_name: Prop67
+  source_model: MODELS/Props/LogsBurning.ABC
+  source_skin: Skins/Props/LogsBurning.dtx
+  model_asset: models/props/logsburning.glb
+  position:
+    x: -9510
+    y: 21197
+    z: 278
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:162
+  source_ref: objects/162
+  source_kind: mm9_dat_object
+  source_object_index: 162
+  source_class: Prop
+  source_name: Prop203
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -9408
+    y: 21258
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99634529
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:163
+  source_ref: objects/163
+  source_kind: mm9_dat_object
+  source_object_index: 163
+  source_class: Prop
+  source_name: Prop204
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -9408
+    y: 21156
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42972334
+    w: -0.9029606
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:164
+  source_ref: objects/164
+  source_kind: mm9_dat_object
+  source_object_index: 164
+  source_class: Prop
+  source_name: Prop205
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -9613
+    y: 21248
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99634529
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:165
+  source_ref: objects/165
+  source_kind: mm9_dat_object
+  source_object_index: 165
+  source_class: Prop
+  source_name: Prop206
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -9510
+    y: 21299
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.39233726
+    w: -0.91982144
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:166
+  source_ref: objects/166
+  source_kind: mm9_dat_object
+  source_object_index: 166
+  source_class: Prop
+  source_name: Prop207
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -9613
+    y: 21146
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.28234145
+    w: 0.95931398
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:167
+  source_ref: objects/167
+  source_kind: mm9_dat_object
+  source_object_index: 167
+  source_class: Prop
+  source_name: Prop208
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -9510
+    y: 21094
+    z: 275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.76548321
+    w: 0.64345587
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:168
+  source_ref: objects/168
+  source_kind: mm9_dat_object
+  source_object_index: 168
+  source_class: DragonFly
+  source_name: DragonFly7
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -18678
+    y: 983
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:169
+  source_ref: objects/169
+  source_kind: mm9_dat_object
+  source_object_index: 169
+  source_class: FireDragonFly
+  source_name: FireDragonFly0
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -20972
+    y: -11796
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:sturmford:object:170
+  source_ref: objects/170
+  source_kind: mm9_dat_object
+  source_object_index: 170
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite0
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -20644
+    y: 4588
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:sturmford:object:171
+  source_ref: objects/171
+  source_kind: mm9_dat_object
+  source_object_index: 171
+  source_class: DragonFly
+  source_name: DragonFly6
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -20972
+    y: -4915
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:172
+  source_ref: objects/172
+  source_kind: mm9_dat_object
+  source_object_index: 172
+  source_class: DragonFly
+  source_name: DragonFly5
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -11469
+    y: -4588
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:173
+  source_ref: objects/173
+  source_kind: mm9_dat_object
+  source_object_index: 173
+  source_class: DragonFly
+  source_name: DragonFly4
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -14418
+    y: -2621
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:174
+  source_ref: objects/174
+  source_kind: mm9_dat_object
+  source_object_index: 174
+  source_class: DragonFly
+  source_name: DragonFly3
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -18350
+    y: -7864
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:175
+  source_ref: objects/175
+  source_kind: mm9_dat_object
+  source_object_index: 175
+  source_class: DragonFly
+  source_name: DragonFly2
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -14418
+    y: -6554
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:176
+  source_ref: objects/176
+  source_kind: mm9_dat_object
+  source_object_index: 176
+  source_class: DragonFly
+  source_name: DragonFly1
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -20972
+    y: -6554
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:177
+  source_ref: objects/177
+  source_kind: mm9_dat_object
+  source_object_index: 177
+  source_class: DragonFly
+  source_name: DragonFly0
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -19661
+    y: -9175
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:178
+  source_ref: objects/178
+  source_kind: mm9_dat_object
+  source_object_index: 178
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite2
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: 9953
+    y: 123
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.97092575
+    w: -0.23938085
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:sturmford:object:179
+  source_ref: objects/179
+  source_kind: mm9_dat_object
+  source_object_index: 179
+  source_class: DragonFly
+  source_name: DragonFly10
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: 8274
+    y: -1147
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57357643
+    w: 0.81915205
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:180
+  source_ref: objects/180
+  source_kind: mm9_dat_object
+  source_object_index: 180
+  source_class: DragonFly
+  source_name: DragonFly11
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: 10772
+    y: -1065
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.92454601
+    w: -0.38107044
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:181
+  source_ref: objects/181
+  source_kind: mm9_dat_object
+  source_object_index: 181
+  source_class: BonePile
+  source_name: BonePile0
+  source_model: models/Props/bonepile.ABC
+  source_skin: Skins/Props/bonepile.dtx
+  model_asset: models/props/bonepile.glb
+  position:
+    x: 8684
+    y: -369
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:182
+  source_ref: objects/182
+  source_kind: mm9_dat_object
+  source_object_index: 182
+  source_class: BonePile
+  source_name: BonePile1
+  source_model: models/Props/bonepile.ABC
+  source_skin: Skins/Props/bonepile.dtx
+  model_asset: models/props/bonepile.glb
+  position:
+    x: 10076
+    y: -860
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:186
+  source_ref: objects/186
+  source_kind: mm9_dat_object
+  source_object_index: 186
+  source_class: DragonFly
+  source_name: DragonFly21
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: 9011
+    y: 164
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.9366722
+    w: 0.35020734
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:187
+  source_ref: objects/187
+  source_kind: mm9_dat_object
+  source_object_index: 187
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite1
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: 8806
+    y: 410
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.9366722
+    w: 0.35020734
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:sturmford:object:191
+  source_ref: objects/191
+  source_kind: mm9_dat_object
+  source_object_index: 191
+  source_class: GelatinousSpore
+  source_name: GelatinousSpore0
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: 9175
+    y: -20644
+    z: -492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore2
+- instance_id: mm9:sturmford:object:192
+  source_ref: objects/192
+  source_kind: mm9_dat_object
+  source_object_index: 192
+  source_class: GelatinousSpore
+  source_name: GelatinousSpore1
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: 20316
+    y: 2949
+    z: -492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore2
+- instance_id: mm9:sturmford:object:193
+  source_ref: objects/193
+  source_kind: mm9_dat_object
+  source_object_index: 193
+  source_class: NettleSpore
+  source_name: NettleSpore0
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: 21955
+    y: 1638
+    z: -492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/jellyspore.abc
+    source_skins: []
+    candidates:
+    - id: jellyspore_jellyspore1
+      source_skins: &id001
+      - skins/jellyspore1.dtx
+    - id: jellyspore_jellyspore2
+      source_skins: &id002
+      - skins/jellyspore2.dtx
+    - id: jellyspore_jellyspore4
+      source_skins: &id003
+      - skins/jellyspore4.dtx
+    - id: jellyspore_nettlespore
+      source_skins: []
+- instance_id: mm9:sturmford:object:194
+  source_ref: objects/194
+  source_kind: mm9_dat_object
+  source_object_index: 194
+  source_class: NettleSpore
+  source_name: NettleSpore1
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: 17695
+    y: -6554
+    z: -492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/jellyspore.abc
+    source_skins: []
+    candidates:
+    - id: jellyspore_jellyspore1
+      source_skins: *id001
+    - id: jellyspore_jellyspore2
+      source_skins: *id002
+    - id: jellyspore_jellyspore4
+      source_skins: *id003
+    - id: jellyspore_nettlespore
+      source_skins: []
+- instance_id: mm9:sturmford:object:195
+  source_ref: objects/195
+  source_kind: mm9_dat_object
+  source_object_index: 195
+  source_class: NettleSpore
+  source_name: NettleSpore2
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: 12452
+    y: -12124
+    z: -492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/jellyspore.abc
+    source_skins: []
+    candidates:
+    - id: jellyspore_jellyspore1
+      source_skins: *id001
+    - id: jellyspore_jellyspore2
+      source_skins: *id002
+    - id: jellyspore_jellyspore4
+      source_skins: *id003
+    - id: jellyspore_nettlespore
+      source_skins: []
+- instance_id: mm9:sturmford:object:252
+  source_ref: objects/252
+  source_kind: mm9_dat_object
+  source_object_index: 252
+  source_class: Barrel
+  source_name: Barrel1
+  source_model: models/Props/Barrel03.ABC
+  source_skin: Skins/Props/Barrel03.dtx
+  model_asset: models/props/barrel03.glb
+  position:
+    x: -9789
+    y: 21668
+    z: 410
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:253
+  source_ref: objects/253
+  source_kind: mm9_dat_object
+  source_object_index: 253
+  source_class: Barrel
+  source_name: Barrel2
+  source_model: models/Props/Barrel03.ABC
+  source_skin: Skins/Props/Barrel03.dtx
+  model_asset: models/props/barrel03.glb
+  position:
+    x: -9667
+    y: 21750
+    z: 410
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:254
+  source_ref: objects/254
+  source_kind: mm9_dat_object
+  source_object_index: 254
+  source_class: StatStone
+  source_name: StatStone0
+  source_model: models/Props/StatStone.ABC
+  source_skin: Skins/Props/StatStoneYellow.dtx
+  model_asset: models/props/statstone.glb
+  position:
+    x: -7578
+    y: 6185
+    z: 369
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.34202013
+    w: 0.93969262
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:255
+  source_ref: objects/255
+  source_kind: mm9_dat_object
+  source_object_index: 255
+  source_class: BonePile
+  source_name: BonePile2
+  source_model: models/Props/bonepile.ABC
+  source_skin: skins/props/bonepile.dtx
+  model_asset: models/props/bonepile.glb
+  position:
+    x: -20682
+    y: -10204
+    z: 1167
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:256
+  source_ref: objects/256
+  source_kind: mm9_dat_object
+  source_object_index: 256
+  source_class: BonePile
+  source_name: BonePile3
+  source_model: models/Props/bonepile.ABC
+  source_skin: skins/props/bonepile.dtx
+  model_asset: models/props/bonepile.glb
+  position:
+    x: -17528
+    y: -6239
+    z: 1167
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:257
+  source_ref: objects/257
+  source_kind: mm9_dat_object
+  source_object_index: 257
+  source_class: BonePile
+  source_name: BonePile4
+  source_model: models/Props/bonepile.ABC
+  source_skin: skins/props/bonepile.dtx
+  model_asset: models/props/bonepile.glb
+  position:
+    x: -15677
+    y: -9393
+    z: 1167
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:258
+  source_ref: objects/258
+  source_kind: mm9_dat_object
+  source_object_index: 258
+  source_class: BonePile
+  source_name: BonePile5
+  source_model: models/Props/bonepile.ABC
+  source_skin: skins/props/bonepile.dtx
+  model_asset: models/props/bonepile.glb
+  position:
+    x: -19226
+    y: 33
+    z: 1167
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:259
+  source_ref: objects/259
+  source_kind: mm9_dat_object
+  source_object_index: 259
+  source_class: BonePile
+  source_name: BonePile6
+  source_model: models/Props/bonepile.ABC
+  source_skin: skins/props/bonepile.dtx
+  model_asset: models/props/bonepile.glb
+  position:
+    x: -13558
+    y: -2624
+    z: 1167
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:sturmford:object:263
+  source_ref: objects/263
+  source_kind: mm9_dat_object
+  source_object_index: 263
+  source_class: DragonFly
+  source_name: DragonFly12
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -16548
+    y: -3441
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:264
+  source_ref: objects/264
+  source_kind: mm9_dat_object
+  source_object_index: 264
+  source_class: DragonFly
+  source_name: DragonFly13
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -15565
+    y: -3932
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.17364817
+    w: 0.98480775
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:265
+  source_ref: objects/265
+  source_kind: mm9_dat_object
+  source_object_index: 265
+  source_class: DragonFly
+  source_name: DragonFly15
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -21463
+    y: -9667
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:266
+  source_ref: objects/266
+  source_kind: mm9_dat_object
+  source_object_index: 266
+  source_class: DragonFly
+  source_name: DragonFly16
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -18022
+    y: -13107
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:267
+  source_ref: objects/267
+  source_kind: mm9_dat_object
+  source_object_index: 267
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite3
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -17859
+    y: -12452
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.79600197
+    w: -0.60529403
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:sturmford:object:268
+  source_ref: objects/268
+  source_kind: mm9_dat_object
+  source_object_index: 268
+  source_class: DragonFly
+  source_name: DragonFly17
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -21299
+    y: 5243
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.64010966
+    w: 0.76828355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:269
+  source_ref: objects/269
+  source_kind: mm9_dat_object
+  source_object_index: 269
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite4
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -17531
+    y: 3768
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:sturmford:object:270
+  source_ref: objects/270
+  source_kind: mm9_dat_object
+  source_object_index: 270
+  source_class: DragonFly
+  source_name: DragonFly18
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -20480
+    y: -1638
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:271
+  source_ref: objects/271
+  source_kind: mm9_dat_object
+  source_object_index: 271
+  source_class: DragonFly
+  source_name: DragonFly19
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -19825
+    y: -1475
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.91913536
+    w: -0.39394186
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:272
+  source_ref: objects/272
+  source_kind: mm9_dat_object
+  source_object_index: 272
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite5
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -19988
+    y: -2130
+    z: 1147
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.25881905
+    w: 0.96592582
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:sturmford:object:273
+  source_ref: objects/273
+  source_kind: mm9_dat_object
+  source_object_index: 273
+  source_class: DragonFly
+  source_name: DragonFly14
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -21299
+    y: -5571
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:sturmford:object:274
+  source_ref: objects/274
+  source_kind: mm9_dat_object
+  source_object_index: 274
+  source_class: DragonFly
+  source_name: DragonFly20
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -10813
+    y: -11633
+    z: 983
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.89297892
+    w: 0.45009849
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  face_attribute_overrides: []
+  actors: []
+  sprite_objects: []
+  chests: []
+  variables:
+    map:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    decor:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0

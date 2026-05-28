@@ -1,0 +1,47 @@
+;----------------------------------------------
+;Mine.scr
+; By Timmy
+; 
+; Edited by Bones
+; TELP Patch 1.3 -- de-activated
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+
+;-------------------------------------
+:Onuse
+;NOTE this script just completes the quest right now.
+;-------------------------------------
+
+exit
+
+haskey 37 g_ntemp ;checks to see if player has done this yet
+
+if (g_ntemp==0,  )
+	Haskey 3 keycheck ;checks to see if player is on Quest
+	if ( keycheck==1,  )
+	
+		givekey, 35
+		givekey, 36 ;gives player finished quest key
+		givekey, 37
+
+		GiveEXP 1000
+		exit
+	endif
+endif
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+
+exit
+
+AddTrigger Use, Onuse
+Addtrigger destroy, Onuse
+exit

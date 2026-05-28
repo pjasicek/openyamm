@@ -1,0 +1,104 @@
+;---------------------------------
+;	Summoner.scr
+;	by SJR
+;	11-01-01
+;	Purpose:uses SpawnMgr to summon
+;			guys, look all dramatic
+;			and give player an incentive
+;			to kill the summoner soon
+;
+;	ScriptParams:
+;		p0 = name of spawn locations
+;		p1 = index of first
+;		p2 = index of last
+;---------------------------------
+#include baseMelee.inc
+#include BaseGlobals.inc
+#include ListMaker.inc
+
+#hobject	hSpawner = 0
+
+#string		SPELL_SPARKLIES = "sparklies"
+#string		SPELL_BLUEFIRE = "fireblue"
+
+;------------------
+:Main
+;------------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+
+	OnPostStartWorld InitSummoner
+	OnPostMiniSaveLoad InitSummoner
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;------------------
+:CacheFiles
+;------------------
+	CacheClientFX SPELL_SPARKLIES
+	CacheClientFX SPELL_BLUEFIRE
+
+	CacheSound "sounds\magic\cast09.wav"
+	CacheSound "sounds\magic\cast06.wav"
+
+	Exit TRUE
+
+;------------------
+:InitSummoner
+;------------------
+	GetObjectHandle SpawnMgr, hSpawner
+
+	AddTrigger trigger, OnMinionDied
+	AddTrigger startup, SummonStarters
+
+	gosub BaseInit
+
+	OnDeath OnDeath
+
+	Exit TRUE
+
+;------------------
+:SummonStarters
+;	summon the starter batch
+;------------------
+	gosub GetFirstObject
+	while( ARRIVEDLAST!=TRUE )
+		DoClientFX LISTOBJECT, SPELL_SPARKLIES, FALSE, TRUE
+		DoClientFX LISTOBJECT, SPELL_BLUEFIRE, FALSE, TRUE
+		Trigger LISTOBJECT, spawn
+		gosub GetNextObject	
+	endwhile
+	Trigger LISTOBJECT, spawn
+
+	gosub OnMinionDied
+
+	Exit TRUE
+
+;------------------
+:OnDeath
+;	since dead, shut off spawning
+;------------------
+	Trigger hSpawner, off
+
+	Exit TRUE
+
+;------------------
+:OnMinionDied
+;	play summon anim, randomize next spawn point
+;------------------
+	;;randomize the spawn location
+	GetRandomInt LISTFIRST, LISTLAST, LISTINDEX
+	gosub GetCurrentObject
+	Trigger LISTOBJECT, focus
+	DoClientFX LISTOBJECT, SPELL_SPARKLIES, FALSE, TRUE
+	DoClientFX LISTOBJECT, SPELL_BLUEFIRE, FALSE, TRUE
+
+	;;act like a powerful lich guy
+	PlayAnim RAttack1, StopMoving
+	PlaySound "sounds\magic\cast09.wav", DoNothing, 1, 500, FALSE, 100
+	PlaySound "sounds\magic\cast06.wav", DoNothing, 1, 500, FALSE, 100
+	PlaySound "sounds\animsounds\banshee\transition.wav", DoNothing, 1, 500, FALSE, 100
+
+	Exit TRUE

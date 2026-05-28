@@ -1,0 +1,652 @@
+format_version: 1
+source_file: NPC245.rude
+rows:
+  - source:
+      file: NPC245.rude
+      row: 1
+    raw_columns:
+      - 245
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 245
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC245.rude
+      row: 2
+    raw_columns:
+      - 245
+      - 202
+      - 1
+      - A dying messenger.
+      - What do you plan to do, then?  I'll not be wearing a rope necklace!  You'll have to kill me first!
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 231
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 245
+      node_id: 202
+      choice_slot: 1
+      prompt: A dying messenger.
+      response: What do you plan to do, then?  I'll not be wearing a rope necklace!  You'll have to kill me first!
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 231
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 231
+        status: raw_value_preserved
+  - source:
+      file: NPC245.rude
+      row: 3
+    raw_columns:
+      - 245
+      - 5
+      - 1
+      - Sven is going to find out about this.  We suggest leaving town.
+      - The best assassins can always disappear.  I assure you, you will never see me again.  Farwell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 245
+      node_id: 5
+      choice_slot: 1
+      prompt: Sven is going to find out about this.  We suggest leaving town.
+      response: The best assassins can always disappear.  I assure you, you will never see me again.  Farwell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC245.rude
+      row: 4
+    raw_columns:
+      - 245
+      - 4
+      - 1
+      - Why did he want Sven dead?
+      - I don't really know.  Something about raising the import taxes, I think.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 245
+      node_id: 4
+      choice_slot: 1
+      prompt: Why did he want Sven dead?
+      response: I don't really know.  Something about raising the import taxes, I think.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC245.rude
+      row: 5
+    raw_columns:
+      - 245
+      - 3
+      - 1
+      - Who put you up to this?
+      - I can't tell you that!  He'll kill me!..Well, I guess so will you, won't you.  His name is Harris Willington.  He lives in Thjorgard, but I don't know exactly where.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 245
+      node_id: 3
+      choice_slot: 1
+      prompt: Who put you up to this?
+      response: I can't tell you that!  He'll kill me!..Well, I guess so will you, won't you.  His name is Harris Willington.  He lives in Thjorgard, but I don't know exactly where.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC245.rude
+      row: 6
+    raw_columns:
+      - 245
+      - 2
+      - 1
+      - I'm sure we could come to an arrangement.
+      - How?
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 245
+      node_id: 2
+      choice_slot: 1
+      prompt: I'm sure we could come to an arrangement.
+      response: How?
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC245.rude
+      row: 7
+    raw_columns:
+      - 245
+      - 1
+      - 1
+      - This letter.
+      - How did you get that?
+      - 202
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 245
+      node_id: 1
+      choice_slot: 1
+      prompt: This letter.
+      response: How did you get that?
+      next: 202
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 202
+  - source:
+      file: NPC245.rude
+      row: 8
+    raw_columns:
+      - 245
+      - 245
+      - 1
+      - Nothing.
+      - Then leave me alone.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 230
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 245
+      node_id: 245
+      choice_slot: 1
+      prompt: Nothing.
+      response: Then leave me alone.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 230
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 230
+        status: raw_value_preserved
+  - source:
+      file: NPC245.rude
+      row: 9
+    raw_columns:
+      - 245
+      - 245
+      - 2
+      - We're not going to allow you to murder Sven.
+      - What?  How could you know that?
+      - 1
+      - 230
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 245
+      node_id: 245
+      choice_slot: 2
+      prompt: We're not going to allow you to murder Sven.
+      response: What?  How could you know that?
+      next: 1
+      raw_fields:
+        c07: 230
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 230
+            qbit_id: 9230
+            state_id: mm9.keys.230
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 230
+          qbit_id: 9230
+          state_id: mm9.keys.230

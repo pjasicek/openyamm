@@ -1,0 +1,899 @@
+format_version: 1
+source_file: NPC100.rude
+rows:
+  - source:
+      file: NPC100.rude
+      row: 1
+    raw_columns:
+      - 100
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 100
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC100.rude
+      row: 2
+    raw_columns:
+      - 100
+      - 1
+      - 1
+      - Do you have any news?
+      - I wish I had an Orb of Linking!  What a great thing that would be!
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 100
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I wish I had an Orb of Linking!  What a great thing that would be!
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC100.rude
+      row: 3
+    raw_columns:
+      - 100
+      - 100
+      - 1
+      - We'd like to do some banking.
+      - Certainly.
+      - -6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 100
+      node_id: 100
+      choice_slot: 1
+      prompt: We'd like to do some banking.
+      response: Certainly.
+      next: -6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5017
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -6
+        service: bank
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -6
+        service: bank
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5017
+        status: raw_value_preserved
+  - source:
+      file: NPC100.rude
+      row: 4
+    raw_columns:
+      - 100
+      - 100
+      - 2
+      - We'd like to do some banking.
+      - We're closed, sorry.
+      - 999
+      - 5017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 100
+      node_id: 100
+      choice_slot: 2
+      prompt: We'd like to do some banking.
+      response: We're closed, sorry.
+      next: 999
+      raw_fields:
+        c07: 5017
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5017
+            qbit_id: 14017
+            state_id: mm9.keys.5017
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5017
+          qbit_id: 14017
+          state_id: mm9.keys.5017
+  - source:
+      file: NPC100.rude
+      row: 5
+    raw_columns:
+      - 100
+      - 2
+      - 2
+      - What is an Orb of Linking?
+      - As I understand it, it would allow me to connect my safety deposit boxes to the deposit boxes of other banks.  Just like the link that allows us to access money from any bank!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 100
+      node_id: 2
+      choice_slot: 2
+      prompt: What is an Orb of Linking?
+      response: As I understand it, it would allow me to connect my safety deposit boxes to the deposit boxes of other banks.  Just like the link that allows us to access money from any bank!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC100.rude
+      row: 6
+    raw_columns:
+      - 100
+      - 1
+      - 2
+      - What do you know about Frosgard?
+      - That's the clan to the north.  They live where it's cold.  You won't catch me moving there!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 100
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about Frosgard?
+      response: That's the clan to the north.  They live where it's cold.  You won't catch me moving there!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC100.rude
+      row: 7
+    raw_columns:
+      - 100
+      - 100
+      - 3
+      - Why can't we use the safety deposit box?
+      - Well, we need an Orb of Linking.  If we had one of those, all the banks in Chedian could be linked up!
+      - 100
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 334
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 100
+      node_id: 100
+      choice_slot: 3
+      prompt: Why can't we use the safety deposit box?
+      response: Well, we need an Orb of Linking.  If we had one of those, all the banks in Chedian could be linked up!
+      next: 100
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 334
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 100
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 334
+        status: raw_value_preserved
+  - source:
+      file: NPC100.rude
+      row: 8
+    raw_columns:
+      - 100
+      - 100
+      - 6
+      - We'd like to install an Orb of Linking.
+      - Where'd you get one of those!?  What are you waiting for?  Get in here and install that thing!
+      - 999
+      - 330
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 334
+      - 0
+      - 0
+      - 0
+      - 0
+      - 334
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 100
+      node_id: 100
+      choice_slot: 6
+      prompt: We'd like to install an Orb of Linking.
+      response: Where'd you get one of those!?  What are you waiting for?  Get in here and install that thing!
+      next: 999
+      raw_fields:
+        c07: 330
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 334
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 334
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 330
+            qbit_id: 9330
+            state_id: mm9.keys.330
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 330
+          qbit_id: 9330
+          state_id: mm9.keys.330
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 334
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 334
+        status: raw_value_preserved
+  - source:
+      file: NPC100.rude
+      row: 9
+    raw_columns:
+      - 100
+      - 1
+      - 7
+      - Thanks for your time.
+      - Anything else I can do for you?
+      - 100
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 100
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Anything else I can do for you?
+      next: 100
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 100
+  - source:
+      file: NPC100.rude
+      row: 10
+    raw_columns:
+      - 100
+      - 100
+      - 7
+      - We'd like to ask you some questions.
+      - I suppose that would be alright.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 100
+      node_id: 100
+      choice_slot: 7
+      prompt: We'd like to ask you some questions.
+      response: I suppose that would be alright.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC100.rude
+      row: 11
+    raw_columns:
+      - 100
+      - 100
+      - 8
+      - How are the Orbs of Linking working?
+      - Wonderfully!  Thank you!
+      - 999
+      - 334
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 100
+      node_id: 100
+      choice_slot: 8
+      prompt: How are the Orbs of Linking working?
+      response: Wonderfully!  Thank you!
+      next: 999
+      raw_fields:
+        c07: 334
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 334
+            qbit_id: 9334
+            state_id: mm9.keys.334
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 334
+          qbit_id: 9334
+          state_id: mm9.keys.334
+  - source:
+      file: NPC100.rude
+      row: 12
+    raw_columns:
+      - 100
+      - 100
+      - 9
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 100
+      node_id: 100
+      choice_slot: 9
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

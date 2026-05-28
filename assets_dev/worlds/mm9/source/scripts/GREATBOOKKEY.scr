@@ -1,0 +1,78 @@
+;---------------------------------------------
+;	GreatBookKey.scr
+;	
+;	Handles the Great Book Key stuff
+;---------------------------------------------
+
+#include globals.inc
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;---------------------------------------------
+:OnUse
+;---------------------------------------------
+
+hasitem 243 g_ntemp
+if (g_ntemp==TRUE)
+
+	giveitem 560
+	giveitem 244
+	giveitem 347
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	givekey 374
+	exit
+else
+	giveitem 244
+	exit
+endif
+;---------------------------------------------
+:OnAppear
+;---------------------------------------------
+
+	givekey 375
+	setflag g_hmyobject, visible
+	setflag g_hmyobject, solid
+	setflag g_hmyobject, gravity
+	exit
+;---------------------------------------------
+:Init
+;---------------------------------------------
+
+getmyhandle g_hmyobject
+
+haskey 374 g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+
+haskey 375 g_ntemp
+if (g_ntemp==TRUE)
+	setflag g_hmyobject, visible
+	setflag g_hmyobject, solid
+	setflag g_hmyobject, gravity
+	exit
+else
+	clearflag g_hmyobject, visible
+	clearflag g_hmyobject, solid
+	clearflag g_hmyobject, gravity
+	exit
+endif
+exit
+
+;---------------------------------------------
+:Main
+;---------------------------------------------
+;traceon
+
+	Addtrigger Use, OnUse
+	Addtrigger appear OnAppear
+	gosub Init
+	Exit
+

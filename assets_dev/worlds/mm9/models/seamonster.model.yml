@@ -1,0 +1,510 @@
+schema: openyamm.model3d.v1
+id: seamonster
+model: seamonster.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/SEAMONSTER.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 640.0
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: sea monster
+  materialIndex: 0
+  lods:
+  - faces: 718
+    vertices: 420
+  - faces: 538
+    vertices: 330
+  - faces: 358
+    vertices: 238
+materials:
+- index: 0
+  texture: skins_preview/seacreaturef.png
+  runtime_texture: skins/seacreaturef.dtx
+  preview_texture: skins_preview/seacreaturef.png
+  source: mm9/extracted/SKINS/SKINS/SEACREATUREF.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 9
+    - 13
+    - 17
+  - index: 2
+    name: Bone02
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Bone38
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bone39
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bone03
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Bone04
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Bone40
+    parent: 6
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Bone05
+    parent: 7
+    flags: 1
+    children: []
+  - index: 9
+    name: Bone10
+    parent: 1
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bone11
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bone12
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Bone13
+    parent: 11
+    flags: 1
+    children: []
+  - index: 13
+    name: Bone21
+    parent: 1
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: Bone22
+    parent: 13
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bone23
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bone24
+    parent: 15
+    flags: 1
+    children: []
+  - index: 17
+    name: Bone06
+    parent: 1
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Bone07
+    parent: 17
+    flags: 1
+    children:
+    - 19
+    - 24
+    - 29
+    - 30
+    - 32
+  - index: 19
+    name: Bone15
+    parent: 18
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Bone16
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bone17
+    parent: 20
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Bone18
+    parent: 21
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bone19
+    parent: 22
+    flags: 1
+    children: []
+  - index: 24
+    name: Bone26
+    parent: 18
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bone27
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: Bone28
+    parent: 25
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Bone29
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Bone30
+    parent: 27
+    flags: 1
+    children: []
+  - index: 29
+    name: Bone08
+    parent: 18
+    flags: 1
+    children: []
+  - index: 30
+    name: Bone34
+    parent: 18
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: Bone35
+    parent: 30
+    flags: 1
+    children: []
+  - index: 32
+    name: Bone37
+    parent: 18
+    flags: 1
+    children: []
+sockets:
+- name: Rhand1
+  node: 23
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.12560826539993286
+  - -0.8612462282180786
+  - 0.4872688353061676
+  - 0.07107113301753998
+- name: LHand1
+  node: 28
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.07106205821037292
+  - -0.48726874589920044
+  - -0.8612450957298279
+  - 0.1256018728017807
+- name: Jaw
+  node: 29
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -3.34997851680896e-09
+  - 0.8468096852302551
+  - -0.5318959951400757
+  - -4.51229054121427e-09
+animations:
+- name: static_model
+  durationMs: 66
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: standwater
+  durationMs: 1333
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 766
+    event: speakanimsound
+- name: swim
+  durationMs: 1333
+  keyframes: 25
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 66
+    event: playanimsound
+- name: fidgetwater1
+  durationMs: 1433
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: playanimsound
+- name: fidgetwater2
+  durationMs: 8000
+  keyframes: 125
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 100
+    event: playanimsound
+- name: Hattackwater1
+  durationMs: 1600
+  keyframes: 40
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 53
+    event: lunge
+  - timeMs: 213
+    event: playanimsound
+  - timeMs: 480
+    event: bite
+- name: Hattackwater2
+  durationMs: 1400
+  keyframes: 32
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 66
+    event: lunge
+  - timeMs: 200
+    event: playanimsound
+  - timeMs: 666
+    event: Rattack; Lattack
+- name: wincewater1
+  durationMs: 1200
+  keyframes: 31
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 114
+    event: speakanimsound
+- name: wincewater2
+  durationMs: 1400
+  keyframes: 42
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 81
+    event: speakanimsound
+- name: diewater1
+  durationMs: 1600
+  keyframes: 30
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 1400
+    event: deaddims 0 0 0
+- name: diewater2
+  durationMs: 2500
+  keyframes: 48
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 2100
+    event: 'deaddims 0 0 0 '
+- name: Jump
+  durationMs: 1500
+  keyframes: 34
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 278
+    event: speakanimsound
+animationBindings:
+- name: static_model
+  extents:
+  - 192.0
+  - 89.60000000000001
+  - 192.0
+  origin:
+  - 0.0
+  - -20.48
+  - -12.8
+- name: standwater
+  extents:
+  - 192.0
+  - 89.60000000000001
+  - 192.0
+  origin:
+  - 0.0
+  - -20.48
+  - -12.8
+- name: swim
+  extents:
+  - 192.0
+  - 89.60000000000001
+  - 192.0
+  origin:
+  - 0.0
+  - -20.48
+  - 43.52
+- name: fidgetwater1
+  extents:
+  - 192.0
+  - 89.60000000000001
+  - 192.0
+  origin:
+  - 0.0
+  - -20.48
+  - -12.8
+- name: fidgetwater2
+  extents:
+  - 192.0
+  - 89.60000000000001
+  - 192.0
+  origin:
+  - 0.0
+  - -20.48
+  - -12.8
+- name: Hattackwater1
+  extents:
+  - 192.0
+  - 89.60000000000001
+  - 192.0
+  origin:
+  - 0.0
+  - -20.48
+  - -48.64
+- name: Hattackwater2
+  extents:
+  - 192.0
+  - 89.60000000000001
+  - 192.0
+  origin:
+  - 0.0
+  - -20.48
+  - -12.8
+- name: wincewater1
+  extents:
+  - 192.0
+  - 89.60000000000001
+  - 192.0
+  origin:
+  - 0.0
+  - -20.48
+  - -12.8
+- name: wincewater2
+  extents:
+  - 192.0
+  - 89.60000000000001
+  - 192.0
+  origin:
+  - 0.0
+  - -20.48
+  - -12.8
+- name: diewater1
+  extents:
+  - 192.0
+  - 89.60000000000001
+  - 192.0
+  origin:
+  - 0.0
+  - -53.76
+  - -12.8
+- name: diewater2
+  extents:
+  - 192.0
+  - 89.60000000000001
+  - 192.0
+  origin:
+  - 0.0
+  - -20.48
+  - 35.84
+- name: Jump
+  extents:
+  - 192.0
+  - 89.60000000000001
+  - 192.0
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- actor_model
+source_model: models/seamonster.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: seamonster_seacreaturef
+  source_skins:
+  - skins/seacreaturef.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 169
+    number: '177'
+    monster_name: Sea Monster Male
+    type_picture: Sea Monster A
+    base_name: ''
+  - table: MONSTERS
+    row: 169
+    number: '177'
+    monster_name: Sea Monster Male
+    type_picture: Sea Monster A
+    base_name: SeaMonster
+- id: seamonster_seacreaturem
+  source_skins:
+  - skins/seacreaturem.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 170
+    number: '178'
+    monster_name: Sea Monster Female
+    type_picture: Sea Monster B
+    base_name: ''
+  - table: MONSTERS
+    row: 170
+    number: '178'
+    monster_name: Sea Monster Female
+    type_picture: Sea Monster B
+    base_name: SeaMonster

@@ -1,0 +1,117 @@
+;----------------------------------------------
+;CronaKiga.scr
+; By Timmy
+; gives the player the Crona Kiga
+; and the related key
+; Sigmund's RudeID is 87
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+;;SJR
+#string		sTriggerName = ""
+#hobject	hTrigger = 0
+;;SJR
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+;;SJR
+if( hTrigger==0 )
+	GetObjectHandle sTriggerName, hTrigger
+endif
+if( hTrigger!=0 )
+	Trigger hTrigger, trigger
+endif
+;;SJR
+
+
+Haskey 46 g_ntemp ; checks to see if player talked to Ludwig first
+
+if ( g_ntemp==1, )
+
+	Haskey 48 keycheck ;checks to see if player has picked up the mauscript already
+		if ( keycheck==0,  )
+	
+			givekey, 48 ;gives player finished quest key
+	
+
+			;------------------
+			; this is where the manuscript should be removed and added to inventory
+			;------------------
+
+			RemoveTrigger Use
+
+			GiveItem 390
+			GiveExp 10000
+			Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+			;;SJR
+			;;gotta wait to remove object for the
+			;;mummy trigger to be sent
+			Wait 0, 1, RemoveMe
+			;;SJR
+			exit 1
+
+		endif
+endif
+Haskey 169 keycheck ; checks to see if player already picked up the manuscript
+if ( keycheck==0, )
+
+	givekey,  169
+	;------------------
+
+	; this is where the CronaKiga is removed and added to inventory
+	;------------------
+	GiveItem 390
+	GiveExp 10000
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+
+	RemoveTrigger Use
+
+	;;SJR
+	;;gotta wait to remove object for the
+	;;mummy trigger to be sent
+	Wait 0, 1, RemoveMe
+	;;SJR
+endif
+
+
+exit 1
+
+;;SJR
+;-------------------------------------
+:RemoveMe
+;-------------------------------------
+	GetMyHandle g_hObject
+	RemoveObject g_hobject
+	Exit 1
+;;SJR
+
+;-------------------------------------
+:Main
+;-------------------------------------
+;;SJR
+GetParam 0, sTriggerName
+;;SJR
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+Haskey 48 keycheck
+if ( g_ntemp==1, )
+	getobjecthandle CronaKiga g_hobject
+	removeobject g_hobject 
+	exitscript	
+	exit
+endif
+
+Haskey 169 keycheck
+if ( g_ntemp==1, )
+	getobjecthandle CronaKiga g_hobject
+	removeobject g_hobject 
+	exitscript	
+	exit
+endif
+exit 1

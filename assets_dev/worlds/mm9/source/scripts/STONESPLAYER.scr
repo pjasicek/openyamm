@@ -1,0 +1,60 @@
+;--------------------------------
+;	StonesPlayer.scr
+;	by SJR
+;	12-12-01
+;	Purpose:
+;--------------------------------
+#include BaseGlobals.inc
+#include ListMaker.inc
+
+#string		sMyName = ""
+#hobject	hMe = 0
+
+#number		nTemp = 0
+
+;--------------------------------
+:Main
+;--------------------------------
+	GetParam 0, LISTNAME
+	GetParam 1, nTemp
+
+	GetMyHandle hMe
+	GetObjectName hMe, sMyName
+	SetConsoleStrVar STONES_PLAYER, sMyName
+
+	LISTFIRST = 0
+	LISTLAST = nTemp * nTemp - 1
+
+	AddTrigger play, PlacePiece
+
+	AddTrigger use, OnRudeEnter
+	OnRudeExit OnRudeExit
+
+	Exit TRUE
+
+;--------------------------------
+:OnRudeEnter
+;--------------------------------
+	GiveKey 7002
+
+	DoRude 428
+
+	Exit TRUE
+
+;--------------------------------
+:OnRudeExit
+;--------------------------------
+	TakeKey 7002
+
+	Exit TRUE
+
+;--------------------------------
+:PlacePiece
+;	try a random square
+;--------------------------------
+	GetRandomInt LISTFIRST, LISTLAST, LISTINDEX
+	gosub GetCurrentObject
+
+	Trigger LISTOBJECT, use
+
+	Exit TRUE

@@ -1,0 +1,159 @@
+;--------------------------------------------------------------------
+;	LobberPod.Scr
+;	Jeff Leggett
+;	08/01/2001
+;
+;	LobberPod implementation...
+;
+;--------------------------------------------------------------------
+
+
+#include basecrawl.inc
+#include Range.inc
+
+#number					g_bIsRangeAttacker = 0
+#number					g_nMaxEvadeDist = 500
+
+;---------------------------------------------------
+:CanRangeAttack
+;
+;	We only want 30% of the lobberPods to range
+;	attack....
+;---------------------------------------------------
+	if ( g_bIsRangeAttacker==TRUE )
+		gosub CanRangeAttack,1
+		exit
+	endif
+
+	g_bCanAttack = FALSE
+
+	Exit
+
+;--------------------------------------------------------
+:CancelEvade
+;--------------------------------------------------------
+
+	gosub BaseEvadeStop
+	gosub AggressiveStart
+
+	exit
+
+;--------------------------------------------------------
+:DoEvade
+;
+;	Backup and/or strafe a little...
+;
+;--------------------------------------------------------
+
+	gosub AggressiveStop
+
+	OnTargetBeyondDist g_nMaxEvadeDist, CancelEvade
+
+	gosub BaseEvadeStart
+
+	g_nEvadeTime = 2
+	g_nBackpedalPct = 0.4
+
+	GetRandomFloat 1.8,2.2,g_nRandom
+
+	Wait AGGRESSIVE_WAIT, g_nRandom, CancelEvade
+
+	Exit
+
+;--------------------------------------------------------
+:AttackDone
+;
+;	Lobber pods (that don't do range attacks) look cool
+;	when they evade and such...
+;
+;--------------------------------------------------------
+
+;	if ( g_bIsRangeAttacker==TRUE )
+;		gosub AttackDone,1
+;		Exit
+;	Endif
+
+	IsTurnBased g_bTemp
+
+	if ( g_bTemp==TRUE )
+		gosub AttackDone,1
+		Exit
+	endif
+	
+	gosub AttackTickCancel
+	gosub DoEvade
+
+	exit
+
+;--------------------------------------------------------
+:NewTargetCheck
+;	
+;	Fill in g_hAttacker with the potential new target,
+;	and this function takes care of the rest....
+;
+;--------------------------------------------------------
+
+	if ( g_hAttacker==g_hTarget )
+		goto NewTargetCheck,1
+	endif
+
+	IsClass g_hAttacker,Lobber,g_bTemp
+	if (g_bTemp==FALSE)
+		goto NewTargetCheck,1
+	endif
+
+	IsFriend g_hAttacker, g_bTemp
+
+	if ( g_bTemp==TRUE )
+		Exit TRUE
+	Endif
+
+	GetClassName g_hAttacker, g_sTemp
+
+	g_sTemp = g_sTemp + <---AttackerClass
+;	CPrint g_sTemp
+
+
+	g_hTarget = g_hAttacker
+	g_hAttacker = NULL
+	gosub SetupTarget
+	Target g_hTarget, TRUE
+	gosub AggressiveStart
+
+	exit TRUE
+
+;--------------------------------------------------------
+:ShouldRunAfter
+;
+;	if we're NOT a range attacker, ignore the range.inc
+;	version...
+;
+;--------------------------------------------------------
+
+	if ( g_bIsRangeAttacker==FALSE )
+		gosub ShouldRunAfter,1
+		Exit
+	Endif
+
+	gosub ShouldRunAfter,2
+
+	Exit
+
+;---------------------------------------------------
+:Main
+;
+;---------------------------------------------------
+
+	gosub BaseCrawlInit
+	gosub RangeInit
+
+	GetRandomInt 0, 100, g_nRandom
+
+; jsl->2/11/02 --> They no longer want lobberpods to range attack.
+;;;; 	if ( g_nRandom < 30 )
+;;;; 		g_bIsRangeAttacker = TRUE
+;;;; 	endif
+
+
+	exit
+

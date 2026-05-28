@@ -1,0 +1,663 @@
+format_version: 1
+source_file: NPC436.rude
+rows:
+  - source:
+      file: NPC436.rude
+      row: 1
+    raw_columns:
+      - 436
+      - 5
+      - 1
+      - Why?
+      - You've always been too big for Ravensford.  I'm sure you will find your destiny out there somewhere, not here.  I have some things left to give you.  They will impart knowledge that may keep you alive.  Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 475
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 436
+      node_id: 5
+      choice_slot: 1
+      prompt: Why?
+      response: You've always been too big for Ravensford.  I'm sure you will find your destiny out there somewhere, not here.  I have some things left to give you.  They will impart knowledge that may keep you alive.  Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 475
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 475
+        status: raw_value_preserved
+  - source:
+      file: NPC436.rude
+      row: 2
+    raw_columns:
+      - 436
+      - 4
+      - 1
+      - Why?
+      - I have something left to give you.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 474
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 436
+      node_id: 4
+      choice_slot: 1
+      prompt: Why?
+      response: I have something left to give you.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 474
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 474
+        status: raw_value_preserved
+  - source:
+      file: NPC436.rude
+      row: 3
+    raw_columns:
+      - 436
+      - 3
+      - 1
+      - What do we do when we're finished?
+      - When you've finished all the scrolls, come back and visit me before you leave.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 436
+      node_id: 3
+      choice_slot: 1
+      prompt: What do we do when we're finished?
+      response: When you've finished all the scrolls, come back and visit me before you leave.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC436.rude
+      row: 4
+    raw_columns:
+      - 436
+      - 1
+      - 1
+      - Where do we start?
+      - Take these scrolls to begin with.  They will tell you all you need to know about interface.  Have a look around this museum.  Click on the buttons.  These are things you may encounter in the world.  Some may help you.  Others may, . . kill.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 436
+      node_id: 1
+      choice_slot: 1
+      prompt: Where do we start?
+      response: Take these scrolls to begin with.  They will tell you all you need to know about interface.  Have a look around this museum.  Click on the buttons.  These are things you may encounter in the world.  Some may help you.  Others may, . . kill.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC436.rude
+      row: 5
+    raw_columns:
+      - 436
+      - 999
+      - 1
+      - Goodbye, Grandpa.
+      - asdf
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 436
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye, Grandpa.
+      response: asdf
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC436.rude
+      row: 6
+    raw_columns:
+      - 436
+      - 10
+      - 1
+      - That shouldn't be too difficult.
+      - Off you go then.  I doubt we shall see each other again, you've always been too big for Ravensford.  Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 436
+      node_id: 10
+      choice_slot: 1
+      prompt: That shouldn't be too difficult.
+      response: Off you go then.  I doubt we shall see each other again, you've always been too big for Ravensford.  Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC436.rude
+      row: 7
+    raw_columns:
+      - 436
+      - 436
+      - 1
+      - We'd like to start our training.
+      - Ahhh, I knew that this day would come, when your thirst for adventure would grow too strong to be quenched here in Ravensford.  Very well.  I shall help you with your training.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 474
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 436
+      node_id: 436
+      choice_slot: 1
+      prompt: We'd like to start our training.
+      response: Ahhh, I knew that this day would come, when your thirst for adventure would grow too strong to be quenched here in Ravensford.  Very well.  I shall help you with your training.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 474
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 474
+        status: raw_value_preserved
+  - source:
+      file: NPC436.rude
+      row: 8
+    raw_columns:
+      - 436
+      - 436
+      - 2
+      - We don't need to bother with training.
+      - Think you're already strong enough, do you?  Well we'll see about that.  Standing between here and the dock to the north are a few..obstacles.  If you can make it to the dock, I think you will have proven your worth.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 474
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 436
+      node_id: 436
+      choice_slot: 2
+      prompt: We don't need to bother with training.
+      response: Think you're already strong enough, do you?  Well we'll see about that.  Standing between here and the dock to the north are a few..obstacles.  If you can make it to the dock, I think you will have proven your worth.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 474
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 474
+        status: raw_value_preserved
+  - source:
+      file: NPC436.rude
+      row: 9
+    raw_columns:
+      - 436
+      - 436
+      - 3
+      - We're ready to leave.
+      - Well, I guess you're strong enough.  Good luck.  You can find a boat waiting at the dock to the north.  I don't expect to see you again.
+      - 5
+      - 474
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 436
+      node_id: 436
+      choice_slot: 3
+      prompt: We're ready to leave.
+      response: Well, I guess you're strong enough.  Good luck.  You can find a boat waiting at the dock to the north.  I don't expect to see you again.
+      next: 5
+      raw_fields:
+        c07: 474
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 474
+            qbit_id: 9474
+            state_id: mm9.keys.474
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 474
+          qbit_id: 9474
+          state_id: mm9.keys.474

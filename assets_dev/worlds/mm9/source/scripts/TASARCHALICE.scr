@@ -1,0 +1,36 @@
+;--------------------------------------------------
+;TaSarChalice.scr
+;10/01
+; timmy
+; handles Ta'Sar Academy's chalice puzzle.
+;--------------------------------------------------
+
+#include globals.inc
+
+#string Chalice_ID
+
+;--------------------------------------------------
+:OnUse
+; 
+;--------------------------------------------------
+
+If (Chalice_ID==Right)
+	GiveAttribute 0 10 0 288000
+	givekey 9500
+	exit
+else 
+	;damage player
+	exit
+endif
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Getparam 0 Chalice_ID
+Addtrigger Use OnUse
+exit

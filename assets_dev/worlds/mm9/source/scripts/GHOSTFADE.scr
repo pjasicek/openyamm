@@ -1,0 +1,56 @@
+;--------------------------------------------------
+;GhostFade.scr
+; timmy
+; 12/6
+; fades ghosts in OnFoundTarget
+;--------------------------------------------------
+#include BaseGlobals.inc
+#include flags.inc
+
+#hobject	hMe = 0
+#hobject	hPlayer = 0
+
+;---------------------------------------------
+:TurnSolid
+;---------------------------------------------
+getmyhandle g_hobject
+setflag g_hobject, visible
+runscript ghost.scr
+exitscript
+exit
+
+;---------------------------------------------
+:OnFoundPlayer
+;---------------------------------------------
+	GetPlayerHandle hPlayer
+	RunTo hPlayer, 0, TurnSolid
+
+	Exit TRUE
+
+;---------------------------------------------
+:InitGhostFade
+;---------------------------------------------
+	AddFriend AIBase
+	AddEnemy Player
+
+	ClearFlag hMe, FLAG_GRAVITY
+	SetFlag hMe, FLAG_GOTHRUWORLD
+
+	OnFoundPlayer OnFoundPlayer
+
+	Exit TRUE
+
+;---------------------------------------------
+:Main
+;---------------------------------------------
+	Wait 0, 5, InitGhostFade
+
+;traceon ;Delete
+Gosub Init
+getparam 0 nRange
+if (nRange==NULL)
+	set nRange, 1024
+	
+endif
+
+	Exit TRUE

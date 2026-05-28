@@ -1,0 +1,65 @@
+schema: openyamm.model3d.v1
+id: table_bench
+model: table_bench.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/TABLE_BENCH.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Table_Bench
+  materialIndex: 0
+  lods:
+  - faces: 186
+    vertices: 194
+  - faces: 140
+    vertices: 171
+materials:
+- index: 0
+  texture: skins_preview/props/table_bench.png
+  runtime_texture: skins/props/table_bench.dtx
+  preview_texture: skins_preview/props/table_bench.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/TABLE_BENCH.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 125.44
+  - 28.16
+  - 125.44
+  origin:
+  - 0.0
+  - 17.92
+  - 0.0
+roles:
+- static_model
+source_model: models/props/table_bench.abc

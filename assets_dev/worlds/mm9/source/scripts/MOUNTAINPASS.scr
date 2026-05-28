@@ -1,0 +1,63 @@
+;----------------------------------------------
+;Yanmir.scr
+; By Timmy
+; checks to see if the player has killed everything in anskram keep
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+
+
+;-------------------------------------
+:OnAward
+;NOTE this script just completes the quest right now.
+; this is the routine where additional functionality should go
+;-------------------------------------
+haskey 80 g_ntemp ;checks to see if player has done this yet
+
+if (g_ntemp==0,  )
+
+	Haskey 79 keycheck 
+	if ( keycheck==1,  )
+	
+		givekey, 80 
+		GiveEXP 14000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+		exit
+	endif
+endif
+
+Haskey 176 keycheck
+if ( keycheck==0,  )
+	
+	givekey, 176 
+	GiveEXP 14000
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+	exit
+	endif
+exit
+
+
+;-------------------------------------
+:OnStep
+;-------------------------------------
+
+g_ncounter = g_ncounter + 1
+if (g_ncounter==2)
+	gosub OnAward
+endif
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+
+Addtrigger Use, OnStep
+g_ncounter = 0
+exit

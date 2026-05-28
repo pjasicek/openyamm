@@ -1,0 +1,200 @@
+schema: openyamm.model3d.v1
+id: bonepile
+model: bonepile.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/BONEPILE.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Skull
+  materialIndex: 0
+  lods:
+  - faces: 168
+    vertices: 94
+  - faces: 86
+    vertices: 53
+- name: Leg-1
+  materialIndex: 0
+  lods:
+  - faces: 36
+    vertices: 24
+  - faces: 30
+    vertices: 21
+- name: Leg-2
+  materialIndex: 0
+  lods:
+  - faces: 58
+    vertices: 34
+  - faces: 44
+    vertices: 27
+- name: Femur
+  materialIndex: 0
+  lods:
+  - faces: 32
+    vertices: 18
+  - faces: 32
+    vertices: 18
+- name: Hand-Arm
+  materialIndex: 0
+  lods:
+  - faces: 50
+    vertices: 35
+  - faces: 40
+    vertices: 30
+- name: Misc-Bones
+  materialIndex: 0
+  lods:
+  - faces: 64
+    vertices: 36
+  - faces: 36
+    vertices: 22
+- name: Pelvis
+  materialIndex: 0
+  lods:
+  - faces: 86
+    vertices: 43
+  - faces: 86
+    vertices: 43
+- name: Ribs
+  materialIndex: 0
+  lods:
+  - faces: 57
+    vertices: 33
+  - faces: 57
+    vertices: 33
+- name: Spine
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 12
+    vertices: 8
+materials:
+- index: 0
+  texture: skins_preview/props/bonepile.png
+  runtime_texture: skins/props/bonepile.dtx
+  preview_texture: skins_preview/props/bonepile.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/BONEPILE.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+  - index: 1
+    name: '!Bone-Skull'
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: '!Bone-Leg1'
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: '!Bone-Leg2'
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: '!Bone-Femur'
+    parent: 0
+    flags: 1
+    children: []
+  - index: 5
+    name: '!Bone-HandArm'
+    parent: 0
+    flags: 1
+    children: []
+  - index: 6
+    name: '!Bone-Misc'
+    parent: 0
+    flags: 1
+    children: []
+  - index: 7
+    name: '!Bone-Pelvis'
+    parent: 0
+    flags: 1
+    children: []
+  - index: 8
+    name: '!Bone-Rib'
+    parent: 0
+    flags: 1
+    children: []
+  - index: 9
+    name: '!Bone-Spine'
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: start
+  durationMs: 1000
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Shift
+  durationMs: 1000
+  keyframes: 8
+  interpolationTimeMs: 200
+  events: []
+- name: stop
+  durationMs: 1000
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: start
+  extents:
+  - 35.84
+  - 14.08
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Shift
+  extents:
+  - 35.84
+  - 14.08
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: stop
+  extents:
+  - 35.84
+  - 14.08
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/bonepile.abc

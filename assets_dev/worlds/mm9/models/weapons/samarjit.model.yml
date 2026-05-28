@@ -1,0 +1,62 @@
+schema: openyamm.model3d.v1
+id: samarjit
+model: samarjit.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/WEAPONS/SAMARJIT.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: Samarjit
+  materialIndex: 0
+  lods:
+  - faces: 532
+    vertices: 404
+materials:
+- index: 0
+  texture: skins_preview/weapons/samarjit.png
+  runtime_texture: skins/weapons/samarjit.dtx
+  preview_texture: skins_preview/weapons/samarjit.png
+  source: mm9/extracted/SKINS/SKINS/WEAPONS/SAMARJIT.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 2.56
+  - 81.92
+  - 2.56
+  origin:
+  - -2.56
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/weapons/samarjit.abc

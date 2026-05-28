@@ -1,0 +1,67 @@
+;--------------------------------
+;	GiveStat.scr
+;	by SJR
+;	Purpose:gives a certain stat
+;			a certain bonus
+;
+;	ScriptParams:
+;		p0 = string name of stat (might,magic,endurance,
+;								  accuracy, speed, luck)
+;		p1 = amount of increase
+;		p2 = who it affects (0,1)->(current,party)
+;		p3 = duration (in minutes, 0 means permanent)
+;		
+;--------------------------------
+
+#number		STAT_TYPE = 0
+#number		STAT_VALUE = 0
+#number		STAT_PARTY = 0
+#number		STAT_TIME = 0
+
+#string		sStatName = ""
+
+;--------------------------------
+:Main
+;--------------------------------
+	GetParam 0, sStatName
+	GetParam 1, STAT_VALUE
+	GetParam 2, STAT_PARTY
+	GetParam 3, STAT_TIME
+
+	if( sStatName=="Might" )
+		STAT_TYPE = 0
+	else
+	if( sStatName=="Magic" )
+		STAT_TYPE = 1
+	else
+	if( sStatName=="Endurance" )
+		STAT_TYPE = 2
+	else
+	if( sStatName=="Accuracy" )
+		STAT_TYPE = 3
+	else
+	if( sStatName=="Speed" )
+		STAT_TYPE = 4
+	else
+	if( sStatName=="Luck" )
+		STAT_TYPE = 5
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+
+	;;1 real minute = 10 game minutes = 600 game seconds
+	STAT_TIME = STAT_TIME * 600
+
+	AddTrigger give, GiveStat 
+
+	Exit 1
+
+;--------------------------------
+:GiveStat
+;--------------------------------
+	GiveAttribute STAT_TYPE, STAT_VALUE, STAT_PARTY, STAT_TIME
+
+	Exit 1

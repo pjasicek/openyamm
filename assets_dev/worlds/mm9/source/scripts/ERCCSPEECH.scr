@@ -1,0 +1,93 @@
+;----------------------------------------------
+;erccspeech.scr
+; By Timmy
+; handles ercc's rant.
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+
+#number							unconscious ; is he out cold
+
+
+
+;-------------------------------------
+:OnBlabber
+;-------------------------------------
+haskey 113, g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+set unconscious, 1
+Givekey 113
+PlayAnim ercc01a Anim2
+;gosub OnStart
+exit
+
+;-------------------------------------
+:Anim2
+;-------------------------------------
+
+PlayAnim ercc01b Anim3
+exit
+
+;-------------------------------------
+:Anim3
+;-------------------------------------
+
+PlayAnim ercc01c Passout
+exit
+
+;-------------------------------------
+:Passout
+;-------------------------------------
+;gosub OnPassOut
+PlayAnim ercc02 DoNothing
+exit
+
+;-------------------------------------
+:OnStart
+;-------------------------------------
+
+Playsound \voices\cinema\ercc01.wav, DoNothing, 100, 512, FALSE, 100
+exit
+
+;-------------------------------------
+:OnPassOut
+;-------------------------------------
+
+Playsound \voices\cinema\ercc02.wav, DoNothing, 100, 512, FALSE, 100
+exit
+
+;-------------------------------------
+:OnDone
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+LoopAnim sitting 0, donothing
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Blabber OnBlabber
+AddModelKey start OnStart
+AddModelKey Passout OnPassOut
+AddModelKey Done OnDone
+wait 1 .1 Init
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+exit

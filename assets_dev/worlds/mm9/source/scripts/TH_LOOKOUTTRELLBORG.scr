@@ -1,0 +1,101 @@
+;-----------------------------------------------------
+;
+;	TH_LookOutTrellborg.scr
+;
+;	Karl Drown 11-18-01
+;	
+;	Trellborg that is being the lookout for his
+;	buddies in the Joust room.
+;-----------------------------------------------------
+#include TrainingHostility.inc
+#include Globals.inc
+
+#hObject	hMarker
+#hObject	hTarget
+
+#string sMarkerA
+#string	sMarkerB
+#string sTargetA
+#string sTargetB
+
+#number	bDirection = 0
+#number	bIsJousting = 0
+
+;-----------------------------------------------------
+:Start
+;-----------------------------------------------------
+	bIsJousting = TRUE
+	Gosub WalkToMarker
+	Exit TRUE
+;-----------------------------------------------------
+:TurnOff
+;-----------------------------------------------------
+	Wait 1, 1, DoNothing
+	bIsJousting = FALSE
+	Exit TRUE
+
+;-----------------------------------------------------
+:LookAround
+	Stop
+	PlayAnim Stand, AnimationA
+	Exit TRUE
+:AnimationA
+	PlayAnim Fidget1, AnimationB
+	Exit TRUE
+:AnimationB
+	PlayAnim Stand, WalkToMarker
+	Exit TRUE
+;-----------------------------------------------------
+
+
+;-----------------------------------------------------
+:WatchVictim
+;-----------------------------------------------------
+	Stop
+	GetObjectHandle sTargetB, hTarget
+	FaceObject hTarget, 180
+	Wait 0, 2, LookAround
+	Exit TRUE
+;-----------------------------------------------------
+:WatchBully
+;-----------------------------------------------------
+	Stop
+	GetObjectHandle sTargetA, hTarget
+	FaceObject hTarget, 180
+	Wait 0, 2, LookAround
+	Exit TRUE
+;-----------------------------------------------------
+:WalkToMarker
+;-----------------------------------------------------
+	if (bIsJousting==FALSE)
+		exit
+	endif
+
+	if (bDirection==0)
+		bDirection = 1
+		GetObjectHandle sMarkerA, hMarker
+		WalkTo hMarker, 5, WatchVictim
+	else
+		bDirection = 0
+		GetObjectHandle sMarkerB, hMarker
+		WalkTo hMarker, 5, WatchBully
+	endif
+	Exit TRUE
+
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+	AddTrigger Go, Start
+	AddTrigger Stop, TurnOff
+	gosub InitTrainingHostility
+	Exit TRUE
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	GetParam 0, sMarkerA
+	GetParam 1, sMarkerB
+	GetParam 2, sTargetA
+	GetParam 3, sTargetB
+	OnPostStartWorld Main2
+	Exit
+;------------- E n d - O f - F i l e -------------------

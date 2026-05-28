@@ -1,0 +1,598 @@
+format_version: 1
+source_file: NPC234.rude
+rows:
+  - source:
+      file: NPC234.rude
+      row: 1
+    raw_columns:
+      - 234
+      - 234
+      - 1
+      - We'd like to improve our Merchant skill to Expert.
+      - I can help you with that.
+      - -4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2055
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 234
+      node_id: 234
+      choice_slot: 1
+      prompt: We'd like to improve our Merchant skill to Expert.
+      response: I can help you with that.
+      next: -4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2055
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -4
+        service: skill_training
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -4
+        service: skill_training
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2055
+        status: raw_value_preserved
+  - source:
+      file: NPC234.rude
+      row: 2
+    raw_columns:
+      - 234
+      - 1
+      - 1
+      - Do you have any news?
+      - One day, I shall find the lost elvish clan.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 234
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: One day, I shall find the lost elvish clan.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC234.rude
+      row: 3
+    raw_columns:
+      - 234
+      - 234
+      - 2
+      - We'd like to improve our Merchant skill to Master.
+      - If you are able, I can help you with that.
+      - -4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2055
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 234
+      node_id: 234
+      choice_slot: 2
+      prompt: We'd like to improve our Merchant skill to Master.
+      response: If you are able, I can help you with that.
+      next: -4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2055
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -4
+        service: skill_training
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -4
+        service: skill_training
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2055
+        status: raw_value_preserved
+  - source:
+      file: NPC234.rude
+      row: 4
+    raw_columns:
+      - 234
+      - 1
+      - 2
+      - What do you know about elves?
+      - I know that after the Great Cataclysm, one clan of elves escaped, and are hidden somewhere in bondage.  One day I will find them and free them.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 234
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about elves?
+      response: I know that after the Great Cataclysm, one clan of elves escaped, and are hidden somewhere in bondage.  One day I will find them and free them.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC234.rude
+      row: 5
+    raw_columns:
+      - 234
+      - 1
+      - 3
+      - Where can we become Grandmasters in Merchant?
+      - If you are able, you must seek out Bren Haukdotir in Yorwick.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2056
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 234
+      node_id: 1
+      choice_slot: 3
+      prompt: Where can we become Grandmasters in Merchant?
+      response: If you are able, you must seek out Bren Haukdotir in Yorwick.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2056
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2056
+        status: raw_value_preserved
+  - source:
+      file: NPC234.rude
+      row: 6
+    raw_columns:
+      - 234
+      - 234
+      - 3
+      - We'd like to ask you some questions.
+      - Okay.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 234
+      node_id: 234
+      choice_slot: 3
+      prompt: We'd like to ask you some questions.
+      response: Okay.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC234.rude
+      row: 7
+    raw_columns:
+      - 234
+      - 234
+      - 4
+      - Sorry to bother you.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2055
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 234
+      node_id: 234
+      choice_slot: 4
+      prompt: Sorry to bother you.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2055
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2055
+        status: raw_value_preserved
+  - source:
+      file: NPC234.rude
+      row: 8
+    raw_columns:
+      - 234
+      - 1
+      - 7
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2055
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 234
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2055
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2055
+        status: raw_value_preserved

@@ -1,0 +1,75 @@
+;------------------------------------------------------------------
+;	SpawnCreature.scr
+;	by SJR
+;	09-21-01
+;	Purpose:Used in conjunction with SpawnMgr.scr
+;			to continuously spawn out of sight w/ a limit
+;
+;	Will run to "SpawnRally" or player if it does not exist
+;------------------------------------------------------------------
+#include baseMelee.inc
+
+#hobject	hSpawnMgr = 0
+#hobject	hRally = 0
+#hobject	hMe = 0
+
+#number		x = 0
+#number		y = 0
+#number		z = 0
+
+#string		SPELL_ELEMBLAST = "elemental blast"
+#string		SPELL_COLUMNOFFIRE = "spell-column of fire"
+
+;-------------------
+:Main
+;-------------------
+	Wait 0, .1, InitSpawnCreature
+
+	Exit TRUE
+
+;-------------------
+:InitSpawnCreature
+;-------------------
+	SetPropNumber CheckForAIBarriers, TRUE
+	SetPropNumber CheckForCliffs, TRUE
+
+	GetMyHandle hMe
+
+	OnDeath OnDeath
+
+	GetObjectHandle MarkerFrom, hRally
+	if( hRally!=0 )
+		DoClientFX hMe, SPELL_ELEMBLAST, FALSE, TRUE
+		DoClientFX hMe, SPELL_COLUMNOFFIRE, FALSE, TRUE
+		RunTo hRally, 10, Teleport
+	endif
+
+	Exit TRUE
+
+;-------------------
+:OnDeath
+;	when dead, notify Mgr for respawn
+;-------------------
+	GetObjectHandle LichSummoner, hSpawnMgr
+	if( hSpawnMgr!=0 )
+		Trigger hSpawnMgr, spawn
+	endif
+
+	Exit TRUE
+
+;-------------------
+:Teleport
+;-------------------
+	Stop
+
+	GetObjectHandle MarkerTo, hRally
+	if( hRally!=0 )
+		GetPOS hRally, x,y,z
+		SetPOS hMe, x,y,z
+		DoClientFX hMe, SPELL_COLUMNOFFIRE, 0, 1
+	endif
+
+	gosub BaseInit
+	gosub BaseWanderStartup
+
+	Exit TRUE

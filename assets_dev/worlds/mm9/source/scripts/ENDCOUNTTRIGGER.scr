@@ -1,0 +1,36 @@
+;---------------------------------------------------------------------
+:	EndCountTrigger.scr
+;	Timmy
+;
+;	This triggers the spawner counter to spawn the last demon
+;	 in the Tomb of a Thousand Terrors
+;
+;	
+;
+;---------------------------------------------------------------------
+
+#include globals.inc
+
+#string			sSpawnCounter = EndCount
+
+
+;--------------------------------------------
+:OnSpawn
+;--------------------------------------------
+
+GetObjecthandle sSpawnCounter g_hobject
+trigger g_hobject Spawned
+
+
+exit FALSE
+
+;--------------------------------------------
+:Main
+;--------------------------------------------
+	
+;	TraceOn
+
+	AddTrigger default OnSpawn
+	AddTrigger Count OnSpawn
+
+	Exit

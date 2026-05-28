@@ -1,0 +1,57 @@
+;--------------------------------------------------
+;WG_NPC336.scr
+; timmy
+; handles Skraelos acting for cutscene
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:Loop
+;--------------------------------------------------
+
+
+getmyhandle g_hobject
+clearflag g_hobject, visible
+clearflag g_hobject, solid
+clearflag g_hobject, gravity
+exit
+
+;--------------------------------------------------
+:OnStart
+;--------------------------------------------------
+
+getmyhandle g_hobject
+setflag g_hobject, visible
+setflag g_hobject, solid
+setflag g_hobject, gravity
+Loopanim stand 0 DoNothing
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+AddTrigger Start OnStart
+Gosub Loop
+AddTrigger Stop Loop
+exit
+

@@ -1,0 +1,53 @@
+;-----------------------------------------------------
+;	DarkP_BridgeReset.scr
+;	kd
+;	1-14-02
+;	Plays animation and then triggers ScriptObject
+;	
+;	
+;-----------------------------------------------------
+#include Globals.inc
+
+#hObject	hPuzzleManager
+
+#string		sPuzzleManager
+
+;--------------------------------------------------------------
+:StopHere
+;--------------------------------------------------------------
+	Exit TRUE
+
+;--------------------------------------------------------------
+:TurnSwitchOff
+;--------------------------------------------------------------
+	RemoveTrigger Use
+	Exit TRUE
+;--------------------------------------------------------------
+:TriggerScrObj
+;--------------------------------------------------------------
+	Trigger hPuzzleManager, Reset
+	Exit TRUE
+;--------------------------------------------------------------
+:MoveMe
+;--------------------------------------------------------------
+
+	PlayAnim fidget1, TriggerScrObj
+	playsound Sounds\spells\EnchantItem.wav DoNothing 500 1000 FALSE 100
+	Exit TRUE
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	GetObjectHandle sPuzzleManager, hPuzzleManager
+	AddTrigger Use, MoveMe
+	AddTrigger Stop, TurnSwitchOff
+
+	PlayAnim fidget1, StopHere
+
+	Exit TRUE
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	GetParam 0, sPuzzleManager
+	Wait 0 .1 main2
+	Exit TRUE
+;------------- E n d - O f - F i l e -------------------

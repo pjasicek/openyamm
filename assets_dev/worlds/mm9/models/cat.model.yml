@@ -1,0 +1,463 @@
+schema: openyamm.model3d.v1
+id: cat
+model: cat.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/CAT.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: cat01
+  materialIndex: 0
+  lods:
+  - faces: 274
+    vertices: 139
+  - faces: 206
+    vertices: 105
+  - faces: 136
+    vertices: 70
+  - faces: 68
+    vertices: 36
+materials:
+- index: 0
+  texture: skins_preview/cat.png
+  runtime_texture: skins/cat.dtx
+  preview_texture: skins_preview/cat.png
+  source: mm9/extracted/SKINS/SKINS/CAT.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: XCENTER
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 20
+  - index: 2
+    name: XbackA
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 10
+  - index: 3
+    name: Xfrontleg
+    parent: 2
+    flags: 1
+    children:
+    - 4
+    - 7
+  - index: 4
+    name: Xflegpiv01
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Xfankle01
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Xffoot01
+    parent: 5
+    flags: 1
+    children: []
+  - index: 7
+    name: Xflegpiv
+    parent: 3
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Xfankle
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Xffoot
+    parent: 8
+    flags: 1
+    children: []
+  - index: 10
+    name: Bone01
+    parent: 2
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Xneckbase
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: XneckA
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: XneckB
+    parent: 12
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: XneckC
+    parent: 13
+    flags: 1
+    children:
+    - 15
+    - 17
+    - 18
+  - index: 15
+    name: Xearpiv
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Xear
+    parent: 15
+    flags: 1
+    children: []
+  - index: 17
+    name: Xhead
+    parent: 14
+    flags: 1
+    children: []
+  - index: 18
+    name: Xearpiv01
+    parent: 14
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Xear01
+    parent: 18
+    flags: 1
+    children: []
+  - index: 20
+    name: XbackB
+    parent: 1
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: XbackC
+    parent: 20
+    flags: 1
+    children:
+    - 22
+    - 29
+  - index: 22
+    name: Xtailpiv
+    parent: 21
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: XtailA
+    parent: 22
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: XtailB
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: XtailC
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: XtailD
+    parent: 25
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: XtailE
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: XtailF
+    parent: 27
+    flags: 1
+    children: []
+  - index: 29
+    name: Xbackleg
+    parent: 21
+    flags: 1
+    children:
+    - 30
+    - 35
+  - index: 30
+    name: Xblegpiv
+    parent: 29
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: Xbleg
+    parent: 30
+    flags: 1
+    children:
+    - 32
+  - index: 32
+    name: Xblegmid
+    parent: 31
+    flags: 1
+    children:
+    - 33
+  - index: 33
+    name: Xbankle
+    parent: 32
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: Xbfoot
+    parent: 33
+    flags: 1
+    children: []
+  - index: 35
+    name: Xblegpiv01
+    parent: 29
+    flags: 1
+    children:
+    - 36
+  - index: 36
+    name: Xbleg01
+    parent: 35
+    flags: 1
+    children:
+    - 37
+  - index: 37
+    name: Xblegmid01
+    parent: 36
+    flags: 1
+    children:
+    - 38
+  - index: 38
+    name: Xbankle01
+    parent: 37
+    flags: 1
+    children:
+    - 39
+  - index: 39
+    name: Xbfoot01
+    parent: 38
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: static_model
+  durationMs: 366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand1
+  durationMs: 1700
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: fidget1
+  durationMs: 3000
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: playanimsound
+- name: fidget2
+  durationMs: 3500
+  keyframes: 13
+  interpolationTimeMs: 200
+  events: []
+- name: down
+  durationMs: 400
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: up
+  durationMs: 400
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: standdown
+  durationMs: 1700
+  keyframes: 11
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 202
+    event: speakanimsound
+- name: fidgetdown2
+  durationMs: 5000
+  keyframes: 18
+  interpolationTimeMs: 200
+  events: []
+- name: fidgetdown1
+  durationMs: 1700
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 400
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: run
+  durationMs: 200
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: static_model
+  extents:
+  - 12.8
+  - 25.6
+  - 12.8
+  origin:
+  - 0.0
+  - -12.8
+  - 0.0
+- name: stand1
+  extents:
+  - 12.8
+  - 25.6
+  - 12.8
+  origin:
+  - 0.0
+  - -12.8
+  - 0.0
+- name: fidget1
+  extents:
+  - 12.8
+  - 25.6
+  - 12.8
+  origin:
+  - 0.0
+  - -12.8
+  - 0.0
+- name: fidget2
+  extents:
+  - 12.8
+  - 25.6
+  - 12.8
+  origin:
+  - 0.0
+  - -12.8
+  - 0.0
+- name: down
+  extents:
+  - 12.8
+  - 25.6
+  - 12.8
+  origin:
+  - 0.0
+  - -12.8
+  - 0.0
+- name: up
+  extents:
+  - 12.8
+  - 25.6
+  - 12.8
+  origin:
+  - 0.0
+  - -12.8
+  - 0.0
+- name: standdown
+  extents:
+  - 12.8
+  - 25.6
+  - 12.8
+  origin:
+  - 0.0
+  - -12.8
+  - 0.0
+- name: fidgetdown2
+  extents:
+  - 12.8
+  - 25.6
+  - 12.8
+  origin:
+  - 0.0
+  - -12.8
+  - 0.0
+- name: fidgetdown1
+  extents:
+  - 12.8
+  - 25.6
+  - 12.8
+  origin:
+  - 0.0
+  - -12.8
+  - 0.0
+- name: walk
+  extents:
+  - 12.8
+  - 25.6
+  - 12.8
+  origin:
+  - 0.0
+  - -12.8
+  - 0.0
+- name: run
+  extents:
+  - 12.8
+  - 25.6
+  - 12.8
+  origin:
+  - 0.0
+  - -12.8
+  - 0.0
+roles:
+- actor_model
+source_model: models/cat.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: cat_cat
+  source_skins:
+  - skins/cat.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 275
+    number: '294'
+    monster_name: cat
+    type_picture: Cat
+    base_name: ''
+  - table: MONSTERS
+    row: 275
+    number: '294'
+    monster_name: cat
+    type_picture: Cat
+    base_name: cat

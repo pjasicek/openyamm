@@ -1,0 +1,58 @@
+Coordinates for Save/Load Game Screens
+
+-----------------------------------------------------------------------------------
+Note: Coordinates are based on full-screen.  For coordinates relative to the
+	options background, subtract 250 from any given column number (except,
+	of course, the placement of the background itself)
+-----------------------------------------------------------------------------------
+
+SaveLoadBG.pcx		250x   0y	550x600	Background
+Save/Load Screenshot	543x 107y	200x150 Screenshot
+Time Of Save $		543x 260y	200x20 Arial 16 Pixel Center
+Date of Save $		543x 282y	200x20 Arial 16 Pixel Center
+Location of Save $	543x 304y	200x20 Arial 16 Pixel Center
+
+Save/Load Selector	285x ???y	224x40
+
+Note: The selector is a green area to highlight the currently selected 
+	Save/Load Slot.  Place at coordinates from the Save/Load slots 
+	themselves, below.
+
+List Scroll Arrow Up	512x 107y	16x16
+List Scroll Arrow Down	512x 538y	16x16
+List Scroll Handle	512x 125y	16x16	Upper Extent
+			512x 521y		Lowest Extent
+
+Pure Text Items:
+
+"LOAD GAME"/"SAVE GAME"	282x  44y	260x20	Arial 16 Pixel Left
+"Select Save/File"	282x  80y	260x20  Arial 16 Pixel Left  Pick text appropriate to save or load
+
+Save/Load File Slots are each 224x40 Pixels At the following coordinates.
+Slot 1			285x 108y
+Slot 2			285x 153y
+Slot 3			285x 198y
+Slot 4			285x 243y
+Slot 5			285x 288y
+Slot 6			285x 333y
+Slot 7			285x 378y
+Slot 8			285x 423y
+Slot 9			285x 468y
+Slot 10			285x 513y
+ 
+Note: All printed text should be Arial about 16 point (Full Basic capital letter
+	should be around 16 Pixels tall)  Color rgb(220,200,150) With a 1-pixel
+	outline of color rgb(53,27,4)  All printed text should be in "Small Caps"
+	format, with no descenders from lower-case letters such as g or p.
+
+Text As Buttons:
+
+"Delete File"		543x 334y	200x20	Arial 16 Pixel Center
+"Cancel"		543x 533y	96x20 Arial 16 Pixel Center
+"Load" or "Save"	647x 533y	96x20 Arial 16 Pixel Center
+
+Note: Button Text should be the same color as above, but when mouse-overed should 
+	highlight in color rgb(250,240,220)  And when pressed should cause a sound
+	effect and flash dark color rgb(110,100,75)
+
+----------------------------------------------------------------------------------

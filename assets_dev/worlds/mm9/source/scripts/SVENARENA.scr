@@ -1,0 +1,157 @@
+;--------------------------------------------------
+;SvenArena.scr
+; timmy
+; handles sven's behavior in arena
+;----------------------------------------------
+
+#include globals.inc
+#include BaseMelee.inc
+
+#string			sMarker
+
+#Number			bGuard
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:OnWalk
+;--------------------------------------------------
+
+
+
+haskey 231 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+haskey 230 g_ntemp
+if (g_ntemp==FALSE)
+	exit
+endif
+
+getmyhandle g_hobject
+setflag g_hobject, visible
+setflag g_hobject, solid
+setflag g_hobject, gravity
+
+if (bGuard==FALSE)
+	getobjecthandle ClanSoldier1 g_hobject
+	trigger g_hobject Guard
+	
+	getobjecthandle ClanSoldier0 g_hobject
+	trigger g_hobject Guard
+
+	getobjecthandle sMarker g_hobject
+	walkto g_hobject 6 OnArrive
+
+	Playsound sounds\events\Trumpets02.wav, DoNothing, 100, 24000, FALSE, 100
+endif
+
+exit
+
+;--------------------------------------------------
+:OnGuard
+;--------------------------------------------------
+
+
+getmyhandle g_hobject
+setflag g_hobject, visible
+setflag g_hobject, solid
+setflag g_hobject, gravity
+getobjecthandle sMarker g_hobject
+walkto g_hobject 6 OnArrive
+exit
+;--------------------------------------------------
+:OnArrive
+;--------------------------------------------------
+
+
+wait 1 2 OnWave
+exit
+
+;--------------------------------------------------
+:OnWave
+;--------------------------------------------------
+
+if (bGuard==FALSE)
+	getobjecthandle WinCheerTrigger0 g_hobject
+	trigger g_hobject trigger
+endif
+
+Playanim Bless DoNothing
+wait 1 2 OnStart
+exit
+
+
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+
+getmyhandle g_hobject
+clearflag g_hobject, visible
+clearflag g_hobject, solid
+clearflag g_hobject, gravity
+exit
+
+
+;--------------------------------------------------
+:OnStart
+;--------------------------------------------------
+
+getobjecthandle RotatingDoor4 g_hobject
+trigger g_hobject use
+getobjecthandle CommonerHuman2MaleB0 g_hobject
+trigger g_hobject enter
+wait 1 1 Boo
+
+exit
+
+;--------------------------------------------------
+:Boo
+;--------------------------------------------------
+
+if (bGuard==FALSE)
+	getobjecthandle LooseBooTrigger0 g_hobject
+	trigger g_hobject trigger
+endif
+
+exit
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+givekey 1034
+exit
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+takekey 1034
+exit
+
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+OnRudeExit OnRude
+AddTrigger Walk OnWalk
+AddTrigger use OnUse
+AddTrigger Guard OnGuard
+getparam 0 sMarker
+getparam 1 bGuard
+gosub Init
+exit
+

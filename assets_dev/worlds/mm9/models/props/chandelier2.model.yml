@@ -1,0 +1,276 @@
+schema: openyamm.model3d.v1
+id: chandelier2
+model: chandelier2.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/CHANDELIER2.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Flame
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame2
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame3
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame4
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame5
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame6
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame7
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame8
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Chandelier2
+  materialIndex: 0
+  lods:
+  - faces: 584
+    vertices: 372
+  - faces: 436
+    vertices: 298
+  - faces: 288
+    vertices: 224
+materials:
+- index: 0
+  texture: skins_preview/props/chandelier2.png
+  runtime_texture: skins/props/chandelier2.dtx
+  preview_texture: skins_preview/props/chandelier2.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/CHANDELIER2.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+  - index: 1
+    name: Flame
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Flame2
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Flame3
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Flame4
+    parent: 0
+    flags: 1
+    children: []
+  - index: 5
+    name: Flame5
+    parent: 0
+    flags: 1
+    children: []
+  - index: 6
+    name: Flame6
+    parent: 0
+    flags: 1
+    children: []
+  - index: 7
+    name: Flame7
+    parent: 0
+    flags: 1
+    children: []
+  - index: 8
+    name: Flame8
+    parent: 0
+    flags: 1
+    children: []
+  - index: 9
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets:
+- name: Flame
+  node: 1
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.10405220836400986
+  - -0.6994091272354126
+  - 0.10405222326517105
+  - 0.6994091272354126
+- name: Flame2
+  node: 2
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.10466653853654861
+  - 0.699317455291748
+  - -0.10466652363538742
+  - 0.699317455291748
+- name: Flame3
+  node: 3
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.10417094826698303
+  - -0.6999029517173767
+  - 0.10432695597410202
+  - 0.6988562941551208
+- name: Flame4
+  node: 4
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.10448182374238968
+  - 0.6998581290245056
+  - -0.10463880747556686
+  - 0.6988081336021423
+- name: Flame5
+  node: 5
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.1017894372344017
+  - -0.7046573162078857
+  - 0.10326717048883438
+  - 0.6945738196372986
+- name: Flame6
+  node: 6
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.10391240566968918
+  - 0.6937588453292847
+  - -0.10221146047115326
+  - 0.705303966999054
+- name: Flame7
+  node: 7
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.10359669476747513
+  - -0.6945334672927856
+  - 0.1021164134144783
+  - 0.7046014666557312
+- name: Flame8
+  node: 8
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.10249072313308716
+  - 0.7038857936859131
+  - -0.10377465933561325
+  - 0.6951770782470703
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 92.16
+  - 69.12
+  - 92.16
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/chandelier2.abc

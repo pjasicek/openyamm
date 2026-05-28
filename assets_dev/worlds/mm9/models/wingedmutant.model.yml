@@ -1,0 +1,933 @@
+schema: openyamm.model3d.v1
+id: wingedmutant
+model: wingedmutant.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/WINGEDMUTANT.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: tailed
+  materialIndex: 0
+  lods:
+  - faces: 554
+    vertices: 279
+  - faces: 416
+    vertices: 210
+  - faces: 276
+    vertices: 140
+  - faces: 138
+    vertices: 71
+materials:
+- index: 0
+  texture: skins_preview/wingedmutant1.png
+  runtime_texture: skins/wingedmutant1.dtx
+  preview_texture: skins_preview/wingedmutant1.png
+  source: mm9/extracted/SKINS/SKINS/WINGEDMUTANT1.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 50
+    - 55
+    - 71
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+    - 16
+    - 33
+  - index: 5
+    name: Bip01 Spine3
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Bip01 Neck
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Bip01 Neck1
+    parent: 6
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Bip01 Head
+    parent: 7
+    flags: 1
+    children:
+    - 9
+    - 12
+    - 14
+  - index: 9
+    name: Xhairbase
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Xhairpiv
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Xhairmid
+    parent: 10
+    flags: 1
+    children: []
+  - index: 12
+    name: Xhairritpiv
+    parent: 8
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Xhairrit
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Xhairleftpiv
+    parent: 8
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Xhairleft
+    parent: 14
+    flags: 1
+    children: []
+  - index: 16
+    name: Ywingarm01
+    parent: 4
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Ywingpiv01
+    parent: 16
+    flags: 1
+    children:
+    - 18
+    - 31
+  - index: 18
+    name: YwingA01
+    parent: 17
+    flags: 1
+    children:
+    - 19
+    - 29
+  - index: 19
+    name: YwingB01
+    parent: 18
+    flags: 1
+    children:
+    - 20
+    - 27
+  - index: 20
+    name: YwingC01
+    parent: 19
+    flags: 1
+    children:
+    - 21
+    - 25
+  - index: 21
+    name: YwingD01
+    parent: 20
+    flags: 1
+    children:
+    - 22
+    - 23
+  - index: 22
+    name: YwingE01
+    parent: 21
+    flags: 1
+    children: []
+  - index: 23
+    name: Ywdpiv01
+    parent: 21
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Ywdmid01
+    parent: 23
+    flags: 1
+    children: []
+  - index: 25
+    name: Ywcpiv01
+    parent: 20
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: Ywcmid01
+    parent: 25
+    flags: 1
+    children: []
+  - index: 27
+    name: Ywbpiv01
+    parent: 19
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Ywbmid01
+    parent: 27
+    flags: 1
+    children: []
+  - index: 29
+    name: Ywapiv01
+    parent: 18
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Ywamid01
+    parent: 29
+    flags: 1
+    children: []
+  - index: 31
+    name: Ywpiv01
+    parent: 17
+    flags: 1
+    children:
+    - 32
+  - index: 32
+    name: Ywmid01
+    parent: 31
+    flags: 1
+    children: []
+  - index: 33
+    name: Ywingarm
+    parent: 4
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: Ywingpiv
+    parent: 33
+    flags: 1
+    children:
+    - 35
+    - 48
+  - index: 35
+    name: YwingA
+    parent: 34
+    flags: 1
+    children:
+    - 36
+    - 46
+  - index: 36
+    name: YwingB
+    parent: 35
+    flags: 1
+    children:
+    - 37
+    - 44
+  - index: 37
+    name: YwingC
+    parent: 36
+    flags: 1
+    children:
+    - 38
+    - 42
+  - index: 38
+    name: YwingD
+    parent: 37
+    flags: 1
+    children:
+    - 39
+    - 40
+  - index: 39
+    name: YwingE
+    parent: 38
+    flags: 1
+    children: []
+  - index: 40
+    name: Ywdpiv
+    parent: 38
+    flags: 1
+    children:
+    - 41
+  - index: 41
+    name: Ywdmid
+    parent: 40
+    flags: 1
+    children: []
+  - index: 42
+    name: Ywcpiv
+    parent: 37
+    flags: 1
+    children:
+    - 43
+  - index: 43
+    name: Ywcmid
+    parent: 42
+    flags: 1
+    children: []
+  - index: 44
+    name: Ywbpiv
+    parent: 36
+    flags: 1
+    children:
+    - 45
+  - index: 45
+    name: Ywbmid
+    parent: 44
+    flags: 1
+    children: []
+  - index: 46
+    name: Ywapiv
+    parent: 35
+    flags: 1
+    children:
+    - 47
+  - index: 47
+    name: Ywamid
+    parent: 46
+    flags: 1
+    children: []
+  - index: 48
+    name: Ywpiv
+    parent: 34
+    flags: 1
+    children:
+    - 49
+  - index: 49
+    name: Ywmid
+    parent: 48
+    flags: 1
+    children: []
+  - index: 50
+    name: Xtailbase
+    parent: 1
+    flags: 1
+    children:
+    - 51
+  - index: 51
+    name: Xtailpiv
+    parent: 50
+    flags: 1
+    children:
+    - 52
+  - index: 52
+    name: XtailA
+    parent: 51
+    flags: 1
+    children:
+    - 53
+  - index: 53
+    name: XtailB
+    parent: 52
+    flags: 1
+    children:
+    - 54
+  - index: 54
+    name: XtailC
+    parent: 53
+    flags: 1
+    children: []
+  - index: 55
+    name: Bip01 L Thigh
+    parent: 1
+    flags: 1
+    children:
+    - 56
+  - index: 56
+    name: Bip01 L Calf
+    parent: 55
+    flags: 1
+    children:
+    - 57
+  - index: 57
+    name: Bip01 L Foot
+    parent: 56
+    flags: 1
+    children:
+    - 58
+  - index: 58
+    name: Xfootritpiv
+    parent: 57
+    flags: 1
+    children:
+    - 59
+    - 62
+    - 65
+    - 68
+  - index: 59
+    name: XclawBpiv02
+    parent: 58
+    flags: 1
+    children:
+    - 60
+  - index: 60
+    name: XclawB02
+    parent: 59
+    flags: 1
+    children:
+    - 61
+  - index: 61
+    name: XclawBmid02
+    parent: 60
+    flags: 1
+    children: []
+  - index: 62
+    name: Xtoepiv01
+    parent: 58
+    flags: 1
+    children:
+    - 63
+  - index: 63
+    name: Xtoe01
+    parent: 62
+    flags: 1
+    children:
+    - 64
+  - index: 64
+    name: Xtoemid01
+    parent: 63
+    flags: 1
+    children: []
+  - index: 65
+    name: XclawCpiv01
+    parent: 58
+    flags: 1
+    children:
+    - 66
+  - index: 66
+    name: XclawC01
+    parent: 65
+    flags: 1
+    children:
+    - 67
+  - index: 67
+    name: XclawCmid01
+    parent: 66
+    flags: 1
+    children: []
+  - index: 68
+    name: XclawBpiv03
+    parent: 58
+    flags: 1
+    children:
+    - 69
+  - index: 69
+    name: XclawB03
+    parent: 68
+    flags: 1
+    children:
+    - 70
+  - index: 70
+    name: XclawBmid03
+    parent: 69
+    flags: 1
+    children: []
+  - index: 71
+    name: Bip01 R Thigh
+    parent: 1
+    flags: 1
+    children:
+    - 72
+  - index: 72
+    name: Bip01 R Calf
+    parent: 71
+    flags: 1
+    children:
+    - 73
+  - index: 73
+    name: Bip01 R Foot
+    parent: 72
+    flags: 1
+    children:
+    - 74
+  - index: 74
+    name: Xfootleftpiv
+    parent: 73
+    flags: 1
+    children:
+    - 75
+    - 78
+    - 81
+    - 84
+  - index: 75
+    name: XclawBpiv
+    parent: 74
+    flags: 1
+    children:
+    - 76
+  - index: 76
+    name: XclawB
+    parent: 75
+    flags: 1
+    children:
+    - 77
+  - index: 77
+    name: XclawBmid
+    parent: 76
+    flags: 1
+    children: []
+  - index: 78
+    name: Xtoepiv
+    parent: 74
+    flags: 1
+    children:
+    - 79
+  - index: 79
+    name: Xtoe
+    parent: 78
+    flags: 1
+    children:
+    - 80
+  - index: 80
+    name: Xtoemid
+    parent: 79
+    flags: 1
+    children: []
+  - index: 81
+    name: XclawCpiv
+    parent: 74
+    flags: 1
+    children:
+    - 82
+  - index: 82
+    name: XclawC
+    parent: 81
+    flags: 1
+    children:
+    - 83
+  - index: 83
+    name: XclawCmid
+    parent: 82
+    flags: 1
+    children: []
+  - index: 84
+    name: XclawBpiv01
+    parent: 74
+    flags: 1
+    children:
+    - 85
+  - index: 85
+    name: XclawB01
+    parent: 84
+    flags: 1
+    children:
+    - 86
+  - index: 86
+    name: XclawBmid01
+    parent: 85
+    flags: 1
+    children: []
+sockets:
+- name: RHand1
+  node: 77
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.002621444407850504
+  - -0.9340147972106934
+  - 0.3555408716201782
+  - 0.006883726455271244
+- name: Mouth
+  node: 4
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.41093888878822327
+  - 0.41093555092811584
+  - -0.5754405856132507
+  - 0.575438380241394
+- name: RangeAttack
+  node: 68
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.33067065477371216
+  - -0.5253874659538269
+  - -0.7488695979118347
+  - 0.23198921978473663
+animations:
+- name: static_model
+  durationMs: 366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: StandAir
+  durationMs: 550
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 183
+    event: flap
+  - timeMs: 393
+    event: flap
+- name: FidgetAir1
+  durationMs: 1200
+  keyframes: 18
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 205
+    event: flap
+  - timeMs: 497
+    event: flap
+  - timeMs: 732
+    event: flap
+  - timeMs: 1083
+    event: flap
+- name: TauntAir
+  durationMs: 800
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 53
+    event: speakanimsound
+  - timeMs: 186
+    event: flap
+  - timeMs: 400
+    event: flap
+  - timeMs: 666
+    event: flap
+- name: Flap
+  durationMs: 400
+  keyframes: 6
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 255
+    event: flap
+- name: HAttackAir1
+  durationMs: 700
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 350
+    event: speakanimsound
+  - timeMs: 404
+    event: Rattack
+  - timeMs: 538
+    event: flap
+- name: HattackAir2
+  durationMs: 600
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 200
+    event: flap; speakanimsound
+  - timeMs: 343
+    event: Rattack
+  - timeMs: 485
+    event: flap
+- name: RAttack1
+  durationMs: 600
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 233
+    event: flap;RangeAttack; speakanimsound
+- name: WinceAir1
+  durationMs: 600
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 79
+    event: speakanimsound
+- name: WinceAir2
+  durationMs: 800
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 75
+    event: speakanimsound
+  - timeMs: 647
+    event: flap
+- name: dieair1
+  durationMs: 700
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 134
+    event: speakanimsound
+- name: fall1
+  durationMs: 400
+  keyframes: 4
+  interpolationTimeMs: 0
+  events: []
+- name: falldown1
+  durationMs: 900
+  keyframes: 7
+  interpolationTimeMs: 0
+  events:
+  - timeMs: 300
+    event: playdeathsound
+  - timeMs: 599
+    event: deaddims 0 0 0
+- name: dieair2
+  durationMs: 600
+  keyframes: 6
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: fall2
+  durationMs: 400
+  keyframes: 4
+  interpolationTimeMs: 0
+  events: []
+- name: falldown2
+  durationMs: 800
+  keyframes: 7
+  interpolationTimeMs: 0
+  events:
+  - timeMs: 153
+    event: playdeathsound
+  - timeMs: 615
+    event: deaddims 0 0 0
+animationBindings:
+- name: static_model
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: StandAir
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: FidgetAir1
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: TauntAir
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Flap
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: HAttackAir1
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: HattackAir2
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: RAttack1
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: WinceAir1
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: WinceAir2
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: dieair1
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fall1
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: falldown1
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: dieair2
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fall2
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: falldown2
+  extents:
+  - 46.08
+  - 66.56
+  - 46.08
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- actor_model
+source_model: models/wingedmutant.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: wingedmutant_wingedmutant1
+  source_skins:
+  - skins/wingedmutant1.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 151
+    number: '159'
+    monster_name: Winged Oddity
+    type_picture: Winged Mutant A
+    base_name: ''
+  - table: MONSTERS
+    row: 151
+    number: '159'
+    monster_name: Winged Oddity
+    type_picture: Winged Mutant A
+    base_name: WingedMutant
+- id: wingedmutant_wingedmutant2
+  source_skins:
+  - skins/wingedmutant2.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 152
+    number: '160'
+    monster_name: Winged Mutant
+    type_picture: Winged Mutant B
+    base_name: ''
+  - table: MONSTERS
+    row: 152
+    number: '160'
+    monster_name: Winged Mutant
+    type_picture: Winged Mutant B
+    base_name: WingedMutant
+- id: wingedmutant_wingedmutant3
+  source_skins:
+  - skins/wingedmutant3.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 153
+    number: '161'
+    monster_name: Winged Aberration
+    type_picture: Winged Mutant C
+    base_name: ''
+  - table: MONSTERS
+    row: 153
+    number: '161'
+    monster_name: Winged Aberration
+    type_picture: Winged Mutant C
+    base_name: WingedMutant

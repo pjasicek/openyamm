@@ -1,0 +1,738 @@
+format_version: 1
+source_file: NPC309.rude
+rows:
+  - source:
+      file: NPC309.rude
+      row: 1
+    raw_columns:
+      - 309
+      - 998
+      - 1
+      - Come with us!
+      - asdf
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 309
+      node_id: 998
+      choice_slot: 1
+      prompt: Come with us!
+      response: asdf
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC309.rude
+      row: 2
+    raw_columns:
+      - 309
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 309
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC309.rude
+      row: 3
+    raw_columns:
+      - 309
+      - 5
+      - 1
+      - WE have a Writ of Fate!!
+      - That is impossible!  We must get to the bottom of this!!
+      - 998
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 106
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 309
+      node_id: 5
+      choice_slot: 1
+      prompt: WE have a Writ of Fate!!
+      response: That is impossible!  We must get to the bottom of this!!
+      next: 998
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 106
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 998
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 106
+        status: raw_value_preserved
+  - source:
+      file: NPC309.rude
+      row: 4
+    raw_columns:
+      - 309
+      - 4
+      - 1
+      - That cannot be!  We are destined to stop you!
+      - What!?  How can you stop me when I have a Writ of Fate?
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 309
+      node_id: 4
+      choice_slot: 1
+      prompt: That cannot be!  We are destined to stop you!
+      response: What!?  How can you stop me when I have a Writ of Fate?
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC309.rude
+      row: 5
+    raw_columns:
+      - 309
+      - 3
+      - 1
+      - Destiny?  What are you talking about?
+      - It was there Igrid gave me my Writ of Fate.  It told of how I am fated to conquer the world!  That is why you cannot stop me!
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 309
+      node_id: 3
+      choice_slot: 1
+      prompt: Destiny?  What are you talking about?
+      response: It was there Igrid gave me my Writ of Fate.  It told of how I am fated to conquer the world!  That is why you cannot stop me!
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC309.rude
+      row: 6
+    raw_columns:
+      - 309
+      - 2
+      - 1
+      - You are beaten!  What makes you think you will escape?
+      - Ha!  If you only knew!  Well, I suppose I shall tell you.  You see, I have been to the place you call Arslegard.  I have spoken to Igrid.  It was there she informed me of my destiny!
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 309
+      node_id: 2
+      choice_slot: 1
+      prompt: You are beaten!  What makes you think you will escape?
+      response: Ha!  If you only knew!  Well, I suppose I shall tell you.  You see, I have been to the place you call Arslegard.  I have spoken to Igrid.  It was there she informed me of my destiny!
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC309.rude
+      row: 7
+    raw_columns:
+      - 309
+      - 1
+      - 1
+      - The traitor is finished.
+      - It seems that I underestimated your abilities.  I can assure you that will never happen again!  You may have won this battle, but in time my hordes will overrun Chedian, and I will see you all enslaved!
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 309
+      node_id: 1
+      choice_slot: 1
+      prompt: The traitor is finished.
+      response: It seems that I underestimated your abilities.  I can assure you that will never happen again!  You may have won this battle, but in time my hordes will overrun Chedian, and I will see you all enslaved!
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC309.rude
+      row: 8
+    raw_columns:
+      - 309
+      - 309
+      - 1
+      - We have come to end this, Tamur Leng!
+      - You!  Forad had instructions to kill you!  How is it that you are still alive?
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 106
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 309
+      node_id: 309
+      choice_slot: 1
+      prompt: We have come to end this, Tamur Leng!
+      response: You!  Forad had instructions to kill you!  How is it that you are still alive?
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 106
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 106
+        status: raw_value_preserved
+  - source:
+      file: NPC309.rude
+      row: 9
+    raw_columns:
+      - 309
+      - 309
+      - 2
+      - We will get to the bottom of this!!
+      - Hurry!
+      - 999
+      - 106
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 107
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 309
+      node_id: 309
+      choice_slot: 2
+      prompt: We will get to the bottom of this!!
+      response: Hurry!
+      next: 999
+      raw_fields:
+        c07: 106
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 107
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 106
+            qbit_id: 9106
+            state_id: mm9.keys.106
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 106
+          qbit_id: 9106
+          state_id: mm9.keys.106
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 107
+        status: raw_value_preserved
+  - source:
+      file: NPC309.rude
+      row: 10
+    raw_columns:
+      - 309
+      - 309
+      - 3
+      - Sorry to bother you.
+      - Goodbye.
+      - 999
+      - 107
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 309
+      node_id: 309
+      choice_slot: 3
+      prompt: Sorry to bother you.
+      response: Goodbye.
+      next: 999
+      raw_fields:
+        c07: 107
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 107
+            qbit_id: 9107
+            state_id: mm9.keys.107
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 107
+          qbit_id: 9107
+          state_id: mm9.keys.107

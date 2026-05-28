@@ -1,0 +1,93 @@
+;------------------------------------------------------------------
+;	IS_ficky.scr
+;	Brett Yagi
+;
+;	Works in conjunction with IS_fickyflock.scr.
+;	Generic function moves object randomly between markers in parameters
+;	When given the "scatter" trigger, it will trigger the "birds"
+;	specified in parameters.
+;
+;	Parameters
+;
+;	0 - Marker Root name  (ie for Markers Mrk0, Mrk1, Mrk2  "Mrk" is the root name)
+;	1 - Number of Markers
+;	2 - Bird Root name  (ie for Birds Bird0, Bird01, Bird02  "Bird0" is the root name)
+;	3 - Number of Birds
+;
+;
+;-----------------------------------------------------
+
+
+
+#number		nNumMarkers
+#number		nMarker = 0
+#string		sMarkerRoot
+#string		sMarker
+#hobject	hMarker
+#number		nPrevMarker = 0
+
+#number		nNumBirds = 0
+#number		nCount = 0
+#string		sBirdName
+#string		sBirdNameRoot
+#hobject	hBird = 0
+
+;--------------------------------------------------------------
+:PickMarker
+;--------------------------------------------------------------
+
+	GetRandomInt 0, nNumMarkers, nMarker
+	if (nMarker == nPrevMarker)
+		Gosub PickMarker
+	else
+		nPrevMarker = nMarker
+	endif
+
+Exit 1
+
+;--------------------------------------------------------------
+:Go
+;--------------------------------------------------------------
+
+	Gosub PickMarker
+	sMarker = sMarkerRoot
+	Add sMarker nMarker
+	GetObjectHandle sMarker hMarker
+	walkto hMarker 30 Go
+
+Exit 1
+
+;--------------------------------------------------------------
+:scatter
+;--------------------------------------------------------------
+
+	if ( nCount < nNumBirds )
+		sBirdName = sBirdNameRoot + nCount
+		GetObjectHandle sBirdName hBird
+		Trigger hBird go
+		nCount = nCount + 1
+		wait 0 .2 scatter
+	else
+;		Gosub go
+		RemoveTrigger scatter
+	endif
+
+
+Exit 1
+
+
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+
+	GetParam 0 sMarkerRoot
+	GetParam 1 nNumMarkers
+	GetParam 2 sBirdNameRoot
+	GetParam 3 nNumBirds
+
+	nNumMarkers = nNumMarkers - 1
+	AddTrigger Scatter scatter
+	Gosub Go
+	OnStuck Go
+
+Exit 1

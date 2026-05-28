@@ -1,0 +1,154 @@
+;--------------------------------------------------
+;NPC282.scr
+; timmy
+; handles Grehgknak the Right's voice and stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include BaseMelee.inc
+#include MonkHostility.inc
+
+#String    Params          
+#String    sound
+
+;promo variables
+
+#number		Fighter = 0
+#number		Mercenary = 1
+#number		Crusader = 2
+#number		Assassin = 3
+#number		Gladiator = 4
+#number		Ranger = 5
+#number		Paladin = 6
+#number		Initiate = 7
+#number		Scholar = 8
+#number		Healer = 9
+#number		Mage = 10
+#number		Lich = 11
+#number		Priest = 12
+#number		Druid = 13
+#number		Char1 = 0
+#number		Char2 = 1
+#number		Char3 = 2
+#number		Char4 = 3
+
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+gosub giveletter
+gosub paladins
+Gosub BaseWanderStart
+exit
+
+
+
+
+;--------------------------------------------------
+:PromotePaladin
+;
+; Player has already completed the quest
+; just check to see who gets promoted
+;--------------------------------------------------
+Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+
+haskey 421 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Paladin Char1
+	takekey 421
+endif
+
+haskey 422 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Paladin Char2
+	takekey 422
+endif
+
+haskey 423 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Paladin Char3
+	takekey 423
+endif
+
+haskey 424 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Paladin Char4
+	takekey 424
+endif
+exit
+
+;--------------------------------------------------
+:paladins
+;--------------------------------------------------
+
+haskey 237 g_ntemp
+if (g_ntemp==0, )
+	haskey 236 g_ntemp
+	if (g_ntemp==1, )
+		giveexp 63000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		gosub PromotePaladin
+		givegold 5000
+		givekey 237
+		exit
+	endif
+endif
+exit
+
+;--------------------------------------------------
+:giveletter
+;--------------------------------------------------
+
+haskey 229 g_ntemp
+if (g_ntemp==0, )
+	haskey 228 g_ntemp
+	if (g_ntemp==1, )
+		givekey 229
+		giveitem 419
+		exit
+	endif
+endif
+exit
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Stop
+Gosub BaseWanderStop
+Getparam 0 g_hobject
+FaceObject g_hobject 240 DoNothing
+DoRude 282
+Playsound voices\NPC\NPC_282.wav, DoNothing, 100, 240, FALSE, 100
+
+exit
+
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+Gosub BaseWanderInit
+gosub InitMonkHostility
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

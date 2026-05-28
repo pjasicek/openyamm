@@ -1,0 +1,453 @@
+format_version: 1
+source_file: NPC427.rude
+rows:
+  - source:
+      file: NPC427.rude
+      row: 1
+    raw_columns:
+      - 427
+      - 3
+      - 1
+      - No torture.  You're free to go.
+      - Free?  I'm Free?  Ha ha!  I'm free!  Thank you!
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 369
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 427
+      node_id: 3
+      choice_slot: 1
+      prompt: No torture.  You're free to go.
+      response: Free?  I'm Free?  Ha ha!  I'm free!  Thank you!
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 369
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 369
+        status: raw_value_preserved
+  - source:
+      file: NPC427.rude
+      row: 2
+    raw_columns:
+      - 427
+      - 427
+      - 1
+      - Are you the cooks brother?
+      - Yes.  If you plan to beat me, get on with it.  Otherwise leave me alone.
+      - 1
+      - 5004
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 369
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 427
+      node_id: 427
+      choice_slot: 1
+      prompt: Are you the cooks brother?
+      response: Yes.  If you plan to beat me, get on with it.  Otherwise leave me alone.
+      next: 1
+      raw_fields:
+        c07: 5004
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 369
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5004
+            qbit_id: 14004
+            state_id: mm9.keys.5004
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5004
+          qbit_id: 14004
+          state_id: mm9.keys.5004
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 369
+        status: raw_value_preserved
+  - source:
+      file: NPC427.rude
+      row: 3
+    raw_columns:
+      - 427
+      - 427
+      - 2
+      - Hello again.
+      - Thank you for rescuing me!
+      - 4
+      - 369
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 427
+      node_id: 427
+      choice_slot: 2
+      prompt: Hello again.
+      response: Thank you for rescuing me!
+      next: 4
+      raw_fields:
+        c07: 369
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 369
+            qbit_id: 9369
+            state_id: mm9.keys.369
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 369
+          qbit_id: 9369
+          state_id: mm9.keys.369
+  - source:
+      file: NPC427.rude
+      row: 4
+    raw_columns:
+      - 427
+      - 1
+      - 2
+      - We're not guards.  We're here to rescue you.
+      - What sort of torture is this?  Do not tease me so!
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 427
+      node_id: 1
+      choice_slot: 2
+      prompt: We're not guards.  We're here to rescue you.
+      response: What sort of torture is this?  Do not tease me so!
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC427.rude
+      row: 5
+    raw_columns:
+      - 427
+      - 4
+      - 4
+      - Goodbye.
+      - b;anmk
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 427
+      node_id: 4
+      choice_slot: 4
+      prompt: Goodbye.
+      response: b;anmk
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC427.rude
+      row: 6
+    raw_columns:
+      - 427
+      - 427
+      - 4
+      - Nothing
+      - blank
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 427
+      node_id: 427
+      choice_slot: 4
+      prompt: Nothing
+      response: blank
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

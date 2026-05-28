@@ -1,0 +1,15 @@
+#include globals.inc
+
+
+:WatchMe
+	GetParam 0,g_hObject
+	FaceObject g_hObject,0
+	Exit
+
+
+:Main
+
+	AddTrigger Watchme,WatchMe
+
+	Exit
+

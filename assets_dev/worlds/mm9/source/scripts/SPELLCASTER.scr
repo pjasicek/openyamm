@@ -1,0 +1,32 @@
+;------------------------------------------
+;	spellcaster.scr
+;	Jeff Leggett
+;	12/13/2001
+;	
+;	This script is used by monsters that 
+;	can cast defensive spells on itself
+;	and others....
+;
+;------------------------------------------
+
+#include baseMelee.inc
+#include range.inc
+
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+
+	GetMyHandle g_hMyObject
+
+;
+;	Make sure we are setup as a type 2 guy...
+;
+	SetStat g_hMyObject,RangeAttackType,RANGE_TYPE2
+
+	gosub BaseInit
+	gosub RangeInit
+
+	Exit

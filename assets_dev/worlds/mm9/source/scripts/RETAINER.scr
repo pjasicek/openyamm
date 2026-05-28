@@ -1,0 +1,95 @@
+;--------------------------------------------------
+;retainer.scr
+; timmy
+; handles the retainer stuff
+;
+; edited by Bones -- 6/11/03
+; TELP Patch 1.3 -- oorrects Arienh A'Klindor & Sowelu Axeldotir behavior.
+;--------------------------------------------------
+
+;#include globals.inc
+#include NPCBase.Inc
+
+#string			Sound
+#number			nKey
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+exit
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound sound, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+getmyhandle g_hobject
+
+haskey nKey g_ntemp
+if (g_ntemp==FALSE)
+	setflag g_hobject, visible
+	setflag g_hobject, solid
+	setflag g_hobject, gravity
+	gosub NPCBaseInit
+else
+	clearflag g_hobject, visible
+	clearflag g_hobject, solid
+	clearflag g_hobject, gravity
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+getparam 0 sound
+getparam 1 nKey
+
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+exit
+
+;--------------------------------------------------
+:Init
+;	overloaded -- Bones
+;--------------------------------------------------
+
+
+GetMyHandle g_hMyObject
+GetObjectName g_hMyObject g_sPad2
+set g_sTemp 238
+if g_sPad2 == g_sTemp
+	set sound voices\npc\NPC_238.wav
+	set nKey 460
+endif
+
+if nKey == 453
+	set nKey 452
+endif
+
+goto Init 1

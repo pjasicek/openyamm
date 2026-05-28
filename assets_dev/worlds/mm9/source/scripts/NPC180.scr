@@ -1,0 +1,184 @@
+;--------------------------------------------------
+;NPC180.scr
+; timmy
+; handles tryygva Ravenlocks voice and quest stuff
+;
+; edited by Bones -- 6/11/03
+; TELP Patch 1.3 -- corrected improper use of variable;
+;		probably no bug effects
+;--------------------------------------------------
+
+#include globals.inc
+#include United.inc
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+#number			bVanish
+
+;-------------------------------------
+:Init
+;-------------------------------------
+loopanim Sit 0 DoNothing
+
+
+haskey 104 g_ntemp
+if (g_ntemp==TRUE)
+	set bVanish TRUE
+	gosub vanish
+endif
+
+
+haskey 40 g_ntemp
+if (g_ntemp==TRUE)
+	set bVanish TRUE
+	gosub vanish
+endif
+
+haskey 108 g_ntemp
+if (g_ntemp==TRUE)
+	set bVanish False
+	gosub Vanish
+endif
+exit
+
+
+	
+;-------------------------------------
+:Vanish
+;-------------------------------------
+
+getmyhandle g_hobject
+
+if (bVanish==TRUE)
+	clearflag g_hobject, visible
+	clearflag g_hobject, solid
+	clearflag g_hobject, gravity
+	exit
+else
+	setflag g_hobject, visible
+	setflag g_hobject, solid
+	setflag g_hobject, gravity
+	exit
+endif
+
+exit
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub Yanmir
+gosub Breakice
+gosub united
+
+exit
+
+
+;--------------------------------------------------
+:Yanmir
+;--------------------------------------------------
+;****************
+;Yanmir the frost giant Quest
+;****************
+
+Haskey 172, keycheck
+if (keycheck==0, )
+; checks to see if they already have got the reward.
+	Haskey 70, g_ntemp
+	if (g_ntemp==1, )
+	; checks to see if they've Beat the frost giant
+		GiveKey 172
+		GiveExp 58000
+		GiveGold 10000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		; gives reward
+
+		exit
+	endif
+endif
+
+exit
+
+
+
+;End Yanmir the frost giant quest
+;******************
+exit
+
+
+;--------------------------------------------------
+:Breakice
+;--------------------------------------------------
+;****************
+;break the ice Quest
+;****************
+
+
+Haskey 175, keycheck
+if (keycheck==0, )
+; checks to see if they already have got the reward.
+	Haskey 73, g_ntemp
+	if (g_ntemp==1, )
+	; checks to see if they've Beat the frost giant
+		GiveKey 175
+		GiveExp 30000
+		GiveGold 3000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		; gives reward
+
+		exit
+	endif
+endif
+
+exit
+
+;End break the ice Quest
+;******************
+exit
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+
+
+
+Playsound voices\NPC\NPC_180.wav, Onexit, 100, 240, FALSE, 100
+Gosub Oncheck
+
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+Set Jarl, Tryygva
+Gosub UnitedInit
+gosub Init
+exit
+

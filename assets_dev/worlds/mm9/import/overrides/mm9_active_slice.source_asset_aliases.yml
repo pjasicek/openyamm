@@ -1,0 +1,52 @@
+format_version: 1
+kind: mm9_source_asset_aliases
+scope: active_editor_slice
+aliases:
+  - source_family: models
+    requested: models\Props\Barrel02.ABC
+    resolved: models\Props\Barrel.ABC
+    scope:
+      maps: [thjorgard]
+      object_indexes: [396]
+      properties: [Filename]
+    evidence:
+      raw_object: assets_dev/worlds/mm9/maps/thjorgard.raw_objects.yml
+      source_object: Prop74
+      source_tree_absent: assets_dev/worlds/mm9/source/models/PROPS/BARREL02.abc
+      source_tree_candidates:
+        - assets_dev/worlds/mm9/source/models/PROPS/BARREL.abc
+        - assets_dev/worlds/mm9/source/models/PROPS/BARREL03.abc
+        - assets_dev/worlds/mm9/source/models/PROPS/DEBRIS/BARREL02-DEBRIS.abc
+      decision: BARREL.abc is the closest intact barrel model; BARREL02-DEBRIS.abc is debris only.
+  - source_family: skins
+    requested: Skins\Props\Barrel02.dtx
+    resolved: Skins\Props\Barrel.dtx
+    scope:
+      maps: [thjorgard]
+      object_indexes: [396]
+      properties: [Skin]
+    evidence:
+      raw_object: assets_dev/worlds/mm9/maps/thjorgard.raw_objects.yml
+      source_object: Prop74
+      source_tree_absent: assets_dev/worlds/mm9/source/skins/PROPS/BARREL02.dtx
+      source_tree_candidates:
+        - assets_dev/worlds/mm9/source/skins/PROPS/BARREL.dtx
+        - assets_dev/worlds/mm9/source/skins/PROPS/BARREL03.dtx
+      decision: BARREL.dtx matches the selected intact BARREL.abc fallback.
+  - source_family: sounds
+    requested: Sounds\GIBS\GLASS\EXPLODE_2.WAV
+    resolved: Sounds\EVENTS\GLASS_SMASH.wav
+    scope:
+      maps: [thjorgardcity]
+      object_indexes: [88, 89]
+      properties: [CustomSound]
+    evidence:
+      raw_object: assets_dev/worlds/mm9/maps/thjorgardcity.raw_objects.yml
+      source_objects: [Beaker2, Beaker1]
+      source_tree_absent: assets_dev/worlds/mm9/source/sounds/GIBS/GLASS/EXPLODE_2.WAV
+      source_tree_candidates:
+        - assets_dev/worlds/mm9/source/sounds/EVENTS/GLASS_SMASH.wav
+        - assets_dev/worlds/mm9/source/sounds/WEAPONS/NGLASS.wav
+        - assets_dev/worlds/mm9/source/sounds/WEAPONS/GGLASS.wav
+        - assets_dev/worlds/mm9/source/sounds/WEAPONS/CGLASS.wav
+      decision: GLASS_SMASH.wav is the only event-style glass break sound in the mirrored source tree.

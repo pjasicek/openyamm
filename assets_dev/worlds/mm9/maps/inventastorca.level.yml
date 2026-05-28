@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: inventastorca
+display_name: Inventa Storca
+source:
+  dat: ../source/worlds/INVENTASTORCA.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/INVENTASTORCA.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 42b66823f112f8a03c02a0c6ed626dfe1ea5b2d368f26224f085b7bbc77eed75
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: inventastorca.dat_world.yml
+  raw_objects: inventastorca.raw_objects.yml
+  materials: inventastorca.material_aliases.yml
+  events: inventastorca.events.yml
+  scene_compat: inventastorca.scene.yml
+  source_metadata_compat: inventastorca.mm9.yml
+  bsp_compat: inventastorca.bsp.yml
+  geometry_compat: inventastorca.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: inventastorca.blv
+scripts:
+  level: ../events/inventastorca.lua
+  script_ir: ../events/inventastorca.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

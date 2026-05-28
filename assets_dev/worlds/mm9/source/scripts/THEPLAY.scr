@@ -1,0 +1,448 @@
+;----------------------------------------------
+;ThePlay.scr
+; By Timmy
+; handles robert and douglas's argument 
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+; sound stuff
+#number                         sound   ; checks to see if a sound is currently playing
+#number							sounddur ; duration of sound
+#number							sounddone ; if sound is done this is true
+
+;actor voice handlers
+#number							Narratorhandle ; handler for Narrator
+#number							TrislanHandle  ;handler for Trislan
+#number							AbrielHandle   ; Handle for Abriel
+#number							RalofHandle   ; Handle for Ralof
+#number							WilamHandle   ; Handle for Wilam
+#number							LefferyHandle  ; Handle for Leffery
+
+
+
+
+;ACT I
+
+
+;-------------------------------------
+:Onblabber
+;-------------------------------------
+; 
+
+
+
+	Playsoundhandle voices\cinema\guberlandplay\01.wav, Narratorhandle, 240, FALSE, 100
+	GetSoundDuration, Narratorhandle, sounddur
+	Add sounddur, 1
+	Wait 1 sounddur, Narrator02
+
+
+exit
+
+
+;-------------------------------------
+:Narrator02
+;-------------------------------------
+
+KillSound Narratorhandle
+Playsoundhandle voices\cinema\guberlandplay\02.wav, Narratorhandle, 240, FALSE, 100
+GetSoundDuration, Narratorhandle, sounddur
+Wait 1 sounddur, Trislan03
+exit
+
+
+;-------------------------------------
+:Trislan03
+;-------------------------------------
+
+
+KillSound TrislanHandle
+Playsoundhandle voices\cinema\guberlandplay\03.wav, TrislanHandle, 240, FALSE, 100
+GetSoundDuration, TrislanHandle, sounddur
+
+Wait 1 sounddur, Abriel04
+exit
+
+
+;-------------------------------------
+:Abriel04
+;-------------------------------------
+
+
+KillSound AbrielHandle
+
+Playsoundhandle voices\cinema\guberlandplay\04.wav, AbrielHandle, 240, FALSE, 100
+GetSoundDuration, AbrielHandle, sounddur
+
+Wait 1 sounddur, Trislan05
+exit
+
+
+;-------------------------------------
+:Trislan05
+;-------------------------------------
+
+KillSound TrislanHandle
+Playsoundhandle voices\cinema\guberlandplay\05.wav, TrislanHandle, 240, FALSE, 100
+GetSoundDuration, TrislanHandle, sounddur
+Subtract Sounddur, .4
+Wait 1 sounddur, Abriel06
+exit
+
+
+;-------------------------------------
+:Abriel06
+;-------------------------------------
+
+KillSound AbrielHandle
+Playsoundhandle voices\cinema\guberlandplay\06.wav, AbrielHandle, 240, FALSE, 100
+GetSoundDuration, AbrielHandle, sounddur
+Wait 1 sounddur, Trislan07
+exit
+
+
+
+;-------------------------------------
+:Trislan07
+;-------------------------------------
+
+KillSound TrislanHandle
+Playsoundhandle voices\cinema\guberlandplay\07.wav, TrislanHandle, 240, FALSE, 100
+GetSoundDuration, TrislanHandle, sounddur
+
+Wait 1 sounddur, Abriel08
+exit
+
+;-------------------------------------
+:Abriel08
+;-------------------------------------
+
+KillSound AbrielHandle
+Playsoundhandle voices\cinema\guberlandplay\08.wav, AbrielHandle, 240, FALSE, 100
+GetSoundDuration, AbrielHandle, sounddur
+add sounddur, 1
+Wait 1 sounddur, Narrator09
+exit
+
+
+
+;ACT II
+
+;-------------------------------------
+:Narrator09
+;-------------------------------------
+
+KillSound Narratorhandle
+Playsoundhandle voices\cinema\guberlandplay\09.wav, Narratorhandle, 240, FALSE, 100
+GetSoundDuration, Narratorhandle, sounddur
+
+Wait 1 sounddur, Wilam10
+exit
+
+;-------------------------------------
+:Wilam10
+;-------------------------------------
+
+KillSound WilamHandle
+Playsoundhandle voices\cinema\guberlandplay\10.wav, WilamHandle, 240, FALSE, 100
+GetSoundDuration, WilamHandle, sounddur
+
+Wait 1 sounddur, Ralof11
+exit
+
+;-------------------------------------
+:Ralof11
+;-------------------------------------
+
+KillSound RalofHandle
+Playsoundhandle voices\cinema\guberlandplay\11.wav, RalofHandle, 240, FALSE, 100
+GetSoundDuration, RalofHandle, sounddur
+subtract sounddur, .4
+Wait 1 sounddur, Leffery12
+exit
+
+;-------------------------------------
+:Leffery12
+;-------------------------------------
+
+KillSound LefferyHandle
+Playsoundhandle voices\cinema\guberlandplay\12.wav, LefferyHandle, 240, FALSE, 100
+GetSoundDuration, LefferyHandle, sounddur
+
+Wait 1 sounddur, Ralof13
+exit
+
+;-------------------------------------
+:Ralof13
+;-------------------------------------
+
+KillSound RalofHandle
+Playsoundhandle voices\cinema\guberlandplay\13b.wav, RalofHandle, 240, FALSE, 100
+GetSoundDuration, RalofHandle, sounddur
+subtract sounddur, .4
+Wait 1 sounddur, Leffery14
+exit
+
+;-------------------------------------
+:Leffery14
+;-------------------------------------
+
+KillSound LefferyHandle
+Playsoundhandle voices\cinema\guberlandplay\14.wav, LefferyHandle, 240, FALSE, 100
+GetSoundDuration, LefferyHandle, sounddur
+
+Wait 1 sounddur, Abriel15
+exit
+
+;-------------------------------------
+:Abriel15
+;-------------------------------------
+
+KillSound AbrielHandle
+Playsoundhandle voices\cinema\guberlandplay\15.wav, AbrielHandle, 240, FALSE, 100
+GetSoundDuration, AbrielHandle, sounddur
+
+Wait 1 sounddur, Ralof16
+exit
+
+;-------------------------------------
+:Ralof16
+;-------------------------------------
+
+KillSound RalofHandle
+Playsoundhandle voices\cinema\guberlandplay\16.wav, RalofHandle, 240, FALSE, 100
+GetSoundDuration, RalofHandle, sounddur
+
+Wait 1 sounddur, Abriel17
+exit
+
+;-------------------------------------
+:Abriel17
+;-------------------------------------
+
+KillSound AbrielHandle
+Playsoundhandle voices\cinema\guberlandplay\17.wav, AbrielHandle, 240, FALSE, 100
+GetSoundDuration, AbrielHandle, sounddur
+
+Wait 1 sounddur, Ralof18
+exit
+
+;-------------------------------------
+:Ralof18
+;-------------------------------------
+
+KillSound RalofHandle
+Playsoundhandle voices\cinema\guberlandplay\18.wav, RalofHandle, 240, FALSE, 100
+GetSoundDuration, RalofHandle, sounddur
+
+Wait 1 sounddur, Abriel19
+exit
+
+;-------------------------------------
+:Abriel19
+;-------------------------------------
+
+KillSound AbrielHandle
+Playsoundhandle voices\cinema\guberlandplay\19.wav, AbrielHandle, 240, FALSE, 100
+GetSoundDuration, AbrielHandle, sounddur
+
+Wait 1 sounddur, Ralof20
+exit
+
+;-------------------------------------
+:Ralof20
+;-------------------------------------
+
+KillSound RalofHandle
+Playsoundhandle voices\cinema\guberlandplay\20.wav, RalofHandle, 240, FALSE, 100
+GetSoundDuration, RalofHandle, sounddur
+add sounddur, 1
+Wait 1 sounddur, Narrator21
+exit
+
+;-------------------------------------
+:Narrator21
+;-------------------------------------
+
+KillSound Narratorhandle
+Playsoundhandle voices\cinema\guberlandplay\21.wav, Narratorhandle, 240, FALSE, 100
+GetSoundDuration, Narratorhandle, sounddur
+add sounddur, 1
+Wait 1 sounddur, Narrator22
+exit
+
+
+;ACT III
+
+;-------------------------------------
+:Narrator22
+;-------------------------------------
+
+KillSound Narratorhandle
+Playsoundhandle voices\cinema\guberlandplay\22.wav, Narratorhandle, 240, FALSE, 100
+GetSoundDuration, Narratorhandle, sounddur
+
+Wait 1 sounddur, Trislan23
+exit
+
+;-------------------------------------
+:Trislan23
+;-------------------------------------
+
+KillSound TrislanHandle
+Playsoundhandle voices\cinema\guberlandplay\23.wav, TrislanHandle, 240, FALSE, 100
+GetSoundDuration, TrislanHandle, sounddur
+
+Wait 1 sounddur, Ralof24
+exit
+
+;-------------------------------------
+:Ralof24
+;-------------------------------------
+
+KillSound RalofHandle
+Playsoundhandle voices\cinema\guberlandplay\24.wav, RalofHandle, 240, FALSE, 100
+GetSoundDuration, RalofHandle, sounddur
+
+Wait 1 sounddur, Trislan25
+exit
+
+;-------------------------------------
+:Trislan25
+;-------------------------------------
+
+KillSound TrislanHandle
+Playsoundhandle voices\cinema\guberlandplay\25.wav, TrislanHandle, 240, FALSE, 100
+GetSoundDuration, TrislanHandle, sounddur
+
+Wait 1 sounddur, Ralof26
+exit
+
+;-------------------------------------
+:Ralof26
+;-------------------------------------
+
+KillSound RalofHandle
+Playsoundhandle voices\cinema\guberlandplay\26.wav, RalofHandle, 240, FALSE, 100
+GetSoundDuration, RalofHandle, sounddur
+
+Wait 1 sounddur, Trislan27a
+exit
+
+
+
+;-------------------------------------
+:Trislan27a
+;-------------------------------------
+
+KillSound TrislanHandle
+Playsoundhandle voices\cinema\guberlandplay\27a.wav, TrislanHandle, 240, FALSE, 100
+GetSoundDuration, TrislanHandle, sounddur
+subtract sounddur, .6
+Wait 1 sounddur, Narrator27
+exit
+
+;-------------------------------------
+:Narrator27
+;-------------------------------------
+
+KillSound Narratorhandle
+Playsoundhandle voices\cinema\guberlandplay\27.wav, Narratorhandle, 240, FALSE, 100
+GetSoundDuration, Narratorhandle, sounddur
+add sounddur, 1
+Wait 1 sounddur, Narrator28
+exit
+
+;-------------------------------------
+:Narrator28
+;-------------------------------------
+
+KillSound Narratorhandle
+Playsoundhandle voices\cinema\guberlandplay\28.wav, Narratorhandle, 240, FALSE, 100
+GetSoundDuration, Narratorhandle, sounddur
+add sounddur, 3
+Wait 1 sounddur, Onexit
+exit
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+;if sound is playing, kill it
+
+	KillSound Narratorhandle 
+	KillSound TrislanHandle  
+	KillSound AbrielHandle   
+	KillSound RalofHandle   
+	KillSound WilamHandle  
+	KillSound LefferyHandle 
+
+	set sound, 0
+	set g_ntemp, 0
+
+;start rude dialog
+DoRude 110
+exit
+
+
+;-------------------------------------
+:Onexit
+;-------------------------------------
+
+; kill the sound if it's done
+
+
+
+	KillSound Narratorhandle 
+	KillSound TrislanHandle  
+	KillSound AbrielHandle   
+	KillSound RalofHandle   
+	KillSound WilamHandle  
+	KillSound LefferyHandle 
+
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger blabber, Onblabber
+;AddTrigger Use, OnUse ; ADD THIS BACK IN WHEN PROPS CAN REACT TO WAIT COMMAND
+CacheSound voices\cinema\guberlandplay\01.wav
+CacheSound voices\cinema\guberlandplay\02.wav
+CacheSound voices\cinema\guberlandplay\03.wav
+CacheSound voices\cinema\guberlandplay\04.wav
+CacheSound voices\cinema\guberlandplay\05.wav
+CacheSound voices\cinema\guberlandplay\06.wav
+CacheSound voices\cinema\guberlandplay\07.wav
+CacheSound voices\cinema\guberlandplay\08.wav
+CacheSound voices\cinema\guberlandplay\09.wav
+CacheSound voices\cinema\guberlandplay\10.wav
+CacheSound voices\cinema\guberlandplay\11.wav
+CacheSound voices\cinema\guberlandplay\12.wav
+CacheSound voices\cinema\guberlandplay\13.wav
+CacheSound voices\cinema\guberlandplay\14.wav
+CacheSound voices\cinema\guberlandplay\15.wav
+CacheSound voices\cinema\guberlandplay\16.wav
+CacheSound voices\cinema\guberlandplay\17.wav
+CacheSound voices\cinema\guberlandplay\18.wav
+CacheSound voices\cinema\guberlandplay\19.wav
+CacheSound voices\cinema\guberlandplay\20.wav
+CacheSound voices\cinema\guberlandplay\21.wav
+CacheSound voices\cinema\guberlandplay\22.wav
+CacheSound voices\cinema\guberlandplay\23.wav
+CacheSound voices\cinema\guberlandplay\24.wav
+CacheSound voices\cinema\guberlandplay\25.wav
+CacheSound voices\cinema\guberlandplay\26.wav
+CacheSound voices\cinema\guberlandplay\27.wav
+CacheSound voices\cinema\guberlandplay\28.wav
+set sound, 0
+set g_ntemp, 0
+
+
+exit

@@ -1,0 +1,4702 @@
+format_version: 1
+kind: outdoor_scene
+source:
+  geometry_file: guberland.odm
+  source_metadata_file: guberland.mm9.yml
+runtime_restrictions:
+  allow_save_game: false
+  allow_lloyds_beacon: false
+  arena: false
+environment:
+  sky_texture: plansky1
+  ground_tileset_name: planset
+  master_tile: 0
+  tile_set_lookup_indices:
+  - 0
+  - 0
+  - 0
+  - 0
+  day_bits_raw: 0
+  map_extra_bits_raw: 8
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: true
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 8192
+    strong_distance: 16384
+  weather:
+    fog_mode: static
+    precipitation: none
+    daily_fog:
+      small_chance: 0
+      average_chance: 0
+      dense_chance: 0
+      small:
+        weak_distance: 8192
+        strong_distance: 16384
+      average:
+        weak_distance: 8192
+        strong_distance: 16384
+      dense:
+        weak_distance: 8192
+        strong_distance: 16384
+  ceiling: 32767
+terrain:
+  attribute_overrides: []
+  footstep_sound_overrides: []
+bmodel_faces:
+  interactive_faces: []
+entities: []
+spawns: []
+model_instances:
+- instance_id: mm9:guberland:object:20
+  source_ref: objects/20
+  source_kind: mm9_dat_object
+  source_object_index: 20
+  source_class: OldHag
+  source_name: RUDEProp11
+  source_model: models/PeasantM2.ABC
+  source_skin: ''
+  model_asset: models/hag.glb
+  position:
+    x: 2294
+    y: -20808
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: hag_hag
+- instance_id: mm9:guberland:object:21
+  source_ref: objects/21
+  source_kind: mm9_dat_object
+  source_object_index: 21
+  source_class: ShopkeeperHuman2MaleB
+  source_name: RUDEProp10
+  source_model: models/PeasantM2.ABC
+  source_skin: ''
+  model_asset: models/peasantm8.glb
+  position:
+    x: 328
+    y: 17203
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm8_peasantm8a
+- instance_id: mm9:guberland:object:22
+  source_ref: objects/22
+  source_kind: mm9_dat_object
+  source_object_index: 22
+  source_class: CommonerHuman2MaleA
+  source_name: RUDEProp9
+  source_model: models/PeasantM2.ABC
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: 164
+    y: 18350
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:guberland:object:25
+  source_ref: objects/25
+  source_kind: mm9_dat_object
+  source_object_index: 25
+  source_class: Prop
+  source_name: Prop7
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -26867
+    y: 16771
+    z: 118
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:26
+  source_ref: objects/26
+  source_kind: mm9_dat_object
+  source_object_index: 26
+  source_class: Prop
+  source_name: Prop8
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -26867
+    y: 14149
+    z: 118
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:27
+  source_ref: objects/27
+  source_kind: mm9_dat_object
+  source_object_index: 27
+  source_class: Prop
+  source_name: Prop9
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -25229
+    y: 15132
+    z: 118
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:28
+  source_ref: objects/28
+  source_kind: mm9_dat_object
+  source_object_index: 28
+  source_class: Prop
+  source_name: Prop10
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -22935
+    y: 17426
+    z: 118
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:29
+  source_ref: objects/29
+  source_kind: mm9_dat_object
+  source_object_index: 29
+  source_class: Prop
+  source_name: Prop11
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -21312
+    y: 16433
+    z: 118
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:30
+  source_ref: objects/30
+  source_kind: mm9_dat_object
+  source_object_index: 30
+  source_class: Prop
+  source_name: Prop12
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -18117
+    y: 12828
+    z: 118
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:31
+  source_ref: objects/31
+  source_kind: mm9_dat_object
+  source_object_index: 31
+  source_class: Prop
+  source_name: Prop13
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -20329
+    y: 12173
+    z: 282
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:32
+  source_ref: objects/32
+  source_kind: mm9_dat_object
+  source_object_index: 32
+  source_class: Prop
+  source_name: Prop14
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -14313
+    y: 10376
+    z: 108
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:33
+  source_ref: objects/33
+  source_kind: mm9_dat_object
+  source_object_index: 33
+  source_class: Prop
+  source_name: Prop15
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -5962
+    y: 10125
+    z: 108
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:34
+  source_ref: objects/34
+  source_kind: mm9_dat_object
+  source_object_index: 34
+  source_class: Prop
+  source_name: Prop16
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -6991
+    y: 8195
+    z: 568
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberland:object:35
+  source_ref: objects/35
+  source_kind: mm9_dat_object
+  source_object_index: 35
+  source_class: Prop
+  source_name: Prop17
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -5138
+    y: 10488
+    z: 118
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:36
+  source_ref: objects/36
+  source_kind: mm9_dat_object
+  source_object_index: 36
+  source_class: Prop
+  source_name: Prop18
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -4764
+    y: 6602
+    z: 118
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:37
+  source_ref: objects/37
+  source_kind: mm9_dat_object
+  source_object_index: 37
+  source_class: Prop
+  source_name: Prop19
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -2112
+    y: 9715
+    z: 271
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:38
+  source_ref: objects/38
+  source_kind: mm9_dat_object
+  source_object_index: 38
+  source_class: Prop
+  source_name: Prop20
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -3254
+    y: 10161
+    z: 282
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:42
+  source_ref: objects/42
+  source_kind: mm9_dat_object
+  source_object_index: 42
+  source_class: Prop
+  source_name: Prop21
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -28321
+    y: -18824
+    z: 200
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:43
+  source_ref: objects/43
+  source_kind: mm9_dat_object
+  source_object_index: 43
+  source_class: Prop
+  source_name: Prop22
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -26191
+    y: -21937
+    z: 261
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:44
+  source_ref: objects/44
+  source_kind: mm9_dat_object
+  source_object_index: 44
+  source_class: Prop
+  source_name: Prop23
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -28280
+    y: -21691
+    z: 200
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:45
+  source_ref: objects/45
+  source_kind: mm9_dat_object
+  source_object_index: 45
+  source_class: Prop
+  source_name: Prop24
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -24594
+    y: -19356
+    z: 364
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:46
+  source_ref: objects/46
+  source_kind: mm9_dat_object
+  source_object_index: 46
+  source_class: Prop
+  source_name: Prop25
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -18957
+    y: -16458
+    z: 753
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:47
+  source_ref: objects/47
+  source_kind: mm9_dat_object
+  source_object_index: 47
+  source_class: CommonerElfMaleA
+  source_name: Scandlan
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1d.glb
+  position:
+    x: 901
+    y: 14254
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.92152463
+    w: 0.3883199
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm1d_peasantm1c
+- instance_id: mm9:guberland:object:48
+  source_ref: objects/48
+  source_kind: mm9_dat_object
+  source_object_index: 48
+  source_class: CommonerElfMaleA
+  source_name: Broccan
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1d.glb
+  position:
+    x: 983
+    y: 14090
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.41707405
+    w: -0.90887251
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm1d_peasantm1c
+- instance_id: mm9:guberland:object:49
+  source_ref: objects/49
+  source_kind: mm9_dat_object
+  source_object_index: 49
+  source_class: CommonerHumanMaleA
+  source_name: CommonerHalfOrcMaleA1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1.glb
+  position:
+    x: 4588
+    y: 14746
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm1_peasantm1a
+- instance_id: mm9:guberland:object:50
+  source_ref: objects/50
+  source_kind: mm9_dat_object
+  source_object_index: 50
+  source_class: CommonerHumanMaleA
+  source_name: CommonerHalfOrcMaleA2
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1.glb
+  position:
+    x: 655
+    y: 19825
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm1_peasantm1a
+- instance_id: mm9:guberland:object:51
+  source_ref: objects/51
+  source_kind: mm9_dat_object
+  source_object_index: 51
+  source_class: CommonerHumanMaleB
+  source_name: CommonerHalfOrcMaleA3
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: -1966
+    y: 19661
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2b
+- instance_id: mm9:guberland:object:52
+  source_ref: objects/52
+  source_kind: mm9_dat_object
+  source_object_index: 52
+  source_class: CommonerHumanMaleB
+  source_name: CommonerHalfOrcMaleA4
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: -1802
+    y: 17367
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2b
+- instance_id: mm9:guberland:object:53
+  source_ref: objects/53
+  source_kind: mm9_dat_object
+  source_object_index: 53
+  source_class: CommonerHuman2MaleA
+  source_name: Prop26
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: -2294
+    y: 18022
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:guberland:object:54
+  source_ref: objects/54
+  source_kind: mm9_dat_object
+  source_object_index: 54
+  source_class: CommonerHuman2MaleA
+  source_name: Prop27
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: -1638
+    y: 15892
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:guberland:object:55
+  source_ref: objects/55
+  source_kind: mm9_dat_object
+  source_object_index: 55
+  source_class: CommonerHumanFemaleA
+  source_name: Prop28
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: ''
+  model_asset: models/peasantf1.glb
+  position:
+    x: 3113
+    y: 19005
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantf1_peasantf1b
+- instance_id: mm9:guberland:object:56
+  source_ref: objects/56
+  source_kind: mm9_dat_object
+  source_object_index: 56
+  source_class: CommonerHalfOrcMaleA
+  source_name: Prop29
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: ''
+  model_asset: models/peasanthom1.glb
+  position:
+    x: -492
+    y: 21463
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasanthom1_peasanthom1a
+- instance_id: mm9:guberland:object:57
+  source_ref: objects/57
+  source_kind: mm9_dat_object
+  source_object_index: 57
+  source_class: Prop
+  source_name: Prop0
+  source_model: models/Props/Stool01.ABC
+  source_skin: Skins/Props/Stool01.dtx
+  model_asset: models/props/stool01.glb
+  position:
+    x: 2667
+    y: -21188
+    z: 213
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberland:object:68
+  source_ref: objects/68
+  source_kind: mm9_dat_object
+  source_object_index: 68
+  source_class: Bandit
+  source_name: Bandit0
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -14254
+    y: 6390
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman3_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:69
+  source_ref: objects/69
+  source_kind: mm9_dat_object
+  source_object_index: 69
+  source_class: Bandit
+  source_name: Bandit1
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -15073
+    y: 6881
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman3_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:70
+  source_ref: objects/70
+  source_kind: mm9_dat_object
+  source_object_index: 70
+  source_class: Cutpurse
+  source_name: Cutpurse0
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -15073
+    y: 6226
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman1_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:71
+  source_ref: objects/71
+  source_kind: mm9_dat_object
+  source_object_index: 71
+  source_class: Cutpurse
+  source_name: Cutpurse1
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -14746
+    y: 5898
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman1_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:72
+  source_ref: objects/72
+  source_kind: mm9_dat_object
+  source_object_index: 72
+  source_class: FireDragonFly
+  source_name: FireDragonFly0
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -20316
+    y: 12452
+    z: 1147
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:guberland:object:73
+  source_ref: objects/73
+  source_kind: mm9_dat_object
+  source_object_index: 73
+  source_class: FireDragonFly
+  source_name: FireDragonFly1
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -20152
+    y: 12288
+    z: 1147
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.80747537
+    w: 0.58990128
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:guberland:object:78
+  source_ref: objects/78
+  source_kind: mm9_dat_object
+  source_object_index: 78
+  source_class: ShopkeeperHumanMaleA
+  source_name: CommonerHumanMaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm6.glb
+  position:
+    x: 6554
+    y: 4628
+    z: 118
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.78747323
+    w: -0.61634885
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm6_peasantm6a
+- instance_id: mm9:guberland:object:80
+  source_ref: objects/80
+  source_kind: mm9_dat_object
+  source_object_index: 80
+  source_class: NettleSpore
+  source_name: NettleSpore0
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: 10813
+    y: -19005
+    z: -164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/jellyspore.abc
+    source_skins: []
+    candidates:
+    - id: jellyspore_jellyspore1
+      source_skins: &id001
+      - skins/jellyspore1.dtx
+    - id: jellyspore_jellyspore2
+      source_skins: &id002
+      - skins/jellyspore2.dtx
+    - id: jellyspore_jellyspore4
+      source_skins: &id003
+      - skins/jellyspore4.dtx
+    - id: jellyspore_nettlespore
+      source_skins: []
+- instance_id: mm9:guberland:object:81
+  source_ref: objects/81
+  source_kind: mm9_dat_object
+  source_object_index: 81
+  source_class: JellySpore
+  source_name: JellySpore0
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: 11796
+    y: -17695
+    z: -164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:guberland:object:82
+  source_ref: objects/82
+  source_kind: mm9_dat_object
+  source_object_index: 82
+  source_class: NettleSpore
+  source_name: NettleSpore1
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: 13107
+    y: -3277
+    z: -164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/jellyspore.abc
+    source_skins: []
+    candidates:
+    - id: jellyspore_jellyspore1
+      source_skins: *id001
+    - id: jellyspore_jellyspore2
+      source_skins: *id002
+    - id: jellyspore_jellyspore4
+      source_skins: *id003
+    - id: jellyspore_nettlespore
+      source_skins: []
+- instance_id: mm9:guberland:object:83
+  source_ref: objects/83
+  source_kind: mm9_dat_object
+  source_object_index: 83
+  source_class: NettleSpore
+  source_name: NettleSpore2
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: 11469
+    y: 13107
+    z: -164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/jellyspore.abc
+    source_skins: []
+    candidates:
+    - id: jellyspore_jellyspore1
+      source_skins: *id001
+    - id: jellyspore_jellyspore2
+      source_skins: *id002
+    - id: jellyspore_jellyspore4
+      source_skins: *id003
+    - id: jellyspore_nettlespore
+      source_skins: []
+- instance_id: mm9:guberland:object:85
+  source_ref: objects/85
+  source_kind: mm9_dat_object
+  source_object_index: 85
+  source_class: TownHuman2MaleA
+  source_name: Atli
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm3.glb
+  position:
+    x: 164
+    y: 11796
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm3_peasantm3a
+- instance_id: mm9:guberland:object:86
+  source_ref: objects/86
+  source_kind: mm9_dat_object
+  source_object_index: 86
+  source_class: CommonerHumanFemaleB
+  source_name: AtliDaughter
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantf4.glb
+  position:
+    x: 328
+    y: 11633
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantf4_peasantf4a
+- instance_id: mm9:guberland:object:87
+  source_ref: objects/87
+  source_kind: mm9_dat_object
+  source_object_index: 87
+  source_class: WealthyTownGuard1
+  source_name: AtliGuard
+  source_model: models/guard.abc
+  source_skin: ''
+  model_asset: models/guard.glb
+  position:
+    x: 6717
+    y: 5079
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.85309581
+    w: 0.52175429
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: guard_guard3_guardpole2
+- instance_id: mm9:guberland:object:89
+  source_ref: objects/89
+  source_kind: mm9_dat_object
+  source_object_index: 89
+  source_class: Prop
+  source_name: Cart
+  source_model: models/props/vikingship.abc
+  source_skin: skins/props/vikingship.dtx
+  model_asset: models/props/vikingship.glb
+  position:
+    x: 10650
+    y: 6226
+    z: -179
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.711413
+    w: 0.70277418
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:90
+  source_ref: objects/90
+  source_kind: mm9_dat_object
+  source_object_index: 90
+  source_class: Prop
+  source_name: Prop30
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -3341
+    y: 7503
+    z: 108
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:91
+  source_ref: objects/91
+  source_kind: mm9_dat_object
+  source_object_index: 91
+  source_class: Prop
+  source_name: Prop31
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -632
+    y: 7539
+    z: 282
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:92
+  source_ref: objects/92
+  source_kind: mm9_dat_object
+  source_object_index: 92
+  source_class: Prop
+  source_name: Prop32
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -11205
+    y: 6193
+    z: 108
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:93
+  source_ref: objects/93
+  source_kind: mm9_dat_object
+  source_object_index: 93
+  source_class: Prop
+  source_name: Prop33
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -8497
+    y: 6228
+    z: 282
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:94
+  source_ref: objects/94
+  source_kind: mm9_dat_object
+  source_object_index: 94
+  source_class: Prop
+  source_name: Prop34
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -9807
+    y: -13187
+    z: 1510
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:95
+  source_ref: objects/95
+  source_kind: mm9_dat_object
+  source_object_index: 95
+  source_class: Prop
+  source_name: Prop35
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -11205
+    y: -14533
+    z: 1213
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:96
+  source_ref: objects/96
+  source_kind: mm9_dat_object
+  source_object_index: 96
+  source_class: Prop
+  source_name: Prop36
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -8302
+    y: -11220
+    z: 1715
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberland:object:97
+  source_ref: objects/97
+  source_kind: mm9_dat_object
+  source_object_index: 97
+  source_class: Prop
+  source_name: Prop37
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -7273
+    y: -9290
+    z: 1377
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:98
+  source_ref: objects/98
+  source_kind: mm9_dat_object
+  source_object_index: 98
+  source_class: Prop
+  source_name: Prop38
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -6449
+    y: -8927
+    z: 1388
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:99
+  source_ref: objects/99
+  source_kind: mm9_dat_object
+  source_object_index: 99
+  source_class: Prop
+  source_name: Prop39
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -4237
+    y: -9254
+    z: 1510
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:100
+  source_ref: objects/100
+  source_kind: mm9_dat_object
+  source_object_index: 100
+  source_class: Prop
+  source_name: Prop40
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -6075
+    y: -12813
+    z: 1388
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:101
+  source_ref: objects/101
+  source_kind: mm9_dat_object
+  source_object_index: 101
+  source_class: Prop
+  source_name: Prop41
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -4652
+    y: -11912
+    z: 1398
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:102
+  source_ref: objects/102
+  source_kind: mm9_dat_object
+  source_object_index: 102
+  source_class: Prop
+  source_name: Prop42
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -3423
+    y: -9700
+    z: 1500
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:103
+  source_ref: objects/103
+  source_kind: mm9_dat_object
+  source_object_index: 103
+  source_class: Prop
+  source_name: Prop43
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -1943
+    y: -11876
+    z: 1510
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:104
+  source_ref: objects/104
+  source_kind: mm9_dat_object
+  source_object_index: 104
+  source_class: Prop
+  source_name: Prop44
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -25132
+    y: -21742
+    z: 312
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:105
+  source_ref: objects/105
+  source_kind: mm9_dat_object
+  source_object_index: 105
+  source_class: Prop
+  source_name: Prop45
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -21199
+    y: -16499
+    z: 599
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:106
+  source_ref: objects/106
+  source_kind: mm9_dat_object
+  source_object_index: 106
+  source_class: Prop
+  source_name: Prop46
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -18578
+    y: -19121
+    z: 722
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:107
+  source_ref: objects/107
+  source_kind: mm9_dat_object
+  source_object_index: 107
+  source_class: Prop
+  source_name: Prop47
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -17349
+    y: -16909
+    z: 927
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:108
+  source_ref: objects/108
+  source_kind: mm9_dat_object
+  source_object_index: 108
+  source_class: Prop
+  source_name: Prop48
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -20001
+    y: -20022
+    z: 609
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:109
+  source_ref: objects/109
+  source_kind: mm9_dat_object
+  source_object_index: 109
+  source_class: Prop
+  source_name: Prop49
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -22228
+    y: -18429
+    z: 814
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberland:object:110
+  source_ref: objects/110
+  source_kind: mm9_dat_object
+  source_object_index: 110
+  source_class: Prop
+  source_name: Prop50
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -23734
+    y: -20396
+    z: 486
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:111
+  source_ref: objects/111
+  source_kind: mm9_dat_object
+  source_object_index: 111
+  source_class: Prop
+  source_name: Prop51
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -15869
+    y: -19085
+    z: 937
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:112
+  source_ref: objects/112
+  source_kind: mm9_dat_object
+  source_object_index: 112
+  source_class: Prop
+  source_name: Prop52
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -30374
+    y: 2179
+    z: 353
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:113
+  source_ref: objects/113
+  source_kind: mm9_dat_object
+  source_object_index: 113
+  source_class: Prop
+  source_name: Prop53
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -17595
+    y: 4800
+    z: 148
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:114
+  source_ref: objects/114
+  source_kind: mm9_dat_object
+  source_object_index: 114
+  source_class: Prop
+  source_name: Prop54
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -23821
+    y: 4800
+    z: 189
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:115
+  source_ref: objects/115
+  source_kind: mm9_dat_object
+  source_object_index: 115
+  source_class: Prop
+  source_name: Prop55
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -22592
+    y: 7012
+    z: 271
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:116
+  source_ref: objects/116
+  source_kind: mm9_dat_object
+  source_object_index: 116
+  source_class: Prop
+  source_name: Prop56
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -25244
+    y: 3899
+    z: 200
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:117
+  source_ref: objects/117
+  source_kind: mm9_dat_object
+  source_object_index: 117
+  source_class: Prop
+  source_name: Prop57
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -27471
+    y: 5491
+    z: 568
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberland:object:118
+  source_ref: objects/118
+  source_kind: mm9_dat_object
+  source_object_index: 118
+  source_class: Prop
+  source_name: Prop58
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -28977
+    y: 3525
+    z: 425
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:119
+  source_ref: objects/119
+  source_kind: mm9_dat_object
+  source_object_index: 119
+  source_class: Prop
+  source_name: Prop59
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -21112
+    y: 4836
+    z: 323
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:120
+  source_ref: objects/120
+  source_kind: mm9_dat_object
+  source_object_index: 120
+  source_class: Prop
+  source_name: Prop60
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -19346
+    y: 5947
+    z: 200
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:121
+  source_ref: objects/121
+  source_kind: mm9_dat_object
+  source_object_index: 121
+  source_class: Prop
+  source_name: Prop61
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -17134
+    y: 6602
+    z: 118
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:122
+  source_ref: objects/122
+  source_kind: mm9_dat_object
+  source_object_index: 122
+  source_class: Prop
+  source_name: Prop62
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -15624
+    y: 5133
+    z: 108
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:123
+  source_ref: objects/123
+  source_kind: mm9_dat_object
+  source_object_index: 123
+  source_class: Prop
+  source_name: Prop63
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -19556
+    y: 3658
+    z: 148
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:124
+  source_ref: objects/124
+  source_kind: mm9_dat_object
+  source_object_index: 124
+  source_class: Prop
+  source_name: Prop64
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -27850
+    y: -2071
+    z: 364
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:125
+  source_ref: objects/125
+  source_kind: mm9_dat_object
+  source_object_index: 125
+  source_class: Prop
+  source_name: Prop65
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -27850
+    y: 550
+    z: 323
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:126
+  source_ref: objects/126
+  source_kind: mm9_dat_object
+  source_object_index: 126
+  source_class: Prop
+  source_name: Prop66
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -26212
+    y: -1088
+    z: 364
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:127
+  source_ref: objects/127
+  source_kind: mm9_dat_object
+  source_object_index: 127
+  source_class: Prop
+  source_name: Prop67
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -28506
+    y: -6003
+    z: 445
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:128
+  source_ref: objects/128
+  source_kind: mm9_dat_object
+  source_object_index: 128
+  source_class: Prop
+  source_name: Prop68
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -27031
+    y: -3546
+    z: 364
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:129
+  source_ref: objects/129
+  source_kind: mm9_dat_object
+  source_object_index: 129
+  source_class: Prop
+  source_name: Prop69
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -26212
+    y: -5020
+    z: 425
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:130
+  source_ref: objects/130
+  source_kind: mm9_dat_object
+  source_object_index: 130
+  source_class: Prop
+  source_name: Prop70
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -12567
+    y: -16786
+    z: 1101
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:131
+  source_ref: objects/131
+  source_kind: mm9_dat_object
+  source_object_index: 131
+  source_class: Prop
+  source_name: Prop71
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -10959
+    y: -17236
+    z: 1254
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:132
+  source_ref: objects/132
+  source_kind: mm9_dat_object
+  source_object_index: 132
+  source_class: Prop
+  source_name: Prop72
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -7928
+    y: -14533
+    z: 1357
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:133
+  source_ref: objects/133
+  source_kind: mm9_dat_object
+  source_object_index: 133
+  source_class: Prop
+  source_name: Prop73
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -7104
+    y: -14170
+    z: 1388
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:134
+  source_ref: objects/134
+  source_kind: mm9_dat_object
+  source_object_index: 134
+  source_class: Prop
+  source_name: Prop74
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -26278
+    y: -8635
+    z: 476
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:135
+  source_ref: objects/135
+  source_kind: mm9_dat_object
+  source_object_index: 135
+  source_class: Prop
+  source_name: Prop75
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -25454
+    y: -8271
+    z: 445
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:136
+  source_ref: objects/136
+  source_kind: mm9_dat_object
+  source_object_index: 136
+  source_class: Prop
+  source_name: Prop76
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -23939
+    y: -11492
+    z: 507
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:137
+  source_ref: objects/137
+  source_kind: mm9_dat_object
+  source_object_index: 137
+  source_class: Prop
+  source_name: Prop77
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -23078
+    y: -12531
+    z: 609
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:guberland:object:138
+  source_ref: objects/138
+  source_kind: mm9_dat_object
+  source_object_index: 138
+  source_class: Prop
+  source_name: Prop78
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -23933
+    y: -16090
+    z: 445
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:139
+  source_ref: objects/139
+  source_kind: mm9_dat_object
+  source_object_index: 139
+  source_class: FireDragonFly
+  source_name: FireDragonFly2
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -27689
+    y: 4915
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:guberland:object:140
+  source_ref: objects/140
+  source_kind: mm9_dat_object
+  source_object_index: 140
+  source_class: FireDragonFly
+  source_name: FireDragonFly3
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -26542
+    y: 3113
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:guberland:object:141
+  source_ref: objects/141
+  source_kind: mm9_dat_object
+  source_object_index: 141
+  source_class: DragonFly
+  source_name: DragonFly0
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -23429
+    y: 6881
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.92152463
+    w: 0.3883199
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:guberland:object:142
+  source_ref: objects/142
+  source_kind: mm9_dat_object
+  source_object_index: 142
+  source_class: DragonFly
+  source_name: DragonFly1
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -24576
+    y: 4096
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:guberland:object:143
+  source_ref: objects/143
+  source_kind: mm9_dat_object
+  source_object_index: 143
+  source_class: FireDragonFly
+  source_name: FireDragonFly4
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -27525
+    y: -2130
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:guberland:object:144
+  source_ref: objects/144
+  source_kind: mm9_dat_object
+  source_object_index: 144
+  source_class: FireDragonFly
+  source_name: FireDragonFly5
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -25723
+    y: -1147
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:guberland:object:145
+  source_ref: objects/145
+  source_kind: mm9_dat_object
+  source_object_index: 145
+  source_class: FireDragonFly
+  source_name: FireDragonFly6
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -27361
+    y: -3768
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:guberland:object:146
+  source_ref: objects/146
+  source_kind: mm9_dat_object
+  source_object_index: 146
+  source_class: DragonFly
+  source_name: DragonFly2
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -25887
+    y: -9011
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:guberland:object:147
+  source_ref: objects/147
+  source_kind: mm9_dat_object
+  source_object_index: 147
+  source_class: DragonFly
+  source_name: DragonFly3
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -25723
+    y: -8847
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:guberland:object:148
+  source_ref: objects/148
+  source_kind: mm9_dat_object
+  source_object_index: 148
+  source_class: FireDragonFly
+  source_name: FireDragonFly7
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -25559
+    y: -9503
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.97832866
+    w: 0.20705803
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:guberland:object:149
+  source_ref: objects/149
+  source_kind: mm9_dat_object
+  source_object_index: 149
+  source_class: FireDragonFly
+  source_name: FireDragonFly8
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -25068
+    y: -8847
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.835328
+    w: -0.54975188
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:guberland:object:150
+  source_ref: objects/150
+  source_kind: mm9_dat_object
+  source_object_index: 150
+  source_class: FireDragonFly
+  source_name: FireDragonFly9
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -24248
+    y: -11796
+    z: 1966
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:guberland:object:151
+  source_ref: objects/151
+  source_kind: mm9_dat_object
+  source_object_index: 151
+  source_class: FireDragonFly
+  source_name: FireDragonFly10
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -24084
+    y: -11960
+    z: 1966
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71994572
+    w: 0.69403037
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:guberland:object:152
+  source_ref: objects/152
+  source_kind: mm9_dat_object
+  source_object_index: 152
+  source_class: FireDragonFly
+  source_name: FireDragonFly11
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -23757
+    y: -11960
+    z: 1966
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.95424033
+    w: 0.29904079
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:guberland:object:153
+  source_ref: objects/153
+  source_kind: mm9_dat_object
+  source_object_index: 153
+  source_class: DragonFly
+  source_name: DragonFly4
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -24412
+    y: -12288
+    z: 1966
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.97236991
+    w: 0.23344541
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:guberland:object:154
+  source_ref: objects/154
+  source_kind: mm9_dat_object
+  source_object_index: 154
+  source_class: FireDragonFly
+  source_name: FireDragonFly12
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -19333
+    y: -17859
+    z: 1966
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:guberland:object:155
+  source_ref: objects/155
+  source_kind: mm9_dat_object
+  source_object_index: 155
+  source_class: FireDragonFly
+  source_name: FireDragonFly13
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -17859
+    y: -19005
+    z: 1966
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:guberland:object:156
+  source_ref: objects/156
+  source_kind: mm9_dat_object
+  source_object_index: 156
+  source_class: DragonFly
+  source_name: DragonFly5
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -20808
+    y: -19169
+    z: 1966
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57357643
+    w: 0.81915205
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:guberland:object:157
+  source_ref: objects/157
+  source_kind: mm9_dat_object
+  source_object_index: 157
+  source_class: Bandit
+  source_name: Bandit2
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -21299
+    y: -13926
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman3_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:158
+  source_ref: objects/158
+  source_kind: mm9_dat_object
+  source_object_index: 158
+  source_class: Cutpurse
+  source_name: Cutpurse2
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -21299
+    y: -14582
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman1_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:159
+  source_ref: objects/159
+  source_kind: mm9_dat_object
+  source_object_index: 159
+  source_class: Bandit
+  source_name: Bandit3
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -20480
+    y: -14418
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman3_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:160
+  source_ref: objects/160
+  source_kind: mm9_dat_object
+  source_object_index: 160
+  source_class: Cutpurse
+  source_name: Cutpurse3
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -20972
+    y: -14909
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman1_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:161
+  source_ref: objects/161
+  source_kind: mm9_dat_object
+  source_object_index: 161
+  source_class: Bandit
+  source_name: Bandit4
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -24412
+    y: -21627
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman3_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:162
+  source_ref: objects/162
+  source_kind: mm9_dat_object
+  source_object_index: 162
+  source_class: Cutpurse
+  source_name: Cutpurse4
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -24412
+    y: -22282
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman1_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:163
+  source_ref: objects/163
+  source_kind: mm9_dat_object
+  source_object_index: 163
+  source_class: Bandit
+  source_name: Bandit5
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -23593
+    y: -22118
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman3_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:164
+  source_ref: objects/164
+  source_kind: mm9_dat_object
+  source_object_index: 164
+  source_class: Cutpurse
+  source_name: Cutpurse5
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -24084
+    y: -22610
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman1_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:165
+  source_ref: objects/165
+  source_kind: mm9_dat_object
+  source_object_index: 165
+  source_class: Bandit
+  source_name: Bandit6
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -10650
+    y: 5734
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman3_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:166
+  source_ref: objects/166
+  source_kind: mm9_dat_object
+  source_object_index: 166
+  source_class: Bandit
+  source_name: Bandit7
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -11469
+    y: 6226
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman3_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:167
+  source_ref: objects/167
+  source_kind: mm9_dat_object
+  source_object_index: 167
+  source_class: Cutpurse
+  source_name: Cutpurse6
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -11469
+    y: 5571
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman1_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:168
+  source_ref: objects/168
+  source_kind: mm9_dat_object
+  source_object_index: 168
+  source_class: Cutpurse
+  source_name: Cutpurse7
+  source_model: models/highwayman.abc
+  source_skin: ''
+  model_asset: models/highwayman.glb
+  position:
+    x: -11141
+    y: 5243
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57071357
+    w: -0.82114921
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: highwayman_highwayman1_highwaymanss_highwaymandagger
+- instance_id: mm9:guberland:object:229
+  source_ref: objects/229
+  source_kind: mm9_dat_object
+  source_object_index: 229
+  source_class: Prop
+  source_name: Prop1
+  source_model: models/Props/hairbrush.abc
+  source_skin: Skins/Props/Hairbrush_Hairy.dtx
+  model_asset: models/props/hairbrush.glb
+  position:
+    x: 2668
+    y: -21194
+    z: 280
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberland:object:267
+  source_ref: objects/267
+  source_kind: mm9_dat_object
+  source_object_index: 267
+  source_class: CommonerHuman2MaleA
+  source_name: TronPlayer
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: 451
+    y: 19661
+    z: 259
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:guberland:object:268
+  source_ref: objects/268
+  source_kind: mm9_dat_object
+  source_object_index: 268
+  source_class: CommonerHuman2MaleA
+  source_name: SpectatorChild0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: 758
+    y: 19436
+    z: 259
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.25628939
+    w: -0.9666001
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:guberland:object:269
+  source_ref: objects/269
+  source_kind: mm9_dat_object
+  source_object_index: 269
+  source_class: CommonerHuman2MaleA
+  source_name: SpectatorChild1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: 758
+    y: 19866
+    z: 259
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99596311
+    w: -0.08976346
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:guberland:object:270
+  source_ref: objects/270
+  source_kind: mm9_dat_object
+  source_object_index: 270
+  source_class: Prop
+  source_name: Piece0
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 553
+    y: 19763
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:271
+  source_ref: objects/271
+  source_kind: mm9_dat_object
+  source_object_index: 271
+  source_class: Prop
+  source_name: Piece1
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 594
+    y: 19763
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:272
+  source_ref: objects/272
+  source_kind: mm9_dat_object
+  source_object_index: 272
+  source_class: Prop
+  source_name: Piece2
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 635
+    y: 19763
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:273
+  source_ref: objects/273
+  source_kind: mm9_dat_object
+  source_object_index: 273
+  source_class: Prop
+  source_name: Piece3
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 676
+    y: 19763
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:274
+  source_ref: objects/274
+  source_kind: mm9_dat_object
+  source_object_index: 274
+  source_class: Prop
+  source_name: Piece4
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 717
+    y: 19763
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:275
+  source_ref: objects/275
+  source_kind: mm9_dat_object
+  source_object_index: 275
+  source_class: Prop
+  source_name: Piece5
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 758
+    y: 19763
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:276
+  source_ref: objects/276
+  source_kind: mm9_dat_object
+  source_object_index: 276
+  source_class: Prop
+  source_name: Piece6
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 553
+    y: 19722
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:277
+  source_ref: objects/277
+  source_kind: mm9_dat_object
+  source_object_index: 277
+  source_class: Prop
+  source_name: Piece7
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 594
+    y: 19722
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:278
+  source_ref: objects/278
+  source_kind: mm9_dat_object
+  source_object_index: 278
+  source_class: Prop
+  source_name: Piece8
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 635
+    y: 19722
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:279
+  source_ref: objects/279
+  source_kind: mm9_dat_object
+  source_object_index: 279
+  source_class: Prop
+  source_name: Piece9
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 676
+    y: 19722
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:280
+  source_ref: objects/280
+  source_kind: mm9_dat_object
+  source_object_index: 280
+  source_class: Prop
+  source_name: Piece10
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 717
+    y: 19722
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:281
+  source_ref: objects/281
+  source_kind: mm9_dat_object
+  source_object_index: 281
+  source_class: Prop
+  source_name: Piece11
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 758
+    y: 19722
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:282
+  source_ref: objects/282
+  source_kind: mm9_dat_object
+  source_object_index: 282
+  source_class: Prop
+  source_name: Piece12
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 553
+    y: 19681
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:283
+  source_ref: objects/283
+  source_kind: mm9_dat_object
+  source_object_index: 283
+  source_class: Prop
+  source_name: Piece13
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 594
+    y: 19681
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:284
+  source_ref: objects/284
+  source_kind: mm9_dat_object
+  source_object_index: 284
+  source_class: Prop
+  source_name: Piece14
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 635
+    y: 19681
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:285
+  source_ref: objects/285
+  source_kind: mm9_dat_object
+  source_object_index: 285
+  source_class: Prop
+  source_name: Piece15
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 676
+    y: 19681
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:286
+  source_ref: objects/286
+  source_kind: mm9_dat_object
+  source_object_index: 286
+  source_class: Prop
+  source_name: Piece16
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 717
+    y: 19681
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:287
+  source_ref: objects/287
+  source_kind: mm9_dat_object
+  source_object_index: 287
+  source_class: Prop
+  source_name: Piece17
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 758
+    y: 19681
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:288
+  source_ref: objects/288
+  source_kind: mm9_dat_object
+  source_object_index: 288
+  source_class: Prop
+  source_name: Piece18
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 553
+    y: 19640
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:289
+  source_ref: objects/289
+  source_kind: mm9_dat_object
+  source_object_index: 289
+  source_class: Prop
+  source_name: Piece19
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 594
+    y: 19640
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:290
+  source_ref: objects/290
+  source_kind: mm9_dat_object
+  source_object_index: 290
+  source_class: Prop
+  source_name: Piece20
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 635
+    y: 19640
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:291
+  source_ref: objects/291
+  source_kind: mm9_dat_object
+  source_object_index: 291
+  source_class: Prop
+  source_name: Piece21
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 676
+    y: 19640
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:292
+  source_ref: objects/292
+  source_kind: mm9_dat_object
+  source_object_index: 292
+  source_class: Prop
+  source_name: Piece22
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 717
+    y: 19640
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:293
+  source_ref: objects/293
+  source_kind: mm9_dat_object
+  source_object_index: 293
+  source_class: Prop
+  source_name: Piece23
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 758
+    y: 19640
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:294
+  source_ref: objects/294
+  source_kind: mm9_dat_object
+  source_object_index: 294
+  source_class: Prop
+  source_name: Piece24
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 553
+    y: 19599
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:295
+  source_ref: objects/295
+  source_kind: mm9_dat_object
+  source_object_index: 295
+  source_class: Prop
+  source_name: Piece25
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 594
+    y: 19599
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:296
+  source_ref: objects/296
+  source_kind: mm9_dat_object
+  source_object_index: 296
+  source_class: Prop
+  source_name: Piece26
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 635
+    y: 19599
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:297
+  source_ref: objects/297
+  source_kind: mm9_dat_object
+  source_object_index: 297
+  source_class: Prop
+  source_name: Piece27
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 676
+    y: 19599
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:298
+  source_ref: objects/298
+  source_kind: mm9_dat_object
+  source_object_index: 298
+  source_class: Prop
+  source_name: Piece28
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 717
+    y: 19599
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:299
+  source_ref: objects/299
+  source_kind: mm9_dat_object
+  source_object_index: 299
+  source_class: Prop
+  source_name: Piece29
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 758
+    y: 19599
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:300
+  source_ref: objects/300
+  source_kind: mm9_dat_object
+  source_object_index: 300
+  source_class: Prop
+  source_name: Piece30
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 553
+    y: 19558
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:301
+  source_ref: objects/301
+  source_kind: mm9_dat_object
+  source_object_index: 301
+  source_class: Prop
+  source_name: Piece31
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 594
+    y: 19558
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:302
+  source_ref: objects/302
+  source_kind: mm9_dat_object
+  source_object_index: 302
+  source_class: Prop
+  source_name: Piece32
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 635
+    y: 19558
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:303
+  source_ref: objects/303
+  source_kind: mm9_dat_object
+  source_object_index: 303
+  source_class: Prop
+  source_name: Piece33
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 676
+    y: 19558
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:304
+  source_ref: objects/304
+  source_kind: mm9_dat_object
+  source_object_index: 304
+  source_class: Prop
+  source_name: Piece34
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 717
+    y: 19558
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:305
+  source_ref: objects/305
+  source_kind: mm9_dat_object
+  source_object_index: 305
+  source_class: Prop
+  source_name: Piece35
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 758
+    y: 19558
+    z: 220
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberland:object:307
+  source_ref: objects/307
+  source_kind: mm9_dat_object
+  source_object_index: 307
+  source_class: Prop
+  source_name: ColorButton0
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Red.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 1147
+    y: 17408
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberland:object:308
+  source_ref: objects/308
+  source_kind: mm9_dat_object
+  source_object_index: 308
+  source_class: Prop
+  source_name: ColorButton1
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Blue.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 1229
+    y: 17408
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberland:object:309
+  source_ref: objects/309
+  source_kind: mm9_dat_object
+  source_object_index: 309
+  source_class: Prop
+  source_name: ColorButton2
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Yellow.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 1311
+    y: 17408
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberland:object:310
+  source_ref: objects/310
+  source_kind: mm9_dat_object
+  source_object_index: 310
+  source_class: Prop
+  source_name: ColorButton3
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Orange.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 1393
+    y: 17408
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberland:object:311
+  source_ref: objects/311
+  source_kind: mm9_dat_object
+  source_object_index: 311
+  source_class: Prop
+  source_name: ColorButton4
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Green.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 1475
+    y: 17408
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberland:object:316
+  source_ref: objects/316
+  source_kind: mm9_dat_object
+  source_object_index: 316
+  source_class: Prop
+  source_name: ColorSpace3
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 1434
+    y: 17469
+    z: 243
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberland:object:317
+  source_ref: objects/317
+  source_kind: mm9_dat_object
+  source_object_index: 317
+  source_class: Prop
+  source_name: ColorSpace0
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 1188
+    y: 17469
+    z: 243
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberland:object:318
+  source_ref: objects/318
+  source_kind: mm9_dat_object
+  source_object_index: 318
+  source_class: Prop
+  source_name: ColorSpace1
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 1270
+    y: 17469
+    z: 243
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberland:object:319
+  source_ref: objects/319
+  source_kind: mm9_dat_object
+  source_object_index: 319
+  source_class: Prop
+  source_name: ColorSpace2
+  source_model: models/GIBS/Stone.ABC
+  source_skin: Skins/GIBS/Stone.dtx
+  model_asset: models/gibs/stone.glb
+  position:
+    x: 1352
+    y: 17469
+    z: 243
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberland:object:323
+  source_ref: objects/323
+  source_kind: mm9_dat_object
+  source_object_index: 323
+  source_class: Prop
+  source_name: Bell
+  source_model: models/Props/Bell.ABC
+  source_skin: Skins/Props/Bellnobeam.dtx
+  model_asset: models/props/bell.glb
+  position:
+    x: 4536
+    y: 20316
+    z: 937
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 0.2
+    y: 0.2
+    z: 0.2
+  collision: rayhit
+- instance_id: mm9:guberland:object:324
+  source_ref: objects/324
+  source_kind: mm9_dat_object
+  source_object_index: 324
+  source_class: TownHuman2MaleA
+  source_name: TicketMaster
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm3.glb
+  position:
+    x: 2673
+    y: 19087
+    z: 351
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99619469
+    w: 0.087155801
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm3_peasantm3a
+- instance_id: mm9:guberland:object:325
+  source_ref: objects/325
+  source_kind: mm9_dat_object
+  source_object_index: 325
+  source_class: Prop
+  source_name: Honky3
+  source_model: models/goose.abc
+  source_skin: Skins/Goose.dtx
+  model_asset: models/goose.glb
+  position:
+    x: 2751
+    y: 21023
+    z: 141
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99999391
+    w: -0.0034906038
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: goose_goose
+- instance_id: mm9:guberland:object:326
+  source_ref: objects/326
+  source_kind: mm9_dat_object
+  source_object_index: 326
+  source_class: Prop
+  source_name: Honky0
+  source_model: models/goose.abc
+  source_skin: Skins/Goose.dtx
+  model_asset: models/goose.glb
+  position:
+    x: 2505
+    y: 21023
+    z: 141
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99999391
+    w: -0.0034906038
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: goose_goose
+- instance_id: mm9:guberland:object:327
+  source_ref: objects/327
+  source_kind: mm9_dat_object
+  source_object_index: 327
+  source_class: Prop
+  source_name: Honky1
+  source_model: models/goose.abc
+  source_skin: Skins/Goose.dtx
+  model_asset: models/goose.glb
+  position:
+    x: 2587
+    y: 21023
+    z: 141
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99999391
+    w: -0.0034906038
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: goose_goose
+- instance_id: mm9:guberland:object:328
+  source_ref: objects/328
+  source_kind: mm9_dat_object
+  source_object_index: 328
+  source_class: Prop
+  source_name: Honky2
+  source_model: models/goose.abc
+  source_skin: Skins/Goose.dtx
+  model_asset: models/goose.glb
+  position:
+    x: 2669
+    y: 21023
+    z: 141
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99999391
+    w: -0.0034906038
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: goose_goose
+- instance_id: mm9:guberland:object:330
+  source_ref: objects/330
+  source_kind: mm9_dat_object
+  source_object_index: 330
+  source_class: CommonerHalfOrcMaleA
+  source_name: CommonerHalfOrcMaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: 4424
+    y: 19005
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthom1.glb
+  model_skin_binding: peasanthom1_peasanthom1a
+- instance_id: mm9:guberland:object:334
+  source_ref: objects/334
+  source_kind: mm9_dat_object
+  source_object_index: 334
+  source_class: Prop
+  source_name: Banner0
+  source_model: models/Props/rectangle_banner.ABC
+  source_skin: TEXTURES/LevelTextures/Misc/c_awning.dtx
+  model_asset: models/props/rectangle_banner.glb
+  position:
+    x: 4326
+    y: 18844
+    z: 294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 0.5
+    y: 0.5
+    z: 0.5
+  collision: rayhit
+- instance_id: mm9:guberland:object:335
+  source_ref: objects/335
+  source_kind: mm9_dat_object
+  source_object_index: 335
+  source_class: Prop
+  source_name: Banner
+  source_model: models/Props/rectangle_banner.ABC
+  source_skin: TEXTURES/LevelTextures/Misc/c_awning.dtx
+  model_asset: models/props/rectangle_banner.glb
+  position:
+    x: 4326
+    y: 19172
+    z: 294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 0.5
+    y: 0.5
+    z: 0.5
+  collision: rayhit
+- instance_id: mm9:guberland:object:337
+  source_ref: objects/337
+  source_kind: mm9_dat_object
+  source_object_index: 337
+  source_class: StatStone
+  source_name: StatStone0
+  source_model: models/Props/statstone.ABC
+  source_skin: skins/props/statstone.dtx
+  model_asset: models/props/statstone.glb
+  position:
+    x: -26911
+    y: 18637
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberland:object:344
+  source_ref: objects/344
+  source_kind: mm9_dat_object
+  source_object_index: 344
+  source_class: CommonerHumanMaleA
+  source_name: Niclolai
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1.glb
+  position:
+    x: 2458
+    y: 19497
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+  model_skin_binding: peasantm1_peasantm1a
+- instance_id: mm9:guberland:object:345
+  source_ref: objects/345
+  source_kind: mm9_dat_object
+  source_object_index: 345
+  source_class: CommonerHumanMaleA
+  source_name: AlvartheClumsy
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1.glb
+  position:
+    x: 2130
+    y: 19661
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+  model_skin_binding: peasantm1_peasantm1a
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  face_attribute_overrides: []
+  actors: []
+  sprite_objects: []
+  chests: []
+  variables:
+    map:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    decor:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0

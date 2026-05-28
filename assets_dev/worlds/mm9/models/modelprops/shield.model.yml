@@ -1,0 +1,68 @@
+schema: openyamm.model3d.v1
+id: shield
+model: shield.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/MODELPROPS/SHIELD.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: shield
+  materialIndex: 0
+  lods:
+  - faces: 44
+    vertices: 27
+  - faces: 34
+    vertices: 22
+  - faces: 22
+    vertices: 16
+materials:
+- index: 0
+  texture: skins_preview/props/shield.png
+  runtime_texture: skins/props/shield.dtx
+  preview_texture: skins_preview/props/shield.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SHIELD.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: shieldonly
+  durationMs: 200
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: shieldonly
+  extents:
+  - 28.16
+  - 79.36
+  - 5.12
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/modelprops/shield.abc

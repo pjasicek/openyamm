@@ -1,0 +1,198 @@
+;--------------------------------
+;	Mastermind.scr
+;	by SJR
+;	12-18-01
+;	Purpose:
+;	ScriptParams:
+;		p0 = name of correct flames
+;	Triggers:
+;		"check" = check for victory
+;		"reset" = reset game
+;		"update"= update array when color chosen
+;--------------------------------
+#include BaseGlobals.inc
+#include ListMaker.inc
+#include ThjorgardGamesCommon.inc
+
+#string		sMyName = ""
+
+#number		nStoneCount = 0
+#number		nChances = 0
+
+#number		nCounter = 0
+#number		nTemp1 = 0
+#number		nTemp2 = 0
+#number		bNeedsTicket = 1
+
+;;take this out and hardcode
+#number		NUMCHANCES = 4
+
+#numberarray	npCorrect[4]
+#numberarray	npChosen[4]
+
+#number		TEXT_THREE	= 241
+#number		TEXT_TWO	= 242
+#number		TEXT_ONE	= 243
+
+;--------------------------------
+:Main
+;--------------------------------
+	GetParam 0, LISTNAME
+
+	LISTFIRST = 0
+	LISTLAST  = 3
+
+	;;register our name
+	GetMyHandle LISTOBJECT
+	GetObjectName LISTOBJECT, sMyName
+	SetConsoleStrVar MASTERMIND_NAME, sMyName
+
+	OnPostStartWorld InitMastermind
+	OnPostMiniSaveLoad InitMastermind
+
+	Exit TRUE
+
+;--------------------------------
+:InitMastermind
+;	fill array with 'empty'
+;--------------------------------
+	nCounter = 0
+	while( nCounter<4 )
+		ArrayPut npChosen, nCounter, -1
+		nCounter = nCounter + 1
+	endwhile
+
+	AddTrigger check,  CompareColors
+	AddTrigger reset,  GenerateColors
+	AddTrigger update, ColorChosen
+
+	gosub GenerateColors
+
+	Exit TRUE
+
+;--------------------------------
+:ColorChosen
+;	a color was chosen, update npChosen
+;--------------------------------
+	if( nChances<=0 )
+		Exit TRUE
+	endif
+
+	if( bNeedsTicket==TRUE )
+		gosub CheckGameTicket
+		if( THJORGARD_RESULT==0 )
+			Exit TRUE
+		else
+			bNeedsTicket = FALSE
+			gosub TakeGameTicket
+		endif
+	endif
+
+	;;get stone number and color
+	GetConsoleNumVar MASTERMIND_INDEX, nTemp1
+	GetConsoleNumVar MASTERMIND_COLOR, nTemp2
+	;;update array
+	ArrayPut npChosen, nTemp1, nTemp2
+
+	Exit TRUE
+
+;--------------------------------
+:CompareColors
+;	compares npCorrect with npChosen
+;	lights fire at each correct one
+;--------------------------------
+	if( nChances<=0 )
+		Exit TRUE
+	endif
+
+	if( bNeedsTicket==TRUE )
+		gosub CheckGameTicket
+		if( THJORGARD_RESULT==0 )
+			Exit TRUE
+		else
+			bNeedsTicket = FALSE
+			gosub TakeGameTicket
+		endif
+	endif
+
+	nStoneCount = 0
+	nCounter = 0
+	while( nCounter<4 )
+		ArrayGet npCorrect, nCounter, nTemp1
+		ArrayGet npChosen , nCounter, nTemp2
+		if( nTemp1==nTemp2 )
+			nStoneCount = nStoneCount + 1
+			LISTINDEX = nCounter
+			gosub GetCurrentObject
+			Trigger LISTOBJECT, on
+		endif
+		nCounter = nCounter + 1
+	endwhile
+
+	nChances = nChances - 1
+	if( nChances==3 )
+		RolloverText TEXT_THREE, 1, 3000, 2000
+	else
+	if( nChances==2 )
+		RolloverText TEXT_TWO, 1, 3000, 2000
+	else
+	if( nChances==1 )
+		RolloverText TEXT_ONE, 1, 3000, 2000
+	else
+	endif
+	endif
+	endif
+
+	if( nStoneCount==4 )
+		gosub Correct
+	else
+		gosub Incorrect
+	endif
+
+	Exit TRUE
+
+;--------------------------------
+:GenerateColors
+;	picks random colors for npCorrect
+;--------------------------------
+	bNeedsTicket = TRUE
+	nChances = NUMCHANCES
+	nCounter = 0
+
+	while( nCounter<4 )
+		LISTINDEX = LISTFIRST + nCounter
+		gosub GetCurrentObject
+		Trigger LISTOBJECT, off
+
+		GetRandomInt 0, 4, nTemp1
+		ArrayPut npCorrect, nCounter, nTemp1
+		nCounter = nCounter + 1
+	endwhile
+
+	AddTrigger check, CompareColors
+
+	Exit TRUE
+
+;--------------------------------
+:Correct
+;--------------------------------
+	RemoveTrigger check
+
+	PlaySound "sounds\spells\bless.wav", DoNothing, 1, 5000, FALSE, 100
+
+	Wait 0, 2, GenerateColors
+
+	gosub RecordRunesWin
+
+	Exit TRUE
+
+;--------------------------------
+:Incorrect
+;--------------------------------
+	if( nChances==0 )
+		RemoveTrigger check
+		RolloverText TEXT_DEFEAT, 1, 3000, 2000
+		gosub GenerateColors
+	endif
+
+	Exit TRUE

@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: dragonstadium
+display_name: Dragon's Lair
+source:
+  dat: ../source/worlds/DRAGONSTADIUM.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/DRAGONSTADIUM.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 88f4065f8069ca6d460d7ba5ca6297236154e57762eec872f6c0c4f52109ac4f
+runtime:
+  world_backend: dat_world
+  classification: indoor_like
+  classification_confidence: medium
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: false
+sidecars:
+  dat_world: dragonstadium.dat_world.yml
+  raw_objects: dragonstadium.raw_objects.yml
+  materials: dragonstadium.material_aliases.yml
+  events: dragonstadium.events.yml
+  scene_compat: dragonstadium.scene.yml
+  source_metadata_compat: dragonstadium.mm9.yml
+  bsp_compat: dragonstadium.bsp.yml
+  geometry_compat: dragonstadium.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: dragonstadium.blv
+scripts:
+  level: ../events/dragonstadium.lua
+  script_ir: ../events/dragonstadium.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

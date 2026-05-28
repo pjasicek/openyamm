@@ -1,0 +1,3068 @@
+format_version: 1
+kind: outdoor_scene
+source:
+  geometry_file: isleofashes.odm
+  source_metadata_file: isleofashes.mm9.yml
+runtime_restrictions:
+  allow_save_game: false
+  allow_lloyds_beacon: false
+  arena: false
+environment:
+  sky_texture: plansky1
+  ground_tileset_name: planset
+  master_tile: 0
+  tile_set_lookup_indices:
+  - 0
+  - 0
+  - 0
+  - 0
+  day_bits_raw: 0
+  map_extra_bits_raw: 8
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: true
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 8192
+    strong_distance: 16384
+  weather:
+    fog_mode: static
+    precipitation: none
+    daily_fog:
+      small_chance: 0
+      average_chance: 0
+      dense_chance: 0
+      small:
+        weak_distance: 8192
+        strong_distance: 16384
+      average:
+        weak_distance: 8192
+        strong_distance: 16384
+      dense:
+        weak_distance: 8192
+        strong_distance: 16384
+  ceiling: 32767
+terrain:
+  attribute_overrides: []
+  footstep_sound_overrides: []
+bmodel_faces:
+  interactive_faces: []
+entities: []
+spawns: []
+model_instances:
+- instance_id: mm9:isleofashes:object:9
+  source_ref: objects/9
+  source_kind: mm9_dat_object
+  source_object_index: 9
+  source_class: BoneThrasher
+  source_name: BoneThrasher0
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/skeleton.glb
+  position:
+    x: -10445
+    y: -10486
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.98480775
+    w: -0.17364819
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: skeleton_skeleton2_skeletondagger
+- instance_id: mm9:isleofashes:object:11
+  source_ref: objects/11
+  source_kind: mm9_dat_object
+  source_object_index: 11
+  source_class: BoneThrasher
+  source_name: BoneThrasher1
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/skeleton.glb
+  position:
+    x: -8069
+    y: 3686
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.98480775
+    w: -0.17364819
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: skeleton_skeleton2_skeletondagger
+- instance_id: mm9:isleofashes:object:12
+  source_ref: objects/12
+  source_kind: mm9_dat_object
+  source_object_index: 12
+  source_class: BoneThrasher
+  source_name: BoneThrasher2
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/skeleton.glb
+  position:
+    x: -8684
+    y: 3072
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.34119999
+    w: 0.93999073
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: skeleton_skeleton2_skeletondagger
+- instance_id: mm9:isleofashes:object:13
+  source_ref: objects/13
+  source_kind: mm9_dat_object
+  source_object_index: 13
+  source_class: BoneThrasher
+  source_name: BoneThrasher3
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/skeleton.glb
+  position:
+    x: -8479
+    y: 2826
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.085416922
+    w: 0.9963453
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+  model_skin_binding: skeleton_skeleton2_skeletondagger
+- instance_id: mm9:isleofashes:object:21
+  source_ref: objects/21
+  source_kind: mm9_dat_object
+  source_object_index: 21
+  source_class: DragonFly
+  source_name: DragonFly2
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -9830
+    y: -18678
+    z: 1284
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:isleofashes:object:22
+  source_ref: objects/22
+  source_kind: mm9_dat_object
+  source_object_index: 22
+  source_class: DragonFly
+  source_name: DragonFly0
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -11141
+    y: -19333
+    z: 1448
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:isleofashes:object:23
+  source_ref: objects/23
+  source_kind: mm9_dat_object
+  source_object_index: 23
+  source_class: DragonFly
+  source_name: DragonFly1
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -11633
+    y: -17531
+    z: 1448
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:isleofashes:object:24
+  source_ref: objects/24
+  source_kind: mm9_dat_object
+  source_object_index: 24
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite0
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -16384
+    y: -8028
+    z: 731
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:isleofashes:object:25
+  source_ref: objects/25
+  source_kind: mm9_dat_object
+  source_object_index: 25
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite1
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -13072
+    y: -11203
+    z: 1105
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96592583
+    w: -0.25881904
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:isleofashes:object:26
+  source_ref: objects/26
+  source_kind: mm9_dat_object
+  source_object_index: 26
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite10
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -9994
+    y: -19169
+    z: 1284
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:isleofashes:object:27
+  source_ref: objects/27
+  source_kind: mm9_dat_object
+  source_object_index: 27
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite11
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -10747
+    y: -16871
+    z: 1284
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:isleofashes:object:28
+  source_ref: objects/28
+  source_kind: mm9_dat_object
+  source_object_index: 28
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite2
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -8782
+    y: -10495
+    z: 1105
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.90630776
+    w: -0.42261833
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:isleofashes:object:29
+  source_ref: objects/29
+  source_kind: mm9_dat_object
+  source_object_index: 29
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite3
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -487
+    y: -9232
+    z: 1105
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:isleofashes:object:30
+  source_ref: objects/30
+  source_kind: mm9_dat_object
+  source_object_index: 30
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite4
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -3126
+    y: -13955
+    z: 1105
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42261826
+    w: 0.90630779
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:isleofashes:object:31
+  source_ref: objects/31
+  source_kind: mm9_dat_object
+  source_object_index: 31
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite5
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -10583
+    y: -18079
+    z: 1448
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:isleofashes:object:32
+  source_ref: objects/32
+  source_kind: mm9_dat_object
+  source_object_index: 32
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite6
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -11469
+    y: -18842
+    z: 1448
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:isleofashes:object:33
+  source_ref: objects/33
+  source_kind: mm9_dat_object
+  source_object_index: 33
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite7
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -12124
+    y: -17859
+    z: 1448
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:isleofashes:object:34
+  source_ref: objects/34
+  source_kind: mm9_dat_object
+  source_object_index: 34
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite8
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -11305
+    y: -19825
+    z: 1448
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:isleofashes:object:35
+  source_ref: objects/35
+  source_kind: mm9_dat_object
+  source_object_index: 35
+  source_class: DragonFlyMite
+  source_name: DragonFlyMite9
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -9994
+    y: -19661
+    z: 1448
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly1
+- instance_id: mm9:isleofashes:object:36
+  source_ref: objects/36
+  source_kind: mm9_dat_object
+  source_object_index: 36
+  source_class: FireDragonFly
+  source_name: FireDragonFly0
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -13599
+    y: -19661
+    z: 1448
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:isleofashes:object:37
+  source_ref: objects/37
+  source_kind: mm9_dat_object
+  source_object_index: 37
+  source_class: FireDragonFly
+  source_name: FireDragonFly1
+  source_model: models/DragonFly.abc
+  source_skin: ''
+  model_asset: models/dragonfly.glb
+  position:
+    x: -12288
+    y: -19005
+    z: 1284
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly3
+- instance_id: mm9:isleofashes:object:38
+  source_ref: objects/38
+  source_kind: mm9_dat_object
+  source_object_index: 38
+  source_class: JellySpore
+  source_name: JellySpore0
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: -11524
+    y: -4471
+    z: -266
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96592583
+    w: -0.25881904
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:isleofashes:object:39
+  source_ref: objects/39
+  source_kind: mm9_dat_object
+  source_object_index: 39
+  source_class: Skeletoid
+  source_name: Mac
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -18107
+    y: -2575
+    z: 364
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/imp.abc
+    source_skins: []
+    candidates:
+    - id: imp_imp1_imptrident
+      source_skins: &id001
+      - skins/imp1.dtx
+      - skins/imptrident.dtx
+    - id: imp_imp2_imptrident
+      source_skins: &id002
+      - skins/imp2.dtx
+      - skins/imptrident.dtx
+    - id: imp_imp3_imptrident
+      source_skins: &id003
+      - skins/imp3.dtx
+      - skins/imptrident.dtx
+- instance_id: mm9:isleofashes:object:40
+  source_ref: objects/40
+  source_kind: mm9_dat_object
+  source_object_index: 40
+  source_class: Skeletoid
+  source_name: JK
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -19064
+    y: -4104
+    z: 504
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/imp.abc
+    source_skins: []
+    candidates:
+    - id: imp_imp1_imptrident
+      source_skins: *id001
+    - id: imp_imp2_imptrident
+      source_skins: *id002
+    - id: imp_imp3_imptrident
+      source_skins: *id003
+- instance_id: mm9:isleofashes:object:41
+  source_ref: objects/41
+  source_kind: mm9_dat_object
+  source_object_index: 41
+  source_class: Skeletoid
+  source_name: Skeletoid0
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -14863
+    y: -12199
+    z: 832
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000004
+    w: -0.86602538
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/imp.abc
+    source_skins: []
+    candidates:
+    - id: imp_imp1_imptrident
+      source_skins: *id001
+    - id: imp_imp2_imptrident
+      source_skins: *id002
+    - id: imp_imp3_imptrident
+      source_skins: *id003
+- instance_id: mm9:isleofashes:object:42
+  source_ref: objects/42
+  source_kind: mm9_dat_object
+  source_object_index: 42
+  source_class: Skeletoid
+  source_name: Skeletoid1
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -14418
+    y: -12288
+    z: 832
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.76604443
+    w: -0.64278763
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/imp.abc
+    source_skins: []
+    candidates:
+    - id: imp_imp1_imptrident
+      source_skins: *id001
+    - id: imp_imp2_imptrident
+      source_skins: *id002
+    - id: imp_imp3_imptrident
+      source_skins: *id003
+- instance_id: mm9:isleofashes:object:43
+  source_ref: objects/43
+  source_kind: mm9_dat_object
+  source_object_index: 43
+  source_class: Skeletoid
+  source_name: Skeletoid2
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -10984
+    y: -11522
+    z: 1105
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/imp.abc
+    source_skins: []
+    candidates:
+    - id: imp_imp1_imptrident
+      source_skins: *id001
+    - id: imp_imp2_imptrident
+      source_skins: *id002
+    - id: imp_imp3_imptrident
+      source_skins: *id003
+- instance_id: mm9:isleofashes:object:44
+  source_ref: objects/44
+  source_kind: mm9_dat_object
+  source_object_index: 44
+  source_class: Skeletoid
+  source_name: Skeletoid3
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -7086
+    y: -8726
+    z: 1105
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/imp.abc
+    source_skins: []
+    candidates:
+    - id: imp_imp1_imptrident
+      source_skins: *id001
+    - id: imp_imp2_imptrident
+      source_skins: *id002
+    - id: imp_imp3_imptrident
+      source_skins: *id003
+- instance_id: mm9:isleofashes:object:45
+  source_ref: objects/45
+  source_kind: mm9_dat_object
+  source_object_index: 45
+  source_class: Skeletoid
+  source_name: Skeletoid
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -7537
+    y: -7864
+    z: 1105
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.76604445
+    w: 0.64278761
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/imp.abc
+    source_skins: []
+    candidates:
+    - id: imp_imp1_imptrident
+      source_skins: *id001
+    - id: imp_imp2_imptrident
+      source_skins: *id002
+    - id: imp_imp3_imptrident
+      source_skins: *id003
+- instance_id: mm9:isleofashes:object:46
+  source_ref: objects/46
+  source_kind: mm9_dat_object
+  source_object_index: 46
+  source_class: YrsatheTroll
+  source_name: Yrsa
+  source_model: models/PeasantF1.ABC
+  source_skin: ''
+  model_asset: models/yrsa.glb
+  position:
+    x: -4302
+    y: -16987
+    z: 410
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.73491457
+    w: -0.6781597
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: yrsa_yrsa
+- instance_id: mm9:isleofashes:object:47
+  source_ref: objects/47
+  source_kind: mm9_dat_object
+  source_object_index: 47
+  source_class: BoneThrasher
+  source_name: BoneThrasher4
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/skeleton.glb
+  position:
+    x: -16106
+    y: -11261
+    z: 1105
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: skeleton_skeleton2_skeletondagger
+- instance_id: mm9:isleofashes:object:48
+  source_ref: objects/48
+  source_kind: mm9_dat_object
+  source_object_index: 48
+  source_class: BoneThrasher
+  source_name: BoneThrasher5
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/skeleton.glb
+  position:
+    x: -11423
+    y: -11651
+    z: 1105
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: skeleton_skeleton2_skeletondagger
+- instance_id: mm9:isleofashes:object:49
+  source_ref: objects/49
+  source_kind: mm9_dat_object
+  source_object_index: 49
+  source_class: BoneThrasher
+  source_name: BoneThrasher6
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/skeleton.glb
+  position:
+    x: -6390
+    y: -7864
+    z: 1105
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: skeleton_skeleton2_skeletondagger
+- instance_id: mm9:isleofashes:object:50
+  source_ref: objects/50
+  source_kind: mm9_dat_object
+  source_object_index: 50
+  source_class: BoneThrasher
+  source_name: BoneThrasher7
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/skeleton.glb
+  position:
+    x: -4541
+    y: -9961
+    z: 1105
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: skeleton_skeleton2_skeletondagger
+- instance_id: mm9:isleofashes:object:51
+  source_ref: objects/51
+  source_kind: mm9_dat_object
+  source_object_index: 51
+  source_class: BoneThrasher
+  source_name: BoneThrasher
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/skeleton.glb
+  position:
+    x: -678
+    y: -12599
+    z: 1105
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: skeleton_skeleton2_skeletondagger
+- instance_id: mm9:isleofashes:object:52
+  source_ref: objects/52
+  source_kind: mm9_dat_object
+  source_object_index: 52
+  source_class: JellySpore
+  source_name: JellySpore1
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: -20863
+    y: -9263
+    z: -266
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42261826
+    w: 0.90630779
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:isleofashes:object:53
+  source_ref: objects/53
+  source_kind: mm9_dat_object
+  source_object_index: 53
+  source_class: JellySpore
+  source_name: JellySpore2
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: -21422
+    y: -14909
+    z: -266
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:isleofashes:object:54
+  source_ref: objects/54
+  source_kind: mm9_dat_object
+  source_object_index: 54
+  source_class: JellySpore
+  source_name: JellySpore3
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: -10732
+    y: -26706
+    z: -266
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:isleofashes:object:55
+  source_ref: objects/55
+  source_kind: mm9_dat_object
+  source_object_index: 55
+  source_class: JellySpore
+  source_name: JellySpore4
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: 1188
+    y: -24084
+    z: -266
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.17450758
+    w: -0.98465583
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:isleofashes:object:56
+  source_ref: objects/56
+  source_kind: mm9_dat_object
+  source_object_index: 56
+  source_class: JellySpore
+  source_name: JellySpore5
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: 3645
+    y: -7373
+    z: -266
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.69025123
+    w: -0.72356979
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:isleofashes:object:57
+  source_ref: objects/57
+  source_kind: mm9_dat_object
+  source_object_index: 57
+  source_class: JellySpore
+  source_name: JellySpore6
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: 2540
+    y: 983
+    z: -266
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.75756502
+    w: -0.65275971
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:isleofashes:object:58
+  source_ref: objects/58
+  source_kind: mm9_dat_object
+  source_object_index: 58
+  source_class: JellySpore
+  source_name: JellySpore7
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: -4628
+    y: 11100
+    z: -266
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.9961947
+    w: -0.087155769
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:isleofashes:object:59
+  source_ref: objects/59
+  source_kind: mm9_dat_object
+  source_object_index: 59
+  source_class: JellySpore
+  source_name: JellySpore8
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: -12861
+    y: 12165
+    z: -266
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:isleofashes:object:60
+  source_ref: objects/60
+  source_kind: mm9_dat_object
+  source_object_index: 60
+  source_class: JellySpore
+  source_name: JellySpore9
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: -31334
+    y: -205
+    z: -266
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:isleofashes:object:61
+  source_ref: objects/61
+  source_kind: mm9_dat_object
+  source_object_index: 61
+  source_class: ForadDarreNPC
+  source_name: ForadDarre
+  source_model: models/ForradDarre.ABC
+  source_skin: ''
+  position:
+    x: -4997
+    y: -8018
+    z: 451
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50151089
+    w: -0.86515133
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: missing
+    source_model: models/forraddarre.abc
+    source_skins: []
+- instance_id: mm9:isleofashes:object:66
+  source_ref: objects/66
+  source_kind: mm9_dat_object
+  source_object_index: 66
+  source_class: Skeletoid
+  source_name: Peter
+  source_model: models/Skeleton.abc
+  source_skin: ''
+  model_asset: models/skeleton.glb
+  position:
+    x: -19935
+    y: -1165
+    z: 346
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/skeleton.abc
+    source_skins: []
+    candidates:
+    - id: skeleton_skeleton1_skeletondagger
+      source_skins: &id004
+      - skins/skeleton1.dtx
+      - skins/skeletondagger.dtx
+    - id: skeleton_skeleton2_skeletondagger
+      source_skins: &id005
+      - skins/skeleton2.dtx
+      - skins/skeletondagger.dtx
+    - id: skeleton_skeletonred_skeletondagger
+      source_skins: &id006
+      - skins/skeletonred.dtx
+      - skins/skeletondagger.dtx
+- instance_id: mm9:isleofashes:object:67
+  source_ref: objects/67
+  source_kind: mm9_dat_object
+  source_object_index: 67
+  source_class: Prop
+  source_name: TheBone0
+  source_model: models/GIBS/Skeleton/Bip01 head.ABC
+  source_skin: Skins/Skeleton1.dtx
+  model_asset: models/gibs/skeleton/bip01_head.glb
+  position:
+    x: -19164
+    y: -2642
+    z: 906
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.69999999
+    y: 0.69999999
+    z: 0.69999999
+  collision: none
+- instance_id: mm9:isleofashes:object:78
+  source_ref: objects/78
+  source_kind: mm9_dat_object
+  source_object_index: 78
+  source_class: SeaMonsterMale
+  source_name: SeaMonsterMale0
+  source_model: models/SeaMonster.abc
+  source_skin: ''
+  model_asset: models/seamonster.glb
+  position:
+    x: -24141
+    y: 4037
+    z: -79
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: seamonster_seacreaturef
+- instance_id: mm9:isleofashes:object:81
+  source_ref: objects/81
+  source_kind: mm9_dat_object
+  source_object_index: 81
+  source_class: SkullThrowerSmall
+  source_name: Jeff
+  source_model: models/Skeleton.abc
+  source_skin: ''
+  model_asset: models/skeleton.glb
+  position:
+    x: -19671
+    y: -3697
+    z: 486
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/skeleton.abc
+    source_skins: []
+    candidates:
+    - id: skeleton_skeleton1_skeletondagger
+      source_skins: *id004
+    - id: skeleton_skeleton2_skeletondagger
+      source_skins: *id005
+    - id: skeleton_skeletonred_skeletondagger
+      source_skins: *id006
+- instance_id: mm9:isleofashes:object:82
+  source_ref: objects/82
+  source_kind: mm9_dat_object
+  source_object_index: 82
+  source_class: SkullThrowerSmall
+  source_name: SkullThrowerSmall0
+  source_model: models/Skeleton.abc
+  source_skin: ''
+  model_asset: models/skeleton.glb
+  position:
+    x: -5588
+    y: 735
+    z: 686
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96592582
+    w: 0.25881907
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/skeleton.abc
+    source_skins: []
+    candidates:
+    - id: skeleton_skeleton1_skeletondagger
+      source_skins: *id004
+    - id: skeleton_skeleton2_skeletondagger
+      source_skins: *id005
+    - id: skeleton_skeletonred_skeletondagger
+      source_skins: *id006
+- instance_id: mm9:isleofashes:object:475
+  source_ref: objects/475
+  source_kind: mm9_dat_object
+  source_object_index: 475
+  source_class: TreasureChest
+  source_name: TreasureChest1
+  source_model: models/Props/Chest1.ABC
+  source_skin: Skins/Props/Chest1.dtx
+  model_asset: models/props/chest1.glb
+  position:
+    x: -12619
+    y: -17546
+    z: 728
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.51877327
+    w: 0.85491187
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:476
+  source_ref: objects/476
+  source_kind: mm9_dat_object
+  source_object_index: 476
+  source_class: TreasureChest
+  source_name: TreasureChest0
+  source_model: models/Props/Chest1.ABC
+  source_skin: Skins/Props/Chest1.dtx
+  model_asset: models/props/chest1.glb
+  position:
+    x: -21242
+    y: 1997
+    z: -77
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.51877327
+    w: 0.85491187
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:477
+  source_ref: objects/477
+  source_kind: mm9_dat_object
+  source_object_index: 477
+  source_class: Prop
+  source_name: TheBone1
+  source_model: models/GIBS/Skeleton/Bip01 head.ABC
+  source_skin: Skins/Skeleton1.dtx
+  model_asset: models/gibs/skeleton/bip01_head.glb
+  position:
+    x: -19200
+    y: -2596
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.69999999
+    y: 0.69999999
+    z: 0.69999999
+  collision: none
+- instance_id: mm9:isleofashes:object:481
+  source_ref: objects/481
+  source_kind: mm9_dat_object
+  source_object_index: 481
+  source_class: Prop
+  source_name: ShipWreck5
+  source_model: models/Props/VikingShip-Wreck.ABC
+  source_skin: Skins/Props/VikingShip.dtx
+  model_asset: models/props/vikingship_wreck.glb
+  position:
+    x: -24412
+    y: 8192
+    z: -41
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.19765718
+    w: -0.98027121
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:492
+  source_ref: objects/492
+  source_kind: mm9_dat_object
+  source_object_index: 492
+  source_class: Prop
+  source_name: Boat0
+  source_model: models/props/vikingship.abc
+  source_skin: skins/props/vikingship.dtx
+  model_asset: models/props/vikingship.glb
+  position:
+    x: -3594
+    y: 6420
+    z: -164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7477981
+    w: 0.6639262
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:493
+  source_ref: objects/493
+  source_kind: mm9_dat_object
+  source_object_index: 493
+  source_class: Prop
+  source_name: Boat
+  source_model: models/props/vikingship.abc
+  source_skin: skins/props/vikingship.dtx
+  model_asset: models/props/vikingship.glb
+  position:
+    x: 2386
+    y: 4741
+    z: -164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.37217796
+    w: 0.92816139
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:495
+  source_ref: objects/495
+  source_kind: mm9_dat_object
+  source_object_index: 495
+  source_class: Prop
+  source_name: Book
+  source_model: models/Props/Book.ABC
+  source_skin: Skins/Props/Book.dtx
+  model_asset: models/props/book.glb
+  position:
+    x: -8131
+    y: 4905
+    z: -26
+  rotation_quat:
+    x: -4.1524599e-08
+    y: 0.31233491
+    z: -0.94997205
+    w: -1.3652593e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: none
+- instance_id: mm9:isleofashes:object:496
+  source_ref: objects/496
+  source_kind: mm9_dat_object
+  source_object_index: 496
+  source_class: Prop
+  source_name: Prop159
+  source_model: models/Props/Podium03.ABC
+  source_skin: Skins/Props/Podium03.dtx
+  model_asset: models/props/podium03.glb
+  position:
+    x: -8110
+    y: 4915
+    z: -46
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99999657
+    w: -0.0026179959
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:500
+  source_ref: objects/500
+  source_kind: mm9_dat_object
+  source_object_index: 500
+  source_class: StatStone
+  source_name: StatStone0
+  source_model: models/Props/StatStone.ABC
+  source_skin: Skins/Props/StatStoneRed.dtx
+  model_asset: models/props/statstone.glb
+  position:
+    x: -17162
+    y: -12370
+    z: 195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:502
+  source_ref: objects/502
+  source_kind: mm9_dat_object
+  source_object_index: 502
+  source_class: Prop
+  source_name: Prop29
+  source_model: models/Props/Debris/StoneDebris02.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris02.glb
+  position:
+    x: -5161
+    y: 2826
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:503
+  source_ref: objects/503
+  source_kind: mm9_dat_object
+  source_object_index: 503
+  source_class: Prop
+  source_name: Prop30
+  source_model: models/Props/Debris/StoneDebris02.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris02.glb
+  position:
+    x: -5079
+    y: 2253
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.88376557
+    w: -0.46792992
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:isleofashes:object:504
+  source_ref: objects/504
+  source_kind: mm9_dat_object
+  source_object_index: 504
+  source_class: Prop
+  source_name: Prop31
+  source_model: models/Props/Debris/StoneDebris02.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris02.glb
+  position:
+    x: -5325
+    y: 1638
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:505
+  source_ref: objects/505
+  source_kind: mm9_dat_object
+  source_object_index: 505
+  source_class: Prop
+  source_name: Prop32
+  source_model: models/Props/Debris/StoneDebris02.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris02.glb
+  position:
+    x: -6472
+    y: 1597
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:506
+  source_ref: objects/506
+  source_kind: mm9_dat_object
+  source_object_index: 506
+  source_class: Prop
+  source_name: Prop33
+  source_model: models/Props/Debris/StoneDebris02.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris02.glb
+  position:
+    x: -6922
+    y: 2048
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:507
+  source_ref: objects/507
+  source_kind: mm9_dat_object
+  source_object_index: 507
+  source_class: Prop
+  source_name: Prop34
+  source_model: models/Props/Debris/StoneDebris02.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris02.glb
+  position:
+    x: -7660
+    y: 2089
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:508
+  source_ref: objects/508
+  source_kind: mm9_dat_object
+  source_object_index: 508
+  source_class: Prop
+  source_name: Prop35
+  source_model: models/Props/Debris/StoneDebris02.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris02.glb
+  position:
+    x: -6636
+    y: 1802
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.88376557
+    w: -0.46792992
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:isleofashes:object:509
+  source_ref: objects/509
+  source_kind: mm9_dat_object
+  source_object_index: 509
+  source_class: Prop
+  source_name: Prop36
+  source_model: models/Props/Debris/StoneDebris02.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris02.glb
+  position:
+    x: -7496
+    y: 2540
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.88376557
+    w: -0.46792992
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:isleofashes:object:510
+  source_ref: objects/510
+  source_kind: mm9_dat_object
+  source_object_index: 510
+  source_class: Prop
+  source_name: Prop37
+  source_model: models/Props/Debris/StoneDebris02.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris02.glb
+  position:
+    x: -5816
+    y: 1352
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.88376557
+    w: -0.46792992
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:isleofashes:object:511
+  source_ref: objects/511
+  source_kind: mm9_dat_object
+  source_object_index: 511
+  source_class: Prop
+  source_name: Prop38
+  source_model: models/Props/Debris/StoneDebris03.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris03.glb
+  position:
+    x: -7250
+    y: 2335
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:512
+  source_ref: objects/512
+  source_kind: mm9_dat_object
+  source_object_index: 512
+  source_class: Prop
+  source_name: Prop39
+  source_model: models/Props/Debris/StoneDebris03.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris03.glb
+  position:
+    x: -6144
+    y: 1638
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:513
+  source_ref: objects/513
+  source_kind: mm9_dat_object
+  source_object_index: 513
+  source_class: Prop
+  source_name: Prop40
+  source_model: models/Props/Debris/StoneDebris03.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris03.glb
+  position:
+    x: -5202
+    y: 1884
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:514
+  source_ref: objects/514
+  source_kind: mm9_dat_object
+  source_object_index: 514
+  source_class: Prop
+  source_name: Prop41
+  source_model: models/Props/Debris/StoneDebris03.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris03.glb
+  position:
+    x: -5366
+    y: 2253
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:515
+  source_ref: objects/515
+  source_kind: mm9_dat_object
+  source_object_index: 515
+  source_class: Prop
+  source_name: Prop42
+  source_model: models/Props/Debris/StoneDebris03.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris03.glb
+  position:
+    x: -5284
+    y: 2662
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:516
+  source_ref: objects/516
+  source_kind: mm9_dat_object
+  source_object_index: 516
+  source_class: Prop
+  source_name: Prop43
+  source_model: models/Props/Debris/StoneDebris03.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris03.glb
+  position:
+    x: -6308
+    y: 2007
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:517
+  source_ref: objects/517
+  source_kind: mm9_dat_object
+  source_object_index: 517
+  source_class: Prop
+  source_name: Prop44
+  source_model: models/Props/Debris/StoneDebris03.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris03.glb
+  position:
+    x: -7168
+    y: 3195
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:518
+  source_ref: objects/518
+  source_kind: mm9_dat_object
+  source_object_index: 518
+  source_class: Prop
+  source_name: Prop45
+  source_model: models/Props/Debris/StoneDebris03.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris03.glb
+  position:
+    x: -6717
+    y: 3318
+    z: 901
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:521
+  source_ref: objects/521
+  source_kind: mm9_dat_object
+  source_object_index: 521
+  source_class: Prop
+  source_name: Tree4
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: -18678
+    y: 1475
+    z: 276
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:522
+  source_ref: objects/522
+  source_kind: mm9_dat_object
+  source_object_index: 522
+  source_class: Prop
+  source_name: Tree5
+  source_model: models/props/PlantsandTrees/Tree05.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch4.dtx
+  model_asset: models/props/plantsandtrees/tree05.glb
+  position:
+    x: -19821
+    y: -988
+    z: 286
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.3
+    y: 1.3
+    z: 1.3
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:523
+  source_ref: objects/523
+  source_kind: mm9_dat_object
+  source_object_index: 523
+  source_class: Prop
+  source_name: Tree6
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: -17695
+    y: -1966
+    z: 389
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:524
+  source_ref: objects/524
+  source_kind: mm9_dat_object
+  source_object_index: 524
+  source_class: Prop
+  source_name: Tree7
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: -16220
+    y: -11305
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:525
+  source_ref: objects/525
+  source_kind: mm9_dat_object
+  source_object_index: 525
+  source_class: Prop
+  source_name: Tree8
+  source_model: models/props/PlantsandTrees/Tree05.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch4.dtx
+  model_asset: models/props/plantsandtrees/tree05.glb
+  position:
+    x: -14828
+    y: -8765
+    z: 41
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.3
+    y: 1.3
+    z: 1.3
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:528
+  source_ref: objects/528
+  source_kind: mm9_dat_object
+  source_object_index: 528
+  source_class: Prop
+  source_name: Tree16
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: -15401
+    y: 655
+    z: 195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:529
+  source_ref: objects/529
+  source_kind: mm9_dat_object
+  source_object_index: 529
+  source_class: Prop
+  source_name: Tree17
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: -19087
+    y: -3523
+    z: 297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:530
+  source_ref: objects/530
+  source_kind: mm9_dat_object
+  source_object_index: 530
+  source_class: Prop
+  source_name: Tree11
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: 8110
+    y: 1393
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:531
+  source_ref: objects/531
+  source_kind: mm9_dat_object
+  source_object_index: 531
+  source_class: Prop
+  source_name: Tree12
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: 7946
+    y: 2212
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:532
+  source_ref: objects/532
+  source_kind: mm9_dat_object
+  source_object_index: 532
+  source_class: Prop
+  source_name: Tree13
+  source_model: models/props/PlantsandTrees/Tree05.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch4.dtx
+  model_asset: models/props/plantsandtrees/tree05.glb
+  position:
+    x: 8172
+    y: 1884
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.3
+    y: 1.3
+    z: 1.3
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:533
+  source_ref: objects/533
+  source_kind: mm9_dat_object
+  source_object_index: 533
+  source_class: Prop
+  source_name: Tree14
+  source_model: models/props/PlantsandTrees/Tree05.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch4.dtx
+  model_asset: models/props/plantsandtrees/tree05.glb
+  position:
+    x: -4485
+    y: -16230
+    z: 225
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.17364817
+    w: 0.98480775
+  scale:
+    x: 1.3
+    y: 1.3
+    z: 1.3
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:534
+  source_ref: objects/534
+  source_kind: mm9_dat_object
+  source_object_index: 534
+  source_class: Prop
+  source_name: Tree19
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: -12122
+    y: -18650
+    z: 676
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:535
+  source_ref: objects/535
+  source_kind: mm9_dat_object
+  source_object_index: 535
+  source_class: Prop
+  source_name: Tree24
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: -10408
+    y: -19351
+    z: 625
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:536
+  source_ref: objects/536
+  source_kind: mm9_dat_object
+  source_object_index: 536
+  source_class: Prop
+  source_name: Tree3
+  source_model: models/props/PlantsandTrees/Tree05.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch4.dtx
+  model_asset: models/props/plantsandtrees/tree05.glb
+  position:
+    x: -10176
+    y: -18656
+    z: 573
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.3
+    y: 1.3
+    z: 1.3
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:537
+  source_ref: objects/537
+  source_kind: mm9_dat_object
+  source_object_index: 537
+  source_class: Prop
+  source_name: Tree25
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: -9250
+    y: -18658
+    z: 666
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:538
+  source_ref: objects/538
+  source_kind: mm9_dat_object
+  source_object_index: 538
+  source_class: Prop
+  source_name: Tree1
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: -10483
+    y: -17830
+    z: 614
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:539
+  source_ref: objects/539
+  source_kind: mm9_dat_object
+  source_object_index: 539
+  source_class: Prop
+  source_name: Tree23
+  source_model: models/props/PlantsandTrees/Tree05.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch4.dtx
+  model_asset: models/props/plantsandtrees/tree05.glb
+  position:
+    x: -9951
+    y: -17523
+    z: 584
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.3
+    y: 1.3
+    z: 1.3
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:540
+  source_ref: objects/540
+  source_kind: mm9_dat_object
+  source_object_index: 540
+  source_class: Prop
+  source_name: Tree10
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: -10811
+    y: -16847
+    z: 717
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.3
+    y: 1.3
+    z: 1.3
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:541
+  source_ref: objects/541
+  source_kind: mm9_dat_object
+  source_object_index: 541
+  source_class: Prop
+  source_name: Tree2
+  source_model: models/props/PlantsandTrees/Tree05.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch4.dtx
+  model_asset: models/props/plantsandtrees/tree05.glb
+  position:
+    x: -11466
+    y: -17011
+    z: 625
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:542
+  source_ref: objects/542
+  source_kind: mm9_dat_object
+  source_object_index: 542
+  source_class: Prop
+  source_name: Tree18
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: -12122
+    y: -17339
+    z: 727
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:543
+  source_ref: objects/543
+  source_kind: mm9_dat_object
+  source_object_index: 543
+  source_class: Prop
+  source_name: Tree22
+  source_model: models/props/PlantsandTrees/Tree05.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch4.dtx
+  model_asset: models/props/plantsandtrees/tree05.glb
+  position:
+    x: -12777
+    y: -17994
+    z: 655
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:544
+  source_ref: objects/544
+  source_kind: mm9_dat_object
+  source_object_index: 544
+  source_class: Prop
+  source_name: Tree15
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: -840
+    y: -13670
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:545
+  source_ref: objects/545
+  source_kind: mm9_dat_object
+  source_object_index: 545
+  source_class: Prop
+  source_name: Tree9
+  source_model: models/props/PlantsandTrees/Tree05.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch4.dtx
+  model_asset: models/props/plantsandtrees/tree05.glb
+  position:
+    x: -7066
+    y: -8438
+    z: 133
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.3
+    y: 1.3
+    z: 1.3
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:546
+  source_ref: objects/546
+  source_kind: mm9_dat_object
+  source_object_index: 546
+  source_class: Prop
+  source_name: Tree20
+  source_model: models/props/PlantsandTrees/Tree06.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch5.dtx
+  model_asset: models/props/plantsandtrees/tree06.glb
+  position:
+    x: -4708
+    y: -17708
+    z: 225
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.14349267
+    w: -0.98965138
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:547
+  source_ref: objects/547
+  source_kind: mm9_dat_object
+  source_object_index: 547
+  source_class: Prop
+  source_name: Tree21
+  source_model: models/props/PlantsandTrees/Tree05.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark3.dtx;skins/props/PlantsandTrees/TreeBranch4.dtx
+  model_asset: models/props/plantsandtrees/tree05.glb
+  position:
+    x: -16609
+    y: -11745
+    z: 102
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.3
+    y: 1.3
+    z: 1.3
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:561
+  source_ref: objects/561
+  source_kind: mm9_dat_object
+  source_object_index: 561
+  source_class: Prop
+  source_name: Prop0
+  source_model: models/Props/LogsBurning.ABC
+  source_skin: Skins/Props/LogsBurning.dtx
+  model_asset: models/props/logsburning.glb
+  position:
+    x: -4250
+    y: -16753
+    z: 251
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.69999999
+    y: 0.69999999
+    z: 0.69999999
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:565
+  source_ref: objects/565
+  source_kind: mm9_dat_object
+  source_object_index: 565
+  source_class: LichKing
+  source_name: LichSummoner
+  source_model: models/Lich.abc
+  source_skin: ''
+  model_asset: models/lich.glb
+  position:
+    x: 1966
+    y: 8684
+    z: 678
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: none
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/lich.abc
+    source_skins: []
+    candidates:
+    - id: lich_lich1
+      source_skins:
+      - skins/lich1.dtx
+    - id: lich_lich2
+      source_skins:
+      - skins/lich2.dtx
+- instance_id: mm9:isleofashes:object:747
+  source_ref: objects/747
+  source_kind: mm9_dat_object
+  source_object_index: 747
+  source_class: ShopkeeperHuman2MaleA
+  source_name: ShopkeeperHuman2MaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm6.glb
+  position:
+    x: -3768
+    y: 5816
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm6_peasantm6b
+- instance_id: mm9:isleofashes:object:760
+  source_ref: objects/760
+  source_kind: mm9_dat_object
+  source_object_index: 760
+  source_class: Prop
+  source_name: Bed25
+  source_model: models/Props/Bed_Cot.ABC
+  source_skin: Skins/Props/Bed_Cot.dtx
+  model_asset: models/props/bed_cot.glb
+  position:
+    x: -4137
+    y: -17142
+    z: 292
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:isleofashes:object:761
+  source_ref: objects/761
+  source_kind: mm9_dat_object
+  source_object_index: 761
+  source_class: Prop
+  source_name: Chair125
+  source_model: models/Props/Stool03.ABC
+  source_skin: Skins/Props/Stool03.dtx
+  model_asset: models/props/stool03.glb
+  position:
+    x: -4690
+    y: -16794
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:762
+  source_ref: objects/762
+  source_kind: mm9_dat_object
+  source_object_index: 762
+  source_class: Prop
+  source_name: Chair126
+  source_model: models/Props/Stool03.ABC
+  source_skin: Skins/Props/Stool03.dtx
+  model_asset: models/props/stool03.glb
+  position:
+    x: -4444
+    y: -16794
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:763
+  source_ref: objects/763
+  source_kind: mm9_dat_object
+  source_object_index: 763
+  source_class: Prop
+  source_name: Coatrack14
+  source_model: models/Props/CoatRack1.ABC
+  source_skin: Skins/Props/CoatRack1.dtx
+  model_asset: models/props/coatrack1.glb
+  position:
+    x: -4823
+    y: -16804
+    z: 435
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:764
+  source_ref: objects/764
+  source_kind: mm9_dat_object
+  source_object_index: 764
+  source_class: Prop
+  source_name: Dresser26
+  source_model: models/Props/Dresser.ABC
+  source_skin: Skins/Props/DresserPlain.dtx
+  model_asset: models/props/dresser.glb
+  position:
+    x: -4444
+    y: -17265
+    z: 323
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:766
+  source_ref: objects/766
+  source_kind: mm9_dat_object
+  source_object_index: 766
+  source_class: Prop
+  source_name: Prop8
+  source_model: models/Props/LogsBurning.ABC
+  source_skin: Skins/Props/LogsBurning.dtx
+  model_asset: models/props/logsburning.glb
+  position:
+    x: -4250
+    y: -16753
+    z: 251
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:isleofashes:object:767
+  source_ref: objects/767
+  source_kind: mm9_dat_object
+  source_object_index: 767
+  source_class: Prop
+  source_name: Table34
+  source_model: models/Props/TableRound4.ABC
+  source_skin: Skins/Props/TableRound4.dtx
+  model_asset: models/props/tableround4.glb
+  position:
+    x: -4567
+    y: -16794
+    z: 297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:770
+  source_ref: objects/770
+  source_kind: mm9_dat_object
+  source_object_index: 770
+  source_class: WellMMIX
+  source_name: Prop1
+  source_model: models/Props/Well.ABC
+  source_skin: Skins/Props/Well.dtx
+  model_asset: models/props/well.glb
+  position:
+    x: -4178
+    y: -17940
+    z: 399
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:772
+  source_ref: objects/772
+  source_kind: mm9_dat_object
+  source_object_index: 772
+  source_class: TreasureChest
+  source_name: TreasureChest2
+  source_model: models/Props/Chest1.ABC
+  source_skin: Skins/Props/Chest1.dtx
+  model_asset: models/props/chest1.glb
+  position:
+    x: -7889
+    y: 4332
+    z: -77
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.34119988
+    w: -0.93999077
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:isleofashes:object:773
+  source_ref: objects/773
+  source_kind: mm9_dat_object
+  source_object_index: 773
+  source_class: Cookpot
+  source_name: Cookpot0
+  source_model: models/Props/cookpot.ABC
+  source_skin: skins/props/cookpot.dtx
+  model_asset: models/props/cookpot.glb
+  position:
+    x: -4178
+    y: -8622
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  face_attribute_overrides: []
+  actors: []
+  sprite_objects: []
+  chests: []
+  variables:
+    map:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    decor:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0

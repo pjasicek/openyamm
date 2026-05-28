@@ -1,0 +1,3242 @@
+format_version: 1
+source_file: NPC180.rude
+rows:
+  - source:
+      file: NPC180.rude
+      row: 1
+    raw_columns:
+      - 180
+      - 25
+      - 1
+      - Tell them we will be meeting in Thronheim in two weeks.
+      - The message is as good as sent!  I will see you at the war council.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 25
+      choice_slot: 1
+      prompt: Tell them we will be meeting in Thronheim in two weeks.
+      response: The message is as good as sent!  I will see you at the war council.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC180.rude
+      row: 2
+    raw_columns:
+      - 180
+      - 10
+      - 1
+      - Do you have any news?
+      - News?  I only seem to deal in bad news.  My people are starving, and our children are being eaten by the Frost Giant.  How could things get any worse?
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 10
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: News?  I only seem to deal in bad news.  My people are starving, and our children are being eaten by the Frost Giant.  How could things get any worse?
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC180.rude
+      row: 3
+    raw_columns:
+      - 180
+      - 7
+      - 1
+      - We will do this for you.
+      - May Krohn himself take an interest in your success!  Good luck!
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 71
+      - 0
+      - 0
+      - 0
+      - 0
+      - 174
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 7
+      choice_slot: 1
+      prompt: We will do this for you.
+      response: May Krohn himself take an interest in your success!  Good luck!
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 71
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 174
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 71
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 174
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 4
+    raw_columns:
+      - 180
+      - 6
+      - 1
+      - What can we do?
+      - If you could help me, you would find a way to break up that ice, so the boats could travel again.  If you would do that, the skalds would make sure your names lived forever!
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 6
+      choice_slot: 1
+      prompt: What can we do?
+      response: If you could help me, you would find a way to break up that ice, so the boats could travel again.  If you would do that, the skalds would make sure your names lived forever!
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+  - source:
+      file: NPC180.rude
+      row: 5
+    raw_columns:
+      - 180
+      - 5
+      - 1
+      - We will do this for you.
+      - May the gods look kindly upon you for all your days!
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 68
+      - 0
+      - 0
+      - 0
+      - 0
+      - 173
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 5
+      choice_slot: 1
+      prompt: We will do this for you.
+      response: May the gods look kindly upon you for all your days!
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 68
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 173
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 68
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 173
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 6
+    raw_columns:
+      - 180
+      - 15
+      - 1
+      - Perhaps they were not strong enough.
+      - But I see you were.  That is great news!  I am certain all the families throughout Frosgard will be thanking you!  Here is a reward.  It is a pittance, I know, but we are poor here.  Think of it more as a symbol of our gratitude.
+      - 16
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 70
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 15
+      choice_slot: 1
+      prompt: Perhaps they were not strong enough.
+      response: But I see you were.  That is great news!  I am certain all the families throughout Frosgard will be thanking you!  Here is a reward.  It is a pittance, I know, but we are poor here.  Think of it more as a symbol of our gratitude.
+      next: 16
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 70
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 16
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 70
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 7
+    raw_columns:
+      - 180
+      - 16
+      - 1
+      - Now that we have done as you asked, will you join us?
+      - It would seem there is nothing you cannot accomplish.  I would be proud to call you allies.
+      - 17
+      - 70
+      - 0
+      - 73
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 74
+      - 0
+      - 0
+      - 0
+      - 0
+      - 74
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 16
+      choice_slot: 1
+      prompt: Now that we have done as you asked, will you join us?
+      response: It would seem there is nothing you cannot accomplish.  I would be proud to call you allies.
+      next: 17
+      raw_fields:
+        c07: 70
+        c08: 0
+        c09: 73
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 74
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 74
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 17
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 70
+            qbit_id: 9070
+            state_id: mm9.keys.70
+          - column: c09
+            raw_id: 73
+            qbit_id: 9073
+            state_id: mm9.keys.73
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 70
+          qbit_id: 9070
+          state_id: mm9.keys.70
+        - domain: mm9.keys
+          raw_id: 73
+          qbit_id: 9073
+          state_id: mm9.keys.73
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 74
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 74
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 8
+    raw_columns:
+      - 180
+      - 4
+      - 1
+      - What can we do to help?
+      - If you are to help me, find a way into the Sky Fort, and slay the Frost Giant.  As far as I know, it would be impossible to kill him outright.  But the Sky Fort is old and rickety.  I'm sure there is a way you could trick him into killing himself.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 4
+      choice_slot: 1
+      prompt: What can we do to help?
+      response: If you are to help me, find a way into the Sky Fort, and slay the Frost Giant.  As far as I know, it would be impossible to kill him outright.  But the Sky Fort is old and rickety.  I'm sure there is a way you could trick him into killing himself.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC180.rude
+      row: 9
+    raw_columns:
+      - 180
+      - 17
+      - 1
+      - We shall be having a war council soon.
+      - Send the word, and Frosgard shall be ready.
+      - 18
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 178
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 17
+      choice_slot: 1
+      prompt: We shall be having a war council soon.
+      response: Send the word, and Frosgard shall be ready.
+      next: 18
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 178
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 18
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 178
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 10
+    raw_columns:
+      - 180
+      - 18
+      - 1
+      - We have more to do, but when that is done, we shall.
+      - Farewell, adventures, and thank you.  You have raised the hearts and saved the lives of thousands.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 18
+      choice_slot: 1
+      prompt: We have more to do, but when that is done, we shall.
+      response: Farewell, adventures, and thank you.  You have raised the hearts and saved the lives of thousands.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC180.rude
+      row: 11
+    raw_columns:
+      - 180
+      - 20
+      - 1
+      - The boats should be coming very soon.
+      - That is indeed good news.  Here is a small reward.  It may not be much, but behind it is the thanks and love of the thousands of lives you have saved.
+      - 16
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 73
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 20
+      choice_slot: 1
+      prompt: The boats should be coming very soon.
+      response: That is indeed good news.  Here is a small reward.  It may not be much, but behind it is the thanks and love of the thousands of lives you have saved.
+      next: 16
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 73
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 16
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 73
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 12
+    raw_columns:
+      - 180
+      - 30
+      - 1
+      - He wants you to make a promise.
+      - A promise?  What sort of promise?
+      - 31
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 30
+      choice_slot: 1
+      prompt: He wants you to make a promise.
+      response: A promise?  What sort of promise?
+      next: 31
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 31
+  - source:
+      file: NPC180.rude
+      row: 13
+    raw_columns:
+      - 180
+      - 3
+      - 1
+      - Tell us about the frost giant.
+      - For as long as anyone can remember, there has been a frost giant who lives in Yanmir's Sky Fort.  When we were young we all heard stories of how he would come down at night and eat children.  Well the stories have turned out to be true.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 68
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 3
+      choice_slot: 1
+      prompt: Tell us about the frost giant.
+      response: For as long as anyone can remember, there has been a frost giant who lives in Yanmir's Sky Fort.  When we were young we all heard stories of how he would come down at night and eat children.  Well the stories have turned out to be true.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 68
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 68
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 14
+    raw_columns:
+      - 180
+      - 2
+      - 1
+      - Perhaps we could help?
+      - Only if you could defeat the Frost Giant, or somehow break up the ice so the ships can put in to our port.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 67
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 2
+      choice_slot: 1
+      prompt: Perhaps we could help?
+      response: Only if you could defeat the Frost Giant, or somehow break up the ice so the ships can put in to our port.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 67
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 67
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 15
+    raw_columns:
+      - 180
+      - 1
+      - 1
+      - But without your help, the Chedian will perish!
+      - We are already perishing up here.  I have done all I can, and it is still not enough.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 1
+      choice_slot: 1
+      prompt: But without your help, the Chedian will perish!
+      response: We are already perishing up here.  I have done all I can, and it is still not enough.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC180.rude
+      row: 16
+    raw_columns:
+      - 180
+      - 180
+      - 1
+      - We need your help.
+      - I am sorry.  I have no more help to give.  My nation is in shambles.  The people are starving because the boats can't get through.  Yanmir the Frost Giant is eating our children.  I have my hands full.  I cannot give any more.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 67
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 180
+      choice_slot: 1
+      prompt: We need your help.
+      response: I am sorry.  I have no more help to give.  My nation is in shambles.  The people are starving because the boats can't get through.  Yanmir the Frost Giant is eating our children.  I have my hands full.  I cannot give any more.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 67
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 67
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 17
+    raw_columns:
+      - 180
+      - 31
+      - 1
+      - A promise to remember to celebrate him.
+      - If he brings the crops back, of course I will make that promise.  How does he want it?  A declaration?  I PROMISE!!  Is that good enough?
+      - 32
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 31
+      choice_slot: 1
+      prompt: A promise to remember to celebrate him.
+      response: If he brings the crops back, of course I will make that promise.  How does he want it?  A declaration?  I PROMISE!!  Is that good enough?
+      next: 32
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 32
+  - source:
+      file: NPC180.rude
+      row: 18
+    raw_columns:
+      - 180
+      - 32
+      - 1
+      - He wants you to carve it on a runestone.
+      - A runestone promise?  I can think of nothing more binding than that.  If it brings my people back from the brink of starvation, I shall carve that runestone myself!
+      - 33
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 278
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 32
+      choice_slot: 1
+      prompt: He wants you to carve it on a runestone.
+      response: A runestone promise?  I can think of nothing more binding than that.  If it brings my people back from the brink of starvation, I shall carve that runestone myself!
+      next: 33
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 278
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 33
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 278
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 19
+    raw_columns:
+      - 180
+      - 33
+      - 1
+      - We will tell him that for you.
+      - I appreciate that.  Thank you for all your help.
+      - 34
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 33
+      choice_slot: 1
+      prompt: We will tell him that for you.
+      response: I appreciate that.  Thank you for all your help.
+      next: 34
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 34
+  - source:
+      file: NPC180.rude
+      row: 20
+    raw_columns:
+      - 180
+      - 34
+      - 1
+      - You're welcome.
+      - No, I mean it!  You have done more for Frosgard than I ever have.  Perhaps it is you who should be Jarls.  I'm sorry; I shouldn't put that weight on you.  Was there anything else?
+      - 180
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 34
+      choice_slot: 1
+      prompt: You're welcome.
+      response: No, I mean it!  You have done more for Frosgard than I ever have.  Perhaps it is you who should be Jarls.  I'm sorry; I shouldn't put that weight on you.  Was there anything else?
+      next: 180
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 180
+  - source:
+      file: NPC180.rude
+      row: 21
+    raw_columns:
+      - 180
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC180.rude
+      row: 22
+    raw_columns:
+      - 180
+      - 10
+      - 2
+      - What do you know about the hordes?
+      - I've heard that an army is marching towards us.  Good.  I won't put up a fight.  Maybe they will be able to rule Frosgard better than I have.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 10
+      choice_slot: 2
+      prompt: What do you know about the hordes?
+      response: I've heard that an army is marching towards us.  Good.  I won't put up a fight.  Maybe they will be able to rule Frosgard better than I have.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC180.rude
+      row: 23
+    raw_columns:
+      - 180
+      - 3
+      - 2
+      - Tell us about the frozen sea.
+      - Frosgard used to have a thriving port, but in the last few years, the ice that comes in the winter has never gone away.  Since the boats can't get through, they can't bring enough food to feed our people.
+      - 6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 71
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 3
+      choice_slot: 2
+      prompt: Tell us about the frozen sea.
+      response: Frosgard used to have a thriving port, but in the last few years, the ice that comes in the winter has never gone away.  Since the boats can't get through, they can't bring enough food to feed our people.
+      next: 6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 71
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 6
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 71
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 24
+    raw_columns:
+      - 180
+      - 16
+      - 2
+      - Thank you.
+      - Is there anything else you needed?
+      - 180
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 16
+      choice_slot: 2
+      prompt: Thank you.
+      response: Is there anything else you needed?
+      next: 180
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 180
+  - source:
+      file: NPC180.rude
+      row: 25
+    raw_columns:
+      - 180
+      - 17
+      - 2
+      - The Clans are united.  It is time for the war council.
+      - Great!  You have done a wonderful thing!  I shall send word to all the Jarls immediately!
+      - 25
+      - 178
+      - 0
+      - 74
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 17
+      choice_slot: 2
+      prompt: The Clans are united.  It is time for the war council.
+      response: Great!  You have done a wonderful thing!  I shall send word to all the Jarls immediately!
+      next: 25
+      raw_fields:
+        c07: 178
+        c08: 0
+        c09: 74
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 83
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 83
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 25
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 178
+            qbit_id: 9178
+            state_id: mm9.keys.178
+          - column: c09
+            raw_id: 74
+            qbit_id: 9074
+            state_id: mm9.keys.74
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 178
+          qbit_id: 9178
+          state_id: mm9.keys.178
+        - domain: mm9.keys
+          raw_id: 74
+          qbit_id: 9074
+          state_id: mm9.keys.74
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 83
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 83
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 26
+    raw_columns:
+      - 180
+      - 180
+      - 2
+      - About those things you need done....
+      - Yes?
+      - 3
+      - 67
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 74
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 180
+      choice_slot: 2
+      prompt: About those things you need done....
+      response: Yes?
+      next: 3
+      raw_fields:
+        c07: 67
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 74
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 67
+            qbit_id: 9067
+            state_id: mm9.keys.67
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 67
+          qbit_id: 9067
+          state_id: mm9.keys.67
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 74
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 27
+    raw_columns:
+      - 180
+      - 10
+      - 3
+      - What do you know about Sven Forkbeard?
+      - Sven Svenssen you mean?  He's the Jarl of Thjorgard.  I wish I were in his shoes.  Maybe I should talk to him for some advice.  He's the most powerful man in Chedian!
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 10
+      choice_slot: 3
+      prompt: What do you know about Sven Forkbeard?
+      response: Sven Svenssen you mean?  He's the Jarl of Thjorgard.  I wish I were in his shoes.  Maybe I should talk to him for some advice.  He's the most powerful man in Chedian!
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC180.rude
+      row: 28
+    raw_columns:
+      - 180
+      - 3
+      - 3
+      - Thanks for your time.
+      - Good luck in your travels.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 3
+      choice_slot: 3
+      prompt: Thanks for your time.
+      response: Good luck in your travels.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC180.rude
+      row: 29
+    raw_columns:
+      - 180
+      - 7
+      - 3
+      - We've already done that.
+      - You have?  Wonderful!  You have put the first smile on this old face in many years!
+      - 20
+      - 174
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 71
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 7
+      choice_slot: 3
+      prompt: We've already done that.
+      response: You have?  Wonderful!  You have put the first smile on this old face in many years!
+      next: 20
+      raw_fields:
+        c07: 174
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 71
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 20
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 174
+            qbit_id: 9174
+            state_id: mm9.keys.174
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 174
+          qbit_id: 9174
+          state_id: mm9.keys.174
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 71
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 30
+    raw_columns:
+      - 180
+      - 5
+      - 3
+      - We've already done that.
+      - What?  How?  Even my strongest men couldn't do such a feat!
+      - 15
+      - 173
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 70
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 5
+      choice_slot: 3
+      prompt: We've already done that.
+      response: What?  How?  Even my strongest men couldn't do such a feat!
+      next: 15
+      raw_fields:
+        c07: 173
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 70
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 173
+            qbit_id: 9173
+            state_id: mm9.keys.173
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 173
+          qbit_id: 9173
+          state_id: mm9.keys.173
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 70
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 31
+    raw_columns:
+      - 180
+      - 180
+      - 3
+      - Yanmir the Frost Giant is dead.
+      - You have slain him?  How can that be?  He has killed some of my best soldiers before you?
+      - 15
+      - 69
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 70
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 180
+      choice_slot: 3
+      prompt: Yanmir the Frost Giant is dead.
+      response: You have slain him?  How can that be?  He has killed some of my best soldiers before you?
+      next: 15
+      raw_fields:
+        c07: 69
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 70
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 69
+            qbit_id: 9069
+            state_id: mm9.keys.69
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 69
+          qbit_id: 9069
+          state_id: mm9.keys.69
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 70
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 32
+    raw_columns:
+      - 180
+      - 5
+      - 4
+      - We need more time before we can take that on.
+      - I don't blame you.  It's an impossible task.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 5
+      choice_slot: 4
+      prompt: We need more time before we can take that on.
+      response: I don't blame you.  It's an impossible task.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC180.rude
+      row: 33
+    raw_columns:
+      - 180
+      - 180
+      - 4
+      - The ice has been cleared from the docks.
+      - I have heard!!  What wonderful news!  You have put a smile on this old face for the first time in years!
+      - 20
+      - 72
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 73
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 180
+      choice_slot: 4
+      prompt: The ice has been cleared from the docks.
+      response: I have heard!!  What wonderful news!  You have put a smile on this old face for the first time in years!
+      next: 20
+      raw_fields:
+        c07: 72
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 73
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 20
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 72
+            qbit_id: 9072
+            state_id: mm9.keys.72
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 72
+          qbit_id: 9072
+          state_id: mm9.keys.72
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 73
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 34
+    raw_columns:
+      - 180
+      - 7
+      - 4
+      - We can't do that right now.
+      - I know it's an impossible task.  I don't blame you for not taking it.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 7
+      choice_slot: 4
+      prompt: We can't do that right now.
+      response: I know it's an impossible task.  I don't blame you for not taking it.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC180.rude
+      row: 35
+    raw_columns:
+      - 180
+      - 180
+      - 5
+      - We have done as you asked.  Will you help us now?
+      - It would seem there is nothing you cannot accomplish.  I would be proud to call you allies.
+      - 17
+      - 70
+      - 0
+      - 73
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 74
+      - 0
+      - 0
+      - 0
+      - 0
+      - 74
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 180
+      choice_slot: 5
+      prompt: We have done as you asked.  Will you help us now?
+      response: It would seem there is nothing you cannot accomplish.  I would be proud to call you allies.
+      next: 17
+      raw_fields:
+        c07: 70
+        c08: 0
+        c09: 73
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 74
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 74
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 17
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 70
+            qbit_id: 9070
+            state_id: mm9.keys.70
+          - column: c09
+            raw_id: 73
+            qbit_id: 9073
+            state_id: mm9.keys.73
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 70
+          qbit_id: 9070
+          state_id: mm9.keys.70
+        - domain: mm9.keys
+          raw_id: 73
+          qbit_id: 9073
+          state_id: mm9.keys.73
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 74
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 74
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 36
+    raw_columns:
+      - 180
+      - 10
+      - 7
+      - Thanks for your time.
+      - It's running out for me you know.  Time that is.
+      - 180
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 10
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: It's running out for me you know.  Time that is.
+      next: 180
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 180
+  - source:
+      file: NPC180.rude
+      row: 37
+    raw_columns:
+      - 180
+      - 180
+      - 7
+      - The Clans have united.  It is time for the war council.
+      - Great!  You have done a wonderful thing!  I shall send word to all the Jarls immediately!
+      - 25
+      - 74
+      - 0
+      - 178
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 180
+      choice_slot: 7
+      prompt: The Clans have united.  It is time for the war council.
+      response: Great!  You have done a wonderful thing!  I shall send word to all the Jarls immediately!
+      next: 25
+      raw_fields:
+        c07: 74
+        c08: 0
+        c09: 178
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 83
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 83
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 25
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 74
+            qbit_id: 9074
+            state_id: mm9.keys.74
+          - column: c09
+            raw_id: 178
+            qbit_id: 9178
+            state_id: mm9.keys.178
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 74
+          qbit_id: 9074
+          state_id: mm9.keys.74
+        - domain: mm9.keys
+          raw_id: 178
+          qbit_id: 9178
+          state_id: mm9.keys.178
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 83
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 83
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 38
+    raw_columns:
+      - 180
+      - 180
+      - 11
+      - The Green Man asked us to fix the maypole.
+      - Maybe you should talk to Soxolf Tryygvassen.  He built the one we have in the first place.  I'm sure he'll be able to help.
+      - 180
+      - 264
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 268
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 180
+      choice_slot: 11
+      prompt: The Green Man asked us to fix the maypole.
+      response: Maybe you should talk to Soxolf Tryygvassen.  He built the one we have in the first place.  I'm sure he'll be able to help.
+      next: 180
+      raw_fields:
+        c07: 264
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 268
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 180
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 264
+            qbit_id: 9264
+            state_id: mm9.keys.264
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 264
+          qbit_id: 9264
+          state_id: mm9.keys.264
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 268
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 39
+    raw_columns:
+      - 180
+      - 180
+      - 12
+      - The Green Man asked you to do something for him.
+      - What is that?
+      - 30
+      - 266
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 278
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 180
+      choice_slot: 12
+      prompt: The Green Man asked you to do something for him.
+      response: What is that?
+      next: 30
+      raw_fields:
+        c07: 266
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 278
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 30
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 266
+            qbit_id: 9266
+            state_id: mm9.keys.266
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 266
+          qbit_id: 9266
+          state_id: mm9.keys.266
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 278
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 40
+    raw_columns:
+      - 180
+      - 180
+      - 13
+      - We'd like to ask you some questions.
+      - If you must.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 180
+      choice_slot: 13
+      prompt: We'd like to ask you some questions.
+      response: If you must.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC180.rude
+      row: 41
+    raw_columns:
+      - 180
+      - 180
+      - 14
+      - We failed you Tryygva, and we are sorry.
+      - You may yet have the chance to save my people again, warriors.  Go, and rescue us.
+      - 999
+      - 382
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 505
+      - 0
+      - 0
+      - 0
+      - 0
+      - 505
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 180
+      choice_slot: 14
+      prompt: We failed you Tryygva, and we are sorry.
+      response: You may yet have the chance to save my people again, warriors.  Go, and rescue us.
+      next: 999
+      raw_fields:
+        c07: 382
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 505
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 505
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 382
+            qbit_id: 9382
+            state_id: mm9.keys.382
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 382
+          qbit_id: 9382
+          state_id: mm9.keys.382
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 505
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 505
+        status: raw_value_preserved
+  - source:
+      file: NPC180.rude
+      row: 42
+    raw_columns:
+      - 180
+      - 180
+      - 15
+      - Thanks for your time.
+      - Farewell
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 180
+      node_id: 180
+      choice_slot: 15
+      prompt: Thanks for your time.
+      response: Farewell
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

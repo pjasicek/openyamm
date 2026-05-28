@@ -1,0 +1,110 @@
+;--------------------------------------------------
+;NPC335.scr
+; timmy
+; handles Krohn voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub StopNjam
+
+
+exit
+
+
+;--------------------------------------------------
+:StopNjam
+;--------------------------------------------------
+;****************
+;Stop Njam Quest
+;****************
+
+
+Haskey 191, keycheck
+if (keycheck==0, )
+; checks to see if they already have got the reward.
+	Haskey 108, g_ntemp
+	if (g_ntemp==1, )
+	; checks to see if they've spoken to Tamur
+		giveitem 576
+		GiveKey 191
+		GiveExp 218000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+
+		; gives reward
+
+		exit
+	endif
+endif
+
+exit
+
+
+;End stop Njam quest
+;******************
+exit
+
+;--------------------------------------------------
+:Loop
+;--------------------------------------------------
+
+
+getmyhandle g_hobject
+clearflag g_hobject, visible
+clearflag g_hobject, solid
+clearflag g_hobject, gravity
+exit
+
+;--------------------------------------------------
+:OnStart
+;--------------------------------------------------
+
+getmyhandle g_hobject
+setflag g_hobject, visible
+setflag g_hobject, solid
+setflag g_hobject, gravity
+Loopanim stand 0 DoNothing
+exit
+
+
+
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+AddTrigger Start OnStart
+AddTrigger Stop Loop
+
+exit
+

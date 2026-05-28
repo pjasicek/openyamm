@@ -1,0 +1,828 @@
+schema: openyamm.model3d.v1
+id: clansoldier
+model: clansoldier.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/CLANSOLDIER.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: domehelm
+  materialIndex: 0
+  lods:
+  - faces: 70
+    vertices: 41
+- name: modeltext
+  materialIndex: 0
+  lods:
+  - faces: 544
+    vertices: 269
+- name: sword
+  materialIndex: 1
+  lods:
+  - faces: 108
+    vertices: 64
+- name: shield
+  materialIndex: 2
+  lods:
+  - faces: 44
+    vertices: 27
+materials:
+- index: 0
+  texture: skins_preview/beldonian1.png
+  runtime_texture: skins/beldonian1.dtx
+  preview_texture: skins_preview/beldonian1.png
+  source: mm9/extracted/SKINS/SKINS/BELDONIAN1.dtx
+- index: 1
+  texture: skins_preview/beldsword.png
+  runtime_texture: skins/beldsword.dtx
+  preview_texture: skins_preview/beldsword.png
+  source: mm9/extracted/SKINS/SKINS/BELDSWORD.dtx
+- index: 2
+  texture: skins_preview/beldshield1.png
+  runtime_texture: skins/beldshield1.dtx
+  preview_texture: skins_preview/beldshield1.png
+  source: mm9/extracted/SKINS/SKINS/BELDSHIELD1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 20
+    - 25
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bip01 Spine3
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Bip01 Neck
+    parent: 5
+    flags: 1
+    children:
+    - 7
+    - 8
+    - 14
+  - index: 7
+    name: Bip01 Head
+    parent: 6
+    flags: 1
+    children: []
+  - index: 8
+    name: Bip01 L Clavicle
+    parent: 6
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bip01 L UpperArm
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bip01 L Forearm
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bip01 L Hand
+    parent: 10
+    flags: 1
+    children:
+    - 12
+    - 13
+  - index: 12
+    name: Bip01 L Finger1
+    parent: 11
+    flags: 1
+    children: []
+  - index: 13
+    name: Ybaseshield
+    parent: 11
+    flags: 1
+    children: []
+  - index: 14
+    name: Bip01 R Clavicle
+    parent: 6
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 R UpperArm
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bip01 R Forearm
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bip01 R Hand
+    parent: 16
+    flags: 1
+    children:
+    - 18
+    - 19
+  - index: 18
+    name: Bip01 R Finger1
+    parent: 17
+    flags: 1
+    children: []
+  - index: 19
+    name: Ybasesword
+    parent: 17
+    flags: 1
+    children: []
+  - index: 20
+    name: Bip01 L Thigh
+    parent: 1
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bip01 L Calf
+    parent: 20
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Bip01 L Foot
+    parent: 21
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bip01 L Toe0
+    parent: 22
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bip01 L Toe01
+    parent: 23
+    flags: 1
+    children: []
+  - index: 25
+    name: Bip01 R Thigh
+    parent: 1
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: Bip01 R Calf
+    parent: 25
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Bip01 R Foot
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Bip01 R Toe0
+    parent: 27
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Bip01 R Toe01
+    parent: 28
+    flags: 1
+    children: []
+sockets:
+- name: RHand1
+  node: 18
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.5246289968490601
+  - 0.5375615358352661
+  - -0.47148796916007996
+  - 0.46205082535743713
+animations:
+- name: clansetup02
+  durationMs: 166
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand
+  durationMs: 1700
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: aware
+  durationMs: 1200
+  keyframes: 16
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 527
+    event: playanimsound
+  - timeMs: 878
+    event: playanimsound
+- name: aware2
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: fidget1
+  durationMs: 2500
+  keyframes: 13
+  interpolationTimeMs: 200
+  events: []
+- name: fidget2
+  durationMs: 3000
+  keyframes: 16
+  interpolationTimeMs: 200
+  events: []
+- name: sleep
+  durationMs: 2000
+  keyframes: 12
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 900
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 329
+    event: footstep
+  - timeMs: 769
+    event: footstep
+- name: run
+  durationMs: 500
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 84
+    event: footstep
+  - timeMs: 334
+    event: footstep
+- name: cowerstart
+  durationMs: 500
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: cower
+  durationMs: 900
+  keyframes: 6
+  interpolationTimeMs: 200
+  events: []
+- name: cowerend
+  durationMs: 1000
+  keyframes: 6
+  interpolationTimeMs: 200
+  events: []
+- name: Hattack1
+  durationMs: 800
+  keyframes: 8
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 133
+    event: playanimsound; lunge
+  - timeMs: 266
+    event: playsoundFX
+  - timeMs: 320
+    event: Rattack
+- name: Hattack2
+  durationMs: 700
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 116
+    event: lunge; playanimsound
+  - timeMs: 233
+    event: playsoundFX
+  - timeMs: 350
+    event: Rattack
+- name: block
+  durationMs: 700
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 233
+    event: playanimsound
+- name: wince1
+  durationMs: 800
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 266
+    event: speakanimsound
+- name: wince2
+  durationMs: 800
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 200
+    event: speakanimsound
+- name: die1
+  durationMs: 1200
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0 -17 -6
+  - timeMs: 53
+    event: speakanimsound
+  - timeMs: 133
+    event: Velocity  0  9 -19
+  - timeMs: 266
+    event: Velocity  0 -1 -39
+  - timeMs: 400
+    event: Velocity  2 -83 -86
+  - timeMs: 533
+    event: Velocity  5 -78 -24
+  - timeMs: 666
+    event: Velocity  5 -78 -24; playdeathsound
+  - timeMs: 800
+    event: Velocity  1  19 -13
+  - timeMs: 933
+    event: Velocity -1 -13 -8
+  - timeMs: 1066
+    event: Velocity -1  0 -6
+  - timeMs: 1200
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: die2
+  durationMs: 1200
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0 -17 -6
+  - timeMs: 58
+    event: speakanimsound
+  - timeMs: 146
+    event: Velocity  0  9 -19
+  - timeMs: 293
+    event: Velocity  0 -1 -39
+  - timeMs: 439
+    event: Velocity  2 -83 -86
+  - timeMs: 585
+    event: Velocity  5 -78 -24
+  - timeMs: 732
+    event: Velocity  1  14 -13; playdeathsound
+  - timeMs: 878
+    event: Velocity -1 -8 -10
+  - timeMs: 1024
+    event: Velocity -2 -3 -10
+  - timeMs: 1171
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: static_die1
+  durationMs: 1
+  keyframes: 2
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity -1  0 -6
+  - timeMs: 1
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: static_die2
+  durationMs: 1
+  keyframes: 2
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: Backpedal
+  durationMs: 900
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 131
+    event: footstep
+  - timeMs: 571
+    event: footstep
+- name: BackpedalRun
+  durationMs: 650
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 95
+    event: footstep
+  - timeMs: 412
+    event: footstep
+animationBindings:
+- name: clansetup02
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: stand
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: aware
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: aware2
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: fidget1
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: fidget2
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: sleep
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: walk
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: run
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: cowerstart
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: cower
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: cowerend
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Hattack1
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Hattack2
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: block
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: wince1
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: wince2
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: die1
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: die2
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: static_die1
+  extents:
+  - 38.4
+  - 25.6
+  - 97.28
+  origin:
+  - 0.0
+  - 76.8
+  - 0.0
+- name: static_die2
+  extents:
+  - 38.4
+  - 25.6
+  - 97.28
+  origin:
+  - 0.0
+  - 76.8
+  - 0.0
+- name: Backpedal
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: BackpedalRun
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+roles:
+- actor_model
+source_model: models/clansoldier.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: clansoldier_beldonian1_beldsword_beldshield1
+  source_skins:
+  - skins/beldonian1.dtx
+  - skins/beldsword.dtx
+  - skins/beldshield1.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 124
+    number: '129'
+    monster_name: Horde Grunt
+    type_picture: Beldonian HordesA
+    base_name: Soldier
+  - table: MONSTERS
+    row: 124
+    number: '129'
+    monster_name: Horde Grunt
+    type_picture: Beldonian HordesA
+    base_name: Soldier
+- id: clansoldier_beldonian2_beldsword_beldshield2
+  source_skins:
+  - skins/beldonian2.dtx
+  - skins/beldsword.dtx
+  - skins/beldshield2.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 125
+    number: '130'
+    monster_name: Horde Warrior
+    type_picture: Beldonian HordesB
+    base_name: Soldier
+  - table: MONSTERS
+    row: 125
+    number: '130'
+    monster_name: Horde Warrior
+    type_picture: Beldonian HordesB
+    base_name: Soldier
+- id: clansoldier_beldonian3_beldswordold_beldshield3
+  source_skins:
+  - skins/beldonian3.dtx
+  - skins/beldswordold.dtx
+  - skins/beldshield3.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 126
+    number: '131'
+    monster_name: Horde Leader
+    type_picture: Beldonian HordesC
+    base_name: Soldier
+  - table: MONSTERS
+    row: 126
+    number: '131'
+    monster_name: Horde Leader
+    type_picture: Beldonian HordesC
+    base_name: Soldier
+- id: clansoldier_beldoniandragon_belddragnsword_beldshield3
+  source_skins:
+  - skins/beldoniandragon.dtx
+  - skins/belddragnsword.dtx
+  - skins/beldshield3.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 273
+    number: '292'
+    monster_name: Tamur Leng
+    type_picture: NPC-14
+    base_name: ''
+  - table: MONSTERS
+    row: 273
+    number: '292'
+    monster_name: Tamur Leng
+    type_picture: NPC-14
+    base_name: soldier
+- id: clansoldier_clansoldier1_beldsword_clanshield1
+  source_skins:
+  - skins/clansoldier1.dtx
+  - skins/beldsword.dtx
+  - skins/clanshield1.dtx
+  actor_rows:
+  - table: MONSTERS
+    row: 127
+    number: '132'
+    monster_name: Clan Soldier
+    type_picture: Clan SoldierA
+    base_name: Soldier
+- id: clansoldier_clansoldier1_sword_clanshield1
+  source_skins:
+  - skins/clansoldier1.dtx
+  - skins/clanshield1.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 127
+    number: '132'
+    monster_name: Clan Soldier
+    type_picture: Clan SoldierA
+    base_name: Soldier
+- id: clansoldier_clansoldier2_beldsword_clanshieldguard
+  source_skins:
+  - skins/clansoldier2.dtx
+  - skins/beldsword.dtx
+  - skins/clanshieldguard.dtx
+  actor_rows:
+  - table: MONSTERS
+    row: 111
+    number: '110'
+    monster_name: Town Guard
+    type_picture: Clan SoldierA
+    base_name: Guard
+- id: clansoldier_clansoldier2_sword_clanshieldguard
+  source_skins:
+  - skins/clansoldier2.dtx
+  - skins/clanshieldguard.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 111
+    number: '110'
+    monster_name: Wealthy-Town Guard
+    type_picture: Clan SoldierA
+    base_name: Guard
+- id: clansoldier_clansoldier6_beldsword_clanshield2
+  source_skins:
+  - skins/clansoldier6.dtx
+  - skins/beldsword.dtx
+  - skins/clanshield2.dtx
+  actor_rows:
+  - table: MONSTERS
+    row: 128
+    number: '133'
+    monster_name: Clan Corporal
+    type_picture: Clan SoldierB
+    base_name: Soldier
+- id: clansoldier_clansoldier6_sword_clanshield2
+  source_skins:
+  - skins/clansoldier6.dtx
+  - skins/clanshield2.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 128
+    number: '133'
+    monster_name: Clan Corporal
+    type_picture: Clan SoldierB
+    base_name: Soldier
+- id: clansoldier_clansoldier9_beldsword_clanshield3
+  source_skins:
+  - skins/clansoldier9.dtx
+  - skins/beldsword.dtx
+  - skins/clanshield3.dtx
+  actor_rows:
+  - table: MONSTERS
+    row: 129
+    number: '134'
+    monster_name: Clan Sergeant
+    type_picture: Clan SoldierC
+    base_name: Soldier
+- id: clansoldier_clansoldier9_sword_clanshield3
+  source_skins:
+  - skins/clansoldier9.dtx
+  - skins/clanshield3.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 129
+    number: '134'
+    monster_name: Clan Sergeant
+    type_picture: Clan SoldierC
+    base_name: Soldier

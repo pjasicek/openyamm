@@ -1,0 +1,22 @@
+MM9 Character Menu Coordinates (4-12-01)
+
+Note: All coordinates are measured from upper-left pixel: (0x,0y)
+x=column, y=row
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                       Graphic Elements Coordinates
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+10 Inventory Scroller slots 
+
+Item		Coordinate	Size
+Skill Button	704x  20y	96x78
+Stat Button	704x 100y	96x78
+Item Button	704x 180y	96x78
+Note Button	704x 260y	96x78
+Map Button	704x 340y	96x78
+Spell Button	704x 420y	96x78
+Exit Button	704x 500y	96x78
+
+Note:  The order of these buttons will be changing at some point.  Just FYI.
+-------------------------------------------------------------------------------

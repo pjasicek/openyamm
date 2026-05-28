@@ -1,0 +1,563 @@
+schema: openyamm.model3d.v1
+id: rooster
+model: rooster.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/ROOSTER.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500; ShadowEnable; ShadowSizeX 20;
+    ShadowSizeY 20
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: beaknode
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: d_spur01
+  materialIndex: 0
+  lods:
+  - faces: 3
+    vertices: 4
+  - faces: 3
+    vertices: 4
+  - faces: 3
+    vertices: 4
+- name: d_leg01
+  materialIndex: 0
+  lods:
+  - faces: 49
+    vertices: 27
+  - faces: 11
+    vertices: 8
+  - faces: 7
+    vertices: 6
+- name: d_spur
+  materialIndex: 0
+  lods:
+  - faces: 3
+    vertices: 4
+  - faces: 3
+    vertices: 4
+  - faces: 3
+    vertices: 4
+- name: d_body
+  materialIndex: 0
+  lods:
+  - faces: 80
+    vertices: 42
+  - faces: 60
+    vertices: 32
+  - faces: 20
+    vertices: 12
+- name: d_leg
+  materialIndex: 0
+  lods:
+  - faces: 49
+    vertices: 27
+  - faces: 11
+    vertices: 8
+  - faces: 7
+    vertices: 6
+- name: d_crest
+  materialIndex: 0
+  lods:
+  - faces: 8
+    vertices: 7
+  - faces: 8
+    vertices: 7
+  - faces: 8
+    vertices: 7
+materials:
+- index: 0
+  texture: skins_preview/rooster.png
+  runtime_texture: skins/rooster.dtx
+  preview_texture: skins_preview/rooster.png
+  source: mm9/extracted/SKINS/SKINS/ROOSTER.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: XCENTER
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 9
+    - 13
+    - 24
+  - index: 2
+    name: Xbody
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Xneck
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: XneckB
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: XneckC
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Xhead
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Xbeak
+    parent: 6
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: beaknode
+    parent: 7
+    flags: 1
+    children: []
+  - index: 9
+    name: Xtail
+    parent: 1
+    flags: 1
+    children:
+    - 10
+    - 12
+  - index: 10
+    name: XtailB
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: XtailC
+    parent: 10
+    flags: 1
+    children: []
+  - index: 12
+    name: XtailE
+    parent: 9
+    flags: 1
+    children: []
+  - index: 13
+    name: Xlegpiv
+    parent: 1
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: Xuprleg
+    parent: 13
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Xleg
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Xlowrleg
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Xfoot
+    parent: 16
+    flags: 1
+    children:
+    - 18
+    - 20
+    - 22
+  - index: 18
+    name: Xtoepiv
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Xtoe
+    parent: 18
+    flags: 1
+    children: []
+  - index: 20
+    name: Xtoepiv01
+    parent: 17
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Xtoe01
+    parent: 20
+    flags: 1
+    children: []
+  - index: 22
+    name: Xtoepiv02
+    parent: 17
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Xtoe02
+    parent: 22
+    flags: 1
+    children: []
+  - index: 24
+    name: Xlegpiv01
+    parent: 1
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Xuprleg01
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: Xleg01
+    parent: 25
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Xlowrleg01
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Xfoot01
+    parent: 27
+    flags: 1
+    children:
+    - 29
+    - 31
+    - 33
+  - index: 29
+    name: Xtoepiv03
+    parent: 28
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Xtoe03
+    parent: 29
+    flags: 1
+    children: []
+  - index: 31
+    name: Xtoepiv04
+    parent: 28
+    flags: 1
+    children:
+    - 32
+  - index: 32
+    name: Xtoe04
+    parent: 31
+    flags: 1
+    children: []
+  - index: 33
+    name: Xtoepiv05
+    parent: 28
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: Xtoe05
+    parent: 33
+    flags: 1
+    children: []
+sockets:
+- name: jaw
+  node: 8
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.12432573735713959
+  - 0.9560980200767517
+  - -0.03143943101167679
+  - 0.2634972333908081
+animations:
+- name: static_model
+  durationMs: 0
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Stand
+  durationMs: 1400
+  keyframes: 9
+  interpolationTimeMs: 200
+  events: []
+- name: Fidget1
+  durationMs: 2000
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 500
+    event: speakanimsound
+- name: Fidget2
+  durationMs: 2500
+  keyframes: 13
+  interpolationTimeMs: 200
+  events: []
+- name: Walk
+  durationMs: 1100
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 275
+    event: footstep 1
+  - timeMs: 687
+    event: footstep 2
+- name: Run
+  durationMs: 350
+  keyframes: 6
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 83
+    event: footstep 1
+  - timeMs: 167
+    event: footstep 2
+- name: HAttack1
+  durationMs: 800
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+  - timeMs: 89
+    event: lunge
+  - timeMs: 178
+    event: speakanimsound
+  - timeMs: 267
+    event: lunge
+  - timeMs: 355
+    event: bite
+- name: Wince1
+  durationMs: 1400
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Wince2
+  durationMs: 1200
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Die1
+  durationMs: 1800
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  8 -2  1; speakanimsound
+  - timeMs: 149
+    event: Velocity -9  4 -14
+  - timeMs: 300
+    event: Velocity -21  4 -27
+  - timeMs: 450
+    event: Velocity -32 -20 -21
+  - timeMs: 599
+    event: Velocity -15 -35 -16
+  - timeMs: 750
+    event: Velocity -5 -5 -6
+  - timeMs: 900
+    event: Velocity -12  6 -5
+  - timeMs: 1200
+    event: Velocity -3  1 -8
+  - timeMs: 1499
+    event: Velocity  0  0  0
+  - timeMs: 1800
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: Die2
+  durationMs: 1800
+  keyframes: 16
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity -3 -6  5; speakanimsound
+  - timeMs: 120
+    event: Velocity -1 -3 -4
+  - timeMs: 240
+    event: Velocity  20  24 -31
+  - timeMs: 360
+    event: Velocity  27  15 -34
+  - timeMs: 480
+    event: Velocity  11  18 -28
+  - timeMs: 600
+    event: Velocity  6 -29 -14
+  - timeMs: 720
+    event: Velocity  5 -34 -12
+  - timeMs: 840
+    event: Velocity  0  3 -7
+  - timeMs: 960
+    event: Velocity -1  4 -3
+  - timeMs: 1080
+    event: Velocity  0 -11 -5
+  - timeMs: 1320
+    event: Velocity -7  1 -8
+  - timeMs: 1560
+    event: Velocity 0 0 0; DeadDims 1 0 1
+animationBindings:
+- name: static_model
+  extents:
+  - 25.6
+  - 38.4
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Stand
+  extents:
+  - 25.6
+  - 38.4
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Fidget1
+  extents:
+  - 25.6
+  - 38.4
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Fidget2
+  extents:
+  - 25.6
+  - 38.4
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Walk
+  extents:
+  - 25.6
+  - 38.4
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Run
+  extents:
+  - 25.6
+  - 38.4
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: HAttack1
+  extents:
+  - 25.6
+  - 38.4
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Wince1
+  extents:
+  - 25.6
+  - 38.4
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Wince2
+  extents:
+  - 25.6
+  - 38.4
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Die1
+  extents:
+  - 25.6
+  - 38.4
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Die2
+  extents:
+  - 25.6
+  - 38.4
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- actor_model
+source_model: models/rooster.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: rooster_rooster
+  source_skins:
+  - skins/rooster.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 251
+    number: '270'
+    monster_name: Rooster
+    type_picture: Rooster
+    base_name: rooster
+  - table: MONSTERS
+    row: 251
+    number: '270'
+    monster_name: Rooster
+    type_picture: Rooster
+    base_name: rooster

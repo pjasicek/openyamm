@@ -1,0 +1,53 @@
+#include BaseGlobals.inc
+
+#string		sDestinationName = ""
+#hobject	hDestination = 0
+
+#hobject	hMe = 0
+
+#number		x = 0
+#number		y = 0
+#number		z = 0
+
+#string		SPELL_BLUEFIRE = "fireblue"
+
+;----------------------------
+:Main
+;----------------------------
+	GetParam 0, sDestinationName
+
+	GetMyHandle hMe
+
+	AddTrigger walk, WalkToEngine
+	AddTrigger port, PortToLocation
+	AddTrigger burn, PlayEffects
+
+	Exit TRUE
+
+;----------------------------
+:WalkToEngine
+;----------------------------
+	GetObjectHandle sDestinationName, hDestination
+	if( hDestination!=0 )
+		WalkTo hDestination, 1, StopMoving
+	endif
+
+	Exit TRUE
+
+;----------------------------
+:PortToLocation
+;----------------------------
+	GetObjectHandle sDestinationName, hDestination
+	GetPOS hDestination, x,y,z
+	SetPOS hMe, x,y,z
+
+	Exit TRUE
+
+;----------------------------
+:PlayEffects
+;----------------------------
+	LoopAnim girl1, 0
+
+	DoClientFX hMe, SPELL_BLUEFIRE, TRUE, TRUE
+
+	Exit TRUE

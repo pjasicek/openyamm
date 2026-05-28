@@ -1,0 +1,48 @@
+;--------------------------------------------------
+;MummyLives.scr
+; timmy
+; 12/6
+; makes mummys alive in OnFoundTarget
+;--------------------------------------------------
+
+#include globals.inc
+ 
+
+#number							nRange = 1024
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+
+;---------------------------------------------
+:OnFoundTarget
+;---------------------------------------------
+
+runscript basemelee.scr
+exitscript
+exit
+
+;---------------------------------------------
+:Init
+;---------------------------------------------
+
+LoopAnim coffin 0 DoNothing
+OnFoundTarget OnFoundTarget
+exit
+
+;---------------------------------------------
+:Main
+;---------------------------------------------
+
+;traceon ;Delete
+
+getparam 0 nRange
+if (nRange==NULL)
+	set nRange, 1024
+	
+endif
+;wait 1 1 Init
+exit

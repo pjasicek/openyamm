@@ -1,0 +1,47 @@
+;------------------------------------------------
+;
+;	DarkP_Warrior.scr
+;	kd
+;	11-11-01
+;
+;	ColloidialWarrior deals final blow
+;	to NPCAdventurer
+;
+;------------------------------------------------
+
+#include BaseMelee.inc
+
+#hObject	hNpc
+#hObject	hPlayer
+
+;------------------------------------------------
+:Stop
+;------------------------------------------------
+	Trigger hNpc, Destroy
+	GetPlayerHandle hPlayer, 3000
+	RunTo hPlayer, 50, BaseInit
+	Gosub BaseInit
+	Exit TRUE
+;------------------------------------------------
+:BeginSequence
+;------------------------------------------------
+	PlayAnim Hattack1, AnimateC
+	Exit TRUE
+;------------------------------------------------
+:AnimateC
+;------------------------------------------------
+	Trigger hNpc, Wince
+	PlayAnim Hattack2, Stop
+	Exit TRUE
+;------------------------------------------------
+:Main2
+;------------------------------------------------
+	GetObjectHandle NPCAdventurer0, hNpc
+	AddTrigger HitNpc, BeginSequence
+	Exit TRUE
+;------------------------------------------------
+:Main
+;------------------------------------------------
+	Wait 0, 0.1, Main2
+	Exit TRUE
+;------------ E n d - O f - F i l e -------------

@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: yanmirsfort
+display_name: Yanmir's Fort
+source:
+  dat: ../source/worlds/YANMIRSFORT.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/YANMIRSFORT.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 5c3e5dee424570ce6be32f9850366faf98b15e44a66b814e328c739f8f60d4ba
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: yanmirsfort.dat_world.yml
+  raw_objects: yanmirsfort.raw_objects.yml
+  materials: yanmirsfort.material_aliases.yml
+  events: yanmirsfort.events.yml
+  scene_compat: yanmirsfort.scene.yml
+  source_metadata_compat: yanmirsfort.mm9.yml
+  bsp_compat: yanmirsfort.bsp.yml
+  geometry_compat: yanmirsfort.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: yanmirsfort.blv
+scripts:
+  level: ../events/yanmirsfort.lua
+  script_ir: ../events/yanmirsfort.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

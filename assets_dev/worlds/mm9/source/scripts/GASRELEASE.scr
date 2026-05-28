@@ -1,0 +1,53 @@
+;-----------------------------------------------------
+;
+;	GasRelease.scr
+;
+;	Karl Drown 10-11-01
+;	Super simple "Send message" script.
+;	
+;	
+;-----------------------------------------------------
+
+#include Globals.inc
+
+#hObject	hMessage
+
+#number		nBool
+
+
+;-----------------------------------------------------
+:StopHere
+;-----------------------------------------------------
+
+	Exit TRUE
+
+;-----------------------------------------------------
+:SendTrigger
+;-----------------------------------------------------
+	
+	GetObjectHandle PumpSwitch0, hMessage
+	GetStat hMessage, IsOpen, nBool
+;	if nBool==TRUE
+;		Trigger hMCMarkerA, MoveMe
+;		Trigger hMCMarkerB, MoveMe
+;	endif
+	
+	exit TRUE
+	
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+
+
+;	GetObjectHandle PoolDamageBr0, hMCMarkerA
+;	GetObjectHandle PoolDamageBr1, hMCMarkerB
+	
+	Exit
+
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+
+	AddTrigger On, SendTrigger
+
+	Exit

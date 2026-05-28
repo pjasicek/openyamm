@@ -1,0 +1,50 @@
+;-----------------------------------------------------
+;	1000t_LightningShooter.scr
+;	Karl Drown 12-1-01
+;
+;	Shoot bolts of lightning at a marker
+;			
+;	P0 = MarkerTarget
+;-----------------------------------------------------
+#include Globals.inc
+
+
+#hObject	hMarker = 0
+#hObject	hMe
+
+#number		nShootDelay = 0
+
+#string		sMarker
+
+
+;-----------------------------------------------------
+:TurnOff
+;-----------------------------------------------------
+
+	Target NULL
+	Trigger hMe, Off
+	
+	Exit TRUE
+;-----------------------------------------------------
+:StartShooting
+;-----------------------------------------------------
+
+	Target hMarker, TRUE
+	Trigger hMe, On
+	
+	Exit TRUE
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+	AddTrigger Go, StartShooting
+	AddTrigger Stop, TurnOff
+	GetObjectHandle sMarker, hMarker
+	GetMyHandle hMe
+	Exit True
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	GetParam 0, sMarker
+	Wait 0, 0.5, Main2
+	Exit
+;------------- E n d - O f - F i l e -------------------

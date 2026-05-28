@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: dookscastle
+display_name: Dook's Castle
+source:
+  dat: ../source/worlds/DOOKSCASTLE.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/DOOKSCASTLE.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 178a3ecad141906bd503f3cb5828761345bf7e29653ecc090bb1f9a7adeed51e
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: dookscastle.dat_world.yml
+  raw_objects: dookscastle.raw_objects.yml
+  materials: dookscastle.material_aliases.yml
+  events: dookscastle.events.yml
+  scene_compat: dookscastle.scene.yml
+  source_metadata_compat: dookscastle.mm9.yml
+  bsp_compat: dookscastle.bsp.yml
+  geometry_compat: dookscastle.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: dookscastle.blv
+scripts:
+  level: ../events/dookscastle.lua
+  script_ir: ../events/dookscastle.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

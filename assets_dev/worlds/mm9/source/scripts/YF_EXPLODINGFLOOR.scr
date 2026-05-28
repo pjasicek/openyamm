@@ -1,0 +1,55 @@
+;==============================================================
+;	YF_FallingFloor.scr
+;	kd 11-2-01
+;	Parameters
+;
+;	CaveIn Trap: Move large floor chunks to marker below.
+;	
+;	
+;	
+;==============================================================
+
+#include Globals.inc
+#include Flags.inc
+
+#hObject	hMe
+#hObject	hDestroy
+
+;--------------------------------------------------------------
+:dn
+;--------------------------------------------------------------
+	Exit 1
+;-----------------------------------------------------
+:StopHere
+;-----------------------------------------------------
+	;;playsound Sounds\Door\doorslammetal01.wav DoNothing hDummy 400 FALSE 100
+	Exit TRUE
+;-----------------------------------------------------
+:MoveToMarker
+;-----------------------------------------------------
+	;;playsound Sounds\Events\??? DoNothing 50 400 TRUE 100
+	cprint "MoveToMarker"
+	Trigger hMe, Destroy
+	Exit TRUE
+;--------------------------------------------------------------
+:DelayAction
+;--------------------------------------------------------------
+	SetFlag hMe,FLAG_GOTHRUWORLD
+	ClearFlag hMe,FLAG_SOLID
+
+	cprint "DelayAction"
+	Wait 0, 1.5, MoveToMarker
+	Exit TRUE
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	GetMyHandle hMe
+	;;GetObjectHandle YanDstruct0, hDestroy
+	AddTrigger Fall, DelayAction
+	Exit TRUE
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	Wait 0 .1 main2
+	Exit TRUE
+;------------- E n d - O f - F i l e -------------------

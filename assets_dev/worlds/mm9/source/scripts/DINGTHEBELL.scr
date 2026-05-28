@@ -1,0 +1,72 @@
+;----------------------------------------
+;	DingTheBell.scr
+;	by SJR
+;----------------------------------------
+#include BaseGlobals.inc
+#include ThjorgardGamesCommon.inc
+
+#number		nDingValue = 0
+#number		nTimingValue = 0
+#number		nPlayerStrength = 0
+
+#number		nTemp = 0
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	AddTrigger use, HitBell
+	Addtrigger ring, CheckWin
+
+	SetConsoleNumVar GAME_BELL_HEIGHT, 0
+
+	Exit TRUE
+
+;-------------------------------------
+:HitBell
+;-------------------------------------
+	gosub CheckGameTicket
+	if( THJORGARD_RESULT==FALSE )
+		Exit TRUE
+	else
+		gosub TakeGameTicket
+	endif
+
+	RemoveTrigger use
+	AddTrigger use, BlockUse
+
+	GetRandomInt 60, 80, nDingValue
+	GetRandomInt 40, 60, nTimingValue
+	GetAttribute 0, nPlayerStrength
+	nTimingValue = nTimingValue + nPlayerStrength
+
+	nTemp = nTimingValue / nDingValue
+	SetConsoleNumVar GAME_BELL_HEIGHT, nTemp
+
+	Exit FALSE
+
+;-------------------------------------
+:CheckWin
+;-------------------------------------
+	if ( nTimingValue>nDingValue )
+		Playsound "sounds\events\dingbell.wav", DoNothing, 1, 500, FALSE, 100
+		gosub RecordBellWin
+	else
+		RolloverText TEXT_DEFEAT, 1, 3000, 2000
+	endif
+
+	Wait 0, 3, AllowUse
+
+	Exit TRUE
+
+;-------------------------------------
+:BlockUse
+;-------------------------------------
+	Exit TRUE
+
+;-------------------------------------
+:AllowUse
+;-------------------------------------
+	RemoveTrigger use
+	AddTrigger use, HitBell
+
+	Exit TRUE

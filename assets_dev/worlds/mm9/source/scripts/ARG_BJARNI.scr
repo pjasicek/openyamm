@@ -1,0 +1,203 @@
+;----------------------------------------------
+;ARG_Kira.scr
+; By Timmy
+; handles Kira's Argument Cutscene stuff
+;
+
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#string				sAgree = "\sounds\Events\MM9Yeah.wav"
+#string				sSign = "\sounds\Events\signature1.wav"
+
+;-------------------------------------
+:OnAgree
+;-------------------------------------
+
+
+Playsound sAgree, DoNothing, 100, 24000, FALSE, 100
+PlayAnim Agree OnIdle
+exit
+
+;-------------------------------------
+:OnSign
+;-------------------------------------
+
+Playsound sSign, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnShake
+;-------------------------------------
+
+PlayAnim Sc2_Bjarni1c OnIdle
+exit
+
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+loopanim Sit 0 DoNothing
+exit
+
+;-------------------------------------
+:OnIdle
+;-------------------------------------
+
+loopanim Sit 0 DoNothing
+exit
+
+;-------------------------------------
+:On1A
+;-------------------------------------
+
+PlayAnim Sc2_Bjarni1a Init
+exit
+
+;-------------------------------------
+:Cam3
+;-------------------------------------
+
+;loopanim Sc2_Bjarni2 0 DoNothing
+getobjecthandle Argueman g_hobject
+trigger g_hobject Done
+exit
+
+;-------------------------------------
+:OnDone
+;-------------------------------------
+
+;loopanim Sc2_Bjarni2 0 DoNothing
+getobjecthandle Argueman g_hobject
+trigger g_hobject Done
+exit
+
+;-------------------------------------
+:OnSpeak2
+;-------------------------------------
+
+playanim Sc2_Bjarni2 OnIdle
+
+exit
+
+;-------------------------------------
+:OnVoice2
+;-------------------------------------
+
+
+Playsound \voices\cinema\TheArgument\02.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnSpeak9
+;-------------------------------------
+
+playanim Sc2_Bjarni9 OnIdle
+
+exit
+
+;-------------------------------------
+:OnVoice9
+;-------------------------------------
+
+
+Playsound \voices\cinema\TheArgument\09.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnSpeak16
+;-------------------------------------
+
+playanim Sc2_bjarni15 OnIdle
+
+Getobjecthandle Markel g_hobject
+trigger g_hobject Move
+;gosub OnVoice16
+;wait 1 2 OnDone
+exit
+
+;-------------------------------------
+:OnVoice16
+;-------------------------------------
+
+
+Playsound \voices\cinema\TheArgument\16.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+;-------------------------------------
+:OnApplause
+;-------------------------------------
+
+playAnim Applause OnIdle
+exit
+
+;-------------------------------------
+:Onclap
+;-------------------------------------
+getrandomint 1, 7 g_ntemp
+
+if (g_ntemp==1)
+	Playsound \sounds\events\clap01.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==2)
+	Playsound \sounds\events\clap02.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==3)
+	Playsound \sounds\events\clap03.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==4)
+	Playsound \sounds\events\clap04.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==5)
+	Playsound \sounds\events\clap05.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==6)
+	Playsound \sounds\events\clap06.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==7)
+	Playsound \sounds\events\clap07.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Shot1A On1A
+
+
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+AddTrigger Speak2 OnSpeak2
+AddModelKey Cam3 Cam3
+AddModelKey Voice2 OnVoice2
+AddTrigger Speak9 OnSpeak9
+AddModelKey Voice9 OnVoice9
+AddTrigger Speak16 OnSpeak16
+AddModelKey Voice16 OnVoice16
+AddModelKey Done OnDone
+AddTrigger Shake OnShake
+AddTrigger Clap OnApplause
+AddModelKey Clap OnClap
+AddTrigger Agree OnAgree
+AddModelKey Sign OnSign
+exit

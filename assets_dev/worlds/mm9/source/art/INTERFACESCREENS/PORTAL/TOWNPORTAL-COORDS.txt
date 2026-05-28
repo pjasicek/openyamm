@@ -1,0 +1,36 @@
+			Town Portal Coord
+
+*******************************************************************************
+			Graphics Coordinates
+*******************************************************************************
+
+TownPortalBG.pcx	  0x   0y	800x600	Background
+Cancel Button		699x 485y	100x50	Use Button From Party Order
+OK Button		699x 549y	100x50	Use Button From Party Order
+
+City0 Button		398x 106y	76x58 Frosgard
+City1 Button		275x 185y	60x58 Thronheim
+City2 Button		388x 243y	80x58 Thjorgard
+City3 Button		511x 301y	66x58 Sturmford
+City4 Button		503x 363y	70x58 Drangheim
+City5 Button		546x 431y	66x58 Guberland
+
+Note: Each button has a slot for printing the town name, which should only
+	appear when highlighted or pressed.  Coordinates for town name text
+	follow.
+
+*******************************************************************************
+			Text Coordinates
+*******************************************************************************
+
+"Town Portal"		167x  39y	390x18	Main Text Center
+
+City0 Name		174x 125y	206x18	Main Text Center
+City1 Name		349x 204y	206x18	Main Text Center
+City2 Name		169x 259y	206x18	Main Text Center
+City3 Name		293x 320y	206x18	Main Text Center
+City4 Name		277x 383y	206x18	Main Text Center
+City5 Name		328x 451y	206x18	Main Text Center
+
+Note: Only print city name when the associated button is Highlighted or Pressed.
+

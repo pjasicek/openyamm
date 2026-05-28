@@ -1,0 +1,31 @@
+;------------------------------------------
+;	IA_Island.scr
+;	Timmy
+;	1/29/02
+;	
+;	makes the island disappear after 
+;	leaving
+
+;
+;------------------------------------------
+
+#include Globals.inc
+
+
+
+;------------------------------------------
+:OnSinkSpeed
+;------------------------------------------
+
+SetPropNumber speed 1000
+exit
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+
+Addtrigger SinkSpeed OnSinkSpeed
+
+	Exit

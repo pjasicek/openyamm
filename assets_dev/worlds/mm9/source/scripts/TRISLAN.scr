@@ -1,0 +1,247 @@
+;--------------------------------------------------
+;givetake.scr
+;10/4
+; timmy
+; gives party specific item
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#number			Item_ID
+#number			nGiveOnce = FALSE
+
+
+
+
+
+; Parameters
+;P0 Item number of item to give
+
+
+;--------------------------------------------------
+
+
+
+;--------------------------------------------------
+:OnWalk1
+;--------------------------------------------------
+SetPropNumber DoRude False
+getobjecthandle abriel g_hobject
+target g_hobject
+
+getobjecthandle Trislan1 g_hobject
+walkto g_hobject 1 Speak1
+exit
+
+
+;--------------------------------------------------
+:Speak1
+;--------------------------------------------------
+
+wait 1 4, OnSpeak1
+exit
+
+;--------------------------------------------------
+:OnSpeak1
+;--------------------------------------------------
+
+getobjecthandle narrator g_hobject
+trigger g_hobject stop
+Loopanim conv1 0 DoNothing
+Playsound voices\cinema\guberlandplay\03.wav, DoNothing, 100, 512, FALSE, 100
+wait 1 6 Trigger4
+exit
+
+;--------------------------------------------------
+:Trigger4
+;--------------------------------------------------
+
+stop
+Loopanim stand 0 DoNothing
+getobjecthandle abriel g_hobject
+trigger g_hobject Speak4
+exit
+
+;--------------------------------------------------
+:OnSpeak5
+;--------------------------------------------------
+
+Loopanim conv3 0 DoNothing
+Playsound voices\cinema\guberlandplay\05.wav, DoNothing, 100, 512, FALSE, 100
+wait 1 4 Trigger6
+exit
+
+;--------------------------------------------------
+:Trigger6
+;--------------------------------------------------
+
+stop
+Loopanim stand 0 DoNothing
+getobjecthandle abriel g_hobject
+trigger g_hobject Speak6
+exit
+
+;--------------------------------------------------
+:OnSpeak7
+;--------------------------------------------------
+
+Loopanim conv3 0 DoNothing
+Playsound voices\cinema\guberlandplay\07.wav, DoNothing, 100, 512, FALSE, 100
+wait 1 3 Trigger8
+exit
+
+;--------------------------------------------------
+:Trigger8
+;--------------------------------------------------
+
+stop
+Loopanim stand 0 DoNothing
+getobjecthandle abriel g_hobject
+trigger g_hobject Speak8
+exit
+
+
+;--------------------------------------------------
+:OnExit
+;--------------------------------------------------
+SetPropNumber DoRude TRUE
+target NULL
+getobjecthandle Trislan2 g_hobject
+walkto g_hobject 1 FaceStage
+exit
+
+;--------------------------------------------------
+:FaceStage
+;--------------------------------------------------
+
+getobjecthandle Wilam g_hobject
+target g_hobject
+exit
+
+;--------------------------------------------------
+:OnWalk2
+;--------------------------------------------------
+
+getobjecthandle Ralof g_hobject
+target g_hobject
+getobjecthandle Trislan1 g_hobject
+walkto g_hobject 1 DoNothing
+exit
+
+;--------------------------------------------------
+:OnSpeak23
+;--------------------------------------------------
+
+Loopanim conv2 0 DoNothing
+Playsound voices\cinema\guberlandplay\23.wav, DoNothing, 100, 512, FALSE, 100
+wait 1 3.4 Trigger24
+exit
+
+;--------------------------------------------------
+:Trigger24
+;--------------------------------------------------
+
+stop
+Loopanim stand 0 DoNothing
+getobjecthandle Ralof g_hobject
+trigger g_hobject Speak24
+exit
+
+;--------------------------------------------------
+:OnSpeak25
+;--------------------------------------------------
+
+Loopanim conv2 0 DoNothing
+Playsound voices\cinema\guberlandplay\25.wav, DoNothing, 100, 512, FALSE, 100
+wait 1 4.5 Trigger26
+exit
+
+;--------------------------------------------------
+:Trigger26
+;--------------------------------------------------
+
+stop
+Loopanim stand 0 DoNothing
+getobjecthandle Ralof g_hobject
+trigger g_hobject Speak26
+exit
+
+;--------------------------------------------------
+:OnDie
+;--------------------------------------------------
+
+;Playanim Die1 DoNothing
+
+Playsound voices\cinema\guberlandplay\27a.wav, DoNothing, 100, 512, FALSE, 100
+wait 1 4 Trigger27
+Playanim Play_Death GetUp
+exit
+
+;--------------------------------------------------
+:GetUp
+;--------------------------------------------------
+
+Playanim Play_getup DoNothing
+exit
+
+;--------------------------------------------------
+:Stop
+;--------------------------------------------------
+
+stop
+exit
+;--------------------------------------------------
+:Trigger27
+;--------------------------------------------------
+
+;stop
+;Loopanim stand 0 DoNothing
+getobjecthandle Narrator g_hobject
+trigger g_hobject Speak27
+exit
+
+;--------------------------------------------------
+:OnCastCall
+;--------------------------------------------------
+
+
+
+getobjecthandle Trislan3 g_hobject
+walkto g_hobject 1 FaceDoor
+exit
+
+;--------------------------------------------------
+:FaceDoor
+;--------------------------------------------------
+
+getobjecthandle peasant2 g_hobject
+target g_hobject
+exit
+
+;--------------------------------------------------
+:OnBow
+;--------------------------------------------------
+
+PlayAnim Bow DoNothing
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Walk1 OnWalk1
+Addtrigger Speak5 OnSpeak5
+Addtrigger Speak7 OnSpeak7
+AddTrigger Walk2 OnWalk2
+Addtrigger exit Onexit
+AddTrigger Speak23 OnSpeak23
+AddTrigger Speak25 OnSpeak25
+AddTrigger Die OnDie
+AddTrigger CastCall OnCastCall
+AddTrigger Bow OnBow
+exit
+
+

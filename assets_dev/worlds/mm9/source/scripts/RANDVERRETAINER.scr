@@ -1,0 +1,80 @@
+;----------------------------------------------
+;forad.scr
+; By Timmy
+; handles forad's stuff
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         sound   ; checks to see if a sound is currently playing
+#number							soundhandle ; handler for sounds
+#number							sounddur ; duration of sound
+#number							sounddone ; if sound is done this is true
+#number							soundhandle2 ; handler for second actor
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+;-------------------------------------
+:Onblabber
+;-------------------------------------
+; erccs blabber
+
+
+
+
+	Playsound voices\NPC\NPC_085.wav, Onexit, 100, 240, FALSE, 100
+
+
+
+
+exit
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+;LoopAnim Sitting 0 DoNothing
+	getmyhandle g_hobject
+
+
+haskey 453 g_ntemp
+if (g_ntemp==FALSE)
+
+
+	setflag g_hobject, visible
+	setflag g_hobject, solid
+	setflag g_hobject, gravity
+	LoopAnim sitting, 0 DoNothing
+	exit
+else
+	clearflag g_hobject, visible
+	clearflag g_hobject, solid
+	clearflag g_hobject, gravity
+	exit
+endif
+
+exit
+
+
+
+;-------------------------------------
+:Onexit
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Use, Onblabber
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit

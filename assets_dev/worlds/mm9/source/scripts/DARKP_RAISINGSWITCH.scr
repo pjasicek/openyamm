@@ -1,0 +1,69 @@
+;-----------------------------------------------------
+;	DarkP_RaisingSwitch.scr
+;	kd
+;	11-9-01
+;	Plays animation and then triggers ScriptObject
+;	
+;	
+;-----------------------------------------------------
+#include Globals.inc
+
+#hObject	hPuzzleManager
+
+#string		sPuzzleManager
+#string		sMessage
+#string		sModelType
+
+;--------------------------------------------------------------
+:StopHere
+;--------------------------------------------------------------
+	Exit TRUE
+
+;--------------------------------------------------------------
+:TurnSwitchOff
+;--------------------------------------------------------------
+	RemoveTrigger Use
+	Exit TRUE
+;--------------------------------------------------------------
+:TriggerScrObj
+;--------------------------------------------------------------
+	Trigger hPuzzleManager, sMessage
+	Exit TRUE
+;--------------------------------------------------------------
+:MoveMe
+;--------------------------------------------------------------
+	if (sModelType==Banshee)
+		PlayAnim FidgetAir1, TriggerScrObj
+		playsound Sounds\spells\EnchantItem.wav DoNothing 500 1000 FALSE 100
+	else
+		PlayAnim fidget1, TriggerScrObj
+		playsound Sounds\spells\EnchantItem.wav DoNothing 500 1000 FALSE 100
+	endif
+
+	Exit TRUE
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	GetObjectHandle sPuzzleManager, hPuzzleManager
+	AddTrigger Use, MoveMe
+	AddTrigger Stop, TurnSwitchOff
+
+	if (sModelType==Banshee)
+		PlayAnim awareAir, StopHere
+	else
+		PlayAnim fidget1, StopHere
+	endif
+	Exit TRUE
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	GetParam 0, sPuzzleManager
+	GetParam 1, sMessage
+	GetParam 2, sModelType
+	Wait 0 .1 main2
+
+	GetMyHandle g_hObject
+	; Clear DontFollowStandingOn flag.
+	ClearFlag g_hObject,8388608
+	Exit TRUE
+;------------- E n d - O f - F i l e -------------------

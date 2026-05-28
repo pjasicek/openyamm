@@ -1,0 +1,8939 @@
+format_version: 1
+kind: outdoor_scene
+source:
+  geometry_file: thronheimcity.odm
+  source_metadata_file: thronheimcity.mm9.yml
+runtime_restrictions:
+  allow_save_game: false
+  allow_lloyds_beacon: false
+  arena: false
+environment:
+  sky_texture: plansky1
+  ground_tileset_name: planset
+  master_tile: 0
+  tile_set_lookup_indices:
+  - 0
+  - 0
+  - 0
+  - 0
+  day_bits_raw: 0
+  map_extra_bits_raw: 8
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: true
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 8192
+    strong_distance: 16384
+  weather:
+    fog_mode: static
+    precipitation: none
+    daily_fog:
+      small_chance: 0
+      average_chance: 0
+      dense_chance: 0
+      small:
+        weak_distance: 8192
+        strong_distance: 16384
+      average:
+        weak_distance: 8192
+        strong_distance: 16384
+      dense:
+        weak_distance: 8192
+        strong_distance: 16384
+  ceiling: 32767
+terrain:
+  attribute_overrides: []
+  footstep_sound_overrides: []
+bmodel_faces:
+  interactive_faces: []
+entities: []
+spawns: []
+model_instances:
+- instance_id: mm9:thronheimcity:object:25
+  source_ref: objects/25
+  source_kind: mm9_dat_object
+  source_object_index: 25
+  source_class: Prop
+  source_name: Prop95
+  source_model: models/Props/Iron-Ingots.ABC
+  source_skin: Skins/Props/Iron-Ingots.dtx
+  model_asset: models/props/iron_ingots.glb
+  position:
+    x: 16732
+    y: 4833
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:26
+  source_ref: objects/26
+  source_kind: mm9_dat_object
+  source_object_index: 26
+  source_class: Prop
+  source_name: Bars
+  source_model: models/Props/Iron-Ingots.ABC
+  source_skin: Skins/Props/Iron-Ingots.dtx
+  model_asset: models/props/iron_ingots.glb
+  position:
+    x: 16650
+    y: 4465
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:27
+  source_ref: objects/27
+  source_kind: mm9_dat_object
+  source_object_index: 27
+  source_class: Prop
+  source_name: Prop65
+  source_model: models/Props/Iron-Ingots.ABC
+  source_skin: Skins/Props/Iron-Ingots.dtx
+  model_asset: models/props/iron_ingots.glb
+  position:
+    x: 16876
+    y: 3789
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70587147
+    w: -0.70833994
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:28
+  source_ref: objects/28
+  source_kind: mm9_dat_object
+  source_object_index: 28
+  source_class: Prop
+  source_name: Prop64
+  source_model: models/Props/Iron-Ingots.ABC
+  source_skin: Skins/Props/Iron-Ingots.dtx
+  model_asset: models/props/iron_ingots.glb
+  position:
+    x: 16630
+    y: 4014
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:29
+  source_ref: objects/29
+  source_kind: mm9_dat_object
+  source_object_index: 29
+  source_class: Prop
+  source_name: Prop94
+  source_model: models/Props/Iron-Ingots.ABC
+  source_skin: Skins/Props/Iron-Ingots.dtx
+  model_asset: models/props/iron_ingots.glb
+  position:
+    x: 16876
+    y: 4198
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:30
+  source_ref: objects/30
+  source_kind: mm9_dat_object
+  source_object_index: 30
+  source_class: Prop
+  source_name: Chest
+  source_model: models/Props/Chest1.ABC
+  source_skin: Skins/Props/Chest1.dtx
+  model_asset: models/props/chest1.glb
+  position:
+    x: 16835
+    y: 4792
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:31
+  source_ref: objects/31
+  source_kind: mm9_dat_object
+  source_object_index: 31
+  source_class: Prop
+  source_name: Prop97
+  source_model: models/Props/Chest1.ABC
+  source_skin: Skins/Props/Chest1.dtx
+  model_asset: models/props/chest1.glb
+  position:
+    x: 16876
+    y: 4628
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.98465582
+    w: 0.17450762
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:32
+  source_ref: objects/32
+  source_kind: mm9_dat_object
+  source_object_index: 32
+  source_class: Prop
+  source_name: Prop96
+  source_model: models/Props/Chest1.ABC
+  source_skin: Skins/Props/Chest1.dtx
+  model_asset: models/props/chest1.glb
+  position:
+    x: 16876
+    y: 3994
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99619469
+    w: 0.087155801
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:33
+  source_ref: objects/33
+  source_kind: mm9_dat_object
+  source_object_index: 33
+  source_class: Prop
+  source_name: Prop124
+  source_model: models/Props/Chest1.ABC
+  source_skin: Skins/Props/Chest1.dtx
+  model_asset: models/props/chest1.glb
+  position:
+    x: 16878
+    y: 4403
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99619469
+    w: 0.087155801
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:53
+  source_ref: objects/53
+  source_kind: mm9_dat_object
+  source_object_index: 53
+  source_class: TreasureChest
+  source_name: TreasureChest0
+  source_model: models/Props/Chest5.ABC
+  source_skin: Skins/Props/Chest5.dtx
+  model_asset: models/props/chest5.glb
+  position:
+    x: -7480
+    y: 14034
+    z: 4531
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.40434367
+    w: -0.91460713
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:54
+  source_ref: objects/54
+  source_kind: mm9_dat_object
+  source_object_index: 54
+  source_class: CommonerElfFemaleA
+  source_name: Ealusaid
+  source_model: models/CommonerElfFemaleA.abc
+  source_skin: ''
+  model_asset: models/peasantf8.glb
+  position:
+    x: 6308
+    y: -164
+    z: 3280
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.75699506
+    w: 0.65342059
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantf8_peasantf8b
+- instance_id: mm9:thronheimcity:object:55
+  source_ref: objects/55
+  source_kind: mm9_dat_object
+  source_object_index: 55
+  source_class: Prop
+  source_name: Shield
+  source_model: models/PickUpItems/quest/KiraShield.ABC
+  source_skin: skins/PickUpItems/quest/KiraShield.dtx
+  model_asset: models/pickupitems/quest/kirashield.glb
+  position:
+    x: -11981
+    y: 15457
+    z: 3469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:56
+  source_ref: objects/56
+  source_kind: mm9_dat_object
+  source_object_index: 56
+  source_class: Honk2
+  source_name: CommonerHumanMaleA1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: 13435
+    y: 6390
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasantmale.glb
+- instance_id: mm9:thronheimcity:object:57
+  source_ref: objects/57
+  source_kind: mm9_dat_object
+  source_object_index: 57
+  source_class: ElderHonkFemale
+  source_name: CommonerHumanFemaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: 13107
+    y: 6717
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasantmale.glb
+- instance_id: mm9:thronheimcity:object:58
+  source_ref: objects/58
+  source_kind: mm9_dat_object
+  source_object_index: 58
+  source_class: Honk2
+  source_name: CommonerHumanFemaleA1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: 9830
+    y: 6717
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasantmale.glb
+- instance_id: mm9:thronheimcity:object:59
+  source_ref: objects/59
+  source_kind: mm9_dat_object
+  source_object_index: 59
+  source_class: ShopkeeperHumanFemaleA
+  source_name: brynhildr
+  source_model: models/PeasantF1.ABC
+  source_skin: ''
+  model_asset: models/peasantf1.glb
+  position:
+    x: 16384
+    y: 3809
+    z: 3280
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantf1_peasantf1a
+- instance_id: mm9:thronheimcity:object:60
+  source_ref: objects/60
+  source_kind: mm9_dat_object
+  source_object_index: 60
+  source_class: CommonerHuman2MaleA
+  source_name: dagfaripeevish
+  source_model: models/PeasantM2.ABC
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: 11141
+    y: 2458
+    z: 3280
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:thronheimcity:object:61
+  source_ref: objects/61
+  source_kind: mm9_dat_object
+  source_object_index: 61
+  source_class: CommonerHuman2MaleB
+  source_name: Thorfinnskullsplitter
+  source_model: models/PeasantM1.ABC
+  source_skin: ''
+  model_asset: models/peasantm7.glb
+  position:
+    x: 11851
+    y: 2244
+    z: 3280
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm7_peasantm7b
+- instance_id: mm9:thronheimcity:object:62
+  source_ref: objects/62
+  source_kind: mm9_dat_object
+  source_object_index: 62
+  source_class: ClanSoldier
+  source_name: Lt. Dain
+  source_model: models/clansoldier.abc
+  source_skin: ''
+  model_asset: models/clansoldier.glb
+  position:
+    x: -9585
+    y: 16138
+    z: 3469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.92652865
+    w: 0.37622421
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/clansoldier.abc
+    source_skins: []
+    candidates:
+    - id: clansoldier_beldonian1_beldsword_beldshield1
+      source_skins:
+      - skins/beldonian1.dtx
+      - skins/beldsword.dtx
+      - skins/beldshield1.dtx
+    - id: clansoldier_beldonian2_beldsword_beldshield2
+      source_skins:
+      - skins/beldonian2.dtx
+      - skins/beldsword.dtx
+      - skins/beldshield2.dtx
+    - id: clansoldier_beldonian3_beldswordold_beldshield3
+      source_skins:
+      - skins/beldonian3.dtx
+      - skins/beldswordold.dtx
+      - skins/beldshield3.dtx
+    - id: clansoldier_beldoniandragon_belddragnsword_beldshield3
+      source_skins:
+      - skins/beldoniandragon.dtx
+      - skins/belddragnsword.dtx
+      - skins/beldshield3.dtx
+    - id: clansoldier_clansoldier1_beldsword_clanshield1
+      source_skins:
+      - skins/clansoldier1.dtx
+      - skins/beldsword.dtx
+      - skins/clanshield1.dtx
+    - id: clansoldier_clansoldier1_sword_clanshield1
+      source_skins:
+      - skins/clansoldier1.dtx
+      - skins/clanshield1.dtx
+    - id: clansoldier_clansoldier2_beldsword_clanshieldguard
+      source_skins:
+      - skins/clansoldier2.dtx
+      - skins/beldsword.dtx
+      - skins/clanshieldguard.dtx
+    - id: clansoldier_clansoldier2_sword_clanshieldguard
+      source_skins:
+      - skins/clansoldier2.dtx
+      - skins/clanshieldguard.dtx
+    - id: clansoldier_clansoldier6_beldsword_clanshield2
+      source_skins:
+      - skins/clansoldier6.dtx
+      - skins/beldsword.dtx
+      - skins/clanshield2.dtx
+    - id: clansoldier_clansoldier6_sword_clanshield2
+      source_skins:
+      - skins/clansoldier6.dtx
+      - skins/clanshield2.dtx
+    - id: clansoldier_clansoldier9_beldsword_clanshield3
+      source_skins:
+      - skins/clansoldier9.dtx
+      - skins/beldsword.dtx
+      - skins/clanshield3.dtx
+    - id: clansoldier_clansoldier9_sword_clanshield3
+      source_skins:
+      - skins/clansoldier9.dtx
+      - skins/clanshield3.dtx
+- instance_id: mm9:thronheimcity:object:63
+  source_ref: objects/63
+  source_kind: mm9_dat_object
+  source_object_index: 63
+  source_class: ShopkeeperHuman2MaleB
+  source_name: Thorolf0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm8.glb
+  position:
+    x: -3113
+    y: 9503
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm8_peasantm8a
+- instance_id: mm9:thronheimcity:object:64
+  source_ref: objects/64
+  source_kind: mm9_dat_object
+  source_object_index: 64
+  source_class: ShopkeeperHuman2MaleB
+  source_name: Thorolf1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm8.glb
+  position:
+    x: 13025
+    y: 1147
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99995393
+    w: -0.0095992243
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm8_peasantm8a
+- instance_id: mm9:thronheimcity:object:66
+  source_ref: objects/66
+  source_kind: mm9_dat_object
+  source_object_index: 66
+  source_class: DesertTerror
+  source_name: BadAss
+  source_model: models/Terror.abc
+  source_skin: ''
+  model_asset: models/terror.glb
+  position:
+    x: 9531
+    y: 1052
+    z: 3402
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: terror_terror2
+- instance_id: mm9:thronheimcity:object:73
+  source_ref: objects/73
+  source_kind: mm9_dat_object
+  source_object_index: 73
+  source_class: PoorTownGuard1
+  source_name: Guard1
+  source_model: models/guard.abc
+  source_skin: ''
+  model_asset: models/guard.glb
+  position:
+    x: 6876
+    y: 1270
+    z: 3244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: guard_guard1_guardpole
+- instance_id: mm9:thronheimcity:object:74
+  source_ref: objects/74
+  source_kind: mm9_dat_object
+  source_object_index: 74
+  source_class: PoorTownGuard1
+  source_name: Guard2
+  source_model: models/guard.abc
+  source_skin: ''
+  model_asset: models/guard.glb
+  position:
+    x: 11725
+    y: 69
+    z: 3238
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70587147
+    w: -0.70833994
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: guard_guard1_guardpole
+- instance_id: mm9:thronheimcity:object:75
+  source_ref: objects/75
+  source_kind: mm9_dat_object
+  source_object_index: 75
+  source_class: CommonerElfMaleA
+  source_name: Ben
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1d.glb
+  position:
+    x: 8914
+    y: -41
+    z: 3361
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm1d_peasantm1c
+- instance_id: mm9:thronheimcity:object:76
+  source_ref: objects/76
+  source_kind: mm9_dat_object
+  source_object_index: 76
+  source_class: CommonerElfMaleA
+  source_name: Shmoe
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1d.glb
+  position:
+    x: 9728
+    y: 389
+    z: 3302
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm1d_peasantm1c
+- instance_id: mm9:thronheimcity:object:94
+  source_ref: objects/94
+  source_kind: mm9_dat_object
+  source_object_index: 94
+  source_class: CandleProp
+  source_name: CandleProp15
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -8970
+    y: 11715
+    z: 4065
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:97
+  source_ref: objects/97
+  source_kind: mm9_dat_object
+  source_object_index: 97
+  source_class: CandleProp
+  source_name: CandleProp16
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -7619
+    y: 11715
+    z: 4065
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:98
+  source_ref: objects/98
+  source_kind: mm9_dat_object
+  source_object_index: 98
+  source_class: CommonerHuman2MaleA
+  source_name: CommonerHuman2MaleA8
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: -8274
+    y: 11510
+    z: 3405
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:thronheimcity:object:110
+  source_ref: objects/110
+  source_kind: mm9_dat_object
+  source_object_index: 110
+  source_class: CandleProp
+  source_name: CandleProp20
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -11571
+    y: 16138
+    z: 3830
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:113
+  source_ref: objects/113
+  source_kind: mm9_dat_object
+  source_object_index: 113
+  source_class: CandleProp
+  source_name: CandleProp21
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -10916
+    y: 16138
+    z: 3830
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:116
+  source_ref: objects/116
+  source_kind: mm9_dat_object
+  source_object_index: 116
+  source_class: CandleProp
+  source_name: CandleProp22
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -10916
+    y: 16957
+    z: 3830
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:119
+  source_ref: objects/119
+  source_kind: mm9_dat_object
+  source_object_index: 119
+  source_class: CandleProp
+  source_name: CandleProp23
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -11571
+    y: 16957
+    z: 3830
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:122
+  source_ref: objects/122
+  source_kind: mm9_dat_object
+  source_object_index: 122
+  source_class: CommonerDwarfMaleA
+  source_name: Ake
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantdm1.glb
+  position:
+    x: 8520
+    y: -1229
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantdm1_peasantdm1a
+- instance_id: mm9:thronheimcity:object:123
+  source_ref: objects/123
+  source_kind: mm9_dat_object
+  source_object_index: 123
+  source_class: CommonerHalfOrcFemaleA
+  source_name: CommonerHalfOrcFemaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: 1147
+    y: 6144
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthof1.glb
+  model_skin_binding: peasanthof1_peasanthof1a
+- instance_id: mm9:thronheimcity:object:124
+  source_ref: objects/124
+  source_kind: mm9_dat_object
+  source_object_index: 124
+  source_class: CommonerHumanFemaleA
+  source_name: CommonerHalfOrcFemaleA3
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantf1.glb
+  position:
+    x: -2867
+    y: 9093
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantf1_peasantf1b
+- instance_id: mm9:thronheimcity:object:125
+  source_ref: objects/125
+  source_kind: mm9_dat_object
+  source_object_index: 125
+  source_class: CommonerHuman2MaleA
+  source_name: CommonerHalfOrcFemaleA5
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: 1966
+    y: 13599
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:thronheimcity:object:126
+  source_ref: objects/126
+  source_kind: mm9_dat_object
+  source_object_index: 126
+  source_class: CommonerHuman2MaleA
+  source_name: CommonerHuman2MaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: 14909
+    y: 3604
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:thronheimcity:object:127
+  source_ref: objects/127
+  source_kind: mm9_dat_object
+  source_object_index: 127
+  source_class: CommonerHalfOrcFemaleA
+  source_name: CommonerHuman2MaleA1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: 14746
+    y: 3768
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthof1.glb
+  model_skin_binding: peasanthof1_peasanthof1a
+- instance_id: mm9:thronheimcity:object:128
+  source_ref: objects/128
+  source_kind: mm9_dat_object
+  source_object_index: 128
+  source_class: CommonerElfFemaleA
+  source_name: CommonerHuman2MaleA2
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantf8.glb
+  position:
+    x: 8847
+    y: 10322
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantf8_peasantf8b
+- instance_id: mm9:thronheimcity:object:129
+  source_ref: objects/129
+  source_kind: mm9_dat_object
+  source_object_index: 129
+  source_class: CommonerHuman2MaleA
+  source_name: CommonerHuman2MaleA3
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: 8520
+    y: 9994
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:thronheimcity:object:130
+  source_ref: objects/130
+  source_kind: mm9_dat_object
+  source_object_index: 130
+  source_class: CommonerElfFemaleA
+  source_name: CommonerHuman2MaleA4
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantf8.glb
+  position:
+    x: 8110
+    y: -492
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantf8_peasantf8b
+- instance_id: mm9:thronheimcity:object:131
+  source_ref: objects/131
+  source_kind: mm9_dat_object
+  source_object_index: 131
+  source_class: CommonerElfFemaleA
+  source_name: CommonerHuman2MaleA5
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantf8.glb
+  position:
+    x: 9503
+    y: -328
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantf8_peasantf8b
+- instance_id: mm9:thronheimcity:object:132
+  source_ref: objects/132
+  source_kind: mm9_dat_object
+  source_object_index: 132
+  source_class: CommonerElfMaleA
+  source_name: CommonerHuman2MaleA6
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1d.glb
+  position:
+    x: 12370
+    y: 819
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm1d_peasantm1c
+- instance_id: mm9:thronheimcity:object:133
+  source_ref: objects/133
+  source_kind: mm9_dat_object
+  source_object_index: 133
+  source_class: CommonerElfMaleA
+  source_name: CommonerHuman2MaleA7
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1d.glb
+  position:
+    x: 11223
+    y: 983
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.79968463
+    w: 0.60042026
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm1d_peasantm1c
+- instance_id: mm9:thronheimcity:object:134
+  source_ref: objects/134
+  source_kind: mm9_dat_object
+  source_object_index: 134
+  source_class: CommonerHuman2MaleB
+  source_name: CommonerHuman2MaleB0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm7.glb
+  position:
+    x: 8765
+    y: -1720
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm7_peasantm7b
+- instance_id: mm9:thronheimcity:object:135
+  source_ref: objects/135
+  source_kind: mm9_dat_object
+  source_object_index: 135
+  source_class: CommonerDwarfMaleA
+  source_name: Elemental taecher
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantdm1.glb
+  position:
+    x: -1311
+    y: 6144
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantdm1_peasantdm1a
+- instance_id: mm9:thronheimcity:object:138
+  source_ref: objects/138
+  source_kind: mm9_dat_object
+  source_object_index: 138
+  source_class: CommonerHumanFemaleB
+  source_name: Light Teacher
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantf4.glb
+  position:
+    x: -2867
+    y: 7864
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantf4_peasantf4a
+- instance_id: mm9:thronheimcity:object:140
+  source_ref: objects/140
+  source_kind: mm9_dat_object
+  source_object_index: 140
+  source_class: ShopkeeperHuman2MaleA
+  source_name: ShopkeeperHuman2MaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm6.glb
+  position:
+    x: 1126
+    y: 4936
+    z: 3313
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm6_peasantm6b
+- instance_id: mm9:thronheimcity:object:141
+  source_ref: objects/141
+  source_kind: mm9_dat_object
+  source_object_index: 141
+  source_class: ShopkeeperHuman2MaleA
+  source_name: ShopkeeperHuman2MaleA1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm6.glb
+  position:
+    x: -762
+    y: 10787
+    z: 3390
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm6_peasantm6b
+- instance_id: mm9:thronheimcity:object:142
+  source_ref: objects/142
+  source_kind: mm9_dat_object
+  source_object_index: 142
+  source_class: ShopkeeperHuman2MaleB
+  source_name: ShopkeeperHuman2MaleA2
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm8.glb
+  position:
+    x: 3604
+    y: 12452
+    z: 3390
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71630189
+    w: -0.69779052
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm8_peasantm8a
+- instance_id: mm9:thronheimcity:object:143
+  source_ref: objects/143
+  source_kind: mm9_dat_object
+  source_object_index: 143
+  source_class: ShopKeeperDwarfFemaleB
+  source_name: ShopkeeperHuman2MaleA3
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantdf4.glb
+  position:
+    x: 11530
+    y: 2734
+    z: 3390
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.95424033
+    w: 0.29904079
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantdf4_peasantdf4a
+- instance_id: mm9:thronheimcity:object:144
+  source_ref: objects/144
+  source_kind: mm9_dat_object
+  source_object_index: 144
+  source_class: ShopkeeperHuman2MaleB
+  source_name: ShopkeeperHuman2MaleA4
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm8.glb
+  position:
+    x: 14090
+    y: 4915
+    z: 3390
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.95424033
+    w: 0.29904079
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm8_peasantm8a
+- instance_id: mm9:thronheimcity:object:145
+  source_ref: objects/145
+  source_kind: mm9_dat_object
+  source_object_index: 145
+  source_class: ShopkeeperHuman2MaleB
+  source_name: ShopkeeperHuman2MaleA5
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm8.glb
+  position:
+    x: -4588
+    y: 14131
+    z: 3390
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71630189
+    w: -0.69779052
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm8_peasantm8a
+- instance_id: mm9:thronheimcity:object:146
+  source_ref: objects/146
+  source_kind: mm9_dat_object
+  source_object_index: 146
+  source_class: ShopkeeperHuman2MaleB
+  source_name: ShopkeeperHuman2MaleA6
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm8.glb
+  position:
+    x: 7864
+    y: 6625
+    z: 3390
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.88660752
+    w: 0.46252254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm8_peasantm8a
+- instance_id: mm9:thronheimcity:object:147
+  source_ref: objects/147
+  source_kind: mm9_dat_object
+  source_object_index: 147
+  source_class: ShopkeeperHuman2MaleB
+  source_name: ShopkeeperHuman2MaleA7
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm8.glb
+  position:
+    x: 11315
+    y: 10680
+    z: 3308
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.82658982
+    w: -0.56280483
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm8_peasantm8a
+- instance_id: mm9:thronheimcity:object:148
+  source_ref: objects/148
+  source_kind: mm9_dat_object
+  source_object_index: 148
+  source_class: ShopkeeperHuman2MaleB
+  source_name: ShopkeeperHuman2MaleA8
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm8.glb
+  position:
+    x: -4915
+    y: 8356
+    z: 3390
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71630189
+    w: -0.69779052
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm8_peasantm8a
+- instance_id: mm9:thronheimcity:object:151
+  source_ref: objects/151
+  source_kind: mm9_dat_object
+  source_object_index: 151
+  source_class: CommonerHuman2MaleA
+  source_name: spirit teacher
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: 1147
+    y: 11878
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:thronheimcity:object:153
+  source_ref: objects/153
+  source_kind: mm9_dat_object
+  source_object_index: 153
+  source_class: Prop
+  source_name: TownPortal0
+  source_model: models/Props/Portal-Whole.ABC
+  source_skin: Skins/Props/PortalDirty.dtx
+  model_asset: models/props/portal_whole.glb
+  position:
+    x: -10025
+    y: 11991
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:168
+  source_ref: objects/168
+  source_kind: mm9_dat_object
+  source_object_index: 168
+  source_class: CandleProp
+  source_name: CandleProp17
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -307
+    y: -389
+    z: 471
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:171
+  source_ref: objects/171
+  source_kind: mm9_dat_object
+  source_object_index: 171
+  source_class: CandleProp
+  source_name: CandleProp18
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: 348
+    y: -389
+    z: 471
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:174
+  source_ref: objects/174
+  source_kind: mm9_dat_object
+  source_object_index: 174
+  source_class: CandleProp
+  source_name: CandleProp19
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: 348
+    y: 430
+    z: 471
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:177
+  source_ref: objects/177
+  source_kind: mm9_dat_object
+  source_object_index: 177
+  source_class: CandleProp
+  source_name: CandleProp14
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -307
+    y: 430
+    z: 471
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:179
+  source_ref: objects/179
+  source_kind: mm9_dat_object
+  source_object_index: 179
+  source_class: Prop
+  source_name: Prop10
+  source_model: models/Props/LogsBurning.ABC
+  source_skin: Skins/Props/LogsBurning.dtx
+  model_asset: models/props/logsburning.glb
+  position:
+    x: -3
+    y: 947
+    z: 8
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:181
+  source_ref: objects/181
+  source_kind: mm9_dat_object
+  source_object_index: 181
+  source_class: KiratheCold
+  source_name: Kira
+  source_model: models/Kira.abc
+  source_skin: ''
+  model_asset: models/kira.glb
+  position:
+    x: 0
+    y: 328
+    z: 10
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99999962
+    w: -0.0008726556
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+  model_skin_binding: kira_kiraplate
+- instance_id: mm9:thronheimcity:object:182
+  source_ref: objects/182
+  source_kind: mm9_dat_object
+  source_object_index: 182
+  source_class: Prop
+  source_name: Prop11
+  source_model: models/props/Chair.abc
+  source_skin: skins/props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 0
+    y: 348
+    z: -51
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99995393
+    w: -0.0095992243
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:183
+  source_ref: objects/183
+  source_kind: mm9_dat_object
+  source_object_index: 183
+  source_class: Prop
+  source_name: Prop2
+  source_model: models/props/Chair.abc
+  source_skin: skins/props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 236
+    y: 143
+    z: -51
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:184
+  source_ref: objects/184
+  source_kind: mm9_dat_object
+  source_object_index: 184
+  source_class: Prop
+  source_name: Prop3
+  source_model: models/props/Chair.abc
+  source_skin: skins/props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 225
+    y: 0
+    z: -51
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:185
+  source_ref: objects/185
+  source_kind: mm9_dat_object
+  source_object_index: 185
+  source_class: Prop
+  source_name: Prop4
+  source_model: models/props/Chair.abc
+  source_skin: skins/props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 246
+    y: -123
+    z: -51
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:186
+  source_ref: objects/186
+  source_kind: mm9_dat_object
+  source_object_index: 186
+  source_class: BjarniThorvaldssen
+  source_name: Bjarni
+  source_model: models/Kira.abc
+  source_skin: ''
+  model_asset: models/bjarni.glb
+  position:
+    x: 215
+    y: 143
+    z: -20
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+  model_skin_binding: bjarni_bjarni
+- instance_id: mm9:thronheimcity:object:187
+  source_ref: objects/187
+  source_kind: mm9_dat_object
+  source_object_index: 187
+  source_class: SigmundtheStressed
+  source_name: Sigmund
+  source_model: models/Kira.abc
+  source_skin: ''
+  model_asset: models/sigmund.glb
+  position:
+    x: 205
+    y: 0
+    z: 10
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+  model_skin_binding: sigmund_sigmund
+- instance_id: mm9:thronheimcity:object:188
+  source_ref: objects/188
+  source_kind: mm9_dat_object
+  source_object_index: 188
+  source_class: ForadDarre
+  source_name: Forad
+  source_model: models/Kira.abc
+  source_skin: ''
+  model_asset: models/foraddarre.glb
+  position:
+    x: 225
+    y: -123
+    z: 10
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+  model_skin_binding: foraddarre_foraddarre
+- instance_id: mm9:thronheimcity:object:189
+  source_ref: objects/189
+  source_kind: mm9_dat_object
+  source_object_index: 189
+  source_class: Prop
+  source_name: Prop6
+  source_model: models/props/Chair.abc
+  source_skin: skins/props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: -246
+    y: 0
+    z: -51
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:190
+  source_ref: objects/190
+  source_kind: mm9_dat_object
+  source_object_index: 190
+  source_class: Prop
+  source_name: Prop7
+  source_model: models/props/Chair.abc
+  source_skin: skins/props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: -246
+    y: -123
+    z: -51
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:191
+  source_ref: objects/191
+  source_kind: mm9_dat_object
+  source_object_index: 191
+  source_class: TryggvaRavenlocks
+  source_name: Tryygva
+  source_model: models/Kira.abc
+  source_skin: ''
+  model_asset: models/tryggva.glb
+  position:
+    x: -225
+    y: 0
+    z: 10
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+  model_skin_binding: tryggva_tryggva
+- instance_id: mm9:thronheimcity:object:196
+  source_ref: objects/196
+  source_kind: mm9_dat_object
+  source_object_index: 196
+  source_class: Prop
+  source_name: Prop9
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: 164
+    y: 143
+    z: 12
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:197
+  source_ref: objects/197
+  source_kind: mm9_dat_object
+  source_object_index: 197
+  source_class: MarkeltheGreat
+  source_name: Markel
+  source_model: models/Kira.abc
+  source_skin: ''
+  model_asset: models/markel.glb
+  position:
+    x: -225
+    y: -123
+    z: 10
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: markel_markel
+- instance_id: mm9:thronheimcity:object:203
+  source_ref: objects/203
+  source_kind: mm9_dat_object
+  source_object_index: 203
+  source_class: Prop
+  source_name: Prop8
+  source_model: models/props/book.abc
+  source_skin: skins/props/book.dtx
+  model_asset: models/props/book.glb
+  position:
+    x: -164
+    y: -123
+    z: 2
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:214
+  source_ref: objects/214
+  source_kind: mm9_dat_object
+  source_object_index: 214
+  source_class: Prop
+  source_name: Prop17
+  source_model: models/props/Chair.abc
+  source_skin: skins/props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: -11008
+    y: 16691
+    z: 3369
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:215
+  source_ref: objects/215
+  source_kind: mm9_dat_object
+  source_object_index: 215
+  source_class: Prop
+  source_name: Prop13
+  source_model: models/props/Chair.abc
+  source_skin: skins/props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: -11018
+    y: 16548
+    z: 3369
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:216
+  source_ref: objects/216
+  source_kind: mm9_dat_object
+  source_object_index: 216
+  source_class: Prop
+  source_name: Prop14
+  source_model: models/props/Chair.abc
+  source_skin: skins/props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: -10998
+    y: 16425
+    z: 3369
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:217
+  source_ref: objects/217
+  source_kind: mm9_dat_object
+  source_object_index: 217
+  source_class: Prop
+  source_name: Prop15
+  source_model: models/props/Chair.abc
+  source_skin: skins/props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: -11520
+    y: 16548
+    z: 3369
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:218
+  source_ref: objects/218
+  source_kind: mm9_dat_object
+  source_object_index: 218
+  source_class: Prop
+  source_name: Prop16
+  source_model: models/props/Chair.abc
+  source_skin: skins/props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: -11510
+    y: 16425
+    z: 3369
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:219
+  source_ref: objects/219
+  source_kind: mm9_dat_object
+  source_object_index: 219
+  source_class: RUDEProp
+  source_name: SvenProp
+  source_model: models/Sven_ARG.ABC
+  source_skin: skins/Sven.dtx;skins/props/ChairPlain.dtx
+  position:
+    x: -11510
+    y: 16671
+    z: 3451
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/sven_arg.glb
+- instance_id: mm9:thronheimcity:object:220
+  source_ref: objects/220
+  source_kind: mm9_dat_object
+  source_object_index: 220
+  source_class: RUDEProp
+  source_name: TryygvaProp
+  source_model: models/Tryggva.abc
+  source_skin: skins/tryggva.dtx
+  model_asset: models/tryggva.glb
+  position:
+    x: -11500
+    y: 16548
+    z: 3430
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: tryggva_tryggva
+- instance_id: mm9:thronheimcity:object:221
+  source_ref: objects/221
+  source_kind: mm9_dat_object
+  source_object_index: 221
+  source_class: RUDEProp
+  source_name: MarkeProp
+  source_model: models/Markel.abc
+  source_skin: skins/Markel.dtx
+  model_asset: models/markel.glb
+  position:
+    x: -11489
+    y: 16425
+    z: 3430
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: markel_markel
+- instance_id: mm9:thronheimcity:object:222
+  source_ref: objects/222
+  source_kind: mm9_dat_object
+  source_object_index: 222
+  source_class: RUDEProp
+  source_name: ForadProp
+  source_model: models/ForadDarre.abc
+  source_skin: skins/ForadDarre.dtx
+  model_asset: models/foraddarre.glb
+  position:
+    x: -11018
+    y: 16425
+    z: 3430
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: foraddarre_foraddarre
+- instance_id: mm9:thronheimcity:object:223
+  source_ref: objects/223
+  source_kind: mm9_dat_object
+  source_object_index: 223
+  source_class: RUDEProp
+  source_name: SigmundProp
+  source_model: models/sigmund.abc
+  source_skin: skins/sigmund.dtx
+  model_asset: models/sigmund.glb
+  position:
+    x: -11039
+    y: 16548
+    z: 3430
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: sigmund_sigmund
+- instance_id: mm9:thronheimcity:object:224
+  source_ref: objects/224
+  source_kind: mm9_dat_object
+  source_object_index: 224
+  source_class: RUDEProp
+  source_name: BjarniProp
+  source_model: models/Bjarni.abc
+  source_skin: skins/Bjarni.dtx
+  model_asset: models/bjarni.glb
+  position:
+    x: -11028
+    y: 16691
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: bjarni_bjarni
+- instance_id: mm9:thronheimcity:object:225
+  source_ref: objects/225
+  source_kind: mm9_dat_object
+  source_object_index: 225
+  source_class: Prop
+  source_name: TreatyProp
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: -11110
+    y: 16548
+    z: 3391
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:226
+  source_ref: objects/226
+  source_kind: mm9_dat_object
+  source_object_index: 226
+  source_class: Prop
+  source_name: BookProp
+  source_model: models/props/book.abc
+  source_skin: skins/props/book.dtx
+  model_asset: models/props/book.glb
+  position:
+    x: -11428
+    y: 16415
+    z: 3381
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:227
+  source_ref: objects/227
+  source_kind: mm9_dat_object
+  source_object_index: 227
+  source_class: Prop
+  source_name: MarkeProp0
+  source_model: models/Markel.abc
+  source_skin: skins/Markel.dtx
+  model_asset: models/markel.glb
+  position:
+    x: -11510
+    y: 16374
+    z: 3430
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+  model_skin_binding: markel_markel
+- instance_id: mm9:thronheimcity:object:228
+  source_ref: objects/228
+  source_kind: mm9_dat_object
+  source_object_index: 228
+  source_class: KiratheCold
+  source_name: KiraCold
+  source_model: models/PeasantF1.ABC
+  source_skin: ''
+  model_asset: models/kira.glb
+  position:
+    x: -11182
+    y: 16865
+    z: 3469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: kira_kiraplate
+- instance_id: mm9:thronheimcity:object:229
+  source_ref: objects/229
+  source_kind: mm9_dat_object
+  source_object_index: 229
+  source_class: Prop
+  source_name: Prop12
+  source_model: models/props/Chair.abc
+  source_skin: skins/props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: -11264
+    y: 16896
+    z: 3369
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99995393
+    w: -0.0095992243
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:230
+  source_ref: objects/230
+  source_kind: mm9_dat_object
+  source_object_index: 230
+  source_class: YrsatheTroll
+  source_name: YrsatheTroll0
+  source_model: models/YrsatheTroll.abc
+  source_skin: ''
+  model_asset: models/yrsa.glb
+  position:
+    x: -11039
+    y: 16845
+    z: 3469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.9929655
+    w: -0.11840401
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: yrsa_yrsa
+- instance_id: mm9:thronheimcity:object:231
+  source_ref: objects/231
+  source_kind: mm9_dat_object
+  source_object_index: 231
+  source_class: Prop
+  source_name: Sven
+  source_model: models/Sven_ARG.ABC
+  source_skin: skins/Sven.dtx;skins/props/ChairPlain.dtx
+  position:
+    x: -246
+    y: 123
+    z: 31
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/sven_arg.glb
+- instance_id: mm9:thronheimcity:object:232
+  source_ref: objects/232
+  source_kind: mm9_dat_object
+  source_object_index: 232
+  source_class: Prop
+  source_name: Herbwallrack5
+  source_model: models/Props/Herb-Rack1.ABC
+  source_skin: Skins/Props/Herb-Rack1.dtx
+  model_asset: models/props/herb_rack1.glb
+  position:
+    x: 13435
+    y: 4854
+    z: 3676
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:233
+  source_ref: objects/233
+  source_kind: mm9_dat_object
+  source_object_index: 233
+  source_class: Prop
+  source_name: Herbwallrack6
+  source_model: models/Props/Herb-Rack1.ABC
+  source_skin: Skins/Props/Herb-Rack1.dtx
+  model_asset: models/props/herb_rack1.glb
+  position:
+    x: 13435
+    y: 4608
+    z: 3676
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:234
+  source_ref: objects/234
+  source_kind: mm9_dat_object
+  source_object_index: 234
+  source_class: Prop
+  source_name: Herbwallrack7
+  source_model: models/Props/Herb-Rack1.ABC
+  source_skin: Skins/Props/Herb-Rack1.dtx
+  model_asset: models/props/herb_rack1.glb
+  position:
+    x: 13660
+    y: 4383
+    z: 3676
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:235
+  source_ref: objects/235
+  source_kind: mm9_dat_object
+  source_object_index: 235
+  source_class: Prop
+  source_name: Herbwallrack8
+  source_model: models/Props/Herb-Rack1.ABC
+  source_skin: Skins/Props/Herb-Rack1.dtx
+  model_asset: models/props/herb_rack1.glb
+  position:
+    x: 13906
+    y: 4383
+    z: 3676
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:236
+  source_ref: objects/236
+  source_kind: mm9_dat_object
+  source_object_index: 236
+  source_class: Prop
+  source_name: Herbwallrack9
+  source_model: models/Props/Herb-Rack1.ABC
+  source_skin: Skins/Props/Herb-Rack1.dtx
+  model_asset: models/props/herb_rack1.glb
+  position:
+    x: 13681
+    y: 5079
+    z: 3676
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:237
+  source_ref: objects/237
+  source_kind: mm9_dat_object
+  source_object_index: 237
+  source_class: Prop
+  source_name: Herbwallrack10
+  source_model: models/Props/Herb-Rack1.ABC
+  source_skin: Skins/Props/Herb-Rack1.dtx
+  model_asset: models/props/herb_rack1.glb
+  position:
+    x: 13926
+    y: 5079
+    z: 3676
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:238
+  source_ref: objects/238
+  source_kind: mm9_dat_object
+  source_object_index: 238
+  source_class: Prop
+  source_name: Herbwallrack11
+  source_model: models/Props/Herb-Rack1.ABC
+  source_skin: Skins/Props/Herb-Rack1.dtx
+  model_asset: models/props/herb_rack1.glb
+  position:
+    x: 14131
+    y: 4854
+    z: 3676
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:239
+  source_ref: objects/239
+  source_kind: mm9_dat_object
+  source_object_index: 239
+  source_class: Prop
+  source_name: Herbwallrack12
+  source_model: models/Props/Herb-Rack1.ABC
+  source_skin: Skins/Props/Herb-Rack1.dtx
+  model_asset: models/props/herb_rack1.glb
+  position:
+    x: 14131
+    y: 4608
+    z: 3676
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:242
+  source_ref: objects/242
+  source_kind: mm9_dat_object
+  source_object_index: 242
+  source_class: Prop
+  source_name: Plant0
+  source_model: models/Props/PottedPlant1.ABC
+  source_skin: Skins/Props/PottedPlant1.dtx
+  model_asset: models/props/pottedplant1.glb
+  position:
+    x: 13394
+    y: 4731
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:243
+  source_ref: objects/243
+  source_kind: mm9_dat_object
+  source_object_index: 243
+  source_class: Prop
+  source_name: Plant1
+  source_model: models/Props/PottedPlant2.ABC
+  source_skin: Skins/Props/PottedPlant2.dtx
+  model_asset: models/props/pottedplant2.glb
+  position:
+    x: 13394
+    y: 4956
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:244
+  source_ref: objects/244
+  source_kind: mm9_dat_object
+  source_object_index: 244
+  source_class: Prop
+  source_name: Plant2
+  source_model: models/Props/PottedPlant3.ABC
+  source_skin: Skins/Props/PottedPlant3.dtx
+  model_asset: models/props/pottedplant3.glb
+  position:
+    x: 13394
+    y: 4669
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:245
+  source_ref: objects/245
+  source_kind: mm9_dat_object
+  source_object_index: 245
+  source_class: Prop
+  source_name: Plant3
+  source_model: models/Props/PottedPlant1.ABC
+  source_skin: Skins/Props/PottedPlant1.dtx
+  model_asset: models/props/pottedplant1.glb
+  position:
+    x: 13394
+    y: 4813
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:246
+  source_ref: objects/246
+  source_kind: mm9_dat_object
+  source_object_index: 246
+  source_class: Prop
+  source_name: Plant4
+  source_model: models/Props/PottedPlant1.ABC
+  source_skin: Skins/Props/PottedPlant1.dtx
+  model_asset: models/props/pottedplant1.glb
+  position:
+    x: 13394
+    y: 4895
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:247
+  source_ref: objects/247
+  source_kind: mm9_dat_object
+  source_object_index: 247
+  source_class: Prop
+  source_name: Plant5
+  source_model: models/Props/PottedPlant2.ABC
+  source_skin: Skins/Props/PottedPlant2.dtx
+  model_asset: models/props/pottedplant2.glb
+  position:
+    x: 13763
+    y: 4342
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:248
+  source_ref: objects/248
+  source_kind: mm9_dat_object
+  source_object_index: 248
+  source_class: Prop
+  source_name: Plant6
+  source_model: models/Props/PottedPlant2.ABC
+  source_skin: Skins/Props/PottedPlant2.dtx
+  model_asset: models/props/pottedplant2.glb
+  position:
+    x: 13885
+    y: 4342
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:249
+  source_ref: objects/249
+  source_kind: mm9_dat_object
+  source_object_index: 249
+  source_class: Prop
+  source_name: Plant7
+  source_model: models/Props/PottedPlant3.ABC
+  source_skin: Skins/Props/PottedPlant3.dtx
+  model_asset: models/props/pottedplant3.glb
+  position:
+    x: 13824
+    y: 4342
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:250
+  source_ref: objects/250
+  source_kind: mm9_dat_object
+  source_object_index: 250
+  source_class: Prop
+  source_name: Plant8
+  source_model: models/Props/PottedPlant1.ABC
+  source_skin: Skins/Props/PottedPlant1.dtx
+  model_asset: models/props/pottedplant1.glb
+  position:
+    x: 14029
+    y: 4342
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:251
+  source_ref: objects/251
+  source_kind: mm9_dat_object
+  source_object_index: 251
+  source_class: Prop
+  source_name: Plant9
+  source_model: models/Props/PottedPlant1.ABC
+  source_skin: Skins/Props/PottedPlant1.dtx
+  model_asset: models/props/pottedplant1.glb
+  position:
+    x: 13947
+    y: 4342
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:252
+  source_ref: objects/252
+  source_kind: mm9_dat_object
+  source_object_index: 252
+  source_class: Prop
+  source_name: Plant10
+  source_model: models/Props/PottedPlant1.ABC
+  source_skin: Skins/Props/PottedPlant1.dtx
+  model_asset: models/props/pottedplant1.glb
+  position:
+    x: 13701
+    y: 4342
+    z: 3256
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:253
+  source_ref: objects/253
+  source_kind: mm9_dat_object
+  source_object_index: 253
+  source_class: Prop
+  source_name: Herbs2
+  source_model: models/Props/Bag-Herbs1.ABC
+  source_skin: Skins/PickUpItems/Quest/BagHerbs1.dtx
+  model_asset: models/props/bag_herbs1.glb
+  position:
+    x: 13497
+    y: 4321
+    z: 3308
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.38268344
+    w: 0.92387953
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:254
+  source_ref: objects/254
+  source_kind: mm9_dat_object
+  source_object_index: 254
+  source_class: Prop
+  source_name: Shelfitems9
+  source_model: models/Props/ShelfItem02.ABC
+  source_skin: Skins/Props/ShelfItem02.dtx
+  model_asset: models/props/shelfitem02.glb
+  position:
+    x: 13482
+    y: 4365
+    z: 3215
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.38268344
+    w: 0.92387953
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:255
+  source_ref: objects/255
+  source_kind: mm9_dat_object
+  source_object_index: 255
+  source_class: Prop
+  source_name: Shelfitems11
+  source_model: models/Props/ShelfItem03.ABC
+  source_skin: Skins/Props/ShelfItem03.dtx
+  model_asset: models/props/shelfitem03.glb
+  position:
+    x: 13373
+    y: 4444
+    z: 3215
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.38268344
+    w: 0.92387953
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:256
+  source_ref: objects/256
+  source_kind: mm9_dat_object
+  source_object_index: 256
+  source_class: Prop
+  source_name: Shelfitems13
+  source_model: models/Props/ShelfItem05.ABC
+  source_skin: Skins/Props/ShelfItem05.dtx
+  model_asset: models/props/shelfitem05.glb
+  position:
+    x: 13424
+    y: 4393
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.38268344
+    w: 0.92387953
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:257
+  source_ref: objects/257
+  source_kind: mm9_dat_object
+  source_object_index: 257
+  source_class: Prop
+  source_name: Shelfitems10
+  source_model: models/Props/ShelfItem02.ABC
+  source_skin: Skins/Props/ShelfItem02.dtx
+  model_asset: models/props/shelfitem02.glb
+  position:
+    x: 13988
+    y: 4915
+    z: 3231
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.38268344
+    w: 0.92387953
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:258
+  source_ref: objects/258
+  source_kind: mm9_dat_object
+  source_object_index: 258
+  source_class: Prop
+  source_name: Bench0
+  source_model: models/Props/Bench_Large1NS.ABC
+  source_skin: Skins/Props/Bench_Large1.dtx
+  model_asset: models/props/bench_large1ns.glb
+  position:
+    x: 15821
+    y: 4270
+    z: 3205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:259
+  source_ref: objects/259
+  source_kind: mm9_dat_object
+  source_object_index: 259
+  source_class: Prop
+  source_name: Bench1
+  source_model: models/Props/Bench_Large1NS.ABC
+  source_skin: Skins/Props/Bench_Large1.dtx
+  model_asset: models/props/bench_large1ns.glb
+  position:
+    x: 15821
+    y: 3359
+    z: 3205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:260
+  source_ref: objects/260
+  source_kind: mm9_dat_object
+  source_object_index: 260
+  source_class: Prop
+  source_name: Shelfitems14
+  source_model: models/Props/ShelfItem09.ABC
+  source_skin: Skins/Props/ShelfItem09.dtx
+  model_asset: models/props/shelfitem09.glb
+  position:
+    x: 1229
+    y: 4833
+    z: 3244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:261
+  source_ref: objects/261
+  source_kind: mm9_dat_object
+  source_object_index: 261
+  source_class: Prop
+  source_name: SmithHammer
+  source_model: models/props/smithhammer.abc
+  source_skin: skins/props/smithhammer.dtx
+  model_asset: models/props/smithhammer.glb
+  position:
+    x: 3441
+    y: 3604
+    z: 3228
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.34202013
+    w: 0.93969262
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:262
+  source_ref: objects/262
+  source_kind: mm9_dat_object
+  source_object_index: 262
+  source_class: Prop
+  source_name: Anvil
+  source_model: models/props/Anvil.abc
+  source_skin: skins/props/anvil.dtx
+  model_asset: models/props/anvil.glb
+  position:
+    x: 3441
+    y: 3604
+    z: 3190
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:263
+  source_ref: objects/263
+  source_kind: mm9_dat_object
+  source_object_index: 263
+  source_class: Prop
+  source_name: Forge1
+  source_model: models/Props/forge.ABC
+  source_skin: Skins/Props/Forge.dtx
+  model_asset: models/props/forge.glb
+  position:
+    x: 3277
+    y: 3195
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:264
+  source_ref: objects/264
+  source_kind: mm9_dat_object
+  source_object_index: 264
+  source_class: Prop
+  source_name: Coalbin0
+  source_model: models/Props/CoalBin.ABC
+  source_skin: Skins/Props/CoalBin.dtx
+  model_asset: models/props/coalbin.glb
+  position:
+    x: 2949
+    y: 3359
+    z: 3236
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:265
+  source_ref: objects/265
+  source_kind: mm9_dat_object
+  source_object_index: 265
+  source_class: Prop
+  source_name: Ironbars0
+  source_model: models/Props/Iron-Ingots.ABC
+  source_skin: Skins/Props/Iron-Ingots.dtx
+  model_asset: models/props/iron_ingots.glb
+  position:
+    x: 4260
+    y: 3277
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:266
+  source_ref: objects/266
+  source_kind: mm9_dat_object
+  source_object_index: 266
+  source_class: Prop
+  source_name: Forge2
+  source_model: models/Props/forge.ABC
+  source_skin: Skins/Props/Forge.dtx
+  model_asset: models/props/forge.glb
+  position:
+    x: 3932
+    y: 3195
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:267
+  source_ref: objects/267
+  source_kind: mm9_dat_object
+  source_object_index: 267
+  source_class: Prop
+  source_name: SmithHammer0
+  source_model: models/props/smithhammer.abc
+  source_skin: skins/props/smithhammer.dtx
+  model_asset: models/props/smithhammer.glb
+  position:
+    x: 3768
+    y: 3604
+    z: 3228
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.82363159
+    w: 0.56712522
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:268
+  source_ref: objects/268
+  source_kind: mm9_dat_object
+  source_object_index: 268
+  source_class: Prop
+  source_name: Anvil0
+  source_model: models/props/Anvil.abc
+  source_skin: skins/props/anvil.dtx
+  model_asset: models/props/anvil.glb
+  position:
+    x: 3768
+    y: 3604
+    z: 3190
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:269
+  source_ref: objects/269
+  source_kind: mm9_dat_object
+  source_object_index: 269
+  source_class: Prop
+  source_name: Ironbars1
+  source_model: models/Props/Iron-Ingots.ABC
+  source_skin: Skins/Props/Iron-Ingots.dtx
+  model_asset: models/props/iron_ingots.glb
+  position:
+    x: 4260
+    y: 3564
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:270
+  source_ref: objects/270
+  source_kind: mm9_dat_object
+  source_object_index: 270
+  source_class: Prop
+  source_name: Weaponrack2
+  source_model: models/Props/WeaponRackns.ABC
+  source_skin: Skins/Props/WeaponRack_New.dtx
+  model_asset: models/props/weaponrackns.glb
+  position:
+    x: 963
+    y: 5079
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:271
+  source_ref: objects/271
+  source_kind: mm9_dat_object
+  source_object_index: 271
+  source_class: Prop
+  source_name: Weaponrack1
+  source_model: models/Props/WeaponRackns.ABC
+  source_skin: Skins/Props/WeaponRack_New.dtx
+  model_asset: models/props/weaponrackns.glb
+  position:
+    x: 963
+    y: 4690
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:272
+  source_ref: objects/272
+  source_kind: mm9_dat_object
+  source_object_index: 272
+  source_class: Prop
+  source_name: Armor4
+  source_model: models/Props/Suitofarmor02.ABC
+  source_skin: Skins/Props/AmoredSuitGold.dtx;skins/props/AmoredSuithalberd.dtx
+  model_asset: models/props/suitofarmor02.glb
+  position:
+    x: -9021
+    y: 16026
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.37864871
+    w: -0.92554047
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:273
+  source_ref: objects/273
+  source_kind: mm9_dat_object
+  source_object_index: 273
+  source_class: Prop
+  source_name: Armor3
+  source_model: models/Props/Suitofarmor02.ABC
+  source_skin: Skins/Props/AmoredSuitGold.dtx;skins/props/AmoredSuithalberd.dtx
+  model_asset: models/props/suitofarmor02.glb
+  position:
+    x: -9472
+    y: 15575
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.37864871
+    w: -0.92554047
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:274
+  source_ref: objects/274
+  source_kind: mm9_dat_object
+  source_object_index: 274
+  source_class: Prop
+  source_name: Table0
+  source_model: models/Props/Table01.ABC
+  source_skin: Skins/Props/Table01.dtx
+  model_asset: models/props/table01.glb
+  position:
+    x: -9748
+    y: 16302
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.92685655
+    w: 0.37541568
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:275
+  source_ref: objects/275
+  source_kind: mm9_dat_object
+  source_object_index: 275
+  source_class: Prop
+  source_name: Banner0
+  source_model: models/Props/Tapestry-Old01.ABC
+  source_skin: TEXTURES/LevelTextures/Misc/Banner8.dtx
+  model_asset: models/props/tapestry_old01.glb
+  position:
+    x: -9784
+    y: 16338
+    z: 3604
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.92387953
+    w: 0.38268343
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:277
+  source_ref: objects/277
+  source_kind: mm9_dat_object
+  source_object_index: 277
+  source_class: Prop
+  source_name: Prop5
+  source_model: models/Props/LogsBurning.ABC
+  source_skin: Skins/Props/LogsBurning.dtx
+  model_asset: models/props/logsburning.glb
+  position:
+    x: -12109
+    y: 14815
+    z: 3341
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:278
+  source_ref: objects/278
+  source_kind: mm9_dat_object
+  source_object_index: 278
+  source_class: Prop
+  source_name: Cabinet0
+  source_model: models/Props/Cabinet04NS.ABC
+  source_skin: Skins/Props/Cabinet04.dtx
+  model_asset: models/props/cabinet04ns.glb
+  position:
+    x: -9318
+    y: 14991
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:279
+  source_ref: objects/279
+  source_kind: mm9_dat_object
+  source_object_index: 279
+  source_class: Prop
+  source_name: Banner1
+  source_model: models/Props/Tapestry-Old01.ABC
+  source_skin: TEXTURES/LevelTextures/Misc/Banner8.dtx
+  model_asset: models/props/tapestry_old01.glb
+  position:
+    x: -9262
+    y: 14991
+    z: 3564
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:281
+  source_ref: objects/281
+  source_kind: mm9_dat_object
+  source_object_index: 281
+  source_class: Prop
+  source_name: Bookcase45
+  source_model: models/Props/Bookcase02NS.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ns.glb
+  position:
+    x: -12124
+    y: 15237
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:282
+  source_ref: objects/282
+  source_kind: mm9_dat_object
+  source_object_index: 282
+  source_class: Prop
+  source_name: Bookcase46
+  source_model: models/Props/Bookcase02NS.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ns.glb
+  position:
+    x: -12124
+    y: 14377
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:283
+  source_ref: objects/283
+  source_kind: mm9_dat_object
+  source_object_index: 283
+  source_class: Prop
+  source_name: Chair0
+  source_model: models/Props/Chair02.ABC
+  source_skin: Skins/Props/Chair02.dtx
+  model_asset: models/props/chair02.glb
+  position:
+    x: -11715
+    y: 14991
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.93969263
+    w: -0.34202012
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:284
+  source_ref: objects/284
+  source_kind: mm9_dat_object
+  source_object_index: 284
+  source_class: Prop
+  source_name: Chair1
+  source_model: models/Props/Chair02.ABC
+  source_skin: Skins/Props/Chair02.dtx
+  model_asset: models/props/chair02.glb
+  position:
+    x: -11715
+    y: 14623
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.33462942
+    w: -0.9423498
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:285
+  source_ref: objects/285
+  source_kind: mm9_dat_object
+  source_object_index: 285
+  source_class: Prop
+  source_name: TemplePew15
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -11141
+    y: 15073
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99998629
+    w: -0.0052360494
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:286
+  source_ref: objects/286
+  source_kind: mm9_dat_object
+  source_object_index: 286
+  source_class: Prop
+  source_name: TemplePew16
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -10486
+    y: 15073
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99998629
+    w: -0.0052360494
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:287
+  source_ref: objects/287
+  source_kind: mm9_dat_object
+  source_object_index: 287
+  source_class: Prop
+  source_name: TemplePew17
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -10486
+    y: 14582
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:288
+  source_ref: objects/288
+  source_kind: mm9_dat_object
+  source_object_index: 288
+  source_class: Prop
+  source_name: TemplePew18
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -11141
+    y: 14582
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:289
+  source_ref: objects/289
+  source_kind: mm9_dat_object
+  source_object_index: 289
+  source_class: Prop
+  source_name: Table1
+  source_model: models/Props/TableTrestle.ABC
+  source_skin: Skins/Props/TableTrestle2.dtx
+  model_asset: models/props/tabletrestle.glb
+  position:
+    x: -11141
+    y: 14828
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:290
+  source_ref: objects/290
+  source_kind: mm9_dat_object
+  source_object_index: 290
+  source_class: Prop
+  source_name: Table2
+  source_model: models/Props/TableTrestle.ABC
+  source_skin: Skins/Props/TableTrestle2.dtx
+  model_asset: models/props/tabletrestle.glb
+  position:
+    x: -10486
+    y: 14828
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:292
+  source_ref: objects/292
+  source_kind: mm9_dat_object
+  source_object_index: 292
+  source_class: Prop
+  source_name: Chair12
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: -8069
+    y: 16630
+    z: 3279
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:293
+  source_ref: objects/293
+  source_kind: mm9_dat_object
+  source_object_index: 293
+  source_class: Prop
+  source_name: Chair13
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: -7823
+    y: 16630
+    z: 3279
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:294
+  source_ref: objects/294
+  source_kind: mm9_dat_object
+  source_object_index: 294
+  source_class: Prop
+  source_name: Chair14
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: -7946
+    y: 16507
+    z: 3279
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:295
+  source_ref: objects/295
+  source_kind: mm9_dat_object
+  source_object_index: 295
+  source_class: Prop
+  source_name: Chair15
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: -7946
+    y: 16753
+    z: 3279
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:296
+  source_ref: objects/296
+  source_kind: mm9_dat_object
+  source_object_index: 296
+  source_class: Prop
+  source_name: Table3
+  source_model: models/Props/TableRound.ABC
+  source_skin: Skins/Props/TableRound.dtx
+  model_asset: models/props/tableround.glb
+  position:
+    x: -7946
+    y: 16630
+    z: 3331
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:297
+  source_ref: objects/297
+  source_kind: mm9_dat_object
+  source_object_index: 297
+  source_class: Prop
+  source_name: Cabinet32
+  source_model: models/Props/Cabinet02.ABC
+  source_skin: Skins/Props/Cabinet02.dtx
+  model_asset: models/props/cabinet02.glb
+  position:
+    x: -7905
+    y: 16179
+    z: 3441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:299
+  source_ref: objects/299
+  source_kind: mm9_dat_object
+  source_object_index: 299
+  source_class: Prop
+  source_name: Bookcase48
+  source_model: models/Props/Bookcase02ew.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ew.glb
+  position:
+    x: -7619
+    y: 17234
+    z: 4014
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:301
+  source_ref: objects/301
+  source_kind: mm9_dat_object
+  source_object_index: 301
+  source_class: DestructableProp
+  source_name: Bookcase47
+  source_model: models/Props/Bookcase02ew.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ew.glb
+  position:
+    x: -8090
+    y: 16189
+    z: 3871
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:302
+  source_ref: objects/302
+  source_kind: mm9_dat_object
+  source_object_index: 302
+  source_class: Prop
+  source_name: Bookcase49
+  source_model: models/Props/Bookcase02ew.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ew.glb
+  position:
+    x: -7823
+    y: 16189
+    z: 4014
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:303
+  source_ref: objects/303
+  source_kind: mm9_dat_object
+  source_object_index: 303
+  source_class: Prop
+  source_name: Bookcase50
+  source_model: models/Props/Bookcase02ew.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ew.glb
+  position:
+    x: -8110
+    y: 17234
+    z: 4014
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:304
+  source_ref: objects/304
+  source_kind: mm9_dat_object
+  source_object_index: 304
+  source_class: Prop
+  source_name: Bookcase51
+  source_model: models/Props/Bookcase02ns.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ns.glb
+  position:
+    x: -8315
+    y: 16548
+    z: 4014
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:305
+  source_ref: objects/305
+  source_kind: mm9_dat_object
+  source_object_index: 305
+  source_class: Prop
+  source_name: Bookcase52
+  source_model: models/Props/Bookcase02ns.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ns.glb
+  position:
+    x: -8315
+    y: 16957
+    z: 4014
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:306
+  source_ref: objects/306
+  source_kind: mm9_dat_object
+  source_object_index: 306
+  source_class: Prop
+  source_name: Table8
+  source_model: models/Props/Table01NS.ABC
+  source_skin: Skins/Props/Table01.dtx
+  model_asset: models/props/table01ns.glb
+  position:
+    x: -7987
+    y: 16712
+    z: 3935
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:307
+  source_ref: objects/307
+  source_kind: mm9_dat_object
+  source_object_index: 307
+  source_class: Prop
+  source_name: Chair28
+  source_model: models/Props/Chair03.ABC
+  source_skin: Skins/Props/Chair03.dtx
+  model_asset: models/props/chair03.glb
+  position:
+    x: -7926
+    y: 16876
+    z: 3853
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70215318
+    w: -0.71202592
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:308
+  source_ref: objects/308
+  source_kind: mm9_dat_object
+  source_object_index: 308
+  source_class: Prop
+  source_name: Chair29
+  source_model: models/Props/Chair03.ABC
+  source_skin: Skins/Props/Chair03.dtx
+  model_asset: models/props/chair03.glb
+  position:
+    x: -8069
+    y: 16712
+    z: 3853
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.711413
+    w: 0.70277418
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:309
+  source_ref: objects/309
+  source_kind: mm9_dat_object
+  source_object_index: 309
+  source_class: Prop
+  source_name: Chair30
+  source_model: models/Props/Chair03.ABC
+  source_skin: Skins/Props/Chair03.dtx
+  model_asset: models/props/chair03.glb
+  position:
+    x: -7926
+    y: 16548
+    z: 3853
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70215318
+    w: -0.71202592
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:310
+  source_ref: objects/310
+  source_kind: mm9_dat_object
+  source_object_index: 310
+  source_class: Prop
+  source_name: Book1
+  source_model: models/Props/Book.ABC
+  source_skin: Skins/Props/Book.dtx
+  model_asset: models/props/book.glb
+  position:
+    x: -7987
+    y: 16589
+    z: 4017
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.81915202
+    w: -0.57357647
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:311
+  source_ref: objects/311
+  source_kind: mm9_dat_object
+  source_object_index: 311
+  source_class: Prop
+  source_name: Podium0
+  source_model: models/Props/Podium01.ABC
+  source_skin: Skins/Props/Podium01.dtx
+  model_asset: models/props/podium01.glb
+  position:
+    x: -8274
+    y: 11346
+    z: 3768
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:312
+  source_ref: objects/312
+  source_kind: mm9_dat_object
+  source_object_index: 312
+  source_class: Prop
+  source_name: TemplePew8
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -8750
+    y: 11556
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96292751
+    w: 0.26976029
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:313
+  source_ref: objects/313
+  source_kind: mm9_dat_object
+  source_object_index: 313
+  source_class: Prop
+  source_name: TemplePew0
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -8991
+    y: 11407
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96292751
+    w: 0.26976029
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:314
+  source_ref: objects/314
+  source_kind: mm9_dat_object
+  source_object_index: 314
+  source_class: Prop
+  source_name: TemplePew9
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -8991
+    y: 11735
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96292751
+    w: 0.26976029
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:315
+  source_ref: objects/315
+  source_kind: mm9_dat_object
+  source_object_index: 315
+  source_class: Prop
+  source_name: TemplePew10
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -9231
+    y: 11587
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96292751
+    w: 0.26976029
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:316
+  source_ref: objects/316
+  source_kind: mm9_dat_object
+  source_object_index: 316
+  source_class: Prop
+  source_name: TemplePew11
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -8750
+    y: 11884
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96292751
+    w: 0.26976029
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:320
+  source_ref: objects/320
+  source_kind: mm9_dat_object
+  source_object_index: 320
+  source_class: Prop
+  source_name: TemplePew12
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -8914
+    y: 12211
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96292751
+    w: 0.26976029
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:321
+  source_ref: objects/321
+  source_kind: mm9_dat_object
+  source_object_index: 321
+  source_class: Prop
+  source_name: TemplePew13
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -9395
+    y: 11914
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96292751
+    w: 0.26976029
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:322
+  source_ref: objects/322
+  source_kind: mm9_dat_object
+  source_object_index: 322
+  source_class: Prop
+  source_name: TemplePew14
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -9155
+    y: 12063
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96292751
+    w: 0.26976029
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:323
+  source_ref: objects/323
+  source_kind: mm9_dat_object
+  source_object_index: 323
+  source_class: Prop
+  source_name: TemplePew
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -7557
+    y: 11407
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96592583
+    w: -0.25881904
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:324
+  source_ref: objects/324
+  source_kind: mm9_dat_object
+  source_object_index: 324
+  source_class: Prop
+  source_name: TemplePew1
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -7798
+    y: 11556
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96592583
+    w: -0.25881904
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:325
+  source_ref: objects/325
+  source_kind: mm9_dat_object
+  source_object_index: 325
+  source_class: Prop
+  source_name: TemplePew2
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -7557
+    y: 11735
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96592583
+    w: -0.25881904
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:326
+  source_ref: objects/326
+  source_kind: mm9_dat_object
+  source_object_index: 326
+  source_class: Prop
+  source_name: TemplePew3
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -7316
+    y: 11587
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96592583
+    w: -0.25881904
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:327
+  source_ref: objects/327
+  source_kind: mm9_dat_object
+  source_object_index: 327
+  source_class: Prop
+  source_name: TemplePew4
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -7798
+    y: 11884
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96592583
+    w: -0.25881904
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:331
+  source_ref: objects/331
+  source_kind: mm9_dat_object
+  source_object_index: 331
+  source_class: Prop
+  source_name: TemplePew7
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -7634
+    y: 12211
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96592583
+    w: -0.25881904
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:332
+  source_ref: objects/332
+  source_kind: mm9_dat_object
+  source_object_index: 332
+  source_class: Prop
+  source_name: TemplePew6
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -7153
+    y: 11914
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96592583
+    w: -0.25881904
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:333
+  source_ref: objects/333
+  source_kind: mm9_dat_object
+  source_object_index: 333
+  source_class: Prop
+  source_name: TemplePew5
+  source_model: models/Props/Pew2.ABC
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2.glb
+  position:
+    x: -7393
+    y: 12063
+    z: 3267
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96592583
+    w: -0.25881904
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:335
+  source_ref: objects/335
+  source_kind: mm9_dat_object
+  source_object_index: 335
+  source_class: Prop
+  source_name: Shelfitems15
+  source_model: models/Props/ShelfItem09.ABC
+  source_skin: Skins/Props/ShelfItem09.dtx
+  model_asset: models/props/shelfitem09.glb
+  position:
+    x: -1147
+    y: 10568
+    z: 3249
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:336
+  source_ref: objects/336
+  source_kind: mm9_dat_object
+  source_object_index: 336
+  source_class: Prop
+  source_name: Shield5
+  source_model: models/Props/Shield.ABC
+  source_skin: Skins/Props/shield2.dtx
+  model_asset: models/props/shield.glb
+  position:
+    x: -860
+    y: 10102
+    z: 3318
+  rotation_quat:
+    x: 0.7071068
+    y: 0
+    z: 0
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:337
+  source_ref: objects/337
+  source_kind: mm9_dat_object
+  source_object_index: 337
+  source_class: Prop
+  source_name: Armor1
+  source_model: models/Props/Suitofarmor01.ABC
+  source_skin: Skins/Props/AmoredSuitPlain.dtx
+  model_asset: models/props/suitofarmor01.glb
+  position:
+    x: -1864
+    y: 10179
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:338
+  source_ref: objects/338
+  source_kind: mm9_dat_object
+  source_object_index: 338
+  source_class: Prop
+  source_name: Shield2
+  source_model: models/Props/Shield.ABC
+  source_skin: Skins/Props/shield3.dtx
+  model_asset: models/props/shield.glb
+  position:
+    x: -1270
+    y: 10102
+    z: 3318
+  rotation_quat:
+    x: 0.7071068
+    y: 0
+    z: 0
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:339
+  source_ref: objects/339
+  source_kind: mm9_dat_object
+  source_object_index: 339
+  source_class: Prop
+  source_name: Shield3
+  source_model: models/Props/Shield.ABC
+  source_skin: Skins/Props/shield4.dtx
+  model_asset: models/props/shield.glb
+  position:
+    x: -1679
+    y: 10102
+    z: 3318
+  rotation_quat:
+    x: 0.7071068
+    y: 0
+    z: 0
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:340
+  source_ref: objects/340
+  source_kind: mm9_dat_object
+  source_object_index: 340
+  source_class: Prop
+  source_name: Armor0
+  source_model: models/Props/Suitofarmor01.ABC
+  source_skin: Skins/Props/AmoredSuitPlain.dtx
+  model_asset: models/props/suitofarmor01.glb
+  position:
+    x: -1065
+    y: 10158
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:341
+  source_ref: objects/341
+  source_kind: mm9_dat_object
+  source_object_index: 341
+  source_class: Prop
+  source_name: Armor2
+  source_model: models/Props/Suitofarmor01.ABC
+  source_skin: Skins/Props/AmoredSuitPlain.dtx
+  model_asset: models/props/suitofarmor01.glb
+  position:
+    x: -328
+    y: 10158
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:342
+  source_ref: objects/342
+  source_kind: mm9_dat_object
+  source_object_index: 342
+  source_class: Prop
+  source_name: Target2
+  source_model: models/Props/Training_Archery1.ABC
+  source_skin: Skins/Props/Training_Archery.dtx
+  model_asset: models/props/training_archery1.glb
+  position:
+    x: -2949
+    y: 5571
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:343
+  source_ref: objects/343
+  source_kind: mm9_dat_object
+  source_object_index: 343
+  source_class: Prop
+  source_name: Target0
+  source_model: models/Props/Training_Archery1.ABC
+  source_skin: Skins/Props/Training_Archery.dtx
+  model_asset: models/props/training_archery1.glb
+  position:
+    x: -3277
+    y: 6226
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:344
+  source_ref: objects/344
+  source_kind: mm9_dat_object
+  source_object_index: 344
+  source_class: Prop
+  source_name: Target1
+  source_model: models/Props/Training_Archery1.ABC
+  source_skin: Skins/Props/Training_Archery.dtx
+  model_asset: models/props/training_archery1.glb
+  position:
+    x: -3113
+    y: 5898
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:345
+  source_ref: objects/345
+  source_kind: mm9_dat_object
+  source_object_index: 345
+  source_class: Prop
+  source_name: SpinningDummy0
+  source_model: models/Props/Training_SpinDummy1.ABC
+  source_skin: Skins/Props/Training_SpinDummy1.dtx
+  model_asset: models/props/training_spindummy1.glb
+  position:
+    x: -5571
+    y: 8192
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:346
+  source_ref: objects/346
+  source_kind: mm9_dat_object
+  source_object_index: 346
+  source_class: Prop
+  source_name: SpinningDummy1
+  source_model: models/Props/Training_SpinDummy1.ABC
+  source_skin: Skins/Props/Training_SpinDummy1.dtx
+  model_asset: models/props/training_spindummy1.glb
+  position:
+    x: -5571
+    y: 7537
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:347
+  source_ref: objects/347
+  source_kind: mm9_dat_object
+  source_object_index: 347
+  source_class: Prop
+  source_name: SpinningDummy2
+  source_model: models/Props/Training_SpinDummy1.ABC
+  source_skin: Skins/Props/Training_SpinDummy1.dtx
+  model_asset: models/props/training_spindummy1.glb
+  position:
+    x: -5571
+    y: 6881
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:348
+  source_ref: objects/348
+  source_kind: mm9_dat_object
+  source_object_index: 348
+  source_class: Prop
+  source_name: Strawdummyrack0
+  source_model: models/Props/Training_StrawDummy2_L.ABC
+  source_skin: Skins/Props/Training_StrawDummy1.dtx
+  model_asset: models/props/training_strawdummy2_l.glb
+  position:
+    x: -5601
+    y: 5161
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:349
+  source_ref: objects/349
+  source_kind: mm9_dat_object
+  source_object_index: 349
+  source_class: Prop
+  source_name: Strawdummyrack1
+  source_model: models/Props/Training_StrawDummy2_C.ABC
+  source_skin: Skins/Props/Training_StrawDummy1.dtx
+  model_asset: models/props/training_strawdummy2_c.glb
+  position:
+    x: -5407
+    y: 5161
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:350
+  source_ref: objects/350
+  source_kind: mm9_dat_object
+  source_object_index: 350
+  source_class: Prop
+  source_name: Strawdummyrack2
+  source_model: models/Props/Training_StrawDummy2_R.ABC
+  source_skin: Skins/Props/Training_StrawDummy1.dtx
+  model_asset: models/props/training_strawdummy2_r.glb
+  position:
+    x: -5202
+    y: 5161
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:351
+  source_ref: objects/351
+  source_kind: mm9_dat_object
+  source_object_index: 351
+  source_class: Prop
+  source_name: Mount2
+  source_model: models/Props/Training_Mount.ABC
+  source_skin: Skins/Props/Training_Mount.dtx
+  model_asset: models/props/training_mount.glb
+  position:
+    x: -4260
+    y: 7864
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:352
+  source_ref: objects/352
+  source_kind: mm9_dat_object
+  source_object_index: 352
+  source_class: Prop
+  source_name: Mount1
+  source_model: models/Props/Training_Mount.ABC
+  source_skin: Skins/Props/Training_Mount.dtx
+  model_asset: models/props/training_mount.glb
+  position:
+    x: -4260
+    y: 8192
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:353
+  source_ref: objects/353
+  source_kind: mm9_dat_object
+  source_object_index: 353
+  source_class: Prop
+  source_name: Mount0
+  source_model: models/Props/Training_Mount.ABC
+  source_skin: Skins/Props/Training_Mount.dtx
+  model_asset: models/props/training_mount.glb
+  position:
+    x: -4260
+    y: 8520
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:354
+  source_ref: objects/354
+  source_kind: mm9_dat_object
+  source_object_index: 354
+  source_class: Prop
+  source_name: Target3
+  source_model: models/Props/Training_Archery1.ABC
+  source_skin: Skins/Props/Training_Archery.dtx
+  model_asset: models/props/training_archery1.glb
+  position:
+    x: -2949
+    y: 5243
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:355
+  source_ref: objects/355
+  source_kind: mm9_dat_object
+  source_object_index: 355
+  source_class: Prop
+  source_name: Strawdummyrack3
+  source_model: models/Props/Training_StrawDummy2_L.ABC
+  source_skin: Skins/Props/Training_StrawDummy1.dtx
+  model_asset: models/props/training_strawdummy2_l.glb
+  position:
+    x: -4946
+    y: 5161
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:356
+  source_ref: objects/356
+  source_kind: mm9_dat_object
+  source_object_index: 356
+  source_class: Prop
+  source_name: Strawdummyrack4
+  source_model: models/Props/Training_StrawDummy2_C.ABC
+  source_skin: Skins/Props/Training_StrawDummy1.dtx
+  model_asset: models/props/training_strawdummy2_c.glb
+  position:
+    x: -4751
+    y: 5161
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:357
+  source_ref: objects/357
+  source_kind: mm9_dat_object
+  source_object_index: 357
+  source_class: Prop
+  source_name: Strawdummyrack5
+  source_model: models/Props/Training_StrawDummy2_R.ABC
+  source_skin: Skins/Props/Training_StrawDummy1.dtx
+  model_asset: models/props/training_strawdummy2_r.glb
+  position:
+    x: -4547
+    y: 5161
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:358
+  source_ref: objects/358
+  source_kind: mm9_dat_object
+  source_object_index: 358
+  source_class: Prop
+  source_name: Mount3
+  source_model: models/Props/Training_Mount.ABC
+  source_skin: Skins/Props/Training_Mount.dtx
+  model_asset: models/props/training_mount.glb
+  position:
+    x: -4260
+    y: 7537
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:359
+  source_ref: objects/359
+  source_kind: mm9_dat_object
+  source_object_index: 359
+  source_class: Prop
+  source_name: SpinningDummy3
+  source_model: models/Props/Training_SpinDummy1.ABC
+  source_skin: Skins/Props/Training_SpinDummy1.dtx
+  model_asset: models/props/training_spindummy1.glb
+  position:
+    x: -5571
+    y: 6226
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:360
+  source_ref: objects/360
+  source_kind: mm9_dat_object
+  source_object_index: 360
+  source_class: Prop
+  source_name: Clawlamp3
+  source_model: models/Props/ClawLamp.ABC
+  source_skin: Skins/Props/ClawLamp.dtx
+  model_asset: models/props/clawlamp.glb
+  position:
+    x: 3891
+    y: 13025
+    z: 3297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:361
+  source_ref: objects/361
+  source_kind: mm9_dat_object
+  source_object_index: 361
+  source_class: Prop
+  source_name: Shelfitems32
+  source_model: models/Props/ShelfItem03.ABC
+  source_skin: Skins/Props/ShelfItem03.dtx
+  model_asset: models/props/shelfitem03.glb
+  position:
+    x: 3891
+    y: 11878
+    z: 3438
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:362
+  source_ref: objects/362
+  source_kind: mm9_dat_object
+  source_object_index: 362
+  source_class: Prop
+  source_name: Shelfitems21
+  source_model: models/Props/ShelfItem02.ABC
+  source_skin: Skins/Props/ShelfItem02.dtx
+  model_asset: models/props/shelfitem02.glb
+  position:
+    x: 3185
+    y: 12943
+    z: 3356
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:363
+  source_ref: objects/363
+  source_kind: mm9_dat_object
+  source_object_index: 363
+  source_class: Prop
+  source_name: Shelfitems23
+  source_model: models/Props/ShelfItem03.ABC
+  source_skin: Skins/Props/ShelfItem03.dtx
+  model_asset: models/props/shelfitem03.glb
+  position:
+    x: 4403
+    y: 12964
+    z: 3433
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:364
+  source_ref: objects/364
+  source_kind: mm9_dat_object
+  source_object_index: 364
+  source_class: Prop
+  source_name: Shelfitems24
+  source_model: models/Props/ShelfItem03.ABC
+  source_skin: Skins/Props/ShelfItem03.dtx
+  model_asset: models/props/shelfitem03.glb
+  position:
+    x: 3174
+    y: 13005
+    z: 3433
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:365
+  source_ref: objects/365
+  source_kind: mm9_dat_object
+  source_object_index: 365
+  source_class: Prop
+  source_name: Herbs4
+  source_model: models/Props/Bag-Herbs1.ABC
+  source_skin: Skins/PickUpItems/Quest/BagHerbs1.dtx
+  model_asset: models/props/bag_herbs1.glb
+  position:
+    x: 4403
+    y: 12984
+    z: 3369
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:366
+  source_ref: objects/366
+  source_kind: mm9_dat_object
+  source_object_index: 366
+  source_class: Prop
+  source_name: Shelfitems25
+  source_model: models/Props/ShelfItem01.ABC
+  source_skin: Skins/Props/ShelfItem01.dtx
+  model_asset: models/props/shelfitem01.glb
+  position:
+    x: 3686
+    y: 13025
+    z: 3438
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:367
+  source_ref: objects/367
+  source_kind: mm9_dat_object
+  source_object_index: 367
+  source_class: Prop
+  source_name: Shelfitems26
+  source_model: models/Props/ShelfItem05.ABC
+  source_skin: Skins/Props/ShelfItem05.dtx
+  model_asset: models/props/shelfitem05.glb
+  position:
+    x: 3645
+    y: 13025
+    z: 3351
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:368
+  source_ref: objects/368
+  source_kind: mm9_dat_object
+  source_object_index: 368
+  source_class: Prop
+  source_name: Shelfitems27
+  source_model: models/Props/ShelfItem03.ABC
+  source_skin: Skins/Props/ShelfItem03.dtx
+  model_asset: models/props/shelfitem03.glb
+  position:
+    x: 3461
+    y: 13025
+    z: 3356
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:369
+  source_ref: objects/369
+  source_kind: mm9_dat_object
+  source_object_index: 369
+  source_class: Prop
+  source_name: Herbs5
+  source_model: models/Props/Bag-Herbs1.ABC
+  source_skin: Skins/PickUpItems/Quest/BagHerbs1.dtx
+  model_asset: models/props/bag_herbs1.glb
+  position:
+    x: 4403
+    y: 12923
+    z: 3369
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:370
+  source_ref: objects/370
+  source_kind: mm9_dat_object
+  source_object_index: 370
+  source_class: Prop
+  source_name: Clawlamp2
+  source_model: models/Props/ClawLamp.ABC
+  source_skin: Skins/Props/ClawLamp.dtx
+  model_asset: models/props/clawlamp.glb
+  position:
+    x: 3174
+    y: 11899
+    z: 3451
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:371
+  source_ref: objects/371
+  source_kind: mm9_dat_object
+  source_object_index: 371
+  source_class: Prop
+  source_name: Shelfitems22
+  source_model: models/Props/ShelfItem01.ABC
+  source_skin: Skins/Props/ShelfItem01.dtx
+  model_asset: models/props/shelfitem01.glb
+  position:
+    x: 3174
+    y: 11981
+    z: 3356
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:372
+  source_ref: objects/372
+  source_kind: mm9_dat_object
+  source_object_index: 372
+  source_class: Prop
+  source_name: Shelfitems28
+  source_model: models/Props/ShelfItem02.ABC
+  source_skin: Skins/Props/ShelfItem02.dtx
+  model_asset: models/props/shelfitem02.glb
+  position:
+    x: 4393
+    y: 11940
+    z: 3274
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:373
+  source_ref: objects/373
+  source_kind: mm9_dat_object
+  source_object_index: 373
+  source_class: Prop
+  source_name: Shelfitems29
+  source_model: models/Props/ShelfItem05.ABC
+  source_skin: Skins/Props/ShelfItem05.dtx
+  model_asset: models/props/shelfitem05.glb
+  position:
+    x: 4116
+    y: 11878
+    z: 3351
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:374
+  source_ref: objects/374
+  source_kind: mm9_dat_object
+  source_object_index: 374
+  source_class: Prop
+  source_name: Herbs6
+  source_model: models/Props/Bag-Herbs1.ABC
+  source_skin: Skins/PickUpItems/Quest/BagHerbs1.dtx
+  model_asset: models/props/bag_herbs1.glb
+  position:
+    x: 3953
+    y: 11878
+    z: 3369
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:375
+  source_ref: objects/375
+  source_kind: mm9_dat_object
+  source_object_index: 375
+  source_class: Prop
+  source_name: Herbs7
+  source_model: models/Props/Bag-Herbs1.ABC
+  source_skin: Skins/PickUpItems/Quest/BagHerbs1.dtx
+  model_asset: models/props/bag_herbs1.glb
+  position:
+    x: 3891
+    y: 11878
+    z: 3369
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:376
+  source_ref: objects/376
+  source_kind: mm9_dat_object
+  source_object_index: 376
+  source_class: Prop
+  source_name: Shelfitems30
+  source_model: models/Props/ShelfItem03.ABC
+  source_skin: Skins/Props/ShelfItem03.dtx
+  model_asset: models/props/shelfitem03.glb
+  position:
+    x: 3666
+    y: 11878
+    z: 3269
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:377
+  source_ref: objects/377
+  source_kind: mm9_dat_object
+  source_object_index: 377
+  source_class: Prop
+  source_name: Shelfitems31
+  source_model: models/Props/ShelfItem05.ABC
+  source_skin: Skins/Props/ShelfItem05.dtx
+  model_asset: models/props/shelfitem05.glb
+  position:
+    x: 4321
+    y: 11878
+    z: 3433
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:379
+  source_ref: objects/379
+  source_kind: mm9_dat_object
+  source_object_index: 379
+  source_class: Prop
+  source_name: Bookcase53
+  source_model: models/Props/Bookcase02ew.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ew.glb
+  position:
+    x: 10732
+    y: 10240
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:380
+  source_ref: objects/380
+  source_kind: mm9_dat_object
+  source_object_index: 380
+  source_class: Prop
+  source_name: Bookcase54
+  source_model: models/Props/Bookcase02ns.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ns.glb
+  position:
+    x: 10578
+    y: 10875
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:381
+  source_ref: objects/381
+  source_kind: mm9_dat_object
+  source_object_index: 381
+  source_class: Prop
+  source_name: Bookcase56
+  source_model: models/Props/Bookcase02ew.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ew.glb
+  position:
+    x: 10772
+    y: 11049
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:382
+  source_ref: objects/382
+  source_kind: mm9_dat_object
+  source_object_index: 382
+  source_class: Prop
+  source_name: Bookcase57
+  source_model: models/Props/Bookcase02ew.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ew.glb
+  position:
+    x: 11059
+    y: 11049
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:383
+  source_ref: objects/383
+  source_kind: mm9_dat_object
+  source_object_index: 383
+  source_class: Prop
+  source_name: Bookcase58
+  source_model: models/Props/Bookcase02ew.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ew.glb
+  position:
+    x: 11141
+    y: 10240
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:384
+  source_ref: objects/384
+  source_kind: mm9_dat_object
+  source_object_index: 384
+  source_class: Prop
+  source_name: Bench8
+  source_model: models/Props/pew2ns.abc
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2ns.glb
+  position:
+    x: -5489
+    y: 14418
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:385
+  source_ref: objects/385
+  source_kind: mm9_dat_object
+  source_object_index: 385
+  source_class: Prop
+  source_name: Bench2
+  source_model: models/Props/pew2ns.abc
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2ns.glb
+  position:
+    x: -5489
+    y: 13844
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:386
+  source_ref: objects/386
+  source_kind: mm9_dat_object
+  source_object_index: 386
+  source_class: Prop
+  source_name: Bench3
+  source_model: models/Props/pew2ns.abc
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2ns.glb
+  position:
+    x: -5243
+    y: 14418
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:387
+  source_ref: objects/387
+  source_kind: mm9_dat_object
+  source_object_index: 387
+  source_class: Prop
+  source_name: Bench4
+  source_model: models/Props/pew2ns.abc
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2ns.glb
+  position:
+    x: -5243
+    y: 13844
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:388
+  source_ref: objects/388
+  source_kind: mm9_dat_object
+  source_object_index: 388
+  source_class: Prop
+  source_name: Bench5
+  source_model: models/Props/pew2ns.abc
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2ns.glb
+  position:
+    x: -4997
+    y: 14418
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:389
+  source_ref: objects/389
+  source_kind: mm9_dat_object
+  source_object_index: 389
+  source_class: Prop
+  source_name: Bench6
+  source_model: models/Props/pew2ns.abc
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2ns.glb
+  position:
+    x: -4997
+    y: 13844
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:390
+  source_ref: objects/390
+  source_kind: mm9_dat_object
+  source_object_index: 390
+  source_class: Prop
+  source_name: Podium1
+  source_model: models/Props/Podium01.ABC
+  source_skin: Skins/Props/Podium01.dtx
+  model_asset: models/props/podium01.glb
+  position:
+    x: -4710
+    y: 14131
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:391
+  source_ref: objects/391
+  source_kind: mm9_dat_object
+  source_object_index: 391
+  source_class: Prop
+  source_name: Bench7
+  source_model: models/Props/Bench_Large1.ABC
+  source_skin: Skins/Props/Bench_Large1.dtx
+  model_asset: models/props/bench_large1.glb
+  position:
+    x: -4833
+    y: 15196
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:392
+  source_ref: objects/392
+  source_kind: mm9_dat_object
+  source_object_index: 392
+  source_class: Prop
+  source_name: Bench9
+  source_model: models/Props/Bench_Large1.ABC
+  source_skin: Skins/Props/Bench_Large1.dtx
+  model_asset: models/props/bench_large1.glb
+  position:
+    x: -5079
+    y: 13066
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:393
+  source_ref: objects/393
+  source_kind: mm9_dat_object
+  source_object_index: 393
+  source_class: Prop
+  source_name: Bench10
+  source_model: models/Props/Bench_Large1.ABC
+  source_skin: Skins/Props/Bench_Large1.dtx
+  model_asset: models/props/bench_large1.glb
+  position:
+    x: -4690
+    y: 13066
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:394
+  source_ref: objects/394
+  source_kind: mm9_dat_object
+  source_object_index: 394
+  source_class: Prop
+  source_name: Bookcase59
+  source_model: models/Props/Bookcase02ns.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ns.glb
+  position:
+    x: -5425
+    y: 13353
+    z: 3420
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:395
+  source_ref: objects/395
+  source_kind: mm9_dat_object
+  source_object_index: 395
+  source_class: Prop
+  source_name: Bookcase60
+  source_model: models/Props/Bookcase02ns.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ns.glb
+  position:
+    x: -5263
+    y: 14950
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:396
+  source_ref: objects/396
+  source_kind: mm9_dat_object
+  source_object_index: 396
+  source_class: Prop
+  source_name: Vase0
+  source_model: models/Props/Jar04.ABC
+  source_skin: Skins/Props/Pantry-Items02.dtx
+  model_asset: models/props/jar04.glb
+  position:
+    x: 7516
+    y: 6124
+    z: 3297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:397
+  source_ref: objects/397
+  source_kind: mm9_dat_object
+  source_object_index: 397
+  source_class: Prop
+  source_name: Vase1
+  source_model: models/Props/Jar05.ABC
+  source_skin: Skins/Props/Pantry-Items02.dtx
+  model_asset: models/props/jar05.glb
+  position:
+    x: 7608
+    y: 6216
+    z: 3297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:398
+  source_ref: objects/398
+  source_kind: mm9_dat_object
+  source_object_index: 398
+  source_class: Prop
+  source_name: Vase2
+  source_model: models/Props/Jar06.ABC
+  source_skin: Skins/Props/Pantry-Items02.dtx
+  model_asset: models/props/jar06.glb
+  position:
+    x: 7598
+    y: 6144
+    z: 3297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:399
+  source_ref: objects/399
+  source_kind: mm9_dat_object
+  source_object_index: 399
+  source_class: Prop
+  source_name: Vase3
+  source_model: models/Props/Jar02.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/jar02.glb
+  position:
+    x: 7557
+    y: 6164
+    z: 3420
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:400
+  source_ref: objects/400
+  source_kind: mm9_dat_object
+  source_object_index: 400
+  source_class: Prop
+  source_name: Vase4
+  source_model: models/Props/Jar03.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/jar03.glb
+  position:
+    x: 7639
+    y: 6185
+    z: 3420
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:401
+  source_ref: objects/401
+  source_kind: mm9_dat_object
+  source_object_index: 401
+  source_class: Prop
+  source_name: Vase5
+  source_model: models/Props/Jar01.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/jar01.glb
+  position:
+    x: 7547
+    y: 6093
+    z: 3420
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:402
+  source_ref: objects/402
+  source_kind: mm9_dat_object
+  source_object_index: 402
+  source_class: Prop
+  source_name: Bookcase61
+  source_model: models/Props/Bookcase02ew.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ew.glb
+  position:
+    x: 8724
+    y: 6943
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:403
+  source_ref: objects/403
+  source_kind: mm9_dat_object
+  source_object_index: 403
+  source_class: Prop
+  source_name: Bookcase62
+  source_model: models/Props/Bookcase02ns.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ns.glb
+  position:
+    x: 7557
+    y: 5837
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:404
+  source_ref: objects/404
+  source_kind: mm9_dat_object
+  source_object_index: 404
+  source_class: Prop
+  source_name: Barrel7
+  source_model: models/Props/Keg_Beer.ABC
+  source_skin: Skins/Props/Keg_Beer.dtx
+  model_asset: models/props/keg_beer.glb
+  position:
+    x: 11663
+    y: 2826
+    z: 3297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:405
+  source_ref: objects/405
+  source_kind: mm9_dat_object
+  source_object_index: 405
+  source_class: Prop
+  source_name: Barrel1
+  source_model: models/Props/Keg_Beer.ABC
+  source_skin: Skins/Props/Keg_Beer.dtx
+  model_asset: models/props/keg_beer.glb
+  position:
+    x: 11540
+    y: 2826
+    z: 3297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:406
+  source_ref: objects/406
+  source_kind: mm9_dat_object
+  source_object_index: 406
+  source_class: Prop
+  source_name: Barrel2
+  source_model: models/Props/Keg_Beer.ABC
+  source_skin: Skins/Props/Keg_Beer.dtx
+  model_asset: models/props/keg_beer.glb
+  position:
+    x: 11418
+    y: 2826
+    z: 3297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:407
+  source_ref: objects/407
+  source_kind: mm9_dat_object
+  source_object_index: 407
+  source_class: Prop
+  source_name: Pitcher5
+  source_model: models/Props/Pitcher01.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/pitcher01.glb
+  position:
+    x: 11530
+    y: 2826
+    z: 3410
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:408
+  source_ref: objects/408
+  source_kind: mm9_dat_object
+  source_object_index: 408
+  source_class: Prop
+  source_name: Pitcher6
+  source_model: models/Props/Pitcher01.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/pitcher01.glb
+  position:
+    x: 11448
+    y: 2826
+    z: 3410
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:409
+  source_ref: objects/409
+  source_kind: mm9_dat_object
+  source_object_index: 409
+  source_class: Prop
+  source_name: Stein5
+  source_model: models/Props/Stein_Fancy01.ABC
+  source_skin: Skins/Props/Stein_Fancy01.dtx
+  model_asset: models/props/stein_fancy01.glb
+  position:
+    x: 11602
+    y: 2847
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:410
+  source_ref: objects/410
+  source_kind: mm9_dat_object
+  source_object_index: 410
+  source_class: Prop
+  source_name: Stein6
+  source_model: models/Props/Stein_Fancy01.ABC
+  source_skin: Skins/Props/Stein_Fancy01.dtx
+  model_asset: models/props/stein_fancy01.glb
+  position:
+    x: 11622
+    y: 2806
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:411
+  source_ref: objects/411
+  source_kind: mm9_dat_object
+  source_object_index: 411
+  source_class: Prop
+  source_name: Stein7
+  source_model: models/Props/Stein_Fancy01.ABC
+  source_skin: Skins/Props/Stein_Fancy01.dtx
+  model_asset: models/props/stein_fancy01.glb
+  position:
+    x: 11663
+    y: 2847
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:412
+  source_ref: objects/412
+  source_kind: mm9_dat_object
+  source_object_index: 412
+  source_class: Prop
+  source_name: Stein8
+  source_model: models/Props/Stein_Fancy01.ABC
+  source_skin: Skins/Props/Stein_Fancy01.dtx
+  model_asset: models/props/stein_fancy01.glb
+  position:
+    x: 11704
+    y: 2847
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:413
+  source_ref: objects/413
+  source_kind: mm9_dat_object
+  source_object_index: 413
+  source_class: Prop
+  source_name: Barstool11
+  source_model: models/Props/Barstool1.ABC
+  source_skin: Skins/Props/Barstool1.dtx
+  model_asset: models/props/barstool1.glb
+  position:
+    x: 11837
+    y: 2519
+    z: 3236
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:414
+  source_ref: objects/414
+  source_kind: mm9_dat_object
+  source_object_index: 414
+  source_class: Prop
+  source_name: Barstool7
+  source_model: models/Props/Barstool1.ABC
+  source_skin: Skins/Props/Barstool1.dtx
+  model_asset: models/props/barstool1.glb
+  position:
+    x: 11592
+    y: 2519
+    z: 3236
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:415
+  source_ref: objects/415
+  source_kind: mm9_dat_object
+  source_object_index: 415
+  source_class: Prop
+  source_name: Barstool8
+  source_model: models/Props/Barstool1.ABC
+  source_skin: Skins/Props/Barstool1.dtx
+  model_asset: models/props/barstool1.glb
+  position:
+    x: 11346
+    y: 2519
+    z: 3236
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:416
+  source_ref: objects/416
+  source_kind: mm9_dat_object
+  source_object_index: 416
+  source_class: Prop
+  source_name: Stein9
+  source_model: models/Props/Stein_Fancy01.ABC
+  source_skin: Skins/Props/Stein_Fancy01.dtx
+  model_asset: models/props/stein_fancy01.glb
+  position:
+    x: 11305
+    y: 2621
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.98480775
+    w: 0.17364822
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:417
+  source_ref: objects/417
+  source_kind: mm9_dat_object
+  source_object_index: 417
+  source_class: Prop
+  source_name: Plateset11
+  source_model: models/Props/Plate-Set2.ABC
+  source_skin: Skins/Props/Plate2.dtx
+  model_asset: models/props/plate_set2.glb
+  position:
+    x: 11346
+    y: 2601
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: solid
+- instance_id: mm9:thronheimcity:object:418
+  source_ref: objects/418
+  source_kind: mm9_dat_object
+  source_object_index: 418
+  source_class: Prop
+  source_name: Stein10
+  source_model: models/Props/Stein_Fancy01.ABC
+  source_skin: Skins/Props/Stein_Fancy01.dtx
+  model_asset: models/props/stein_fancy01.glb
+  position:
+    x: 11878
+    y: 2621
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42261826
+    w: 0.90630779
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:419
+  source_ref: objects/419
+  source_kind: mm9_dat_object
+  source_object_index: 419
+  source_class: Prop
+  source_name: Chair4
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 11346
+    y: 2130
+    z: 3123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:420
+  source_ref: objects/420
+  source_kind: mm9_dat_object
+  source_object_index: 420
+  source_class: Prop
+  source_name: Chair5
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 11592
+    y: 2130
+    z: 3123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:421
+  source_ref: objects/421
+  source_kind: mm9_dat_object
+  source_object_index: 421
+  source_class: Prop
+  source_name: Chair6
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 11469
+    y: 2007
+    z: 3123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.34202022
+    w: -0.93969259
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:422
+  source_ref: objects/422
+  source_kind: mm9_dat_object
+  source_object_index: 422
+  source_class: Prop
+  source_name: Chair7
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 11469
+    y: 2253
+    z: 3123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.93969263
+    w: -0.34202012
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:423
+  source_ref: objects/423
+  source_kind: mm9_dat_object
+  source_object_index: 423
+  source_class: Prop
+  source_name: Table4
+  source_model: models/Props/TableRound4.ABC
+  source_skin: Skins/Props/TableRound5.dtx
+  model_asset: models/props/tableround4.glb
+  position:
+    x: 11469
+    y: 2130
+    z: 3174
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:424
+  source_ref: objects/424
+  source_kind: mm9_dat_object
+  source_object_index: 424
+  source_class: Prop
+  source_name: Plateset8
+  source_model: models/Props/Plate-Set2.ABC
+  source_skin: Skins/Props/Plate2.dtx
+  model_asset: models/props/plate_set2.glb
+  position:
+    x: 11418
+    y: 2130
+    z: 3246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: solid
+- instance_id: mm9:thronheimcity:object:425
+  source_ref: objects/425
+  source_kind: mm9_dat_object
+  source_object_index: 425
+  source_class: Prop
+  source_name: Plateset9
+  source_model: models/Props/Plate-Set2.ABC
+  source_skin: Skins/Props/Plate2.dtx
+  model_asset: models/props/plate_set2.glb
+  position:
+    x: 11469
+    y: 2181
+    z: 3246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: solid
+- instance_id: mm9:thronheimcity:object:426
+  source_ref: objects/426
+  source_kind: mm9_dat_object
+  source_object_index: 426
+  source_class: Prop
+  source_name: Stein0
+  source_model: models/Props/Stein_Fancy01.ABC
+  source_skin: Skins/Props/Stein_Fancy01.dtx
+  model_asset: models/props/stein_fancy01.glb
+  position:
+    x: 11520
+    y: 2171
+    z: 3246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:427
+  source_ref: objects/427
+  source_kind: mm9_dat_object
+  source_object_index: 427
+  source_class: Prop
+  source_name: Stein1
+  source_model: models/Props/Stein_Fancy01.ABC
+  source_skin: Skins/Props/Stein_Fancy01.dtx
+  model_asset: models/props/stein_fancy01.glb
+  position:
+    x: 11448
+    y: 2089
+    z: 3246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57357643
+    w: 0.81915205
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:428
+  source_ref: objects/428
+  source_kind: mm9_dat_object
+  source_object_index: 428
+  source_class: Prop
+  source_name: Pitcher3
+  source_model: models/Props/Pitcher01.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/pitcher01.glb
+  position:
+    x: 11489
+    y: 2120
+    z: 3246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99619469
+    w: 0.087155801
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:429
+  source_ref: objects/429
+  source_kind: mm9_dat_object
+  source_object_index: 429
+  source_class: Prop
+  source_name: Chair16
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 10854
+    y: 2130
+    z: 3123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:430
+  source_ref: objects/430
+  source_kind: mm9_dat_object
+  source_object_index: 430
+  source_class: Prop
+  source_name: Chair17
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 11100
+    y: 2130
+    z: 3123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:431
+  source_ref: objects/431
+  source_kind: mm9_dat_object
+  source_object_index: 431
+  source_class: Prop
+  source_name: Chair18
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 10977
+    y: 2007
+    z: 3123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:432
+  source_ref: objects/432
+  source_kind: mm9_dat_object
+  source_object_index: 432
+  source_class: Prop
+  source_name: Chair19
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 10977
+    y: 2253
+    z: 3123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:433
+  source_ref: objects/433
+  source_kind: mm9_dat_object
+  source_object_index: 433
+  source_class: Prop
+  source_name: Table5
+  source_model: models/Props/TableRound4.ABC
+  source_skin: Skins/Props/TableRound5.dtx
+  model_asset: models/props/tableround4.glb
+  position:
+    x: 10977
+    y: 2130
+    z: 3174
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:434
+  source_ref: objects/434
+  source_kind: mm9_dat_object
+  source_object_index: 434
+  source_class: Prop
+  source_name: Chair20
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 12001
+    y: 2335
+    z: 3123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:435
+  source_ref: objects/435
+  source_kind: mm9_dat_object
+  source_object_index: 435
+  source_class: Prop
+  source_name: Chair21
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 12083
+    y: 2212
+    z: 3123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:436
+  source_ref: objects/436
+  source_kind: mm9_dat_object
+  source_object_index: 436
+  source_class: Prop
+  source_name: Table6
+  source_model: models/Props/TableRound4.ABC
+  source_skin: Skins/Props/TableRound5.dtx
+  model_asset: models/props/tableround4.glb
+  position:
+    x: 12124
+    y: 2335
+    z: 3174
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:437
+  source_ref: objects/437
+  source_kind: mm9_dat_object
+  source_object_index: 437
+  source_class: Prop
+  source_name: Coatrack1
+  source_model: models/Props/CoatRack2.ABC
+  source_skin: Skins/Props/CoatRack2.dtx
+  model_asset: models/props/coatrack2.glb
+  position:
+    x: 11428
+    y: 1556
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:438
+  source_ref: objects/438
+  source_kind: mm9_dat_object
+  source_object_index: 438
+  source_class: Prop
+  source_name: Coatrack0
+  source_model: models/Props/CoatRack1.ABC
+  source_skin: Skins/Props/CoatRack1.dtx
+  model_asset: models/props/coatrack1.glb
+  position:
+    x: 11835
+    y: 1889
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.3826835
+    w: -0.9238795
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:439
+  source_ref: objects/439
+  source_kind: mm9_dat_object
+  source_object_index: 439
+  source_class: Prop
+  source_name: Barrel4
+  source_model: models/Props/Barrel.ABC
+  source_skin: Skins/Props/Barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: 10573
+    y: 1715
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:440
+  source_ref: objects/440
+  source_kind: mm9_dat_object
+  source_object_index: 440
+  source_class: Prop
+  source_name: Barrel5
+  source_model: models/Props/Barrel.ABC
+  source_skin: Skins/Props/Barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: 10486
+    y: 1843
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheimcity:object:441
+  source_ref: objects/441
+  source_kind: mm9_dat_object
+  source_object_index: 441
+  source_class: Prop
+  source_name: Sack0
+  source_model: models/Props/Sack03.ABC
+  source_skin: Skins/Props/Sack01.dtx
+  model_asset: models/props/sack03.glb
+  position:
+    x: 10744
+    y: 1696
+    z: 3154
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:thronheimcity:object:442
+  source_ref: objects/442
+  source_kind: mm9_dat_object
+  source_object_index: 442
+  source_class: DestructableProp
+  source_name: Flowerboxes3
+  source_model: models/Props/FlowerBoxNS.ABC
+  source_skin: Skins/Props/FlowerBoxNS.dtx
+  model_asset: models/props/flowerboxns.glb
+  position:
+    x: 7823
+    y: -1597
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: solid
+- instance_id: mm9:thronheimcity:object:443
+  source_ref: objects/443
+  source_kind: mm9_dat_object
+  source_object_index: 443
+  source_class: DestructableProp
+  source_name: Flowerboxes5
+  source_model: models/Props/FlowerBoxEW.ABC
+  source_skin: Skins/Props/FlowerBoxNS.dtx
+  model_asset: models/props/flowerboxew.glb
+  position:
+    x: 8028
+    y: -1224
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: solid
+- instance_id: mm9:thronheimcity:object:444
+  source_ref: objects/444
+  source_kind: mm9_dat_object
+  source_object_index: 444
+  source_class: DestructableProp
+  source_name: Flowerboxes6
+  source_model: models/Props/FlowerBoxEW.ABC
+  source_skin: Skins/Props/FlowerBoxNS.dtx
+  model_asset: models/props/flowerboxew.glb
+  position:
+    x: 8028
+    y: -1352
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: solid
+- instance_id: mm9:thronheimcity:object:445
+  source_ref: objects/445
+  source_kind: mm9_dat_object
+  source_object_index: 445
+  source_class: DestructableProp
+  source_name: Flowerboxes7
+  source_model: models/Props/FlowerBoxNS.ABC
+  source_skin: Skins/Props/FlowerBoxNS.dtx
+  model_asset: models/props/flowerboxns.glb
+  position:
+    x: 7823
+    y: -2314
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: solid
+- instance_id: mm9:thronheimcity:object:446
+  source_ref: objects/446
+  source_kind: mm9_dat_object
+  source_object_index: 446
+  source_class: DestructableProp
+  source_name: Flowerboxes10
+  source_model: models/Props/FlowerBoxNS.ABC
+  source_skin: Skins/Props/FlowerBoxNS.dtx
+  model_asset: models/props/flowerboxns.glb
+  position:
+    x: 9370
+    y: -1597
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: solid
+- instance_id: mm9:thronheimcity:object:447
+  source_ref: objects/447
+  source_kind: mm9_dat_object
+  source_object_index: 447
+  source_class: DestructableProp
+  source_name: Flowerboxes12
+  source_model: models/Props/FlowerBoxNS.ABC
+  source_skin: Skins/Props/FlowerBoxNS.dtx
+  model_asset: models/props/flowerboxns.glb
+  position:
+    x: 9370
+    y: -2314
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: solid
+- instance_id: mm9:thronheimcity:object:448
+  source_ref: objects/448
+  source_kind: mm9_dat_object
+  source_object_index: 448
+  source_class: DestructableProp
+  source_name: Flowerboxes13
+  source_model: models/Props/FlowerBoxEW.ABC
+  source_skin: Skins/Props/FlowerBoxNS.dtx
+  model_asset: models/props/flowerboxew.glb
+  position:
+    x: 9175
+    y: -1224
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: solid
+- instance_id: mm9:thronheimcity:object:449
+  source_ref: objects/449
+  source_kind: mm9_dat_object
+  source_object_index: 449
+  source_class: DestructableProp
+  source_name: Flowerboxes14
+  source_model: models/Props/FlowerBoxEW.ABC
+  source_skin: Skins/Props/FlowerBoxNS.dtx
+  model_asset: models/props/flowerboxew.glb
+  position:
+    x: 9175
+    y: -1352
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: solid
+- instance_id: mm9:thronheimcity:object:450
+  source_ref: objects/450
+  source_kind: mm9_dat_object
+  source_object_index: 450
+  source_class: DestructableProp
+  source_name: Flowerboxes17
+  source_model: models/Props/FlowerBoxNS.ABC
+  source_skin: Skins/Props/FlowerBoxNS.dtx
+  model_asset: models/props/flowerboxns.glb
+  position:
+    x: 8950
+    y: -1987
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: solid
+- instance_id: mm9:thronheimcity:object:451
+  source_ref: objects/451
+  source_kind: mm9_dat_object
+  source_object_index: 451
+  source_class: DestructableProp
+  source_name: Flowerboxes18
+  source_model: models/Props/FlowerBoxNS.ABC
+  source_skin: Skins/Props/FlowerBoxNS.dtx
+  model_asset: models/props/flowerboxns.glb
+  position:
+    x: 8950
+    y: -2314
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: solid
+- instance_id: mm9:thronheimcity:object:452
+  source_ref: objects/452
+  source_kind: mm9_dat_object
+  source_object_index: 452
+  source_class: DestructableProp
+  source_name: Flowerboxes20
+  source_model: models/Props/FlowerBoxNS.ABC
+  source_skin: Skins/Props/FlowerBoxNS.dtx
+  model_asset: models/props/flowerboxns.glb
+  position:
+    x: 8253
+    y: -2314
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: solid
+- instance_id: mm9:thronheimcity:object:453
+  source_ref: objects/453
+  source_kind: mm9_dat_object
+  source_object_index: 453
+  source_class: DestructableProp
+  source_name: Flowerboxes19
+  source_model: models/Props/FlowerBoxNS.ABC
+  source_skin: Skins/Props/FlowerBoxNS.dtx
+  model_asset: models/props/flowerboxns.glb
+  position:
+    x: 8253
+    y: -1987
+    z: 3195
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: solid
+- instance_id: mm9:thronheimcity:object:454
+  source_ref: objects/454
+  source_kind: mm9_dat_object
+  source_object_index: 454
+  source_class: DestructableProp
+  source_name: Flowerboxes15
+  source_model: models/Props/FlowerBoxEW.ABC
+  source_skin: Skins/Props/FlowerBoxNS.dtx
+  model_asset: models/props/flowerboxew.glb
+  position:
+    x: 8602
+    y: -2386
+    z: 3604
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: solid
+- instance_id: mm9:thronheimcity:object:457
+  source_ref: objects/457
+  source_kind: mm9_dat_object
+  source_object_index: 457
+  source_class: CandleProp
+  source_name: Wheellight3
+  source_model: models/Props/Chandelier2.ABC
+  source_skin: Skins/Props/Chandelier2.dtx
+  model_asset: models/props/chandelier2.glb
+  position:
+    x: 11622
+    y: 2406
+    z: 3328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:460
+  source_ref: objects/460
+  source_kind: mm9_dat_object
+  source_object_index: 460
+  source_class: CandleProp
+  source_name: Wheellight2
+  source_model: models/Props/Chandelier2.ABC
+  source_skin: Skins/Props/Chandelier2.dtx
+  model_asset: models/props/chandelier2.glb
+  position:
+    x: 11131
+    y: 1915
+    z: 3328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:463
+  source_ref: objects/463
+  source_kind: mm9_dat_object
+  source_object_index: 463
+  source_class: CandleProp
+  source_name: CandleProp12
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: 16261
+    y: 3809
+    z: 3502
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:466
+  source_ref: objects/466
+  source_kind: mm9_dat_object
+  source_object_index: 466
+  source_class: CandleProp
+  source_name: CandleProp13
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: 13783
+    y: 4731
+    z: 3492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:471
+  source_ref: objects/471
+  source_kind: mm9_dat_object
+  source_object_index: 471
+  source_class: CandleProp
+  source_name: WallTorch59
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 11505
+    y: 10752
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:474
+  source_ref: objects/474
+  source_kind: mm9_dat_object
+  source_object_index: 474
+  source_class: CandleProp
+  source_name: WallTorch60
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 10936
+    y: 10214
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:477
+  source_ref: objects/477
+  source_kind: mm9_dat_object
+  source_object_index: 477
+  source_class: CandleProp
+  source_name: WallTorch61
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 927
+    y: 4874
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:480
+  source_ref: objects/480
+  source_kind: mm9_dat_object
+  source_object_index: 480
+  source_class: CandleProp
+  source_name: WallTorch62
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 1761
+    y: 5217
+    z: 3318
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:481
+  source_ref: objects/481
+  source_kind: mm9_dat_object
+  source_object_index: 481
+  source_class: CandleProp
+  source_name: CandleProp24
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: 3789
+    y: 12452
+    z: 3543
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:486
+  source_ref: objects/486
+  source_kind: mm9_dat_object
+  source_object_index: 486
+  source_class: CandleProp
+  source_name: WallTorch63
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -1940
+    y: 10568
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:489
+  source_ref: objects/489
+  source_kind: mm9_dat_object
+  source_object_index: 489
+  source_class: CandleProp
+  source_name: WallTorch64
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -292
+    y: 10568
+    z: 3400
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:490
+  source_ref: objects/490
+  source_kind: mm9_dat_object
+  source_object_index: 490
+  source_class: CandleProp
+  source_name: CandleProp25
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -4895
+    y: 7864
+    z: 3848
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:494
+  source_ref: objects/494
+  source_kind: mm9_dat_object
+  source_object_index: 494
+  source_class: CandleProp
+  source_name: CandleProp26
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -4895
+    y: 5898
+    z: 3848
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:497
+  source_ref: objects/497
+  source_kind: mm9_dat_object
+  source_object_index: 497
+  source_class: CandleProp
+  source_name: CandleProp27
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -3420
+    y: 5734
+    z: 3602
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:500
+  source_ref: objects/500
+  source_kind: mm9_dat_object
+  source_object_index: 500
+  source_class: CandleProp
+  source_name: CandleProp28
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -4915
+    y: 14131
+    z: 3922
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:503
+  source_ref: objects/503
+  source_kind: mm9_dat_object
+  source_object_index: 503
+  source_class: CandleProp
+  source_name: CandleProp29
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -11264
+    y: 14828
+    z: 3727
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:506
+  source_ref: objects/506
+  source_kind: mm9_dat_object
+  source_object_index: 506
+  source_class: CandleProp
+  source_name: CandleProp30
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -9953
+    y: 14828
+    z: 3727
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:509
+  source_ref: objects/509
+  source_kind: mm9_dat_object
+  source_object_index: 509
+  source_class: CandleProp
+  source_name: CandleProp31
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -9503
+    y: 16056
+    z: 3727
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:512
+  source_ref: objects/512
+  source_kind: mm9_dat_object
+  source_object_index: 512
+  source_class: CandleProp
+  source_name: CandleProp32
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -7987
+    y: 16712
+    z: 3686
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:516
+  source_ref: objects/516
+  source_kind: mm9_dat_object
+  source_object_index: 516
+  source_class: CandleProp
+  source_name: WallTorch65
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -8330
+    y: 16753
+    z: 4055
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:519
+  source_ref: objects/519
+  source_kind: mm9_dat_object
+  source_object_index: 519
+  source_class: CandleProp
+  source_name: WallTorch66
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -7439
+    y: 16753
+    z: 4055
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:522
+  source_ref: objects/522
+  source_kind: mm9_dat_object
+  source_object_index: 522
+  source_class: CandleProp
+  source_name: WallTorch67
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 7603
+    y: 6554
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:525
+  source_ref: objects/525
+  source_kind: mm9_dat_object
+  source_object_index: 525
+  source_class: CandleProp
+  source_name: WallTorch68
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 7946
+    y: 6902
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheimcity:object:527
+  source_ref: objects/527
+  source_kind: mm9_dat_object
+  source_object_index: 527
+  source_class: CandleProp
+  source_name: Lamppost34
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 6963
+    y: 41
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:528
+  source_ref: objects/528
+  source_kind: mm9_dat_object
+  source_object_index: 528
+  source_class: CandleProp
+  source_name: Lamppost0
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: -8960
+    y: 15094
+    z: 3482
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:529
+  source_ref: objects/529
+  source_kind: mm9_dat_object
+  source_object_index: 529
+  source_class: CandleProp
+  source_name: Lamppost1
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: -8540
+    y: 15514
+    z: 3523
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:530
+  source_ref: objects/530
+  source_kind: mm9_dat_object
+  source_object_index: 530
+  source_class: CandleProp
+  source_name: Lamppost2
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: -8520
+    y: 13107
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:531
+  source_ref: objects/531
+  source_kind: mm9_dat_object
+  source_object_index: 531
+  source_class: CandleProp
+  source_name: Lamppost3
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: -6554
+    y: 15073
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:532
+  source_ref: objects/532
+  source_kind: mm9_dat_object
+  source_object_index: 532
+  source_class: CandleProp
+  source_name: Lamppost4
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: -5652
+    y: 11633
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:533
+  source_ref: objects/533
+  source_kind: mm9_dat_object
+  source_object_index: 533
+  source_class: CandleProp
+  source_name: Lamppost5
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: -2621
+    y: 12288
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:534
+  source_ref: objects/534
+  source_kind: mm9_dat_object
+  source_object_index: 534
+  source_class: CandleProp
+  source_name: Lamppost6
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: -573
+    y: 14090
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:535
+  source_ref: objects/535
+  source_kind: mm9_dat_object
+  source_object_index: 535
+  source_class: CandleProp
+  source_name: Lamppost7
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: -328
+    y: 11305
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:536
+  source_ref: objects/536
+  source_kind: mm9_dat_object
+  source_object_index: 536
+  source_class: CandleProp
+  source_name: Lamppost8
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: -3523
+    y: 9830
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:537
+  source_ref: objects/537
+  source_kind: mm9_dat_object
+  source_object_index: 537
+  source_class: CandleProp
+  source_name: Lamppost9
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: -2048
+    y: 6963
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:538
+  source_ref: objects/538
+  source_kind: mm9_dat_object
+  source_object_index: 538
+  source_class: CandleProp
+  source_name: Lamppost10
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: -451
+    y: 4833
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:539
+  source_ref: objects/539
+  source_kind: mm9_dat_object
+  source_object_index: 539
+  source_class: CandleProp
+  source_name: Lamppost11
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 819
+    y: 12902
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:540
+  source_ref: objects/540
+  source_kind: mm9_dat_object
+  source_object_index: 540
+  source_class: CandleProp
+  source_name: Lamppost12
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 1966
+    y: 11469
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:541
+  source_ref: objects/541
+  source_kind: mm9_dat_object
+  source_object_index: 541
+  source_class: CandleProp
+  source_name: Lamppost13
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 2949
+    y: 13681
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:542
+  source_ref: objects/542
+  source_kind: mm9_dat_object
+  source_object_index: 542
+  source_class: CandleProp
+  source_name: Lamppost14
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 4669
+    y: 10732
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:543
+  source_ref: objects/543
+  source_kind: mm9_dat_object
+  source_object_index: 543
+  source_class: CandleProp
+  source_name: Lamppost15
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 1884
+    y: 9421
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:544
+  source_ref: objects/544
+  source_kind: mm9_dat_object
+  source_object_index: 544
+  source_class: CandleProp
+  source_name: Lamppost16
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 287
+    y: 9585
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:545
+  source_ref: objects/545
+  source_kind: mm9_dat_object
+  source_object_index: 545
+  source_class: CandleProp
+  source_name: Lamppost17
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 410
+    y: 6963
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:546
+  source_ref: objects/546
+  source_kind: mm9_dat_object
+  source_object_index: 546
+  source_class: CandleProp
+  source_name: Lamppost18
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 2703
+    y: 4833
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:547
+  source_ref: objects/547
+  source_kind: mm9_dat_object
+  source_object_index: 547
+  source_class: CandleProp
+  source_name: Lamppost19
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 5980
+    y: 5079
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:548
+  source_ref: objects/548
+  source_kind: mm9_dat_object
+  source_object_index: 548
+  source_class: CandleProp
+  source_name: Lamppost20
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 9421
+    y: 5161
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:549
+  source_ref: objects/549
+  source_kind: mm9_dat_object
+  source_object_index: 549
+  source_class: CandleProp
+  source_name: Lamppost21
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 7537
+    y: 4178
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:550
+  source_ref: objects/550
+  source_kind: mm9_dat_object
+  source_object_index: 550
+  source_class: CandleProp
+  source_name: Lamppost22
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 9421
+    y: 8602
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:551
+  source_ref: objects/551
+  source_kind: mm9_dat_object
+  source_object_index: 551
+  source_class: CandleProp
+  source_name: Lamppost23
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 9585
+    y: 9748
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:552
+  source_ref: objects/552
+  source_kind: mm9_dat_object
+  source_object_index: 552
+  source_class: CandleProp
+  source_name: Lamppost24
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 9585
+    y: 7045
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:553
+  source_ref: objects/553
+  source_kind: mm9_dat_object
+  source_object_index: 553
+  source_class: CandleProp
+  source_name: Lamppost25
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 12206
+    y: 6881
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:554
+  source_ref: objects/554
+  source_kind: mm9_dat_object
+  source_object_index: 554
+  source_class: CandleProp
+  source_name: Lamppost26
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 13926
+    y: 6062
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:555
+  source_ref: objects/555
+  source_kind: mm9_dat_object
+  source_object_index: 555
+  source_class: CandleProp
+  source_name: Lamppost27
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 14787
+    y: 5120
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:556
+  source_ref: objects/556
+  source_kind: mm9_dat_object
+  source_object_index: 556
+  source_class: CandleProp
+  source_name: Lamppost28
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 13271
+    y: 3891
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:557
+  source_ref: objects/557
+  source_kind: mm9_dat_object
+  source_object_index: 557
+  source_class: CandleProp
+  source_name: Lamppost29
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 14950
+    y: 2826
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:558
+  source_ref: objects/558
+  source_kind: mm9_dat_object
+  source_object_index: 558
+  source_class: CandleProp
+  source_name: Lamppost30
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 13107
+    y: 1884
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:559
+  source_ref: objects/559
+  source_kind: mm9_dat_object
+  source_object_index: 559
+  source_class: CandleProp
+  source_name: Lamppost31
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 13885
+    y: -41
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:560
+  source_ref: objects/560
+  source_kind: mm9_dat_object
+  source_object_index: 560
+  source_class: CandleProp
+  source_name: Lamppost32
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 11141
+    y: 82
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:561
+  source_ref: objects/561
+  source_kind: mm9_dat_object
+  source_object_index: 561
+  source_class: CandleProp
+  source_name: Lamppost33
+  source_model: models/Props/Lamppost3.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost3.glb
+  position:
+    x: 8561
+    y: 0
+    z: 3359
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:920
+  source_ref: objects/920
+  source_kind: mm9_dat_object
+  source_object_index: 920
+  source_class: Prop
+  source_name: Prop18
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: 3147
+    y: 11644
+    z: 3346
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.21558755
+    w: 0.97648452
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:921
+  source_ref: objects/921
+  source_kind: mm9_dat_object
+  source_object_index: 921
+  source_class: Prop
+  source_name: Prop19
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: -11002
+    y: 15248
+    z: 3768
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.21558755
+    w: 0.97648452
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:922
+  source_ref: objects/922
+  source_kind: mm9_dat_object
+  source_object_index: 922
+  source_class: Prop
+  source_name: Prop20
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: 11324
+    y: 2606
+    z: 3346
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.21558755
+    w: 0.97648452
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:923
+  source_ref: objects/923
+  source_kind: mm9_dat_object
+  source_object_index: 923
+  source_class: Prop
+  source_name: Prop21
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: 13820
+    y: 816
+    z: 3346
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.21558755
+    w: 0.97648452
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:949
+  source_ref: objects/949
+  source_kind: mm9_dat_object
+  source_object_index: 949
+  source_class: Prop
+  source_name: Prop22
+  source_model: models/Props/LogsBurning.ABC
+  source_skin: Skins/Props/LogsBurning.dtx
+  model_asset: models/props/logsburning.glb
+  position:
+    x: -11267
+    y: 17475
+    z: 3351
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:950
+  source_ref: objects/950
+  source_kind: mm9_dat_object
+  source_object_index: 950
+  source_class: WellMMIX
+  source_name: WellMMIX0
+  source_model: models/Props/Well.ABC
+  source_skin: Skins/Props/Well.dtx
+  model_asset: models/props/well.glb
+  position:
+    x: 4342
+    y: 13967
+    z: 3351
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:951
+  source_ref: objects/951
+  source_kind: mm9_dat_object
+  source_object_index: 951
+  source_class: Clover
+  source_name: Clover0
+  source_model: models/Props/clover.ABC
+  source_skin: Skins/Props/PlantsandTrees/Clover.dtx
+  model_asset: models/props/clover.glb
+  position:
+    x: 6881
+    y: 12411
+    z: 3133
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:952
+  source_ref: objects/952
+  source_kind: mm9_dat_object
+  source_object_index: 952
+  source_class: Clover
+  source_name: Clover1
+  source_model: models/Props/clover.ABC
+  source_skin: Skins/Props/PlantsandTrees/Clover.dtx
+  model_asset: models/props/clover.glb
+  position:
+    x: 10476
+    y: -2140
+    z: 3133
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:953
+  source_ref: objects/953
+  source_kind: mm9_dat_object
+  source_object_index: 953
+  source_class: Barrel
+  source_name: Barrel0
+  source_model: models/Props/Barrel03.ABC
+  source_skin: Skins/Props/barrel03.dtx
+  model_asset: models/props/barrel03.glb
+  position:
+    x: 9748
+    y: 1352
+    z: 3308
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheimcity:object:954
+  source_ref: objects/954
+  source_kind: mm9_dat_object
+  source_object_index: 954
+  source_class: Barrel
+  source_name: Barrel3
+  source_model: models/Props/Barrel03.ABC
+  source_skin: Skins/Props/barrel03.dtx
+  model_asset: models/props/barrel03.glb
+  position:
+    x: 9236
+    y: 1352
+    z: 3308
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  face_attribute_overrides: []
+  actors: []
+  sprite_objects: []
+  chests: []
+  variables:
+    map:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    decor:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0

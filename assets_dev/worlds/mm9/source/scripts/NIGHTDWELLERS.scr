@@ -1,0 +1,117 @@
+;-------------------------------
+;	NightDwellers.scr
+;	by SJR
+;	Porpoise:slap this baby on a
+;			script object and it will
+;			will spawn bugs, bandits,
+;			and ghosts only at night...
+;-------------------------------
+#include BaseGlobals.inc
+
+#hobject	hMe = 0
+
+#number		xMe = 0
+#number		yMe = 0
+#number		zMe = 0
+
+#hobject	hPlayer = 0
+#number		nQuantity = 2
+#string		sCreatureName = ""
+#hobject	hCreature0 = 0
+#hobject	hCreature1 = 0
+#number		nTemp = 0
+
+#number		SPAWN_DELAY_MINS = 0
+#number		SPAWN_DELAY_HOUR = 0
+#number		REMOVE_DELAY_MINS = 0
+#number		REMOVE_DELAY_HOUR = 0
+
+;-------------------------------
+:Main
+;-------------------------------
+	GetParam 0, sCreatureName
+	GetParam 1, nQuantity
+
+	;;start out spawning at 6:00
+	@M 18 : 0 , SpawnCreatures, SpawnCreatures
+	@M  6 : 0 , RemoveCreatures, RemoveCreatures
+
+	GetMyHandle hMe
+	GetPOS hMe, xMe,yMe,zMe
+
+	Exit TRUE
+
+;-------------------------------
+:SpawnCreatures
+;	check player distance, spawn
+;	if far enough away
+;-------------------------------
+	if( hPlayer==0 )
+		GetPlayerHandle hPlayer
+		if( hPlayer==0 )
+;cprint "NightDwellers.scr retrieved NULL player!"
+			Exit TRUE
+		endif
+	endif
+
+	GetDistance hPlayer, hMe, nTemp
+
+	;;player too close, reschedule
+	if( nTemp<1000 )
+		gosub RescheduleSpawn
+	else
+		Spawn hCreature0, xMe,yMe,zMe, sCreatureName
+		Spawn hCreature1, xMe,yMe,zMe, sCreatureName
+	endif
+
+	Exit TRUE
+
+;-------------------------------
+:RescheduleSpawn
+;	reschedule 15 minutes later
+;-------------------------------
+	GetGameTime SPAWN_DELAY_HOUR, SPAWN_DELAY_MINS
+
+	@M SPAWN_DELAY_HOUR : SPAWN_DELAY_MINS, SpawnCreatures, SpawnCreatures
+
+	Exit TRUE
+
+;-------------------------------
+:RemoveCreatures
+;-------------------------------
+	if( hPlayer==0 )
+		GetPlayerHandle hPlayer
+		if( hPlayer==0 )
+;cprint "NightDwellers.scr retrieved NULL player!"
+			Exit TRUE
+		endif
+	endif
+
+	GetDistance hPlayer, hMe, nTemp
+
+	;;player too close, reschedule
+	if( nTemp<1000 )
+		gosub RescheduleSpawn
+	else
+		if( hCreature0!=0 )
+			RemoveObject hCreature0
+			hCreature0 = NULL
+		endif
+
+		if( hCreature1!=0 )
+			RemoveObject hCreature1
+			hCreature1 = NULL
+		endif
+	endif
+
+	Exit TRUE
+
+;-------------------------------
+:RescheduleDestroy
+;	reschedule 15 minutes later
+;-------------------------------
+	GetGameTime REMOVE_DELAY_HOUR, REMOVE_DELAY_MINS
+
+	@M REMOVE_DELAY_HOUR : REMOVE_DELAY_MINS, RemoveCreatures, RemoveCreatures
+
+	Exit TRUE

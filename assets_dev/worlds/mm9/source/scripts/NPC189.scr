@@ -1,0 +1,69 @@
+;--------------------------------------------------
+;NPC189.scr
+; timmy
+; handles Fland de Allasan A'Lanth a'ryshar voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub GreenMan
+
+
+exit
+
+
+;--------------------------------------------------
+:GreenMan
+;--------------------------------------------------
+
+haskey 263 g_hobject
+if (g_hobject==FALSE)
+	exit
+endif
+getobjecthandle GreenMan0 g_hobject
+walkto g_hobject 256 DoNothing
+exit
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_189.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

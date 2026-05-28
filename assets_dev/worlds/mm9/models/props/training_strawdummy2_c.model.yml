@@ -1,0 +1,121 @@
+schema: openyamm.model3d.v1
+id: training_strawdummy2_c
+model: training_strawdummy2_c.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/TRAINING_STRAWDUMMY2_C.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Straw-Dummy2_C
+  materialIndex: 0
+  lods:
+  - faces: 346
+    vertices: 202
+  - faces: 240
+    vertices: 149
+  - faces: 132
+    vertices: 95
+- name: Frame_C
+  materialIndex: 0
+  lods:
+  - faces: 80
+    vertices: 72
+  - faces: 80
+    vertices: 72
+  - faces: 80
+    vertices: 72
+materials:
+- index: 0
+  texture: skins_preview/props/training_strawdummy1.png
+  runtime_texture: skins/props/training_strawdummy1.dtx
+  preview_texture: skins_preview/props/training_strawdummy1.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/TRAINING_STRAWDUMMY1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: FrameBone_C
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: RopeBone_C
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 4
+    - 5
+    - 6
+  - index: 3
+    name: LeftArmBone_C
+    parent: 2
+    flags: 1
+    children: []
+  - index: 4
+    name: RightArmBone_C
+    parent: 2
+    flags: 1
+    children: []
+  - index: 5
+    name: RightLegBone_C
+    parent: 2
+    flags: 1
+    children: []
+  - index: 6
+    name: LeftLegBone_C
+    parent: 2
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: static_model
+  durationMs: 2500
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Spin_Center
+  durationMs: 2500
+  keyframes: 14
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: static_model
+  extents:
+  - 103.04
+  - 133.12
+  - 56.32
+  origin:
+  - -0.64
+  - 2.56
+  - -10.24
+- name: Spin_Center
+  extents:
+  - 107.52
+  - 133.12
+  - 56.32
+  origin:
+  - 0.0
+  - 2.56
+  - -10.24
+roles:
+- static_model
+source_model: models/props/training_strawdummy2_c.abc

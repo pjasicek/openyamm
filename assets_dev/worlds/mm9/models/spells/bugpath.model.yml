@@ -1,0 +1,71 @@
+schema: openyamm.model3d.v1
+id: bugpath
+model: bugpath.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/SPELLS/BUGPATH.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: nodes
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 6
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Xmain
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Xmid
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Xend
+    parent: 2
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: bugpath
+  durationMs: 8000
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: HidePiece nodes
+animationBindings:
+- name: bugpath
+  extents:
+  - 327.68
+  - 40.96
+  - 40.96
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/spells/bugpath.abc

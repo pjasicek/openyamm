@@ -1,0 +1,598 @@
+format_version: 1
+source_file: NPC277.rude
+rows:
+  - source:
+      file: NPC277.rude
+      row: 1
+    raw_columns:
+      - 277
+      - 277
+      - 1
+      - We'd like to become Experts in Meditation.
+      - Perhaps if you have the skills, you shall find what you seek.
+      - -4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2049
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 277
+      node_id: 277
+      choice_slot: 1
+      prompt: We'd like to become Experts in Meditation.
+      response: Perhaps if you have the skills, you shall find what you seek.
+      next: -4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2049
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -4
+        service: skill_training
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -4
+        service: skill_training
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2049
+        status: raw_value_preserved
+  - source:
+      file: NPC277.rude
+      row: 2
+    raw_columns:
+      - 277
+      - 1
+      - 1
+      - Do you have any news?
+      - Stay the course friends.  You will attain your destiny.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 277
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: Stay the course friends.  You will attain your destiny.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC277.rude
+      row: 3
+    raw_columns:
+      - 277
+      - 277
+      - 2
+      - We'd like to become Masters in Meditation.
+      - Perhaps if you have the skills, you shall find what you seek.
+      - -4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2049
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 277
+      node_id: 277
+      choice_slot: 2
+      prompt: We'd like to become Masters in Meditation.
+      response: Perhaps if you have the skills, you shall find what you seek.
+      next: -4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2049
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -4
+        service: skill_training
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -4
+        service: skill_training
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2049
+        status: raw_value_preserved
+  - source:
+      file: NPC277.rude
+      row: 4
+    raw_columns:
+      - 277
+      - 1
+      - 2
+      - What do you know about adventuring?
+      - Adventuring is a hollow activity.  It is both dangerous and foolhardy.  One cannot attain enlightenment while on the hard road.  If you are adventuring, I suggest you quit.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 277
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about adventuring?
+      response: Adventuring is a hollow activity.  It is both dangerous and foolhardy.  One cannot attain enlightenment while on the hard road.  If you are adventuring, I suggest you quit.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC277.rude
+      row: 5
+    raw_columns:
+      - 277
+      - 1
+      - 3
+      - Where can we become Grandmasters in Meditation?
+      - Seek out Lindisfarne.  There is one who can help you there named Delano A'Lanth.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2050
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 277
+      node_id: 1
+      choice_slot: 3
+      prompt: Where can we become Grandmasters in Meditation?
+      response: Seek out Lindisfarne.  There is one who can help you there named Delano A'Lanth.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2050
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2050
+        status: raw_value_preserved
+  - source:
+      file: NPC277.rude
+      row: 6
+    raw_columns:
+      - 277
+      - 277
+      - 3
+      - We'd like to ask you some questions.
+      - Okay.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 277
+      node_id: 277
+      choice_slot: 3
+      prompt: We'd like to ask you some questions.
+      response: Okay.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC277.rude
+      row: 7
+    raw_columns:
+      - 277
+      - 277
+      - 4
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2049
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 277
+      node_id: 277
+      choice_slot: 4
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2049
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2049
+        status: raw_value_preserved
+  - source:
+      file: NPC277.rude
+      row: 8
+    raw_columns:
+      - 277
+      - 1
+      - 7
+      - Sorry to bother you.
+      - Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2049
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 277
+      node_id: 1
+      choice_slot: 7
+      prompt: Sorry to bother you.
+      response: Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2049
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2049
+        status: raw_value_preserved

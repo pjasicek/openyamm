@@ -1,0 +1,237 @@
+schema: openyamm.model3d.v1
+id: 1000skulls
+model: 1000skulls.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/1000SKULLS.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Circle01
+  materialIndex: 0
+  lods:
+  - faces: 26
+    vertices: 28
+  - faces: 8
+    vertices: 10
+  - faces: 8
+    vertices: 10
+- name: Line09
+  materialIndex: 0
+  lods:
+  - faces: 0
+    vertices: 0
+  - faces: 0
+    vertices: 0
+  - faces: 0
+    vertices: 0
+- name: Circle02
+  materialIndex: 0
+  lods:
+  - faces: 26
+    vertices: 28
+  - faces: 8
+    vertices: 10
+  - faces: 8
+    vertices: 10
+- name: Circle03
+  materialIndex: 0
+  lods:
+  - faces: 26
+    vertices: 28
+  - faces: 8
+    vertices: 10
+  - faces: 8
+    vertices: 10
+- name: Line29
+  materialIndex: 0
+  lods:
+  - faces: 0
+    vertices: 0
+  - faces: 0
+    vertices: 0
+  - faces: 0
+    vertices: 0
+- name: Line30
+  materialIndex: 0
+  lods:
+  - faces: 0
+    vertices: 0
+  - faces: 0
+    vertices: 0
+  - faces: 0
+    vertices: 0
+- name: Line31
+  materialIndex: 0
+  lods:
+  - faces: 0
+    vertices: 0
+  - faces: 0
+    vertices: 0
+  - faces: 0
+    vertices: 0
+- name: Line32
+  materialIndex: 0
+  lods:
+  - faces: 0
+    vertices: 0
+  - faces: 0
+    vertices: 0
+  - faces: 0
+    vertices: 0
+- name: Line33
+  materialIndex: 0
+  lods:
+  - faces: 0
+    vertices: 0
+  - faces: 0
+    vertices: 0
+  - faces: 0
+    vertices: 0
+- name: Line34
+  materialIndex: 0
+  lods:
+  - faces: 0
+    vertices: 0
+  - faces: 0
+    vertices: 0
+  - faces: 0
+    vertices: 0
+- name: Circle04
+  materialIndex: 0
+  lods:
+  - faces: 26
+    vertices: 28
+  - faces: 8
+    vertices: 10
+  - faces: 8
+    vertices: 10
+- name: jaw
+  materialIndex: 0
+  lods:
+  - faces: 86
+    vertices: 45
+  - faces: 68
+    vertices: 36
+  - faces: 32
+    vertices: 18
+- name: skull
+  materialIndex: 0
+  lods:
+  - faces: 220
+    vertices: 112
+  - faces: 208
+    vertices: 106
+  - faces: 140
+    vertices: 72
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+  - index: 1
+    name: Circle01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Line09
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Circle02
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Circle03
+    parent: 0
+    flags: 1
+    children: []
+  - index: 5
+    name: Line29
+    parent: 0
+    flags: 1
+    children: []
+  - index: 6
+    name: Line30
+    parent: 0
+    flags: 1
+    children: []
+  - index: 7
+    name: Line31
+    parent: 0
+    flags: 1
+    children: []
+  - index: 8
+    name: Line32
+    parent: 0
+    flags: 1
+    children: []
+  - index: 9
+    name: Line33
+    parent: 0
+    flags: 1
+    children: []
+  - index: 10
+    name: Line34
+    parent: 0
+    flags: 1
+    children: []
+  - index: 11
+    name: Circle04
+    parent: 0
+    flags: 1
+    children: []
+  - index: 12
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: mapped01
+  durationMs: 600
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: mapped01
+  extents:
+  - 84.48
+  - 102.4
+  - 84.48
+  origin:
+  - 0.0
+  - 48.64
+  - 10.24
+roles:
+- static_model
+source_model: models/props/1000skulls.abc

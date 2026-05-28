@@ -1,0 +1,798 @@
+schema: openyamm.model3d.v1
+id: peasantfemale
+model: peasantfemale.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PEASANTFEMALE.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: NGon01
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 336
+- name: longhair
+  materialIndex: 0
+  lods:
+  - faces: 560
+    vertices: 311
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: FHP Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 38
+    - 67
+    - 70
+  - index: 2
+    name: XCOM_skirt
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 8
+    - 13
+    - 18
+    - 21
+    - 24
+    - 29
+    - 34
+  - index: 3
+    name: xbk_rt
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: xbk_rt1
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: xbk_rt2
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: xbk_rt3
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: xbk_rt4
+    parent: 6
+    flags: 1
+    children: []
+  - index: 8
+    name: xbk_rt_a
+    parent: 2
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: xbk_rt_a1
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: xbk_rt_a2
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: xbk_rt_a3
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: xbk_rt_a4
+    parent: 11
+    flags: 1
+    children: []
+  - index: 13
+    name: xfr
+    parent: 2
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: xfr1
+    parent: 13
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: xfr2
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: xfr3
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: xfr4
+    parent: 16
+    flags: 1
+    children: []
+  - index: 18
+    name: xfr_rt
+    parent: 2
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: xfr_rt1
+    parent: 18
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: xfr_rt2
+    parent: 19
+    flags: 1
+    children: []
+  - index: 21
+    name: xfr_rt_a
+    parent: 2
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: xfr_rt_a1
+    parent: 21
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: xfr_rt_a2
+    parent: 22
+    flags: 1
+    children: []
+  - index: 24
+    name: xrt
+    parent: 2
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: xrt1
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: xrt2
+    parent: 25
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: xrt3
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: xrt4
+    parent: 27
+    flags: 1
+    children: []
+  - index: 29
+    name: xrt_a
+    parent: 2
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: xrt_a1
+    parent: 29
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: xrt_a2
+    parent: 30
+    flags: 1
+    children:
+    - 32
+  - index: 32
+    name: xrt_a3
+    parent: 31
+    flags: 1
+    children:
+    - 33
+  - index: 33
+    name: xrt_a4
+    parent: 32
+    flags: 1
+    children: []
+  - index: 34
+    name: xbk1
+    parent: 2
+    flags: 1
+    children:
+    - 35
+  - index: 35
+    name: xbk2
+    parent: 34
+    flags: 1
+    children:
+    - 36
+  - index: 36
+    name: xbk3
+    parent: 35
+    flags: 1
+    children:
+    - 37
+  - index: 37
+    name: xbk4
+    parent: 36
+    flags: 1
+    children: []
+  - index: 38
+    name: FHP Spine1
+    parent: 1
+    flags: 1
+    children:
+    - 39
+  - index: 39
+    name: FHP Spine2
+    parent: 38
+    flags: 1
+    children:
+    - 40
+  - index: 40
+    name: FHP Spine3
+    parent: 39
+    flags: 1
+    children:
+    - 41
+  - index: 41
+    name: FHP Neck
+    parent: 40
+    flags: 1
+    children:
+    - 42
+    - 55
+    - 61
+  - index: 42
+    name: FHP Head
+    parent: 41
+    flags: 1
+    children:
+    - 43
+    - 46
+  - index: 43
+    name: FHP Ponytail1
+    parent: 42
+    flags: 1
+    children:
+    - 44
+  - index: 44
+    name: FHP Ponytail11
+    parent: 43
+    flags: 1
+    children:
+    - 45
+  - index: 45
+    name: FHP Ponytail12
+    parent: 44
+    flags: 1
+    children: []
+  - index: 46
+    name: XCOM_Hair
+    parent: 42
+    flags: 1
+    children:
+    - 47
+    - 51
+  - index: 47
+    name: xpony_a
+    parent: 46
+    flags: 1
+    children:
+    - 48
+  - index: 48
+    name: xpony_a1
+    parent: 47
+    flags: 1
+    children:
+    - 49
+  - index: 49
+    name: xpony_a2
+    parent: 48
+    flags: 1
+    children:
+    - 50
+  - index: 50
+    name: xpony_a3
+    parent: 49
+    flags: 1
+    children: []
+  - index: 51
+    name: xpony
+    parent: 46
+    flags: 1
+    children:
+    - 52
+  - index: 52
+    name: xpony1
+    parent: 51
+    flags: 1
+    children:
+    - 53
+  - index: 53
+    name: xpony2
+    parent: 52
+    flags: 1
+    children:
+    - 54
+  - index: 54
+    name: xpony3
+    parent: 53
+    flags: 1
+    children: []
+  - index: 55
+    name: FHP L Clavicle
+    parent: 41
+    flags: 1
+    children:
+    - 56
+  - index: 56
+    name: FHP L UpperArm
+    parent: 55
+    flags: 1
+    children:
+    - 57
+  - index: 57
+    name: FHP L Forearm
+    parent: 56
+    flags: 1
+    children:
+    - 58
+  - index: 58
+    name: FHP L Hand
+    parent: 57
+    flags: 1
+    children:
+    - 59
+    - 60
+  - index: 59
+    name: FHP L Finger0
+    parent: 58
+    flags: 1
+    children: []
+  - index: 60
+    name: FHP L Finger1
+    parent: 58
+    flags: 1
+    children: []
+  - index: 61
+    name: FHP R Clavicle
+    parent: 41
+    flags: 1
+    children:
+    - 62
+  - index: 62
+    name: FHP R UpperArm
+    parent: 61
+    flags: 1
+    children:
+    - 63
+  - index: 63
+    name: FHP R Forearm
+    parent: 62
+    flags: 1
+    children:
+    - 64
+  - index: 64
+    name: FHP R Hand
+    parent: 63
+    flags: 1
+    children:
+    - 65
+    - 66
+  - index: 65
+    name: FHP R Finger0
+    parent: 64
+    flags: 1
+    children: []
+  - index: 66
+    name: FHP R Finger1
+    parent: 64
+    flags: 1
+    children: []
+  - index: 67
+    name: FHP L Calf
+    parent: 1
+    flags: 1
+    children:
+    - 68
+  - index: 68
+    name: FHP L Foot
+    parent: 67
+    flags: 1
+    children:
+    - 69
+  - index: 69
+    name: FHP L Toe0
+    parent: 68
+    flags: 1
+    children: []
+  - index: 70
+    name: FHP R Calf
+    parent: 1
+    flags: 1
+    children:
+    - 71
+  - index: 71
+    name: FHP R Foot
+    parent: 70
+    flags: 1
+    children:
+    - 72
+  - index: 72
+    name: FHP R Toe0
+    parent: 71
+    flags: 1
+    children: []
+sockets:
+- name: RHand1
+  node: 66
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.04727449268102646
+  - 0.8440912961959839
+  - -0.04000590741634369
+  - 0.5326111316680908
+- name: LHand1
+  node: 60
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.9201448559761047
+  - 0.0829651802778244
+  - 0.38193798065185547
+  - 0.025103189051151276
+animations:
+- name: stand1
+  durationMs: 2500
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: Walk
+  durationMs: 900
+  keyframes: 19
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 174
+    event: footstep
+  - timeMs: 552
+    event: footstep
+- name: run
+  durationMs: 766
+  keyframes: 17
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 333
+    event: footstep
+  - timeMs: 733
+    event: footstepd
+- name: Fidget3
+  durationMs: 3033
+  keyframes: 31
+  interpolationTimeMs: 200
+  events: []
+- name: Fidget4
+  durationMs: 2366
+  keyframes: 23
+  interpolationTimeMs: 200
+  events: []
+- name: Conv1
+  durationMs: 3366
+  keyframes: 40
+  interpolationTimeMs: 200
+  events: []
+- name: Conv2
+  durationMs: 3366
+  keyframes: 36
+  interpolationTimeMs: 200
+  events: []
+- name: Conv3
+  durationMs: 8633
+  keyframes: 78
+  interpolationTimeMs: 200
+  events: []
+- name: Yawn
+  durationMs: 5766
+  keyframes: 55
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 500
+    event: playanimsound
+- name: Wash
+  durationMs: 1366
+  keyframes: 6
+  interpolationTimeMs: 200
+  events: []
+- name: Washfidget
+  durationMs: 1700
+  keyframes: 11
+  interpolationTimeMs: 200
+  events: []
+- name: wipe
+  durationMs: 2033
+  keyframes: 13
+  interpolationTimeMs: 200
+  events: []
+- name: wipefidget
+  durationMs: 2033
+  keyframes: 19
+  interpolationTimeMs: 200
+  events: []
+- name: Wince1
+  durationMs: 2033
+  keyframes: 23
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 166
+    event: playanimsound
+- name: Wince2
+  durationMs: 2700
+  keyframes: 41
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 133
+    event: playanimsound
+- name: Die1
+  durationMs: 1866
+  keyframes: 30
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 266
+    event: playanimsound
+  - timeMs: 1433
+    event: deaddims 0 0 0; playdeathsound
+- name: Die2
+  durationMs: 1700
+  keyframes: 36
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 133
+    event: playanimsound
+  - timeMs: 1333
+    event: playdeathsound
+- name: cowerstart
+  durationMs: 533
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: cower
+  durationMs: 866
+  keyframes: 7
+  interpolationTimeMs: 200
+  events: []
+- name: cowerend
+  durationMs: 533
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: stand1
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Walk
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: run
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: Fidget3
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Fidget4
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Conv1
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Conv2
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Conv3
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Yawn
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Wash
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Washfidget
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: wipe
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: wipefidget
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Wince1
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Wince2
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Die1
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Die2
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: cowerstart
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: cower
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: cowerend
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+roles:
+- static_model
+source_model: models/peasantfemale.abc

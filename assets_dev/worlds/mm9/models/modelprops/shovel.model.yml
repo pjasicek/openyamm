@@ -1,0 +1,68 @@
+schema: openyamm.model3d.v1
+id: shovel
+model: shovel.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/MODELPROPS/SHOVEL.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 4.023306898564917e+25
+pieces:
+- name: shovel
+  materialIndex: 0
+  lods:
+  - faces: 46
+    vertices: 27
+  - faces: 34
+    vertices: 21
+  - faces: 22
+    vertices: 15
+materials:
+- index: 0
+  texture: skins_preview/modelprops/shovel.png
+  runtime_texture: skins/modelprops/shovel.dtx
+  preview_texture: skins_preview/modelprops/shovel.png
+  source: mm9/extracted/SKINS/SKINS/MODELPROPS/SHOVEL.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: shovelprop
+  durationMs: 166
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: shovelprop
+  extents:
+  - 2.56
+  - 76.8
+  - 2.56
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/modelprops/shovel.abc

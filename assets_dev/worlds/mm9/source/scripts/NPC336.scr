@@ -1,0 +1,329 @@
+;--------------------------------------------------
+;NPC336.scr
+; timmy
+; handles Skraelos voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include sixfires.inc
+
+#string			sLocation
+#number			nConfession
+#number			bConverse
+#number			nAbsolution
+
+#string			On = On
+
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+
+if (sLocation==Hall)
+	Gosub Teleport
+	Gosub sixfires
+endif
+
+haskey 392 g_ntemp
+if (g_ntemp==TRUE)
+	gosub failure
+	exit
+endif
+
+
+haskey 380 g_ntemp
+if (g_ntemp==TRUE)
+	Gosub Guilt
+endif
+
+haskey 382 g_ntemp
+if (g_ntemp==TRUE)
+	gosub Confession
+endif
+
+haskey 384 g_ntemp
+if (g_ntemp==TRUE)
+	gosub Suffering
+endif
+
+haskey 386 g_ntemp
+if (g_ntemp==TRUE)
+	gosub Retribution
+endif
+
+haskey 388 g_ntemp
+if (g_ntemp==TRUE)
+	gosub Absolution
+endif
+
+
+haskey 390 g_ntemp
+if (g_ntemp==TRUE)
+	gosub Rebirth
+endif
+
+
+
+
+
+exit
+
+;--------------------------------------------------
+:Failure
+;--------------------------------------------------
+takekey 379
+takekey 380
+takekey 381
+takekey 382
+takekey 383
+takekey 384
+takekey 385
+takekey 386
+takekey 387
+takekey 388
+takekey 389
+takekey 390
+takekey 391
+takekey 392
+getobjecthandle ExitTrigger0 g_hobject
+trigger g_hobject trigger
+
+exit
+;--------------------------------------------------
+:Teleport
+;--------------------------------------------------
+
+haskey 102 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+
+haskey 101 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle exittrigger0 g_hobject
+	trigger g_hobject trigger
+	givekey 379
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:sixfires
+;--------------------------------------------------
+;****************
+;six fires Quest
+;****************
+
+
+Haskey 189, g_ntemp
+if (g_ntemp==FALSE, )
+; checks to see if they already have got the reward.
+	Haskey 103, g_ntemp
+	if (g_ntemp==TRUE, )
+	; checks to see if they've On the six fires
+		GiveKey 189
+		GiveExp 52000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+
+		; gives reward
+
+		exit
+	endif
+endif
+
+exit
+
+
+;End six fires quest
+;******************
+exit
+
+;-------------------------------------
+:DoRude
+;-------------------------------------
+
+givekey 379
+
+OnFoundPlayer
+DoRude 336
+Playsound \voices\npc\NPC_336.wav, DoNothing, 100, 240, FALSE, 100
+exit
+
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+if (sLocation!=Afterworld)
+	haskey 391 g_ntemp
+	if (g_ntemp==FALSE)	
+		haskey 390 g_ntemp
+		if (g_ntemp==TRUE)
+			gosub OnReborn
+		endif
+	endif
+endif
+
+
+haskey 382 g_ntemp
+if (g_ntemp==TRUE)
+	set nConfession, 0
+	haskey 501 g_ntemp
+	if (g_ntemp==TRUE)
+		add nConfession 1
+	endif
+
+	haskey 502 g_ntemp
+	if (g_ntemp==TRUE)
+		add nConfession 1
+	endif
+
+	haskey 503 g_ntemp
+	if (g_ntemp==TRUE)
+		add nConfession 1
+	endif
+
+	haskey 504 g_ntemp
+	if (g_ntemp==TRUE)
+		add nConfession 1
+	endif
+
+	haskey 505 g_ntemp
+	if (g_ntemp==TRUE)
+		add nConfession 1
+	endif
+
+	haskey 506 g_ntemp
+	if (g_ntemp==TRUE)
+		add nConfession 1
+	endif
+
+	if (nConfession==6)
+
+		haskey 383 g_ntemp
+		if (g_ntemp==FALSE)
+			givekey 383
+			getobjecthandle confessionFire g_hobject
+			trigger g_hobject On
+			GiveExp 52000
+			Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		endif
+	endif
+endif
+
+haskey 388 g_ntemp
+if (g_ntemp==TRUE)
+	set nAbsolution, 0
+
+	hasitem 563 g_ntemp
+	if (g_ntemp==TRUE)
+		add nAbsolution 1
+	endif
+
+	hasitem 564 g_ntemp
+	if (g_ntemp==TRUE)
+		add nAbsolution 1
+	endif
+
+	hasitem 565 g_ntemp
+	if (g_ntemp==TRUE)
+		add nAbsolution 1
+	endif
+
+	hasitem 566 g_ntemp
+	if (g_ntemp==TRUE)
+		add nAbsolution 1
+	endif
+
+	hasitem 567 g_ntemp
+	if (g_ntemp==TRUE)
+		add nAbsolution 1
+	endif
+
+	if (nAbsolution==5)
+
+	haskey 389 g_ntemp
+	if (g_ntemp==TRUE)
+		exit
+	endif
+
+
+		takeitem 563
+		takeitem 564
+		takeitem 565
+		takeitem 566
+		takeitem 567
+
+		givekey 389
+		getobjecthandle AbsolutionFire g_hobject
+		trigger g_hobject On
+		GiveExp 52000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+	endif
+endif
+exit
+
+
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+
+if (sLocation==Afterworld)
+	OnFoundPlayer DoRude
+	exit
+endif
+
+exit
+
+;-------------------------------------
+:OnDone
+;-------------------------------------
+
+Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+givekey 381
+gosub end
+exit
+
+
+;-------------------------------------
+:OnReborn
+;-------------------------------------
+
+getobjecthandle RebirthFire g_hobject
+trigger g_hobject On
+haskey 391 g_ntemp
+if (g_ntemp==FALSE)
+	GiveExp 52000
+endif
+Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+givekey 391
+givekey 102
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+getparam 0 sLocation
+OnRudeExit OnRude
+AddTrigger use, OnUse
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+AddTrigger Reborn OnReborn
+Addtrigger Done OnDone
+exit
+

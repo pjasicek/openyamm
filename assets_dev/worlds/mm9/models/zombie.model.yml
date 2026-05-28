@@ -1,0 +1,660 @@
+schema: openyamm.model3d.v1
+id: zombie
+model: zombie.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/ZOMBIE.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: zombie
+  materialIndex: 0
+  lods:
+  - faces: 663
+    vertices: 359
+- name: right arm
+  materialIndex: 0
+  lods:
+  - faces: 96
+    vertices: 55
+materials:
+- index: 0
+  texture: skins_preview/zombie1.png
+  runtime_texture: skins/zombie1.dtx
+  preview_texture: skins_preview/zombie1.png
+  source: mm9/extracted/SKINS/SKINS/ZOMBIE1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 24
+    - 28
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bip01 Spine3
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Bip01 Neck
+    parent: 5
+    flags: 1
+    children:
+    - 7
+    - 8
+    - 16
+  - index: 7
+    name: Bip01 Head
+    parent: 6
+    flags: 1
+    children: []
+  - index: 8
+    name: Bip01 L Clavicle
+    parent: 6
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bip01 L UpperArm
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bip01 L Forearm
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bip01 L Hand
+    parent: 10
+    flags: 1
+    children:
+    - 12
+    - 14
+  - index: 12
+    name: Bip01 L Finger0
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bip01 L Finger01
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Bip01 L Finger1
+    parent: 11
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 L Finger11
+    parent: 14
+    flags: 1
+    children: []
+  - index: 16
+    name: Bip01 R Clavicle
+    parent: 6
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bip01 R UpperArm
+    parent: 16
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Bip01 R Forearm
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bip01 R Hand
+    parent: 18
+    flags: 1
+    children:
+    - 20
+    - 22
+  - index: 20
+    name: Bip01 R Finger0
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bip01 R Finger01
+    parent: 20
+    flags: 1
+    children: []
+  - index: 22
+    name: Bip01 R Finger1
+    parent: 19
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bip01 R Finger11
+    parent: 22
+    flags: 1
+    children: []
+  - index: 24
+    name: Bip01 L Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bip01 L Calf
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: Bip01 L Foot
+    parent: 25
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Bip01 L Toe0
+    parent: 26
+    flags: 1
+    children: []
+  - index: 28
+    name: Bip01 R Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Bip01 R Calf
+    parent: 28
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Bip01 R Foot
+    parent: 29
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: Bip01 R Toe0
+    parent: 30
+    flags: 1
+    children: []
+sockets:
+- name: LHand1
+  node: 14
+  translation:
+  - 9.178898315429688
+  - -9.830338745117187
+  - 5.927659301757813
+  rotation:
+  - -0.5965197086334229
+  - 0.5612064599990845
+  - -0.43815895915031433
+  - 0.37044230103492737
+- name: RHand1
+  node: 22
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.561205267906189
+  - 0.5965279936790466
+  - -0.37040233612060547
+  - 0.43818387389183044
+- name: RangeAttack
+  node: 15
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.5654365420341492
+  - 0.5126466155052185
+  - -0.4786788821220398
+  - 0.43398308753967285
+animations:
+- name: static_model
+  durationMs: 66
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand
+  durationMs: 2666
+  keyframes: 9
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 1100
+  keyframes: 34
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 232
+    event: footstep
+  - timeMs: 1100
+    event: footstep
+- name: taunt
+  durationMs: 4100
+  keyframes: 43
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 266
+    event: speakanimsound
+- name: fidget1
+  durationMs: 3666
+  keyframes: 37
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 200
+    event: speakanimsound
+- name: Hattack1
+  durationMs: 1600
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 439
+    event: speakanimsound
+  - timeMs: 533
+    event: Lattack
+- name: Hattack2
+  durationMs: 1500
+  keyframes: 30
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 588
+    event: speakanimsound
+  - timeMs: 618
+    event: Rattack; Lattack
+- name: wince1
+  durationMs: 1400
+  keyframes: 35
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: EndFX
+  - timeMs: 82
+    event: playanimsound
+- name: wince2
+  durationMs: 1500
+  keyframes: 33
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: EndFX
+  - timeMs: 111
+    event: playanimsound
+- name: die1
+  durationMs: 1300
+  keyframes: 16
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  2  84  48; EndFX
+  - timeMs: 66
+    event: Velocity  2  80  41; playanimsound
+  - timeMs: 333
+    event: Velocity  0  5  20
+  - timeMs: 500
+    event: Velocity  0  4  10; playdeathsound
+  - timeMs: 666
+    event: Velocity  0  2  4
+  - timeMs: 833
+    event: Velocity  0  1  1
+  - timeMs: 1066
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: die2
+  durationMs: 1200
+  keyframes: 27
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  2  88 -94; EndFX
+  - timeMs: 66
+    event: playanimsound
+  - timeMs: 200
+    event: Velocity  2  68 -84
+  - timeMs: 333
+    event: Velocity  0  9 -26
+  - timeMs: 400
+    event: playdeathsound
+  - timeMs: 500
+    event: Velocity  0  13 -31
+  - timeMs: 666
+    event: Velocity  0  5  0
+  - timeMs: 833
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: ResurrectSpell
+  durationMs: 2500
+  keyframes: 43
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 163
+    event: speakanimsound
+  - timeMs: 610
+    event: DoFX 1 1
+  - timeMs: 1199
+    event: DoResurrection
+  - timeMs: 1931
+    event: EndFX
+- name: Resurrect
+  durationMs: 1200
+  keyframes: 10
+  interpolationTimeMs: 0
+  events:
+  - timeMs: 140
+    event: speakanimsound
+- name: rAttack1
+  durationMs: 1500
+  keyframes: 30
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 912
+    event: speakanimsound
+  - timeMs: 971
+    event: RangeAttack
+  - timeMs: 1500
+    event: lunge
+- name: rAttack2
+  durationMs: 785
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 283
+    event: speakanimsound
+  - timeMs: 377
+    event: RangeAttack
+- name: coffin
+  durationMs: 5000
+  keyframes: 65
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 100
+    event: speakanimsound
+- name: Wakeup2
+  durationMs: 5000
+  keyframes: 65
+  interpolationTimeMs: 0
+  events:
+  - timeMs: 100
+    event: speakanimsound
+  - timeMs: 403
+    event: SpeakAnimSound
+  - timeMs: 3130
+    event: PreKick
+  - timeMs: 3232
+    event: AtKick;PlayAnimFX
+  - timeMs: 3282
+    event: PostKick
+- name: Coffin2
+  durationMs: 2000
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: static_model
+  extents:
+  - 38.4
+  - 89.60000000000001
+  - 38.4
+  origin:
+  - 0.0
+  - -12.8
+  - 0.0
+- name: stand
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: walk
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: taunt
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -12.8
+- name: fidget1
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: Hattack1
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: Hattack2
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: wince1
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: wince2
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: die1
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -2.56
+- name: die2
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -2.56
+- name: ResurrectSpell
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - 0.0
+- name: Resurrect
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: rAttack1
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: rAttack2
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: coffin
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: Wakeup2
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: Coffin2
+  extents:
+  - 38.4
+  - 87.04
+  - 38.4
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+roles:
+- actor_model
+source_model: models/zombie.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: zombie_zombie1
+  source_skins:
+  - skins/zombie1.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 172
+    number: '180'
+    monster_name: Rotter
+    type_picture: Zombie A
+    base_name: Zombie
+  - table: MONSTERS
+    row: 172
+    number: '180'
+    monster_name: Rotter
+    type_picture: Zombie A
+    base_name: Zombie
+- id: zombie_zombie2
+  source_skins:
+  - skins/zombie2.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 173
+    number: '181'
+    monster_name: Dripper
+    type_picture: Zombie B
+    base_name: Zombie
+  - table: MONSTERS
+    row: 173
+    number: '181'
+    monster_name: Dripper
+    type_picture: Zombie B
+    base_name: Zombie
+- id: zombie_zombie3
+  source_skins:
+  - skins/zombie3.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 174
+    number: '182'
+    monster_name: Zombie
+    type_picture: Zombie C
+    base_name: Zombie
+  - table: MONSTERS
+    row: 174
+    number: '182'
+    monster_name: Zombie
+    type_picture: Zombie C
+    base_name: Zombie

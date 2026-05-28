@@ -1,0 +1,730 @@
+format_version: 1
+source_file: NPC420.rude
+rows:
+  - source:
+      file: NPC420.rude
+      row: 1
+    raw_columns:
+      - 420
+      - 3
+      - 1
+      - Goodbye.
+      - blank
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 420
+      node_id: 3
+      choice_slot: 1
+      prompt: Goodbye.
+      response: blank
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC420.rude
+      row: 2
+    raw_columns:
+      - 420
+      - 2
+      - 1
+      - Sure!  We'd love to!
+      - Great!
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 9505
+      - 9506
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 420
+      node_id: 2
+      choice_slot: 1
+      prompt: Sure!  We'd love to!
+      response: Great!
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 9505
+        c17: 9506
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 9505
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c17
+        value: 9506
+        status: raw_value_preserved
+  - source:
+      file: NPC420.rude
+      row: 3
+    raw_columns:
+      - 420
+      - 1
+      - 1
+      - Do you have any news?
+      - I'm a little worried about the harmony I've created in my theme.  It has a regression in it.  I know that you're not supposed to do that, but it sounds so good!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 420
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I'm a little worried about the harmony I've created in my theme.  It has a regression in it.  I know that you're not supposed to do that, but it sounds so good!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC420.rude
+      row: 4
+    raw_columns:
+      - 420
+      - 420
+      - 1
+      - What are you doing all the way up here?
+      - I'm writing music!  I've been working on a theme based upon our call to prayer.  I've heard those darned bells so many times, I can't get their melody out of my head!  So I figured I'd go with it.  Would you like to hear it?
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 9505
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 420
+      node_id: 420
+      choice_slot: 1
+      prompt: What are you doing all the way up here?
+      response: I'm writing music!  I've been working on a theme based upon our call to prayer.  I've heard those darned bells so many times, I can't get their melody out of my head!  So I figured I'd go with it.  Would you like to hear it?
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 9505
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 9505
+        status: raw_value_preserved
+  - source:
+      file: NPC420.rude
+      row: 5
+    raw_columns:
+      - 420
+      - 2
+      - 2
+      - Perhaps another time.
+      - Alright.
+      - 420
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 420
+      node_id: 2
+      choice_slot: 2
+      prompt: Perhaps another time.
+      response: Alright.
+      next: 420
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 420
+  - source:
+      file: NPC420.rude
+      row: 6
+    raw_columns:
+      - 420
+      - 1
+      - 2
+      - What do you know about Lindisfarne?
+      - I like it here!  Not many people come up here to the rafters, so I can write in peace.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 420
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about Lindisfarne?
+      response: I like it here!  Not many people come up here to the rafters, so I can write in peace.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC420.rude
+      row: 7
+    raw_columns:
+      - 420
+      - 420
+      - 2
+      - Can we ask you some questions?
+      - Sure!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 420
+      node_id: 420
+      choice_slot: 2
+      prompt: Can we ask you some questions?
+      response: Sure!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC420.rude
+      row: 8
+    raw_columns:
+      - 420
+      - 420
+      - 3
+      - We'd like to hear your song again.
+      - Wonderful!  I'd be happy to play it for you.
+      - 3
+      - 9505
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 9506
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 420
+      node_id: 420
+      choice_slot: 3
+      prompt: We'd like to hear your song again.
+      response: Wonderful!  I'd be happy to play it for you.
+      next: 3
+      raw_fields:
+        c07: 9505
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 9506
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 9505
+            qbit_id: 18505
+            state_id: mm9.keys.9505
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 9505
+          qbit_id: 18505
+          state_id: mm9.keys.9505
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 9506
+        status: raw_value_preserved
+  - source:
+      file: NPC420.rude
+      row: 9
+    raw_columns:
+      - 420
+      - 1
+      - 3
+      - Thanks for your time.
+      - Goodbye
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 420
+      node_id: 1
+      choice_slot: 3
+      prompt: Thanks for your time.
+      response: Goodbye
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC420.rude
+      row: 10
+    raw_columns:
+      - 420
+      - 420
+      - 7
+      - Thanks for your time.
+      - Goodbye
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 420
+      node_id: 420
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Goodbye
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

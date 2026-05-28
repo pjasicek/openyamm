@@ -1,0 +1,118 @@
+;----------------------------------------------
+;EboraMines.scr
+; By L. Dean Gibson II
+; Ebora busts out of the mines!
+;
+; edited by Bones 5/26/03
+; TELP Patch 1.3 -- Prevents lockup if in TB mode.
+;----------------------------------------------
+
+#include globals.inc
+#include flags.inc
+
+
+#number		nVarX
+#number		nVarY
+#number		nVarZ
+
+#string		SPELL_COLUMNOFFIRE = "spell-column of fire"
+
+
+;------------------------------------------
+:FreeAtLast
+;------------------------------------------
+
+	; turn letterbox on
+	; turn our camera on
+	; look around
+	; onarrival kill the whole thing
+
+;TraceOn
+	GetObjectHandle EboraCam g_hObject 
+
+	LetterBox 1
+	Trigger g_hObject On
+
+	; turn to target point
+	FaceObject g_hObject, 180
+
+
+	PlayAnim fidget2
+	Wait 1 3 OnFidgetDone
+
+exit
+
+
+;-----------
+:OnFidgetDone
+;-----------
+
+	PlayAnim Taunt
+	RollOverText 8, 2, 7000, 3000, 100, 500
+	Wait 1 5 Disappear
+
+exit
+
+;----------------
+:Disappear
+;----------------
+
+	PlayAnim Rattack1
+	Wait 1 2 SpellDone
+
+Exit
+
+;-------------
+:SpellDone
+;-------------
+	; play sound and vanish
+	GetMyHandle g_hMyObject
+
+	DoClientFX g_hMyObject, SPELL_COLUMNOFFIRE, FALSE, TRUE
+	PlaySound "sounds\spells\column03.wav", DoNothing, 1, 1000, FALSE, 100
+
+	
+	Wait 1 3 EboraDone
+exit
+
+
+
+;----------
+:EboraDone
+;----------
+	GetMyHandle g_hMyObject
+	
+	RemoveObject g_hMyObject
+	LetterBox 0
+	GetObjectHandle EboraCam g_hObject 
+	Trigger g_hObject, Off
+
+Exit
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+	AddTrigger FreeAtLast FreeAtLast
+	OnDamage FreeAtLast
+	SetIdle
+
+exit
+
+;------------------------------------------
+:FreeAtLast
+;	overloaded -- Bones
+;------------------------------------------
+
+	IsTurnBased g_nTemp
+	if g_nTemp == TRUE
+		ScreenFadeOut 1
+		RollOverText 18 0
+		wait 0 1 FreeAtLast
+		Exit
+	endif
+
+	ScreenFadeIn 1
+	goto FreeAtLast 1

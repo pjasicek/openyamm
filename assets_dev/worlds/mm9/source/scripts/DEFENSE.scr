@@ -1,0 +1,43 @@
+;----------------------------------------------
+;defense.scr
+; By Timmy
+; checks to see if the player has killed everything in anskram keep
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+
+
+;-------------------------------------
+:Onuse
+;NOTE this script just completes the quest right now.
+; this is the routine where additional functionality should go
+;-------------------------------------
+haskey 47 g_ntemp ;checks to see if player has done this yet
+
+if (g_ntemp==0,  )
+
+	Haskey 44 keycheck ;checks to see if player is on kill anskram keep Quest
+	if ( keycheck==1,  )
+	
+		givekey, 47 ;gives player finished quest key
+		GiveEXP 1000
+		exit
+	endif
+endif
+exit
+
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Use, Onuse
+Addtrigger disable, Onuse
+exit

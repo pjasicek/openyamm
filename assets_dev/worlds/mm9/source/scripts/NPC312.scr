@@ -1,0 +1,84 @@
+;--------------------------------------------------
+;NPC309.scr
+; timmy
+; handles mary sheepherder voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+#number nTarget
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+if (nTarget==TRUE)
+	target g_htarget
+	OnTargetwithinDist 512 RuntoMe
+	exit
+endif
+
+haskey 468 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+
+haskey 467 g_ntemp
+if (g_ntemp==TRUE)
+	givegold 2
+	giveexp 20000
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+	givekey 468
+	exit
+endif
+
+exit
+
+;--------------------------------------------------
+:ONTarget
+;--------------------------------------------------
+set nTarget TRUE
+getparam 0 g_htarget
+target g_htarget
+OnTargetwithinDist 512 RuntoMe
+exit
+
+;--------------------------------------------------
+:RuntoMe
+;--------------------------------------------------
+
+trigger g_htarget RuntoMe
+givekey 466
+set nTarget, False
+exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+OnTargetWithinDist 512 DoNothing
+
+Playsound voices\NPC\NPC_312.wav, DoNothing, 100, 240, FALSE, 100
+exit
+
+;--------------------------------------------------
+:OnLost
+;--------------------------------------------------
+
+
+exit TRUE
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+OnLostTarget OnLost
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+AddTrigger Target ONTarget
+exit
+

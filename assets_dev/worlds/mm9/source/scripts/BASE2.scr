@@ -1,0 +1,9 @@
+
+#include newbase.inc
+
+:Main
+
+	GetPlayerHandle g_hObject
+	gosub BaseInit
+
+	Exit

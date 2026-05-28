@@ -1,0 +1,65 @@
+;-----------------------------------------------------
+;	1000t_SkHeadShooter.scr
+;	Karl Drown
+;	11-29-01
+;
+;	Shoot fireballs from the eye sockets
+;	of the Skullhead
+;
+;	
+;-----------------------------------------------------
+#include Globals.inc
+
+#hObject 	hMe
+#hObject	hTarget
+
+#number		nCount = 0
+
+#string		sTarget
+
+;-----------------------------------------------------
+:StartShooting
+;-----------------------------------------------------
+;Cprint StartShooting
+	Target hTarget
+	Gosub Fire
+	Exit TRUE
+
+;-----------------------------------------------------
+:Fire
+;-----------------------------------------------------
+;Cprint Fire
+	if(nCount<=0)
+		Gosub StopShooting
+		Exit
+	endif
+	nCount = nCount - 1
+	Trigger hMe, On
+	
+	Wait 0, 1, Fire
+
+	Exit TRUE
+;-----------------------------------------------------
+:StopShooting
+;-----------------------------------------------------
+;Cprint StopShooting
+	Trigger hMe, Off
+	Target NULL
+	Exit TRUE
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+	AddTrigger Go, StartShooting
+	GetMyHandle hMe
+	GetObjectHandle sTarget, hTarget
+	Exit TRUE
+
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	GetParam 0, sTarget
+	GetParam 1, nCount
+	Wait 0, 1, Main2
+
+	Exit TRUE
+;------------- E n d - O f - F i l e -------------------

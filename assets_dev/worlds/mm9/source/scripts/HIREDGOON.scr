@@ -1,0 +1,123 @@
+;------------------------
+;	BaseGlobals.inc
+;	by SJR
+;	11-12-01
+;	Purpose:follow player and beat
+;			things up
+;------------------------
+#include FollowPlayer.inc
+#include baseMelee.inc
+
+#hobject	hMe = 0
+#hobject	hEnemy = 0
+
+#number		x = 0
+#number		y = 0
+#number		z = 0
+
+;-----------------
+:Main
+;-----------------
+	Wait 0, 1, InitHiredGoon
+
+	Exit TRUE
+
+;-----------------
+:InitHiredGoon
+;-----------------
+	AddEnemy AIBase
+	AddFriend Player
+
+	AddTrigger Hostile, BecomeHostile
+	AddTrigger Friendly, BecomeFriendly
+	AddTrigger Destroy, Destroy
+
+	GetMyHandle hMe
+
+	gosub BaseInit
+	gosub FollowInit
+
+	OnFoundTarget OnFoundTarget
+	OnDamage OnDamage
+	OnTargetDead BecomeFriendly
+
+	gosub BecomeFriendly
+
+	Exit TRUE
+
+;-----------------
+:BecomeFriendly
+;-----------------
+	Target NULL
+	hEnemy = NULL
+	g_hTarget = NULL
+
+	gosub FollowStart
+
+	Exit TRUE
+
+;-----------------
+:BecomeHostile
+;-----------------
+	gosub FollowStop
+
+	AddFriend AIBase
+	AddEnemy Player
+
+	PlaySound sounds\animsounds\dragon\fidget2.wav, DoNothing, 1, 1000, FALSE, 100
+
+	Exit TRUE
+
+;-----------------
+:Destroy
+;-----------------
+	gosub FollowStop
+	Die
+	Exit TRUE
+
+;-----------------
+:OnFoundTarget
+;-----------------
+	GetParam 0, hEnemy
+	gosub FollowStop
+	gosub LinkToBaseMelee
+
+	Exit TRUE
+
+;--------------------
+:LinkToBaseMelee
+;	transfer control to baseMelee
+;--------------------
+	;;baseMelee needs this, since removed GetParam
+	g_hTarget = hEnemy
+
+	gosub SetupTarget
+	gosub AggressiveStop
+
+	GetRandomInt 0, 100, g_nRandom
+
+	if ( g_nRandom < AWARE_CHANCE )
+		Aware AwareDone
+	else
+		gosub AggressiveStart
+	endif
+
+	Exit 1
+
+#hobject	hDummy = 0
+#number		nCounter = 0
+#number		bIsPlayer = 0
+;-----------------
+:OnDamage
+;-----------------
+	GetParam 0, hDummy
+	IsPlayer hDummy, bIsPlayer
+
+	if( bIsPlayer==TRUE )
+		nCounter = nCounter + 1
+	endif
+	if( nCounter>4 )
+		gosub BecomeHostile
+	endif
+
+	Exit TRUE

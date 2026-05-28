@@ -1,0 +1,208 @@
+schema: openyamm.model3d.v1
+id: tree01b
+model: tree01b.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/PLANTSANDTREES/TREE01B.abc
+  commandString: NoAnimation;FadeRangeMin 1500;FadeRangeMax 2048;FadeSpriteTex skins\props\plantsandtrees\treespr1.dtx;FadeSpriteSize
+    384 384;VisRadius 256
+  internalRadius: 793.6
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 5120.0
+  - 12800.0
+  - 4.023306898564917e+25
+pieces:
+- name: Cylinder01
+  materialIndex: 0
+  lods:
+  - faces: 35
+    vertices: 21
+  - faces: 25
+    vertices: 16
+  - faces: 11
+    vertices: 9
+- name: Box02
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box03
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box04
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box05
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box06
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box07
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box08
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box09
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box10
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box11
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box12
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box13
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box14
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box15
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box16
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+- name: Box01
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+  - faces: 4
+    vertices: 6
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Tree01
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Tree01
+  extents:
+  - 66.56
+  - 678.4
+  - 81.92
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/plantsandtrees/tree01b.abc

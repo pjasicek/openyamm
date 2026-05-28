@@ -1,0 +1,21 @@
+; spawntest.scr
+
+#include globals.inc
+
+:OnTest
+
+	GetPos g_hMyObject, g_posX, g_posY, g_posZ
+	Spawn g_hObject, g_posX, g_posY, g_posZ,Goblin PickRandomWeapon 1
+
+exit
+
+
+:Main
+;	TraceOn
+
+	GetMyHandle g_hMyObject
+	AddTrigger Test,OnTest
+
+
+exit
+

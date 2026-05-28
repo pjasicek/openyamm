@@ -1,0 +1,54 @@
+;-------------------------------
+;	Tremor.SCR
+;
+;	Brett Yagi
+;
+;	
+;-------------------------------
+
+#hobject	hHandle
+#number		a = 1
+#number		done = 0
+#number		Destroyed = 2
+;-------------------------------
+:DoIta
+;---------------------------------
+
+	if done < 2
+		if (Destroyed != a)
+			Damage hHandle 100 4 0
+			Destroyed = a
+			done = done + 1
+		endif
+	else
+		GetObjectHandle Vampir0 hHandle
+		Trigger hHandle done
+
+		Die
+	endif
+	Exit 1
+
+
+:ab
+
+	if a == 0
+
+		GetObjectHandle DestructableBrush0 hHandle
+		a = 1
+	else
+		GetObjectHandle DestructableBrush1 hHandle
+		a = 0
+	endif
+
+	exit 1
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+	GetObjectHandle DestructableBrush0 hHandle
+	OnDamage DoIta
+	AddTrigger abc ab
+	
+
+
+	Exit

@@ -1,0 +1,53 @@
+;----------------------------------------------
+;NPC49.scr
+; By Timmy
+; handles It'lor's getting a job
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number			xPos
+#number			yPos
+#number			zPos
+
+;-------------------------------------
+:Onblabber
+;-------------------------------------
+; erccs blabber
+
+
+
+
+	Playsound voices\NPC\NPC_049.wav, DoNothing, 100, 240, FALSE, 100
+
+
+
+
+exit
+
+
+
+
+;-------------------------------------
+:Init
+;-------------------------------------
+haskey 157 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle ItlorWork g_hobject
+	getmyhandle g_hmyobject
+	getpos g_hobject xPos yPos zPos
+	setpos g_hmyobject xPos yPos zPos
+	exit
+endif
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Use, Onblabber
+wait 1 1 Init
+exit

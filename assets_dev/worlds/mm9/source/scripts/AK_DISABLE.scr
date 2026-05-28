@@ -1,0 +1,138 @@
+;----------------------------------------------
+;Forstenigmainline.scr
+; By Timmy
+; checks to see if the player has disabled ft stening's defenses
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         bDrawbridge = FALSE
+#number							bPortCullis = FALSE
+#number							Drawcounter = 0
+
+;-------------------------------------
+:Award
+
+;-------------------------------------
+
+set g_ncounter, 0
+if (bDrawbridge==TRUE)
+	add g_ncounter, 1
+endif
+
+if (bPortcullis==TRUE)
+	add g_ncounter, 1
+endif
+
+if (g_ncounter!=2)
+	exit
+endif
+
+haskey 372 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+haskey 47 g_ntemp ;checks to see if player has done this yet
+
+if (g_ntemp==0,  )
+
+	Haskey 44 g_ntemp ;checks to see if player is on Fort Stenig Quest
+	if ( g_ntemp==1,  )
+	
+		givekey, 47 ;gives player finished quest key
+		GiveExp 10000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 2400, FALSE, 100
+		exit
+	else
+		givekey 372
+		GiveExp 10000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 2400, FALSE, 100
+		exit
+	endif
+endif
+exit
+
+
+;-------------------------------------
+:OnDraw
+;-------------------------------------
+
+
+add Drawcounter, 1
+
+if (Drawcounter==2)
+	getobjecthandle Drawbridgechain g_hobject
+	trigger g_hobject DamageOn
+	trigger g_hobject destroy
+	getobjecthandle drawbridge g_hobject
+	trigger g_hobject open
+	set bDrawbridge, TRUE
+	gosub Award
+	exit
+endif
+exit
+
+
+;-------------------------------------
+:ONPortcullis
+;-------------------------------------
+
+set bPortcullis, TRUE
+gosub Award
+exit
+
+;-------------------------------------
+:Setup
+; if quest is complete, clears all destructo brushes and 
+; opens portcullis
+;-------------------------------------
+
+getobjecthandle Drawbridgechain g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle drawbridge g_hobject
+trigger g_hobject open
+getobjecthandle DestructableBrush0 g_hobject
+trigger g_hobject destroy
+getobjecthandle DestructableBrush1 g_hobject
+trigger g_hobject destroy
+getobjecthandle Drawchainperc g_hobject
+trigger g_hobject off
+getobjecthandle Portchainperc g_hobject
+trigger g_hobject off
+getobjecthandle Portaclis g_hobject
+trigger g_hobject unlock
+trigger g_hobject open
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+haskey 47 g_ntemp
+if (g_ntemp==TRUE)
+	gosub Setup
+endif
+
+haskey 372 g_ntemp
+if (g_ntemp==TRUE)
+	gosub Setup
+endif
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+;AddTrigger Use, Onuse
+AddTrigger Drawbridge OnDraw
+AddTrigger Portcullis ONPortcullis
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit

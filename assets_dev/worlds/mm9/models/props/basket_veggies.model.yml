@@ -1,0 +1,122 @@
+schema: openyamm.model3d.v1
+id: basket_veggies
+model: basket_veggies.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/BASKET_VEGGIES.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Basket_Veggies
+  materialIndex: 0
+  lods:
+  - faces: 100
+    vertices: 81
+  - faces: 76
+    vertices: 69
+  - faces: 50
+    vertices: 52
+materials:
+- index: 0
+  texture: skins_preview/props/basket_veggies.png
+  runtime_texture: skins/props/basket_veggies.dtx
+  preview_texture: skins_preview/props/basket_veggies.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/BASKET_VEGGIES.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+  - index: 1
+    name: Spot01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 2
+    name: Spot01.Target
+    parent: 0
+    flags: 0
+    children: []
+  - index: 3
+    name: Omni01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 4
+    name: Omni02
+    parent: 0
+    flags: 0
+    children: []
+  - index: 5
+    name: Omni03
+    parent: 0
+    flags: 0
+    children: []
+  - index: 6
+    name: Omni04
+    parent: 0
+    flags: 0
+    children: []
+  - index: 7
+    name: Omni05
+    parent: 0
+    flags: 0
+    children: []
+  - index: 8
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 9
+    - 10
+  - index: 9
+    name: Bone02
+    parent: 8
+    flags: 0
+    children: []
+  - index: 10
+    name: Basket_Veggies
+    parent: 8
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 25.6
+  - 23.04
+  - 25.6
+  origin:
+  - 0.0
+  - -7.68
+  - 0.0
+roles:
+- static_model
+source_model: models/props/basket_veggies.abc

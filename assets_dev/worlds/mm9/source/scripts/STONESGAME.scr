@@ -1,0 +1,328 @@
+;------------------------------------------
+;	StonesGame.scr
+;	by SJR
+;	12-12-01
+;	Purpose:
+;------------------------------------------
+#include BaseGlobals.inc
+#include ListMaker.inc
+#include flags.inc
+#include ThjorgardGamesCommon.inc
+#number		COLOR_WHITE =  1
+#number		COLOR_BLACK =  0
+#number		COLOR_EMPTY = -1
+
+
+#numberarray	npSquares[63]
+#numberarray	npCheck[8]
+
+#string		sSquareName = ""
+#hobject	hSquare = 0
+#string		sBotName = ""
+#hobject	hBot = 0
+
+#number		bCanMove = 0
+#number		bEdge = 0
+
+#number		BOARDSIZE = 0
+
+#number		nTemp = 0
+#number		bHasTicket = 0
+#number		nCurSquare = 0
+#number		nCheck = 0
+#number		nCheckResult = 0
+#number		nMoveCount = 0
+#number		nCounter = 0
+#number		bSpaceOk = 1
+
+;------------------------------------------
+:Main
+;------------------------------------------
+	GetParam 0, LISTNAME
+	GetParam 1, BOARDSIZE
+
+	GetMyHandle hSquare
+	GetObjectName hSquare, sSquareName
+	SetConsoleStrVar STONES_GAME, sSquareName
+
+	LISTFIRST = 0
+	LISTLAST  = BOARDSIZE * BOARDSIZE - 1
+
+	OnPostStartWorld InitStonesGame
+	OnPostMiniSaveLoad InitStonesGame
+
+	AddTrigger move, CheckMove
+
+	Exit TRUE
+
+;------------------------------------------
+:InitStonesGame
+;------------------------------------------
+	GetConsoleStrVar STONES_PLAYER, sBotName
+	GetObjectHandle sBotName, hBot
+	if( hBot!=0 )
+		CreateObjectLink hBot
+		OnObjectLinkBroken OnObjectLinkBroken
+	endif
+
+	gosub SetupCheck
+	gosub ResetVars
+	gosub ResetBoard
+
+	Exit TRUE
+
+;------------------------------------------
+:CheckMove
+;	check adjacent spaces
+;------------------------------------------
+	if( bHasTicket==FALSE )
+		gosub CheckGameTicket
+		if( THJORGARD_RESULT==FALSE )
+			Exit TRUE
+		else
+			gosub TakeGameTicket
+			bHasTicket = TRUE
+		endif
+	endif
+
+	GetParam 0, hSquare
+
+	RemoveTrigger move
+
+	;;get the current square
+	GetConsoleNumVar STONES_INDEX, nCurSquare
+	ArrayGet npSquares, nCurSquare, nTemp
+	;;only if square is empty, check adjacent
+	if( nTemp==COLOR_EMPTY )
+		;;iterate around the square
+		gosub CheckSurrounding
+	else
+		bSpaceOk = FALSE
+	endif
+
+
+	if( bSpaceOk==TRUE )
+		gosub HandleValidMove
+	else
+		gosub HandleInvalidMove
+	endif
+
+	AddTrigger move, CheckMove
+
+	Exit TRUE
+
+;------------------------------------------
+:HandleInvalidMove
+;------------------------------------------
+	;;havent incremented turn yet
+	;;bot==white, player==black
+	if( nMoveCount==COLOR_WHITE )
+		if( hBot!=0 )
+			Trigger hBot, play
+		endif
+	else
+		if( nMoveCount==COLOR_BLACK )
+			RolloverText 233, 1, 3000, 2000
+		endif
+	endif
+
+	Exit TRUE
+
+;------------------------------------------
+:HandleValidMove
+;------------------------------------------
+	nMoveCount = nMoveCount + 1
+	Mod nMoveCount, 2
+	if( nMoveCount==COLOR_WHITE )
+		Trigger hSquare, white
+	else
+		nMoveCount = COLOR_BLACK
+		Trigger hSquare, black
+	endif
+
+	ArrayPut npSquares, nCurSquare, nMoveCount
+
+	gosub CheckVictory
+
+	Exit TRUE
+
+;---------------
+:CheckVictory
+;	checks empty squares to see
+;	if they are adjacent to friendly
+;---------------
+	bCanMove = FALSE
+	nCurSquare = 0
+	while( nCurSquare<LISTLAST )
+		ArrayGet npSquares, nCurSquare, nTemp
+		if( nTemp==COLOR_EMPTY )
+			gosub CheckSurrounding
+			if( bSpaceOk==TRUE )
+				if( nMoveCount==COLOR_WHITE )
+					if( hBot!=0 )
+						Trigger hBot, play
+					endif
+				else
+					Wait 0, 2, DisplayMoveMessage
+				endif
+
+				Exit TRUE
+			endif
+		endif
+
+		nCurSquare = nCurSquare + 1
+	endwhile
+
+	gosub DeclareWinner
+	gosub ResetVars
+	gosub ResetBoard
+
+	Exit TRUE
+
+;------------------------------------------
+:CheckSurrounding
+;------------------------------------------
+	bSpaceOk = FALSE
+
+	nCounter = 0
+	while( nCounter<8 )
+		ArrayGet npCheck, nCounter, nCheck
+		nCheck = nCurSquare + nCheck
+
+		bEdge = FALSE
+
+		nTemp = nCurSquare + 1
+		Mod nTemp, BOARDSIZE
+		;;if on the right side, skip rights
+		if( nTemp==0 )
+		if( nCounter<3 )
+			bEdge = TRUE
+		endif
+		endif
+
+		nTemp = nCurSquare
+		Mod nTemp, BOARDSIZE
+		;;if on the left side, skip lefts
+		if( nTemp==0 )
+		if( nCounter>4)
+			bEdge = TRUE
+		endif
+		endif
+
+		;;make sure we didnt pass the ends
+		if( nCheck<0 )
+			bEdge = TRUE
+		endif
+		if( nCheck>LISTLAST )
+			bEdge = TRUE
+		endif
+
+		if( bEdge==FALSE )
+			ArrayGet npSquares, nCheck, nCheckResult
+			nTemp = nMoveCount + 1
+			Mod nTemp, 2
+			;;if color nearby is the same
+			if( nCheckResult==nTemp )
+				bSpaceOk = TRUE
+				Exit TRUE
+			else
+			endif
+		endif
+
+		nCounter = nCounter + 1
+	endwhile
+
+	Exit TRUE
+
+;------------------------------------------
+:DeclareWinner
+;------------------------------------------
+	if( nMoveCount==COLOR_WHITE )
+		RollOverText 230, 1, 3000, 2000
+		gosub RecordStonesWin
+	else
+		if( nMoveCount==COLOR_BLACK )
+			RollOverText 231, 1, 3000, 2000
+		endif
+	endif
+
+	Exit TRUE
+
+;------------------------------------------
+:ResetVars
+;	reset counters, ticket, curcolor
+;------------------------------------------
+	bHasTicket = FALSE
+	SetConsoleNumVar STONES_COLOR, COLOR_WHITE
+	nMoveCount = 0
+
+	Exit TRUE
+
+;------------------------------------------
+:ResetBoard
+;	clear board, array, place 1 of each color
+;------------------------------------------
+	gosub GetFirstObject
+	while( LISTINDEX!=LISTLAST )
+		Trigger LISTOBJECT, clear
+		ArrayPut npSquares, LISTINDEX, COLOR_EMPTY
+		gosub GetNextObject
+	endwhile
+
+	Trigger LISTOBJECT, clear
+	ArrayPut npSquares, LISTINDEX, COLOR_EMPTY
+
+	;;turn one of each color on at start
+	GetRandomInt LISTFIRST, LISTLAST, LISTINDEX
+
+	gosub GetCurrentObject
+	Trigger LISTOBJECT, white
+	ArrayPut npSquares, LISTINDEX, COLOR_WHITE
+
+	LISTINDEX = LISTLAST - LISTINDEX
+	gosub GetCurrentObject
+	Trigger LISTOBJECT, black
+	ArrayPut npSquares, LISTINDEX, COLOR_BLACK
+
+	Exit TRUE
+
+;------------------------------------------
+:SetupCheck
+;------------------------------------------
+	;;positive side
+	nTemp = 0 - BOARDSIZE + 1
+	ArrayPut npCheck, 0, nTemp
+	nTemp = 1
+	ArrayPut npCheck, 1, nTemp
+	nTemp = BOARDSIZE + 1
+	ArrayPut npCheck, 2, nTemp
+
+	;;up-down
+	nTemp = 0 - BOARDSIZE
+	ArrayPut npCheck, 3, nTemp
+	nTemp = BOARDSIZE
+	ArrayPut npCheck, 4, nTemp
+
+	;;negative side
+	nTemp = 0 - BOARDSIZE - 1
+	ArrayPut npCheck, 5, nTemp
+	nTemp = -1
+	ArrayPut npCheck, 6, nTemp
+	nTemp = BOARDSIZE - 1
+	ArrayPut npCheck, 7, nTemp
+
+	Exit TRUE
+
+;------------------------------------------
+:OnObjectLinkBroken
+;------------------------------------------
+	hBot = NULL
+
+	Exit TRUE
+
+;------------------------------------------
+:DisplayMoveMessage
+;------------------------------------------
+	RollOverText TEXT_YOURMOVE, 1, 3000, 2000
+
+	Exit TRUE

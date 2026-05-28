@@ -1,0 +1,102 @@
+schema: openyamm.model3d.v1
+id: fireboltexplosion
+model: fireboltexplosion.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/SPELLS/FIREBOLTEXPLOSION.abc
+  commandString: DrawIndexedDist 5000
+  internalRadius: 384.0
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: Cylinder05
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+- name: Sphere02
+  materialIndex: 0
+  lods:
+  - faces: 80
+    vertices: 42
+- name: Sphere03
+  materialIndex: 0
+  lods:
+  - faces: 80
+    vertices: 42
+- name: Sphere04
+  materialIndex: 0
+  lods:
+  - faces: 80
+    vertices: 42
+- name: Cylinder03
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+- name: Sphere01
+  materialIndex: 0
+  lods:
+  - faces: 80
+    vertices: 42
+- name: Cylinder06
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+- name: Cylinder07
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+- name: Cylinder08
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+- name: Cylinder04
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: STATIC_MODEL
+  durationMs: 1400
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: STATIC_MODEL
+  extents:
+  - 153.6
+  - 102.4
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/spells/fireboltexplosion.abc

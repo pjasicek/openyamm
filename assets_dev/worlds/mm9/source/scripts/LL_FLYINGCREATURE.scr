@@ -1,0 +1,103 @@
+;-----------------------------------------------------
+;
+;	LL_FlyingCreature.scr
+;
+;	Karl Drown 12-8-01
+;	Flying creatures (Bats)
+;	
+;	p0 = MarkerPath name
+;	p1 = Index Starting Number
+;	p2 = Index Stopping Number
+;-----------------------------------------------------
+
+#include Globals.inc
+#include ListTraverse.inc
+#include Flags.inc
+
+#hObject hMe
+
+#number nSpeed
+#number n_IsTriggered = 0
+#number b_Direction = 0
+#number nTemp
+;-----------------------------------------------------
+:DoNothing
+;-----------------------------------------------------
+
+	Exit True
+;-----------------------------------------------------
+:Triggered
+;-----------------------------------------------------
+	n_IsTriggered = 1
+	Gosub CheckTrigger
+	Exit True
+;-----------------------------------------------------
+:WaitHere
+;-----------------------------------------------------
+
+	LoopAnim Hang, 0, CheckTrigger
+	Exit True
+
+;-----------------------------------------------------
+:CheckTrigger
+;-----------------------------------------------------
+	if(n_IsTriggered==1)
+		Gosub TraverseBegin
+	else
+		Gosub WaitHere
+	endif
+
+	Exit True
+
+;-----------------------------------------------------
+:OnTraverseDone
+;-----------------------------------------------------
+	n_IsTriggered = 0
+	if (b_Direction==0)
+		if (LISTINDEX==LISTLAST)
+			b_Direction = 1
+			Gosub WaitHere
+		endif
+	else
+		if( LISTINDEX==LISTLAST )
+			Gosub ReversePath
+			Gosub TraverseResume
+		endif
+		if (LISTINDEX==LISTFIRST)
+			b_Direction = 0
+			Gosub WaitHere
+		endif
+	endif
+	playsound Sounds\AnimSounds\evileyeflap.wav DoNothing 200 400 FALSE 80
+	playsound Sounds\Ambient\flag_flap02.wav DoNothing 200 500 FALSE 100
+	playsound Sounds\DeathSounds\mummydie1.wav DoNothing 200 500 FALSE 100
+	
+	Exit True
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+	GetRandomInt 0, 100, TRAVERSERADIUS
+	GetRandomInt 2, 3, nTemp
+	SetModelFilenames models\flyingicky.abc TEXTURES\LevelTextures\Misc\black.dtx
+	b_Direction = 0
+	GetMyHandle hMe
+	ClearFlag hMe, FLAG_SOLID
+	SetFlag hMe, FLAG_GOTHRUWORLD
+	GetStat hMe, FlyVel, nSpeed
+	nSpeed = nSpeed * nTemp
+	SetStat hMe, FlyVel, nSpeed
+	AddTrigger Go, Triggered
+	OnStuck TraverseResume
+	Gosub WaitHere
+	Exit True
+
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	Gosub SetTraverseRun
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+	Wait 0, 0.5, Main2
+	Exit
+;------------- E n d - O f - F i l e -------------------

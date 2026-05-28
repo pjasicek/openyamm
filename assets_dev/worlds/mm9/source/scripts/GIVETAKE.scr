@@ -1,0 +1,77 @@
+;--------------------------------------------------
+;givetake.scr
+;10/4
+; timmy
+; gives party specific item
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#number			Item_ID
+#number			nGiveOnce = FALSE
+
+
+
+
+
+; Parameters
+;P0 Item number of item to give
+
+
+;--------------------------------------------------
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+if (nGiveOnce==TRUE)
+	Hasitem Item_ID g_ntemp
+	if (g_ntemp==0)
+		giveitem item_ID
+		getmyhandle g_hmyobject
+		removeobject g_hmyobject
+		exit
+	endif
+else
+	giveitem Item_ID
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+exit
+
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+
+
+if (nGiveOnce==FALSE)
+	exit
+endif
+
+Hasitem Item_ID g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Use OnUse
+Getparam 0 Item_Id
+Getparam 1 nGiveOnce
+wait 1 1 Init
+
+exit
+
+

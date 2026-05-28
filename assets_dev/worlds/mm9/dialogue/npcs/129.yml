@@ -1,0 +1,1428 @@
+format_version: 1
+source_file: NPC129.rude
+rows:
+  - source:
+      file: NPC129.rude
+      row: 1
+    raw_columns:
+      - 129
+      - 1
+      - 1
+      - Do you have any news?
+      - It's a shame that we lost our temple.  I would be willing to promote a Healer to a Priest if they would build a new church.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: It's a shame that we lost our temple.  I would be willing to promote a Healer to a Priest if they would build a new church.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC129.rude
+      row: 2
+    raw_columns:
+      - 129
+      - 10
+      - 1
+      - We would like to be promoted.
+      - There are three things that need to be done before we can begin construction of the New Temple.
+      - 2
+      - 213
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 259
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 10
+      choice_slot: 1
+      prompt: We would like to be promoted.
+      response: There are three things that need to be done before we can begin construction of the New Temple.
+      next: 2
+      raw_fields:
+        c07: 213
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 259
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 213
+            qbit_id: 9213
+            state_id: mm9.keys.213
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 213
+          qbit_id: 9213
+          state_id: mm9.keys.213
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 259
+        status: raw_value_preserved
+  - source:
+      file: NPC129.rude
+      row: 3
+    raw_columns:
+      - 129
+      - 2
+      - 1
+      - What is the first thing?
+      - I am too old for the job of high priest.  It is time for some new blood in Guberland.  You must find us a young new priest.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 250
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 2
+      choice_slot: 1
+      prompt: What is the first thing?
+      response: I am too old for the job of high priest.  It is time for some new blood in Guberland.  You must find us a young new priest.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 250
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 250
+        status: raw_value_preserved
+  - source:
+      file: NPC129.rude
+      row: 4
+    raw_columns:
+      - 129
+      - 129
+      - 1
+      - Can we ask you some questions?
+      - Certainly!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 129
+      choice_slot: 1
+      prompt: Can we ask you some questions?
+      response: Certainly!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC129.rude
+      row: 5
+    raw_columns:
+      - 129
+      - 3
+      - 1
+      - Where are we to find a new priest?
+      - I don't know.  Why don't you try visiting all the temples in Chedian.  Perhaps even Lindisfarne.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 3
+      choice_slot: 1
+      prompt: Where are we to find a new priest?
+      response: I don't know.  Why don't you try visiting all the temples in Chedian.  Perhaps even Lindisfarne.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC129.rude
+      row: 6
+    raw_columns:
+      - 129
+      - 5
+      - 1
+      - Where can we find him?
+      - The last I heard, he became a missionary to try and convince the Frosgardians to come back to the Beliefs.  Ghastly Heathens!  It's no wonder that they live in such a horrid place!
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 5
+      choice_slot: 1
+      prompt: Where can we find him?
+      response: The last I heard, he became a missionary to try and convince the Frosgardians to come back to the Beliefs.  Ghastly Heathens!  It's no wonder that they live in such a horrid place!
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC129.rude
+      row: 7
+    raw_columns:
+      - 129
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC129.rude
+      row: 8
+    raw_columns:
+      - 129
+      - 15
+      - 1
+      - Thank you.
+      - Thank you!  People will be worshipping at this church for years to come.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 15
+      choice_slot: 1
+      prompt: Thank you.
+      response: Thank you!  People will be worshipping at this church for years to come.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC129.rude
+      row: 9
+    raw_columns:
+      - 129
+      - 2
+      - 2
+      - What is the second thing?
+      - All temples need a holy icon.  There is an ancient temple in Frosgard that has an icon known as the Tree of Life.  Find this and bring it to me.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 251
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 2
+      choice_slot: 2
+      prompt: What is the second thing?
+      response: All temples need a holy icon.  There is an ancient temple in Frosgard that has an icon known as the Tree of Life.  Find this and bring it to me.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 251
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 251
+        status: raw_value_preserved
+  - source:
+      file: NPC129.rude
+      row: 10
+    raw_columns:
+      - 129
+      - 129
+      - 2
+      - We are seeking promotion.
+      - I can promote any worthy Healers in your party to Priests.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2084
+      - 0
+      - 0
+      - 0
+      - 0
+      - 259
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 129
+      choice_slot: 2
+      prompt: We are seeking promotion.
+      response: I can promote any worthy Healers in your party to Priests.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2084
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 259
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2084
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 259
+        status: raw_value_preserved
+  - source:
+      file: NPC129.rude
+      row: 11
+    raw_columns:
+      - 129
+      - 1
+      - 2
+      - What do you know about temples?
+      - We lost our temple.  It is a tragic shame.  Now we have no where to gather for worship, and none of our elders seem interested in building a new one!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about temples?
+      response: We lost our temple.  It is a tragic shame.  Now we have no where to gather for worship, and none of our elders seem interested in building a new one!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC129.rude
+      row: 12
+    raw_columns:
+      - 129
+      - 10
+      - 2
+      - We're not ready to be promoted yet.
+      - Farewell, then.  Come back when you are.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 10
+      choice_slot: 2
+      prompt: We're not ready to be promoted yet.
+      response: Farewell, then.  Come back when you are.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC129.rude
+      row: 13
+    raw_columns:
+      - 129
+      - 2
+      - 3
+      - What is the final thing?
+      - For the temple to truly be a holy place, the ground must be consecrated.  It's been so long since it has been done, I cannot remember how.  You must find Nath'i A'Mor.  He is probably the only priest who remembers how.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 252
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 2
+      choice_slot: 3
+      prompt: What is the final thing?
+      response: For the temple to truly be a holy place, the ground must be consecrated.  It's been so long since it has been done, I cannot remember how.  You must find Nath'i A'Mor.  He is probably the only priest who remembers how.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 252
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 252
+        status: raw_value_preserved
+  - source:
+      file: NPC129.rude
+      row: 14
+    raw_columns:
+      - 129
+      - 129
+      - 3
+      - About the new temple.
+      - Yes?
+      - 2
+      - 259
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 260
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 129
+      choice_slot: 3
+      prompt: About the new temple.
+      response: Yes?
+      next: 2
+      raw_fields:
+        c07: 259
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 260
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 259
+            qbit_id: 9259
+            state_id: mm9.keys.259
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 259
+          qbit_id: 9259
+          state_id: mm9.keys.259
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 260
+        status: raw_value_preserved
+  - source:
+      file: NPC129.rude
+      row: 15
+    raw_columns:
+      - 129
+      - 2
+      - 4
+      - We will do these things.
+      - Brave and noble indeed.  Good luck
+      - -14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 2
+      choice_slot: 4
+      prompt: We will do these things.
+      response: Brave and noble indeed.  Good luck
+      next: -14
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -14
+        service: quest_handoff
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -14
+        service: quest_handoff
+        status: typed_pending_exact_runtime_behavior
+  - source:
+      file: NPC129.rude
+      row: 16
+    raw_columns:
+      - 129
+      - 129
+      - 4
+      - We've completed all your tasks.
+      - That is great news indeed!  You have done us all a great service.  I hereby promote you to Priests.
+      - 15
+      - 256
+      - 0
+      - 258
+      - 0
+      - 255
+      - 0
+      - 0
+      - 0
+      - 0
+      - 260
+      - 0
+      - 0
+      - 0
+      - 0
+      - 260
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 129
+      choice_slot: 4
+      prompt: We've completed all your tasks.
+      response: That is great news indeed!  You have done us all a great service.  I hereby promote you to Priests.
+      next: 15
+      raw_fields:
+        c07: 256
+        c08: 0
+        c09: 258
+        c10: 0
+        c11: 255
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 260
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 260
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 256
+            qbit_id: 9256
+            state_id: mm9.keys.256
+          - column: c09
+            raw_id: 258
+            qbit_id: 9258
+            state_id: mm9.keys.258
+          - column: c11
+            raw_id: 255
+            qbit_id: 9255
+            state_id: mm9.keys.255
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 256
+          qbit_id: 9256
+          state_id: mm9.keys.256
+        - domain: mm9.keys
+          raw_id: 258
+          qbit_id: 9258
+          state_id: mm9.keys.258
+        - domain: mm9.keys
+          raw_id: 255
+          qbit_id: 9255
+          state_id: mm9.keys.255
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 260
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 260
+        status: raw_value_preserved
+  - source:
+      file: NPC129.rude
+      row: 17
+    raw_columns:
+      - 129
+      - 129
+      - 5
+      - Thanks for your time.
+      - Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 129
+      choice_slot: 5
+      prompt: Thanks for your time.
+      response: Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC129.rude
+      row: 18
+    raw_columns:
+      - 129
+      - 2
+      - 5
+      - Thanks for your time.
+      - Farewell, and good luck!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 2
+      choice_slot: 5
+      prompt: Thanks for your time.
+      response: Farewell, and good luck!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC129.rude
+      row: 19
+    raw_columns:
+      - 129
+      - 1
+      - 7
+      - Thanks for your time.
+      - Farewell!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 129
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Farewell!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

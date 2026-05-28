@@ -1,0 +1,221 @@
+
+;------------------------------------------
+;	dagrell.scr
+;	John Machin
+;	
+;	This script uses base.inc and adds
+;	functionality for some special animations
+;	that this creature has.
+;
+;------------------------------------------
+
+#include base.inc
+#include globals.inc
+
+;Initialize crouching bool
+#number		g_bIsCrouching		= 0
+
+;Frequency Dagrell crouches.  1 = 10% etc
+#number		g_nCrouchFrequency	= 6
+
+;Number of times to loop crouch anim
+#number		g_nCrouchMin		= 5
+#number		g_nCrouchMax		= 10
+
+;same as crouch but for standing
+#number		g_nStandMin			= 10
+#number		g_nStandMax			= 15
+
+#number		dimsX
+#number		dimsY
+#number		dimsZ
+
+#number		minJumpDist
+
+; This number should be the same (or close to) the animation length for the jump
+; animation.  (This info can be found using ModelEdit...)
+#number		jumpTime = 0.9
+
+;------------------------------------------
+:OnUse
+;------------------------------------------	
+	GetParam 0, g_hObject
+
+	FaceObject g_hObject, 180
+
+	Exit
+
+;------------------------------------------
+:DagrellTargetDead
+;------------------------------------------
+	;We override this so we can crouch after
+	;killing a player.  We call base first
+	GetParam 0, g_nTemp
+
+	Target NULL
+	Set g_hTarget, NULL
+
+	if( g_nTemp == g_hMyObject )
+		Taunt DagrellTauntDone
+	else
+		gosub DagrellCrouch
+	endif
+
+	Exit TRUE
+
+;------------------------------------------
+:DagrellTauntDone
+;------------------------------------------
+	gosub DagrellCrouch
+
+	Exit
+
+;------------------------------------------
+:DagrellCrouch
+;------------------------------------------	
+	;If not standing begin crouch	
+	if( g_bIsCrouching == FALSE )		
+		PlayAnim returntocrouch
+	else
+		;if we are already crouched might as well fidget
+		PlayAnim CrouchFidget
+	endif		
+
+	Set g_bIsCrouching, 1
+	
+	;How long are we going to crouch for
+	GetRandomInt g_nCrouchMin, g_nCrouchMax, g_nRandom
+	LoopAnim Crouch, g_nRandom, DagrellCrouchDone 	
+
+	Exit
+
+;------------------------------------------
+:DagrellCrouchDone
+;------------------------------------------	
+	;Once he is done crouching we should fidget
+	PlayAnim CrouchFidget, DagrellFidgetDone	
+	
+	Exit
+
+;------------------------------------------
+:DagrellFidgetDone
+;------------------------------------------
+	;Fidget is done so startup ticker again
+	gosub DagrellTick
+
+	Exit
+
+
+;------------------------------------------
+:DagrellStand
+;------------------------------------------	
+	;Start standing up.  If we are already standing then start
+	;ticker back up.  We use aware to stand because it is the only
+	;anim that stands smoothly.
+	if ( g_bIsCrouching == TRUE )				
+		PlayAnim Aware, DagrellAwareDone
+		Set g_bIsCrouching, 0
+	else 	
+		gosub DagrellTick
+	endif
+
+	Exit
+
+;------------------------------------------
+:DagrellAwareDone
+;------------------------------------------
+	;Ok the aware anim finished we can now complete the standup process
+	PlayAnim Stand
+
+	;How long should we stand before starting up ticker?
+	GetRandomInt g_nStandMin, g_nStandMax, g_nRandom
+	Wait 0, g_nRandom, DagrellTick	
+
+	Exit
+;------------------------------------------
+:DagrellTick
+;------------------------------------------	
+	;Heartbeat function.  This gets called to keep things rolling
+	GetRandomInt 0, 10, g_nRandom
+	if ( g_nRandom <= g_nCrouchFrequency )		
+		gosub DagrellCrouch
+	else
+		gosub DagrellStand
+	endif		
+
+	Exit
+
+;------------------------------------------
+:DagrellFoundPlayer
+;------------------------------------------
+	;We override foundplayer to squat before the aware anim
+	;plays.  The aware anim starts from a sitting position.
+	if( g_bIsCrouching == FALSE )
+		gosub BaseGoGetHim		
+	else
+		gosub BaseFoundPlayer
+	endif
+
+	Exit TRUE
+
+;------------------------------------------
+:JumpDone
+;------------------------------------------
+
+	gosub BaseGoGetHim
+
+	exit TRUE
+
+;------------------------------------------
+:DagrellTargetWithinDist
+;------------------------------------------
+	; Jump at him!
+	Jump JumpDone
+
+	OnTargetBeyondDist minJumpDist, DagrellTargetBeyondDist
+
+	exit TRUE
+
+;------------------------------------------
+:DagrellTargetBeyondDist
+;------------------------------------------
+	
+	OnTargetWithinDist minJumpDist, DagrellTargetWithinDist
+
+	exit TRUE
+
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------	
+
+	; JSL--> For now, just do base stuff.... (was getting stuck!)
+	gosub InitBase
+	Exit
+
+
+	AddTrigger Use OnUse
+
+	gosub InitBase
+
+	;Override these base handlers 
+	OnTargetDead			DagrellTargetDead
+	OnFoundPlayer			DagrellFoundPlayer
+
+;	GetDims g_hMyObject, dimsX, dimsY, dimsZ
+	GetStat g_hMyObject, JumpVel, minJumpDist
+
+	Mul minJumpDist, jumpTime
+	
+	; Take off 20 %
+	Mul minJumpDist, 0.80
+
+	OnTargetBeyondDist minJumpDist, DagrellTargetBeyondDist
+
+	
+	gosub DagrellTick
+
+	Exit		
+

@@ -1,0 +1,80 @@
+schema: openyamm.model3d.v1
+id: pillarstand
+model: pillarstand.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/PILLARSTAND.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: PillarStand
+  materialIndex: 0
+  lods:
+  - faces: 78
+    vertices: 50
+  - faces: 58
+    vertices: 40
+  - faces: 40
+    vertices: 31
+materials:
+- index: 0
+  texture: skins_preview/props/pillarstand.png
+  runtime_texture: skins/props/pillarstand.dtx
+  preview_texture: skins_preview/props/pillarstand.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/PILLARSTAND.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 2
+    - 3
+  - index: 2
+    name: Bone02
+    parent: 1
+    flags: 0
+    children: []
+  - index: 3
+    name: PillarStand
+    parent: 1
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: PillarStand
+  durationMs: 10366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: PillarStand
+  extents:
+  - 20.48
+  - 44.032001953125004
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/pillarstand.abc

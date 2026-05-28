@@ -1,0 +1,13 @@
+; SceneCamera0.scr
+
+#hobject	g_hObject
+
+:On
+	GetObjectHandle PlayerActor0, g_hObject
+	Target g_hObject
+	Exit 0
+
+:Main
+
+	AddTrigger ON, On
+	Exit

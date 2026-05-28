@@ -1,0 +1,81 @@
+;--------------------------------------------------
+;NPC246.scr
+; timmy
+; handles Erlend the Nay-Sayer voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub TakeBadNews
+
+
+exit
+
+
+
+
+
+;--------------------------------------------------
+:TakeBadNews
+;--------------------------------------------------
+;****************
+;TakeBadNews Quest
+;****************
+
+Haskey 319 g_ntemp
+if (g_ntemp==0)
+	haskey 318 g_ntemp
+	if (g_ntemp==1)
+		givekey 319
+		takeitem 251
+		exit
+	endif
+endif
+
+;End TakeBadNews Quest
+;******************
+exit
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+;Playsound voices\NPC\NPC_246.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

@@ -1,0 +1,102 @@
+;-----------------------------------------------------
+;
+;	TH_LobbyGhouls.scr
+;
+;	Karl Drown 11-17-01
+;	
+;	Ghouls in Lobby triggered to run to the sauna
+;	room, then surprise party.
+;-----------------------------------------------------
+
+#include Globals.inc
+#include BaseMelee.inc
+#include Flags.inc
+#include range.inc
+#include basedoor.inc
+
+#hObject hObject
+#hObject hMyObject	
+#hObject hMarker
+#hObject hPlayer
+
+#string sMarkerA
+#string	sMarkerB
+#string sMarkerC
+#string sMarkerD
+#string sMarkerE
+
+#number nNumX
+#number nNumY
+#number nNumZ
+
+;-----------------------------------------------------
+:DoNothing
+;-----------------------------------------------------
+
+	Exit TRUE
+
+;-----------------------------------------------------
+:RunUpStairs
+;-----------------------------------------------------
+	GetObjectHandle sMarkerA, hMarker
+	RunTo hMarker, 10, MarkerB
+	Exit TRUE
+;-----------------------------------------------------
+:MarkerB
+	GetObjectHandle sMarkerB, hMarker
+	RunTo hMarker, 10, MarkerC
+	Exit TRUE
+:MarkerC
+	GetObjectHandle sMarkerC, hMarker
+	RunTo hMarker, 10, MarkerD
+	Exit TRUE
+:MarkerD
+	Stop
+	GetObjectHandle sMarkerD, hMarker
+	GetPos hMarker, nNumX, nNumY, nNumZ
+	SetPos hMyObject, nNumX, nNumY, nNumZ
+	GoSub Pause
+	Exit TRUE
+;-----------------------------------------------------
+:Pause
+;-----------------------------------------------------
+	HMarker = NULL
+	Stop
+	Wait 0, 1, DoNothing
+	Exit TRUE
+;-----------------------------------------------------
+:DropGhouls
+;-----------------------------------------------------
+	GetPlayerHandle hPlayer, 3000
+	ClearFlag hObject, FLAG_SOLID
+	Wait 0, 2, SetSolid
+	Exit TRUE
+;-----------------------------------------------------
+:SetSolid
+;-----------------------------------------------------
+	SetFlag hObject, FLAG_SOLID
+	GoSub BaseInit
+	Exit TRUE
+
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+	GetObjectHandle WO_GhoulPlatform, hObject
+	GetMyHandle hMyObject
+	AddTrigger Go, RunUpStairs
+	AddTrigger Drop, DropGhouls
+	OnFoundTarget	BaseInit
+	OnDamage	BaseInit
+	gosub RangeInit ;<-----------TL
+	gosub basedoorinit ;<-----------TL
+	Exit TRUE
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	GetParam 0, sMarkerA
+	GetParam 1, sMarkerB
+	GetParam 2, sMarkerC
+	GetParam 3, sMarkerD
+	Wait 0, 0.5, Main2
+	Exit
+;------------- E n d - O f - F i l e -------------------

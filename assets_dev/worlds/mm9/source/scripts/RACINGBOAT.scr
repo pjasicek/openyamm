@@ -1,0 +1,187 @@
+;--------------------------------
+;	RacingBoat.scr
+;	by SJR
+;	12-12-01
+;	Purpose:float towards finish
+;			line when damaged. Does not
+;			buffer movements, so player
+;			can't cheeze it.
+;--------------------------------
+#include BaseGlobals.inc
+
+#hobject	hMe = 0
+#hobject	hDest = 0
+#hobject	hJudge = 0
+
+#number		bIsAI = 0
+
+#string		sDestName = ""
+#string		sJudgeName = ""
+
+#number		dx = 0
+#number		dy = 0
+#number		dz = 0
+#number		nRemainder = 0
+
+#number		xMe = 0
+#number		yMe = 0
+#number		zMe = 0
+#number		nDist = 0
+#number		nTemp = 0
+#number		nSpeed = 0
+
+;----------------------
+:Main
+;----------------------
+	GetParam 0, sDestName
+	GetParam 1, bIsAI
+
+	OnPostStartWorld InitRacingBoat
+	OnPostMiniSaveLoad InitRacingBoat
+
+	Exit TRUE
+
+;----------------------
+:InitRacingBoat
+;----------------------
+	;;wait until game has started
+	AddTrigger on, TurnOn
+	;;turn it back off when race is over
+	AddTrigger off,TurnOff
+	AddTrigger submerge, Submerge
+
+	GetMyHandle hMe
+	GetPOS hMe, xMe,yMe,zMe
+	GetObjectHandle sDestName, hDest
+	if( hDest==0 )
+		Exit TRUE
+	endif
+
+	FaceObject hDest, 0, DoNothing
+	GetConsoleStrVar BOAT_JUDGE, sJudgeName
+	GetObjectHandle sJudgeName, hJudge
+	if( hJudge!=0 )
+		CreateObjectLink hJudge
+		OnObjectLinkBroken OnObjectLinkBroken
+	endif
+
+	Exit TRUE
+
+;----------------------
+:OnObjectLinkBroken
+;----------------------
+	hJudge = NULL
+
+	Exit TRUE
+
+;----------------------
+:TurnOn
+;	ready for racing action
+;----------------------
+	GetDistance hMe, hDest, nDist
+	nDist = nDist / 10
+
+	;;if ai turned us on, start moving
+	;;if player, wait till they shoot us
+	if( bIsAI==TRUE )
+		nTemp = nDist / 2
+		gosub StartMoveLoop
+	else
+		gosub Ready
+	endif
+
+	Exit TRUE
+
+;----------------------
+:TurnOff
+;	not ready for racing action
+;----------------------
+	Stop
+	;;go back, ready for another race
+	SetPOS hMe, xMe,yMe,zMe
+
+	OnDamage DoNothing
+
+	Exit TRUE
+
+;----------------------
+:MoveForward
+;	move in forward direction
+;----------------------
+	GetDistance hMe, hDest, nRemainder
+
+	if( nRemainder<nDist )
+		gosub Arrived
+		Exit TRUE
+	endif
+
+	;;take this off so player doesnt cheeze
+	OnDamage DoNothing
+	MoveDir dx,0,dz, nDist, nDist, Ready
+
+	Exit TRUE
+
+;----------------------
+:StartMoveLoop
+;	move in forward direction
+;----------------------
+	GetDistance hMe, hDest, nRemainder
+	if( nRemainder<nDist )
+		gosub Arrived
+		Exit TRUE
+	else
+		GetFaceDir hMe, dx,dy,dz
+	endif
+
+	GetRandomInt nTemp, nDist, nSpeed
+	nSpeed = nSpeed / 2
+	MoveDir dx,0,dz, nDist, nSpeed, StartMoveLoop
+
+	Exit TRUE
+
+;----------------------
+:Ready
+;	re-setup race
+;----------------------
+	GetFaceDir hMe, dx,dy,dz
+	OnDamage MoveForward
+
+	Exit TRUE
+
+;----------------------
+:Arrived
+;----------------------
+	if( hJudge!=0 )
+		if( bIsAI==TRUE )
+			Trigger hJudge, CPUArrival
+		else
+			Trigger hJudge, PlayerArrival
+		endif
+	endif
+
+	Exit TRUE
+
+;----------------------
+:Submerge
+;----------------------	
+	Stop
+	OnDamage DoNothing
+	MoveDir 0,-1,0, 64, 64, ReturnToStart
+
+	Exit TRUE
+
+;----------------------
+:ReturnToStart
+;----------------------
+	nTemp = yMe - 64
+	SetPOS hMe, xMe,nTemp,zMe
+	gosub Surface
+
+	Exit TRUE
+
+;----------------------
+:Surface
+;----------------------
+	MoveDir 0,1,0, 64, 64, TurnOff
+
+	Exit TRUE

@@ -1,0 +1,34 @@
+;--------------------------------------------------
+;NPC337.scr
+; timmy
+; handles Fre voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include Basewander.inc
+
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+DoRude 377
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+
+Addtrigger Use, OnUse
+gosub basewanderinit
+exit
+

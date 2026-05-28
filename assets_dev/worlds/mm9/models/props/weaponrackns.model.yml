@@ -1,0 +1,150 @@
+schema: openyamm.model3d.v1
+id: weaponrackns
+model: weaponrackns.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/WEAPONRACKNS.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Group1
+  materialIndex: 0
+  lods:
+  - faces: 310
+    vertices: 395
+  - faces: 240
+    vertices: 360
+- name: Group2
+  materialIndex: 0
+  lods:
+  - faces: 339
+    vertices: 177
+  - faces: 239
+    vertices: 127
+- name: Group3
+  materialIndex: 0
+  lods:
+  - faces: 274
+    vertices: 141
+  - faces: 124
+    vertices: 66
+- name: WeaponRack
+  materialIndex: 0
+  lods:
+  - faces: 356
+    vertices: 384
+  - faces: 356
+    vertices: 384
+materials:
+- index: 0
+  texture: skins_preview/props/weaponrack_new.png
+  runtime_texture: skins/props/weaponrack_new.dtx
+  preview_texture: skins_preview/props/weaponrack_new.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/WEAPONRACK_NEW.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+  - index: 1
+    name: Bone-Rack
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone-Maul
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone-LongSword
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Bone-Halberd
+    parent: 0
+    flags: 1
+    children: []
+  - index: 5
+    name: Bone-HandAxe
+    parent: 0
+    flags: 1
+    children: []
+  - index: 6
+    name: Bone-Spear
+    parent: 0
+    flags: 1
+    children: []
+  - index: 7
+    name: Bone-Broadsword
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: start
+  durationMs: 1000
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Shift
+  durationMs: 1000
+  keyframes: 9
+  interpolationTimeMs: 200
+  events: []
+- name: stop
+  durationMs: 1000
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: start
+  extents:
+  - 30.72
+  - 89.60000000000001
+  - 81.92
+  origin:
+  - -10.24
+  - -17.92
+  - 0.0
+- name: Shift
+  extents:
+  - 30.72
+  - 89.60000000000001
+  - 81.92
+  origin:
+  - -10.24
+  - -17.92
+  - 0.0
+- name: stop
+  extents:
+  - 30.72
+  - 89.60000000000001
+  - 81.92
+  origin:
+  - -10.24
+  - -17.92
+  - 0.0
+roles:
+- static_model
+source_model: models/props/weaponrackns.abc

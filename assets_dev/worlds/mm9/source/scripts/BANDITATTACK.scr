@@ -1,0 +1,64 @@
+;--------------------------------------------------
+;Banditattack.scr
+; timmy
+; handles The bandits attacking the wagon.
+;--------------------------------------------------
+
+#include globals.inc
+#include basemelee.inc
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+
+
+
+
+;--------------------------------------------------
+:OnAttack
+;--------------------------------------------------
+
+OnFoundPlayer OnExit
+
+SetPropNumber TerrainMode, TRUE
+
+Getobjecthandle Atlimarker0 g_hobject
+Runto g_hobject 256, Onexit
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+stop
+gosub baseinit
+exit
+
+;-------------------------------------
+:Obstacle
+;-------------------------------------
+
+OnFoundPlayer OnExit
+
+Getobjecthandle Atlimarker0 g_hobject
+Runto g_hobject 256, Onexit
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+wait 1 1 OnAttack
+OnPostStartWorld OnAttack
+OnPostMiniSaveLoad OnAttack
+OnPostSaveLoad OnAttack
+
+
+exit
+

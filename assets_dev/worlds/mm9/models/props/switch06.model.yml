@@ -1,0 +1,125 @@
+schema: openyamm.model3d.v1
+id: switch06
+model: switch06.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/SWITCH06.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Plate
+  materialIndex: 0
+  lods:
+  - faces: 10
+    vertices: 8
+  - faces: 10
+    vertices: 8
+  - faces: 10
+    vertices: 8
+- name: Lever
+  materialIndex: 0
+  lods:
+  - faces: 60
+    vertices: 32
+  - faces: 42
+    vertices: 23
+  - faces: 24
+    vertices: 14
+materials:
+- index: 0
+  texture: skins_preview/props/switch06.png
+  runtime_texture: skins/props/switch06.dtx
+  preview_texture: skins_preview/props/switch06.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SWITCH06.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 500
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Down
+  durationMs: 500
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Up
+  durationMs: 500
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: static_Down
+  durationMs: 1
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 12.8
+  - 17.92
+  - 12.8
+  origin:
+  - 0.0
+  - -10.24
+  - -2.56
+- name: Down
+  extents:
+  - 12.8
+  - 17.92
+  - 12.8
+  origin:
+  - 0.0
+  - -10.24
+  - -2.56
+- name: Up
+  extents:
+  - 12.8
+  - 17.92
+  - 12.8
+  origin:
+  - 0.0
+  - -10.24
+  - -2.56
+- name: static_Down
+  extents:
+  - 12.8
+  - 17.92
+  - 12.8
+  origin:
+  - 0.0
+  - -10.24
+  - -2.56
+roles:
+- static_model
+source_model: models/props/switch06.abc

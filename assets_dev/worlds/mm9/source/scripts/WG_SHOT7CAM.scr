@@ -1,0 +1,104 @@
+;--------------------------------------------------
+;Wg_Shot7Cam.scr
+; timmy
+; tells a prop to run it's animation
+;
+;Note: if the first parameter is the word
+; OnUse, the second parameter becomes
+; the animation name and the script will wait until being used
+; to play the animation.  Otherwise it will just
+; loop an anim for time specified
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#number		Xpos
+#number		Ypos
+#number		Zpos
+
+#number		MyX
+#number		MyY
+#Number		MyZ
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:OnPlay
+;--------------------------------------------------
+
+
+getobjecthandle Njam g_hobject
+target g_hobject
+wait 1 .2 OnFinish2
+exit
+
+;-------------------------------------
+:OnFinish2
+;-------------------------------------
+
+ScreenFadein 1
+wait 1 2 OnPan
+exit
+
+;-------------------------------------
+:OnPan
+;-------------------------------------
+
+getobjecthandle Shot7Mk0 g_hobject
+getpos g_hobject Xpos Ypos Zpos
+MoveToPos xpos Ypos Zpos 75 OnArrive1
+exit
+
+;
+;--------------------------------------------------
+:OnArrive1
+;--------------------------------------------------
+
+getobjecthandle Shot7Mk1 g_hobject
+getpos g_hobject Xpos Ypos Zpos
+MoveToPos xpos Ypos Zpos 75 OnArrive2
+exit
+
+;--------------------------------------------------
+:OnArrive2
+;--------------------------------------------------
+
+getobjecthandle Shot7Mk2 g_hobject
+getpos g_hobject Xpos Ypos Zpos
+MoveToPos xpos Ypos Zpos 75 OnArrive3
+exit
+
+;--------------------------------------------------
+:OnArrive3
+;--------------------------------------------------
+
+getobjecthandle Shot7Mk3 g_hobject
+getpos g_hobject Xpos Ypos Zpos
+MoveToPos xpos Ypos Zpos 75 CutTo
+exit
+
+;--------------------------------------------------
+:CutTo
+;--------------------------------------------------
+
+getobjecthandle Winman g_hobject
+trigger g_hobject CutTo
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddTrigger Play OnPlay
+
+
+
+exit
+

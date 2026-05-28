@@ -1,0 +1,7366 @@
+format_version: 1
+kind: outdoor_scene
+source:
+  geometry_file: guberlandcity.odm
+  source_metadata_file: guberlandcity.mm9.yml
+runtime_restrictions:
+  allow_save_game: false
+  allow_lloyds_beacon: false
+  arena: false
+environment:
+  sky_texture: plansky1
+  ground_tileset_name: planset
+  master_tile: 0
+  tile_set_lookup_indices:
+  - 0
+  - 0
+  - 0
+  - 0
+  day_bits_raw: 0
+  map_extra_bits_raw: 8
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: true
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 8192
+    strong_distance: 16384
+  weather:
+    fog_mode: static
+    precipitation: none
+    daily_fog:
+      small_chance: 0
+      average_chance: 0
+      dense_chance: 0
+      small:
+        weak_distance: 8192
+        strong_distance: 16384
+      average:
+        weak_distance: 8192
+        strong_distance: 16384
+      dense:
+        weak_distance: 8192
+        strong_distance: 16384
+  ceiling: 32767
+terrain:
+  attribute_overrides: []
+  footstep_sound_overrides: []
+bmodel_faces:
+  interactive_faces: []
+entities: []
+spawns: []
+model_instances:
+- instance_id: mm9:guberlandcity:object:82
+  source_ref: objects/82
+  source_kind: mm9_dat_object
+  source_object_index: 82
+  source_class: CandleProp
+  source_name: CandleProp15
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: 2621
+    y: -1925
+    z: 297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:86
+  source_ref: objects/86
+  source_kind: mm9_dat_object
+  source_object_index: 86
+  source_class: CandleProp
+  source_name: WallTorch69
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 2089
+    y: -12191
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:89
+  source_ref: objects/89
+  source_kind: mm9_dat_object
+  source_object_index: 89
+  source_class: CandleProp
+  source_name: WallTorch70
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 2703
+    y: -12191
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:91
+  source_ref: objects/91
+  source_kind: mm9_dat_object
+  source_object_index: 91
+  source_class: CandleProp
+  source_name: CandleProp14
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: 1147
+    y: -4424
+    z: 297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:94
+  source_ref: objects/94
+  source_kind: mm9_dat_object
+  source_object_index: 94
+  source_class: CandleProp
+  source_name: CandleProp13
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: 1925
+    y: -4424
+    z: 297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:99
+  source_ref: objects/99
+  source_kind: mm9_dat_object
+  source_object_index: 99
+  source_class: CandleProp
+  source_name: WallTorch56
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -3866
+    y: -4997
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:102
+  source_ref: objects/102
+  source_kind: mm9_dat_object
+  source_object_index: 102
+  source_class: CandleProp
+  source_name: WallTorch57
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -3866
+    y: -3850
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:105
+  source_ref: objects/105
+  source_kind: mm9_dat_object
+  source_object_index: 105
+  source_class: CandleProp
+  source_name: WallTorch58
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -1679
+    y: -4920
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:108
+  source_ref: objects/108
+  source_kind: mm9_dat_object
+  source_object_index: 108
+  source_class: CandleProp
+  source_name: WallTorch59
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -1377
+    y: -3625
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:109
+  source_ref: objects/109
+  source_kind: mm9_dat_object
+  source_object_index: 109
+  source_class: CandleProp
+  source_name: CandleProp11
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -2621
+    y: -4874
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:112
+  source_ref: objects/112
+  source_kind: mm9_dat_object
+  source_object_index: 112
+  source_class: CandleProp
+  source_name: CandleProp12
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -2007
+    y: -4424
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:115
+  source_ref: objects/115
+  source_kind: mm9_dat_object
+  source_object_index: 115
+  source_class: CandleProp
+  source_name: Wheellight2
+  source_model: models/Props/Chandelier2.ABC
+  source_skin: Skins/Props/Chandelier2.dtx
+  model_asset: models/props/chandelier2.glb
+  position:
+    x: -2621
+    y: -3645
+    z: 471
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:118
+  source_ref: objects/118
+  source_kind: mm9_dat_object
+  source_object_index: 118
+  source_class: CandleProp
+  source_name: CandleProp5
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -1311
+    y: -10158
+    z: 317
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:121
+  source_ref: objects/121
+  source_kind: mm9_dat_object
+  source_object_index: 121
+  source_class: CandleProp
+  source_name: CandleProp6
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -2621
+    y: -10158
+    z: 317
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:124
+  source_ref: objects/124
+  source_kind: mm9_dat_object
+  source_object_index: 124
+  source_class: CandleProp
+  source_name: CandleProp7
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -2621
+    y: -8192
+    z: 317
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:127
+  source_ref: objects/127
+  source_kind: mm9_dat_object
+  source_object_index: 127
+  source_class: CandleProp
+  source_name: CandleProp8
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -1311
+    y: -8192
+    z: 317
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:130
+  source_ref: objects/130
+  source_kind: mm9_dat_object
+  source_object_index: 130
+  source_class: CandleProp
+  source_name: CandleProp9
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -1311
+    y: -9175
+    z: 543
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:133
+  source_ref: objects/133
+  source_kind: mm9_dat_object
+  source_object_index: 133
+  source_class: CandleProp
+  source_name: CandleProp10
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -2621
+    y: -9175
+    z: 543
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:138
+  source_ref: objects/138
+  source_kind: mm9_dat_object
+  source_object_index: 138
+  source_class: CandleProp
+  source_name: WallTorch68
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -4874
+    y: -7224
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:141
+  source_ref: objects/141
+  source_kind: mm9_dat_object
+  source_object_index: 141
+  source_class: CandleProp
+  source_name: WallTorch67
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -6881
+    y: -7224
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:144
+  source_ref: objects/144
+  source_kind: mm9_dat_object
+  source_object_index: 144
+  source_class: CandleProp
+  source_name: WallTorch66
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -4874
+    y: -6211
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:147
+  source_ref: objects/147
+  source_kind: mm9_dat_object
+  source_object_index: 147
+  source_class: CandleProp
+  source_name: WallTorch65
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -6881
+    y: -6211
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:150
+  source_ref: objects/150
+  source_kind: mm9_dat_object
+  source_object_index: 150
+  source_class: CandleProp
+  source_name: WallTorch64
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -4654
+    y: -7578
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:153
+  source_ref: objects/153
+  source_kind: mm9_dat_object
+  source_object_index: 153
+  source_class: CandleProp
+  source_name: WallTorch63
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -7142
+    y: -7578
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:156
+  source_ref: objects/156
+  source_kind: mm9_dat_object
+  source_object_index: 156
+  source_class: CandleProp
+  source_name: WallTorch62
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -7142
+    y: -5857
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:159
+  source_ref: objects/159
+  source_kind: mm9_dat_object
+  source_object_index: 159
+  source_class: CandleProp
+  source_name: WallTorch61
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -4654
+    y: -5857
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:162
+  source_ref: objects/162
+  source_kind: mm9_dat_object
+  source_object_index: 162
+  source_class: CandleProp
+  source_name: WallTorch60
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: -5898
+    y: -5637
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:163
+  source_ref: objects/163
+  source_kind: mm9_dat_object
+  source_object_index: 163
+  source_class: CandleProp
+  source_name: CandleProp17
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -2621
+    y: -13271
+    z: 297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:166
+  source_ref: objects/166
+  source_kind: mm9_dat_object
+  source_object_index: 166
+  source_class: CandleProp
+  source_name: CandleProp16
+  source_model: models/Props/Chandelier3.ABC
+  source_skin: Skins/Props/Chandelier3.dtx
+  model_asset: models/props/chandelier3.glb
+  position:
+    x: -3932
+    y: -13271
+    z: 297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:171
+  source_ref: objects/171
+  source_kind: mm9_dat_object
+  source_object_index: 171
+  source_class: CandleProp
+  source_name: WallTorch71
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 6446
+    y: -13107
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:174
+  source_ref: objects/174
+  source_kind: mm9_dat_object
+  source_object_index: 174
+  source_class: CandleProp
+  source_name: WallTorch72
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 5530
+    y: -13696
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:177
+  source_ref: objects/177
+  source_kind: mm9_dat_object
+  source_object_index: 177
+  source_class: CandleProp
+  source_name: WallTorch73
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 5530
+    y: -12518
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:495
+  source_ref: objects/495
+  source_kind: mm9_dat_object
+  source_object_index: 495
+  source_class: Prop
+  source_name: Anvil
+  source_model: models/props/Anvil.abc
+  source_skin: skins/props/anvil.dtx
+  model_asset: models/props/anvil.glb
+  position:
+    x: -3553
+    y: -14223
+    z: 36
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:496
+  source_ref: objects/496
+  source_kind: mm9_dat_object
+  source_object_index: 496
+  source_class: Prop
+  source_name: Coalbin
+  source_model: models/Props/CoalBin.ABC
+  source_skin: Skins/Props/CoalBin.dtx
+  model_asset: models/props/coalbin.glb
+  position:
+    x: -3062
+    y: -13896
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:497
+  source_ref: objects/497
+  source_kind: mm9_dat_object
+  source_object_index: 497
+  source_class: Prop
+  source_name: Iron0
+  source_model: models/Props/Iron-Ingots.ABC
+  source_skin: Skins/Props/Iron-Ingots.dtx
+  model_asset: models/props/iron_ingots.glb
+  position:
+    x: -2908
+    y: -14172
+    z: 41
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.34202013
+    w: 0.93969262
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:498
+  source_ref: objects/498
+  source_kind: mm9_dat_object
+  source_object_index: 498
+  source_class: Prop
+  source_name: SmithHammer
+  source_model: models/props/smithhammer.abc
+  source_skin: skins/props/smithhammer.dtx
+  model_asset: models/props/smithhammer.glb
+  position:
+    x: -3553
+    y: -14223
+    z: 79
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:499
+  source_ref: objects/499
+  source_kind: mm9_dat_object
+  source_object_index: 499
+  source_class: Prop
+  source_name: Armor1
+  source_model: models/Props/Suitofarmor01.ABC
+  source_skin: Skins/Props/AmoredSuitPlain.dtx
+  model_asset: models/props/suitofarmor01.glb
+  position:
+    x: -2068
+    y: -13660
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:500
+  source_ref: objects/500
+  source_kind: mm9_dat_object
+  source_object_index: 500
+  source_class: Prop
+  source_name: Shield2
+  source_model: models/Props/Shield.ABC
+  source_skin: Skins/Props/shield3.dtx
+  model_asset: models/props/shield.glb
+  position:
+    x: -2499
+    y: -13716
+    z: 246
+  rotation_quat:
+    x: 0.7071068
+    y: 0
+    z: 0
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:501
+  source_ref: objects/501
+  source_kind: mm9_dat_object
+  source_object_index: 501
+  source_class: Prop
+  source_name: Shield3
+  source_model: models/Props/Shield.ABC
+  source_skin: Skins/Props/shield4.dtx
+  model_asset: models/props/shield.glb
+  position:
+    x: -2662
+    y: -13716
+    z: 246
+  rotation_quat:
+    x: 0.7071068
+    y: 0
+    z: 0
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:502
+  source_ref: objects/502
+  source_kind: mm9_dat_object
+  source_object_index: 502
+  source_class: Prop
+  source_name: Shelfitems17
+  source_model: models/Props/ShelfItem09.ABC
+  source_skin: Skins/Props/ShelfItem09.dtx
+  model_asset: models/props/shelfitem09.glb
+  position:
+    x: -2949
+    y: -13681
+    z: 179
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:503
+  source_ref: objects/503
+  source_kind: mm9_dat_object
+  source_object_index: 503
+  source_class: Prop
+  source_name: Helmet0
+  source_model: models/ModelProps/clansoldierhelmet.ABC
+  source_skin: Skins/ClanSoldier1.dtx
+  model_asset: models/modelprops/clansoldierhelmet.glb
+  position:
+    x: -2990
+    y: -13655
+    z: 223
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:504
+  source_ref: objects/504
+  source_kind: mm9_dat_object
+  source_object_index: 504
+  source_class: Prop
+  source_name: Helmet1
+  source_model: models/ModelProps/dookmilitiahelmet.ABC
+  source_skin: Skins/DookMilitia1.dtx
+  model_asset: models/modelprops/dookmilitiahelmet.glb
+  position:
+    x: -2908
+    y: -13681
+    z: 251
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:505
+  source_ref: objects/505
+  source_kind: mm9_dat_object
+  source_object_index: 505
+  source_class: Prop
+  source_name: Helmet2
+  source_model: models/ModelProps/clansoldierhelmet.ABC
+  source_skin: Skins/ClanSoldier1.dtx
+  model_asset: models/modelprops/clansoldierhelmet.glb
+  position:
+    x: -2826
+    y: -13655
+    z: 223
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:506
+  source_ref: objects/506
+  source_kind: mm9_dat_object
+  source_object_index: 506
+  source_class: Prop
+  source_name: Shelfitems18
+  source_model: models/Props/ShelfItem09.ABC
+  source_skin: Skins/Props/ShelfItem09.dtx
+  model_asset: models/props/shelfitem09.glb
+  position:
+    x: -2867
+    y: -13681
+    z: 97
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:507
+  source_ref: objects/507
+  source_kind: mm9_dat_object
+  source_object_index: 507
+  source_class: Prop
+  source_name: Weaponrack0
+  source_model: models/Props/WeaponRack.ABC
+  source_skin: Skins/Props/WeaponRack_New.dtx
+  model_asset: models/props/weaponrack.glb
+  position:
+    x: -3932
+    y: -13670
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:508
+  source_ref: objects/508
+  source_kind: mm9_dat_object
+  source_object_index: 508
+  source_class: Prop
+  source_name: Weaponrack1
+  source_model: models/Props/WeaponRack.ABC
+  source_skin: Skins/Props/WeaponRack_New.dtx
+  model_asset: models/props/weaponrack.glb
+  position:
+    x: -3523
+    y: -13670
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:509
+  source_ref: objects/509
+  source_kind: mm9_dat_object
+  source_object_index: 509
+  source_class: Prop
+  source_name: Forge1
+  source_model: models/Props/forge.ABC
+  source_skin: Skins/Props/Forge.dtx
+  model_asset: models/props/forge.glb
+  position:
+    x: -3348
+    y: -13896
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:510
+  source_ref: objects/510
+  source_kind: mm9_dat_object
+  source_object_index: 510
+  source_class: Prop
+  source_name: Basket0fruit0
+  source_model: models/Props/Basket_Fruit.ABC
+  source_skin: Skins/Props/Basket_Fruit.dtx
+  model_asset: models/props/basket_fruit.glb
+  position:
+    x: -1946
+    y: -3523
+    z: 41
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:511
+  source_ref: objects/511
+  source_kind: mm9_dat_object
+  source_object_index: 511
+  source_class: Prop
+  source_name: Basket0veg2
+  source_model: models/Props/Basket_Veggies.ABC
+  source_skin: Skins/Props/Basket_Veggies.dtx
+  model_asset: models/props/basket_veggies.glb
+  position:
+    x: -1946
+    y: -3625
+    z: 41
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:512
+  source_ref: objects/512
+  source_kind: mm9_dat_object
+  source_object_index: 512
+  source_class: Prop
+  source_name: Basket0fruit1
+  source_model: models/Props/Basket_Fruit.ABC
+  source_skin: Skins/Props/Basket_Fruit.dtx
+  model_asset: models/props/basket_fruit.glb
+  position:
+    x: -1946
+    y: -3727
+    z: 41
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:513
+  source_ref: objects/513
+  source_kind: mm9_dat_object
+  source_object_index: 513
+  source_class: Prop
+  source_name: Shelfitems1
+  source_model: models/Props/ShelfItem08.ABC
+  source_skin: Skins/Props/ShelfItem08.dtx
+  model_asset: models/props/shelfitem08.glb
+  position:
+    x: -1946
+    y: -3543
+    z: 179
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:514
+  source_ref: objects/514
+  source_kind: mm9_dat_object
+  source_object_index: 514
+  source_class: Prop
+  source_name: Shelfitems0
+  source_model: models/Props/ShelfItem07.ABC
+  source_skin: Skins/Props/ShelfItem07.dtx
+  model_asset: models/props/shelfitem07.glb
+  position:
+    x: -1946
+    y: -3543
+    z: 97
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:515
+  source_ref: objects/515
+  source_kind: mm9_dat_object
+  source_object_index: 515
+  source_class: Prop
+  source_name: Pitcher2
+  source_model: models/Props/Pitcher01.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/pitcher01.glb
+  position:
+    x: -1946
+    y: -3768
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:516
+  source_ref: objects/516
+  source_kind: mm9_dat_object
+  source_object_index: 516
+  source_class: Prop
+  source_name: Pitcher1
+  source_model: models/Props/Pitcher01.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/pitcher01.glb
+  position:
+    x: -1946
+    y: -3686
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:517
+  source_ref: objects/517
+  source_kind: mm9_dat_object
+  source_object_index: 517
+  source_class: Prop
+  source_name: Pitcher0
+  source_model: models/Props/Pitcher01.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/pitcher01.glb
+  position:
+    x: -1925
+    y: -3645
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:518
+  source_ref: objects/518
+  source_kind: mm9_dat_object
+  source_object_index: 518
+  source_class: Prop
+  source_name: Platestack3
+  source_model: models/Props/Plate-Stack2.ABC
+  source_skin: Skins/Props/Plate-Set1.dtx
+  model_asset: models/props/plate_stack2.glb
+  position:
+    x: -1946
+    y: -3727
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:519
+  source_ref: objects/519
+  source_kind: mm9_dat_object
+  source_object_index: 519
+  source_class: Prop
+  source_name: Platestack2
+  source_model: models/Props/Plate-Stack2.ABC
+  source_skin: Skins/Props/Plate-Set1.dtx
+  model_asset: models/props/plate_stack2.glb
+  position:
+    x: -1946
+    y: -3666
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:520
+  source_ref: objects/520
+  source_kind: mm9_dat_object
+  source_object_index: 520
+  source_class: Prop
+  source_name: Stove0
+  source_model: models/Props/Stove.ABC
+  source_skin: Skins/Props/Stove.dtx
+  model_asset: models/props/stove.glb
+  position:
+    x: -1638
+    y: -3392
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:521
+  source_ref: objects/521
+  source_kind: mm9_dat_object
+  source_object_index: 521
+  source_class: Prop
+  source_name: Barrel8
+  source_model: models/Props/Barrel.ABC
+  source_skin: Skins/Props/Barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: -1413
+    y: -3379
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:522
+  source_ref: objects/522
+  source_kind: mm9_dat_object
+  source_object_index: 522
+  source_class: Prop
+  source_name: Sack3
+  source_model: models/Props/Sack03.ABC
+  source_skin: Skins/Props/Sack01.dtx
+  model_asset: models/props/sack03.glb
+  position:
+    x: -1434
+    y: -3850
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:523
+  source_ref: objects/523
+  source_kind: mm9_dat_object
+  source_object_index: 523
+  source_class: Prop
+  source_name: Barrel9
+  source_model: models/Props/Barrel.ABC
+  source_skin: Skins/Props/Barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: -1413
+    y: -3502
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:524
+  source_ref: objects/524
+  source_kind: mm9_dat_object
+  source_object_index: 524
+  source_class: Prop
+  source_name: Chair16
+  source_model: models/Props/Barstool1.ABC
+  source_skin: Skins/Props/Barstool1.dtx
+  model_asset: models/props/barstool1.glb
+  position:
+    x: -2007
+    y: -4219
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:525
+  source_ref: objects/525
+  source_kind: mm9_dat_object
+  source_object_index: 525
+  source_class: Prop
+  source_name: Chair17
+  source_model: models/Props/Barstool1.ABC
+  source_skin: Skins/Props/Barstool1.dtx
+  model_asset: models/props/barstool1.glb
+  position:
+    x: -2007
+    y: -4383
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:526
+  source_ref: objects/526
+  source_kind: mm9_dat_object
+  source_object_index: 526
+  source_class: Prop
+  source_name: Chair18
+  source_model: models/Props/Barstool1.ABC
+  source_skin: Skins/Props/Barstool1.dtx
+  model_asset: models/props/barstool1.glb
+  position:
+    x: -2007
+    y: -4710
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:527
+  source_ref: objects/527
+  source_kind: mm9_dat_object
+  source_object_index: 527
+  source_class: Prop
+  source_name: Chair19
+  source_model: models/Props/Barstool1.ABC
+  source_skin: Skins/Props/Barstool1.dtx
+  model_asset: models/props/barstool1.glb
+  position:
+    x: -2007
+    y: -4547
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:528
+  source_ref: objects/528
+  source_kind: mm9_dat_object
+  source_object_index: 528
+  source_class: Prop
+  source_name: Mug2
+  source_model: models/Props/Mug1.ABC
+  source_skin: Skins/Props/Mug1.dtx
+  model_asset: models/props/mug1.glb
+  position:
+    x: -1884
+    y: -4588
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:529
+  source_ref: objects/529
+  source_kind: mm9_dat_object
+  source_object_index: 529
+  source_class: Prop
+  source_name: Barrel7
+  source_model: models/Props/Keg_Beer.ABC
+  source_skin: Skins/Props/Keg_Beer.dtx
+  model_asset: models/props/keg_beer.glb
+  position:
+    x: -1434
+    y: -4383
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:530
+  source_ref: objects/530
+  source_kind: mm9_dat_object
+  source_object_index: 530
+  source_class: Prop
+  source_name: Barrel1
+  source_model: models/Props/Keg_Beer.ABC
+  source_skin: Skins/Props/Keg_Beer.dtx
+  model_asset: models/props/keg_beer.glb
+  position:
+    x: -1434
+    y: -4506
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:531
+  source_ref: objects/531
+  source_kind: mm9_dat_object
+  source_object_index: 531
+  source_class: Prop
+  source_name: Pitcher3
+  source_model: models/Props/Pitcher01.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/pitcher01.glb
+  position:
+    x: -1434
+    y: -4137
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:532
+  source_ref: objects/532
+  source_kind: mm9_dat_object
+  source_object_index: 532
+  source_class: Prop
+  source_name: Pitcher4
+  source_model: models/Props/Pitcher01.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/pitcher01.glb
+  position:
+    x: -1393
+    y: -4178
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:533
+  source_ref: objects/533
+  source_kind: mm9_dat_object
+  source_object_index: 533
+  source_class: Prop
+  source_name: Mug1
+  source_model: models/Props/Mug1.ABC
+  source_skin: Skins/Props/Mug1.dtx
+  model_asset: models/props/mug1.glb
+  position:
+    x: -1434
+    y: -4792
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42261826
+    w: 0.90630779
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:534
+  source_ref: objects/534
+  source_kind: mm9_dat_object
+  source_object_index: 534
+  source_class: Prop
+  source_name: Bed0
+  source_model: models/Props/BedMedium.ABC
+  source_skin: Skins/Props/BedMedium.dtx
+  model_asset: models/props/bedmedium.glb
+  position:
+    x: -1475
+    y: -5345
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:535
+  source_ref: objects/535
+  source_kind: mm9_dat_object
+  source_object_index: 535
+  source_class: Prop
+  source_name: Dresser0
+  source_model: models/Props/DresserNS.ABC
+  source_skin: Skins/Props/DresserPlain.dtx
+  model_asset: models/props/dresserns.glb
+  position:
+    x: -1382
+    y: -5079
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:536
+  source_ref: objects/536
+  source_kind: mm9_dat_object
+  source_object_index: 536
+  source_class: Prop
+  source_name: Table3
+  source_model: models/Props/TableRound2.ABC
+  source_skin: Skins/Props/TableRound2.dtx
+  model_asset: models/props/tableround2.glb
+  position:
+    x: -1884
+    y: -5448
+    z: 51
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:537
+  source_ref: objects/537
+  source_kind: mm9_dat_object
+  source_object_index: 537
+  source_class: Prop
+  source_name: Chair15
+  source_model: models/Props/Chair_forDesk02.ABC
+  source_skin: Skins/Props/Chair_forDesk02.dtx
+  model_asset: models/props/chair_fordesk02.glb
+  position:
+    x: -1884
+    y: -5325
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:538
+  source_ref: objects/538
+  source_kind: mm9_dat_object
+  source_object_index: 538
+  source_class: Prop
+  source_name: Tablebench0
+  source_model: models/Props/Table_Bench.ABC
+  source_skin: Skins/Props/Table_Bench.dtx
+  model_asset: models/props/table_bench.glb
+  position:
+    x: -3052
+    y: -5325
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:539
+  source_ref: objects/539
+  source_kind: mm9_dat_object
+  source_object_index: 539
+  source_class: Prop
+  source_name: Tablebench1
+  source_model: models/Props/Table_Bench.ABC
+  source_skin: Skins/Props/Table_Bench.dtx
+  model_asset: models/props/table_bench.glb
+  position:
+    x: -2488
+    y: -4424
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:540
+  source_ref: objects/540
+  source_kind: mm9_dat_object
+  source_object_index: 540
+  source_class: Prop
+  source_name: Tablebench2
+  source_model: models/Props/Table_Bench.ABC
+  source_skin: Skins/Props/Table_Bench.dtx
+  model_asset: models/props/table_bench.glb
+  position:
+    x: -2755
+    y: -4424
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:541
+  source_ref: objects/541
+  source_kind: mm9_dat_object
+  source_object_index: 541
+  source_class: Prop
+  source_name: Tablebench3
+  source_model: models/Props/Table_Bench.ABC
+  source_skin: Skins/Props/Table_Bench.dtx
+  model_asset: models/props/table_bench.glb
+  position:
+    x: -2191
+    y: -5325
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:542
+  source_ref: objects/542
+  source_kind: mm9_dat_object
+  source_object_index: 542
+  source_class: Prop
+  source_name: Bed3
+  source_model: models/Props/BedMedium.ABC
+  source_skin: Skins/Props/BedMedium.dtx
+  model_asset: models/props/bedmedium.glb
+  position:
+    x: -3789
+    y: -4198
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:543
+  source_ref: objects/543
+  source_kind: mm9_dat_object
+  source_object_index: 543
+  source_class: Prop
+  source_name: Bed4
+  source_model: models/Props/BedMedium.ABC
+  source_skin: Skins/Props/BedMedium.dtx
+  model_asset: models/props/bedmedium.glb
+  position:
+    x: -3789
+    y: -3502
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:544
+  source_ref: objects/544
+  source_kind: mm9_dat_object
+  source_object_index: 544
+  source_class: Prop
+  source_name: Dresser3
+  source_model: models/Props/DresserNS.ABC
+  source_skin: Skins/Props/DresserPlain.dtx
+  model_asset: models/props/dresserns.glb
+  position:
+    x: -3850
+    y: -3768
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:545
+  source_ref: objects/545
+  source_kind: mm9_dat_object
+  source_object_index: 545
+  source_class: Prop
+  source_name: Dresser4
+  source_model: models/Props/DresserNS.ABC
+  source_skin: Skins/Props/DresserPlain.dtx
+  model_asset: models/props/dresserns.glb
+  position:
+    x: -3850
+    y: -3932
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:546
+  source_ref: objects/546
+  source_kind: mm9_dat_object
+  source_object_index: 546
+  source_class: Prop
+  source_name: Table5
+  source_model: models/Props/TableRound2.ABC
+  source_skin: Skins/Props/TableRound2.dtx
+  model_asset: models/props/tableround2.glb
+  position:
+    x: -3359
+    y: -3850
+    z: 51
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:547
+  source_ref: objects/547
+  source_kind: mm9_dat_object
+  source_object_index: 547
+  source_class: Prop
+  source_name: Chair22
+  source_model: models/Props/Chair_forDesk02.ABC
+  source_skin: Skins/Props/Chair_forDesk02.dtx
+  model_asset: models/props/chair_fordesk02.glb
+  position:
+    x: -3359
+    y: -3727
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:548
+  source_ref: objects/548
+  source_kind: mm9_dat_object
+  source_object_index: 548
+  source_class: Prop
+  source_name: Chair23
+  source_model: models/Props/Chair_forDesk02.ABC
+  source_skin: Skins/Props/Chair_forDesk02.dtx
+  model_asset: models/props/chair_fordesk02.glb
+  position:
+    x: -3359
+    y: -3973
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:549
+  source_ref: objects/549
+  source_kind: mm9_dat_object
+  source_object_index: 549
+  source_class: Prop
+  source_name: Table4
+  source_model: models/Props/TableRound2.ABC
+  source_skin: Skins/Props/TableRound2.dtx
+  model_asset: models/props/tableround2.glb
+  position:
+    x: -3359
+    y: -5243
+    z: 51
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:550
+  source_ref: objects/550
+  source_kind: mm9_dat_object
+  source_object_index: 550
+  source_class: Prop
+  source_name: Chair20
+  source_model: models/Props/Chair_forDesk02.ABC
+  source_skin: Skins/Props/Chair_forDesk02.dtx
+  model_asset: models/props/chair_fordesk02.glb
+  position:
+    x: -3359
+    y: -5120
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:551
+  source_ref: objects/551
+  source_kind: mm9_dat_object
+  source_object_index: 551
+  source_class: Prop
+  source_name: Bed1
+  source_model: models/Props/BedMedium.ABC
+  source_skin: Skins/Props/BedMedium.dtx
+  model_asset: models/props/bedmedium.glb
+  position:
+    x: -3768
+    y: -5345
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:552
+  source_ref: objects/552
+  source_kind: mm9_dat_object
+  source_object_index: 552
+  source_class: Prop
+  source_name: Bed2
+  source_model: models/Props/BedMedium.ABC
+  source_skin: Skins/Props/BedMedium.dtx
+  model_asset: models/props/bedmedium.glb
+  position:
+    x: -3789
+    y: -4649
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:553
+  source_ref: objects/553
+  source_kind: mm9_dat_object
+  source_object_index: 553
+  source_class: Prop
+  source_name: Dresser1
+  source_model: models/Props/DresserNS.ABC
+  source_skin: Skins/Props/DresserPlain.dtx
+  model_asset: models/props/dresserns.glb
+  position:
+    x: -3850
+    y: -4915
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:554
+  source_ref: objects/554
+  source_kind: mm9_dat_object
+  source_object_index: 554
+  source_class: Prop
+  source_name: Dresser2
+  source_model: models/Props/DresserNS.ABC
+  source_skin: Skins/Props/DresserPlain.dtx
+  model_asset: models/props/dresserns.glb
+  position:
+    x: -3850
+    y: -5079
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:555
+  source_ref: objects/555
+  source_kind: mm9_dat_object
+  source_object_index: 555
+  source_class: Prop
+  source_name: Chair21
+  source_model: models/Props/Chair_forDesk02.ABC
+  source_skin: Skins/Props/Chair_forDesk02.dtx
+  model_asset: models/props/chair_fordesk02.glb
+  position:
+    x: -3359
+    y: -5366
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:556
+  source_ref: objects/556
+  source_kind: mm9_dat_object
+  source_object_index: 556
+  source_class: Prop
+  source_name: Prop1
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: -2437
+    y: -5576
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99998134
+    w: -0.0061085281
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:557
+  source_ref: objects/557
+  source_kind: mm9_dat_object
+  source_object_index: 557
+  source_class: Prop
+  source_name: Bench2
+  source_model: models/Props/Bench_Stone02.ABC
+  source_skin: Skins/Props/Bench_Stone.dtx
+  model_asset: models/props/bench_stone02.glb
+  position:
+    x: -5571
+    y: -6062
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:558
+  source_ref: objects/558
+  source_kind: mm9_dat_object
+  source_object_index: 558
+  source_class: Prop
+  source_name: Bench3
+  source_model: models/Props/Bench_Stone02.ABC
+  source_skin: Skins/Props/Bench_Stone.dtx
+  model_asset: models/props/bench_stone02.glb
+  position:
+    x: -6226
+    y: -6062
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:559
+  source_ref: objects/559
+  source_kind: mm9_dat_object
+  source_object_index: 559
+  source_class: Prop
+  source_name: Bench4
+  source_model: models/Props/Bench_Stone02.ABC
+  source_skin: Skins/Props/Bench_Stone.dtx
+  model_asset: models/props/bench_stone02.glb
+  position:
+    x: -5898
+    y: -5652
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:560
+  source_ref: objects/560
+  source_kind: mm9_dat_object
+  source_object_index: 560
+  source_class: Prop
+  source_name: Bench5
+  source_model: models/Props/Bench_Stone02.ABC
+  source_skin: Skins/Props/Bench_Stone.dtx
+  model_asset: models/props/bench_stone02.glb
+  position:
+    x: -7127
+    y: -5857
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:561
+  source_ref: objects/561
+  source_kind: mm9_dat_object
+  source_object_index: 561
+  source_class: Prop
+  source_name: Bench6
+  source_model: models/Props/Bench_Stone02.ABC
+  source_skin: Skins/Props/Bench_Stone.dtx
+  model_asset: models/props/bench_stone02.glb
+  position:
+    x: -4669
+    y: -5857
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:562
+  source_ref: objects/562
+  source_kind: mm9_dat_object
+  source_object_index: 562
+  source_class: Prop
+  source_name: Bench0
+  source_model: models/Props/Bench_Stone02.ABC
+  source_skin: Skins/Props/Bench_Stone.dtx
+  model_asset: models/props/bench_stone02.glb
+  position:
+    x: -6226
+    y: -7373
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:563
+  source_ref: objects/563
+  source_kind: mm9_dat_object
+  source_object_index: 563
+  source_class: Prop
+  source_name: Bench1
+  source_model: models/Props/Bench_Stone02.ABC
+  source_skin: Skins/Props/Bench_Stone.dtx
+  model_asset: models/props/bench_stone02.glb
+  position:
+    x: -5571
+    y: -7373
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:564
+  source_ref: objects/564
+  source_kind: mm9_dat_object
+  source_object_index: 564
+  source_class: Prop
+  source_name: Bench7
+  source_model: models/Props/Bench_Stone02.ABC
+  source_skin: Skins/Props/Bench_Stone.dtx
+  model_asset: models/props/bench_stone02.glb
+  position:
+    x: -4669
+    y: -7578
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:565
+  source_ref: objects/565
+  source_kind: mm9_dat_object
+  source_object_index: 565
+  source_class: Prop
+  source_name: Bench8
+  source_model: models/Props/Bench_Stone02.ABC
+  source_skin: Skins/Props/Bench_Stone.dtx
+  model_asset: models/props/bench_stone02.glb
+  position:
+    x: -7127
+    y: -7578
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:566
+  source_ref: objects/566
+  source_kind: mm9_dat_object
+  source_object_index: 566
+  source_class: Prop
+  source_name: Bookcase47
+  source_model: models/Props/Bookcase02NS.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ns.glb
+  position:
+    x: -4669
+    y: -6554
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:567
+  source_ref: objects/567
+  source_kind: mm9_dat_object
+  source_object_index: 567
+  source_class: Prop
+  source_name: Bookcase48
+  source_model: models/Props/Bookcase02NS.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ns.glb
+  position:
+    x: -4669
+    y: -6881
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:568
+  source_ref: objects/568
+  source_kind: mm9_dat_object
+  source_object_index: 568
+  source_class: Prop
+  source_name: Pew0
+  source_model: models/Props/pew2NS.abc
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2ns.glb
+  position:
+    x: -6349
+    y: -6472
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:569
+  source_ref: objects/569
+  source_kind: mm9_dat_object
+  source_object_index: 569
+  source_class: Prop
+  source_name: Pew2
+  source_model: models/Props/pew2NS.abc
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2ns.glb
+  position:
+    x: -6021
+    y: -6472
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:570
+  source_ref: objects/570
+  source_kind: mm9_dat_object
+  source_object_index: 570
+  source_class: Prop
+  source_name: Pew4
+  source_model: models/Props/pew2NS.abc
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2ns.glb
+  position:
+    x: -5693
+    y: -6472
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:571
+  source_ref: objects/571
+  source_kind: mm9_dat_object
+  source_object_index: 571
+  source_class: Prop
+  source_name: Pew6
+  source_model: models/Props/pew2NS.abc
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2ns.glb
+  position:
+    x: -5366
+    y: -6472
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:572
+  source_ref: objects/572
+  source_kind: mm9_dat_object
+  source_object_index: 572
+  source_class: Prop
+  source_name: Pew1
+  source_model: models/Props/pew2NS.abc
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2ns.glb
+  position:
+    x: -6349
+    y: -6963
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:573
+  source_ref: objects/573
+  source_kind: mm9_dat_object
+  source_object_index: 573
+  source_class: Prop
+  source_name: Pew3
+  source_model: models/Props/pew2NS.abc
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2ns.glb
+  position:
+    x: -6021
+    y: -6963
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:574
+  source_ref: objects/574
+  source_kind: mm9_dat_object
+  source_object_index: 574
+  source_class: Prop
+  source_name: Pew5
+  source_model: models/Props/pew2NS.abc
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2ns.glb
+  position:
+    x: -5693
+    y: -6963
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:575
+  source_ref: objects/575
+  source_kind: mm9_dat_object
+  source_object_index: 575
+  source_class: Prop
+  source_name: Pew7
+  source_model: models/Props/pew2NS.abc
+  source_skin: Skins/Props/Pew2.dtx
+  model_asset: models/props/pew2ns.glb
+  position:
+    x: -5366
+    y: -6963
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:576
+  source_ref: objects/576
+  source_kind: mm9_dat_object
+  source_object_index: 576
+  source_class: Prop
+  source_name: Podium0
+  source_model: models/Props/Podium02.ABC
+  source_skin: Skins/Props/Podium02.dtx
+  model_asset: models/props/podium02.glb
+  position:
+    x: -6881
+    y: -6717
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:577
+  source_ref: objects/577
+  source_kind: mm9_dat_object
+  source_object_index: 577
+  source_class: Prop
+  source_name: Shelfitems32
+  source_model: models/Props/ShelfItem03.ABC
+  source_skin: Skins/Props/ShelfItem03.dtx
+  model_asset: models/props/shelfitem03.glb
+  position:
+    x: 3195
+    y: -1823
+    z: 284
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:578
+  source_ref: objects/578
+  source_kind: mm9_dat_object
+  source_object_index: 578
+  source_class: Prop
+  source_name: Shelfitems21
+  source_model: models/Props/ShelfItem02.ABC
+  source_skin: Skins/Props/ShelfItem02.dtx
+  model_asset: models/props/shelfitem02.glb
+  position:
+    x: 2130
+    y: -2529
+    z: 202
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:579
+  source_ref: objects/579
+  source_kind: mm9_dat_object
+  source_object_index: 579
+  source_class: Prop
+  source_name: Shelfitems23
+  source_model: models/Props/ShelfItem03.ABC
+  source_skin: Skins/Props/ShelfItem03.dtx
+  model_asset: models/props/shelfitem03.glb
+  position:
+    x: 2109
+    y: -1311
+    z: 279
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:580
+  source_ref: objects/580
+  source_kind: mm9_dat_object
+  source_object_index: 580
+  source_class: Prop
+  source_name: Shelfitems24
+  source_model: models/Props/ShelfItem03.ABC
+  source_skin: Skins/Props/ShelfItem03.dtx
+  model_asset: models/props/shelfitem03.glb
+  position:
+    x: 2068
+    y: -2540
+    z: 279
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:581
+  source_ref: objects/581
+  source_kind: mm9_dat_object
+  source_object_index: 581
+  source_class: Prop
+  source_name: Scroll2
+  source_model: models/PickUpItems/scroll.abc
+  source_skin: Skins/PickUpItems/scroll.dtx
+  model_asset: models/pickupitems/scroll.glb
+  position:
+    x: 2068
+    y: -1843
+    z: 282
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.97778324
+    w: 0.20961854
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:582
+  source_ref: objects/582
+  source_kind: mm9_dat_object
+  source_object_index: 582
+  source_class: Prop
+  source_name: Scroll1
+  source_model: models/PickUpItems/scroll.abc
+  source_skin: Skins/PickUpItems/scroll.dtx
+  model_asset: models/pickupitems/scroll.glb
+  position:
+    x: 2048
+    y: -1761
+    z: 282
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.97778324
+    w: 0.20961854
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:583
+  source_ref: objects/583
+  source_kind: mm9_dat_object
+  source_object_index: 583
+  source_class: Prop
+  source_name: Herbs4
+  source_model: models/Props/Bag-Herbs1.ABC
+  source_skin: Skins/PickUpItems/Quest/BagHerbs1.dtx
+  model_asset: models/props/bag_herbs1.glb
+  position:
+    x: 2089
+    y: -1311
+    z: 215
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:584
+  source_ref: objects/584
+  source_kind: mm9_dat_object
+  source_object_index: 584
+  source_class: Prop
+  source_name: Shelfitems25
+  source_model: models/Props/ShelfItem01.ABC
+  source_skin: Skins/Props/ShelfItem01.dtx
+  model_asset: models/props/shelfitem01.glb
+  position:
+    x: 2048
+    y: -2028
+    z: 284
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:585
+  source_ref: objects/585
+  source_kind: mm9_dat_object
+  source_object_index: 585
+  source_class: Prop
+  source_name: Shelfitems26
+  source_model: models/Props/ShelfItem05.ABC
+  source_skin: Skins/Props/ShelfItem05.dtx
+  model_asset: models/props/shelfitem05.glb
+  position:
+    x: 2048
+    y: -2068
+    z: 197
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:586
+  source_ref: objects/586
+  source_kind: mm9_dat_object
+  source_object_index: 586
+  source_class: Prop
+  source_name: Shelfitems27
+  source_model: models/Props/ShelfItem03.ABC
+  source_skin: Skins/Props/ShelfItem03.dtx
+  model_asset: models/props/shelfitem03.glb
+  position:
+    x: 2048
+    y: -2253
+    z: 202
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:587
+  source_ref: objects/587
+  source_kind: mm9_dat_object
+  source_object_index: 587
+  source_class: Prop
+  source_name: Herbs5
+  source_model: models/Props/Bag-Herbs1.ABC
+  source_skin: Skins/PickUpItems/Quest/BagHerbs1.dtx
+  model_asset: models/props/bag_herbs1.glb
+  position:
+    x: 2150
+    y: -1311
+    z: 215
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:588
+  source_ref: objects/588
+  source_kind: mm9_dat_object
+  source_object_index: 588
+  source_class: Prop
+  source_name: Clawlamp3
+  source_model: models/Props/ClawLamp.ABC
+  source_skin: Skins/Props/ClawLamp.dtx
+  model_asset: models/props/clawlamp.glb
+  position:
+    x: 2048
+    y: -1823
+    z: 143
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:589
+  source_ref: objects/589
+  source_kind: mm9_dat_object
+  source_object_index: 589
+  source_class: Prop
+  source_name: Clawlamp2
+  source_model: models/Props/ClawLamp.ABC
+  source_skin: Skins/Props/ClawLamp.dtx
+  model_asset: models/props/clawlamp.glb
+  position:
+    x: 3174
+    y: -2540
+    z: 297
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:590
+  source_ref: objects/590
+  source_kind: mm9_dat_object
+  source_object_index: 590
+  source_class: Prop
+  source_name: Shelfitems22
+  source_model: models/Props/ShelfItem01.ABC
+  source_skin: Skins/Props/ShelfItem01.dtx
+  model_asset: models/props/shelfitem01.glb
+  position:
+    x: 3092
+    y: -2540
+    z: 202
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:591
+  source_ref: objects/591
+  source_kind: mm9_dat_object
+  source_object_index: 591
+  source_class: Prop
+  source_name: Scroll3
+  source_model: models/PickUpItems/scroll.abc
+  source_skin: Skins/PickUpItems/scroll.dtx
+  model_asset: models/pickupitems/scroll.glb
+  position:
+    x: 3195
+    y: -2068
+    z: 200
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.97778324
+    w: 0.20961854
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:592
+  source_ref: objects/592
+  source_kind: mm9_dat_object
+  source_object_index: 592
+  source_class: Prop
+  source_name: Scroll4
+  source_model: models/PickUpItems/scroll.abc
+  source_skin: Skins/PickUpItems/scroll.dtx
+  model_asset: models/pickupitems/scroll.glb
+  position:
+    x: 3174
+    y: -1987
+    z: 200
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.97778324
+    w: 0.20961854
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:593
+  source_ref: objects/593
+  source_kind: mm9_dat_object
+  source_object_index: 593
+  source_class: Prop
+  source_name: Shelfitems28
+  source_model: models/Props/ShelfItem02.ABC
+  source_skin: Skins/Props/ShelfItem02.dtx
+  model_asset: models/props/shelfitem02.glb
+  position:
+    x: 3133
+    y: -1321
+    z: 120
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:594
+  source_ref: objects/594
+  source_kind: mm9_dat_object
+  source_object_index: 594
+  source_class: Prop
+  source_name: Shelfitems29
+  source_model: models/Props/ShelfItem05.ABC
+  source_skin: Skins/Props/ShelfItem05.dtx
+  model_asset: models/props/shelfitem05.glb
+  position:
+    x: 3195
+    y: -1597
+    z: 197
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:595
+  source_ref: objects/595
+  source_kind: mm9_dat_object
+  source_object_index: 595
+  source_class: Prop
+  source_name: Herbs6
+  source_model: models/Props/Bag-Herbs1.ABC
+  source_skin: Skins/PickUpItems/Quest/BagHerbs1.dtx
+  model_asset: models/props/bag_herbs1.glb
+  position:
+    x: 3195
+    y: -1761
+    z: 215
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:596
+  source_ref: objects/596
+  source_kind: mm9_dat_object
+  source_object_index: 596
+  source_class: Prop
+  source_name: Herbs7
+  source_model: models/Props/Bag-Herbs1.ABC
+  source_skin: Skins/PickUpItems/Quest/BagHerbs1.dtx
+  model_asset: models/props/bag_herbs1.glb
+  position:
+    x: 3195
+    y: -1823
+    z: 215
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:597
+  source_ref: objects/597
+  source_kind: mm9_dat_object
+  source_object_index: 597
+  source_class: Prop
+  source_name: Shelfitems30
+  source_model: models/Props/ShelfItem03.ABC
+  source_skin: Skins/Props/ShelfItem03.dtx
+  model_asset: models/props/shelfitem03.glb
+  position:
+    x: 3195
+    y: -2048
+    z: 115
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:598
+  source_ref: objects/598
+  source_kind: mm9_dat_object
+  source_object_index: 598
+  source_class: Prop
+  source_name: Shelfitems31
+  source_model: models/Props/ShelfItem05.ABC
+  source_skin: Skins/Props/ShelfItem05.dtx
+  model_asset: models/props/shelfitem05.glb
+  position:
+    x: 3195
+    y: -1393
+    z: 279
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:602
+  source_ref: objects/602
+  source_kind: mm9_dat_object
+  source_object_index: 602
+  source_class: SeaMonster
+  source_name: SeaMonster0
+  source_model: models/SeaMonster.abc
+  source_skin: ''
+  model_asset: models/seamonster.glb
+  position:
+    x: 2621
+    y: -1700
+    z: 143
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.1
+    y: 0.1
+    z: 0.1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/seamonster.abc
+    source_skins: []
+    candidates:
+    - id: seamonster_seacreaturef
+      source_skins:
+      - skins/seacreaturef.dtx
+    - id: seamonster_seacreaturem
+      source_skins:
+      - skins/seacreaturem.dtx
+- instance_id: mm9:guberlandcity:object:603
+  source_ref: objects/603
+  source_kind: mm9_dat_object
+  source_object_index: 603
+  source_class: Prop
+  source_name: Herbwallrack5
+  source_model: models/Props/Herb-Rack1.ABC
+  source_skin: Skins/Props/Herb-Rack1.dtx
+  model_asset: models/props/herb_rack1.glb
+  position:
+    x: 2376
+    y: -12698
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:604
+  source_ref: objects/604
+  source_kind: mm9_dat_object
+  source_object_index: 604
+  source_class: Prop
+  source_name: Herbwallrack6
+  source_model: models/Props/Herb-Rack1.ABC
+  source_skin: Skins/Props/Herb-Rack1.dtx
+  model_asset: models/props/herb_rack1.glb
+  position:
+    x: 2376
+    y: -13148
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:605
+  source_ref: objects/605
+  source_kind: mm9_dat_object
+  source_object_index: 605
+  source_class: Prop
+  source_name: Herbwallrack7
+  source_model: models/Props/Herb-Rack1.ABC
+  source_skin: Skins/Props/Herb-Rack1.dtx
+  model_asset: models/props/herb_rack1.glb
+  position:
+    x: 2376
+    y: -13742
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:606
+  source_ref: objects/606
+  source_kind: mm9_dat_object
+  source_object_index: 606
+  source_class: Prop
+  source_name: Herbwallrack8
+  source_model: models/Props/Herb-Rack1.ABC
+  source_skin: Skins/Props/Herb-Rack1.dtx
+  model_asset: models/props/herb_rack1.glb
+  position:
+    x: 2376
+    y: -13517
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:607
+  source_ref: objects/607
+  source_kind: mm9_dat_object
+  source_object_index: 607
+  source_class: Prop
+  source_name: Herbwallrack9
+  source_model: models/Props/Herb-Rack1.ABC
+  source_skin: Skins/Props/Herb-Rack1.dtx
+  model_asset: models/props/herb_rack1.glb
+  position:
+    x: 2376
+    y: -12923
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:608
+  source_ref: objects/608
+  source_kind: mm9_dat_object
+  source_object_index: 608
+  source_class: Prop
+  source_name: Herbwallrack10
+  source_model: models/Props/Herb-Rack1.ABC
+  source_skin: Skins/Props/Herb-Rack1.dtx
+  model_asset: models/props/herb_rack1.glb
+  position:
+    x: 2376
+    y: -13967
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:609
+  source_ref: objects/609
+  source_kind: mm9_dat_object
+  source_object_index: 609
+  source_class: Prop
+  source_name: Cans1
+  source_model: models/Props/ShelfItem06.ABC
+  source_skin: Skins/Props/ShelfItem06.dtx
+  model_asset: models/props/shelfitem06.glb
+  position:
+    x: 2724
+    y: -14377
+    z: 184
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:610
+  source_ref: objects/610
+  source_kind: mm9_dat_object
+  source_object_index: 610
+  source_class: Prop
+  source_name: Herbs2
+  source_model: models/Props/Bag-Herbs1.ABC
+  source_skin: Skins/PickUpItems/Quest/BagHerbs1.dtx
+  model_asset: models/props/bag_herbs1.glb
+  position:
+    x: 2836
+    y: -14377
+    z: 113
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:611
+  source_ref: objects/611
+  source_kind: mm9_dat_object
+  source_object_index: 611
+  source_class: Prop
+  source_name: Shelfitems9
+  source_model: models/Props/ShelfItem02.ABC
+  source_skin: Skins/Props/ShelfItem02.dtx
+  model_asset: models/props/shelfitem02.glb
+  position:
+    x: 2785
+    y: -14356
+    z: 97
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:612
+  source_ref: objects/612
+  source_kind: mm9_dat_object
+  source_object_index: 612
+  source_class: Prop
+  source_name: Shelfitems11
+  source_model: models/Props/ShelfItem03.ABC
+  source_skin: Skins/Props/ShelfItem03.dtx
+  model_asset: models/props/shelfitem03.glb
+  position:
+    x: 2652
+    y: -14377
+    z: 97
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:613
+  source_ref: objects/613
+  source_kind: mm9_dat_object
+  source_object_index: 613
+  source_class: Prop
+  source_name: Shelfitems13
+  source_model: models/Props/ShelfItem05.ABC
+  source_skin: Skins/Props/ShelfItem05.dtx
+  model_asset: models/props/shelfitem05.glb
+  position:
+    x: 2724
+    y: -14377
+    z: 261
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:614
+  source_ref: objects/614
+  source_kind: mm9_dat_object
+  source_object_index: 614
+  source_class: Prop
+  source_name: Bookstack0
+  source_model: models/Props/BookStack01.abc
+  source_skin: Skins/Props/BookStack01.dtx
+  model_asset: models/props/bookstack01.glb
+  position:
+    x: 2140
+    y: -14372
+    z: 133
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:615
+  source_ref: objects/615
+  source_kind: mm9_dat_object
+  source_object_index: 615
+  source_class: Prop
+  source_name: Herbs0
+  source_model: models/Props/Bag-Herbs1.ABC
+  source_skin: Skins/PickUpItems/Quest/BagHerbs1.dtx
+  model_asset: models/props/bag_herbs1.glb
+  position:
+    x: 1966
+    y: -14377
+    z: 133
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:616
+  source_ref: objects/616
+  source_kind: mm9_dat_object
+  source_object_index: 616
+  source_class: Prop
+  source_name: Herbs1
+  source_model: models/Props/Bag-Herbs1.ABC
+  source_skin: Skins/PickUpItems/Quest/BagHerbs1.dtx
+  model_asset: models/props/bag_herbs1.glb
+  position:
+    x: 2632
+    y: -14377
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:617
+  source_ref: objects/617
+  source_kind: mm9_dat_object
+  source_object_index: 617
+  source_class: Prop
+  source_name: Shelfitems10
+  source_model: models/Props/ShelfItem03.ABC
+  source_skin: Skins/Props/ShelfItem03.dtx
+  model_asset: models/props/shelfitem03.glb
+  position:
+    x: 2109
+    y: -14377
+    z: 179
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:618
+  source_ref: objects/618
+  source_kind: mm9_dat_object
+  source_object_index: 618
+  source_class: Prop
+  source_name: Shelfitems12
+  source_model: models/Props/ShelfItem05.ABC
+  source_skin: Skins/Props/ShelfItem05.dtx
+  model_asset: models/props/shelfitem05.glb
+  position:
+    x: 1966
+    y: -14377
+    z: 179
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:619
+  source_ref: objects/619
+  source_kind: mm9_dat_object
+  source_object_index: 619
+  source_class: Prop
+  source_name: Herbs3
+  source_model: models/Props/Bag-Herbs1.ABC
+  source_skin: Skins/PickUpItems/Quest/BagHerbs1.dtx
+  model_asset: models/props/bag_herbs1.glb
+  position:
+    x: 2007
+    y: -14377
+    z: 133
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:620
+  source_ref: objects/620
+  source_kind: mm9_dat_object
+  source_object_index: 620
+  source_class: Prop
+  source_name: Herbs8
+  source_model: models/Props/Bag-Herbs1.ABC
+  source_skin: Skins/PickUpItems/Quest/BagHerbs1.dtx
+  model_asset: models/props/bag_herbs1.glb
+  position:
+    x: 2642
+    y: -12411
+    z: 113
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:621
+  source_ref: objects/621
+  source_kind: mm9_dat_object
+  source_object_index: 621
+  source_class: Prop
+  source_name: Shelfitems14
+  source_model: models/Props/ShelfItem02.ABC
+  source_skin: Skins/Props/ShelfItem02.dtx
+  model_asset: models/props/shelfitem02.glb
+  position:
+    x: 2591
+    y: -12390
+    z: 102
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:622
+  source_ref: objects/622
+  source_kind: mm9_dat_object
+  source_object_index: 622
+  source_class: Prop
+  source_name: Shelfitems15
+  source_model: models/Props/ShelfItem03.ABC
+  source_skin: Skins/Props/ShelfItem03.dtx
+  model_asset: models/props/shelfitem03.glb
+  position:
+    x: 2458
+    y: -12411
+    z: 102
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:623
+  source_ref: objects/623
+  source_kind: mm9_dat_object
+  source_object_index: 623
+  source_class: Prop
+  source_name: Bookstack1
+  source_model: models/Props/BookStack01.abc
+  source_skin: Skins/Props/BookStack01.dtx
+  model_asset: models/props/bookstack01.glb
+  position:
+    x: 2314
+    y: -12411
+    z: 133
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:624
+  source_ref: objects/624
+  source_kind: mm9_dat_object
+  source_object_index: 624
+  source_class: Prop
+  source_name: Burner1
+  source_model: models/props/burner.abc
+  source_skin: skins/props/burner.dtx
+  model_asset: models/props/burner.glb
+  position:
+    x: 2068
+    y: -12411
+    z: 138
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70895559
+    w: 0.70525313
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:625
+  source_ref: objects/625
+  source_kind: mm9_dat_object
+  source_object_index: 625
+  source_class: Prop
+  source_name: Book1
+  source_model: models/Props/Book.ABC
+  source_skin: Skins/Props/Book.dtx
+  model_asset: models/props/book.glb
+  position:
+    x: 2171
+    y: -12411
+    z: 174
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96792877
+    w: 0.2512248
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:626
+  source_ref: objects/626
+  source_kind: mm9_dat_object
+  source_object_index: 626
+  source_class: Prop
+  source_name: Shelfitems16
+  source_model: models/Props/ShelfItem05.ABC
+  source_skin: Skins/Props/ShelfItem05.dtx
+  model_asset: models/props/shelfitem05.glb
+  position:
+    x: 2540
+    y: -12452
+    z: 102
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:627
+  source_ref: objects/627
+  source_kind: mm9_dat_object
+  source_object_index: 627
+  source_class: Prop
+  source_name: Plant1
+  source_model: models/Props/PottedPlant2.ABC
+  source_skin: Skins/Props/PottedPlant2.dtx
+  model_asset: models/props/pottedplant2.glb
+  position:
+    x: 1843
+    y: -12739
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.93969262
+    w: 0.34202015
+  scale:
+    x: 2.5
+    y: 2.5
+    z: 2.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:628
+  source_ref: objects/628
+  source_kind: mm9_dat_object
+  source_object_index: 628
+  source_class: Prop
+  source_name: Plant2
+  source_model: models/Props/PottedPlant3.ABC
+  source_skin: Skins/Props/PottedPlant3.dtx
+  model_asset: models/props/pottedplant3.glb
+  position:
+    x: 1843
+    y: -13742
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:629
+  source_ref: objects/629
+  source_kind: mm9_dat_object
+  source_object_index: 629
+  source_class: Prop
+  source_name: Plant3
+  source_model: models/Props/PottedPlant1.ABC
+  source_skin: Skins/Props/PottedPlant1.dtx
+  model_asset: models/props/pottedplant1.glb
+  position:
+    x: 1843
+    y: -13005
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:630
+  source_ref: objects/630
+  source_kind: mm9_dat_object
+  source_object_index: 630
+  source_class: Prop
+  source_name: Plant4
+  source_model: models/Props/PottedPlant1.ABC
+  source_skin: Skins/Props/PottedPlant1.dtx
+  model_asset: models/props/pottedplant1.glb
+  position:
+    x: 1843
+    y: -12882
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:631
+  source_ref: objects/631
+  source_kind: mm9_dat_object
+  source_object_index: 631
+  source_class: Prop
+  source_name: Plant0
+  source_model: models/Props/PottedPlant1.ABC
+  source_skin: Skins/Props/PottedPlant1.dtx
+  model_asset: models/props/pottedplant1.glb
+  position:
+    x: 1843
+    y: -13640
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:632
+  source_ref: objects/632
+  source_kind: mm9_dat_object
+  source_object_index: 632
+  source_class: Prop
+  source_name: Plant5
+  source_model: models/Props/PottedPlant2.ABC
+  source_skin: Skins/Props/PottedPlant2.dtx
+  model_asset: models/props/pottedplant2.glb
+  position:
+    x: 2908
+    y: -13558
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:633
+  source_ref: objects/633
+  source_kind: mm9_dat_object
+  source_object_index: 633
+  source_class: Prop
+  source_name: Plant6
+  source_model: models/Props/PottedPlant3.ABC
+  source_skin: Skins/Props/PottedPlant3.dtx
+  model_asset: models/props/pottedplant3.glb
+  position:
+    x: 2908
+    y: -12964
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:634
+  source_ref: objects/634
+  source_kind: mm9_dat_object
+  source_object_index: 634
+  source_class: Prop
+  source_name: Plant7
+  source_model: models/Props/PottedPlant1.ABC
+  source_skin: Skins/Props/PottedPlant1.dtx
+  model_asset: models/props/pottedplant1.glb
+  position:
+    x: 2908
+    y: -13824
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2.5
+    y: 2.5
+    z: 2.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:635
+  source_ref: objects/635
+  source_kind: mm9_dat_object
+  source_object_index: 635
+  source_class: Prop
+  source_name: Plant8
+  source_model: models/Props/PottedPlant1.ABC
+  source_skin: Skins/Props/PottedPlant1.dtx
+  model_asset: models/props/pottedplant1.glb
+  position:
+    x: 2908
+    y: -13701
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2.5
+    y: 2.5
+    z: 2.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:636
+  source_ref: objects/636
+  source_kind: mm9_dat_object
+  source_object_index: 636
+  source_class: Prop
+  source_name: Plant9
+  source_model: models/Props/PottedPlant1.ABC
+  source_skin: Skins/Props/PottedPlant1.dtx
+  model_asset: models/props/pottedplant1.glb
+  position:
+    x: 2908
+    y: -12780
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:639
+  source_ref: objects/639
+  source_kind: mm9_dat_object
+  source_object_index: 639
+  source_class: Prop
+  source_name: Cabinet28
+  source_model: models/Props/Cabinet01.abc
+  source_skin: Skins/Props/Cabinet01.dtx
+  model_asset: models/props/cabinet01.glb
+  position:
+    x: -2621
+    y: -8479
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:640
+  source_ref: objects/640
+  source_kind: mm9_dat_object
+  source_object_index: 640
+  source_class: Prop
+  source_name: Stove1
+  source_model: models/Props/Stovens.ABC
+  source_skin: Skins/Props/Stove.dtx
+  model_asset: models/props/stovens.glb
+  position:
+    x: -3162
+    y: -8212
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:641
+  source_ref: objects/641
+  source_kind: mm9_dat_object
+  source_object_index: 641
+  source_class: Prop
+  source_name: Table6
+  source_model: models/Props/TableRound.ABC
+  source_skin: Skins/Props/TableRound.dtx
+  model_asset: models/props/tableround.glb
+  position:
+    x: -3154
+    y: -8438
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:642
+  source_ref: objects/642
+  source_kind: mm9_dat_object
+  source_object_index: 642
+  source_class: Prop
+  source_name: Barrel10
+  source_model: models/Props/Barrel.ABC
+  source_skin: Skins/Props/Barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: -3174
+    y: -7967
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:643
+  source_ref: objects/643
+  source_kind: mm9_dat_object
+  source_object_index: 643
+  source_class: Prop
+  source_name: Barrel0
+  source_model: models/Props/Barrel.ABC
+  source_skin: Skins/Props/Barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: -2580
+    y: -7987
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:644
+  source_ref: objects/644
+  source_kind: mm9_dat_object
+  source_object_index: 644
+  source_class: Prop
+  source_name: Barrel3
+  source_model: models/Props/Barrel.ABC
+  source_skin: Skins/Props/Barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: -2417
+    y: -7987
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:645
+  source_ref: objects/645
+  source_kind: mm9_dat_object
+  source_object_index: 645
+  source_class: Prop
+  source_name: Crate0
+  source_model: models/Props/Crate.ABC
+  source_skin: Skins/Props/Crate.dtx
+  model_asset: models/props/crate.glb
+  position:
+    x: -2253
+    y: -8028
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:646
+  source_ref: objects/646
+  source_kind: mm9_dat_object
+  source_object_index: 646
+  source_class: Prop
+  source_name: Crate1
+  source_model: models/Props/Crate.ABC
+  source_skin: Skins/Props/Crate.dtx
+  model_asset: models/props/crate.glb
+  position:
+    x: -2089
+    y: -7987
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:647
+  source_ref: objects/647
+  source_kind: mm9_dat_object
+  source_object_index: 647
+  source_class: Prop
+  source_name: Cabinet32
+  source_model: models/Props/Cabinet02NS.ABC
+  source_skin: Skins/Props/Cabinet02.dtx
+  model_asset: models/props/cabinet02ns.glb
+  position:
+    x: -737
+    y: -8212
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:648
+  source_ref: objects/648
+  source_kind: mm9_dat_object
+  source_object_index: 648
+  source_class: Prop
+  source_name: Table22
+  source_model: models/Props/Table01.ABC
+  source_skin: Skins/Props/Table01.dtx
+  model_asset: models/props/table01.glb
+  position:
+    x: -1311
+    y: -8212
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:649
+  source_ref: objects/649
+  source_kind: mm9_dat_object
+  source_object_index: 649
+  source_class: Prop
+  source_name: Chair92
+  source_model: models/Props/Chair03.ABC
+  source_skin: Skins/Props/Chair03.dtx
+  model_asset: models/props/chair03.glb
+  position:
+    x: -1556
+    y: -8212
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:650
+  source_ref: objects/650
+  source_kind: mm9_dat_object
+  source_object_index: 650
+  source_class: Prop
+  source_name: Chair93
+  source_model: models/Props/Chair03.ABC
+  source_skin: Skins/Props/Chair03.dtx
+  model_asset: models/props/chair03.glb
+  position:
+    x: -1065
+    y: -8212
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:651
+  source_ref: objects/651
+  source_kind: mm9_dat_object
+  source_object_index: 651
+  source_class: Prop
+  source_name: Chair87
+  source_model: models/Props/Chair03.ABC
+  source_skin: Skins/Props/Chair03.dtx
+  model_asset: models/props/chair03.glb
+  position:
+    x: -1311
+    y: -8110
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99998134
+    w: -0.0061085281
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:652
+  source_ref: objects/652
+  source_kind: mm9_dat_object
+  source_object_index: 652
+  source_class: Prop
+  source_name: Chair90
+  source_model: models/Props/Chair03.ABC
+  source_skin: Skins/Props/Chair03.dtx
+  model_asset: models/props/chair03.glb
+  position:
+    x: -1311
+    y: -8315
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:653
+  source_ref: objects/653
+  source_kind: mm9_dat_object
+  source_object_index: 653
+  source_class: Prop
+  source_name: Cabinet29
+  source_model: models/Props/WeaponsCabinet03.ABC
+  source_skin: Skins/Props/WeaponsCabinet06.dtx
+  model_asset: models/props/weaponscabinet03.glb
+  position:
+    x: -1024
+    y: -8602
+    z: 61
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:654
+  source_ref: objects/654
+  source_kind: mm9_dat_object
+  source_object_index: 654
+  source_class: Prop
+  source_name: Prize0
+  source_model: models/PickUpItems/quest/Prize.ABC
+  source_skin: Skins/PickUpItems/Quest/Prize.dtx
+  model_asset: models/pickupitems/quest/prize.glb
+  position:
+    x: -1147
+    y: -8591
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:655
+  source_ref: objects/655
+  source_kind: mm9_dat_object
+  source_object_index: 655
+  source_class: Prop
+  source_name: Prize1
+  source_model: models/PickUpItems/quest/Prize.ABC
+  source_skin: Skins/PickUpItems/Quest/Prize.dtx
+  model_asset: models/pickupitems/quest/prize.glb
+  position:
+    x: -1096
+    y: -8612
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:656
+  source_ref: objects/656
+  source_kind: mm9_dat_object
+  source_object_index: 656
+  source_class: Prop
+  source_name: Prize2
+  source_model: models/PickUpItems/quest/Prize.ABC
+  source_skin: Skins/PickUpItems/Quest/Prize.dtx
+  model_asset: models/pickupitems/quest/prize.glb
+  position:
+    x: -1044
+    y: -8602
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:657
+  source_ref: objects/657
+  source_kind: mm9_dat_object
+  source_object_index: 657
+  source_class: Prop
+  source_name: Prize3
+  source_model: models/PickUpItems/quest/Prize.ABC
+  source_skin: Skins/PickUpItems/Quest/Prize.dtx
+  model_asset: models/pickupitems/quest/prize.glb
+  position:
+    x: -993
+    y: -8612
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:658
+  source_ref: objects/658
+  source_kind: mm9_dat_object
+  source_object_index: 658
+  source_class: Prop
+  source_name: Prize4
+  source_model: models/PickUpItems/quest/Prize.ABC
+  source_skin: Skins/PickUpItems/Quest/Prize.dtx
+  model_asset: models/pickupitems/quest/prize.glb
+  position:
+    x: -942
+    y: -8591
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:659
+  source_ref: objects/659
+  source_kind: mm9_dat_object
+  source_object_index: 659
+  source_class: Prop
+  source_name: Prize5
+  source_model: models/PickUpItems/quest/Prize.ABC
+  source_skin: Skins/PickUpItems/Quest/Prize.dtx
+  model_asset: models/pickupitems/quest/prize.glb
+  position:
+    x: -891
+    y: -8602
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:660
+  source_ref: objects/660
+  source_kind: mm9_dat_object
+  source_object_index: 660
+  source_class: Prop
+  source_name: Sign4
+  source_model: models/Props/Scroll-Open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: -1024
+    y: -8566
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:661
+  source_ref: objects/661
+  source_kind: mm9_dat_object
+  source_object_index: 661
+  source_class: Prop
+  source_name: Armor2
+  source_model: models/Props/Suitofarmor02.ABC
+  source_skin: Skins/Props/AmoredSuitAged.dtx;skins/props/AmoredSuithalberd.dtx
+  model_asset: models/props/suitofarmor02.glb
+  position:
+    x: -1884
+    y: -8888
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:662
+  source_ref: objects/662
+  source_kind: mm9_dat_object
+  source_object_index: 662
+  source_class: Prop
+  source_name: Armor4
+  source_model: models/Props/Suitofarmor02.ABC
+  source_skin: Skins/Props/AmoredSuitAged.dtx;skins/props/AmoredSuithalberd.dtx
+  model_asset: models/props/suitofarmor02.glb
+  position:
+    x: -2089
+    y: -8888
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70401474
+    w: -0.71018536
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:663
+  source_ref: objects/663
+  source_kind: mm9_dat_object
+  source_object_index: 663
+  source_class: Prop
+  source_name: Throne0
+  source_model: models/Props/Throne.ABC
+  source_skin: Skins/Props/Throne.dtx
+  model_asset: models/props/throne.glb
+  position:
+    x: -3031
+    y: -9175
+    z: 125
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:664
+  source_ref: objects/664
+  source_kind: mm9_dat_object
+  source_object_index: 664
+  source_class: Prop
+  source_name: Armor3
+  source_model: models/Props/Suitofarmor02.ABC
+  source_skin: Skins/Props/AmoredSuitAged.dtx;skins/props/AmoredSuithalberd.dtx
+  model_asset: models/props/suitofarmor02.glb
+  position:
+    x: -1884
+    y: -9462
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:665
+  source_ref: objects/665
+  source_kind: mm9_dat_object
+  source_object_index: 665
+  source_class: Prop
+  source_name: Armor5
+  source_model: models/Props/Suitofarmor02.ABC
+  source_skin: Skins/Props/AmoredSuitAged.dtx;skins/props/AmoredSuithalberd.dtx
+  model_asset: models/props/suitofarmor02.glb
+  position:
+    x: -2089
+    y: -9462
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70401474
+    w: -0.71018536
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:666
+  source_ref: objects/666
+  source_kind: mm9_dat_object
+  source_object_index: 666
+  source_class: Prop
+  source_name: Banner0
+  source_model: models/Props/Tapestry-Old01.ABC
+  source_skin: TEXTURES/LevelTextures/Misc/Banner7.dtx
+  model_asset: models/props/tapestry_old01.glb
+  position:
+    x: -3231
+    y: -9175
+    z: 246
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:667
+  source_ref: objects/667
+  source_kind: mm9_dat_object
+  source_object_index: 667
+  source_class: Prop
+  source_name: Bed14
+  source_model: models/Props/Bed_Ornate.ABC
+  source_skin: Skins/Props/Bed_Ornate.dtx
+  model_asset: models/props/bed_ornate.glb
+  position:
+    x: -3052
+    y: -10138
+    z: 143
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:668
+  source_ref: objects/668
+  source_kind: mm9_dat_object
+  source_object_index: 668
+  source_class: Prop
+  source_name: Cabinet1
+  source_model: models/Props/WeaponsCabinet01.ABC
+  source_skin: Skins/Props/WeaponsCabinet04.dtx
+  model_asset: models/props/weaponscabinet01.glb
+  position:
+    x: -2519
+    y: -9871
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:669
+  source_ref: objects/669
+  source_kind: mm9_dat_object
+  source_object_index: 669
+  source_class: Prop
+  source_name: Dresser5
+  source_model: models/Props/Dresser.ABC
+  source_skin: Skins/Props/DresserFancy.dtx
+  model_asset: models/props/dresser.glb
+  position:
+    x: -2519
+    y: -10414
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:670
+  source_ref: objects/670
+  source_kind: mm9_dat_object
+  source_object_index: 670
+  source_class: Prop
+  source_name: Bookcase57
+  source_model: models/Props/Bookcase02EW.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ew.glb
+  position:
+    x: -1311
+    y: -10383
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:671
+  source_ref: objects/671
+  source_kind: mm9_dat_object
+  source_object_index: 671
+  source_class: Prop
+  source_name: Bookcase59
+  source_model: models/Props/Bookcase02EW.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ew.glb
+  position:
+    x: -1638
+    y: -10383
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:672
+  source_ref: objects/672
+  source_kind: mm9_dat_object
+  source_object_index: 672
+  source_class: Prop
+  source_name: Desk2
+  source_model: models/Props/desk01NS.abc
+  source_skin: Skins/Props/Desk01.dtx
+  model_asset: models/props/desk01ns.glb
+  position:
+    x: -983
+    y: -10138
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:673
+  source_ref: objects/673
+  source_kind: mm9_dat_object
+  source_object_index: 673
+  source_class: Prop
+  source_name: Chair102
+  source_model: models/Props/Chair02.ABC
+  source_skin: Skins/Props/Chair02.dtx
+  model_asset: models/props/chair02.glb
+  position:
+    x: -860
+    y: -10138
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70153142
+    w: -0.71263853
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:676
+  source_ref: objects/676
+  source_kind: mm9_dat_object
+  source_object_index: 676
+  source_class: Prop
+  source_name: Strawdummyrack0
+  source_model: models/Props/Training_StrawDummy2_L.ABC
+  source_skin: Skins/Props/Training_StrawDummy1.dtx
+  model_asset: models/props/training_strawdummy2_l.glb
+  position:
+    x: -1285
+    y: -15892
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:677
+  source_ref: objects/677
+  source_kind: mm9_dat_object
+  source_object_index: 677
+  source_class: Prop
+  source_name: Strawdummyrack1
+  source_model: models/Props/Training_StrawDummy2_C.ABC
+  source_skin: Skins/Props/Training_StrawDummy1.dtx
+  model_asset: models/props/training_strawdummy2_c.glb
+  position:
+    x: -1475
+    y: -15892
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:678
+  source_ref: objects/678
+  source_kind: mm9_dat_object
+  source_object_index: 678
+  source_class: Prop
+  source_name: Strawdummyrack2
+  source_model: models/Props/Training_StrawDummy2_R.ABC
+  source_skin: Skins/Props/Training_StrawDummy1.dtx
+  model_asset: models/props/training_strawdummy2_r.glb
+  position:
+    x: -1674
+    y: -15892
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:679
+  source_ref: objects/679
+  source_kind: mm9_dat_object
+  source_object_index: 679
+  source_class: Prop
+  source_name: Strawdummyrack3
+  source_model: models/Props/Training_StrawDummy2_L.ABC
+  source_skin: Skins/Props/Training_StrawDummy1.dtx
+  model_asset: models/props/training_strawdummy2_l.glb
+  position:
+    x: 353
+    y: -15892
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:680
+  source_ref: objects/680
+  source_kind: mm9_dat_object
+  source_object_index: 680
+  source_class: Prop
+  source_name: Strawdummyrack4
+  source_model: models/Props/Training_StrawDummy2_C.ABC
+  source_skin: Skins/Props/Training_StrawDummy1.dtx
+  model_asset: models/props/training_strawdummy2_c.glb
+  position:
+    x: 164
+    y: -15892
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:681
+  source_ref: objects/681
+  source_kind: mm9_dat_object
+  source_object_index: 681
+  source_class: Prop
+  source_name: Strawdummyrack5
+  source_model: models/Props/Training_StrawDummy2_R.ABC
+  source_skin: Skins/Props/Training_StrawDummy1.dtx
+  model_asset: models/props/training_strawdummy2_r.glb
+  position:
+    x: -36
+    y: -15892
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:682
+  source_ref: objects/682
+  source_kind: mm9_dat_object
+  source_object_index: 682
+  source_class: Prop
+  source_name: Mount2
+  source_model: models/Props/Training_Mount.ABC
+  source_skin: Skins/Props/Training_Mount.dtx
+  model_asset: models/props/training_mount.glb
+  position:
+    x: -1966
+    y: -17695
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:683
+  source_ref: objects/683
+  source_kind: mm9_dat_object
+  source_object_index: 683
+  source_class: Prop
+  source_name: Mount1
+  source_model: models/Props/Training_Mount.ABC
+  source_skin: Skins/Props/Training_Mount.dtx
+  model_asset: models/props/training_mount.glb
+  position:
+    x: -1966
+    y: -17039
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:684
+  source_ref: objects/684
+  source_kind: mm9_dat_object
+  source_object_index: 684
+  source_class: Prop
+  source_name: Mount0
+  source_model: models/Props/Training_Mount.ABC
+  source_skin: Skins/Props/Training_Mount.dtx
+  model_asset: models/props/training_mount.glb
+  position:
+    x: -1966
+    y: -16384
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:685
+  source_ref: objects/685
+  source_kind: mm9_dat_object
+  source_object_index: 685
+  source_class: Prop
+  source_name: SpinningDummy0
+  source_model: models/Props/Training_SpinDummy1.ABC
+  source_skin: Skins/Props/Training_SpinDummy1.dtx
+  model_asset: models/props/training_spindummy1.glb
+  position:
+    x: -1638
+    y: -18186
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:686
+  source_ref: objects/686
+  source_kind: mm9_dat_object
+  source_object_index: 686
+  source_class: Prop
+  source_name: SpinningDummy1
+  source_model: models/Props/Training_SpinDummy1.ABC
+  source_skin: Skins/Props/Training_SpinDummy1.dtx
+  model_asset: models/props/training_spindummy1.glb
+  position:
+    x: -1147
+    y: -18186
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:687
+  source_ref: objects/687
+  source_kind: mm9_dat_object
+  source_object_index: 687
+  source_class: Prop
+  source_name: SpinningDummy2
+  source_model: models/Props/Training_SpinDummy1.ABC
+  source_skin: Skins/Props/Training_SpinDummy1.dtx
+  model_asset: models/props/training_spindummy1.glb
+  position:
+    x: -655
+    y: -18186
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:688
+  source_ref: objects/688
+  source_kind: mm9_dat_object
+  source_object_index: 688
+  source_class: Prop
+  source_name: SpinningDummy3
+  source_model: models/Props/Training_SpinDummy1.ABC
+  source_skin: Skins/Props/Training_SpinDummy1.dtx
+  model_asset: models/props/training_spindummy1.glb
+  position:
+    x: -164
+    y: -18186
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:689
+  source_ref: objects/689
+  source_kind: mm9_dat_object
+  source_object_index: 689
+  source_class: Prop
+  source_name: SpinningDummy4
+  source_model: models/Props/Training_SpinDummy1.ABC
+  source_skin: Skins/Props/Training_SpinDummy1.dtx
+  model_asset: models/props/training_spindummy1.glb
+  position:
+    x: 328
+    y: -18186
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:690
+  source_ref: objects/690
+  source_kind: mm9_dat_object
+  source_object_index: 690
+  source_class: Prop
+  source_name: Target2
+  source_model: models/Props/Training_Archery1.ABC
+  source_skin: Skins/Props/Training_Archery.dtx
+  model_asset: models/props/training_archery1.glb
+  position:
+    x: 655
+    y: -17039
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:691
+  source_ref: objects/691
+  source_kind: mm9_dat_object
+  source_object_index: 691
+  source_class: Prop
+  source_name: Target0
+  source_model: models/Props/Training_Archery1.ABC
+  source_skin: Skins/Props/Training_Archery.dtx
+  model_asset: models/props/training_archery1.glb
+  position:
+    x: 655
+    y: -16384
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:692
+  source_ref: objects/692
+  source_kind: mm9_dat_object
+  source_object_index: 692
+  source_class: Prop
+  source_name: Target1
+  source_model: models/Props/Training_Archery1.ABC
+  source_skin: Skins/Props/Training_Archery.dtx
+  model_asset: models/props/training_archery1.glb
+  position:
+    x: 655
+    y: -16712
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:693
+  source_ref: objects/693
+  source_kind: mm9_dat_object
+  source_object_index: 693
+  source_class: Prop
+  source_name: Target3
+  source_model: models/Props/Training_Archery1.ABC
+  source_skin: Skins/Props/Training_Archery.dtx
+  model_asset: models/props/training_archery1.glb
+  position:
+    x: 655
+    y: -17695
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:694
+  source_ref: objects/694
+  source_kind: mm9_dat_object
+  source_object_index: 694
+  source_class: Prop
+  source_name: Target4
+  source_model: models/Props/Training_Archery1.ABC
+  source_skin: Skins/Props/Training_Archery.dtx
+  model_asset: models/props/training_archery1.glb
+  position:
+    x: 655
+    y: -17367
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:guberlandcity:object:695
+  source_ref: objects/695
+  source_kind: mm9_dat_object
+  source_object_index: 695
+  source_class: Prop
+  source_name: Tree10
+  source_model: models/Props/PlantsandTrees/Tree04.ABC
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 36
+    y: -10522
+    z: -184
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:696
+  source_ref: objects/696
+  source_kind: mm9_dat_object
+  source_object_index: 696
+  source_class: Prop
+  source_name: Tree11
+  source_model: models/Props/PlantsandTrees/Tree04.ABC
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 36
+    y: -7245
+    z: -184
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:697
+  source_ref: objects/697
+  source_kind: mm9_dat_object
+  source_object_index: 697
+  source_class: Prop
+  source_name: Tree12
+  source_model: models/Props/PlantsandTrees/Tree04.ABC
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -1275
+    y: -7572
+    z: -184
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:698
+  source_ref: objects/698
+  source_kind: mm9_dat_object
+  source_object_index: 698
+  source_class: Prop
+  source_name: Tree3
+  source_model: models/Props/PlantsandTrees/Tree04.ABC
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 1311
+    y: -7864
+    z: -184
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:699
+  source_ref: objects/699
+  source_kind: mm9_dat_object
+  source_object_index: 699
+  source_class: Prop
+  source_name: Tree4
+  source_model: models/Props/PlantsandTrees/Tree04.ABC
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 691
+    y: -8556
+    z: -184
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:700
+  source_ref: objects/700
+  source_kind: mm9_dat_object
+  source_object_index: 700
+  source_class: Prop
+  source_name: Tree5
+  source_model: models/Props/PlantsandTrees/Tree04.ABC
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -3241
+    y: -7572
+    z: -184
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:701
+  source_ref: objects/701
+  source_kind: mm9_dat_object
+  source_object_index: 701
+  source_class: Prop
+  source_name: Tree6
+  source_model: models/Props/PlantsandTrees/Tree04.ABC
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -3405
+    y: -11013
+    z: -184
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:702
+  source_ref: objects/702
+  source_kind: mm9_dat_object
+  source_object_index: 702
+  source_class: Prop
+  source_name: Tree7
+  source_model: models/Props/PlantsandTrees/Tree04.ABC
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -1930
+    y: -10849
+    z: -184
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:703
+  source_ref: objects/703
+  source_kind: mm9_dat_object
+  source_object_index: 703
+  source_class: Prop
+  source_name: Tree8
+  source_model: models/Props/PlantsandTrees/Tree04.ABC
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 2002
+    y: -10522
+    z: -184
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:704
+  source_ref: objects/704
+  source_kind: mm9_dat_object
+  source_object_index: 704
+  source_class: Prop
+  source_name: Tree9
+  source_model: models/Props/PlantsandTrees/Tree04.ABC
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 1019
+    y: -9866
+    z: -184
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:705
+  source_ref: objects/705
+  source_kind: mm9_dat_object
+  source_object_index: 705
+  source_class: Prop
+  source_name: Chair26
+  source_model: models/Props/Chair_forDesk02.ABC
+  source_skin: Skins/Props/Chair_forDesk02.dtx
+  model_asset: models/props/chair_fordesk02.glb
+  position:
+    x: 5765
+    y: -13107
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:706
+  source_ref: objects/706
+  source_kind: mm9_dat_object
+  source_object_index: 706
+  source_class: Prop
+  source_name: Chair27
+  source_model: models/Props/Chair_forDesk02.ABC
+  source_skin: Skins/Props/Chair_forDesk02.dtx
+  model_asset: models/props/chair_fordesk02.glb
+  position:
+    x: 6031
+    y: -13107
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:707
+  source_ref: objects/707
+  source_kind: mm9_dat_object
+  source_object_index: 707
+  source_class: Prop
+  source_name: Chair28
+  source_model: models/Props/Chair_forDesk02.ABC
+  source_skin: Skins/Props/Chair_forDesk02.dtx
+  model_asset: models/props/chair_fordesk02.glb
+  position:
+    x: 5898
+    y: -13210
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:708
+  source_ref: objects/708
+  source_kind: mm9_dat_object
+  source_object_index: 708
+  source_class: Prop
+  source_name: Chair29
+  source_model: models/Props/Chair_forDesk02.ABC
+  source_skin: Skins/Props/Chair_forDesk02.dtx
+  model_asset: models/props/chair_fordesk02.glb
+  position:
+    x: 5898
+    y: -13005
+    z: 0
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:709
+  source_ref: objects/709
+  source_kind: mm9_dat_object
+  source_object_index: 709
+  source_class: Prop
+  source_name: Plateset9
+  source_model: models/Props/Plate-Set2.ABC
+  source_skin: Skins/Props/Plate-Set1.dtx
+  model_asset: models/props/plate_set2.glb
+  position:
+    x: 5949
+    y: -13107
+    z: 95
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:710
+  source_ref: objects/710
+  source_kind: mm9_dat_object
+  source_object_index: 710
+  source_class: Prop
+  source_name: Stein0
+  source_model: models/Props/Mug1.ABC
+  source_skin: Skins/Props/Mug1.dtx
+  model_asset: models/props/mug1.glb
+  position:
+    x: 5919
+    y: -13076
+    z: 95
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:711
+  source_ref: objects/711
+  source_kind: mm9_dat_object
+  source_object_index: 711
+  source_class: Prop
+  source_name: Plateset8
+  source_model: models/Props/Plate-Set2.ABC
+  source_skin: Skins/Props/Plate-Set1.dtx
+  model_asset: models/props/plate_set2.glb
+  position:
+    x: 5837
+    y: -13107
+    z: 95
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:712
+  source_ref: objects/712
+  source_kind: mm9_dat_object
+  source_object_index: 712
+  source_class: Prop
+  source_name: Stein1
+  source_model: models/Props/Mug1.ABC
+  source_skin: Skins/Props/Mug1.dtx
+  model_asset: models/props/mug1.glb
+  position:
+    x: 5868
+    y: -13138
+    z: 95
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57357643
+    w: 0.81915205
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:713
+  source_ref: objects/713
+  source_kind: mm9_dat_object
+  source_object_index: 713
+  source_class: Prop
+  source_name: Pitcher6
+  source_model: models/Props/Pitcher01.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/pitcher01.glb
+  position:
+    x: 5898
+    y: -13107
+    z: 95
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99619469
+    w: 0.087155801
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:714
+  source_ref: objects/714
+  source_kind: mm9_dat_object
+  source_object_index: 714
+  source_class: Prop
+  source_name: Dresser6
+  source_model: models/Props/Dresser.ABC
+  source_skin: Skins/Props/DresserPlain.dtx
+  model_asset: models/props/dresser.glb
+  position:
+    x: 6021
+    y: -13681
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:715
+  source_ref: objects/715
+  source_kind: mm9_dat_object
+  source_object_index: 715
+  source_class: Prop
+  source_name: Bed6
+  source_model: models/Props/Bed.ABC
+  source_skin: Skins/Props/Bed.dtx
+  model_asset: models/props/bed.glb
+  position:
+    x: 6308
+    y: -13558
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:guberlandcity:object:716
+  source_ref: objects/716
+  source_kind: mm9_dat_object
+  source_object_index: 716
+  source_class: Prop
+  source_name: Stove2
+  source_model: models/Props/Stovens.ABC
+  source_skin: Skins/Props/Stove.dtx
+  model_asset: models/props/stovens.glb
+  position:
+    x: 6395
+    y: -12780
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:717
+  source_ref: objects/717
+  source_kind: mm9_dat_object
+  source_object_index: 717
+  source_class: Prop
+  source_name: Cabinet7
+  source_model: models/Props/WeaponsCabinet02.ABC
+  source_skin: Skins/Props/WeaponsCabinet02.dtx
+  model_asset: models/props/weaponscabinet02.glb
+  position:
+    x: 5284
+    y: -12780
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:718
+  source_ref: objects/718
+  source_kind: mm9_dat_object
+  source_object_index: 718
+  source_class: Prop
+  source_name: Cabinet6
+  source_model: models/Props/WeaponsCabinet03.ABC
+  source_skin: Skins/Props/WeaponsCabinet03.dtx
+  model_asset: models/props/weaponscabinet03.glb
+  position:
+    x: 5857
+    y: -12534
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:719
+  source_ref: objects/719
+  source_kind: mm9_dat_object
+  source_object_index: 719
+  source_class: Prop
+  source_name: Hatrack0
+  source_model: models/Props/CoatRack2.ABC
+  source_skin: Skins/Props/CoatRack2.dtx
+  model_asset: models/props/coatrack2.glb
+  position:
+    x: 5284
+    y: -13271
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:721
+  source_ref: objects/721
+  source_kind: mm9_dat_object
+  source_object_index: 721
+  source_class: Prop
+  source_name: TownPortal0
+  source_model: models/Props/Portal-Whole.ABC
+  source_skin: Skins/Props/PortalDirty.dtx
+  model_asset: models/props/portal_whole.glb
+  position:
+    x: 5898
+    y: -13107
+    z: 46
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:722
+  source_ref: objects/722
+  source_kind: mm9_dat_object
+  source_object_index: 722
+  source_class: ShopkeeperHuman2MaleB
+  source_name: Narrator
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm8.glb
+  position:
+    x: -2335
+    y: -3871
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99999391
+    w: 0.0034906356
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm8_peasantm8a
+- instance_id: mm9:guberlandcity:object:723
+  source_ref: objects/723
+  source_kind: mm9_dat_object
+  source_object_index: 723
+  source_class: CommonerHuman2MaleA
+  source_name: Wilam
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: -2949
+    y: -3666
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7477981
+    w: 0.6639262
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:guberlandcity:object:724
+  source_ref: objects/724
+  source_kind: mm9_dat_object
+  source_object_index: 724
+  source_class: ShopkeeperHuman2MaleA
+  source_name: Trislan
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm6.glb
+  position:
+    x: -2294
+    y: -3707
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71630189
+    w: -0.69779052
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm6_peasantm6b
+- instance_id: mm9:guberlandcity:object:725
+  source_ref: objects/725
+  source_kind: mm9_dat_object
+  source_object_index: 725
+  source_class: ShopkeeperHumanMaleA
+  source_name: Abriel
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm6.glb
+  position:
+    x: -2294
+    y: -3584
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm6_peasantm6a
+- instance_id: mm9:guberlandcity:object:726
+  source_ref: objects/726
+  source_kind: mm9_dat_object
+  source_object_index: 726
+  source_class: CommonerHuman2MaleB
+  source_name: Ralof
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm7.glb
+  position:
+    x: -2949
+    y: -3748
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70090927
+    w: 0.71325044
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm7_peasantm7b
+- instance_id: mm9:guberlandcity:object:727
+  source_ref: objects/727
+  source_kind: mm9_dat_object
+  source_object_index: 727
+  source_class: CommonerHumanMaleA
+  source_name: Leffery
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1.glb
+  position:
+    x: -2949
+    y: -3584
+    z: 205
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70090927
+    w: 0.71325044
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm1_peasantm1a
+- instance_id: mm9:guberlandcity:object:728
+  source_ref: objects/728
+  source_kind: mm9_dat_object
+  source_object_index: 728
+  source_class: CommonerHumanMaleA
+  source_name: peasant2
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1.glb
+  position:
+    x: -2565
+    y: -4608
+    z: 102
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm1_peasantm1a
+- instance_id: mm9:guberlandcity:object:746
+  source_ref: objects/746
+  source_kind: mm9_dat_object
+  source_object_index: 746
+  source_class: WellMMIX
+  source_name: Well0
+  source_model: models/Props/Well.ABC
+  source_skin: Skins/Props/Well.dtx
+  model_asset: models/props/well.glb
+  position:
+    x: 655
+    y: -9175
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:809
+  source_ref: objects/809
+  source_kind: mm9_dat_object
+  source_object_index: 809
+  source_class: PoorTownGuard1
+  source_name: PoorTownGuard10
+  source_model: models/guard.abc
+  source_skin: ''
+  model_asset: models/guard.glb
+  position:
+    x: -184
+    y: -840
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1.25
+    y: 1.25
+    z: 1.25
+  collision: solid
+  model_skin_binding: guard_guard1_guardpole
+- instance_id: mm9:guberlandcity:object:810
+  source_ref: objects/810
+  source_kind: mm9_dat_object
+  source_object_index: 810
+  source_class: PoorTownGuard1
+  source_name: PoorTownGuard11
+  source_model: models/guard.abc
+  source_skin: ''
+  model_asset: models/guard.glb
+  position:
+    x: -1966
+    y: -15565
+    z: 819
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.25
+    y: 1.25
+    z: 1.25
+  collision: solid
+  model_skin_binding: guard_guard1_guardpole
+- instance_id: mm9:guberlandcity:object:811
+  source_ref: objects/811
+  source_kind: mm9_dat_object
+  source_object_index: 811
+  source_class: ShopkeeperHuman2MaleA
+  source_name: ShopkeeperHuman2MaleA2
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm6.glb
+  position:
+    x: -6226
+    y: -6226
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.95424033
+    w: 0.29904079
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm6_peasantm6b
+- instance_id: mm9:guberlandcity:object:812
+  source_ref: objects/812
+  source_kind: mm9_dat_object
+  source_object_index: 812
+  source_class: ShopkeeperHuman2MaleA
+  source_name: ShopkeeperHuman2MaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm6.glb
+  position:
+    x: -7045
+    y: -6717
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.6813599
+    w: 0.73194856
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm6_peasantm6b
+- instance_id: mm9:guberlandcity:object:813
+  source_ref: objects/813
+  source_kind: mm9_dat_object
+  source_object_index: 813
+  source_class: ShopkeeperHuman2MaleA
+  source_name: ShopkeeperHuman2MaleA1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm6.glb
+  position:
+    x: -4751
+    y: -6717
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.67687607
+    w: -0.736097
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm6_peasantm6b
+- instance_id: mm9:guberlandcity:object:814
+  source_ref: objects/814
+  source_kind: mm9_dat_object
+  source_object_index: 814
+  source_class: ShopkeeperHuman2MaleA
+  source_name: ShopkeeperHuman2MaleA7
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm6.glb
+  position:
+    x: 1720
+    y: -4424
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71630189
+    w: -0.69779052
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm6_peasantm6b
+- instance_id: mm9:guberlandcity:object:815
+  source_ref: objects/815
+  source_kind: mm9_dat_object
+  source_object_index: 815
+  source_class: MarkeltheGreat
+  source_name: MarkeltheGreat0
+  source_model: models/Markel.abc
+  source_skin: ''
+  model_asset: models/markel.glb
+  position:
+    x: -2867
+    y: -9175
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: markel_markel
+- instance_id: mm9:guberlandcity:object:816
+  source_ref: objects/816
+  source_kind: mm9_dat_object
+  source_object_index: 816
+  source_class: ShopKeeperHalfOrcFemaleA
+  source_name: ShopkeeperHuman2MaleA10
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: -1597
+    y: -17654
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthof1.glb
+  model_skin_binding: peasanthof1_peasanthof1a
+- instance_id: mm9:guberlandcity:object:817
+  source_ref: objects/817
+  source_kind: mm9_dat_object
+  source_object_index: 817
+  source_class: ShopkeeperHuman2MaleB
+  source_name: ShopkeeperHuman2MaleA11
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm8.glb
+  position:
+    x: 2212
+    y: -12575
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99972243
+    w: -0.023559699
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm8_peasantm8a
+- instance_id: mm9:guberlandcity:object:818
+  source_ref: objects/818
+  source_kind: mm9_dat_object
+  source_object_index: 818
+  source_class: ShopKeeperHalfOrcMaleA
+  source_name: ShopkeeperHuman2MaleA4
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: -3441
+    y: -13025
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.63607827
+    w: -0.77162454
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthom1.glb
+  model_skin_binding: peasanthom1_peasanthom1a
+- instance_id: mm9:guberlandcity:object:819
+  source_ref: objects/819
+  source_kind: mm9_dat_object
+  source_object_index: 819
+  source_class: ShopkeeperHuman2MaleA
+  source_name: ShopkeeperHuman2MaleA5
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm6.glb
+  position:
+    x: -2130
+    y: -13025
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.41548723
+    w: -0.90959901
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm6_peasantm6b
+- instance_id: mm9:guberlandcity:object:820
+  source_ref: objects/820
+  source_kind: mm9_dat_object
+  source_object_index: 820
+  source_class: ShopkeeperElfMaleA
+  source_name: ShopkeeperHuman2MaleA6
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2d.glb
+  position:
+    x: 2621
+    y: -1966
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99995393
+    w: -0.0095992243
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2d_peasantm2d
+- instance_id: mm9:guberlandcity:object:821
+  source_ref: objects/821
+  source_kind: mm9_dat_object
+  source_object_index: 821
+  source_class: ShopkeeperHuman2MaleA
+  source_name: ShopkeeperHuman2MaleA8
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm6.glb
+  position:
+    x: 2499
+    y: -12575
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99972243
+    w: -0.023559699
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm6_peasantm6b
+- instance_id: mm9:guberlandcity:object:822
+  source_ref: objects/822
+  source_kind: mm9_dat_object
+  source_object_index: 822
+  source_class: ShopkeeperElfMaleA
+  source_name: ShopkeeperHuman2MaleA9
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2d.glb
+  position:
+    x: -1761
+    y: -9380
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2d_peasantm2d
+- instance_id: mm9:guberlandcity:object:823
+  source_ref: objects/823
+  source_kind: mm9_dat_object
+  source_object_index: 823
+  source_class: ShopkeeperHuman2MaleA
+  source_name: ShopkeeperHuman2MaleA12
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm6.glb
+  position:
+    x: -4588
+    y: -12452
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70772356
+    w: 0.70648947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm6_peasantm6b
+- instance_id: mm9:guberlandcity:object:824
+  source_ref: objects/824
+  source_kind: mm9_dat_object
+  source_object_index: 824
+  source_class: CommonerHumanFemaleA
+  source_name: ShopkeeperHuman2MaleA13
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantf1.glb
+  position:
+    x: -5407
+    y: -8274
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7009093
+    w: -0.71325042
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantf1_peasantf1b
+- instance_id: mm9:guberlandcity:object:825
+  source_ref: objects/825
+  source_kind: mm9_dat_object
+  source_object_index: 825
+  source_class: CommonerHuman2MaleA
+  source_name: CommonerHalfOrcMaleA2
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: 3850
+    y: -14828
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:guberlandcity:object:826
+  source_ref: objects/826
+  source_kind: mm9_dat_object
+  source_object_index: 826
+  source_class: CommonerHumanMaleA
+  source_name: peasant1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1.glb
+  position:
+    x: -2621
+    y: -4178
+    z: 102
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm1_peasantm1a
+- instance_id: mm9:guberlandcity:object:827
+  source_ref: objects/827
+  source_kind: mm9_dat_object
+  source_object_index: 827
+  source_class: CommonerHalfOrcMaleA
+  source_name: peasant0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: -2785
+    y: -4608
+    z: 102
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthom1.glb
+  model_skin_binding: peasanthom1_peasanthom1a
+- instance_id: mm9:guberlandcity:object:828
+  source_ref: objects/828
+  source_kind: mm9_dat_object
+  source_object_index: 828
+  source_class: CommonerHalfOrcMaleA
+  source_name: CommonerHalfOrcMaleA1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: 983
+    y: -4833
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthom1.glb
+  model_skin_binding: peasanthom1_peasanthom1a
+- instance_id: mm9:guberlandcity:object:829
+  source_ref: objects/829
+  source_kind: mm9_dat_object
+  source_object_index: 829
+  source_class: CommonerHalfOrcMaleA
+  source_name: CommonerHalfOrcMaleA3
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: 1638
+    y: -5898
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthom1.glb
+  model_skin_binding: peasanthom1_peasanthom1a
+- instance_id: mm9:guberlandcity:object:830
+  source_ref: objects/830
+  source_kind: mm9_dat_object
+  source_object_index: 830
+  source_class: CommonerHalfOrcMaleA
+  source_name: CommonerHalfOrcMaleA4
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: 1638
+    y: -655
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthom1.glb
+  model_skin_binding: peasanthom1_peasanthom1a
+- instance_id: mm9:guberlandcity:object:831
+  source_ref: objects/831
+  source_kind: mm9_dat_object
+  source_object_index: 831
+  source_class: CommonerHalfOrcMaleA
+  source_name: CommonerHalfOrcMaleA5
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: 164
+    y: -2908
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthom1.glb
+  model_skin_binding: peasanthom1_peasanthom1a
+- instance_id: mm9:guberlandcity:object:832
+  source_ref: objects/832
+  source_kind: mm9_dat_object
+  source_object_index: 832
+  source_class: CommonerHuman2MaleB
+  source_name: CommonerHalfOrcMaleA6
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm7.glb
+  position:
+    x: 3768
+    y: -5898
+    z: 102
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm7_peasantm7b
+- instance_id: mm9:guberlandcity:object:833
+  source_ref: objects/833
+  source_kind: mm9_dat_object
+  source_object_index: 833
+  source_class: CommonerHalfOrcMaleA
+  source_name: CommonerHalfOrcMaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: 1311
+    y: -12780
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.9998477
+    w: -0.017452351
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthom1.glb
+  model_skin_binding: peasanthom1_peasanthom1a
+- instance_id: mm9:guberlandcity:object:834
+  source_ref: objects/834
+  source_kind: mm9_dat_object
+  source_object_index: 834
+  source_class: CommonerHalfOrcMaleA
+  source_name: CommonerHalfOrcMaleA7
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: 5734
+    y: -11960
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.69528588
+    w: -0.71873329
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthom1.glb
+  model_skin_binding: peasanthom1_peasanthom1a
+- instance_id: mm9:guberlandcity:object:836
+  source_ref: objects/836
+  source_kind: mm9_dat_object
+  source_object_index: 836
+  source_class: ShopKeeperHalfOrcFemaleA
+  source_name: ShopkeeperHalfOrcFemaleA
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: -1782
+    y: -4301
+    z: 105
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthof1.glb
+  model_skin_binding: peasanthof1_peasanthof1a
+- instance_id: mm9:guberlandcity:object:837
+  source_ref: objects/837
+  source_kind: mm9_dat_object
+  source_object_index: 837
+  source_class: ShopkeeperHuman2MaleB
+  source_name: Thorolf0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm8.glb
+  position:
+    x: -655
+    y: -492
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm8_peasantm8a
+- instance_id: mm9:guberlandcity:object:838
+  source_ref: objects/838
+  source_kind: mm9_dat_object
+  source_object_index: 838
+  source_class: ShopkeeperHuman2MaleB
+  source_name: Thorolf1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm8.glb
+  position:
+    x: 164
+    y: -9339
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99995393
+    w: -0.0095992243
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm8_peasantm8a
+- instance_id: mm9:guberlandcity:object:839
+  source_ref: objects/839
+  source_kind: mm9_dat_object
+  source_object_index: 839
+  source_class: ShopKeeperHalfOrcFemaleA
+  source_name: FHalfOrc0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: 1966
+    y: -7864
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.64278762
+    w: -0.76604444
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthof1.glb
+  model_skin_binding: peasanthof1_peasanthof1a
+- instance_id: mm9:guberlandcity:object:840
+  source_ref: objects/840
+  source_kind: mm9_dat_object
+  source_object_index: 840
+  source_class: PoorTownGuard1
+  source_name: PoorTownGuard12
+  source_model: models/guard.abc
+  source_skin: ''
+  model_asset: models/guard.glb
+  position:
+    x: -2949
+    y: -9503
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.57357643
+    w: 0.81915205
+  scale:
+    x: 1.1
+    y: 1.1
+    z: 1.1
+  collision: solid
+  model_skin_binding: guard_guard1_guardpole
+- instance_id: mm9:guberlandcity:object:841
+  source_ref: objects/841
+  source_kind: mm9_dat_object
+  source_object_index: 841
+  source_class: CommonerHuman2MaleB
+  source_name: MHuman0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm7.glb
+  position:
+    x: -1638
+    y: -17039
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm7_peasantm7b
+- instance_id: mm9:guberlandcity:object:842
+  source_ref: objects/842
+  source_kind: mm9_dat_object
+  source_object_index: 842
+  source_class: CommonerHalfOrcMaleA
+  source_name: MHalfOrc0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: -1638
+    y: -10895
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthom1.glb
+  model_skin_binding: peasanthom1_peasanthom1a
+- instance_id: mm9:guberlandcity:object:843
+  source_ref: objects/843
+  source_kind: mm9_dat_object
+  source_object_index: 843
+  source_class: CommonerHalfOrcMaleA
+  source_name: MHalfOrc1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: -7209
+    y: -11387
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthom1.glb
+  model_skin_binding: peasanthom1_peasanthom1a
+- instance_id: mm9:guberlandcity:object:844
+  source_ref: objects/844
+  source_kind: mm9_dat_object
+  source_object_index: 844
+  source_class: CommonerHuman2MaleB
+  source_name: MHuman1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm7.glb
+  position:
+    x: -6472
+    y: -13435
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm7_peasantm7b
+- instance_id: mm9:guberlandcity:object:845
+  source_ref: objects/845
+  source_kind: mm9_dat_object
+  source_object_index: 845
+  source_class: CommonerHalfOrcMaleA
+  source_name: MHalfOrc2
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: -7619
+    y: -8192
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthom1.glb
+  model_skin_binding: peasanthom1_peasanthom1a
+- instance_id: mm9:guberlandcity:object:846
+  source_ref: objects/846
+  source_kind: mm9_dat_object
+  source_object_index: 846
+  source_class: CommonerHuman2MaleB
+  source_name: MHuman2
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm7.glb
+  position:
+    x: -2212
+    y: -5898
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm7_peasantm7b
+- instance_id: mm9:guberlandcity:object:871
+  source_ref: objects/871
+  source_kind: mm9_dat_object
+  source_object_index: 871
+  source_class: CommonerHumanMaleA
+  source_name: CommonerHumanMaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1.glb
+  position:
+    x: -471
+    y: -8090
+    z: 207
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm1_peasantm1a
+- instance_id: mm9:guberlandcity:object:873
+  source_ref: objects/873
+  source_kind: mm9_dat_object
+  source_object_index: 873
+  source_class: Prop
+  source_name: Prop5
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: -1867
+    y: -5392
+    z: 233
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99014623
+    w: 0.14003729
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:874
+  source_ref: objects/874
+  source_kind: mm9_dat_object
+  source_object_index: 874
+  source_class: Prop
+  source_name: Prop6
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: -471
+    y: -7967
+    z: 233
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99014623
+    w: 0.14003729
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:875
+  source_ref: objects/875
+  source_kind: mm9_dat_object
+  source_object_index: 875
+  source_class: Prop
+  source_name: Prop7
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: -978
+    y: -712
+    z: 131
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70895559
+    w: 0.70525313
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:884
+  source_ref: objects/884
+  source_kind: mm9_dat_object
+  source_object_index: 884
+  source_class: Prop
+  source_name: Pitcher5
+  source_model: models/Props/Pitcher01.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/pitcher01.glb
+  position:
+    x: -1434
+    y: -4710
+    z: 123
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:896
+  source_ref: objects/896
+  source_kind: mm9_dat_object
+  source_object_index: 896
+  source_class: Prop
+  source_name: Wallbed
+  source_model: models/Props/Bed_Wall.ABC
+  source_skin: Skins/Props/Bed_Wall.dtx
+  model_asset: models/props/bed_wall.glb
+  position:
+    x: -594
+    y: -8008
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:guberlandcity:object:897
+  source_ref: objects/897
+  source_kind: mm9_dat_object
+  source_object_index: 897
+  source_class: Prop
+  source_name: Bucket
+  source_model: models/Props/Bucket01.ABC
+  source_skin: Skins/Props/Bucket01.dtx
+  model_asset: models/props/bucket01.glb
+  position:
+    x: -451
+    y: -7885
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:899
+  source_ref: objects/899
+  source_kind: mm9_dat_object
+  source_object_index: 899
+  source_class: Clover
+  source_name: Clover0
+  source_model: models/Props/clover.ABC
+  source_skin: Skins/Props/PlantsandTrees/Clover.dtx
+  model_asset: models/props/clover.glb
+  position:
+    x: 4751
+    y: -16794
+    z: 20
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:900
+  source_ref: objects/900
+  source_kind: mm9_dat_object
+  source_object_index: 900
+  source_class: Clover
+  source_name: Clover1
+  source_model: models/Props/clover.ABC
+  source_skin: Skins/Props/PlantsandTrees/Clover.dtx
+  model_asset: models/props/clover.glb
+  position:
+    x: -6062
+    y: -16794
+    z: 20
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:guberlandcity:object:901
+  source_ref: objects/901
+  source_kind: mm9_dat_object
+  source_object_index: 901
+  source_class: ShopKeeperHalfOrcFemaleA
+  source_name: FHalfOrc1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  position:
+    x: -4751
+    y: -15729
+    z: 164
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_asset: models/peasanthof1.glb
+  model_skin_binding: peasanthof1_peasanthof1a
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  face_attribute_overrides: []
+  actors: []
+  sprite_objects: []
+  chests: []
+  variables:
+    map:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    decor:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0

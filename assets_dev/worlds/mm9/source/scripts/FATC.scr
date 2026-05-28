@@ -1,0 +1,68 @@
+;----------------------------------------------
+;Fatc.scr
+; By L. Dean Gibson II
+; Ebora's Fat Collodial Warrior Bathmate script in the bathhouse
+;
+;----------------------------------------------
+
+#include globals.inc
+#include basemelee.inc
+#include range.inc
+
+
+;--------------------------------------
+:OnMoveIt
+;--------------------------------------
+
+	GetMyHandle g_hMyObject
+	GetStat g_hMyObject RunVel g_velX
+	GetPos g_hMyObject g_posX g_posY g_posZ
+	MoveToPos 1808, 44, g_posZ, g_velX, Arrived
+
+Exit
+
+;---------------
+:Arrived
+;---------------
+
+  SetIdle
+
+Exit
+
+;--------------------------------------
+:OnEboraArrive
+;--------------------------------------
+	gosub BaseInit
+	gosub RangeInit
+Exit
+
+;------------------
+:OnDeath
+;------------------
+;	GetObjectHandle Ebora g_hObject
+;	Trigger g_hObject DeadPal
+Exit 
+
+
+;-------------------------------------
+:OnDie
+;-------------------------------------
+Stop
+Die
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+
+	AddTrigger Die OnDie
+	AddTrigger MoveIt OnMoveIt
+	AddTrigger EboraArrive OnEboraArrive
+
+	gosub BaseInit
+	gosub RangeInit
+
+	OnDeath OnDeath
+exit

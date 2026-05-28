@@ -1,0 +1,77 @@
+;--------------------------------------------------
+;Scholarpromo.scr
+; timmy
+; handles scholar promo stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include basewander.inc
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;-------------------------------------
+:RunAway
+;-------------------------------------
+stop
+gosub basewanderstop
+getobjecthandle MagreebMarker1 g_hobject
+runto g_hobject 16 OnVanish
+haskey 201 g_ntemp
+if (g_ntemp==TRUE)
+
+	haskey 202 g_ntemp
+	if (g_ntemp==FALSE)
+		givekey 202
+		Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+	endif
+	
+endif
+  
+exit
+
+;-------------------------------------
+:OnVanish
+;-------------------------------------
+
+getmyhandle g_hmyobject
+removeobject g_hmyobject
+
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+
+OnFoundPlayer RunAway
+OnDamage RunAway
+OnLostTarget OnLost
+exit
+
+;-------------------------------------
+:OnLost
+;-------------------------------------
+
+Exit TRUE
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+addtrigger use Init
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+
+
+exit
+

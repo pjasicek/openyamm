@@ -1,0 +1,282 @@
+format_version: 1
+kind: mm9_model_assets
+source_dat: mm9/extracted/WORLDS/WORLDS/STURMFORD.dat
+unique_model_count: 17
+models:
+- source_model: models/Basilisk.abc
+  model_asset: models/basilisk.glb
+  instance_count: 3
+  source_object_indices:
+  - 129
+  - 130
+  - 131
+  source_classes:
+  - Basilisk
+- source_model: models/DragonFly.abc
+  model_asset: models/dragonfly.glb
+  instance_count: 30
+  source_object_indices:
+  - 132
+  - 133
+  - 136
+  - 168
+  - 169
+  - 170
+  - 171
+  - 172
+  - 173
+  - 174
+  - 175
+  - 176
+  - 177
+  - 178
+  - 179
+  - 180
+  - 186
+  - 187
+  - 263
+  - 264
+  - 265
+  - 266
+  - 267
+  - 268
+  - 269
+  - 270
+  - 271
+  - 272
+  - 273
+  - 274
+  source_classes:
+  - DragonFly
+  - DragonFlyMite
+  - FireDragonFly
+- source_model: models/JellySpore.abc
+  model_asset: models/jellyspore.glb
+  instance_count: 5
+  source_object_indices:
+  - 191
+  - 192
+  - 193
+  - 194
+  - 195
+  source_classes:
+  - GelatinousSpore
+  - NettleSpore
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantm6.glb
+  instance_count: 1
+  source_object_indices:
+  - 103
+  source_classes:
+  - ShopkeeperHuman2MaleA
+- source_model: models/props/barrel.abc
+  model_asset: models/props/barrel.glb
+  instance_count: 2
+  source_object_indices:
+  - 13
+  - 14
+  source_classes:
+  - Prop
+- source_model: models/Props/Barrel03.ABC
+  model_asset: models/props/barrel03.glb
+  instance_count: 2
+  source_object_indices:
+  - 252
+  - 253
+  source_classes:
+  - Barrel
+- source_model: models/Props/bonepile.ABC
+  model_asset: models/props/bonepile.glb
+  instance_count: 7
+  source_object_indices:
+  - 181
+  - 182
+  - 255
+  - 256
+  - 257
+  - 258
+  - 259
+  source_classes:
+  - BonePile
+- source_model: models/Props/Chest1.ABC
+  model_asset: models/props/chest1.glb
+  instance_count: 4
+  source_object_indices:
+  - 104
+  - 138
+  - 139
+  - 140
+  source_classes:
+  - TreasureChest
+- source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  model_asset: models/props/debris/stonedebris01.glb
+  instance_count: 24
+  source_object_indices:
+  - 109
+  - 110
+  - 111
+  - 112
+  - 113
+  - 114
+  - 144
+  - 145
+  - 146
+  - 147
+  - 148
+  - 149
+  - 153
+  - 154
+  - 155
+  - 156
+  - 157
+  - 158
+  - 162
+  - 163
+  - 164
+  - 165
+  - 166
+  - 167
+  source_classes:
+  - Prop
+- source_model: models/Props/Lamppost4.ABC
+  model_asset: models/props/lamppost4.glb
+  instance_count: 4
+  source_object_indices:
+  - 6
+  - 8
+  - 10
+  - 12
+  source_classes:
+  - CandleProp
+- source_model: MODELS/Props/LogsBurning.ABC
+  model_asset: models/props/logsburning.glb
+  instance_count: 4
+  source_object_indices:
+  - 106
+  - 142
+  - 151
+  - 160
+  source_classes:
+  - Prop
+- source_model: models/props/PlantsandTrees/Tree02.abc
+  model_asset: models/props/plantsandtrees/tree02.glb
+  instance_count: 25
+  source_object_indices:
+  - 30
+  - 31
+  - 32
+  - 33
+  - 34
+  - 42
+  - 51
+  - 60
+  - 61
+  - 62
+  - 63
+  - 64
+  - 65
+  - 67
+  - 68
+  - 71
+  - 72
+  - 75
+  - 78
+  - 80
+  - 81
+  - 85
+  - 86
+  - 89
+  - 91
+  source_classes:
+  - Prop
+- source_model: models/props/PlantsandTrees/Tree04.abc
+  model_asset: models/props/plantsandtrees/tree04.glb
+  instance_count: 38
+  source_object_indices:
+  - 35
+  - 36
+  - 37
+  - 38
+  - 39
+  - 40
+  - 41
+  - 43
+  - 44
+  - 45
+  - 46
+  - 47
+  - 48
+  - 49
+  - 50
+  - 52
+  - 53
+  - 54
+  - 55
+  - 56
+  - 57
+  - 58
+  - 59
+  - 66
+  - 69
+  - 70
+  - 73
+  - 74
+  - 76
+  - 77
+  - 79
+  - 82
+  - 83
+  - 84
+  - 87
+  - 88
+  - 90
+  - 92
+  source_classes:
+  - Prop
+- source_model: models/Props/RopeCoil.ABC
+  model_asset: models/props/ropecoil.glb
+  instance_count: 2
+  source_object_indices:
+  - 15
+  - 16
+  source_classes:
+  - Prop
+- source_model: models/Props/StatStone.ABC
+  model_asset: models/props/statstone.glb
+  instance_count: 1
+  source_object_indices:
+  - 254
+  source_classes:
+  - StatStone
+- source_model: models/props/vikingship.abc
+  model_asset: models/props/vikingship.glb
+  instance_count: 1
+  source_object_indices:
+  - 17
+  source_classes:
+  - Prop
+- source_model: models/thrall.abc
+  model_asset: models/thrall.glb
+  instance_count: 18
+  source_object_indices:
+  - 105
+  - 115
+  - 116
+  - 117
+  - 118
+  - 119
+  - 120
+  - 121
+  - 122
+  - 123
+  - 124
+  - 125
+  - 126
+  - 127
+  - 128
+  - 134
+  - 135
+  - 137
+  source_classes:
+  - FieldThrall
+  - Thrall

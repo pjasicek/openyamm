@@ -1,0 +1,82 @@
+;-----------------------------------------------------
+;
+;	TH_JoustTrellborg.scr
+;
+;	Karl Drown 11-18-01
+;	
+;	Trellborg that plays animations during jousting
+;	pranks.
+;-----------------------------------------------------
+#include TrainingHostility.inc
+#include Globals.inc
+
+#hObject	hMarker
+#hObject	hTarget
+
+#string sAnimA
+#string	sAnimB
+#string sAnimC
+#string sAnimD
+#string sMarker
+
+#number	bDirection = 0
+#number	bIsJousting = 0
+
+;-----------------------------------------------------
+:Start
+;-----------------------------------------------------
+	bIsJousting = TRUE
+	Gosub StartAnimations
+	Exit TRUE
+;-----------------------------------------------------
+:TurnOff
+;-----------------------------------------------------
+	Wait 1, 1, DoNothing
+	bIsJousting = FALSE
+	Exit TRUE
+
+;-----------------------------------------------------
+:AnimationA
+	PlayAnim sAnimA, AnimationB
+	Exit TRUE
+:AnimationB
+	PlayAnim sAnimB, AnimationC
+	Exit TRUE
+:AnimationC
+	PlayAnim sAnimC, AnimationD
+	Exit TRUE
+:AnimationD
+	PlayAnim sAnimD, StartAnimations
+	Exit TRUE
+;-----------------------------------------------------
+
+
+;-----------------------------------------------------
+:StartAnimations
+;-----------------------------------------------------
+	if (bIsJousting==FALSE)
+		exit
+	endif
+	WalkTo hMarker, 3, AnimationA
+	Exit TRUE
+
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+	AddTrigger Go, Start
+	AddTrigger Stop, TurnOff
+	AddTrigger BackPos, StartAnimations
+	GetObjectHandle sMarker, hMarker
+	gosub InitTrainingHostility
+	Exit TRUE
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	GetParam 0, sAnimA
+	GetParam 1, sAnimB
+	GetParam 2, sAnimC
+	GetParam 3, sAnimD
+	GetParam 4, sMarker
+	OnPostStartWorld Main2
+	Exit
+;------------- E n d - O f - F i l e -------------------

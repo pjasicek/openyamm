@@ -1,0 +1,58 @@
+;--------------------------------------------------------------
+;	DrangheimDoorman.scr
+;	SJR
+;	Feltup by kd 10-21-01
+;	Guard that Unlocks/opens and closes/Locks
+;	the InterrogationRoom Doors
+;
+;--------------------------------------------------------------
+#include BaseMelee.inc
+#include BaseGlobals.inc
+#include DrangheimHostility.inc
+
+#string		sDoorName = ""
+#hobject	hDoor = 0
+
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	GetParam 0, sDoorName
+
+	OnPostStartWorld InitDoorman
+	OnPostMiniSaveLoad InitDoorman
+
+	Exit TRUE
+
+;--------------------------------------------------------------
+:InitDoorman
+;--------------------------------------------------------------
+	gosub InitDrangheimHostility
+
+	AddTrigger open,  OpenRoom
+	AddTrigger close, CloseRoom
+
+	GetObjectHandle sDoorName, hDoor
+
+	gosub CloseRoom
+
+	Exit TRUE
+
+;--------------------------------------------------------------
+:OpenRoom
+;--------------------------------------------------------------
+	if( hDoor!=0 )
+		Trigger hDoor, unlock
+		Trigger hDoor, use
+	endif
+
+	Exit TRUE
+
+;--------------------------------------------------------------
+:CloseRoom
+;--------------------------------------------------------------
+	if( hDoor!=0 )
+		Trigger hDoor, close
+		Trigger hDoor, lock
+	endif
+
+	Exit TRUE

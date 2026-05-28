@@ -1,0 +1,32 @@
+;----------------------------------------------------------
+;	rockttest.scr
+;
+;		Destructable Object Script Test
+;
+;----------------------------------------------------------
+
+
+#include globals.inc
+
+;----------------------------------------------------------
+:HandleTouch
+;----------------------------------------------------------
+
+	SetModelFilenames models\\props\\barreldestroy.abc, skins\\props\\barreldestroy.dtx
+	LoopAnim Destroy, 3
+
+	Exit
+
+;----------------------------------------------------------
+:Main
+;----------------------------------------------------------
+
+	GetMyHandle g_hMyObject
+
+	SetModelFilenames models\\props\\barrel.abc, ""
+
+	OnDeath HandleTouch
+
+;	OnTouchNotify HandleTouch
+
+	Exit

@@ -1,0 +1,129 @@
+;------------------------------------------------------------------
+;	DC_sargent.scr
+;	Brett Yagi
+;
+;
+;	Parameters
+;		0 Name of Sleeping Guards w/o number
+;		1 Number of sleeping guards
+;		2 Name of the 2 markers w/o number
+;
+;
+;-----------------------------------------------------
+
+;;;SJR( added all hostility stuff)
+#include DookHostility.inc
+;;;endSJR
+
+#string		sMarkerName
+#string		sGuardName
+#string		sGuard
+#number		nNumGuards
+#number		nCount = 0
+#hobject	hGuard
+#string		sMarker
+#hobject	hMoveToObject
+
+
+#hobject	hDoor
+#number		nDoor = 0
+
+
+
+:dn
+
+	SetIdle
+
+exit 1
+
+;--------------------------------------------------------------
+:WakeGuardUp
+;--------------------------------------------------------------
+
+	SetIdle
+	PlayAnim aware dn
+	Trigger hMoveToObject WakeUp
+	Wait 0 3 WakeGuards	
+
+Exit 1
+
+;--------------------------------------------------------------
+:WakeGuards
+;--------------------------------------------------------------
+
+
+	if ( nCount < nNumGuards )
+
+		sGuard = sGuardName + nCount
+		GetObjectHandle sGuard hMoveToObject
+		WalkTo hMoveToObject 10 WakeGuardUp
+		nCount = nCount + 1
+
+	else
+
+		sMarker = sMarkerName + 1
+		GetObjectHandle sMarker hMoveToObject
+		WalkTo hMoveToObject 10 dn
+
+	endif
+
+Exit 1
+
+;--------------------------------------------------------------
+:StartUp
+;--------------------------------------------------------------
+
+	WalkTo hMoveToObject 10 WakeGuards
+
+Exit 1
+
+;--------------------------------------------------------------
+:ClearofDoor
+;--------------------------------------------------------------
+
+	nDoor = 0
+
+Exit 1
+
+;--------------------------------------------------------------
+:GoThruDoor
+;--------------------------------------------------------------
+
+	GetParam 0 hDoor
+	if ( nDoor == 0 )
+		SetIdle
+		nDoor = 1	
+		Trigger hDoor use
+		Wait 0 1 StartUp
+		Wait 1 5 ClearofDoor
+	endif
+
+Exit 1
+
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	gosub InitDookHostility
+
+	sMarker = sMarkerName + 0
+	GetObjectHandle sMarker hMoveToObject
+
+Exit 1
+
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+
+	nCount = 0
+	GetParam 0 sGuardName
+	GetParam 1 nNumGuards
+	GetParam 2 sMarkerName
+
+	AddTrigger StartUp StartUp
+	OnDoor	GoThruDoor
+	OnStuck	StartUp
+
+	OnPostStartWorld Main2
+	
+
+Exit 1

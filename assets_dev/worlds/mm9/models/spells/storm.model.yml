@@ -1,0 +1,111 @@
+schema: openyamm.model3d.v1
+id: storm
+model: storm.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/SPELLS/STORM.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: insidesphere01
+  materialIndex: 0
+  lods:
+  - faces: 80
+    vertices: 42
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 4
+    - 5
+    - 7
+    - 8
+    - 9
+    - 10
+  - index: 1
+    name: Xbase03
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Xbase
+    parent: 0
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Xmid
+    parent: 2
+    flags: 1
+    children: []
+  - index: 4
+    name: Xbase01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 5
+    name: Xbase04
+    parent: 0
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Xmid04
+    parent: 5
+    flags: 1
+    children: []
+  - index: 7
+    name: Xbase02
+    parent: 0
+    flags: 1
+    children: []
+  - index: 8
+    name: Xbase07
+    parent: 0
+    flags: 1
+    children: []
+  - index: 9
+    name: Xbase05
+    parent: 0
+    flags: 1
+    children: []
+  - index: 10
+    name: Xbase06
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: storm01
+  durationMs: 500
+  keyframes: 6
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: storm01
+  extents:
+  - 327.68
+  - 40.96
+  - 40.96
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/spells/storm.abc

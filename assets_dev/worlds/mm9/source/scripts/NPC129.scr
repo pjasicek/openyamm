@@ -1,0 +1,174 @@
+;--------------------------------------------------
+;NPC129.scr
+; timmy
+; handles Gray Slemnir voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+
+
+;promo variables
+
+#number		Fighter = 0
+#number		Mercenary = 1
+#number		Crusader = 2
+#number		Assassin = 3
+#number		Gladiator = 4
+#number		Ranger = 5
+#number		Paladin = 6
+#number		Initiate = 7
+#number		Scholar = 8
+#number		Healer = 9
+#number		Mage = 10
+#number		Lich = 11
+#number		Priest = 12
+#number		Druid = 13
+#number		Char1 = 0
+#number		Char2 = 1
+#number		Char3 = 2
+#number		Char4 = 3
+
+
+;--------------------------------------------------
+:PromotePriest
+;
+; Player has already completed the quest
+; just check to see who gets promoted
+;--------------------------------------------------
+Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+haskey 441 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Priest Char1
+	takekey 441
+endif
+
+haskey 442 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Priest Char2
+	takekey 442
+endif
+
+haskey 443 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Priest Char3
+	takekey 443
+endif
+
+haskey 444 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Priest Char4
+	takekey 444
+endif
+exit
+
+
+
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+
+gosub Givequest
+Gosub priest
+
+
+exit
+
+
+;--------------------------------------------------
+:Givequest
+;--------------------------------------------------
+
+haskey 441 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 250
+	givekey 251
+	givekey 252
+	exit
+endif
+
+haskey 442 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 250
+	givekey 251
+	givekey 252
+	exit
+endif
+
+haskey 443 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 250
+	givekey 251
+	givekey 252
+	exit
+endif
+
+haskey 444 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 250
+	givekey 251
+	givekey 252
+	exit
+endif
+
+;--------------------------------------------------
+:priest
+;--------------------------------------------------
+;****************
+;priest Quest
+;****************
+
+haskey 261 g_ntemp
+if (g_ntemp==FALSE, )
+	haskey 260 g_ntemp
+	if (g_ntemp==TRUE, )
+		giveexp 63000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		givegold 5000
+		givekey 261
+		takeitem 241
+		takeitem 430
+		gosub PromotePriest
+		exit
+	endif
+endif
+exit
+
+
+;End priest quest
+;******************
+exit
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_129.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

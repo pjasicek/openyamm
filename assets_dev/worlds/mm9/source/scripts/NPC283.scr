@@ -1,0 +1,94 @@
+;--------------------------------------------------
+;NPC283.scr
+; timmy
+; handles Leffery Caid's voice and stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include MonkHostility.inc
+
+
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub MissingRelic
+exit
+
+
+;--------------------------------------------------
+:MissingRelic
+;--------------------------------------------------
+
+haskey 342 g_ntemp
+if (g_ntemp==0)
+	haskey 341 g_ntemp
+	if (g_ntemp==1)
+		takeitem 368
+		givegold 3000
+		giveexp 80000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+		givekey 342
+		exit
+	endif
+endif
+exit
+
+;--------------------------------------------------
+:GiveKey
+;--------------------------------------------------
+
+haskey 255 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+haskey 254 g_ntemp
+if (g_ntemp==0, )
+	haskey 253 g_ntemp
+	if (g_ntemp==1, )
+		givekey 254
+		getobjecthandle CommonerHuman2MaleA1 g_hobject
+		trigger g_hobject Appear
+		exit
+	endif
+endif 
+exit
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Getparam 0 g_hobject
+FaceObject g_hobject 240 DoNothing
+DoRude 283
+Playsound voices\NPC\NPC_283.wav, DoNothing, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+gosub InitMonkHostility
+@M 5 : 00 Givekey Givekey
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+
+
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

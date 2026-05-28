@@ -1,0 +1,141 @@
+;----------------------------------------------------------------
+;	WyvernAir.scr
+;
+;	Quick-and-dirty script for wyvern...
+;
+;----------------------------------------------------------------
+
+
+#include aiglobals.inc
+
+#number						turnRate
+#number						turnDeg
+
+
+;----------------------------------------------------------------
+:HandleObstacle
+;	p0		- handle to obstacle
+;	p1-3	- Normal of the collision... 
+;
+;	For now, just go the opposite direction +- a little..
+;----------------------------------------------------------------
+
+	GetParam 1, g_rotX
+	GetParam 2, g_rotY
+	GetParam 3, g_rotZ
+
+	GetRandomFloat -0.20, 0.20, g_nRandom
+	Add g_rotX, g_nRandom
+
+	GetRandomFloat -0.20, 0.20, g_nRandom
+	Add g_rotZ, g_nRandom
+
+	FaceDir g_rotX, g_rotY, g_rotZ, 90
+	Walk
+
+	GetRandomFloat 3, 10, g_nRandom
+	Wait 0, g_nRandom, Pause
+
+	exit TRUE
+
+;----------------------------------------------------------------
+:Pause
+;
+;	Stop, and go into idle mode for a while...
+;
+;----------------------------------------------------------------
+	
+	SetIdle
+	Stop
+	
+	GetRandomFloat 3, 10, g_nRandom
+
+	Wait 0, g_nRandom, PickADirectionAndWalk
+	
+	exit TRUE
+
+;----------------------------------------------------------------
+:PickADirectionAndWalk
+;----------------------------------------------------------------
+
+	GetRandomFloat 15, 90, turnDeg
+;;	GetRandomFloat 20, 50, turnRate
+
+	Set turnRate, turnDeg
+	
+	GetRandomInt 0,1, g_nRandom
+
+	if ( g_nRandom==0 )
+		Mul turnDeg, -1
+	endif
+
+	Rotate 0,1,0,turnDeg,turnRate
+	Walk
+
+	GetRandomFloat 3, 10, g_nRandom
+	Wait 0, g_nRandom, Pause
+
+	Exit
+
+;----------------------------------------------------------------
+:HandleTouch
+;----------------------------------------------------------------
+
+	; Time to fly!
+
+	exit FALSE
+
+;----------------------------------------------------------------
+:HandleStuck
+;----------------------------------------------------------------
+
+	gosub PickADirectionAndWalk
+	exit TRUE
+
+;----------------------------------------------------------------
+:LaunchDone
+;----------------------------------------------------------------
+	
+
+
+	exit TRUE
+
+;----------------------------------------------------------------
+:WaitCancel
+;----------------------------------------------------------------
+
+;----------------------------------------------------------------
+:DamageDone
+;----------------------------------------------------------------
+
+	IsOnGround g_bTemp
+
+	if ( g_bTemp==TRUE )
+		Launch LaunchDone, 2000
+	else
+		Land
+	endif
+
+	exit TRUE
+
+;----------------------------------------------------------------
+:Main
+;
+;	
+;----------------------------------------------------------------
+
+;	TraceON
+	OnDamageDone DamageDone
+	SetIdle
+
+	exit
+
+	OnObstacle HandleObstacle
+	OnStuck HandleStuck
+	OnTouchNotify HandleTouch
+
+	GetRandomFloat 1, 15, g_nRandom
+
+	gosub Pause
+
+	Exit

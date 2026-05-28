@@ -1,0 +1,1188 @@
+schema: openyamm.model3d.v1
+id: player
+model: player.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PLAYER/PLAYER.abc
+  commandString: FadeRangeMax 3000; FadeRangeMin 2500; ShadowEnable; ShadowSizeX 15;
+    ShadowSizeY 15; ShadowProjectLength 45
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Lshin_node
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Lthigh_node
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Rshin_node
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Rthigh_Node
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: LNode
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: shield node
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Lshldr_Node
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: RNode
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: RNode01
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: RNode02
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Rshldr_Node
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: NGon01
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: hair
+  materialIndex: 0
+  lods:
+  - faces: 80
+    vertices: 48
+  - faces: 60
+    vertices: 38
+  - faces: 34
+    vertices: 25
+  - faces: 16
+    vertices: 15
+- name: rightpad
+  materialIndex: 0
+  lods:
+  - faces: 48
+    vertices: 31
+  - faces: 30
+    vertices: 22
+  - faces: 20
+    vertices: 17
+  - faces: 8
+    vertices: 11
+- name: war_gloves
+  materialIndex: 0
+  lods:
+  - faces: 82
+    vertices: 48
+  - faces: 42
+    vertices: 28
+  - faces: 26
+    vertices: 20
+  - faces: 18
+    vertices: 16
+- name: war_body
+  materialIndex: 0
+  lods:
+  - faces: 276
+    vertices: 156
+  - faces: 220
+    vertices: 128
+  - faces: 142
+    vertices: 89
+  - faces: 68
+    vertices: 46
+- name: leftpad
+  materialIndex: 0
+  lods:
+  - faces: 42
+    vertices: 23
+  - faces: 24
+    vertices: 14
+  - faces: 20
+    vertices: 12
+  - faces: 8
+    vertices: 6
+- name: armorlegs
+  materialIndex: 1
+  lods:
+  - faces: 338
+    vertices: 174
+  - faces: 270
+    vertices: 140
+  - faces: 184
+    vertices: 97
+  - faces: 90
+    vertices: 50
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: newbipedcenter
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 55
+  - index: 2
+    name: Bip01 Pelvis
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 7
+    - 12
+    - 15
+    - 18
+    - 20
+    - 23
+    - 26
+    - 28
+    - 31
+    - 37
+    - 40
+    - 43
+    - 49
+  - index: 3
+    name: Zfbase
+    parent: 2
+    flags: 3
+    children:
+    - 4
+  - index: 4
+    name: Zfpiv
+    parent: 3
+    flags: 3
+    children:
+    - 5
+  - index: 5
+    name: Zfa
+    parent: 4
+    flags: 3
+    children:
+    - 6
+  - index: 6
+    name: Zfb
+    parent: 5
+    flags: 3
+    children: []
+  - index: 7
+    name: Zbbase
+    parent: 2
+    flags: 3
+    children:
+    - 8
+  - index: 8
+    name: Zbpiv
+    parent: 7
+    flags: 3
+    children:
+    - 9
+  - index: 9
+    name: Zba
+    parent: 8
+    flags: 3
+    children:
+    - 10
+  - index: 10
+    name: Zbb
+    parent: 9
+    flags: 3
+    children:
+    - 11
+  - index: 11
+    name: Zbc
+    parent: 10
+    flags: 3
+    children: []
+  - index: 12
+    name: Xritpiv
+    parent: 2
+    flags: 3
+    children:
+    - 13
+  - index: 13
+    name: Xrit
+    parent: 12
+    flags: 3
+    children:
+    - 14
+  - index: 14
+    name: Xritmid
+    parent: 13
+    flags: 3
+    children: []
+  - index: 15
+    name: Xfntpiv
+    parent: 2
+    flags: 3
+    children:
+    - 16
+  - index: 16
+    name: Xfnt
+    parent: 15
+    flags: 3
+    children:
+    - 17
+  - index: 17
+    name: Xfntmid
+    parent: 16
+    flags: 3
+    children: []
+  - index: 18
+    name: Xfritpiv
+    parent: 2
+    flags: 3
+    children:
+    - 19
+  - index: 19
+    name: Xfrit
+    parent: 18
+    flags: 3
+    children: []
+  - index: 20
+    name: Xritfntpiv
+    parent: 2
+    flags: 3
+    children:
+    - 21
+  - index: 21
+    name: Xritfnt
+    parent: 20
+    flags: 3
+    children:
+    - 22
+  - index: 22
+    name: Xritfntmid
+    parent: 21
+    flags: 3
+    children: []
+  - index: 23
+    name: Xritpiv01
+    parent: 2
+    flags: 3
+    children:
+    - 24
+  - index: 24
+    name: Xrit01
+    parent: 23
+    flags: 3
+    children:
+    - 25
+  - index: 25
+    name: Xritmid01
+    parent: 24
+    flags: 3
+    children: []
+  - index: 26
+    name: Xfritpiv01
+    parent: 2
+    flags: 3
+    children:
+    - 27
+  - index: 27
+    name: Xfrit01
+    parent: 26
+    flags: 3
+    children: []
+  - index: 28
+    name: Xritfntpiv01
+    parent: 2
+    flags: 3
+    children:
+    - 29
+  - index: 29
+    name: Xritfnt01
+    parent: 28
+    flags: 3
+    children:
+    - 30
+  - index: 30
+    name: Xritfntmid01
+    parent: 29
+    flags: 3
+    children: []
+  - index: 31
+    name: Xbkpiv
+    parent: 2
+    flags: 3
+    children:
+    - 32
+  - index: 32
+    name: Xbk
+    parent: 31
+    flags: 3
+    children:
+    - 33
+    - 35
+  - index: 33
+    name: Xbkrit
+    parent: 32
+    flags: 3
+    children:
+    - 34
+  - index: 34
+    name: Xbkritmid
+    parent: 33
+    flags: 3
+    children: []
+  - index: 35
+    name: Xbkleft
+    parent: 32
+    flags: 3
+    children:
+    - 36
+  - index: 36
+    name: Xbkleftmid
+    parent: 35
+    flags: 3
+    children: []
+  - index: 37
+    name: Xrtbkpiv
+    parent: 2
+    flags: 3
+    children:
+    - 38
+  - index: 38
+    name: Xrtbk
+    parent: 37
+    flags: 3
+    children:
+    - 39
+  - index: 39
+    name: Xrtbkmid
+    parent: 38
+    flags: 3
+    children: []
+  - index: 40
+    name: Xrtbkpiv01
+    parent: 2
+    flags: 3
+    children:
+    - 41
+  - index: 41
+    name: Xrtbk01
+    parent: 40
+    flags: 3
+    children:
+    - 42
+  - index: 42
+    name: Xrtbkmid01
+    parent: 41
+    flags: 3
+    children: []
+  - index: 43
+    name: Bip01 L Thigh
+    parent: 2
+    flags: 3
+    children:
+    - 44
+    - 48
+  - index: 44
+    name: Bip01 L Calf
+    parent: 43
+    flags: 3
+    children:
+    - 45
+    - 47
+  - index: 45
+    name: Bip01 L Foot
+    parent: 44
+    flags: 3
+    children:
+    - 46
+  - index: 46
+    name: Bip01 L Toe0
+    parent: 45
+    flags: 3
+    children: []
+  - index: 47
+    name: Lshin_node
+    parent: 44
+    flags: 3
+    children: []
+  - index: 48
+    name: Lthigh_node
+    parent: 43
+    flags: 3
+    children: []
+  - index: 49
+    name: Bip01 R Thigh
+    parent: 2
+    flags: 3
+    children:
+    - 50
+    - 54
+  - index: 50
+    name: Bip01 R Calf
+    parent: 49
+    flags: 3
+    children:
+    - 51
+    - 53
+  - index: 51
+    name: Bip01 R Foot
+    parent: 50
+    flags: 3
+    children:
+    - 52
+  - index: 52
+    name: Bip01 R Toe0
+    parent: 51
+    flags: 3
+    children: []
+  - index: 53
+    name: Rshin_node
+    parent: 50
+    flags: 3
+    children: []
+  - index: 54
+    name: Rthigh_Node
+    parent: 49
+    flags: 3
+    children: []
+  - index: 55
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 56
+  - index: 56
+    name: Bip01 Spine1
+    parent: 55
+    flags: 3
+    children:
+    - 57
+  - index: 57
+    name: Bip01 Spine2
+    parent: 56
+    flags: 3
+    children:
+    - 58
+  - index: 58
+    name: Bip01 Neck
+    parent: 57
+    flags: 3
+    children:
+    - 59
+    - 72
+    - 83
+  - index: 59
+    name: Bip01 Head
+    parent: 58
+    flags: 3
+    children:
+    - 60
+    - 62
+    - 66
+    - 69
+  - index: 60
+    name: Bip01 Ponytail2
+    parent: 59
+    flags: 3
+    children:
+    - 61
+  - index: 61
+    name: Bip01 Ponytail21
+    parent: 60
+    flags: 3
+    children: []
+  - index: 62
+    name: Yponybase
+    parent: 59
+    flags: 3
+    children:
+    - 63
+  - index: 63
+    name: Yponypivot
+    parent: 62
+    flags: 3
+    children:
+    - 64
+  - index: 64
+    name: YponyA
+    parent: 63
+    flags: 3
+    children:
+    - 65
+  - index: 65
+    name: YponyB
+    parent: 64
+    flags: 3
+    children: []
+  - index: 66
+    name: Yhairbase01
+    parent: 59
+    flags: 3
+    children:
+    - 67
+  - index: 67
+    name: Yhairpiv01
+    parent: 66
+    flags: 3
+    children:
+    - 68
+  - index: 68
+    name: YhairA01
+    parent: 67
+    flags: 3
+    children: []
+  - index: 69
+    name: Yhairbase
+    parent: 59
+    flags: 3
+    children:
+    - 70
+  - index: 70
+    name: Yhairpiv
+    parent: 69
+    flags: 3
+    children:
+    - 71
+  - index: 71
+    name: YhairA
+    parent: 70
+    flags: 3
+    children: []
+  - index: 72
+    name: Bip01 L Clavicle
+    parent: 58
+    flags: 3
+    children:
+    - 73
+    - 82
+  - index: 73
+    name: Bip01 L UpperArm
+    parent: 72
+    flags: 3
+    children:
+    - 74
+  - index: 74
+    name: Bip01 L Forearm
+    parent: 73
+    flags: 3
+    children:
+    - 75
+    - 81
+  - index: 75
+    name: Bip01 L Hand
+    parent: 74
+    flags: 3
+    children:
+    - 76
+    - 78
+    - 80
+  - index: 76
+    name: Bip01 L Finger0
+    parent: 75
+    flags: 3
+    children:
+    - 77
+  - index: 77
+    name: Bip01 L Finger01
+    parent: 76
+    flags: 3
+    children: []
+  - index: 78
+    name: Bip01 L Finger1
+    parent: 75
+    flags: 3
+    children:
+    - 79
+  - index: 79
+    name: Bip01 L Finger11
+    parent: 78
+    flags: 3
+    children: []
+  - index: 80
+    name: LNode
+    parent: 75
+    flags: 3
+    children: []
+  - index: 81
+    name: shield node
+    parent: 74
+    flags: 3
+    children: []
+  - index: 82
+    name: Lshldr_Node
+    parent: 72
+    flags: 3
+    children: []
+  - index: 83
+    name: Bip01 R Clavicle
+    parent: 58
+    flags: 3
+    children:
+    - 84
+    - 94
+  - index: 84
+    name: Bip01 R UpperArm
+    parent: 83
+    flags: 3
+    children:
+    - 85
+  - index: 85
+    name: Bip01 R Forearm
+    parent: 84
+    flags: 3
+    children:
+    - 86
+  - index: 86
+    name: Bip01 R Hand
+    parent: 85
+    flags: 3
+    children:
+    - 87
+    - 89
+    - 91
+    - 92
+    - 93
+  - index: 87
+    name: Bip01 R Finger0
+    parent: 86
+    flags: 3
+    children:
+    - 88
+  - index: 88
+    name: Bip01 R Finger01
+    parent: 87
+    flags: 3
+    children: []
+  - index: 89
+    name: Bip01 R Finger1
+    parent: 86
+    flags: 3
+    children:
+    - 90
+  - index: 90
+    name: Bip01 R Finger11
+    parent: 89
+    flags: 3
+    children: []
+  - index: 91
+    name: RNode
+    parent: 86
+    flags: 3
+    children: []
+  - index: 92
+    name: RNode01
+    parent: 86
+    flags: 3
+    children: []
+  - index: 93
+    name: RNode02
+    parent: 86
+    flags: 3
+    children: []
+  - index: 94
+    name: Rshldr_Node
+    parent: 83
+    flags: 3
+    children: []
+sockets:
+- name: RHand1
+  node: 91
+  translation:
+  - -1.6323251342773437
+  - 0.36635135650634765
+  - 1.509854736328125
+  rotation:
+  - -0.06639768928289413
+  - -0.9881884455680847
+  - 0.011533056385815144
+  - 0.137629434466362
+- name: RHand2
+  node: 92
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+- name: Rhand3
+  node: 93
+  translation:
+  - 6.022502202540636e-06
+  - -1.4374911552295089e-06
+  - 1.1134336236864329e-05
+  rotation:
+  - 0.20535650849342346
+  - 0.9719316363334656
+  - 0.059471018612384796
+  - -0.09818697720766068
+- name: Rhand4
+  node: 91
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.052094750106334686
+  - 0.02649746648967266
+  - 0.00789271853864193
+  - 0.9982593059539795
+- name: LHand1
+  node: 80
+  translation:
+  - 0.5576192092895508
+  - -1.0691558074951173
+  - -1.0714393615722657
+  rotation:
+  - -0.4722488224506378
+  - 0.5321378707885742
+  - -0.4975462555885315
+  - 0.49624407291412354
+- name: Head
+  node: 59
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.49321332573890686
+  - 0.4932074546813965
+  - -0.5067017078399658
+  - 0.506695568561554
+- name: Chest
+  node: 57
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.4757429361343384
+  - 0.47574424743652344
+  - 0.5231323838233948
+  - 0.523133397102356
+- name: LeftArm
+  node: 74
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.010851697064936161
+  - 0.6436320543289185
+  - -0.012917640618979931
+  - 0.7651490569114685
+- name: LeftShoulder
+  node: 73
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.14874817430973053
+  - 0.7196643352508545
+  - 0.09759587794542313
+  - 0.6711424589157104
+- name: RightArm
+  node: 85
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.6436129212379456
+  - 0.010869376361370087
+  - -0.765164852142334
+  - 0.012920009903609753
+- name: RightShoulder
+  node: 84
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.7196573615074158
+  - -0.14875970780849457
+  - 0.6711493134498596
+  - 0.09758937358856201
+- name: LeftThigh
+  node: 43
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.5113363265991211
+  - -0.48926904797554016
+  - 0.5091529488563538
+  - 0.48981034755706787
+- name: LeftLeg
+  node: 44
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.48217055201530457
+  - 0.47743916511535645
+  - 0.5219597220420837
+  - 0.5168379545211792
+- name: LeftFoot
+  node: 45
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.5315549373626709
+  - 0.5056059956550598
+  - 0.4725062847137451
+  - 0.4884154796600342
+- name: RightThigh
+  node: 49
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.4892546832561493
+  - 0.5113500952720642
+  - 0.4897959530353546
+  - 0.5091668367385864
+- name: RightLeg
+  node: 50
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.47743651270866394
+  - 0.4821731448173523
+  - 0.5168354511260986
+  - 0.5219622254371643
+- name: RightFoot
+  node: 51
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.505603015422821
+  - 0.5315577983856201
+  - 0.4884132444858551
+  - 0.47250857949256897
+- name: Helm
+  node: 59
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.0
+  - 0.0
+  - -0.7071067690849304
+  - 0.7071067690849304
+- name: wand
+  node: 91
+  translation:
+  - -0.7860556793212891
+  - 0.7586867523193359
+  - 1.5795840454101562
+  rotation:
+  - -0.6288048028945923
+  - -0.5869314670562744
+  - 0.07809609174728394
+  - 0.5040010213851929
+- name: staff
+  node: 91
+  translation:
+  - -5.703807983398438
+  - -8.72174072265625
+  - 6.5455615234375
+  rotation:
+  - -0.21691358089447021
+  - -0.905541718006134
+  - 0.30276966094970703
+  - -0.20315834879875183
+- name: Arrow
+  node: 91
+  translation:
+  - -0.2800666999816895
+  - -2.113431854248047
+  - -0.5210913467407227
+  rotation:
+  - -0.028358900919556618
+  - 8.311003796279692e-08
+  - 2.0304112524627271e-07
+  - 0.99959796667099
+- name: Scroll
+  node: 91
+  translation:
+  - -0.8307934570312501
+  - -0.1991731834411621
+  - -2.457523193359375
+  rotation:
+  - 0.06893870234489441
+  - 0.9704448580741882
+  - -0.16050560772418976
+  - 0.1664823293685913
+animations:
+- name: static_model
+  durationMs: 1
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand1
+  durationMs: 2000
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: Wattack_Melee1
+  durationMs: 350
+  keyframes: 9
+  interpolationTimeMs: 50
+  events:
+  - timeMs: 74
+    event: attacksound
+  - timeMs: 148
+    event: Rattack
+- name: stand2
+  durationMs: 2000
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: Wattack_Twohanded1
+  durationMs: 400
+  keyframes: 6
+  interpolationTimeMs: 50
+  events:
+  - timeMs: 133
+    event: attacksound
+  - timeMs: 213
+    event: Rattack
+- name: CrouchIdle
+  durationMs: 2000
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: CrouchWalk
+  durationMs: 2000
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: CrouchWalkReverse
+  durationMs: 2000
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: CrouchRun
+  durationMs: 2000
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: CrouchRunReverse
+  durationMs: 2000
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: static_model
+  extents:
+  - 38.4
+  - 84.48
+  - 38.4
+  origin:
+  - 2.56
+  - -84.48
+  - -10.24
+- name: stand1
+  extents:
+  - 38.4
+  - 84.48
+  - 38.4
+  origin:
+  - 0.0
+  - -84.48
+  - 0.0
+- name: Wattack_Melee1
+  extents:
+  - 38.4
+  - 84.48
+  - 38.4
+  origin:
+  - 2.56
+  - -84.48
+  - 25.6
+- name: stand2
+  extents:
+  - 38.4
+  - 84.48
+  - 38.4
+  origin:
+  - 0.0
+  - -84.48
+  - 0.0
+- name: Wattack_Twohanded1
+  extents:
+  - 38.4
+  - 84.48
+  - 38.4
+  origin:
+  - 2.56
+  - -84.48
+  - 16.64
+- name: CrouchIdle
+  extents:
+  - 38.4
+  - 51.2
+  - 38.4
+  origin:
+  - 2.56
+  - -84.48
+  - 0.0
+- name: CrouchWalk
+  extents:
+  - 38.4
+  - 51.2
+  - 38.4
+  origin:
+  - 2.56
+  - -84.48
+  - 0.0
+- name: CrouchWalkReverse
+  extents:
+  - 38.4
+  - 51.2
+  - 38.4
+  origin:
+  - 2.56
+  - -84.48
+  - 0.0
+- name: CrouchRun
+  extents:
+  - 38.4
+  - 51.2
+  - 38.4
+  origin:
+  - 2.56
+  - -84.48
+  - 0.0
+- name: CrouchRunReverse
+  extents:
+  - 38.4
+  - 51.2
+  - 38.4
+  origin:
+  - 2.56
+  - -84.48
+  - 0.0
+roles:
+- static_model
+source_model: models/player/player.abc

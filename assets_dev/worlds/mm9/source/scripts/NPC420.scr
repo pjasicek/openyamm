@@ -1,0 +1,128 @@
+;--------------------------------------------------
+;NPC420.scr
+; timmy
+; handles organ player voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include MonkHostility.inc
+
+#number			bIsPlaying
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub PlaySong
+
+
+exit
+
+;---------------------------------
+:TurnHostilityOn
+;---------------------------------
+	gosub CancelSound
+	gosub TurnHostilityOn, 1
+
+	Exit TRUE
+
+;--------------------------------------------------
+:PlaySong
+;--------------------------------------------------
+
+Haskey 9506 g_ntemp
+if (g_ntemp==1)
+	GetobjectHandle E2 g_hobject
+	FaceObject g_hobject 180 Play
+	bIsPlaying = True
+	exit
+endif
+
+exit
+
+;--------------------------------------------------
+:PlayAnim
+;--------------------------------------------------
+Loopanim play 0 DoNothing
+wait 2 24 Onexit
+exit
+
+;;;SJR
+#hobject	hSound = 0
+#number		bIsPlaying = 0
+;--------------------------------------------------
+:Play
+;--------------------------------------------------
+
+getobjecthandle Organ g_hobject
+trigger g_hobject off
+
+
+Loopanim play 0 DoNothing
+;;;SJR
+PlaySoundHandle "sounds\Events\HeroesPipe441.wav", hSound, 1000, FALSE, 100
+
+takekey 9506
+wait 1 24 Onexit
+exit
+
+;;;SJR
+;-----------------------------
+:CancelSound
+;-----------------------------
+
+getobjecthandle Organ g_hobject
+trigger g_hobject off
+
+IsSoundDone hSound, bIsPlaying
+if( bIsPlaying==FALSE )
+	KillSound hSound
+endif
+exit 1
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+if (bIsPlaying==TRUE)
+	exit
+endif
+
+
+Getparam 0 g_hobject
+FaceObject g_hobject 200 DoNothing
+DoRude 420
+Playsound voices\NPC\NPC_177.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+gosub CancelSound
+bIsPlaying = false
+Playanim stand DoNothing
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+gosub InitMonkHostility
+exit
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+Addtrigger Play PlayAnim
+Addtrigger Use, OnUse
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

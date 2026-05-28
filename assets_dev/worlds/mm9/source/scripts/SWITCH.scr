@@ -1,0 +1,48 @@
+;----------------------------------------------
+;Switch.scr
+; By Timmy
+; handles switch stuff
+;----------------------------------------------
+
+#include globals.inc 
+
+#number		bUp = TRUE
+#string		sTarget
+#string		sMessage
+
+;Parameters:
+
+; p0 Name of target you want triggered
+; p1 Message you want to send to target
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+if (bUp==FALSE)
+	Playanim up DoNothing
+	set bUp TRUE
+else
+	PlayAnim Down
+	set bUp FALSE
+endif
+
+getobjecthandle sTarget g_hobject
+trigger g_hobject sMessage
+
+exit
+
+
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+getparam 0 sTarget
+getparam 1 sMessage
+
+exit

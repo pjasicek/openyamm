@@ -1,0 +1,115 @@
+schema: openyamm.model3d.v1
+id: mouse
+model: mouse.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/MOUSE.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: mouse
+  materialIndex: 0
+  lods:
+  - faces: 54
+    vertices: 29
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone05
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 5
+  - index: 2
+    name: Bone01
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Bone02
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bone03
+    parent: 3
+    flags: 1
+    children: []
+  - index: 5
+    name: Bone08
+    parent: 1
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Bone06
+    parent: 5
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: stand
+  durationMs: 2500
+  keyframes: 70
+  interpolationTimeMs: 200
+  events: []
+- name: run
+  durationMs: 220
+  keyframes: 21
+  interpolationTimeMs: 200
+  events: []
+- name: die
+  durationMs: 1033
+  keyframes: 20
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: stand
+  extents:
+  - 7.68
+  - 2.56
+  - 7.68
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: run
+  extents:
+  - 7.68
+  - 2.56
+  - 7.68
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: die
+  extents:
+  - 7.68
+  - 2.56
+  - 7.68
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+roles:
+- static_model
+source_model: models/mouse.abc

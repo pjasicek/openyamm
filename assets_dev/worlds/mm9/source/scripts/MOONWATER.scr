@@ -1,0 +1,139 @@
+;---------------------------------------------------------------------
+:	TonyWater.scr
+;	Tony Evans
+;
+;	This script can be used to sink and fill water...
+;
+;
+;	Parameters:
+;
+;	p1	- How far to move in pixels
+;	p2	- Fill Rate
+;
+;---------------------------------------------------------------------
+
+#include globals.inc
+
+#number			nOrigPosX
+#number			nOrigPosY
+#number			nOrigPosZ
+
+#number			nDestPosY
+
+#number			nMoveDistance=128
+#number			nWaterFillRate=8
+
+#number			nFillRateTotal=0
+
+#string			sFillSound=Sounds\water\waterfill.wav
+#string			sSinkSound=Sounds\water\watersink.wav
+
+#number			hWaterSound
+
+#number			bWaterSunk=1
+
+;---------------------------------------------------------------------
+:RaiseWater
+;
+;	Raises Water and increments the Fill Rate
+;---------------------------------------------------------------------
+	
+
+	if (bWaterSunk==1)
+		Set nDestPosY, nOrigPosY
+		Add nDestPosY, nMoveDistance
+		Set bWaterSunk, 0
+	endif
+
+	IsSoundDone hWaterSound, g_bTemp
+	if ( g_bTemp==TRUE )
+		PlaySound sFillSound, 1000, TRUE, 100, hWaterSound
+	endif
+
+	Add nFillRateTotal, nWaterFillRate
+	MoveToPos nOrigPosX, nDestPosY, nOrigPosZ, nFillRateTotal, LowerWater
+
+	Exit
+
+
+;---------------------------------------------------------------------
+:LowerWater
+;
+;	Lowers the water
+;---------------------------------------------------------------------
+	
+	KillSound hWaterSound
+	IsSoundDone hWaterSound, g_bTemp
+	if ( g_bTemp==TRUE )
+		PlaySound sSinkSound, 1000, TRUE, 100, hWaterSound
+	endif
+
+	Set bWaterSunk, 1
+	
+	MoveToPos nOrigPosX, nOrigPosY, nOrigPosZ, 32, WaterDone
+
+	Exit
+
+;---------------------------------------------------------------------
+:WaterDone
+;---------------------------------------------------------------------
+	KillSound hWaterSound
+	
+	GetObjectHandle WaterWheel1, g_hobject
+	Trigger g_hobject unlock
+	GetObjectHandle WaterWheel2, g_hobject
+	Trigger g_hobject unlock
+	GetObjectHandle WaterWheel3, g_hobject
+	Trigger g_hobject unlock
+	GetObjectHandle WaterWheel4, g_hobject
+	Trigger g_hobject unlock
+
+	if (bWaterSunk==1)
+		set nFillRateTotal, 0
+	endif
+	Exit
+
+;---------------------------------------------------------------------
+:ToggleWater
+;---------------------------------------------------------------------
+
+	if ( bWaterSunk==TRUE )
+		gosub RaiseWater
+	else
+		gosub LowerWater
+	endif
+
+	exit
+
+;---------------------------------------------------------------------
+:Main
+;
+;
+;---------------------------------------------------------------------
+
+;TRACEON
+
+; get the position of the volume brush
+	GetMyHandle g_hMyObject
+	GetPos g_hMyObject, nOrigPosX, nOrigPosY, nOrigPosZ
+
+; set up triggers
+	AddTrigger SinkWater, LowerWater
+	AddTrigger FillWater, RaiseWater
+	AddTrigger ToggleWater, ToggleWater
+
+; get the parameters
+	GetParam 0, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set nMoveDistance, g_nTemp
+	endif
+
+	GetParam 1, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set nWaterFillRate, g_nTemp
+	endif
+
+Exit
+

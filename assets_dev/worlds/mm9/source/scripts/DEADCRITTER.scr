@@ -1,0 +1,18 @@
+;-----------------------------------
+;	DeadCritter.scr
+;	Karl
+;	10-15-01
+;	Purpose: simply kill creatures at
+;	level launch. "Corpse" prop.
+;-----------------------------------
+
+;-----------------------------------
+:Main
+;-----------------------------------
+	;;make sure we don't fade or bury
+	SetPropNumber FadeOnDeath, 0
+	SetPropNumber BuryOnDeath, 0
+
+	Die
+
+	Exit 1

@@ -1,0 +1,68 @@
+Coordinates for Video Options
+
+-----------------------------------------------------------------------------------
+Note: Coordinates are based on full-screen.  For coordinates relative to the
+	options background, subtract 250 from any given column number (except,
+	of course, the placement of the background itself)
+-----------------------------------------------------------------------------------
+
+OptionsVideoBG.pcx	250x   0y	550x600	Background
+
+ListScrollButton-Up	727x 132y	16x16	
+ListScrollButton-Down	727x 239y	16x16
+ListScrollHandle	727x 150y	16x16	Upper-most Position
+			727x 222y		Lower-Most Position 
+
+Note: There is a full-line highlight "OptionsVideoSelector.pcx" To highlight the 
+	currently selected line on the list.  Can be placed with coords for
+	list text, below.
+
+-----------------------------------------------------------------------------------
+
+Pure Text Items:
+
+"VIDEO OPTIONS"		282x  45y	260x20	Arial 16 Pixel Left
+"Video Mode"		282x  80y	260x20	Arial 16 Pixel Left
+Current Video Mode $	285x 108y	260x20	Arial 16 Pixel Left
+"Force One Pass"	307x 335y	260x20	Arial 16 Pixel Left
+"Detail Textures"	307x 365y	260x20	Arial 16 Pixel Left
+"Light Mapping"		307x 395y	260x20	Arial 16 Pixel Left
+"Shadows"		307x 425y	260x20	Arial 16 Pixel Left
+"Triple Buffering"	307x 455y	260x20	Arial 16 Pixel Left
+"Weapon Effects"	307x 485y	260x20	Arial 16 Pixel Left
+"Optimize Surfaces"	307x 515y	260x20	Arial 16 Pixel Left
+"Environment Map"	307x 545y	260x20	Arial 16 Pixel Left
+"Gamma Value"		307x 270y	260x20	Arial 16 Pixel Left
+
+Note: There are 6 Lines For Video Mode Slots.  Each is 20 Rows Apart.
+	I am giving the coordinates for the first and last slots below.  These 
+	coordinates are also used for the highlighter (Green) for the line.
+	Simply count down 20 pixels from the topmost slot to place the other
+	lines.  The background is shaded to accomodate these lines and so
+	they must be placed accurately.
+
+First Slot		285x 134y	439x20	Arial 16 Pixel Left
+Last Slot		285x 234y	260x20	Arial 16 Pixel Left
+
+ 
+Note: All printed text should be Arial about 16 point (Full Basic capital letter
+	should be around 16 Pixels tall)  Color rgb(220,200,150) With a 1-pixel
+	outline of color rgb(53,27,4)  All printed text should be in "Small Caps"
+	format, with no descenders from lower-case letters such as g or p.
+
+Gamma Value Handle	281x 292y	9x30	Left-Most Position (Minimum)
+			678x 292y		Right-Most Position (Maximum)
+
+-----------------------------------------------------------------------------------
+
+Text As Buttons:
+
+"Restore Default"	546x  44y	200x20	Arial 16 Pixel Right
+"Cancel"		543x 533y	96x20	Arial 16 Pixel Center
+"Apply"			647x 533y	96x20	Arial 16 Pixel Center
+
+Note: Button Text should be the same color as above, but when mouse-overed should 
+	highlight in color rgb(250,240,220)  And when pressed should cause a sound
+	effect and flash dark color rgb(110,100,75)
+
+----------------------------------------------------------------------------------

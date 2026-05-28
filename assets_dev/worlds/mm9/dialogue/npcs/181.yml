@@ -1,0 +1,1648 @@
+format_version: 1
+source_file: NPC181.rude
+rows:
+  - source:
+      file: NPC181.rude
+      row: 1
+    raw_columns:
+      - 181
+      - 1
+      - 1
+      - Yes.
+      - The Ranger's Trial consist of two separate tasks.
+      - 2
+      - 137
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 240
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 1
+      choice_slot: 1
+      prompt: Yes.
+      response: The Ranger's Trial consist of two separate tasks.
+      next: 2
+      raw_fields:
+        c07: 137
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 240
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 137
+            qbit_id: 9137
+            state_id: mm9.keys.137
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 137
+          qbit_id: 9137
+          state_id: mm9.keys.137
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 240
+        status: raw_value_preserved
+  - source:
+      file: NPC181.rude
+      row: 2
+    raw_columns:
+      - 181
+      - 50
+      - 1
+      - Thank you.
+      - Carry yourselves with pride and honor.  Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 50
+      choice_slot: 1
+      prompt: Thank you.
+      response: Carry yourselves with pride and honor.  Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC181.rude
+      row: 3
+    raw_columns:
+      - 181
+      - 2
+      - 1
+      - Tell us about the first task.
+      - There is a bow known as Everstrike.  It is the greatest bow ever made.  It never misses.  To pass the first test, you need to find this bow.  The last I heard, someone named the Dook had been looking for it also.  You'd better find it before he does.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 238
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 2
+      choice_slot: 1
+      prompt: Tell us about the first task.
+      response: There is a bow known as Everstrike.  It is the greatest bow ever made.  It never misses.  To pass the first test, you need to find this bow.  The last I heard, someone named the Dook had been looking for it also.  You'd better find it before he does.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 238
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 238
+        status: raw_value_preserved
+  - source:
+      file: NPC181.rude
+      row: 4
+    raw_columns:
+      - 181
+      - 5
+      - 1
+      - We will do this.
+      - Good luck.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 238
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 5
+      choice_slot: 1
+      prompt: We will do this.
+      response: Good luck.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 238
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 238
+        status: raw_value_preserved
+  - source:
+      file: NPC181.rude
+      row: 5
+    raw_columns:
+      - 181
+      - 3
+      - 1
+      - We will do this.
+      - Very good.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 3
+      choice_slot: 1
+      prompt: We will do this.
+      response: Very good.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC181.rude
+      row: 6
+    raw_columns:
+      - 181
+      - 10
+      - 1
+      - Do you have any news?
+      - Frosgard is facing a plight of nature.  It's horrible.  I wish Tryygva would do something about it!
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 10
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: Frosgard is facing a plight of nature.  It's horrible.  I wish Tryygva would do something about it!
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC181.rude
+      row: 7
+    raw_columns:
+      - 181
+      - 998
+      - 1
+      - Goodbye
+      - blank
+      - -14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 998
+      choice_slot: 1
+      prompt: Goodbye
+      response: blank
+      next: -14
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -14
+        service: quest_handoff
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -14
+        service: quest_handoff
+        status: typed_pending_exact_runtime_behavior
+  - source:
+      file: NPC181.rude
+      row: 8
+    raw_columns:
+      - 181
+      - 4
+      - 1
+      - We will do this.
+      - Very well.  Good luck.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 239
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 4
+      choice_slot: 1
+      prompt: We will do this.
+      response: Very well.  Good luck.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 239
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 239
+        status: raw_value_preserved
+  - source:
+      file: NPC181.rude
+      row: 9
+    raw_columns:
+      - 181
+      - 181
+      - 1
+      - We've heard you can promote Crusaders to Rangers.
+      - The Ranger's Test is quite an ordeal.  Do you have any that are worthy?
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2079
+      - 0
+      - 0
+      - 0
+      - 0
+      - 238
+      - 239
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 181
+      choice_slot: 1
+      prompt: We've heard you can promote Crusaders to Rangers.
+      response: The Ranger's Test is quite an ordeal.  Do you have any that are worthy?
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2079
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 238
+        c22: 239
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2079
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 238
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 239
+        status: raw_value_preserved
+  - source:
+      file: NPC181.rude
+      row: 10
+    raw_columns:
+      - 181
+      - 181
+      - 2
+      - We'd like to ask you some questions.
+      - Very well.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 181
+      choice_slot: 2
+      prompt: We'd like to ask you some questions.
+      response: Very well.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC181.rude
+      row: 11
+    raw_columns:
+      - 181
+      - 1
+      - 2
+      - No.
+      - Come back to me when you do.
+      - 181
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 1
+      choice_slot: 2
+      prompt: No.
+      response: Come back to me when you do.
+      next: 181
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 181
+  - source:
+      file: NPC181.rude
+      row: 12
+    raw_columns:
+      - 181
+      - 2
+      - 2
+      - Tell us about the second task.
+      - There is a place in Frosgard known as the Dungeon of Secrets.  To pass the second test, you must go from one end of the dungeon to the other.  If you survive, you pass.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 239
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 2
+      choice_slot: 2
+      prompt: Tell us about the second task.
+      response: There is a place in Frosgard known as the Dungeon of Secrets.  To pass the second test, you must go from one end of the dungeon to the other.  If you survive, you pass.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 239
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 239
+        status: raw_value_preserved
+  - source:
+      file: NPC181.rude
+      row: 13
+    raw_columns:
+      - 181
+      - 3
+      - 2
+      - Perhaps later.
+      - Perhaps you are not yet worthy.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 3
+      choice_slot: 2
+      prompt: Perhaps later.
+      response: Perhaps you are not yet worthy.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC181.rude
+      row: 14
+    raw_columns:
+      - 181
+      - 4
+      - 2
+      - Perhaps some other time.
+      - Maybe you are not worthy just yet.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 4
+      choice_slot: 2
+      prompt: Perhaps some other time.
+      response: Maybe you are not worthy just yet.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC181.rude
+      row: 15
+    raw_columns:
+      - 181
+      - 10
+      - 2
+      - What do you know about Frosgard?
+      - All of Frosgard has neglected nature.  It's no wonder the people are starving!
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 10
+      choice_slot: 2
+      prompt: What do you know about Frosgard?
+      response: All of Frosgard has neglected nature.  It's no wonder the people are starving!
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC181.rude
+      row: 16
+    raw_columns:
+      - 181
+      - 5
+      - 2
+      - Perhaps another time.
+      - You will return when you are braver.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 5
+      choice_slot: 2
+      prompt: Perhaps another time.
+      response: You will return when you are braver.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC181.rude
+      row: 17
+    raw_columns:
+      - 181
+      - 181
+      - 3
+      - About the Ranger's Trial.
+      - Yes?
+      - 2
+      - 240
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 248
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 181
+      choice_slot: 3
+      prompt: About the Ranger's Trial.
+      response: Yes?
+      next: 2
+      raw_fields:
+        c07: 240
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 248
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 240
+            qbit_id: 9240
+            state_id: mm9.keys.240
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 240
+          qbit_id: 9240
+          state_id: mm9.keys.240
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 248
+        status: raw_value_preserved
+  - source:
+      file: NPC181.rude
+      row: 18
+    raw_columns:
+      - 181
+      - 181
+      - 4
+      - We've completed the Ranger's Trial.
+      - Chadwick already informed me of your success.  Congratulations.  I hereby promote you to Rangers.
+      - 50
+      - 245
+      - 0
+      - 241
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 248
+      - 0
+      - 0
+      - 0
+      - 0
+      - 248
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 181
+      choice_slot: 4
+      prompt: We've completed the Ranger's Trial.
+      response: Chadwick already informed me of your success.  Congratulations.  I hereby promote you to Rangers.
+      next: 50
+      raw_fields:
+        c07: 245
+        c08: 0
+        c09: 241
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 248
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 248
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 50
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 245
+            qbit_id: 9245
+            state_id: mm9.keys.245
+          - column: c09
+            raw_id: 241
+            qbit_id: 9241
+            state_id: mm9.keys.241
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 245
+          qbit_id: 9245
+          state_id: mm9.keys.245
+        - domain: mm9.keys
+          raw_id: 241
+          qbit_id: 9241
+          state_id: mm9.keys.241
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 248
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 248
+        status: raw_value_preserved
+  - source:
+      file: NPC181.rude
+      row: 19
+    raw_columns:
+      - 181
+      - 2
+      - 4
+      - We will do these tasks
+      - Good Luck
+      - 998
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 238
+      - 239
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 2
+      choice_slot: 4
+      prompt: We will do these tasks
+      response: Good Luck
+      next: 998
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 238
+        c17: 239
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 998
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 238
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c17
+        value: 239
+        status: raw_value_preserved
+  - source:
+      file: NPC181.rude
+      row: 20
+    raw_columns:
+      - 181
+      - 2
+      - 5
+      - Thanks for your time.
+      - Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 2
+      choice_slot: 5
+      prompt: Thanks for your time.
+      response: Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC181.rude
+      row: 21
+    raw_columns:
+      - 181
+      - 181
+      - 5
+      - Thanks for your time.
+      - Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 181
+      choice_slot: 5
+      prompt: Thanks for your time.
+      response: Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC181.rude
+      row: 22
+    raw_columns:
+      - 181
+      - 10
+      - 7
+      - Thanks for your time.
+      - Farewell
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 181
+      node_id: 10
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Farewell
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

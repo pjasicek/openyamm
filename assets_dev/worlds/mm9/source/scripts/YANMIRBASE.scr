@@ -1,0 +1,555 @@
+;--------------------------------------------------------------
+;	YanmirBase.Scr
+;	Jeff Leggett
+;	01/02/2002
+;
+; edited by Bones 10/16/02
+; TELP Patch 1.3 -- keep Yanmir immune to physical damage (new loads only)
+;		give correct key and ExpPts for non-trap kill (all loads)
+;--------------------------------------------------------------
+
+
+#include BaseCrawl.inc
+#include Range.inc
+
+
+; Puff of smoke...
+#hobject				hDust
+#number					bPlayerTargeted=0
+#number					nBugAttempts = 0
+#number					markerSave = 0
+
+;--------------------------------------------------------------
+:LookForBugsStart
+;--------------------------------------------------------------
+	Wait 25, 3, LookForBugsTick
+	exit
+
+;--------------------------------------------------------------
+:LookForBugsTick
+;--------------------------------------------------------------
+#numberArray	bugArray[20]
+#number			bugCount
+
+	GetRandomFloat 0.5,2,g_nRandom
+	Wait 25, g_nRandom, LookForBugsTick
+
+	GetTarget g_hObject
+	
+	if ( g_hObject!=NULL )
+		Exit
+	endif
+
+	GetObjects IceLobbercicle,500,20,bugArray,bugCount
+
+	if ( bugCount==0 )
+		Exit
+	endif
+
+	Sub bugCount,1
+	GetRandomInt 0,bugCount,g_nRandom
+
+	ArrayGet bugArray,g_nRandom,g_hTarget
+
+	IsVisible g_hTarget,g_bTemp
+
+	if ( g_bTemp==FALSE )
+		g_hTarget = NULL
+		exit
+	endif
+
+	Stop
+
+	markerSave	= nCurrentMarker
+
+	nBugAttempts = 0
+	gosub SetupTarget
+	gosub AggressiveStart
+	
+	Exit
+
+;--------------------------------------------------------------
+:AttackDone
+;--------------------------------------------------------------
+	gosub AttackDone,1
+
+	if ( bPlayerTargeted==FALSE )
+		Add nBugAttempts,1
+		if ( nBugAttempts > 3 )
+			gosub GiveUpOnTarget
+			Exit
+		Endif
+	Endif
+
+	Exit
+
+;--------------------------------------------------------------
+:ClearTarget
+;--------------------------------------------------------------
+	gosub LookForBugsStart
+
+	gosub ClearTarget,2
+
+	Exit
+
+;--------------------------------------------------------------
+:SetupTarget
+;--------------------------------------------------------------
+	gosub LookForBugsStop
+	IsPlayer g_hTarget,bPlayerTargeted
+
+	if ( bPlayerTargeted==TRUE )
+		MAX_CHASE_TIME	= 45
+	else
+		MAX_CHASE_TIME	= 15
+	endif
+
+	goto SetupTarget,2
+	
+	Exit
+
+;--------------------------------------------------------------
+:LookForBugsStop
+;--------------------------------------------------------------
+	Wait 25, 0, DoNothing
+	Exit
+
+
+;--------------------------------------------------------------
+:TargetPlayer
+;--------------------------------------------------------------
+	GetPlayerHandle g_hTarget
+	if ( g_hTarget==NULL )
+		Wait 29,0.1,TargetPlayer
+		exit
+	endif
+
+	gosub SetupTarget
+
+	exit
+
+
+;--------------------------------------------------------------
+:OnStuck
+;--------------------------------------------------------------
+	gosub GiveUpOnTarget
+	Exit TRUE
+
+;--------------------------------------------------------------
+:OpenDoor
+;--------------------------------------------------------------
+	PlaySound Sounds\Door\stonedoorslam.wav, DoNothing, 1000, 3500, FALSE, 100
+	GetObjectHandle YanmirDust,hDust
+	GetSocketPos Rfoot,g_posX,g_posY,g_posZ
+	SetPos hDust,g_posX,g_posY,g_posZ
+	Trigger hDust,ON
+	Wait 28, .25, TurnDustOff
+	trigger g_hDoor,Use
+	exit
+
+;--------------------------------------------------------------
+:TurnDustOff
+;--------------------------------------------------------------
+	Trigger hDust, Off
+	exit
+
+;--------------------------------------------------------------
+:KickDoorDone
+;--------------------------------------------------------------
+
+	gosub BD_DoorOpen
+
+	Exit
+
+;--------------------------------------------------------------
+:KickDoor
+;--------------------------------------------------------------
+
+;	will call OpenDoor at appropriate time...
+	PlayAnim KickDoor, KickDoorDone
+
+	Exit
+
+;--------------------------------------------------------------
+:BD_OnDoor
+;--------------------------------------------------------------
+
+	GetParam 0, g_hDoor
+
+	GetStat g_hDoor,IsClosed,g_bTemp
+
+	if ( g_bTemp==FALSE )
+		; door is not closed, ignore....
+		Exit FALSE
+	Endif
+
+	gosub KickDoor
+
+	SavePath
+
+	g_bDoorOpening = TRUE
+
+
+	Exit TRUE
+
+;--------------------------------------------------------------
+:SpeedThrottleStart
+;--------------------------------------------------------------
+	; None for me thanks.
+
+	Exit
+
+;--------------------------------------------------------------
+:DoFall
+;--------------------------------------------------------------
+	LoopAnim Fall,0
+
+	Exit
+
+
+;--------------------------------------------------------------
+:FallDown
+;
+;	Time to do our fall down animation...
+;
+;--------------------------------------------------------------
+
+	Wait 21, 0, DoNothing
+
+	Stop
+	gosub ClearTarget
+
+;
+;	Make sure we're uninterested in looking for any targets...
+;
+	OnFoundTarget
+	OnDamage
+	OnAlert
+	OnDamageDone
+	OnProjectile
+
+	gosub LookForBugsStop
+
+	PlayAnim startDie,DoFall
+
+	Exit
+
+;--------------------------------------------------------------
+:Begin
+;--------------------------------------------------------------
+	RemoveTrigger Squish
+
+	gosub LookForBugsStart
+	gosub EnableWandering
+
+	Exit
+
+
+;--------------------------------------------------------------
+:Wipe
+;
+;	wipe the crap off my shoe...
+;
+;--------------------------------------------------------------
+	PlayAnim Wipe, WipeDone
+	exit
+
+:WipeDone
+	Stop
+
+	nCurrentMarker	= markerSave
+
+	; subtract 1 from our current marker...
+
+	Sub nCurrentMarker,1
+
+	if ( nCurrentMarker<0 )
+		nCurrentMarker = nWanderPathCount - 1
+	endif
+
+	gosub EnableWandering
+
+
+
+	Exit
+
+;--------------------------------------------------------------
+:BaseCrawlGetHim
+;--------------------------------------------------------------
+	AIGetDistance g_hTarget,g_nDist
+	if ( g_nDist < 720 )
+		GetObjectHandle YanmirDoEQ,g_hObject
+		AIGetDistance g_hObject,g_nDist
+		if ( g_nDist < 400 )
+			GetDistance g_hTarget,g_hObject,g_nDist
+			if ( g_nDist < 700 )
+				Stop
+				Exit
+			Endif
+		Endif
+	endif
+
+	gosub BaseCrawlGetHim,1
+
+	Exit
+
+;--------------------------------------------------------------
+:ShouldRunAfter
+;--------------------------------------------------------------
+
+	if ( bPlayerTargeted==FALSE )
+		gosub ShouldRunAfter,1
+	else
+		gosub ShouldRunAfter,2
+	endif
+
+	Exit
+
+;--------------------------------------------------------------
+:DoWipe
+;
+;		Wipe off our shoe...
+;
+;--------------------------------------------------------------
+
+	Stop
+	gosub DisableWandering
+	gosub Wipe
+
+	exit
+
+;--------------------------------------------------------------
+:OnTargetDead
+;--------------------------------------------------------------
+	gosub ClearTarget
+
+	GetParam 0, g_hObject
+
+	if ( g_hObject==g_hMyObject )
+		gosub DisableWandering
+		Wait TAUNT_WAIT,0.2,DoWipe
+	endif
+
+	exit
+
+;--------------------------------------------------------------
+:OnAlert
+;
+;	We don't respond to alerts...
+;
+;--------------------------------------------------------------
+	Exit
+
+;--------------------------------------------------------------
+:FollowPath
+;--------------------------------------------------------------
+
+	nCurrentMarker = 18
+	gosub ClearTarget
+
+	Exit TRUE
+
+;--------------------------------------------------------------
+:OnPlayerRanAway
+;--------------------------------------------------------------
+
+	if ( g_hTarget==NULL )
+		Exit
+	endif
+
+	if ( bPlayerTargeted==FALSE )
+		Exit
+	Endif
+
+	gosub AggressiveStop
+	gosub CheckRangeAttackStop
+
+	Stop
+
+	GetObjectHandle	YanmirPathA18,g_hObject
+
+	g_hTarget = g_hObject
+	Target g_hObject,TRUE
+
+	RunTo g_hObject, 0, FollowPath
+
+	Exit
+
+;--------------------------------------------------------------
+:DoCamera
+;
+;	See if we need to turn camera on..
+;	(ie: player is not somewhere where they can see the 
+;	     death sequence...)
+;
+;	Note: I tagged all AIRails that are within viewing
+;	distance of the event with userdata 555.  I look for
+;	those and don't turn on the camera if the player is
+;	inside one....
+;
+;--------------------------------------------------------------
+
+	GetPlayerHandle g_hObject
+
+	GetContainer g_hObject,0,g_hObject2
+
+	g_bTemp	= TRUE
+
+	if ( g_hObject2!=NULL )
+		; See what rail they are on.  If they're on
+		; one that's in this room, then don't turn 
+		; camera on...
+
+		GetStat g_hObject2,UserData,g_nTemp
+
+		if ( g_nTemp==555 )
+			cprint Player is within a viewable camera!!!
+			Exit
+		Endif
+	endif
+	
+	GetObjectHandle YanmirCamera,g_hObject
+	Trigger g_hObject,ON
+
+	Exit
+
+;--------------------------------------------------------------
+:DestroyFloor
+;--------------------------------------------------------------
+
+	GetObjectHandle YanDstruct0,g_hObject
+	Trigger g_hObject,Destroy
+
+	GetObjectHandle FallingFloor0,g_hObject
+	Trigger g_hObject,Disappear
+
+	exit
+
+;	GetObjectHandle EffectsMgr,g_hObject
+;	Trigger g_hObject,QuakeLong
+;	Trigger g_hObject,QuakeStrong
+;	Trigger g_hObject,StartScene
+
+	Exit
+
+
+;--------------------------------------------------------------
+:OnTimeToDie
+;--------------------------------------------------------------
+
+	GetParam 0, g_hObject
+
+	if ( g_hObject!=g_hMyObject )
+		Exit
+	endif
+
+	RemoveTrigger TimeToDie
+
+	gosub DoCamera
+
+	GetObjectHandle CaveInDust1,g_hObject
+	Trigger g_hObject,On
+
+	GetObjectHandle CaveInDust2,g_hObject
+	Trigger g_hObject,On
+
+	GetObjectHandle CaveInDust3,g_hObject
+	Trigger g_hObject,On
+
+	Wait 21, 2, FallDown
+
+	gosub BaseRunCancel
+	gosub SpeedThrottleStop
+	gosub AggressiveStop
+	gosub AlertStop
+	Target NULL
+	OnFoundTarget
+	g_hTarget = NULL
+
+	GetObjectHandle YanmirPathA4,g_hObject
+
+	if ( g_hObject==NULL )
+		cprint Where is YanmirPathA4???
+	else
+		RunTo g_hObject,0,FallDown
+	endif
+
+	;TL Added for Giving the key and the XP
+	set g_nPad2 8000
+	Gosub GiveEeps
+
+	Exit
+
+;-------------------------------------
+:GiveEeps
+;(TL) gives the key and experience for killing Yanmir
+:
+;-------------------------------------
+haskey 69 g_ntemp
+
+if (g_ntemp==FALSE)
+	Haskey 68 g_ntemp
+	if ( g_ntemp==TRUE)
+		givekey, 69 
+		GiveEXP g_nPad2
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+
+; did it when not on the quest
+
+Haskey 173 g_ntemp
+if ( g_ntemp==FALSE)
+	givekey, 173
+	GiveEXP g_nPad2
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+	exit
+endif
+exit
+
+
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+
+	gosub BaseCrawlInit
+	gosub RangeInit
+
+	AddModelKey OpenDoor,OpenDoor
+	AddModelKey DestroyFloor,DestroyFloor
+
+	OnStuck OnStuck
+	OnLostTarget GiveupOnTarget
+
+	gosub DisableWandering
+	AddTrigger Squish, Begin
+	AddTrigger PlayerRanAway,OnPlayerRanAway
+	AddTrigger TimeToDie,OnTimeToDie
+	AddTrigger DestroyFloor,DestroyFloor
+
+	OnPostMiniSaveLoad Reset
+	OnPostSaveLoad Reset
+	gosub Reset
+
+	Exit
+
+
+;--------------------------------------------------------
+:OnDeath
+;	overloaded -- Bones
+;--------------------------------------------------------
+
+	set g_nPad2 5000
+	Gosub GiveEeps
+	gosub OnDeath, 1
+	exit
+
+;--------------------------------------------------------------
+:Reset
+;	Bones
+;--------------------------------------------------------------
+
+	SetPropNumber CanDamage FALSE
+	exit
+

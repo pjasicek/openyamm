@@ -1,0 +1,9442 @@
+format_version: 1
+table_kind: journal_quests
+source_file: NPC997.rude
+entries:
+  - source:
+      file: NPC997.rude
+      row: 1
+    raw_columns:
+      - 997
+      - 997
+      - 1
+      - Complete your training.
+      - The Old Man believes you are finally ready to leave Ravensford.  Read the scroll he's given you to begin your training.  If you don't think you need any training, sell your scroll back to a shopkeeper and head north.
+      - 997
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 473
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 1
+      title: Complete your training.
+      text: The Old Man believes you are finally ready to leave Ravensford.  Read the scroll he's given you to begin your training.  If you don't think you need any training, sell your scroll back to a shopkeeper and head north.
+      next: 997
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 473
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 2
+    raw_columns:
+      - 997
+      - 997
+      - 2
+      - Search for anyone living on this island.
+      - The Isle of Ashes is supposed to be uninhabited, but there may be someone here who would help you.
+      - 997
+      - 473
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 480
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 2
+      title: Search for anyone living on this island.
+      text: The Isle of Ashes is supposed to be uninhabited, but there may be someone here who would help you.
+      next: 997
+      raw_fields:
+        c07: 473
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 480
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 3
+    raw_columns:
+      - 997
+      - 997
+      - 5
+      - Find a way off the island.
+      - There's got to be some way off this rock.  Maybe there are a few inhabitants that could help you.
+      - 997
+      - 473
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 5
+      title: Find a way off the island.
+      text: There's got to be some way off this rock.  Maybe there are a few inhabitants that could help you.
+      next: 997
+      raw_fields:
+        c07: 473
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 1
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 4
+    raw_columns:
+      - 997
+      - 997
+      - 7
+      - Find Yrsa the Troll.
+      - Forad Darre suggested that if you find Yrsa the Troll, she may be able to help you leave the island.
+      - 997
+      - 477
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 7
+      title: Find Yrsa the Troll.
+      text: Forad Darre suggested that if you find Yrsa the Troll, she may be able to help you leave the island.
+      next: 997
+      raw_fields:
+        c07: 477
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 1
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 5
+    raw_columns:
+      - 997
+      - 997
+      - 8
+      - Find a way off the island.
+      - You have a task to perform.  The first step is to find a way off this island.  Yrsa suggested you speak to Forad Darre.
+      - 997
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 8
+      title: Find a way off the island.
+      text: You have a task to perform.  The first step is to find a way off this island.  Yrsa suggested you speak to Forad Darre.
+      next: 997
+      raw_fields:
+        c07: 1
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 29
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 6
+    raw_columns:
+      - 997
+      - 997
+      - 9
+      - Help Yrsa the Troll.
+      - There are a group of dragonflies beyond the tunnel near Yrsa's hut.  Find them and kill them all.
+      - 997
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 27
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 9
+      title: Help Yrsa the Troll.
+      text: There are a group of dragonflies beyond the tunnel near Yrsa's hut.  Find them and kill them all.
+      next: 997
+      raw_fields:
+        c07: 7
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 27
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 7
+    raw_columns:
+      - 997
+      - 997
+      - 10
+      - Kill the Bone Thrashers.
+      - To be able to leave the island, you have to stop the bone thrashers from coming over from their mausoleum.  Forad suggested there might be something behind the locked door that could help.
+      - 997
+      - 371
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 28
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 10
+      title: Kill the Bone Thrashers.
+      text: To be able to leave the island, you have to stop the bone thrashers from coming over from their mausoleum.  Forad suggested there might be something behind the locked door that could help.
+      next: 997
+      raw_fields:
+        c07: 371
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 28
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 8
+    raw_columns:
+      - 997
+      - 997
+      - 20
+      - Unite the Clans.
+      - Yrsa has commanded you to unite the six clans of the Chedian against the Beldonian Hordes.  Perhaps you should speak to the six clan leaders.
+      - 997
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 96
+      - 40
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 20
+      title: Unite the Clans.
+      text: Yrsa has commanded you to unite the six clans of the Chedian against the Beldonian Hordes.  Perhaps you should speak to the six clan leaders.
+      next: 997
+      raw_fields:
+        c07: 1
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 96
+        c22: 40
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 9
+    raw_columns:
+      - 997
+      - 997
+      - 30
+      - Slay the Dragon.
+      - The first step in slaying a dragon is proving your worth.  Speak to Snorri the Fist in Thjorgard.
+      - 997
+      - 482
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 483
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 30
+      title: Slay the Dragon.
+      text: The first step in slaying a dragon is proving your worth.  Speak to Snorri the Fist in Thjorgard.
+      next: 997
+      raw_fields:
+        c07: 482
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 483
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 10
+    raw_columns:
+      - 997
+      - 997
+      - 31
+      - Slay the Dragon.
+      - The old man put you on the path.  Complete his task to prove your worth.
+      - 997
+      - 483
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 484
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 31
+      title: Slay the Dragon.
+      text: The old man put you on the path.  Complete his task to prove your worth.
+      next: 997
+      raw_fields:
+        c07: 483
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 484
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 11
+    raw_columns:
+      - 997
+      - 997
+      - 32
+      - Slay the Dragon.
+      - Snorri the Fist has instructed you to meet Abbot Leffery Caid in Lindisfarne.  He will show you how to summon the dragon.
+      - 997
+      - 484
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 485
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 32
+      title: Slay the Dragon.
+      text: Snorri the Fist has instructed you to meet Abbot Leffery Caid in Lindisfarne.  He will show you how to summon the dragon.
+      next: 997
+      raw_fields:
+        c07: 484
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 485
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 12
+    raw_columns:
+      - 997
+      - 997
+      - 33
+      - Slay the Dragon.
+      - Leffery Caid has the relic.  Perhaps now you will meet the dragon in his cave in Lindisfarne.
+      - 997
+      - 485
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 472
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 33
+      title: Slay the Dragon.
+      text: Leffery Caid has the relic.  Perhaps now you will meet the dragon in his cave in Lindisfarne.
+      next: 997
+      raw_fields:
+        c07: 485
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 472
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 13
+    raw_columns:
+      - 997
+      - 997
+      - 40
+      - Clear out Anskram Keep.
+      - Bjarni Thorvaldssen, the Jarl of Sturmford has asked you to rid Anskram Keep in Sturmford of the imps that have inhabited it.  Destroy the portals they are coming from.  Return to him when you are finished.
+      - 997
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 39
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 40
+      title: Clear out Anskram Keep.
+      text: Bjarni Thorvaldssen, the Jarl of Sturmford has asked you to rid Anskram Keep in Sturmford of the imps that have inhabited it.  Destroy the portals they are coming from.  Return to him when you are finished.
+      next: 997
+      raw_fields:
+        c07: 11
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 39
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 14
+    raw_columns:
+      - 997
+      - 997
+      - 42
+      - Clear out Anskram Keep.
+      - You have destroyed the imp portals.  Return to Jarl Bjarni in Sturmford City.
+      - 997
+      - 39
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 41
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 42
+      title: Clear out Anskram Keep.
+      text: You have destroyed the imp portals.  Return to Jarl Bjarni in Sturmford City.
+      next: 997
+      raw_fields:
+        c07: 39
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 41
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 15
+    raw_columns:
+      - 997
+      - 997
+      - 50
+      - Rescue Ivsar Forktooth.
+      - General Ivsar Forktooth is being held captive in Drangheim Prison.  Go to Drangheim and break him out.  Return to Jarl Bjarni of Sturmford when you are finished.
+      - 997
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 17
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 50
+      title: Rescue Ivsar Forktooth.
+      text: General Ivsar Forktooth is being held captive in Drangheim Prison.  Go to Drangheim and break him out.  Return to Jarl Bjarni of Sturmford when you are finished.
+      next: 997
+      raw_fields:
+        c07: 12
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 17
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 16
+    raw_columns:
+      - 997
+      - 997
+      - 52
+      - Rescue Ivsar Forktooth.
+      - You've got the general.  Now get out of the prison and back to Sturmford.  If you get separated, Ivsar said he'd meet you outside.
+      - 997
+      - 17
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 242
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 52
+      title: Rescue Ivsar Forktooth.
+      text: You've got the general.  Now get out of the prison and back to Sturmford.  If you get separated, Ivsar said he'd meet you outside.
+      next: 997
+      raw_fields:
+        c07: 17
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 242
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 17
+    raw_columns:
+      - 997
+      - 997
+      - 53
+      - Rescue Ivsar Forktooth.
+      - General Ivsar said he knew the way back.  Meet him at the Sturmford City Tavern, and take him to Jarl Bjarni
+      - 997
+      - 242
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 117
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 53
+      title: Rescue Ivsar Forktooth.
+      text: General Ivsar said he knew the way back.  Meet him at the Sturmford City Tavern, and take him to Jarl Bjarni
+      next: 997
+      raw_fields:
+        c07: 242
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 117
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 18
+    raw_columns:
+      - 997
+      - 997
+      - 60
+      - Disable Anskram Keep's defenses.
+      - Travel to Anskram Keep in Sturmford and disable it's defenses by opening the portcullis and lowering the drawbridge.  Return to Jarl Sigmund of Drangheim when you are finished.
+      - 997
+      - 44
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 47
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 60
+      title: Disable Anskram Keep's defenses.
+      text: Travel to Anskram Keep in Sturmford and disable it's defenses by opening the portcullis and lowering the drawbridge.  Return to Jarl Sigmund of Drangheim when you are finished.
+      next: 997
+      raw_fields:
+        c07: 44
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 47
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 19
+    raw_columns:
+      - 997
+      - 997
+      - 61
+      - Disable Anskram Keep's defenses.
+      - You've disabled Anskram Keep's defenses.  Return to Jarl Sigmund of Drangheim
+      - 994
+      - 47
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 49
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 61
+      title: Disable Anskram Keep's defenses.
+      text: You've disabled Anskram Keep's defenses.  Return to Jarl Sigmund of Drangheim
+      next: 994
+      raw_fields:
+        c07: 47
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 49
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 20
+    raw_columns:
+      - 997
+      - 997
+      - 70
+      - Retrieve the Crona Kiga from the Chasm of the Dead.
+      - Go to Chasm of the Dead in Drangheim and retrieve the Crona Kiga.  Deliver it to Jarl Sigmund of Drangheim.
+      - 997
+      - 46
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 48
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 70
+      title: Retrieve the Crona Kiga from the Chasm of the Dead.
+      text: Go to Chasm of the Dead in Drangheim and retrieve the Crona Kiga.  Deliver it to Jarl Sigmund of Drangheim.
+      next: 997
+      raw_fields:
+        c07: 46
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 48
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 21
+    raw_columns:
+      - 997
+      - 997
+      - 74
+      - Retrieve the Crona Kiga from the Chasm of the Dead.
+      - You've got the Crona Kiga.  Deliver it to Jarl Sigmund of Drangheim.
+      - 997
+      - 48
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 50
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 74
+      title: Retrieve the Crona Kiga from the Chasm of the Dead.
+      text: You've got the Crona Kiga.  Deliver it to Jarl Sigmund of Drangheim.
+      next: 997
+      raw_fields:
+        c07: 48
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 50
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 22
+    raw_columns:
+      - 997
+      - 997
+      - 90
+      - Get the Book of Rules from the Ta'Sar Academy.
+      - Go to the Ta'Sar Academy in Lindisfarne and retrieve the Book of Rules.  Return to Jarl Markel in Guberland when you are finished.
+      - 997
+      - 57
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 9516
+      - 59
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 90
+      title: Get the Book of Rules from the Ta'Sar Academy.
+      text: Go to the Ta'Sar Academy in Lindisfarne and retrieve the Book of Rules.  Return to Jarl Markel in Guberland when you are finished.
+      next: 997
+      raw_fields:
+        c07: 57
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 9516
+        c22: 59
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 23
+    raw_columns:
+      - 997
+      - 997
+      - 92
+      - Get the Book of Rules from the Ta'Sar Academy.
+      - You've put the books away.  Now go find the location of the Book of Rules.
+      - 997
+      - 9516
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 59
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 92
+      title: Get the Book of Rules from the Ta'Sar Academy.
+      text: You've put the books away.  Now go find the location of the Book of Rules.
+      next: 997
+      raw_fields:
+        c07: 9516
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 59
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 24
+    raw_columns:
+      - 997
+      - 997
+      - 94
+      - Get the Book of Rules from the Ta'Sar Academy.
+      - You've got the book.  Return it to Jarl Markel in Guberland.
+      - 997
+      - 59
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 61
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 94
+      title: Get the Book of Rules from the Ta'Sar Academy.
+      text: You've got the book.  Return it to Jarl Markel in Guberland.
+      next: 997
+      raw_fields:
+        c07: 59
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 61
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 25
+    raw_columns:
+      - 997
+      - 997
+      - 100
+      - Beat Ivan the Smart at trivia.
+      - Go to the Gathering in Guberland and challenge Ivan the Smart to a trivia contest.  Return to Jarl Markel of Guberland when he is beaten.
+      - 997
+      - 58
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 60
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 100
+      title: Beat Ivan the Smart at trivia.
+      text: Go to the Gathering in Guberland and challenge Ivan the Smart to a trivia contest.  Return to Jarl Markel of Guberland when he is beaten.
+      next: 997
+      raw_fields:
+        c07: 58
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 60
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 26
+    raw_columns:
+      - 997
+      - 997
+      - 102
+      - Beat Ivan the Smart at trivia.
+      - You've beaten Ivan the Smart.  Return with the Victory Certificate to Jarl Markel of Guberland.
+      - 997
+      - 60
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 62
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 102
+      title: Beat Ivan the Smart at trivia.
+      text: You've beaten Ivan the Smart.  Return with the Victory Certificate to Jarl Markel of Guberland.
+      next: 997
+      raw_fields:
+        c07: 60
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 62
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 27
+    raw_columns:
+      - 997
+      - 997
+      - 120
+      - Retrieve Thjorad from Lindisfarne.
+      - Go to the Lindisfarne Monastery in Lindisfarne and retrieve the artifact called Thjorad.  Return it to Jarl Sven of Thjorgard.
+      - 997
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 31
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 120
+      title: Retrieve Thjorad from Lindisfarne.
+      text: Go to the Lindisfarne Monastery in Lindisfarne and retrieve the artifact called Thjorad.  Return it to Jarl Sven of Thjorgard.
+      next: 997
+      raw_fields:
+        c07: 2
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 31
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 28
+    raw_columns:
+      - 997
+      - 997
+      - 122
+      - Retrieve Thjorad from Lindisfarne.
+      - You've got Thjorad.  Now return it to Jarl Sven of Thjorgard.
+      - 997
+      - 31
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 32
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 122
+      title: Retrieve Thjorad from Lindisfarne.
+      text: You've got Thjorad.  Now return it to Jarl Sven of Thjorgard.
+      next: 997
+      raw_fields:
+        c07: 31
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 32
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 29
+    raw_columns:
+      - 997
+      - 997
+      - 130
+      - Find out why the Elemental Thjorad production has stopped.
+      - Go to the Thjorad Mine in Thjorgard and find out why they have stopped producing Elemental Thjorad.  Return to Jarl Sven of Thjorgard when they are once again producing Elemental Thjorad.
+      - 997
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 33
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 130
+      title: Find out why the Elemental Thjorad production has stopped.
+      text: Go to the Thjorad Mine in Thjorgard and find out why they have stopped producing Elemental Thjorad.  Return to Jarl Sven of Thjorgard when they are once again producing Elemental Thjorad.
+      next: 997
+      raw_fields:
+        c07: 3
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 33
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 30
+    raw_columns:
+      - 997
+      - 997
+      - 132
+      - Find the cave-in
+      - A section of the mine is about to cave in.  Find it and see if there is anything you can do about it.
+      - 997
+      - 9510
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 35
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 132
+      title: Find the cave-in
+      text: A section of the mine is about to cave in.  Find it and see if there is anything you can do about it.
+      next: 997
+      raw_fields:
+        c07: 9510
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 35
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 31
+    raw_columns:
+      - 997
+      - 997
+      - 134
+      - Break through the hard rock.
+      - There is a section of rock that is too tough for the miner's picks.  Find it and try to break through it.
+      - 997
+      - 9509
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 36
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 134
+      title: Break through the hard rock.
+      text: There is a section of rock that is too tough for the miner's picks.  Find it and try to break through it.
+      next: 997
+      raw_fields:
+        c07: 9509
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 36
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 32
+    raw_columns:
+      - 997
+      - 997
+      - 135
+      - Fix the refinery machine.
+      - The slag extractor is broken.  Find Hjarrand the Fixer in Thjorgard.  He should remember how to fix the machine.
+      - 997
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 362
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 135
+      title: Fix the refinery machine.
+      text: The slag extractor is broken.  Find Hjarrand the Fixer in Thjorgard.  He should remember how to fix the machine.
+      next: 997
+      raw_fields:
+        c07: 5
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 362
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 33
+    raw_columns:
+      - 997
+      - 997
+      - 136
+      - Fix the refinery machine.
+      - You've paid Hjarrand to look at the Machine.  Meet him at the Mine.
+      - 997
+      - 362
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 364
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 136
+      title: Fix the refinery machine.
+      text: You've paid Hjarrand to look at the Machine.  Meet him at the Mine.
+      next: 997
+      raw_fields:
+        c07: 362
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 364
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 34
+    raw_columns:
+      - 997
+      - 997
+      - 137
+      - Fix the refinery machine.
+      - Hjarrand showed you where the machine is broken.  It's up to you to fix it.
+      - 997
+      - 364
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 9512
+      - 9513
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 137
+      title: Fix the refinery machine.
+      text: Hjarrand showed you where the machine is broken.  It's up to you to fix it.
+      next: 997
+      raw_fields:
+        c07: 364
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 9512
+        c22: 9513
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 35
+    raw_columns:
+      - 997
+      - 997
+      - 139
+      - Fix the refinery machine.
+      - You have the broken Slag Extractor.  Try and get a replacement from Gunnar Thjorsmith in Thjorgard.
+      - 997
+      - 9512
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 9513
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 139
+      title: Fix the refinery machine.
+      text: You have the broken Slag Extractor.  Try and get a replacement from Gunnar Thjorsmith in Thjorgard.
+      next: 997
+      raw_fields:
+        c07: 9512
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 9513
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 36
+    raw_columns:
+      - 997
+      - 997
+      - 140
+      - Fix the refinery machine.
+      - You have a replacement Slag Extractor.  Return to the Thjorad Mine and install it.
+      - 997
+      - 9513
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 37
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 140
+      title: Fix the refinery machine.
+      text: You have a replacement Slag Extractor.  Return to the Thjorad Mine and install it.
+      next: 997
+      raw_fields:
+        c07: 9513
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 37
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 37
+    raw_columns:
+      - 997
+      - 997
+      - 141
+      - Find out why the Elemental Thjorad production has stopped.
+      - The East Mine, West Mine, and Refinery are now working.  Return to Thjorgard City and inform Jarl Sven.
+      - 997
+      - 37
+      - 0
+      - 36
+      - 0
+      - 35
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 33
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 141
+      title: Find out why the Elemental Thjorad production has stopped.
+      text: The East Mine, West Mine, and Refinery are now working.  Return to Thjorgard City and inform Jarl Sven.
+      next: 997
+      raw_fields:
+        c07: 37
+        c08: 0
+        c09: 36
+        c10: 0
+        c11: 35
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 33
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 38
+    raw_columns:
+      - 997
+      - 997
+      - 150
+      - Defeat Yanmir the Frost Giant.
+      - Go to Yanmir's Sky Fort in Frosgard and find a way to defeat the Frost Giant who lives there.  Return to Jarl Tryygva of Frosgard when you are finished.
+      - 997
+      - 68
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 69
+      - 70
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 150
+      title: Defeat Yanmir the Frost Giant.
+      text: Go to Yanmir's Sky Fort in Frosgard and find a way to defeat the Frost Giant who lives there.  Return to Jarl Tryygva of Frosgard when you are finished.
+      next: 997
+      raw_fields:
+        c07: 68
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 69
+        c22: 70
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 39
+    raw_columns:
+      - 997
+      - 997
+      - 152
+      - Defeat Yanmir the Frost Giant.
+      - You've killed Yanmir the Frost Giant.  Now return to Jarl Tryygva of Frosgard.
+      - 997
+      - 69
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 70
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 152
+      title: Defeat Yanmir the Frost Giant.
+      text: You've killed Yanmir the Frost Giant.  Now return to Jarl Tryygva of Frosgard.
+      next: 997
+      raw_fields:
+        c07: 69
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 70
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 40
+    raw_columns:
+      - 997
+      - 997
+      - 160
+      - Break up the ice that surrounds the docks.
+      - Find a way to break up the ice that surrounds the docks in Frosgard.  Return to Jarl Tryygva of Frosgard when you are finished.
+      - 997
+      - 71
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 72
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 160
+      title: Break up the ice that surrounds the docks.
+      text: Find a way to break up the ice that surrounds the docks in Frosgard.  Return to Jarl Tryygva of Frosgard when you are finished.
+      next: 997
+      raw_fields:
+        c07: 71
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 72
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 41
+    raw_columns:
+      - 997
+      - 997
+      - 162
+      - Break up the ice that surrounds the docks.
+      - Bodvar Elvissen has delivered a sunflower barrel to the edge of the docks.  Find it and destroy it to see if it will break up the ice.
+      - 997
+      - 1022
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 72
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 162
+      title: Break up the ice that surrounds the docks.
+      text: Bodvar Elvissen has delivered a sunflower barrel to the edge of the docks.  Find it and destroy it to see if it will break up the ice.
+      next: 997
+      raw_fields:
+        c07: 1022
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 72
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 42
+    raw_columns:
+      - 997
+      - 997
+      - 164
+      - Break up the ice that surrounds the docks.
+      - You've succeeded in breaking up the ice that surrounds the docks.  Return to Jarl Tryygva of Frosgard.
+      - 997
+      - 72
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 73
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 164
+      title: Break up the ice that surrounds the docks.
+      text: You've succeeded in breaking up the ice that surrounds the docks.  Return to Jarl Tryygva of Frosgard.
+      next: 997
+      raw_fields:
+        c07: 72
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 73
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 43
+    raw_columns:
+      - 997
+      - 997
+      - 170
+      - Rid Thronheim of Honk worshippers.
+      - Find a way to rid Thronheim of Honk worshippers.  Just don't kill them.  Return to Kira the Cold in Thronheim when you are finished.
+      - 997
+      - 76
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 145
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 170
+      title: Rid Thronheim of Honk worshippers.
+      text: Find a way to rid Thronheim of Honk worshippers.  Just don't kill them.  Return to Kira the Cold in Thronheim when you are finished.
+      next: 997
+      raw_fields:
+        c07: 76
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 145
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 44
+    raw_columns:
+      - 997
+      - 997
+      - 172
+      - Rid Thronheim of Honk worshippers.
+      - Moenach the dockmaster in Thronheim has agreed to shanhai the Honkies.  Find all three Honkies and try to convince them to visit the docks.
+      - 997
+      - 145
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 77
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 172
+      title: Rid Thronheim of Honk worshippers.
+      text: Moenach the dockmaster in Thronheim has agreed to shanhai the Honkies.  Find all three Honkies and try to convince them to visit the docks.
+      next: 997
+      raw_fields:
+        c07: 145
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 77
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 45
+    raw_columns:
+      - 997
+      - 997
+      - 174
+      - Rid Thronheim of Honk worshippers.
+      - All the Honkies are on their way to the docks.  Return to Kira the Cold in Thronheim.
+      - 997
+      - 77
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 78
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 174
+      title: Rid Thronheim of Honk worshippers.
+      text: All the Honkies are on their way to the docks.  Return to Kira the Cold in Thronheim.
+      next: 997
+      raw_fields:
+        c07: 77
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 78
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 46
+    raw_columns:
+      - 997
+      - 997
+      - 180
+      - Find the Mountain Pass.
+      - Find and clear the Mountain Pass between Thronheim and Thjorgard.  Return to Kira the Cold in Thronheim when you are finished.
+      - 997
+      - 79
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 80
+      - 81
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 180
+      title: Find the Mountain Pass.
+      text: Find and clear the Mountain Pass between Thronheim and Thjorgard.  Return to Kira the Cold in Thronheim when you are finished.
+      next: 997
+      raw_fields:
+        c07: 79
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 80
+        c22: 81
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 47
+    raw_columns:
+      - 997
+      - 997
+      - 182
+      - Find the Mountain Pass.
+      - You've traveled through the Mountain Pass.  Return to Kira the Cold with its location.
+      - 997
+      - 80
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 81
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 182
+      title: Find the Mountain Pass.
+      text: You've traveled through the Mountain Pass.  Return to Kira the Cold with its location.
+      next: 997
+      raw_fields:
+        c07: 80
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 81
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 48
+    raw_columns:
+      - 997
+      - 997
+      - 190
+      - Go to Thronheim for the war council.
+      - Now that the clans are united, there is to be a war council in Thronheim in two weeks.
+      - 997
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 40
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 190
+      title: Go to Thronheim for the war council.
+      text: Now that the clans are united, there is to be a war council in Thronheim in two weeks.
+      next: 997
+      raw_fields:
+        c07: 83
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 40
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 49
+    raw_columns:
+      - 997
+      - 997
+      - 200
+      - Stop the war between Sturmford and Drangheim.
+      - Find out why Sturmford and Drangheim have gone to war with each other, and stop them from fighting.  Return to the War Council in Thronheim when you are finished.
+      - 997
+      - 84
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 86
+      - 87
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 200
+      title: Stop the war between Sturmford and Drangheim.
+      text: Find out why Sturmford and Drangheim have gone to war with each other, and stop them from fighting.  Return to the War Council in Thronheim when you are finished.
+      next: 997
+      raw_fields:
+        c07: 84
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 86
+        c22: 87
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 50
+    raw_columns:
+      - 997
+      - 997
+      - 202
+      - Stop the war between Sturmford and Drangheim.
+      - Bjarni and Sigmund have agreed to sign the peace treaty.  Meet them at Kira's Palace in Thronheim.
+      - 997
+      - 90
+      - 0
+      - 91
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 40
+      - 40
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 202
+      title: Stop the war between Sturmford and Drangheim.
+      text: Bjarni and Sigmund have agreed to sign the peace treaty.  Meet them at Kira's Palace in Thronheim.
+      next: 997
+      raw_fields:
+        c07: 90
+        c08: 0
+        c09: 91
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 40
+        c22: 40
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 51
+    raw_columns:
+      - 997
+      - 997
+      - 204
+      - Stop the war between Sturmford and Drangheim.
+      - Bjarni said he's willing to sign a peace treaty.  Find someone to write it.
+      - 997
+      - 86
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 88
+      - 40
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 204
+      title: Stop the war between Sturmford and Drangheim.
+      text: Bjarni said he's willing to sign a peace treaty.  Find someone to write it.
+      next: 997
+      raw_fields:
+        c07: 86
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 88
+        c22: 40
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 52
+    raw_columns:
+      - 997
+      - 997
+      - 206
+      - Stop the war between Sturmford and Drangheim.
+      - Sigmund is willing to sign a peace treaty.  Find someone to write it.
+      - 997
+      - 87
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 88
+      - 40
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 206
+      title: Stop the war between Sturmford and Drangheim.
+      text: Sigmund is willing to sign a peace treaty.  Find someone to write it.
+      next: 997
+      raw_fields:
+        c07: 87
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 88
+        c22: 40
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 53
+    raw_columns:
+      - 997
+      - 997
+      - 208
+      - Stop the war between Sturmford and Drangheim.
+      - Kira has written a peace treaty for Sturmford and Drangheim.  Get Sigmund and Bjarni to agree to sign it.
+      - 997
+      - 89
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 92
+      - 40
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 208
+      title: Stop the war between Sturmford and Drangheim.
+      text: Kira has written a peace treaty for Sturmford and Drangheim.  Get Sigmund and Bjarni to agree to sign it.
+      next: 997
+      raw_fields:
+        c07: 89
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 92
+        c22: 40
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 54
+    raw_columns:
+      - 997
+      - 997
+      - 210
+      - Win a prize at the Thing for Yrsa's daughter.
+      - Go to the Thing in Thjorgard, and get the prize for Yrsa's daughter Bikki by winning all the games.  Once you have the prize, take it to Bikki Yrsadotir in Thronheim.  Return to the War Council in Thronheim when you are finished.
+      - 997
+      - 93
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 94
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 210
+      title: Win a prize at the Thing for Yrsa's daughter.
+      text: Go to the Thing in Thjorgard, and get the prize for Yrsa's daughter Bikki by winning all the games.  Once you have the prize, take it to Bikki Yrsadotir in Thronheim.  Return to the War Council in Thronheim when you are finished.
+      next: 997
+      raw_fields:
+        c07: 93
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 94
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 55
+    raw_columns:
+      - 997
+      - 997
+      - 212
+      - Win a prize at the Thing for Yrsa's daughter.
+      - You have the Prize.  Take it to Yrsa's daughter Bikki.
+      - 997
+      - 94
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 95
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 212
+      title: Win a prize at the Thing for Yrsa's daughter.
+      text: You have the Prize.  Take it to Yrsa's daughter Bikki.
+      next: 997
+      raw_fields:
+        c07: 94
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 95
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 56
+    raw_columns:
+      - 997
+      - 997
+      - 214
+      - Return to War Council.
+      - You've delivered Bikki's prize.  Return to the War Council in Thronheim.
+      - 997
+      - 95
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 358
+      - 97
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 214
+      title: Return to War Council.
+      text: You've delivered Bikki's prize.  Return to the War Council in Thronheim.
+      next: 997
+      raw_fields:
+        c07: 95
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 358
+        c22: 97
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 57
+    raw_columns:
+      - 997
+      - 997
+      - 220
+      - Meet army in Yorwick.
+      - Travel through the Connecting Tunnels to Yorwick and join the coalition army.
+      - 997
+      - 358
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 97
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 220
+      title: Meet army in Yorwick.
+      text: Travel through the Connecting Tunnels to Yorwick and join the coalition army.
+      next: 997
+      raw_fields:
+        c07: 358
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 97
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 58
+    raw_columns:
+      - 997
+      - 997
+      - 230
+      - Get your army back.
+      - Find a way to travel to Arslegard and speak to Skraelos to get your soldiers back.
+      - 997
+      - 97
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 189
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 230
+      title: Get your army back.
+      text: Find a way to travel to Arslegard and speak to Skraelos to get your soldiers back.
+      next: 997
+      raw_fields:
+        c07: 97
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 189
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 59
+    raw_columns:
+      - 997
+      - 997
+      - 240
+      - Get a Writ of Fate.
+      - Get a Writ of Fate from the Wyrdes so Hanndl will let you into Arslegard.
+      - 997
+      - 98
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 99
+      - 187
+      - 188
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 240
+      title: Get a Writ of Fate.
+      text: Get a Writ of Fate from the Wyrdes so Hanndl will let you into Arslegard.
+      next: 997
+      raw_fields:
+        c07: 98
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 99
+        c22: 187
+        c23: 188
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 60
+    raw_columns:
+      - 997
+      - 997
+      - 250
+      - Take the Capstone of Order to the Verhoffin Ruins
+      - Get the Capstone of Order from Guberland and take it to the Verhoffin Ruins.
+      - 997
+      - 187
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 99
+      - 2087
+      - 188
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 250
+      title: Take the Capstone of Order to the Verhoffin Ruins
+      text: Get the Capstone of Order from Guberland and take it to the Verhoffin Ruins.
+      next: 997
+      raw_fields:
+        c07: 187
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 99
+        c22: 2087
+        c23: 188
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 61
+    raw_columns:
+      - 997
+      - 997
+      - 252
+      - Take the Capstone of Order to the Verhoffin Ruins
+      - Thorir Mouth of Guberland will trade the Capstone of Order for a wooden sword, a wooden shield, a fur cap, a pair of cloth gloves, a set of quilted armor, and a pair of fuzzy slippers.
+      - 997
+      - 187
+      - 0
+      - 2087
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 99
+      - 188
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 252
+      title: Take the Capstone of Order to the Verhoffin Ruins
+      text: Thorir Mouth of Guberland will trade the Capstone of Order for a wooden sword, a wooden shield, a fur cap, a pair of cloth gloves, a set of quilted armor, and a pair of fuzzy slippers.
+      next: 997
+      raw_fields:
+        c07: 187
+        c08: 0
+        c09: 2087
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 99
+        c22: 188
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 62
+    raw_columns:
+      - 997
+      - 997
+      - 253
+      - Take the Capstone of Order to the Verhoffin Ruins
+      - You have the Capstone of Order.  Take it to the Verhoffin Ruins and place it on the pedestal in the Lab Room.
+      - 997
+      - 188
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 99
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 253
+      title: Take the Capstone of Order to the Verhoffin Ruins
+      text: You have the Capstone of Order.  Take it to the Verhoffin Ruins and place it on the pedestal in the Lab Room.
+      next: 997
+      raw_fields:
+        c07: 188
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 99
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 63
+    raw_columns:
+      - 997
+      - 997
+      - 254
+      - Pick up the Writ of Fate.
+      - You have placed the Capstone of Order in the Verhoffin Ruins.  Pick up the Writ of Fate from the altar in the Lab Room, then show it to Hanndl at the Great Gate in Arslegard to get in.
+      - 997
+      - 99
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 100
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 254
+      title: Pick up the Writ of Fate.
+      text: You have placed the Capstone of Order in the Verhoffin Ruins.  Pick up the Writ of Fate from the altar in the Lab Room, then show it to Hanndl at the Great Gate in Arslegard to get in.
+      next: 997
+      raw_fields:
+        c07: 99
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 100
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 64
+    raw_columns:
+      - 997
+      - 997
+      - 256
+      - Return to Arslegard.
+      - You've got a Writ of Fate.  Show it to Hanndl at the Great Gate in Arslegard to get in.
+      - 997
+      - 100
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 101
+      - 9515
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 256
+      title: Return to Arslegard.
+      text: You've got a Writ of Fate.  Show it to Hanndl at the Great Gate in Arslegard to get in.
+      next: 997
+      raw_fields:
+        c07: 100
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 101
+        c22: 9515
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 65
+    raw_columns:
+      - 997
+      - 997
+      - 260
+      - Light the Six Fires of Penance.
+      - Go to The Afterworld in Arslegard and light the Six Fires of Penance.  Return to Skraelos in the Hall of the Gods when you are finished.
+      - 997
+      - 101
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 189
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 260
+      title: Light the Six Fires of Penance.
+      text: Go to The Afterworld in Arslegard and light the Six Fires of Penance.  Return to Skraelos in the Hall of the Gods when you are finished.
+      next: 997
+      raw_fields:
+        c07: 101
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 189
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 66
+    raw_columns:
+      - 997
+      - 997
+      - 262
+      - Light the Six Fires of Penance.
+      - "Confession:  Find the Six Jarls and confess to them your guilt."
+      - 997
+      - 382
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 383
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 262
+      title: Light the Six Fires of Penance.
+      text: "Confession:  Find the Six Jarls and confess to them your guilt."
+      next: 997
+      raw_fields:
+        c07: 382
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 383
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 67
+    raw_columns:
+      - 997
+      - 997
+      - 263
+      - Light the Six Fires of Penance.
+      - "Suffering:  You must suffer until you satisfy the Questioner."
+      - 997
+      - 384
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 385
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 263
+      title: Light the Six Fires of Penance.
+      text: "Suffering:  You must suffer until you satisfy the Questioner."
+      next: 997
+      raw_fields:
+        c07: 384
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 385
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 68
+    raw_columns:
+      - 997
+      - 997
+      - 264
+      - Light the Six Fires of Penance.
+      - "Retribution:  Find and kill the ghostly versions of the Beldonian Horde."
+      - 997
+      - 386
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 387
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 264
+      title: Light the Six Fires of Penance.
+      text: "Retribution:  Find and kill the ghostly versions of the Beldonian Horde."
+      next: 997
+      raw_fields:
+        c07: 386
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 387
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 69
+    raw_columns:
+      - 997
+      - 997
+      - 266
+      - Light the Six Fires of Penance.
+      - "Absolution:  Find all five of the Jarls' swords and return them to Skraelos."
+      - 997
+      - 388
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 389
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 266
+      title: Light the Six Fires of Penance.
+      text: "Absolution:  Find all five of the Jarls' swords and return them to Skraelos."
+      next: 997
+      raw_fields:
+        c07: 388
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 389
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 70
+    raw_columns:
+      - 997
+      - 997
+      - 267
+      - Light the Six Fires of Penance.
+      - Rebirth.  You've lit five of the six fires.  Find the blazing inferno out there and step through it to be reborn.
+      - 997
+      - 390
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 391
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 267
+      title: Light the Six Fires of Penance.
+      text: Rebirth.  You've lit five of the six fires.  Find the blazing inferno out there and step through it to be reborn.
+      next: 997
+      raw_fields:
+        c07: 390
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 391
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 71
+    raw_columns:
+      - 997
+      - 997
+      - 269
+      - Light the Six Fires of Penance.
+      - You've lit the Six Fires.  Return to Skraelos and ask him to give you your soldiers back.
+      - 997
+      - 102
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 189
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 269
+      title: Light the Six Fires of Penance.
+      text: You've lit the Six Fires.  Return to Skraelos and ask him to give you your soldiers back.
+      next: 997
+      raw_fields:
+        c07: 102
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 189
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 72
+    raw_columns:
+      - 997
+      - 997
+      - 270
+      - Speak to Sven Forkbeard.
+      - Find Sven Forkbeard in Arslegard and speak to him about leading the army against the Beldonian Hordes.
+      - 997
+      - 189
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 104
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 270
+      title: Speak to Sven Forkbeard.
+      text: Find Sven Forkbeard in Arslegard and speak to him about leading the army against the Beldonian Hordes.
+      next: 997
+      raw_fields:
+        c07: 189
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 104
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 73
+    raw_columns:
+      - 997
+      - 997
+      - 280
+      - Lead Army against the Beldonian Hordes.
+      - The Beldonian Horde is moving toward Frosgard.  Travel there and stop Tamur Leng and Forad Darre once and for all!
+      - 997
+      - 104
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 106
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 280
+      title: Lead Army against the Beldonian Hordes.
+      text: The Beldonian Horde is moving toward Frosgard.  Travel there and stop Tamur Leng and Forad Darre once and for all!
+      next: 997
+      raw_fields:
+        c07: 104
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 106
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 74
+    raw_columns:
+      - 997
+      - 997
+      - 290
+      - Find out why you and Tamur Leng have Writs of Fate.
+      - Find out why you and Tamur Leng have conflicting Writs of Fate.
+      - 997
+      - 106
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 108
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 290
+      title: Find out why you and Tamur Leng have Writs of Fate.
+      text: Find out why you and Tamur Leng have conflicting Writs of Fate.
+      next: 997
+      raw_fields:
+        c07: 106
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 108
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 75
+    raw_columns:
+      - 997
+      - 997
+      - 300
+      - Stand before Krohn.
+      - You and Tamur Leng have been summoned to the Hall of the Gods in Arslegard to stand before Krohn.
+      - 997
+      - 107
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 108
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 300
+      title: Stand before Krohn.
+      text: You and Tamur Leng have been summoned to the Hall of the Gods in Arslegard to stand before Krohn.
+      next: 997
+      raw_fields:
+        c07: 107
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 108
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 76
+    raw_columns:
+      - 997
+      - 997
+      - 310
+      - Imprison Njam the Meddler in the Tomb of 1000 Terrors.
+      - Find a way to lure Njam into the Tomb of a Thousand Terrors.  Once there, find a way to imprison Njam the Meddler.
+      - 997
+      - 108
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 109
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 310
+      title: Imprison Njam the Meddler in the Tomb of 1000 Terrors.
+      text: Find a way to lure Njam into the Tomb of a Thousand Terrors.  Once there, find a way to imprison Njam the Meddler.
+      next: 997
+      raw_fields:
+        c07: 108
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 109
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 77
+    raw_columns:
+      - 997
+      - 997
+      - 320
+      - Speak to Atli Sigmundssen.
+      - Find Atli Sigmundssen in Guberland and find out how you can help him move to Thronheim.
+      - 997
+      - 124
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 125
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 320
+      title: Speak to Atli Sigmundssen.
+      text: Find Atli Sigmundssen in Guberland and find out how you can help him move to Thronheim.
+      next: 997
+      raw_fields:
+        c07: 124
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 125
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 78
+    raw_columns:
+      - 997
+      - 997
+      - 322
+      - Guard Atli Sigmundssen's Boat.
+      - Relieve Atli's guard at 3:00am and guard the boat until Atli relieves you at 6:00am.
+      - 997
+      - 125
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 126
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 322
+      title: Guard Atli Sigmundssen's Boat.
+      text: Relieve Atli's guard at 3:00am and guard the boat until Atli relieves you at 6:00am.
+      next: 997
+      raw_fields:
+        c07: 125
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 126
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 79
+    raw_columns:
+      - 997
+      - 997
+      - 324
+      - Speak to Atli Sigmundssen.
+      - Now that he has relieved you, speak to Atli to make sure he doesn't need anymore of your help.
+      - 997
+      - 126
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 127
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 324
+      title: Speak to Atli Sigmundssen.
+      text: Now that he has relieved you, speak to Atli to make sure he doesn't need anymore of your help.
+      next: 997
+      raw_fields:
+        c07: 126
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 127
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 80
+    raw_columns:
+      - 997
+      - 997
+      - 330
+      - Defeat the Yobboes.
+      - Find the Yobboe Gang in Drangheim, defeat them, and return the villagers' things to them.
+      - 997
+      - 128
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 136
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 330
+      title: Defeat the Yobboes.
+      text: Find the Yobboe Gang in Drangheim, defeat them, and return the villagers' things to them.
+      next: 997
+      raw_fields:
+        c07: 128
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 136
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 81
+    raw_columns:
+      - 997
+      - 997
+      - 332
+      - Return the Plow.
+      - You've got his plow, now return it to Hring Plowhands in Drangheim Village.
+      - 997
+      - 130
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 133
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 332
+      title: Return the Plow.
+      text: You've got his plow, now return it to Hring Plowhands in Drangheim Village.
+      next: 997
+      raw_fields:
+        c07: 130
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 133
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 82
+    raw_columns:
+      - 997
+      - 997
+      - 334
+      - Return the Dolly.
+      - You've got her dolly, now return it to Tyock A'Norta a'leipshi in Drangheim Village
+      - 997
+      - 132
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 135
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 334
+      title: Return the Dolly.
+      text: You've got her dolly, now return it to Tyock A'Norta a'leipshi in Drangheim Village
+      next: 997
+      raw_fields:
+        c07: 132
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 135
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 83
+    raw_columns:
+      - 997
+      - 997
+      - 336
+      - Return the Herbs.
+      - You've got her herbs, now return them to Ragnheid Lifegiver in Drangheim Village
+      - 997
+      - 131
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 134
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 336
+      title: Return the Herbs.
+      text: You've got her herbs, now return them to Ragnheid Lifegiver in Drangheim Village
+      next: 997
+      raw_fields:
+        c07: 131
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 134
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 84
+    raw_columns:
+      - 997
+      - 997
+      - 338
+      - Defeat the Yobboes.
+      - You've defeated the Yobboes.  Return to Keith Bloodaxe in Drangheim City for your reward.
+      - 997
+      - 133
+      - 0
+      - 134
+      - 0
+      - 135
+      - 0
+      - 129
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 137
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 338
+      title: Defeat the Yobboes.
+      text: You've defeated the Yobboes.  Return to Keith Bloodaxe in Drangheim City for your reward.
+      next: 997
+      raw_fields:
+        c07: 133
+        c08: 0
+        c09: 134
+        c10: 0
+        c11: 135
+        c12: 0
+        c13: 129
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 137
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 85
+    raw_columns:
+      - 997
+      - 997
+      - 340
+      - Study a Magreeb.
+      - Find a Magreeb in Thjorgard and study it.  Return to the Bembridge University when you are finished to report your findings.
+      - 997
+      - 201
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 202
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 340
+      title: Study a Magreeb.
+      text: Find a Magreeb in Thjorgard and study it.  Return to the Bembridge University when you are finished to report your findings.
+      next: 997
+      raw_fields:
+        c07: 201
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 202
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 86
+    raw_columns:
+      - 997
+      - 997
+      - 343
+      - Study a Magreeb.
+      - You've found a Magreeb and studied it.  Return to Tymon the Nord at the Bembridge University in Thjorgard to report your findings.
+      - 997
+      - 202
+      - 0
+      - 201
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 205
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 343
+      title: Study a Magreeb.
+      text: You've found a Magreeb and studied it.  Return to Tymon the Nord at the Bembridge University in Thjorgard to report your findings.
+      next: 997
+      raw_fields:
+        c07: 202
+        c08: 0
+        c09: 201
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 205
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 87
+    raw_columns:
+      - 997
+      - 997
+      - 350
+      - Heal Nutty Nurtigan.
+      - Find a way to heal Nutty Nurtigan in Guberland.  Return to Tjolnir the Super-neat in Guberland when you've succeeded.
+      - 997
+      - 206
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 478
+      - 212
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 350
+      title: Heal Nutty Nurtigan.
+      text: Find a way to heal Nutty Nurtigan in Guberland.  Return to Tjolnir the Super-neat in Guberland when you've succeeded.
+      next: 997
+      raw_fields:
+        c07: 206
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 478
+        c22: 212
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 88
+    raw_columns:
+      - 997
+      - 997
+      - 352
+      - Heal Nutty Nurtigan.
+      - Skarphedinn Njalssen at the apothecary in Guberland said he needed a lock of the Old Hag's hair to make the potion to cure Nurtigan.
+      - 997
+      - 478
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 207
+      - 212
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 352
+      title: Heal Nutty Nurtigan.
+      text: Skarphedinn Njalssen at the apothecary in Guberland said he needed a lock of the Old Hag's hair to make the potion to cure Nurtigan.
+      next: 997
+      raw_fields:
+        c07: 478
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 207
+        c22: 212
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 89
+    raw_columns:
+      - 997
+      - 997
+      - 354
+      - Heal Nutty Nurtigan.
+      - You've got the lock of hair.  Take it to Skarphedinn Njalssen at the apothecary in Guberland.
+      - 997
+      - 207
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 208
+      - 212
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 354
+      title: Heal Nutty Nurtigan.
+      text: You've got the lock of hair.  Take it to Skarphedinn Njalssen at the apothecary in Guberland.
+      next: 997
+      raw_fields:
+        c07: 207
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 208
+        c22: 212
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 90
+    raw_columns:
+      - 997
+      - 997
+      - 356
+      - Heal Nutty Nurtigan.
+      - You've got the potion to heal Nurtigan.  Take it to his cage next to Markel's Palace and give it to him.
+      - 997
+      - 210
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 211
+      - 212
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 356
+      title: Heal Nutty Nurtigan.
+      text: You've got the potion to heal Nurtigan.  Take it to his cage next to Markel's Palace and give it to him.
+      next: 997
+      raw_fields:
+        c07: 210
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 211
+        c22: 212
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 91
+    raw_columns:
+      - 997
+      - 997
+      - 358
+      - Heal Nutty Nurtigan.
+      - You've healed Nurtigan.  Return to Tjolnir the Super-neat in Guberland to get your promotion.
+      - 997
+      - 211
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 212
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 358
+      title: Heal Nutty Nurtigan.
+      text: You've healed Nurtigan.  Return to Tjolnir the Super-neat in Guberland to get your promotion.
+      next: 997
+      raw_fields:
+        c07: 211
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 212
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 92
+    raw_columns:
+      - 997
+      - 997
+      - 360
+      - Kill a basilisk.
+      - Find and kill a basilisk.  Bring its skin back to Fridleif Gjukissen of Sturmford when you are finished.
+      - 997
+      - 214
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 218
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 360
+      title: Kill a basilisk.
+      text: Find and kill a basilisk.  Bring its skin back to Fridleif Gjukissen of Sturmford when you are finished.
+      next: 997
+      raw_fields:
+        c07: 214
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 218
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 93
+    raw_columns:
+      - 997
+      - 997
+      - 370
+      - Get Kira's shield.
+      - Go to Thronheim and retrieve the shield of Kira the Cold.  Return to Fridleif Gjukissen of Sturmford when you have the shield.
+      - 997
+      - 214
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 216
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 370
+      title: Get Kira's shield.
+      text: Go to Thronheim and retrieve the shield of Kira the Cold.  Return to Fridleif Gjukissen of Sturmford when you have the shield.
+      next: 997
+      raw_fields:
+        c07: 214
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 216
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 94
+    raw_columns:
+      - 997
+      - 997
+      - 372
+      - Get Kira's shield.
+      - You've got Kira's Shield.  Return it to Fridleif Gjukissen of Sturmford.
+      - 997
+      - 216
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 219
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 372
+      title: Get Kira's shield.
+      text: You've got Kira's Shield.  Return it to Fridleif Gjukissen of Sturmford.
+      next: 997
+      raw_fields:
+        c07: 216
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 219
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 95
+    raw_columns:
+      - 997
+      - 997
+      - 380
+      - Win in the Arena.
+      - Win in the Arena at Lord level.  Return to Fridleif Gjukissen of Sturmford when you have succeeded.
+      - 997
+      - 214
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 217
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 380
+      title: Win in the Arena.
+      text: Win in the Arena at Lord level.  Return to Fridleif Gjukissen of Sturmford when you have succeeded.
+      next: 997
+      raw_fields:
+        c07: 214
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 217
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 96
+    raw_columns:
+      - 997
+      - 997
+      - 382
+      - Win in the Arena.
+      - You've won in the Arena at Lord level.  Return to Fridleif Gjukissen of Guberland.
+      - 997
+      - 217
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 220
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 382
+      title: Win in the Arena.
+      text: You've won in the Arena at Lord level.  Return to Fridleif Gjukissen of Guberland.
+      next: 997
+      raw_fields:
+        c07: 217
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 220
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 97
+    raw_columns:
+      - 997
+      - 997
+      - 390
+      - Steal the knife.
+      - Go to Lord Kluso's house in Drangheim and steal his treasured knife.  Return to Atli the Quick when you have the artifact.
+      - 997
+      - 222
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 223
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 390
+      title: Steal the knife.
+      text: Go to Lord Kluso's house in Drangheim and steal his treasured knife.  Return to Atli the Quick when you have the artifact.
+      next: 997
+      raw_fields:
+        c07: 222
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 223
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 98
+    raw_columns:
+      - 997
+      - 997
+      - 392
+      - Steal knife.
+      - You've got the knife.  Return to Atli the Quick.
+      - 997
+      - 223
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 226
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 392
+      title: Steal knife.
+      text: You've got the knife.  Return to Atli the Quick.
+      next: 997
+      raw_fields:
+        c07: 223
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 226
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 99
+    raw_columns:
+      - 997
+      - 997
+      - 400
+      - Kill Guaire A'Velsi.
+      - Find Guaire A'Velsi in Drangheim and kill him.  Return to Atli the Quick when you are finished.
+      - 997
+      - 224
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 225
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 400
+      title: Kill Guaire A'Velsi.
+      text: Find Guaire A'Velsi in Drangheim and kill him.  Return to Atli the Quick when you are finished.
+      next: 997
+      raw_fields:
+        c07: 224
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 225
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 100
+    raw_columns:
+      - 997
+      - 997
+      - 402
+      - Kill Guaire A'Velsi.
+      - You've killed Guaire A'Velsi.  Return to Atli the Quick.
+      - 997
+      - 225
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 226
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 402
+      title: Kill Guaire A'Velsi.
+      text: You've killed Guaire A'Velsi.  Return to Atli the Quick.
+      next: 997
+      raw_fields:
+        c07: 225
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 226
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 101
+    raw_columns:
+      - 997
+      - 997
+      - 410
+      - Stop Jarl Sven's assassination.
+      - Stop Jarl Sven Forkbeard of Thjorgard from being assassinated. Show the letter to Jarl Sven in Thjorgard.  Return to Grehgknak the Right in Lindisfarne when you are finished.
+      - 997
+      - 229
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 230
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 410
+      title: Stop Jarl Sven's assassination.
+      text: Stop Jarl Sven Forkbeard of Thjorgard from being assassinated. Show the letter to Jarl Sven in Thjorgard.  Return to Grehgknak the Right in Lindisfarne when you are finished.
+      next: 997
+      raw_fields:
+        c07: 229
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 230
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 102
+    raw_columns:
+      - 997
+      - 997
+      - 412
+      - Stop Jarl Sven's assassination.
+      - Go to the Arena and stop Sven's double from being assassinated.
+      - 997
+      - 230
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 231
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 412
+      title: Stop Jarl Sven's assassination.
+      text: Go to the Arena and stop Sven's double from being assassinated.
+      next: 997
+      raw_fields:
+        c07: 230
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 231
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 103
+    raw_columns:
+      - 997
+      - 997
+      - 420
+      - Find Harris Willington.
+      - Find Harris Willington.  Report back to Jarl Sven of Thjorgard.  When you are finished return to Grehgknak the Right in Lindisfarne.
+      - 997
+      - 231
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 235
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 420
+      title: Find Harris Willington.
+      text: Find Harris Willington.  Report back to Jarl Sven of Thjorgard.  When you are finished return to Grehgknak the Right in Lindisfarne.
+      next: 997
+      raw_fields:
+        c07: 231
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 235
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 104
+    raw_columns:
+      - 997
+      - 997
+      - 430
+      - Arrest the thief.
+      - Go to the town hall clerks and find who is having trouble with theives.  When you have found the thief, arrest him, and take him to the town jail.
+      - 997
+      - 153
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 154
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 430
+      title: Arrest the thief.
+      text: Go to the town hall clerks and find who is having trouble with theives.  When you have found the thief, arrest him, and take him to the town jail.
+      next: 997
+      raw_fields:
+        c07: 153
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 154
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 105
+    raw_columns:
+      - 997
+      - 997
+      - 432
+      - Arrest the thief.
+      - You've arrested Hatlati Oord for stealing.  Take him to the jail inside the Sturmford Town Hall.
+      - 997
+      - 154
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5009
+      - 155
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 432
+      title: Arrest the thief.
+      text: You've arrested Hatlati Oord for stealing.  Take him to the jail inside the Sturmford Town Hall.
+      next: 997
+      raw_fields:
+        c07: 154
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5009
+        c22: 155
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 106
+    raw_columns:
+      - 997
+      - 997
+      - 440
+      - Help the Oor'ds help themselves.
+      - Speak to Hatlati's family.  Find a way for them to provide for themselves.
+      - 997
+      - 154
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 155
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 440
+      title: Help the Oor'ds help themselves.
+      text: Speak to Hatlati's family.  Find a way for them to provide for themselves.
+      next: 997
+      raw_fields:
+        c07: 154
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 155
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 107
+    raw_columns:
+      - 997
+      - 997
+      - 450
+      - Find Itlor a job.
+      - Itlor wants a job so he can provide for his family.  There must be someone around Sturmford who is willing to give him a job.  Return to Grehgknak the right when you are finished.
+      - 997
+      - 155
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 236
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 450
+      title: Find Itlor a job.
+      text: Itlor wants a job so he can provide for his family.  There must be someone around Sturmford who is willing to give him a job.  Return to Grehgknak the right when you are finished.
+      next: 997
+      raw_fields:
+        c07: 155
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 236
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 108
+    raw_columns:
+      - 997
+      - 997
+      - 460
+      - Find Everstrike.
+      - Find the bow known as Everstrike.  Return to Fenja Tree-friend when you have it.
+      - 997
+      - 238
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 248
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 460
+      title: Find Everstrike.
+      text: Find the bow known as Everstrike.  Return to Fenja Tree-friend when you have it.
+      next: 997
+      raw_fields:
+        c07: 238
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 248
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 109
+    raw_columns:
+      - 997
+      - 997
+      - 470
+      - Pass through Dungeon of Secrets.
+      - Go to the Dungeon of Secrets in Frosgard.  Pass through the dungeon without setting off a single trap.  Return to Fenja Tree-friend when you are finished.
+      - 997
+      - 239
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 245
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 470
+      title: Pass through Dungeon of Secrets.
+      text: Go to the Dungeon of Secrets in Frosgard.  Pass through the dungeon without setting off a single trap.  Return to Fenja Tree-friend when you are finished.
+      next: 997
+      raw_fields:
+        c07: 239
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 245
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 110
+    raw_columns:
+      - 997
+      - 997
+      - 472
+      - Pass through Dungeon of Secrets.
+      - You've completed the Dungeon of Secrets.  Return to Fenja Tree-friend.
+      - 997
+      - 245
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 248
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 472
+      title: Pass through Dungeon of Secrets.
+      text: You've completed the Dungeon of Secrets.  Return to Fenja Tree-friend.
+      next: 997
+      raw_fields:
+        c07: 245
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 248
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 111
+    raw_columns:
+      - 997
+      - 997
+      - 480
+      - Find a new priest for the new temple.
+      - Find a priest who would be willing to take over the new temple to Igdrasa you are building.  Return to Gray Slemnir when you are finished.
+      - 997
+      - 250
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 261
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 480
+      title: Find a new priest for the new temple.
+      text: Find a priest who would be willing to take over the new temple to Igdrasa you are building.  Return to Gray Slemnir when you are finished.
+      next: 997
+      raw_fields:
+        c07: 250
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 261
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 112
+    raw_columns:
+      - 997
+      - 997
+      - 490
+      - Find a new Tree of Life.
+      - Find the Ruined Temple in Frosgard and recover the Tree of Life symbol.  Take it to Gray Slemnir in Guberland when you have acquired it.
+      - 997
+      - 251
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 261
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 490
+      title: Find a new Tree of Life.
+      text: Find the Ruined Temple in Frosgard and recover the Tree of Life symbol.  Take it to Gray Slemnir in Guberland when you have acquired it.
+      next: 997
+      raw_fields:
+        c07: 251
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 261
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 113
+    raw_columns:
+      - 997
+      - 997
+      - 500
+      - Learn the Ritual of Consecration.
+      - Find Nath'i A'Mor in Frosgard and convince him to teach you the Ritual of Consecration.  Return to Gray Slemnir when you are finished.
+      - 997
+      - 252
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 261
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 500
+      title: Learn the Ritual of Consecration.
+      text: Find Nath'i A'Mor in Frosgard and convince him to teach you the Ritual of Consecration.  Return to Gray Slemnir when you are finished.
+      next: 997
+      raw_fields:
+        c07: 252
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 261
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 114
+    raw_columns:
+      - 997
+      - 997
+      - 510
+      - Find the Green Man.
+      - Find the Green Man in Frosgard, and ask him what you can do to help him return to Frosgard.
+      - 997
+      - 263
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 264
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 510
+      title: Find the Green Man.
+      text: Find the Green Man in Frosgard, and ask him what you can do to help him return to Frosgard.
+      next: 997
+      raw_fields:
+        c07: 263
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 264
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 115
+    raw_columns:
+      - 997
+      - 997
+      - 520
+      - Get a promise from Frosgard.
+      - Get a promise from at least seven residents of Frosgard that they will not neglect the Green Man.  Return to the Green Man when you are finished.
+      - 997
+      - 265
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 277
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 520
+      title: Get a promise from Frosgard.
+      text: Get a promise from at least seven residents of Frosgard that they will not neglect the Green Man.  Return to the Green Man when you are finished.
+      next: 997
+      raw_fields:
+        c07: 265
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 277
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 116
+    raw_columns:
+      - 997
+      - 997
+      - 522
+      - Get a promise from Frosgard.
+      - The citizens of Frosgard have promised not to neglect the Green Man.  Return to him when you've finished his other tasks.
+      - 997
+      - 277
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 279
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 522
+      title: Get a promise from Frosgard.
+      text: The citizens of Frosgard have promised not to neglect the Green Man.  Return to him when you've finished his other tasks.
+      next: 997
+      raw_fields:
+        c07: 277
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 279
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 117
+    raw_columns:
+      - 997
+      - 997
+      - 530
+      - Fix the maypole in the center of town.
+      - Find someone in Frosgard who will repair the old maypole.  Return to the Green Man when you are finished.
+      - 997
+      - 264
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 268
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 530
+      title: Fix the maypole in the center of town.
+      text: Find someone in Frosgard who will repair the old maypole.  Return to the Green Man when you are finished.
+      next: 997
+      raw_fields:
+        c07: 264
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 268
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 118
+    raw_columns:
+      - 997
+      - 997
+      - 532
+      - Fix the maypole in the center of town.
+      - Soxolf will fix the maypole at the center of town.  Return to the Green Man when you've finished his other tasks.
+      - 997
+      - 268
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 279
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 532
+      title: Fix the maypole in the center of town.
+      text: Soxolf will fix the maypole at the center of town.  Return to the Green Man when you've finished his other tasks.
+      next: 997
+      raw_fields:
+        c07: 268
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 279
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 119
+    raw_columns:
+      - 997
+      - 997
+      - 540
+      - Get Tryygva to erect a runestone.
+      - Speak to Jarl Tryygva of Frosgard.  Convince him to commit a promise to celebrate the Green Man to stone and place that stone next to the maypole.  Return to the Green Man when you are finished.
+      - 997
+      - 266
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 278
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 540
+      title: Get Tryygva to erect a runestone.
+      text: Speak to Jarl Tryygva of Frosgard.  Convince him to commit a promise to celebrate the Green Man to stone and place that stone next to the maypole.  Return to the Green Man when you are finished.
+      next: 997
+      raw_fields:
+        c07: 266
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 278
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 120
+    raw_columns:
+      - 997
+      - 997
+      - 542
+      - Get Tryygva to erect a runestone.
+      - Tryygva agreed to erect a runestone.  Return to the Green Man when you've finished his other tasks.
+      - 997
+      - 278
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 279
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 542
+      title: Get Tryygva to erect a runestone.
+      text: Tryygva agreed to erect a runestone.  Return to the Green Man when you've finished his other tasks.
+      next: 997
+      raw_fields:
+        c07: 278
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 279
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 121
+    raw_columns:
+      - 997
+      - 997
+      - 550
+      - Find Verhoffin's Diary.
+      - Go to the Verhoffin Ruins on the Isle of Ashes and recover Verhoffin's Diary.  Return to Johannes Bem in Thjorgard when you are finished.
+      - 997
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 493
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 550
+      title: Find Verhoffin's Diary.
+      text: Go to the Verhoffin Ruins on the Isle of Ashes and recover Verhoffin's Diary.  Return to Johannes Bem in Thjorgard when you are finished.
+      next: 997
+      raw_fields:
+        c07: 4
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 493
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 122
+    raw_columns:
+      - 997
+      - 997
+      - 560
+      - Become a Lich.
+      - Follow the Lich Instructions and become a lich.
+      - 997
+      - 296
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 299
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 560
+      title: Become a Lich.
+      text: Follow the Lich Instructions and become a lich.
+      next: 997
+      raw_fields:
+        c07: 296
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 299
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 123
+    raw_columns:
+      - 997
+      - 997
+      - 570
+      - Survive the Training Hall.
+      - Find the Training Hall in Thjorgard and survive its trials.
+      - 997
+      - 8
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 301
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 570
+      title: Survive the Training Hall.
+      text: Find the Training Hall in Thjorgard and survive its trials.
+      next: 997
+      raw_fields:
+        c07: 8
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 301
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 124
+    raw_columns:
+      - 997
+      - 997
+      - 580
+      - Find the saboteur.
+      - Find out who is sabotaging Sturmford's defenses.  Report back to Bjarni Herjolfssen when you have uncovered who it is.
+      - 997
+      - 13
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 18
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 580
+      title: Find the saboteur.
+      text: Find out who is sabotaging Sturmford's defenses.  Report back to Bjarni Herjolfssen when you have uncovered who it is.
+      next: 997
+      raw_fields:
+        c07: 13
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 18
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 125
+    raw_columns:
+      - 997
+      - 997
+      - 590
+      - Take love letter to Kira the Cold.
+      - Jarl Bjarni has given you a love letter he wrote to Kira the Cold.  Take it to her in Thronheim, and report back to Bjarni when you have her response.
+      - 997
+      - 22
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 24
+      - 25
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 590
+      title: Take love letter to Kira the Cold.
+      text: Jarl Bjarni has given you a love letter he wrote to Kira the Cold.  Take it to her in Thronheim, and report back to Bjarni when you have her response.
+      next: 997
+      raw_fields:
+        c07: 22
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 24
+        c22: 25
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 126
+    raw_columns:
+      - 997
+      - 997
+      - 600
+      - Retrieve Ludwig's Manuscript.
+      - Ludwig Van dropped his manuscript down the cellar of his Beet Hoven.  Go down into the sewers below his Beet Hoven and bring his manuscript back for him.
+      - 997
+      - 14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 19
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 600
+      title: Retrieve Ludwig's Manuscript.
+      text: Ludwig Van dropped his manuscript down the cellar of his Beet Hoven.  Go down into the sewers below his Beet Hoven and bring his manuscript back for him.
+      next: 997
+      raw_fields:
+        c07: 14
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 19
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 127
+    raw_columns:
+      - 997
+      - 997
+      - 610
+      - Convince the Dook to leave Guberland.
+      - Go to the Dook's Castle in Guberland and convince the Dook to leave.  Return to Jarl Markel of Guberland when you are finished.
+      - 997
+      - 64
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 65
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 610
+      title: Convince the Dook to leave Guberland.
+      text: Go to the Dook's Castle in Guberland and convince the Dook to leave.  Return to Jarl Markel of Guberland when you are finished.
+      next: 997
+      raw_fields:
+        c07: 64
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 65
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 128
+    raw_columns:
+      - 997
+      - 997
+      - 612
+      - Convince the Dook to leave Guberland.
+      - You've convinced the Dook to leave.  Return to Jarl Markel of Guberland.
+      - 997
+      - 65
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 66
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 612
+      title: Convince the Dook to leave Guberland.
+      text: You've convinced the Dook to leave.  Return to Jarl Markel of Guberland.
+      next: 997
+      raw_fields:
+        c07: 65
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 66
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 129
+    raw_columns:
+      - 997
+      - 997
+      - 620
+      - Get Nicolai a job.
+      - Nicolai Ironfist of Drangheim is down on his luck.  Try to find him a job.  There's got to be a circus around here somewhere.
+      - 997
+      - 118
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 119
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 620
+      title: Get Nicolai a job.
+      text: Nicolai Ironfist of Drangheim is down on his luck.  Try to find him a job.  There's got to be a circus around here somewhere.
+      next: 997
+      raw_fields:
+        c07: 118
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 119
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 130
+    raw_columns:
+      - 997
+      - 997
+      - 622
+      - Get Nicolai a job.
+      - Thorir Mouth of Guberland offered Nicolai a job.  Return to Nicolai in Drangheim to tell him.
+      - 997
+      - 119
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 120
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 622
+      title: Get Nicolai a job.
+      text: Thorir Mouth of Guberland offered Nicolai a job.  Return to Nicolai in Drangheim to tell him.
+      next: 997
+      raw_fields:
+        c07: 119
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 120
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 131
+    raw_columns:
+      - 997
+      - 997
+      - 624
+      - Get Nicolai a job.
+      - Nicolai has accepted the job.  Return to Thorir Mouth in Guberland for your reward.
+      - 997
+      - 120
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 123
+      - 122
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 624
+      title: Get Nicolai a job.
+      text: Nicolai has accepted the job.  Return to Thorir Mouth in Guberland for your reward.
+      next: 997
+      raw_fields:
+        c07: 120
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 123
+        c22: 122
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 132
+    raw_columns:
+      - 997
+      - 997
+      - 630
+      - Find out who is spreading gossip.
+      - Jarl Sigmund of Drangheim is worried about the gossip spreading throughout his clan.  Find out who's tongue is wagging.  Return to Jarl Sigmund in Drangheim when you have discovered who is responsible.
+      - 997
+      - 52
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 53
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 630
+      title: Find out who is spreading gossip.
+      text: Jarl Sigmund of Drangheim is worried about the gossip spreading throughout his clan.  Find out who's tongue is wagging.  Return to Jarl Sigmund in Drangheim when you have discovered who is responsible.
+      next: 997
+      raw_fields:
+        c07: 52
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 53
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 133
+    raw_columns:
+      - 997
+      - 997
+      - 632
+      - Find out who is spreading gossip.
+      - Greudach A'Dorad has fingered Marsaili A'Lanth in Sturmford.  Go find them and tell them to stop spreading the rumors.
+      - 997
+      - 53
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 54
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 632
+      title: Find out who is spreading gossip.
+      text: Greudach A'Dorad has fingered Marsaili A'Lanth in Sturmford.  Go find them and tell them to stop spreading the rumors.
+      next: 997
+      raw_fields:
+        c07: 53
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 54
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 134
+    raw_columns:
+      - 997
+      - 997
+      - 634
+      - Find out who is spreading gossip.
+      - Marsaili A'Lanth refused to stop spreading lies.  Return to Sigmund with the information.
+      - 997
+      - 54
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 55
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 634
+      title: Find out who is spreading gossip.
+      text: Marsaili A'Lanth refused to stop spreading lies.  Return to Sigmund with the information.
+      next: 997
+      raw_fields:
+        c07: 54
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 55
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 135
+    raw_columns:
+      - 997
+      - 997
+      - 640
+      - Sell Brewmaster Smith's new concoction to Guberland.
+      - Take the cask Brewmaster Smith gave you to the tavern in Guberland, and try to get the bartender to purchase it from you.  Once you have succeeded, return to Brewmaster Smith
+      - 997
+      - 302
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 308
+      - 310
+      - 309
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 640
+      title: Sell Brewmaster Smith's new concoction to Guberland.
+      text: Take the cask Brewmaster Smith gave you to the tavern in Guberland, and try to get the bartender to purchase it from you.  Once you have succeeded, return to Brewmaster Smith
+      next: 997
+      raw_fields:
+        c07: 302
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 308
+        c22: 310
+        c23: 309
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 136
+    raw_columns:
+      - 997
+      - 997
+      - 650
+      - Get Black Orb of Knowledge.
+      - Go to the Wizard's Lab in Yorwick, and get the Black Orb of Knowledge from the Mad Wizard Robinsson.  Return to Ealusaid A'Norta a'thrakan in Thronheim when you are finished.
+      - 997
+      - 311
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 315
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 650
+      title: Get Black Orb of Knowledge.
+      text: Go to the Wizard's Lab in Yorwick, and get the Black Orb of Knowledge from the Mad Wizard Robinsson.  Return to Ealusaid A'Norta a'thrakan in Thronheim when you are finished.
+      next: 997
+      raw_fields:
+        c07: 311
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 315
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 137
+    raw_columns:
+      - 997
+      - 997
+      - 660
+      - Take the news to the Temple of Ratatosk.
+      - Take the Scroll of Bad News to Erlend the Nay-sayer in the Temple of Ratatosk.  Return to Dagfari the Peevish in Thronheim when you are finished.
+      - 997
+      - 316
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 321
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 660
+      title: Take the news to the Temple of Ratatosk.
+      text: Take the Scroll of Bad News to Erlend the Nay-sayer in the Temple of Ratatosk.  Return to Dagfari the Peevish in Thronheim when you are finished.
+      next: 997
+      raw_fields:
+        c07: 316
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 321
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 138
+    raw_columns:
+      - 997
+      - 997
+      - 670
+      - Get the Orbs of Linking.
+      - Go to the Inventa Storca in Thronheim and collect six Orbs of Linking.  Install them in the six banks in Chedian.
+      - 997
+      - 322
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 337
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 670
+      title: Get the Orbs of Linking.
+      text: Go to the Inventa Storca in Thronheim and collect six Orbs of Linking.  Install them in the six banks in Chedian.
+      next: 997
+      raw_fields:
+        c07: 322
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 337
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 139
+    raw_columns:
+      - 997
+      - 997
+      - 680
+      - Retrieve the missing relic.
+      - Find Lindisfarne Monastery's missing relic.  Return it to Leffery Caid in the Lindisfarne Monastery when you have retrieved it.
+      - 997
+      - 338
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 342
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 680
+      title: Retrieve the missing relic.
+      text: Find Lindisfarne Monastery's missing relic.  Return it to Leffery Caid in the Lindisfarne Monastery when you have retrieved it.
+      next: 997
+      raw_fields:
+        c07: 338
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 342
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 140
+    raw_columns:
+      - 997
+      - 997
+      - 690
+      - Steal the Golden Honk.
+      - Go to the Temple of Honk in Guberland and steal their primary icon, the Golden Honk.  Take it to the goddess Fre in the Hall of the Gods when you have taken it.
+      - 997
+      - 343
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 347
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 690
+      title: Steal the Golden Honk.
+      text: Go to the Temple of Honk in Guberland and steal their primary icon, the Golden Honk.  Take it to the goddess Fre in the Hall of the Gods when you have taken it.
+      next: 997
+      raw_fields:
+        c07: 343
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 347
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 141
+    raw_columns:
+      - 997
+      - 997
+      - 700
+      - Clean out the Bathhouse.
+      - Go to the Bathhouse in Arslegard and get rid of Ebora and her concubines.  Return to Jokull the Ugly in Arslegard when you are finished.
+      - 997
+      - 348
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 349
+      - 352
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 700
+      title: Clean out the Bathhouse.
+      text: Go to the Bathhouse in Arslegard and get rid of Ebora and her concubines.  Return to Jokull the Ugly in Arslegard when you are finished.
+      next: 997
+      raw_fields:
+        c07: 348
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 349
+        c22: 352
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 142
+    raw_columns:
+      - 997
+      - 997
+      - 702
+      - Clean out the Bathhouse.
+      - You got rid of Ebora and her concubines.  Return to Jokull the Ugly in Arslegard.
+      - 997
+      - 349
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 352
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 702
+      title: Clean out the Bathhouse.
+      text: You got rid of Ebora and her concubines.  Return to Jokull the Ugly in Arslegard.
+      next: 997
+      raw_fields:
+        c07: 349
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 352
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+  - source:
+      file: NPC997.rude
+      row: 143
+    raw_columns:
+      - 997
+      - 997
+      - 710
+      - Find Gungnir.
+      - Hanndl lost his spear, called Gungnir.  Find it and return it to him.
+      - 997
+      - 353
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 357
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      rude_id: 997
+      node_id: 997
+      entry_id: 710
+      title: Find Gungnir.
+      text: Hanndl lost his spear, called Gungnir.  Find it and return it to him.
+      next: 997
+      raw_fields:
+        c07: 353
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 357
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0

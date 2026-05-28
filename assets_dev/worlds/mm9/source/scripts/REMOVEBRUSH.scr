@@ -1,0 +1,46 @@
+;---------------------------------
+;	RemoveBrush.scr
+;	by SJR
+;
+;	ScriptParams:
+;		p0 = (0,1)-->(remove,kill)
+;---------------------------------
+#include BaseGlobals.inc
+
+#number		bKillTarget = 0
+#number		bType = 0
+
+#hobject	hTouch = 0
+
+;---------------------------------
+:Main
+;---------------------------------
+	GetParam 0, bKillTarget
+
+	OnTouchNotify OnTouchNotify
+
+	Exit TRUE
+
+;---------------------------------
+:OnTouchNotify
+;---------------------------------
+	OnTouchNotify DoNothing
+
+	GetParam 0, hTouch
+
+	IsAI hTouch, bType
+	if( bType==TRUE )
+		if( hTouch!=0 )
+			if( bKillTarget==TRUE )
+				Trigger hTouch, destroy
+			else
+				RemoveObject hTouch
+			endif
+
+			hTouch = NULL
+		endif
+	endif
+
+	OnTouchNotify OnTouchNotify
+
+	Exit TRUE

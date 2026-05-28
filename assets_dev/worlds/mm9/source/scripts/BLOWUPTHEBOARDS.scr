@@ -1,0 +1,42 @@
+;-----------------------------------------------------
+;	BlowUpTheBoards.scr
+;	kd
+;	10-30-01
+;	Makes the torch fall to the ground.
+;	Nothing slick or fancy
+;
+
+;
+;-----------------------------------------------------
+
+#hObject	hBlocker = 0
+#string		sBlocker = ""
+
+;-----------------------------------------------------
+:DoTheDamage
+;-----------------------------------------------------
+	if( hBlocker==0 )
+		GetObjectHandle sBlocker, hBlocker
+		if( hBlocker==0 )
+			Exit 1
+		endif
+	endif
+
+	playsound Sounds\Weapons\EQHammerImpact.wav DoNothing 500 2000 0 100
+	playsound Sounds\Events\crate_smash.wav DoNothing 500 2000 0 100
+	
+	Trigger hBlocker, destroy
+
+	Exit 1
+
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	GetParam 0, sBlocker
+
+	AddTrigger HitMe, DoTheDamage
+
+	Exit 1
+
+:DoNothing
+	Exit 1

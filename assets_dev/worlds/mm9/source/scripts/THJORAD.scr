@@ -1,0 +1,110 @@
+;----------------------------------------------
+;Thjorad.scr
+; By Timmy
+; gives the player Thjorad item 197
+; and the related key
+; Sven's RudeID is 3 
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+#Number							On = False
+
+#hobject	hMONK_HOSTILITY = 0
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+if (On==False)
+	exit
+endif
+
+Haskey 2 g_ntemp
+
+if ( g_ntemp==1, )
+	Haskey 31 keycheck
+		if ( keycheck==0,  )
+			givekey, 31
+			GiveItem 197
+			giveexp 1000
+			Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+			getobjecthandle thjorad g_hobject
+			removeobject g_hobject 
+			exit
+		endif
+endif
+
+
+Haskey 162 keycheck 
+if ( keycheck==0, )
+
+	givekey,  162
+	set keydata, 162
+	GiveItem 197
+	giveexp 1000
+	getobjecthandle thjorad g_hobject
+	removeobject g_hobject 
+endif
+
+
+exit
+
+
+;-------------------------------------
+:Init
+; turn Thjorad on when player sets
+; monks to hostile
+;-------------------------------------
+
+set On, False
+
+	GetObjectHandle MONK_HOSTILITY, hMONK_HOSTILITY
+	if( hMONK_HOSTILITY!=0 )
+		CreateObjectLink hMONK_HOSTILITY
+		OnObjectLinkBroken OnTurnOn
+	endif
+
+
+	Haskey 31 keycheck
+if ( g_ntemp==1, )
+	getobjecthandle thjorad g_hobject
+	removeobject g_hobject 
+	exitscript	
+	exit
+endif
+
+Haskey 162 keycheck
+if ( g_ntemp==1, )
+	getobjecthandle thjorad g_hobject
+	removeobject g_hobject 
+	exitscript	
+	exit
+endif
+exit
+
+;-------------------------------------
+:OnTurnOn
+;-------------------------------------
+
+set On, True
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+Addtrigger TurnOn, OnTurnOn
+
+
+
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+
+exit

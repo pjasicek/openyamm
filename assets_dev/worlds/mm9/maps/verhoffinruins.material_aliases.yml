@@ -1,0 +1,812 @@
+format_version: 1
+kind: "mm9_material_aliases"
+source_dat: "mm9/extracted/WORLDS/WORLDS/VERHOFFINRUINS.dat"
+notes:
+  - "ODM face texture names are limited to 10 bytes; aliases preserve editor compatibility."
+stats:
+  source_models: 379
+  source_polies: 10275
+  emitted_faces: 26789
+  skipped_polies: 0
+  triangulated_polies: 9633
+  skipped_degenerate_triangles: 6266
+  source_plane_orientation_flips: 4784
+  clamped_plane_distances: 0
+textures:
+  - alias: "ASHRUIN"
+    source_texture: "TEXTURES\\A1IsleofAshes\\walls\\ashruin.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/WALLS/ASHRUIN.dtx"
+    emitted_bitmap: "ASHRUIN.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "BEAMCEI000"
+    source_texture: "TEXTURES\\A1IsleofAshes\\ceilings\\Beamceilng02.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/CEILINGS/BEAMCEILNG02.dtx"
+    emitted_bitmap: "BEAMCEI000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "BLOODHIT1"
+    source_texture: "SpriteTextures\\BloodHit1.dtx"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "BLOODHIT1.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "CLANKER000"
+    source_texture: "TEXTURES\\LevelTextures\\21_DeathMatch\\ClankersCeiling.dtx"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "CLANKER000.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "CLIFF2"
+    source_texture: "TEXTURES\\A1IsleofAshes\\walls\\Cliff 2.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/WALLS/CLIFF 2.dtx"
+    emitted_bitmap: "CLIFF2.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DEFAULT"
+    source_texture: "Default"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "DEFAULT.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "FIGURETALL"
+    source_texture: "TEXTURES\\A1IsleofAshes\\misc\\figure-tall.dtx"
+    width: 128
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/MISC/FIGURE-TALL.dtx"
+    emitted_bitmap: "FIGURETALL.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "FIGUREWIDE"
+    source_texture: "TEXTURES\\A1IsleofAshes\\misc\\figure-wide.dtx"
+    width: 128
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/MISC/FIGURE-WIDE.dtx"
+    emitted_bitmap: "FIGUREWIDE.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "FIRETHR000"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\Firethrough.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/FIRETHROUGH.dtx"
+    emitted_bitmap: "FIRETHR000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 18
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "GRILL1"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\Grill1.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/GRILL1.dtx"
+    emitted_bitmap: "GRILL1.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 10
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 136
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "INVISIB000"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\Invisible.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/INVISIBLE.dtx"
+    emitted_bitmap: "INVISIB000.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 202
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 1
+    dtx_flags: 265
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "INVISIBLE"
+    source_texture: "TEXTURES\\LevelTextures\\Area1\\Building-Special\\Invisible.dtx"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "INVISIBLE.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "JAILDOOR"
+    source_texture: "TEXTURES\\LevelTextures\\Doors\\JailDoor.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/DOORS/JAILDOOR.dtx"
+    emitted_bitmap: "JAILDOOR.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 9
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 136
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_03.dtx"
+  - alias: "METALBA000"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\MetalBarGrey.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/METALBARGREY.dtx"
+    emitted_bitmap: "METALBA000.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 8
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 136
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "METALRUST"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\MetalRust.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/METALRUST.dtx"
+    emitted_bitmap: "METALRUST.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 8
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "OCEAN3"
+    source_texture: "Sprites\\Water\\Ocean3.spr"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "OCEAN3.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "OUTERWA000"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\outer_wall_cement.dtx"
+    width: 128
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/OUTER_WALL_CEMENT.dtx"
+    emitted_bitmap: "OUTERWA000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_10.dtx"
+  - alias: "OUTSIDE000"
+    source_texture: "TEXTURES\\LevelTextures\\Terrain\\outside_dirt.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TERRAIN/OUTSIDE_DIRT.dtx"
+    emitted_bitmap: "OUTSIDE000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 13
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_04.dtx"
+  - alias: "PERCEPT000"
+    source_texture: "Sprites\\Perception2.spr"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "PERCEPT000.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "PERCEPTION"
+    source_texture: "Sprites\\Perception.spr"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "PERCEPTION.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "RAIL"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\rail.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/RAIL.dtx"
+    emitted_bitmap: "RAIL.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "ROUGH"
+    source_texture: "TEXTURES\\A1IsleofAshes\\walls\\rough.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/WALLS/ROUGH.dtx"
+    emitted_bitmap: "ROUGH.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SEASKYBACK"
+    source_texture: "TEXTURES\\Skybox\\SeaSky_Back.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/SEASKY_BACK.dtx"
+    emitted_bitmap: "SEASKYBACK.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SEASKYDOWN"
+    source_texture: "TEXTURES\\Skybox\\SeaSky_Down.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/SEASKY_DOWN.dtx"
+    emitted_bitmap: "SEASKYDOWN.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SEASKYF000"
+    source_texture: "TEXTURES\\Skybox\\SeaSky_Front.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/SEASKY_FRONT.dtx"
+    emitted_bitmap: "SEASKYF000.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SEASKYLEFT"
+    source_texture: "TEXTURES\\Skybox\\SeaSky_Left.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/SEASKY_LEFT.dtx"
+    emitted_bitmap: "SEASKYLEFT.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SEASKYR000"
+    source_texture: "TEXTURES\\Skybox\\SeaSky_Right.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/SEASKY_RIGHT.dtx"
+    emitted_bitmap: "SEASKYR000.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SEASKYUP"
+    source_texture: "TEXTURES\\Skybox\\SeaSky_Up.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/SEASKY_UP.dtx"
+    emitted_bitmap: "SEASKYUP.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SKYMARKER"
+    source_texture: "TEXTURES\\LevelTextures\\Area1\\Skybox\\SkyMarker.dtx"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "SKYMARKER.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "SPIDERS000"
+    source_texture: "TEXTURES\\LevelTextures\\WallsStone\\spidersolidgray1.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/WALLSSTONE/SPIDERSOLIDGRAY1.dtx"
+    emitted_bitmap: "SPIDERS000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_07.dtx"
+  - alias: "STAINDA000"
+    source_texture: "TEXTURES\\LevelTextures\\Windows\\staind_a_glass.dtx"
+    width: 128
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/WINDOWS/STAIND_A_GLASS.dtx"
+    emitted_bitmap: "STAINDA000.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 15
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 136
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "STARFIELD"
+    source_texture: "TEXTURES\\Skybox\\starfield.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/STARFIELD.dtx"
+    emitted_bitmap: "STARFIELD.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "STUCCO"
+    source_texture: "TEXTURES\\A1IsleofAshes\\walls\\stucco.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/WALLS/STUCCO.dtx"
+    emitted_bitmap: "STUCCO.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "STUCCOE000"
+    source_texture: "TEXTURES\\A1IsleofAshes\\walls\\stucco-emboss.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/WALLS/STUCCO-EMBOSS.dtx"
+    emitted_bitmap: "STUCCOE000.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "STUCCOWORN"
+    source_texture: "TEXTURES\\A1IsleofAshes\\walls\\stucco worn.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/WALLS/STUCCO WORN.dtx"
+    emitted_bitmap: "STUCCOWORN.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SWITCHP000"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\SwitchPanel.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/SWITCHPANEL.dtx"
+    emitted_bitmap: "SWITCHP000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 8
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_09.dtx"
+  - alias: "TABLETOP"
+    source_texture: "TEXTURES\\LevelTextures\\Area1\\Dungeons\\tabletop.dtx"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "TABLETOP.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "TRAININ000"
+    source_texture: "TEXTURES\\A2Thjorgaard\\misc\\trainingmetal.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A2THJORGAARD/MISC/TRAININGMETAL.dtx"
+    emitted_bitmap: "TRAININ000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 8
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "TRAININ001"
+    source_texture: "TEXTURES\\A2Thjorgaard\\misc\\trainingwood.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A2THJORGAARD/MISC/TRAININGWOOD.dtx"
+    emitted_bitmap: "TRAININ001.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 11
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "VERBRIC000"
+    source_texture: "TEXTURES\\A1IsleofAshes\\floors\\ver-brick-step.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/FLOORS/VER-BRICK-STEP.dtx"
+    emitted_bitmap: "VERBRIC000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "VERBRICK"
+    source_texture: "TEXTURES\\A1IsleofAshes\\floors\\ver-brick.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/FLOORS/VER-BRICK.dtx"
+    emitted_bitmap: "VERBRICK.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "VERCOBBLE"
+    source_texture: "TEXTURES\\A1IsleofAshes\\floors\\ver-cobble.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/FLOORS/VER-COBBLE.dtx"
+    emitted_bitmap: "VERCOBBLE.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "VERDOOR000"
+    source_texture: "TEXTURES\\A1IsleofAshes\\doors\\verdoor2-rust.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/DOORS/VERDOOR2-RUST.dtx"
+    emitted_bitmap: "VERDOOR000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 11
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "VERDOOR001"
+    source_texture: "TEXTURES\\A1IsleofAshes\\doors\\verdoor5-massive.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/DOORS/VERDOOR5-MASSIVE.dtx"
+    emitted_bitmap: "VERDOOR001.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 11
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "VERSAND000"
+    source_texture: "TEXTURES\\A1IsleofAshes\\walls\\ver-sandstone-dk2.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/WALLS/VER-SANDSTONE-DK2.dtx"
+    emitted_bitmap: "VERSAND000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "VERSAND001"
+    source_texture: "TEXTURES\\A1IsleofAshes\\walls\\ver-sandstone.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/WALLS/VER-SANDSTONE.dtx"
+    emitted_bitmap: "VERSAND001.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "VERSCUF000"
+    source_texture: "TEXTURES\\A1IsleofAshes\\walls\\ver-scuffed 01.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/WALLS/VER-SCUFFED 01.dtx"
+    emitted_bitmap: "VERSCUF000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "VERSCUF001"
+    source_texture: "TEXTURES\\A1IsleofAshes\\walls\\ver-scuffed 02.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/WALLS/VER-SCUFFED 02.dtx"
+    emitted_bitmap: "VERSCUF001.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "VERSCUF002"
+    source_texture: "TEXTURES\\A1IsleofAshes\\walls\\ver-scuffed 03.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/WALLS/VER-SCUFFED 03.dtx"
+    emitted_bitmap: "VERSCUF002.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "VERSCUFFED"
+    source_texture: "TEXTURES\\A1IsleofAshes\\walls\\ver-scuffed.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/WALLS/VER-SCUFFED.dtx"
+    emitted_bitmap: "VERSCUFFED.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "VERTILEFLR"
+    source_texture: "TEXTURES\\A1IsleofAshes\\floors\\ver-tile-flr.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/FLOORS/VER-TILE-FLR.dtx"
+    emitted_bitmap: "VERTILEFLR.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "WATER12000"
+    source_texture: "SpriteTextures\\Water\\water125\\water125_0000.dtx"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "WATER12000.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "WATERMA000"
+    source_texture: "TEXTURES\\LevelTextures\\Area1\\Terrain\\WaterMarker.dtx"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "WATERMA000.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "WATERMA001"
+    source_texture: "TEXTURES\\LevelTextures\\Terrain\\WaterMarker.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TERRAIN/WATERMARKER.dtx"
+    emitted_bitmap: "WATERMA001.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 16
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_04.dtx"
+  - alias: "WOOD1"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\wood1.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/WOOD1.dtx"
+    emitted_bitmap: "WOOD1.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 11
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "WOODGRA000"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\woodgrain03.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/WOODGRAIN03.dtx"
+    emitted_bitmap: "WOODGRA000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 11
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"

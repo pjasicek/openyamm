@@ -1,0 +1,99 @@
+;-----------------------------------------------------
+;
+;	TH_MeanTrellborg.scr
+;
+;	Karl Drown 11-18-01
+;	
+;	Trellborg that launches the practice horse for
+;	his buddies in the Joust room.
+;-----------------------------------------------------
+#include TrainingHostility.inc
+#include Globals.inc
+
+#hObject	hSwitch
+#hObject	hTrellborg
+
+#string 	sSwitch
+#string		sTrellborg
+
+
+#number	bIsJousting = 0
+
+;-----------------------------------------------------
+:CheckStart
+;-----------------------------------------------------
+	if (bIsJousting==FALSE)
+		exit
+	endif
+	Gosub Start
+	Exit TRUE
+;-----------------------------------------------------
+:Start
+;-----------------------------------------------------
+	bIsJousting = TRUE
+	Gosub StartAnimations
+	Exit TRUE
+;-----------------------------------------------------
+:TurnOff
+;-----------------------------------------------------
+	Wait 1, 1, DoNothing
+	bIsJousting = FALSE
+	Exit TRUE
+
+;-----------------------------------------------------
+:AnimationA
+	Stop
+	PlayAnim Stand, AnimationB
+	Exit TRUE
+:AnimationB
+	PlayAnim Fidget3, AnimationC
+	Exit TRUE
+:AnimationC
+	PlayAnim Fidget1, AnimationD
+	Exit TRUE
+:AnimationD
+	PlayAnim Taunt, LaunchHorse
+	Exit TRUE
+:LaunchHorse
+	Trigger hSwitch, Use
+	FaceObject hTrellborg, 180
+	Exit TRUE
+;-----------------------------------------------------
+
+
+;-----------------------------------------------------
+:ResetSwitch
+;-----------------------------------------------------
+	FaceObject hSwitch, 180
+	Trigger hSwitch, Use
+	Exit TRUE
+
+;-----------------------------------------------------
+:StartAnimations
+;-----------------------------------------------------
+	if (bIsJousting==FALSE)
+		exit
+	endif
+	Gosub AnimationA
+
+	Exit TRUE
+
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+	GetObjectHandle sSwitch, hSwitch
+	GetObjectHandle sTrellborg, hTrellborg
+	AddTrigger Go, Start
+	AddTrigger Stop, TurnOff
+	AddTrigger Switch, ResetSwitch
+	AddTrigger Throw, CheckStart
+	gosub InitTrainingHostility
+	Exit TRUE
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	GetParam 0, sSwitch
+	GetParam 1, sTrellborg
+	OnPostStartWorld Main2
+	Exit
+;------------- E n d - O f - F i l e -------------------

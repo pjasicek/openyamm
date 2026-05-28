@@ -1,0 +1,17 @@
+#hobject h
+
+:GoDown
+	SetVelocity h,0,-400,0
+	Wait 0, 15, GoUp
+	Exit
+
+
+:GoUp
+	SetVelocity h,0,400,0
+	Wait 0, 15, GoDown	
+	Exit
+
+:Main
+	GetMyHandle h
+	Wait 0, 2, GoUp
+	exit

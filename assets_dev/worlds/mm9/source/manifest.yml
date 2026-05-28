@@ -1,0 +1,72 @@
+format_version: 1
+kind: mm9_source_asset_manifest
+source_root: mm9/extracted
+package_root: assets_dev/worlds/mm9/source
+policy:
+  source_truth: true
+  generated_cache: false
+  preserve_rez_relative_names: true
+  duplicate_rez_family_folder_removed: true
+  sync_command: rsync -a
+families:
+  - id: art
+    source: ART/ART
+    package: art
+    file_count: 2696
+  - id: clientfx
+    source: CLIENTFX/CLIENTFX
+    package: clientfx
+    file_count: 2
+  - id: data
+    source: DATA/DATA
+    package: data
+    file_count: 57
+  - id: localart
+    source: LOCALART/LOCALART
+    package: localart
+    file_count: 84
+  - id: models
+    source: MODELS/MODELS
+    package: models
+    file_count: 859
+  - id: rude
+    source: RUDE/RUDE
+    package: rude
+    file_count: 441
+  - id: scripts
+    source: SCRIPTS/SCRIPTS
+    package: scripts
+    file_count: 804
+  - id: skins
+    source: SKINS/SKINS
+    package: skins
+    file_count: 910
+  - id: sounds
+    source: SOUNDS/SOUNDS
+    package: sounds
+    file_count: 2014
+  - id: sprites
+    source: SPRITES/SPRITES
+    package: sprites
+    file_count: 141
+  - id: sprite_textures
+    source: SPRITETEXTURES/SPRITETEXTURES
+    package: sprite_textures
+    file_count: 879
+  - id: textures
+    source: TEXTURES/TEXTURES
+    package: textures
+    file_count: 1886
+  - id: voices
+    source: VOICES/VOICES
+    package: voices
+    file_count: 1819
+  - id: worlds
+    source: WORLDS/WORLDS
+    package: worlds
+    file_count: 54
+notes:
+  - Original extracted REZ assets are mirrored here so MM9 DAT/DTX-native runtime work does not depend on generated
+    ODM/BLV compatibility outputs as source truth.
+  - Family folders remove the duplicate REZ nesting, for example TEXTURES/TEXTURES becomes source/textures.
+  - Generated caches should live outside this source tree.

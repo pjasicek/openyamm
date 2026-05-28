@@ -1,0 +1,104 @@
+;--------------------------------------------------
+;NPC187.scr
+; timmy
+; handles Hungerda Atlidotir voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+GetRandomInt 1, 2, g_ntemp
+
+if (g_ntemp==1, )
+	Playsound voices\NPC\NPC_187a.wav, DoNothing, 100, 240, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==2, )
+	Playsound voices\NPC\NPC_187b.wav, DoNothing, 100, 240, FALSE, 100
+	exit
+endif
+
+
+
+exit
+
+
+
+;-------------------------------------
+:OnReturn
+;-------------------------------------
+
+getobjecthandle Atlimarker0 g_hobject
+walkto g_hobject 256 DoNothing
+exit
+
+exit
+
+;-------------------------------------
+:OnArrive
+;-------------------------------------
+
+haskey 197 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle AtliMarker g_hobject
+	walkto g_hobject 256, DoNothing
+	exit
+endif
+exit
+;-------------------------------------
+:Init
+;-------------------------------------
+
+haskey 127 g_ntemp
+if (g_ntemp==TRUE)
+
+		getmyhandle g_hobject
+		clearflag g_hobject, visible
+		clearflag g_hobject, solid
+		clearflag g_hobject, gravity
+		exit
+	
+endif	
+	
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+
+Addtrigger Use, OnUse
+Addtrigger Return OnReturn
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

@@ -1,0 +1,64 @@
+;-----------------------------------
+;	BC_MonsterFight.scr
+;	by SJR
+;	Purpose:two monsters duke it out
+;			to show the player a fight
+;-----------------------------------
+#include BaseGlobals.inc
+
+#hobject	hMe = 0
+
+#number		bIsClass = 0
+
+;-----------------------------------
+:Main
+;-----------------------------------
+	Wait 0, .1, InitMonsterFight
+
+	GetMyHandle hMe
+
+	Exit TRUE
+
+;-----------------------------------
+:InitMonsterFight
+;-----------------------------------
+	SetStat hMe, GaveTreasure, TRUE
+
+	AddFriend Player
+	AddEnemy AIBase
+
+	gosub SetupFighting
+
+	OnDamage StartFighting
+
+	Exit TRUE
+
+;-----------------------------------
+:SetupFighting
+;-----------------------------------
+	IsClass hMe, "EvilSorcerer", bIsClass
+	if( bIsClass==TRUE )
+		FaceDir 1,0,0, 180, StartFighting
+	else
+		IsClass hMe, "Oculus", bIsClass
+		if( bIsClass==TRUE )
+			FaceDir -1,0,0, 180, StartFighting
+		endif
+	endif
+
+	Exit TRUE
+
+;-----------------------------------
+:StartFighting
+;-----------------------------------
+	IsClass hMe, "EvilSorcerer", bIsClass
+	if( bIsClass==TRUE )
+		RunScript "EvilSorcerer.scr"
+	else
+		IsClass hMe, "Oculus", bIsClass
+		if( bIsClass==TRUE )
+			RunScript "FlyRange.scr"
+		endif
+	endif
+
+	Exit TRUE

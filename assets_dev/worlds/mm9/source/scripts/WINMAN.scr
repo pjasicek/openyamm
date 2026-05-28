@@ -1,0 +1,678 @@
+;----------------------------------------------
+;WinMan.scr
+; By Timmy
+; 11/16
+; Manager for the WinGame Cutscene
+;
+; edited by Bones 04/29/03
+; TELP Patch 1.3 -- moved givekey 109 to WG_NJAMCAM.SCR
+;	protected switch from access through wall
+;	prevented access to last sequence without quest
+;----------------------------------------------
+
+#include globals.inc 
+
+#number		HanndlCounter
+#string		sPart
+#number		bUp = FALSE
+
+#number				bSafeToStart
+
+#numberArray		g_hMonsterArray[10]
+#number				g_nMonsterCount
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+GetPlayerHandle g_hPlayer
+GetPos g_hPlayer g_posX g_posY g_posZ
+if g_posZ < -3680
+	exit
+endif
+
+haskey 108 g_ntemp
+if (g_ntemp==FALSE)
+	
+	Gosub OnSwitch
+	getobjecthandle Lightning1 g_hobject
+	trigger g_hobject On
+	getobjecthandle Lightning2 g_hobject
+	trigger g_hobject On
+	Wait 1 7 OnLightningOff
+	exit
+endif
+
+gosub OnSwitch
+
+haskey 109 g_ntemp
+if (g_ntemp==false)
+	GiveExp 234000
+endif
+
+Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+gosub DestroyMonsters
+
+;Camera
+ScreenFadeOut 1
+Playsound \Sounds\magic\Windup10.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 2 OnStart
+exit
+
+;-------------------------------------
+:onSwitch
+;-------------------------------------
+	if (bUp==FALSE)
+		Playsound \Sounds\door\cell_door_close.wav, DoNothing, 100, 24000, FALSE, 100
+		Playanim up DoNothing
+		set bUp TRUE
+	else
+		Playsound \Sounds\door\cell_door_close.wav, DoNothing, 100, 24000, FALSE, 100
+		PlayAnim Down DoNothing
+		set bUp FALSE
+	endif
+
+	exit
+
+;--------------------------------------------------
+:DestroyMonsters
+;--------------------------------------------------
+
+;traceon
+
+set g_ntemp, 0
+
+GetObjects AIBase, 1024, 10, g_hMonsterArray, g_nMonsterCount
+
+if (g_nMonsterCount==0)
+	exit
+endif
+
+	while ( g_nTemp < g_nMonsterCount )
+
+		ArrayGet g_hMonsterArray, g_nTemp, g_hObject
+		isclass g_hObject NjamtheMeddler g_btemp
+
+		if (g_btemp!=TRUE)
+
+			removeobject g_hobject
+
+		endif
+
+		g_nTemp = g_nTemp + 1
+
+		if (g_ntemp > 10 )
+			exit
+		endif
+
+	endwhile
+
+;traceoff
+exit
+
+;-------------------------------------
+:OnLightningOff
+;-------------------------------------
+
+
+getobjecthandle Lightning1 g_hobject
+trigger g_hobject Off
+getobjecthandle Lightning2 g_hobject
+trigger g_hobject Off
+exit
+
+
+;-------------------------------------
+:OnStart
+;-------------------------------------
+
+getobjecthandle NjamCam g_hobject 
+;trigger g_hobject On
+trigger g_hobject Play
+
+
+getobjecthandle Njam g_hobject 
+trigger g_hobject chase
+
+exit
+
+;-------------------------------------
+:OnNjamCamDone
+;-------------------------------------
+getobjecthandle NjamCam g_hobject 
+trigger g_hobject Off
+
+
+getobjecthandle WG_Shot2Cam g_hobject 
+trigger g_hobject On
+trigger g_hobject play
+exit
+
+
+;-------------------------------------
+:OnHandDone
+;-------------------------------------
+
+getobjecthandle WG_Shot2Cam g_hobject 
+trigger g_hobject Off
+
+getobjecthandle WG_Shot3Cam g_hobject 
+trigger g_hobject On
+getobjecthandle Njam g_hobject
+trigger g_hobject Panic
+Playsound \Sounds\spells\Armsofearth01.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnCameraSwitch
+;-------------------------------------
+
+getobjecthandle WG_Shot3Cam g_hobject 
+trigger g_hobject Off
+
+getobjecthandle WG_Shot4Cam g_hobject 
+trigger g_hobject On
+
+exit
+
+
+;-------------------------------------
+:OnCameraSwitch2
+;-------------------------------------
+
+getobjecthandle WG_Shot4Cam g_hobject 
+trigger g_hobject Off
+
+getobjecthandle WG_Shot5Cam g_hobject 
+trigger g_hobject On
+trigger g_hobject Play
+
+exit
+
+;-------------------------------------
+:OnBallStart
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:OnFrozen
+;-------------------------------------
+
+ScreenFadeOut 1
+
+wait 1 2 OnFinish
+exit
+
+exit
+
+;-------------------------------------
+:OnFinish
+;-------------------------------------
+
+getobjecthandle WG_Shot5CamB g_hobject 
+trigger g_hobject Off
+
+
+getobjecthandle WG_Shot7Cam g_hobject
+trigger g_hobject On
+Trigger g_hobject Play 
+
+exit
+
+
+
+;-------------------------------------
+:OnPanUp
+;-------------------------------------
+
+getobjecthandle WG_Shot5Cam g_hobject 
+trigger g_hobject Off
+
+getobjecthandle WG_Shot6Cam g_hobject 
+trigger g_hobject On
+
+wait 1 .6 OnPanReturn
+exit
+
+;-------------------------------------
+:OnPanReturn
+;-------------------------------------
+
+getobjecthandle WG_Shot6Cam g_hobject 
+trigger g_hobject Off
+
+getobjecthandle WG_Shot5Cam g_hobject 
+trigger g_hobject On
+
+wait 1 3 LightingCamera2
+exit
+
+;-------------------------------------
+:LightingCamera2
+;-------------------------------------
+
+getobjecthandle WG_Shot5Cam g_hobject 
+trigger g_hobject Off
+
+getobjecthandle WG_Shot5CamB g_hobject 
+trigger g_hobject On
+exit
+
+;-------------------------------------
+:OnCutTo
+;-------------------------------------
+Screenfadeout 2
+wait 1 2 ChangeLevel
+exit
+
+
+;-------------------------------------
+:ChangeLevel
+;-------------------------------------
+;getobjecthandle WG_Shot7Cam g_hobject
+;trigger g_hobject Off
+;Letterbox False
+getobjecthandle ExitTrigger1 g_hobject
+trigger g_hobject trigger
+;screenfadein 1
+exit
+
+;-------------------------------------
+:OnKrohn
+;-------------------------------------
+
+;Screenfadeout 1
+Letterbox True
+wait 1 1 StartPart2
+exit
+
+;-------------------------------------
+:StartPart2
+;-------------------------------------
+
+getobjecthandle Skraelos0 g_hobject
+trigger g_hobject start
+getobjecthandle Krohn g_hobject
+trigger g_hobject start
+getobjecthandle Hanndl g_hobject
+trigger g_hobject start
+getobjecthandle Krohn0 g_hobject
+trigger g_hobject stop
+
+
+getobjecthandle WG_Scene7Cam1 g_hobject
+trigger g_hobject On
+trigger g_hobject play
+getobjecthandle Hanndl g_hobject
+trigger G_hobject action
+screenfadein 1
+exit
+
+;-------------------------------------
+:OnKrohnCut
+;-------------------------------------
+
+
+
+Screenfadeout .5
+getobjecthandle WG_Scene7Cam1 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam2 g_hobject
+trigger g_hobject On
+trigger g_hobject play
+screenfadein 1
+screenfadein 1
+wait 1 3.5 KrohnCut
+exit
+
+;-------------------------------------
+:KrohnCut
+;-------------------------------------
+
+getobjecthandle WG_Scene7Cam2 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam3 g_hobject
+trigger g_hobject On
+trigger g_hobject play
+exit
+
+;-------------------------------------
+:OnHanndl1
+;-------------------------------------
+
+
+getobjecthandle WG_Scene7Cam3 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam4 g_hobject
+trigger g_hobject On
+getobjecthandle hanndl g_hobject
+trigger g_hobject Hanndl1
+exit
+
+
+;-------------------------------------
+:OnHanndl2
+;-------------------------------------
+
+
+getobjecthandle WG_Scene7Cam3 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam5 g_hobject
+trigger g_hobject On
+getobjecthandle hanndl g_hobject
+trigger g_hobject Hanndl2
+exit
+
+;-------------------------------------
+:OnHanndl3
+;-------------------------------------
+
+getobjecthandle WG_Scene7Cam6 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam5 g_hobject
+trigger g_hobject On
+getobjecthandle hanndl g_hobject
+trigger g_hobject Hanndl3
+
+exit
+
+
+
+;-------------------------------------
+:OnHanndl4
+;-------------------------------------
+
+getobjecthandle WG_Scene7Cam7 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam5 g_hobject
+trigger g_hobject On
+getobjecthandle hanndl g_hobject
+trigger g_hobject Hanndl4
+wait 1 6 OnHanndl4b
+exit
+
+;-------------------------------------
+:OnHanndl4b
+;-------------------------------------
+
+getobjecthandle WG_Scene7Cam5 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam9 g_hobject
+trigger g_hobject On
+exit
+
+;-------------------------------------
+:OnHanndl5
+;-------------------------------------
+
+
+getobjecthandle WG_Scene7Cam11 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam5 g_hobject
+trigger g_hobject On
+getobjecthandle hanndl g_hobject
+trigger g_hobject Hanndl5
+exit
+
+;-------------------------------------
+:OnHanndl6
+;-------------------------------------
+
+
+getobjecthandle WG_Scene7Cam6 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam10 g_hobject
+trigger g_hobject On
+getobjecthandle hanndl g_hobject
+trigger g_hobject Hanndl6
+exit
+
+;-------------------------------------
+:OnHanndlClose
+;-------------------------------------
+
+
+getobjecthandle WG_Scene7Cam6 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam8 g_hobject
+trigger g_hobject On
+getobjecthandle hanndl g_hobject
+trigger g_hobject Embarassed
+;Hanndl looks down, embarassed
+
+exit
+
+;-------------------------------------
+:OnKrohn1
+;-------------------------------------
+
+
+getobjecthandle WG_Scene7Cam4 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam3 g_hobject
+trigger g_hobject On
+getobjecthandle Krohn g_hobject
+trigger g_hobject Krohn1
+exit
+
+;-------------------------------------
+:OnKrohn2
+;-------------------------------------
+
+
+getobjecthandle WG_Scene7Cam5 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam6 g_hobject
+trigger g_hobject On
+getobjecthandle Krohn g_hobject
+trigger g_hobject Krohn2
+exit
+
+;-------------------------------------
+:OnKrohn3
+;-------------------------------------
+
+getobjecthandle WG_Scene7Cam4 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam7 g_hobject
+trigger g_hobject On
+getobjecthandle Krohn g_hobject
+trigger g_hobject Krohn3
+exit
+
+;-------------------------------------
+:OnKrohn4
+;-------------------------------------
+
+getobjecthandle WG_Scene7Cam9 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam6 g_hobject
+trigger g_hobject On
+getobjecthandle Krohn g_hobject
+trigger g_hobject Krohn4
+exit
+
+;-------------------------------------
+:OnKrohn5
+;-------------------------------------
+
+getobjecthandle WG_Scene7Cam5 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam6 g_hobject
+trigger g_hobject On
+getobjecthandle Krohn g_hobject
+trigger g_hobject Krohn5
+exit
+
+;-------------------------------------
+:OnKrohn6
+;-------------------------------------
+
+getobjecthandle WG_Scene7Cam10 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam11 g_hobject
+trigger g_hobject On
+getobjecthandle Krohn g_hobject
+trigger g_hobject Krohn6
+exit
+
+;-------------------------------------
+:OnKrohn7
+;-------------------------------------
+
+getobjecthandle WG_Scene7Cam5 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam6 g_hobject
+trigger g_hobject On
+getobjecthandle Krohn g_hobject
+trigger g_hobject Krohn7
+exit
+
+;-------------------------------------
+:OnKrohnClose
+;-------------------------------------
+
+getobjecthandle WG_Scene7Cam8 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam7 g_hobject
+trigger g_hobject On
+exit
+
+;-------------------------------------
+:OnEver
+;-------------------------------------
+
+getobjecthandle WG_Scene7Cam7 g_hobject
+trigger g_hobject Off
+getobjecthandle WG_Scene7Cam11 g_hobject
+trigger g_hobject On
+exit
+
+;-------------------------------------
+:End
+;-------------------------------------
+
+Screenfadeout 1
+
+
+giveitem 394
+wait 1 3 Release
+exit
+
+;-------------------------------------
+:Release
+;-------------------------------------
+
+;load Arslegard here
+getobjecthandle WG_Scene7Cam11 g_hobject
+trigger g_hobject Off
+getobjecthandle Skraelos0 g_hobject
+trigger g_hobject stop
+getobjecthandle Krohn g_hobject
+trigger g_hobject stop
+getobjecthandle Hanndl g_hobject
+trigger g_hobject stop
+getobjecthandle Krohn0 g_hobject
+trigger g_hobject start
+Letterbox False
+screenfadein 1
+DoHighScore
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+if (sPart!=Part2)
+	exit
+endif
+
+hasitem 394 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+haskey 109 g_ntemp
+if (g_ntemp==FALSE)
+	exit
+endif
+
+wait 1 .1 OnKrohn
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+getparam 0 sPart
+
+AddTrigger Use, OnUse
+AddTrigger NjamCamDone OnNjamCamDone
+Addtrigger HandDone ONHandDone
+AddTrigger BallStart OnBallStart
+AddTrigger CameraSwitch OnCameraSwitch
+AddTrigger CameraSwitch2 OnCameraSwitch2
+Addtrigger Frozen OnFrozen
+AddTrigger Panup OnPanUp
+AddTrigger CutTo OnCutTo
+Addtrigger Krohn OnKrohn
+;Addtrigger Start ONForceStart
+AddTrigger CutToKrohn OnKrohnCut
+
+Addtrigger krohn1 OnKrohn1
+AddTrigger Krohn2 OnKrohn2
+Addtrigger krohn3 OnKrohn3
+AddTrigger Krohn4 OnKrohn4
+Addtrigger krohn5 OnKrohn5
+AddTrigger Krohn6 OnKrohn6
+Addtrigger krohn7 OnKrohn7
+Addtrigger krohnClose OnKrohnClose
+AddTrigger Ever OnEver
+
+
+
+Addtrigger Hanndl1 OnHanndl1
+Addtrigger Hanndl2 OnHanndl2
+Addtrigger Hanndl3 OnHanndl3
+Addtrigger Hanndl4 OnHanndl4
+Addtrigger Hanndl5 OnHanndl5
+Addtrigger Hanndl6 OnHanndl6
+Addtrigger HanndlClose OnHanndlClose
+
+AddTrigger switch onSwitch
+
+AddTrigger End End
+
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .4 Init
+
+
+exit
+
+
+;-------------------------------------
+:Init
+;	overloaded -- Bones
+;-------------------------------------
+
+haskey 108 g_bTemp
+if g_bTemp == FALSE
+	getobjecthandle FoyerDoorSouth1 g_hobject
+	trigger g_hobject close
+	trigger g_hobject lock
+	getobjecthandle FoyerDoorSouth2 g_hobject
+	trigger g_hobject close
+	trigger g_hobject lock
+	exit
+else
+	getobjecthandle FoyerDoorSouth1 g_hobject
+	trigger g_hobject unlock
+	getobjecthandle FoyerDoorSouth2 g_hobject
+	trigger g_hobject unlock
+	goto Init, 1
+endif
+	

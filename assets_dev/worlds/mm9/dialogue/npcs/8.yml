@@ -1,0 +1,1135 @@
+format_version: 1
+source_file: NPC8.rude
+rows:
+  - source:
+      file: NPC8.rude
+      row: 1
+    raw_columns:
+      - 8
+      - 997
+      - 1
+      - Alright.
+      - goodbye
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 997
+      choice_slot: 1
+      prompt: Alright.
+      response: goodbye
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC8.rude
+      row: 2
+    raw_columns:
+      - 8
+      - 998
+      - 1
+      - OK.
+      - goodbye
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 998
+      choice_slot: 1
+      prompt: OK.
+      response: goodbye
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC8.rude
+      row: 3
+    raw_columns:
+      - 8
+      - 9
+      - 1
+      - Where is it?
+      - It's against my better judgment, but I better show you where it is.  Follow me.
+      - 998
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 9510
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 9
+      choice_slot: 1
+      prompt: Where is it?
+      response: It's against my better judgment, but I better show you where it is.  Follow me.
+      next: 998
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 9510
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 998
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 9510
+        status: raw_value_preserved
+  - source:
+      file: NPC8.rude
+      row: 4
+    raw_columns:
+      - 8
+      - 6
+      - 1
+      - We are.
+      - Good!  Thanks for helping us like that.  Now we can get back to work!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 6
+      choice_slot: 1
+      prompt: We are.
+      response: Good!  Thanks for helping us like that.  Now we can get back to work!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC8.rude
+      row: 5
+    raw_columns:
+      - 8
+      - 999
+      - 1
+      - Goodbye.
+      - goodbye
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: goodbye
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC8.rude
+      row: 6
+    raw_columns:
+      - 8
+      - 4
+      - 1
+      - Maybe we should go have a look.
+      - You're fools!  You'll only walk out to your death.
+      - 9
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 4
+      choice_slot: 1
+      prompt: Maybe we should go have a look.
+      response: You're fools!  You'll only walk out to your death.
+      next: 9
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 6
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 9
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 6
+        status: raw_value_preserved
+  - source:
+      file: NPC8.rude
+      row: 7
+    raw_columns:
+      - 8
+      - 3
+      - 1
+      - Why is that?
+      - We've been diggin' too much.  If we dig anymore, there's likely to be a cave-in.  We've lost too many miners as it is.  They don't wanna to go in, and I ain't gonna force them!
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 3
+      choice_slot: 1
+      prompt: Why is that?
+      response: We've been diggin' too much.  If we dig anymore, there's likely to be a cave-in.  We've lost too many miners as it is.  They don't wanna to go in, and I ain't gonna force them!
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC8.rude
+      row: 8
+    raw_columns:
+      - 8
+      - 2
+      - 1
+      - Why do you say that?
+      - It's dangerous in there!
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 2
+      choice_slot: 1
+      prompt: Why do you say that?
+      response: It's dangerous in there!
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC8.rude
+      row: 9
+    raw_columns:
+      - 8
+      - 8
+      - 1
+      - Sven Svenssen sent us to inspect the mines.
+      - Inspect the mines?  You're braver than I am.
+      - 2
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 9510
+      - 35
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 8
+      choice_slot: 1
+      prompt: Sven Svenssen sent us to inspect the mines.
+      response: Inspect the mines?  You're braver than I am.
+      next: 2
+      raw_fields:
+        c07: 3
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 9510
+        c22: 35
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 3
+            qbit_id: 9003
+            state_id: mm9.keys.3
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 3
+          qbit_id: 9003
+          state_id: mm9.keys.3
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 9510
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 35
+        status: raw_value_preserved
+  - source:
+      file: NPC8.rude
+      row: 10
+    raw_columns:
+      - 8
+      - 8
+      - 2
+      - We've found your cave in.
+      - I noticed.  I hope that you're alright.
+      - 6
+      - 35
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 9508
+      - 0
+      - 0
+      - 0
+      - 0
+      - 9508
+      - 0
+      - 0
+      - 0
+      - 0
+      - 9510
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 8
+      choice_slot: 2
+      prompt: We've found your cave in.
+      response: I noticed.  I hope that you're alright.
+      next: 6
+      raw_fields:
+        c07: 35
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 9508
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 9508
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 9510
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 6
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 35
+            qbit_id: 9035
+            state_id: mm9.keys.35
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 35
+          qbit_id: 9035
+          state_id: mm9.keys.35
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 9508
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 9508
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c26
+        value: 9510
+        status: raw_value_preserved
+  - source:
+      file: NPC8.rude
+      row: 11
+    raw_columns:
+      - 8
+      - 4
+      - 2
+      - Sounds dangerous.  Maybe we should report this to Sven Svenssen
+      - A fine idea!  I doubt that he'll do anything about it.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 4
+      choice_slot: 2
+      prompt: Sounds dangerous.  Maybe we should report this to Sven Svenssen
+      response: A fine idea!  I doubt that he'll do anything about it.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC8.rude
+      row: 12
+    raw_columns:
+      - 8
+      - 2
+      - 2
+      - He wants to know why you're not working.
+      - If he wants the Elemental Thjorad so bad, you tell him to go in there and get it himself!
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 2
+      choice_slot: 2
+      prompt: He wants to know why you're not working.
+      response: If he wants the Elemental Thjorad so bad, you tell him to go in there and get it himself!
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC8.rude
+      row: 13
+    raw_columns:
+      - 8
+      - 8
+      - 3
+      - Where is the cave again?
+      - Here, let me show you.
+      - 998
+      - 9510
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 8
+      choice_slot: 3
+      prompt: Where is the cave again?
+      response: Here, let me show you.
+      next: 998
+      raw_fields:
+        c07: 9510
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 3
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 998
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 9510
+            qbit_id: 18510
+            state_id: mm9.keys.9510
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 9510
+          qbit_id: 18510
+          state_id: mm9.keys.9510
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 3
+        status: raw_value_preserved
+  - source:
+      file: NPC8.rude
+      row: 14
+    raw_columns:
+      - 8
+      - 8
+      - 4
+      - Is this it?
+      - Yes.  You can see that big crack in the floor for yourself.  I'm not going any further.
+      - 997
+      - 9511
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 35
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 8
+      choice_slot: 4
+      prompt: Is this it?
+      response: Yes.  You can see that big crack in the floor for yourself.  I'm not going any further.
+      next: 997
+      raw_fields:
+        c07: 9511
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 35
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 997
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 9511
+            qbit_id: 18511
+            state_id: mm9.keys.9511
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 9511
+          qbit_id: 18511
+          state_id: mm9.keys.9511
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 35
+        status: raw_value_preserved
+  - source:
+      file: NPC8.rude
+      row: 15
+    raw_columns:
+      - 8
+      - 8
+      - 7
+      - Sorry.  Nevermind
+      - Careful on your way out!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 8
+      node_id: 8
+      choice_slot: 7
+      prompt: Sorry.  Nevermind
+      response: Careful on your way out!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

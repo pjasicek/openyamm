@@ -1,0 +1,73 @@
+;--------------------------------------------------
+;ILSshootingbook.scr
+; timmy
+;fires a shooter at player
+;--------------------------------------------------
+
+#include globals.inc 
+
+       
+#Number					open
+#String					Params          
+#Number					Done
+#Number					Stopped
+
+;Parameters
+; P0 which shooter book is using
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+if (Stopped==false)
+
+	if (Done==false)
+
+		if (open==false )
+			Playanim OpenBook
+			GetObjectHandle Params, g_hobject
+			trigger g_hobject, On
+			Set open, true
+			exit
+		endif
+
+
+		trigger g_hobject, Off
+		trigger g_hobject, On
+		exit
+	endif
+
+
+	Playanim CloseBook
+	set Stopped, True
+
+endif
+
+exit
+
+
+;--------------------------------------------------
+:OnDone
+;--------------------------------------------------
+
+if (open==true)
+	Set Done, true
+	exit
+endif
+	
+
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+
+
+GetParam 0, Params
+Set open, false
+AddTrigger Use, OnUse
+AddTrigger Done, OnDone
+
+exit
+

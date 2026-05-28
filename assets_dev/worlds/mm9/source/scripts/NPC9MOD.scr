@@ -1,0 +1,87 @@
+;--------------------------------------------------
+;NPC9.scr
+; sean
+; handles Ketil Strongpick's voice and quest stuff.
+;--------------------------------------------------
+#include BaseGlobals.inc
+#include ListTraverse.inc
+
+#number		WAIT_DISTANCE = 256
+#number		RESUME_DISTANCE = 64
+
+#hobject	hPlayer = 0
+#hobject	hDummy = 0
+
+#number		bHasKey = 0
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+
+	Wait 0, 1, InitNPC9
+
+	Exit TRUE
+
+;--------------------------------------------------
+:InitNPC9
+;--------------------------------------------------
+	AttachProp "models\MonkHammer.ABC", "skins\MonkHammer.dtx", RHand1, hDummy
+
+	gosub SetTraverseWalk
+	gosub SetTraverseOnce
+	TRAVERSERADIUS = 10
+
+	OnRudeExit OnRudeExit
+	OnDamage OnDamage
+
+	Exit TRUE
+
+;--------------------------------------------------
+:OnTargetWithinDist
+;--------------------------------------------------
+	gosub TraverseResume
+	Target hPlayer, TRUE
+	OnTargetBeyondDist WAIT_DISTANCE, OnTargetBeyondDist
+
+	Exit TRUE
+
+;--------------------------------------------------
+:OnTargetBeyondDist
+;--------------------------------------------------
+	gosub TraversePause
+	Target hPlayer, TRUE
+	OnTargetWithinDist RESUME_DISTANCE, OnTargetWithinDist
+
+	Exit TRUE
+
+;--------------------------------------------------
+:OnRudeExit
+;--------------------------------------------------
+	Haskey 9509, bHasKey
+	if( bHasKey==TRUE )
+		GetPlayerHandle hPlayer
+		Target hPlayer, TRUE
+		AddTrigger use, TraverseResume
+		gosub TraverseBegin
+	endif
+
+	Exit TRUE
+
+;--------------------------------------------------
+:OnTraverseDone
+;--------------------------------------------------
+	if( LISTINDEX==LISTLAST )
+		gosub TraversePause
+	endif
+
+	Exit TRUE
+
+;-------------------------------------
+:OnDamage
+;-------------------------------------
+	gosub TraversePause
+
+	Exit TRUE

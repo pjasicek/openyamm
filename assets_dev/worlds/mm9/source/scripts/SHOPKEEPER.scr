@@ -1,0 +1,74 @@
+;--------------------------------------------------
+;shopkeeper.scr
+; timmy
+; handles shopkeeper voice and anims
+;
+; edited by Bones -- 6/10/03
+; TELP Patch 1.3 -- Thjorgard captain won't fall into water
+;--------------------------------------------------
+
+#include globals.inc
+#include BaseWander.inc
+
+#String    Params          
+#String    sound
+
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound sound, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+GetParam 0, sound
+GetParam 1, Params
+GetParam 2, g_ntemp
+;LoopAnim Params,g_ntemp DoNothing
+
+
+Addtrigger Use, OnUse
+
+; jsl-->Wander if we're setup to..
+gosub BaseWanderInit
+
+exit
+
+;-------------------------------------------------------------
+:BaseWanderInit
+;	overloaded -- Bones
+;-------------------------------------------------------------
+
+GetMyHandle g_hMyObject
+GetObjectName g_hMyObject g_sPad1
+if g_sPad1 == JohnGoodman
+	if g_nPad2 == 0
+		OnPostSaveLoad BaseWanderInit
+		OnPostMiniSaveLoad BaseWanderInit
+		set g_nPad2 1
+	else
+		SetPos g_hMyObject -6415 544 4768
+		exit
+	endif
+endif
+goto BaseWanderInit 1

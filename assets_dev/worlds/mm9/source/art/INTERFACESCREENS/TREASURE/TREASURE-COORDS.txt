@@ -1,0 +1,104 @@
+********************************************************************************
+                             Treasure Coordinates
+********************************************************************************
+
+Party Book Coordinates:
+
+Treasure-Book.pcx	 459x  10y	341x560 Party Book Background
+
+Exit Button		 692x 513y	100x50	
+
+Take All Button		 507x 513y	100x50
+
+Treasure Slot Highlight	 529x 209y	204x36
+			 529x 244y
+			 529x 279y
+			 529x 314y
+			 529x 349y
+			 529x 384y
+			 529x 419y
+			 529x 454y
+
+Book Scroll Up Button	 739x 210y	16x24
+Book Scroll Down Button	 739x 467y	16x24
+Book Scroll Handle	 739x 235y	16x20	Upper Extent
+			 739x 446y	16x20	Lower Extent
+Note: For these arrow buttons, use scroll arrows from inventory screen.
+
+PC Face #1		527x  80y	60x80
+PC Face #2		588x  80y	60x80
+PC Face #3		649x  80y	60x80
+PC Face #4		710x  80y	60x80
+Note: Place TurnMarker.pcx from HUD at these coordinates as well to show active
+	character, who's inventory shoudl also be shown.  
+Note: To give an item to a character, you should be able to drag it and drop it
+	on his face, above.
+
+Party Total Gold ###	568x 182y	190x18	Main Font Left
+
+Party Item Icon #1	531x 211y	32x32
+Party Item Icon #2	531x 246y	32x32
+Party Item Icon #3	531x 281y	32x32
+Party Item Icon #4	531x 316y	32x32
+Party Item Icon #5	531x 351y	32x32
+Party Item Icon #6	531x 386y	32x32
+Party Item Icon #7	531x 421y	32x32
+Party Item Icon #8	531x 456y	32x32
+
+Party Item Text #1	564x 211y	168x32
+Party Item Icon #2	564x 246y	168x32
+Party Item Icon #3	564x 281y	168x32
+Party Item Icon #4	564x 316y	168x32
+Party Item Icon #5	564x 351y	168x32
+Party Item Icon #6	564x 386y	168x32
+Party Item Icon #7	564x 421y	168x32
+Party Item Icon #8	564x 456y	168x32
+
+********************************************************************************
+
+Chest Coordinates:
+
+Treasure-Chest.pcx	  10x  15y	424x555	Chest Background
+
+ChestScrollBar 		 381x 105y	32x334	Optional Scroll Bar for Chest
+Chest Scroll Up Button	 394x 109y	16x16
+Chest Scroll Down Button 394x 417y	16x16
+Chest Scroll Handle	 394x 126y	16x16	Upper Limit
+			 394x 400y	16x16	Lower Limit
+
+ChestSlotHighlights	 180x 114y	230x36 or 204x36
+			 180x 149y
+			 180x 184y
+			 180x 219y
+			 180x 254y
+			 180x 289y
+			 180x 324y
+			 180x 359y
+			 180x 394y
+
+Note: For these arrows, use the newly provided "TreasureChest" arrows.
+Note: Scroll Bar and Arrows should only appear when scrolling is neccessary.
+
+Found Gold ###		223x 457y	187x18 Main Font Left
+
+Treasure #1 Icon	181x 116y	32x32
+Treasure #2 Icon	181x 151y	32x32
+Treasure #3 Icon	181x 186y	32x32
+Treasure #4 Icon	181x 221y	32x32
+Treasure #5 Icon	181x 256y	32x32
+Treasure #6 Icon	181x 291y	32x32
+Treasure #7 Icon	181x 326y	32x32
+Treasure #8 Icon	181x 361y	32x32
+Treasure #9 Icon	181x 396y	32x32
+
+Treasure #1 Text	214x 116y	168x32
+Treasure #2 Icon	214x 151y	168x32
+Treasure #3 Icon	214x 186y	168x32
+Treasure #4 Icon	214x 221y	168x32
+Treasure #5 Icon	214x 256y	168x32
+Treasure #6 Icon	214x 291y	168x32
+Treasure #7 Icon	214x 326y	168x32
+Treasure #8 Icon	214x 361y	168x32
+Treasure #9 Icon	214x 396y	168x32
+
+--------------------------------------------------------------------------------

@@ -1,0 +1,109 @@
+schema: openyamm.model3d.v1
+id: lantern1
+model: lantern1.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/LANTERN1.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: candle
+  materialIndex: 0
+  lods:
+  - faces: 18
+    vertices: 11
+  - faces: 14
+    vertices: 9
+  - faces: 8
+    vertices: 6
+- name: lantern
+  materialIndex: 0
+  lods:
+  - faces: 64
+    vertices: 30
+  - faces: 48
+    vertices: 22
+  - faces: 34
+    vertices: 15
+materials:
+- index: 0
+  texture: skins_preview/props/lantern1.png
+  runtime_texture: skins/props/lantern1.dtx
+  preview_texture: skins_preview/props/lantern1.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/LANTERN1.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 2
+    - 3
+    - 4
+  - index: 2
+    name: Bone02
+    parent: 1
+    flags: 0
+    children: []
+  - index: 3
+    name: candle
+    parent: 1
+    flags: 0
+    children: []
+  - index: 4
+    name: lantern
+    parent: 1
+    flags: 0
+    children: []
+sockets:
+- name: GlowNode
+  node: 4
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.5623091459274292
+  - 0.32579395174980164
+  - -0.25599175691604614
+  - 0.7156360149383545
+animations:
+- name: static_object
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: static_object
+  extents:
+  - 12.8
+  - 20.48
+  - 12.8
+  origin:
+  - 0.0
+  - -7.68
+  - 0.0
+roles:
+- static_model
+source_model: models/props/lantern1.abc

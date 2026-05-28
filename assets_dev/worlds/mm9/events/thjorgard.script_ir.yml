@@ -1,0 +1,2549 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: thjorgard
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: armwrestle.scr
+  source_path: ARMWRESTLE.scr
+  parse_status: parsed
+  includes:
+  - line: 6
+    path: ThjorgardGamesCommon.inc
+  - line: 7
+    path: BaseGlobals.inc
+  labels:
+  - line: 15
+    name: Main
+  - line: 24
+    name: OnUse
+  - line: 39
+    name: StartMightGame
+  - line: 59
+    name: LoopTaunt
+  - line: 67
+    name: StartCower
+  - line: 74
+    name: LoopCower
+  - line: 81
+    name: FinishCower
+  - line: 88
+    name: RemoveUse
+  - line: 95
+    name: RestoreUse
+  registered_triggers:
+  - line: 19
+    message: use
+    callback: OnUse
+    arguments_raw: use, OnUse
+  - line: 97
+    message: use
+    callback: OnUse
+    arguments_raw: use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 69
+    command: PlayAnim
+    arguments_raw: '"cowerstart", LoopCower'
+  - line: 76
+    command: Loopanim
+    arguments_raw: '"cower", 5, FinishCower'
+  - line: 83
+    command: Playanim
+    arguments_raw: '"cowerstop", RestoreUse'
+  unknown_commands:
+  - line: 41
+    command: GetRandomInt
+    arguments_raw: 1, 40 nRandom
+  - line: 42
+    command: MY_MIGHT
+    arguments_raw: = nMight + nRandom
+  - line: 44
+    command: GetAttribute
+    arguments_raw: 0, PLAYER_MIGHT
+  - line: 45
+    command: GetRandomInt
+    arguments_raw: 9, 50, nRandom
+  - line: 46
+    command: PLAYER_MIGHT
+    arguments_raw: = PLAYER_MIGHT + nRandom
+  - line: 90
+    command: RemoveTrigger
+    arguments_raw: use
+  command_count: 37
+- script_id: bellweight.scr
+  source_path: BELLWEIGHT.scr
+  parse_status: parsed
+  includes:
+  - line: 5
+    path: BaseGlobals.inc
+  labels:
+  - line: 12
+    name: Main
+  - line: 21
+    name: AdjustHeight
+  registered_triggers:
+  - line: 16
+    message: open
+    callback: AdjustHeight
+    arguments_raw: open, AdjustHeight
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 23
+    command: GetConsoleNumVar
+    arguments_raw: GAME_BELL_HEIGHT, nTemp
+  - line: 24
+    command: unknown
+    arguments_raw: if( nTemp>1 )
+  - line: 25
+    command: nTemp
+    arguments_raw: = 1
+  - line: 27
+    command: unknown
+    arguments_raw: if( nTemp<0 )
+  - line: 28
+    command: nTemp
+    arguments_raw: = 0
+  - line: 33
+    command: nHeight
+    arguments_raw: = MAX_HEIGHT * nTemp
+  - line: 35
+    command: SetPropNumber
+    arguments_raw: MoveDist, nHeight
+  command_count: 14
+- script_id: boatjudge.scr
+  source_path: BOATJUDGE.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: BaseGlobals.inc
+  - line: 10
+    path: ListMaker.inc
+  - line: 11
+    path: ThjorgardGamesCommon.inc
+  labels:
+  - line: 20
+    name: Main
+  - line: 36
+    name: OnUse
+  - line: 43
+    name: StartRace
+  - line: 69
+    name: SignalAiBoats
+  - line: 83
+    name: DisableWinning
+  - line: 93
+    name: AIWon
+  - line: 102
+    name: PlayerWon
+  - line: 112
+    name: SignalSubmerge
+  registered_triggers:
+  - line: 31
+    message: use
+    callback: OnUse
+    arguments_raw: use, OnUse
+  - line: 60
+    message: CPUArrival
+    callback: AIWon
+    arguments_raw: CPUArrival, AIWon
+  - line: 61
+    message: PlayerArrival
+    callback: PlayerWon
+    arguments_raw: PlayerArrival, PlayerWon
+  trigger_edges:
+  - line: 74
+    target_expression: LISTOBJECT
+    message_expression: 'on'
+    arguments_raw: LISTOBJECT, on
+  - line: 78
+    target_expression: LISTOBJECT
+    message_expression: 'on'
+    arguments_raw: LISTOBJECT, on
+  - line: 117
+    target_expression: LISTOBJECT
+    message_expression: submerge
+    arguments_raw: LISTOBJECT, submerge
+  - line: 121
+    target_expression: LISTOBJECT
+    message_expression: submerge
+    arguments_raw: LISTOBJECT, submerge
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 27
+    command: GetObjectName
+    arguments_raw: LISTOBJECT, sMyName
+  - line: 28
+    command: SetConsoleStrVar
+    arguments_raw: BOAT_JUDGE, sMyName
+  - line: 30
+    command: OnRudeExit
+    arguments_raw: StartRace
+  - line: 38
+    command: GiveKey
+    arguments_raw: KEY_BOATTEXT
+  - line: 45
+    command: TakeKey
+    arguments_raw: KEY_BOATTEXT
+  - line: 46
+    command: HasKey
+    arguments_raw: KEY_BOATRACE, bWantsRace
+  - line: 50
+    command: TakeKey
+    arguments_raw: KEY_BOATRACE
+  - line: 73
+    command: unknown
+    arguments_raw: while( LISTINDEX<LISTLAST )
+  - line: 76
+    command: endwhile
+    arguments_raw: ''
+  - line: 85
+    command: RemoveTrigger
+    arguments_raw: CPUArrival
+  - line: 86
+    command: RemoveTrigger
+    arguments_raw: PlayerArrival
+  - line: 116
+    command: unknown
+    arguments_raw: while( LISTINDEX<LISTLAST )
+  - line: 119
+    command: endwhile
+    arguments_raw: ''
+  command_count: 54
+- script_id: dingthebell.scr
+  source_path: DINGTHEBELL.scr
+  parse_status: parsed
+  includes:
+  - line: 5
+    path: BaseGlobals.inc
+  - line: 6
+    path: ThjorgardGamesCommon.inc
+  labels:
+  - line: 15
+    name: Main
+  - line: 25
+    name: HitBell
+  - line: 48
+    name: CheckWin
+  - line: 62
+    name: BlockUse
+  - line: 67
+    name: AllowUse
+  registered_triggers:
+  - line: 17
+    message: use
+    callback: HitBell
+    arguments_raw: use, HitBell
+  - line: 18
+    message: ring
+    callback: CheckWin
+    arguments_raw: ring, CheckWin
+  - line: 35
+    message: use
+    callback: BlockUse
+    arguments_raw: use, BlockUse
+  - line: 70
+    message: use
+    callback: HitBell
+    arguments_raw: use, HitBell
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 20
+    command: SetConsoleNumVar
+    arguments_raw: GAME_BELL_HEIGHT, 0
+  - line: 34
+    command: RemoveTrigger
+    arguments_raw: use
+  - line: 37
+    command: GetRandomInt
+    arguments_raw: 60, 80, nDingValue
+  - line: 38
+    command: GetRandomInt
+    arguments_raw: 40, 60, nTimingValue
+  - line: 39
+    command: GetAttribute
+    arguments_raw: 0, nPlayerStrength
+  - line: 40
+    command: nTimingValue
+    arguments_raw: = nTimingValue + nPlayerStrength
+  - line: 42
+    command: nTemp
+    arguments_raw: = nTimingValue / nDingValue
+  - line: 43
+    command: SetConsoleNumVar
+    arguments_raw: GAME_BELL_HEIGHT, nTemp
+  - line: 69
+    command: RemoveTrigger
+    arguments_raw: use
+  command_count: 31
+- script_id: foradworld.scr
+  source_path: FORADWORLD.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 23
+    name: TakeKey
+  - line: 39
+    name: Init
+  - line: 106
+    name: Close
+  - line: 114
+    name: Open
+  - line: 123
+    name: Main
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: takekey
+    arguments_raw: '1024'
+  - line: 27
+    command: takekey
+    arguments_raw: '1025'
+  - line: 28
+    command: takekey
+    arguments_raw: '1026'
+  - line: 29
+    command: takekey
+    arguments_raw: '1027'
+  - line: 30
+    command: takekey
+    arguments_raw: '1028'
+  - line: 31
+    command: takekey
+    arguments_raw: '1029'
+  - line: 32
+    command: takekey
+    arguments_raw: '1030'
+  - line: 33
+    command: takekey
+    arguments_raw: '1031'
+  - line: 34
+    command: takekey
+    arguments_raw: '1032'
+  - line: 35
+    command: takekey
+    arguments_raw: '1033'
+  - line: 42
+    command: takekey
+    arguments_raw: '1024'
+  - line: 43
+    command: takekey
+    arguments_raw: '1025'
+  - line: 44
+    command: takekey
+    arguments_raw: '1026'
+  - line: 45
+    command: takekey
+    arguments_raw: '1027'
+  - line: 46
+    command: takekey
+    arguments_raw: '1028'
+  - line: 47
+    command: takekey
+    arguments_raw: '1029'
+  - line: 48
+    command: takekey
+    arguments_raw: '1030'
+  - line: 49
+    command: takekey
+    arguments_raw: '1031'
+  - line: 50
+    command: takekey
+    arguments_raw: '1032'
+  - line: 51
+    command: takekey
+    arguments_raw: '1033'
+  - line: 54
+    command: givekey
+    arguments_raw: '1024'
+  - line: 59
+    command: givekey
+    arguments_raw: '1025'
+  - line: 64
+    command: givekey
+    arguments_raw: '1026'
+  - line: 69
+    command: givekey
+    arguments_raw: '1027'
+  - line: 74
+    command: givekey
+    arguments_raw: '1028'
+  - line: 79
+    command: givekey
+    arguments_raw: '1029'
+  - line: 84
+    command: givekey
+    arguments_raw: '1030'
+  - line: 89
+    command: givekey
+    arguments_raw: '1031'
+  - line: 94
+    command: givekey
+    arguments_raw: '1032'
+  - line: 98
+    command: givekey
+    arguments_raw: '1033'
+  - line: 110
+    command: givekey
+    arguments_raw: '5017'
+  - line: 118
+    command: takekey
+    arguments_raw: '5017'
+  - line: 129
+    command: unknown
+    arguments_raw: '@m 20 : 00 Close Close'
+  - line: 130
+    command: unknown
+    arguments_raw: '@m 6 : 00 Open Open'
+  - line: 132
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 133
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 134
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 135
+    command: OnWorldSwitch
+    arguments_raw: TakeKey
+  command_count: 72
+- script_id: huckstermod.scr
+  source_path: HUCKSTERMOD.scr
+  parse_status: parsed
+  includes:
+  - line: 6
+    path: ThjorgardGamesCommon.inc
+  labels:
+  - line: 13
+    name: OnRudeExit
+  - line: 32
+    name: Main
+  - line: 51
+    name: CacheFiles
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 17
+    command: HasKey
+    arguments_raw: 1001, nTemp
+  - line: 19
+    command: TakeKey
+    arguments_raw: '1001'
+  - line: 22
+    command: HasKey
+    arguments_raw: 1010, nTemp
+  - line: 24
+    command: TakeKey
+    arguments_raw: '1010'
+  - line: 34
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 39
+    command: SetConsoleNumVar
+    arguments_raw: GUBERLAND_WIN_TYPE, 1
+  - line: 41
+    command: SetConsoleNumVar
+    arguments_raw: GUBERLAND_WIN_TYPE, 0
+  - line: 46
+    command: OnRudeExit
+    arguments_raw: OnRudeExit
+  - line: 53
+    command: CacheSound
+    arguments_raw: '"sounds\events\dingbell.wav"'
+  - line: 54
+    command: CacheSound
+    arguments_raw: '"sounds\events\gold01.wav"'
+  - line: 55
+    command: CacheSound
+    arguments_raw: '"sounds\events\quest.wav"'
+  - line: 56
+    command: CacheSound
+    arguments_raw: '"sounds\door\doorlock01.wav"'
+  - line: 57
+    command: CacheSound
+    arguments_raw: '"sounds\events\trumpets02.wav"'
+  - line: 58
+    command: CacheSound
+    arguments_raw: '"sounds\spells\bless.wav"'
+  command_count: 29
+- script_id: mastermind.scr
+  source_path: MASTERMIND.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: BaseGlobals.inc
+  - line: 14
+    path: ListMaker.inc
+  - line: 15
+    path: ThjorgardGamesCommon.inc
+  labels:
+  - line: 38
+    name: Main
+  - line: 56
+    name: InitMastermind
+  - line: 74
+    name: ColorChosen
+  - line: 100
+    name: CompareColors
+  - line: 155
+    name: GenerateColors
+  - line: 177
+    name: Correct
+  - line: 190
+    name: Incorrect
+  registered_triggers:
+  - line: 65
+    message: check
+    callback: CompareColors
+    arguments_raw: check,  CompareColors
+  - line: 66
+    message: reset
+    callback: GenerateColors
+    arguments_raw: reset,  GenerateColors
+  - line: 67
+    message: update
+    callback: ColorChosen
+    arguments_raw: update, ColorChosen
+  - line: 172
+    message: check
+    callback: CompareColors
+    arguments_raw: check, CompareColors
+  trigger_edges:
+  - line: 127
+    target_expression: LISTOBJECT
+    message_expression: 'on'
+    arguments_raw: LISTOBJECT, on
+  - line: 165
+    target_expression: LISTOBJECT
+    message_expression: 'off'
+    arguments_raw: LISTOBJECT, off
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 42
+    command: LISTFIRST
+    arguments_raw: = 0
+  - line: 43
+    command: LISTLAST
+    arguments_raw: = 3
+  - line: 47
+    command: GetObjectName
+    arguments_raw: LISTOBJECT, sMyName
+  - line: 48
+    command: SetConsoleStrVar
+    arguments_raw: MASTERMIND_NAME, sMyName
+  - line: 50
+    command: OnPostStartWorld
+    arguments_raw: InitMastermind
+  - line: 51
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitMastermind
+  - line: 59
+    command: nCounter
+    arguments_raw: = 0
+  - line: 60
+    command: unknown
+    arguments_raw: while( nCounter<4 )
+  - line: 61
+    command: ArrayPut
+    arguments_raw: npChosen, nCounter, -1
+  - line: 62
+    command: nCounter
+    arguments_raw: = nCounter + 1
+  - line: 63
+    command: endwhile
+    arguments_raw: ''
+  - line: 86
+    command: bNeedsTicket
+    arguments_raw: = FALSE
+  - line: 92
+    command: GetConsoleNumVar
+    arguments_raw: MASTERMIND_INDEX, nTemp1
+  - line: 93
+    command: GetConsoleNumVar
+    arguments_raw: MASTERMIND_COLOR, nTemp2
+  - line: 95
+    command: ArrayPut
+    arguments_raw: npChosen, nTemp1, nTemp2
+  - line: 113
+    command: bNeedsTicket
+    arguments_raw: = FALSE
+  - line: 118
+    command: nStoneCount
+    arguments_raw: = 0
+  - line: 119
+    command: nCounter
+    arguments_raw: = 0
+  - line: 120
+    command: unknown
+    arguments_raw: while( nCounter<4 )
+  - line: 121
+    command: ArrayGet
+    arguments_raw: npCorrect, nCounter, nTemp1
+  - line: 122
+    command: ArrayGet
+    arguments_raw: npChosen , nCounter, nTemp2
+  - line: 124
+    command: nStoneCount
+    arguments_raw: = nStoneCount + 1
+  - line: 125
+    command: LISTINDEX
+    arguments_raw: = nCounter
+  - line: 129
+    command: nCounter
+    arguments_raw: = nCounter + 1
+  - line: 130
+    command: endwhile
+    arguments_raw: ''
+  - line: 132
+    command: nChances
+    arguments_raw: = nChances - 1
+  - line: 158
+    command: bNeedsTicket
+    arguments_raw: = TRUE
+  - line: 159
+    command: nChances
+    arguments_raw: = NUMCHANCES
+  - line: 160
+    command: nCounter
+    arguments_raw: = 0
+  - line: 162
+    command: unknown
+    arguments_raw: while( nCounter<4 )
+  - line: 163
+    command: LISTINDEX
+    arguments_raw: = LISTFIRST + nCounter
+  - line: 167
+    command: GetRandomInt
+    arguments_raw: 0, 4, nTemp1
+  - line: 168
+    command: ArrayPut
+    arguments_raw: npCorrect, nCounter, nTemp1
+  - line: 169
+    command: nCounter
+    arguments_raw: = nCounter + 1
+  - line: 170
+    command: endwhile
+    arguments_raw: ''
+  - line: 179
+    command: RemoveTrigger
+    arguments_raw: check
+  - line: 193
+    command: RemoveTrigger
+    arguments_raw: check
+  command_count: 103
+- script_id: mastermindcolor.scr
+  source_path: MASTERMINDCOLOR.scr
+  parse_status: parsed
+  includes:
+  - line: 11
+    path: BaseGlobals.inc
+  labels:
+  - line: 16
+    name: Main
+  - line: 25
+    name: ChangeColor
+  registered_triggers:
+  - line: 20
+    message: use
+    callback: ChangeColor
+    arguments_raw: use, ChangeColor
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 30
+    command: SetConsoleNumVar
+    arguments_raw: MASTERMIND_COLOR, nColor
+  command_count: 6
+- script_id: mastermindspace.scr
+  source_path: MASTERMINDSPACE.scr
+  parse_status: parsed
+  includes:
+  - line: 11
+    path: BaseGlobals.inc
+  labels:
+  - line: 22
+    name: Main
+  - line: 32
+    name: InitMastermindSpace
+  - line: 44
+    name: UpdateColor
+  - line: 58
+    name: ChangeColor
+  - line: 69
+    name: InitColors
+  registered_triggers:
+  - line: 36
+    message: use
+    callback: UpdateColor
+    arguments_raw: "use,\tUpdateColor"
+  trigger_edges:
+  - line: 50
+    target_expression: hMastermind
+    message_expression: update
+    arguments_raw: hMastermind, update
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 64
+    command: SetModelFilenames
+    arguments_raw: '"models\gibs\stone.abc", sSkin'
+  unknown_commands:
+  - line: 26
+    command: OnPostStartWorld
+    arguments_raw: InitMastermindSpace
+  - line: 27
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitMastermindSpace
+  - line: 38
+    command: GetConsoleStrVar
+    arguments_raw: MASTERMIND_NAME, sMastermindName
+  - line: 46
+    command: SetConsoleNumVar
+    arguments_raw: MASTERMIND_INDEX, nIndex
+  - line: 47
+    command: GetConsoleNumVar
+    arguments_raw: MASTERMIND_COLOR, nColor
+  - line: 63
+    command: ArrayGet
+    arguments_raw: spSkins, nColor, sSkin
+  - line: 71
+    command: ArrayPut
+    arguments_raw: spSkins, 0, "skins\gibs\red.dtx"
+  - line: 72
+    command: ArrayPut
+    arguments_raw: spSkins, 1, "skins\gibs\blue.dtx"
+  - line: 73
+    command: ArrayPut
+    arguments_raw: spSkins, 2, "skins\gibs\yellow.dtx"
+  - line: 74
+    command: ArrayPut
+    arguments_raw: spSkins, 3, "skins\gibs\orange.dtx"
+  - line: 75
+    command: ArrayPut
+    arguments_raw: spSkins, 4, "skins\gibs\green.dtx"
+  command_count: 26
+- script_id: npc7.scr
+  source_path: NPC7.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: basewander.inc
+  labels:
+  - line: 86
+    name: OnRude
+  - line: 104
+    name: BD_OnDoor
+  - line: 118
+    name: BD_DoorOpen
+  - line: 126
+    name: Payment
+  - line: 180
+    name: Refinery2
+  - line: 191
+    name: Refinery
+  - line: 205
+    name: OnUse
+  - line: 212
+    name: OnArrive
+  - line: 220
+    name: OnArrive2
+  - line: 244
+    name: OnMark
+  - line: 254
+    name: OnMarkMachine
+  - line: 265
+    name: WalkAway
+  - line: 274
+    name: OnExit
+  - line: 280
+    name: Init
+  - line: 322
+    name: VoiceInit
+  - line: 440
+    name: Main
+  registered_triggers:
+  - line: 450
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 295
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 296
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 297
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  - line: 300
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 301
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 302
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  - line: 308
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 309
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 310
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  - line: 313
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 314
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 315
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  presentation_commands:
+  - line: 215
+    command: PlayAnim
+    arguments_raw: Rub_Beard OnArrive2
+  - line: 260
+    command: PlayAnim
+    arguments_raw: x DoNothing
+  unknown_commands:
+  - line: 92
+    command: haskey
+    arguments_raw: 364 g_ntemp
+  - line: 111
+    command: set
+    arguments_raw: g_sOpenString open
+  - line: 113
+    command: Goto
+    arguments_raw: BD_OnDoor, 1
+  - line: 122
+    command: Goto
+    arguments_raw: BD_DoorOpen, 1
+  - line: 128
+    command: haskey
+    arguments_raw: 362 g_ntemp
+  - line: 131
+    command: haskey
+    arguments_raw: 360 g_ntemp
+  - line: 134
+    command: hasgold
+    arguments_raw: 1000 g_ntemp
+  - line: 137
+    command: Takegold
+    arguments_raw: '1000'
+  - line: 138
+    command: givekey
+    arguments_raw: '362'
+  - line: 139
+    command: takekey
+    arguments_raw: '363'
+  - line: 142
+    command: givekey
+    arguments_raw: '363'
+  - line: 143
+    command: getrandomInt
+    arguments_raw: 1,2 g_ntemp
+  - line: 153
+    command: haskey
+    arguments_raw: 361 g_ntemp
+  - line: 156
+    command: hasgold
+    arguments_raw: 2000 g_ntemp
+  - line: 158
+    command: takegold
+    arguments_raw: '2000'
+  - line: 159
+    command: givekey
+    arguments_raw: '362'
+  - line: 160
+    command: takekey
+    arguments_raw: '363'
+  - line: 164
+    command: givekey
+    arguments_raw: '363'
+  - line: 165
+    command: getrandomInt
+    arguments_raw: 1,2 g_ntemp
+  - line: 185
+    command: set
+    arguments_raw: L_Marker MMarker1
+  - line: 198
+    command: walkto
+    arguments_raw: g_hobject 0 OnArrive
+  - line: 225
+    command: set
+    arguments_raw: L_Marker, MMarker2
+  - line: 226
+    command: add
+    arguments_raw: counter, 1
+  - line: 230
+    command: Set
+    arguments_raw: L_Marker, MMarker1
+  - line: 231
+    command: add
+    arguments_raw: counter, 1
+  - line: 236
+    command: set
+    arguments_raw: L_Marker, Machine
+  - line: 248
+    command: walkto
+    arguments_raw: g_hobject 0 OnMarkMachine
+  - line: 257
+    command: givekey
+    arguments_raw: '364'
+  - line: 259
+    command: FaceObject
+    arguments_raw: g_hobject 200 DoNothing
+  - line: 268
+    command: set
+    arguments_raw: L_marker MMarker3
+  - line: 270
+    command: walkto
+    arguments_raw: g_hobject 0 OnExit
+  - line: 292
+    command: haskey
+    arguments_raw: 362 g_ntemp
+  - line: 305
+    command: haskey
+    arguments_raw: 362 g_ntemp
+  - line: 327
+    command: getPCVoice
+    arguments_raw: g_ntemp
+  - line: 331
+    command: set
+    arguments_raw: sVoice1 sAngryFa
+  - line: 332
+    command: set
+    arguments_raw: sVoice2 sAngryFb
+  - line: 337
+    command: set
+    arguments_raw: sVoice1 sArrogantFa
+  - line: 338
+    command: set
+    arguments_raw: sVoice2 sArrogantFb
+  - line: 343
+    command: set
+    arguments_raw: sVoice1 sAssertiveFa
+  - line: 344
+    command: set
+    arguments_raw: sVoice2 sAssertiveFb
+  - line: 349
+    command: set
+    arguments_raw: sVoice1 sCowardlyFa
+  - line: 350
+    command: set
+    arguments_raw: sVoice2 sCowardlyFb
+  - line: 355
+    command: set
+    arguments_raw: sVoice1 sDimFa
+  - line: 356
+    command: set
+    arguments_raw: sVoice2 sDimFb
+  - line: 361
+    command: set
+    arguments_raw: sVoice1 sHappyFa
+  - line: 362
+    command: set
+    arguments_raw: sVoice2 sHappyFb
+  - line: 367
+    command: set
+    arguments_raw: sVoice1 sSarcasticFa
+  - line: 368
+    command: set
+    arguments_raw: sVoice2 sSarcasticFb
+  - line: 373
+    command: set
+    arguments_raw: sVoice1 sLichFa
+  - line: 374
+    command: set
+    arguments_raw: sVoice2 sLichFb
+  - line: 379
+    command: set
+    arguments_raw: sVoice1 sHalfOrcLichFa
+  - line: 380
+    command: set
+    arguments_raw: sVoice2 sHalfOrcLichFb
+  - line: 385
+    command: set
+    arguments_raw: sVoice1 sAngryMa
+  - line: 386
+    command: set
+    arguments_raw: sVoice2 sAngryMb
+  - line: 391
+    command: set
+    arguments_raw: sVoice1 sArrogantMa
+  - line: 392
+    command: set
+    arguments_raw: sVoice2 sArrogantMb
+  - line: 397
+    command: set
+    arguments_raw: sVoice1 sAssertiveMa
+  - line: 398
+    command: set
+    arguments_raw: sVoice2 sAssertiveMb
+  - line: 402
+    command: set
+    arguments_raw: sVoice1 sCowardlyMa
+  - line: 403
+    command: set
+    arguments_raw: sVoice2 sCowardlyMb
+  - line: 408
+    command: set
+    arguments_raw: sVoice1 sDimMa
+  - line: 409
+    command: set
+    arguments_raw: sVoice2 sDimMb
+  - line: 414
+    command: set
+    arguments_raw: sVoice1 sHappyMa
+  - line: 415
+    command: set
+    arguments_raw: sVoice2 sHappyMb
+  - line: 420
+    command: set
+    arguments_raw: sVoice1 sSarcasticMa
+  - line: 421
+    command: set
+    arguments_raw: sVoice2 sSarcasticMb
+  - line: 426
+    command: set
+    arguments_raw: sVoice1 sLichMa
+  - line: 427
+    command: set
+    arguments_raw: sVoice2 sLichMb
+  - line: 432
+    command: set
+    arguments_raw: sVoice1 sHalfOrcLichMa
+  - line: 433
+    command: set
+    arguments_raw: sVoice2 sHalfOrcLichMb
+  - line: 447
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 451
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 452
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 453
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 228
+- script_id: propanim.scr
+  source_path: PROPANIM.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 25
+    name: PlayAnim
+  - line: 34
+    name: Init
+  - line: 51
+    name: OnUse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 42
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 29
+    command: LoopAnim
+    arguments_raw: Params 0 DoNothing
+  - line: 55
+    command: Playanim
+    arguments_raw: sParameter2 DoNothing
+  unknown_commands:
+  - line: 38
+    command: set
+    arguments_raw: bLoop, FALSE
+  - line: 45
+    command: goto
+    arguments_raw: PlayAnim
+  - line: 57
+    command: set
+    arguments_raw: g_nCounter, 1
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Init
+  command_count: 25
+- script_id: racingboat.scr
+  source_path: RACINGBOAT.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: BaseGlobals.inc
+  labels:
+  - line: 34
+    name: Main
+  - line: 45
+    name: InitRacingBoat
+  - line: 71
+    name: OnObjectLinkBroken
+  - line: 78
+    name: TurnOn
+  - line: 96
+    name: TurnOff
+  - line: 108
+    name: MoveForward
+  - line: 125
+    name: StartMoveLoop
+  - line: 143
+    name: Ready
+  - line: 152
+    name: Arrived
+  - line: 165
+    name: Submerge
+  - line: 174
+    name: ReturnToStart
+  - line: 183
+    name: Surface
+  registered_triggers:
+  - line: 48
+    message: 'on'
+    callback: TurnOn
+    arguments_raw: on, TurnOn
+  - line: 50
+    message: 'off'
+    callback: TurnOff
+    arguments_raw: off,TurnOff
+  - line: 51
+    message: submerge
+    callback: Submerge
+    arguments_raw: submerge, Submerge
+  trigger_edges:
+  - line: 156
+    target_expression: hJudge
+    message_expression: CPUArrival
+    arguments_raw: hJudge, CPUArrival
+  - line: 158
+    target_expression: hJudge
+    message_expression: PlayerArrival
+    arguments_raw: hJudge, PlayerArrival
+  movement_commands:
+  - line: 101
+    command: SetPOS
+    arguments_raw: hMe, xMe,yMe,zMe
+  - line: 120
+    command: MoveDir
+    arguments_raw: dx,0,dz, nDist, nDist, Ready
+  - line: 138
+    command: MoveDir
+    arguments_raw: dx,0,dz, nDist, nSpeed, StartMoveLoop
+  - line: 169
+    command: MoveDir
+    arguments_raw: 0,-1,0, 64, 64, ReturnToStart
+  - line: 177
+    command: SetPOS
+    arguments_raw: hMe, xMe,nTemp,zMe
+  - line: 185
+    command: MoveDir
+    arguments_raw: 0,1,0, 64, 64, TurnOff
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 39
+    command: OnPostStartWorld
+    arguments_raw: InitRacingBoat
+  - line: 40
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitRacingBoat
+  - line: 60
+    command: FaceObject
+    arguments_raw: hDest, 0, DoNothing
+  - line: 61
+    command: GetConsoleStrVar
+    arguments_raw: BOAT_JUDGE, sJudgeName
+  - line: 64
+    command: CreateObjectLink
+    arguments_raw: hJudge
+  - line: 65
+    command: OnObjectLinkBroken
+    arguments_raw: OnObjectLinkBroken
+  - line: 73
+    command: hJudge
+    arguments_raw: = NULL
+  - line: 81
+    command: GetDistance
+    arguments_raw: hMe, hDest, nDist
+  - line: 82
+    command: nDist
+    arguments_raw: = nDist / 10
+  - line: 87
+    command: nTemp
+    arguments_raw: = nDist / 2
+  - line: 99
+    command: Stop
+    arguments_raw: ''
+  - line: 103
+    command: OnDamage
+    arguments_raw: DoNothing
+  - line: 111
+    command: GetDistance
+    arguments_raw: hMe, hDest, nRemainder
+  - line: 113
+    command: unknown
+    arguments_raw: if( nRemainder<nDist )
+  - line: 119
+    command: OnDamage
+    arguments_raw: DoNothing
+  - line: 128
+    command: GetDistance
+    arguments_raw: hMe, hDest, nRemainder
+  - line: 129
+    command: unknown
+    arguments_raw: if( nRemainder<nDist )
+  - line: 133
+    command: GetFaceDir
+    arguments_raw: hMe, dx,dy,dz
+  - line: 136
+    command: GetRandomInt
+    arguments_raw: nTemp, nDist, nSpeed
+  - line: 137
+    command: nSpeed
+    arguments_raw: = nSpeed / 2
+  - line: 146
+    command: GetFaceDir
+    arguments_raw: hMe, dx,dy,dz
+  - line: 147
+    command: OnDamage
+    arguments_raw: MoveForward
+  - line: 167
+    command: Stop
+    arguments_raw: ''
+  - line: 168
+    command: OnDamage
+    arguments_raw: DoNothing
+  - line: 176
+    command: nTemp
+    arguments_raw: = yMe - 64
+  command_count: 77
+- script_id: scholarpromo.scr
+  source_path: SCHOLARPROMO.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: basewander.inc
+  labels:
+  - line: 17
+    name: RunAway
+  - line: 37
+    name: OnVanish
+  - line: 46
+    name: Init
+  - line: 57
+    name: OnLost
+  - line: 64
+    name: Main
+  registered_triggers:
+  - line: 69
+    message: use
+    callback: Init
+    arguments_raw: use Init
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 19
+    command: stop
+    arguments_raw: ''
+  - line: 22
+    command: runto
+    arguments_raw: g_hobject 16 OnVanish
+  - line: 23
+    command: haskey
+    arguments_raw: 201 g_ntemp
+  - line: 26
+    command: haskey
+    arguments_raw: 202 g_ntemp
+  - line: 28
+    command: givekey
+    arguments_raw: '202'
+  - line: 41
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 51
+    command: OnFoundPlayer
+    arguments_raw: RunAway
+  - line: 52
+    command: OnDamage
+    arguments_raw: RunAway
+  - line: 53
+    command: OnLostTarget
+    arguments_raw: OnLost
+  - line: 70
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 71
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 72
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 27
+- script_id: shopkeeper.scr
+  source_path: SHOPKEEPER.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  - line: 11
+    path: BaseWander.inc
+  labels:
+  - line: 25
+    name: OnUse
+  - line: 32
+    name: OnExit
+  - line: 38
+    name: Main
+  - line: 58
+    name: BaseWanderInit
+  registered_triggers:
+  - line: 50
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands:
+  - line: 70
+    command: SetPos
+    arguments_raw: g_hMyObject -6415 544 4768
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 63
+    command: GetObjectName
+    arguments_raw: g_hMyObject g_sPad1
+  - line: 66
+    command: OnPostSaveLoad
+    arguments_raw: BaseWanderInit
+  - line: 67
+    command: OnPostMiniSaveLoad
+    arguments_raw: BaseWanderInit
+  - line: 68
+    command: set
+    arguments_raw: g_nPad2 1
+  - line: 74
+    command: goto
+    arguments_raw: BaseWanderInit 1
+  command_count: 22
+- script_id: stonesgame.scr
+  source_path: STONESGAME.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: BaseGlobals.inc
+  - line: 8
+    path: ListMaker.inc
+  - line: 9
+    path: flags.inc
+  - line: 10
+    path: ThjorgardGamesCommon.inc
+  labels:
+  - line: 39
+    name: Main
+  - line: 59
+    name: InitStonesGame
+  - line: 75
+    name: CheckMove
+  - line: 115
+    name: HandleInvalidMove
+  - line: 132
+    name: HandleValidMove
+  - line: 150
+    name: CheckVictory
+  - line: 183
+    name: CheckSurrounding
+  - line: 238
+    name: DeclareWinner
+  - line: 252
+    name: ResetVars
+  - line: 262
+    name: ResetBoard
+  - line: 290
+    name: SetupCheck
+  - line: 317
+    name: OnObjectLinkBroken
+  - line: 324
+    name: DisplayMoveMessage
+  registered_triggers:
+  - line: 54
+    message: move
+    callback: CheckMove
+    arguments_raw: move, CheckMove
+  - line: 110
+    message: move
+    callback: CheckMove
+    arguments_raw: move, CheckMove
+  trigger_edges:
+  - line: 121
+    target_expression: hBot
+    message_expression: play
+    arguments_raw: hBot, play
+  - line: 137
+    target_expression: hSquare
+    message_expression: white
+    arguments_raw: hSquare, white
+  - line: 140
+    target_expression: hSquare
+    message_expression: black
+    arguments_raw: hSquare, black
+  - line: 163
+    target_expression: hBot
+    message_expression: play
+    arguments_raw: hBot, play
+  - line: 267
+    target_expression: LISTOBJECT
+    message_expression: clear
+    arguments_raw: LISTOBJECT, clear
+  - line: 272
+    target_expression: LISTOBJECT
+    message_expression: clear
+    arguments_raw: LISTOBJECT, clear
+  - line: 279
+    target_expression: LISTOBJECT
+    message_expression: white
+    arguments_raw: LISTOBJECT, white
+  - line: 284
+    target_expression: LISTOBJECT
+    message_expression: black
+    arguments_raw: LISTOBJECT, black
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 45
+    command: GetObjectName
+    arguments_raw: hSquare, sSquareName
+  - line: 46
+    command: SetConsoleStrVar
+    arguments_raw: STONES_GAME, sSquareName
+  - line: 48
+    command: LISTFIRST
+    arguments_raw: = 0
+  - line: 49
+    command: LISTLAST
+    arguments_raw: = BOARDSIZE * BOARDSIZE - 1
+  - line: 51
+    command: OnPostStartWorld
+    arguments_raw: InitStonesGame
+  - line: 52
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitStonesGame
+  - line: 61
+    command: GetConsoleStrVar
+    arguments_raw: STONES_PLAYER, sBotName
+  - line: 64
+    command: CreateObjectLink
+    arguments_raw: hBot
+  - line: 65
+    command: OnObjectLinkBroken
+    arguments_raw: OnObjectLinkBroken
+  - line: 84
+    command: bHasTicket
+    arguments_raw: = TRUE
+  - line: 90
+    command: RemoveTrigger
+    arguments_raw: move
+  - line: 93
+    command: GetConsoleNumVar
+    arguments_raw: STONES_INDEX, nCurSquare
+  - line: 94
+    command: ArrayGet
+    arguments_raw: npSquares, nCurSquare, nTemp
+  - line: 100
+    command: bSpaceOk
+    arguments_raw: = FALSE
+  - line: 134
+    command: nMoveCount
+    arguments_raw: = nMoveCount + 1
+  - line: 135
+    command: Mod
+    arguments_raw: nMoveCount, 2
+  - line: 139
+    command: nMoveCount
+    arguments_raw: = COLOR_BLACK
+  - line: 143
+    command: ArrayPut
+    arguments_raw: npSquares, nCurSquare, nMoveCount
+  - line: 154
+    command: bCanMove
+    arguments_raw: = FALSE
+  - line: 155
+    command: nCurSquare
+    arguments_raw: = 0
+  - line: 156
+    command: unknown
+    arguments_raw: while( nCurSquare<LISTLAST )
+  - line: 157
+    command: ArrayGet
+    arguments_raw: npSquares, nCurSquare, nTemp
+  - line: 173
+    command: nCurSquare
+    arguments_raw: = nCurSquare + 1
+  - line: 174
+    command: endwhile
+    arguments_raw: ''
+  - line: 185
+    command: bSpaceOk
+    arguments_raw: = FALSE
+  - line: 187
+    command: nCounter
+    arguments_raw: = 0
+  - line: 188
+    command: unknown
+    arguments_raw: while( nCounter<8 )
+  - line: 189
+    command: ArrayGet
+    arguments_raw: npCheck, nCounter, nCheck
+  - line: 190
+    command: nCheck
+    arguments_raw: = nCurSquare + nCheck
+  - line: 192
+    command: bEdge
+    arguments_raw: = FALSE
+  - line: 194
+    command: nTemp
+    arguments_raw: = nCurSquare + 1
+  - line: 195
+    command: Mod
+    arguments_raw: nTemp, BOARDSIZE
+  - line: 198
+    command: unknown
+    arguments_raw: if( nCounter<3 )
+  - line: 199
+    command: bEdge
+    arguments_raw: = TRUE
+  - line: 203
+    command: nTemp
+    arguments_raw: = nCurSquare
+  - line: 204
+    command: Mod
+    arguments_raw: nTemp, BOARDSIZE
+  - line: 207
+    command: unknown
+    arguments_raw: if( nCounter>4)
+  - line: 208
+    command: bEdge
+    arguments_raw: = TRUE
+  - line: 213
+    command: unknown
+    arguments_raw: if( nCheck<0 )
+  - line: 214
+    command: bEdge
+    arguments_raw: = TRUE
+  - line: 216
+    command: unknown
+    arguments_raw: if( nCheck>LISTLAST )
+  - line: 217
+    command: bEdge
+    arguments_raw: = TRUE
+  - line: 221
+    command: ArrayGet
+    arguments_raw: npSquares, nCheck, nCheckResult
+  - line: 222
+    command: nTemp
+    arguments_raw: = nMoveCount + 1
+  - line: 223
+    command: Mod
+    arguments_raw: nTemp, 2
+  - line: 226
+    command: bSpaceOk
+    arguments_raw: = TRUE
+  - line: 232
+    command: nCounter
+    arguments_raw: = nCounter + 1
+  - line: 233
+    command: endwhile
+    arguments_raw: ''
+  - line: 255
+    command: bHasTicket
+    arguments_raw: = FALSE
+  - line: 256
+    command: SetConsoleNumVar
+    arguments_raw: STONES_COLOR, COLOR_WHITE
+  - line: 257
+    command: nMoveCount
+    arguments_raw: = 0
+  - line: 268
+    command: ArrayPut
+    arguments_raw: npSquares, LISTINDEX, COLOR_EMPTY
+  - line: 270
+    command: endwhile
+    arguments_raw: ''
+  - line: 273
+    command: ArrayPut
+    arguments_raw: npSquares, LISTINDEX, COLOR_EMPTY
+  - line: 276
+    command: GetRandomInt
+    arguments_raw: LISTFIRST, LISTLAST, LISTINDEX
+  - line: 280
+    command: ArrayPut
+    arguments_raw: npSquares, LISTINDEX, COLOR_WHITE
+  - line: 282
+    command: LISTINDEX
+    arguments_raw: = LISTLAST - LISTINDEX
+  - line: 285
+    command: ArrayPut
+    arguments_raw: npSquares, LISTINDEX, COLOR_BLACK
+  - line: 293
+    command: nTemp
+    arguments_raw: = 0 - BOARDSIZE + 1
+  - line: 294
+    command: ArrayPut
+    arguments_raw: npCheck, 0, nTemp
+  - line: 295
+    command: nTemp
+    arguments_raw: = 1
+  - line: 296
+    command: ArrayPut
+    arguments_raw: npCheck, 1, nTemp
+  - line: 297
+    command: nTemp
+    arguments_raw: = BOARDSIZE + 1
+  - line: 298
+    command: ArrayPut
+    arguments_raw: npCheck, 2, nTemp
+  - line: 301
+    command: nTemp
+    arguments_raw: = 0 - BOARDSIZE
+  - line: 302
+    command: ArrayPut
+    arguments_raw: npCheck, 3, nTemp
+  - line: 303
+    command: nTemp
+    arguments_raw: = BOARDSIZE
+  - line: 304
+    command: ArrayPut
+    arguments_raw: npCheck, 4, nTemp
+  - line: 307
+    command: nTemp
+    arguments_raw: = 0 - BOARDSIZE - 1
+  - line: 308
+    command: ArrayPut
+    arguments_raw: npCheck, 5, nTemp
+  - line: 309
+    command: nTemp
+    arguments_raw: = -1
+  - line: 310
+    command: ArrayPut
+    arguments_raw: npCheck, 6, nTemp
+  - line: 311
+    command: nTemp
+    arguments_raw: = BOARDSIZE - 1
+  - line: 312
+    command: ArrayPut
+    arguments_raw: npCheck, 7, nTemp
+  - line: 319
+    command: hBot
+    arguments_raw: = NULL
+  command_count: 180
+- script_id: stonespiece.scr
+  source_path: STONESPIECE.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 9
+    name: Main
+  - line: 17
+    name: TurnWhite
+  - line: 24
+    name: TurnBlack
+  registered_triggers:
+  - line: 11
+    message: white
+    callback: TurnWhite
+    arguments_raw: white, TurnWhite
+  - line: 12
+    message: black
+    callback: TurnBlack
+    arguments_raw: black, TurnBlack
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 19
+    command: SetModelFilenames
+    arguments_raw: '"models\gibs\stone.abc", "skins\gibs\yellow.dtx"'
+  - line: 26
+    command: SetModelFilenames
+    arguments_raw: '"models\gibs\stone.abc", "skins\gibs\blue.dtx"'
+  unknown_commands: []
+  command_count: 7
+- script_id: stonesplayer.scr
+  source_path: STONESPLAYER.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: BaseGlobals.inc
+  - line: 8
+    path: ListMaker.inc
+  labels:
+  - line: 16
+    name: Main
+  - line: 36
+    name: OnRudeEnter
+  - line: 45
+    name: OnRudeExit
+  - line: 52
+    name: PlacePiece
+  registered_triggers:
+  - line: 28
+    message: play
+    callback: PlacePiece
+    arguments_raw: play, PlacePiece
+  - line: 30
+    message: use
+    callback: OnRudeEnter
+    arguments_raw: use, OnRudeEnter
+  trigger_edges:
+  - line: 58
+    target_expression: LISTOBJECT
+    message_expression: use
+    arguments_raw: LISTOBJECT, use
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 22
+    command: GetObjectName
+    arguments_raw: hMe, sMyName
+  - line: 23
+    command: SetConsoleStrVar
+    arguments_raw: STONES_PLAYER, sMyName
+  - line: 25
+    command: LISTFIRST
+    arguments_raw: = 0
+  - line: 26
+    command: LISTLAST
+    arguments_raw: = nTemp * nTemp - 1
+  - line: 31
+    command: OnRudeExit
+    arguments_raw: OnRudeExit
+  - line: 38
+    command: GiveKey
+    arguments_raw: '7002'
+  - line: 40
+    command: DoRude
+    arguments_raw: '428'
+  - line: 47
+    command: TakeKey
+    arguments_raw: '7002'
+  - line: 55
+    command: GetRandomInt
+    arguments_raw: LISTFIRST, LISTLAST, LISTINDEX
+  command_count: 20
+- script_id: stonessquare.scr
+  source_path: STONESSQUARE.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: flags.inc
+  labels:
+  - line: 19
+    name: Main
+  - line: 30
+    name: InitStonesSquare
+  - line: 45
+    name: RequestMove
+  - line: 55
+    name: TurnPieceWhite
+  - line: 65
+    name: TurnPieceBlack
+  - line: 75
+    name: TurnPieceClear
+  registered_triggers:
+  - line: 37
+    message: use
+    callback: RequestMove
+    arguments_raw: use,   RequestMove
+  - line: 38
+    message: white
+    callback: TurnPieceWhite
+    arguments_raw: white, TurnPieceWhite
+  - line: 39
+    message: black
+    callback: TurnPieceBlack
+    arguments_raw: black, TurnPieceBlack
+  - line: 40
+    message: clear
+    callback: TurnPieceClear
+    arguments_raw: clear, TurnPieceClear
+  trigger_edges:
+  - line: 49
+    target_expression: hMgr
+    message_expression: move
+    arguments_raw: hMgr, move
+  - line: 59
+    target_expression: hPiece
+    message_expression: white
+    arguments_raw: hPiece, white
+  - line: 69
+    target_expression: hPiece
+    message_expression: black
+    arguments_raw: hPiece, black
+  movement_commands: []
+  state_commands:
+  - line: 58
+    command: SetFlag
+    arguments_raw: hPiece, FLAG_VISIBLE
+  - line: 68
+    command: SetFlag
+    arguments_raw: hPiece, FLAG_VISIBLE
+  - line: 78
+    command: ClearFlag
+    arguments_raw: hPiece, FLAG_VISIBLE
+  presentation_commands: []
+  unknown_commands:
+  - line: 24
+    command: OnPostStartWorld
+    arguments_raw: InitStonesSquare
+  - line: 25
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitStonesSquare
+  - line: 34
+    command: GetConsoleStrVar
+    arguments_raw: STONES_GAME, sMgrName
+  - line: 48
+    command: SetConsoleNumVar
+    arguments_raw: STONES_INDEX, nMyIndex
+  command_count: 32
+- script_id: thjorgardspectator.scr
+  source_path: THJORGARDSPECTATOR.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 15
+    name: Main
+  - line: 26
+    name: InitThjorgardSpectator
+  - line: 33
+    name: Cheer
+  - line: 38
+    name: Boo
+  - line: 43
+    name: Jump
+  - line: 48
+    name: LookAround
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 28
+    command: SetIdle
+    arguments_raw: ''
+  command_count: 10
+- script_id: thorgard_actor.scr
+  source_path: THORGARD_ACTOR.scr
+  parse_status: parsed
+  includes:
+  - line: 21
+    path: Jumper.Inc
+  - line: 22
+    path: BaseTimers.inc
+  - line: 23
+    path: BaseWander.inc
+  - line: 24
+    path: baseRun.inc
+  labels:
+  - line: 40
+    name: Disable
+  - line: 48
+    name: Enable
+  - line: 56
+    name: CheckDisable
+  - line: 79
+    name: OnPostMiniSaveLoad
+  - line: 85
+    name: DisableCheckStart
+  - line: 93
+    name: IsNightTime
+  - line: 113
+    name: GoRobPlayer
+  - line: 121
+    name: OnRobPlayerTaunt
+  - line: 133
+    name: OnRobPlayer
+  - line: 163
+    name: CacheFiles
+  - line: 175
+    name: SetupKen
+  - line: 190
+    name: JumperWaitGetPlayer
+  - line: 209
+    name: MagreebTauntDone
+  - line: 216
+    name: MagreebJumpDone
+  - line: 239
+    name: MagreebTouchNotify
+  - line: 250
+    name: SetupMagreebTouch
+  - line: 259
+    name: OnMagreebAttack
+  - line: 299
+    name: MagreebAttackCheck
+  - line: 330
+    name: SetupMagreebBaby
+  - line: 347
+    name: BaseShouldRun
+  - line: 359
+    name: AtHidingPlace
+  - line: 366
+    name: JimDamageDone
+  - line: 373
+    name: RunJimRun
+  - line: 394
+    name: SetupJim
+  - line: 405
+    name: DeanAttack
+  - line: 412
+    name: DeanGetHim
+  - line: 424
+    name: LetsStart
+  - line: 436
+    name: SetupDean
+  - line: 444
+    name: WalterGetHim
+  - line: 452
+    name: SetupWalter
+  - line: 459
+    name: JumperSetupPos
+  - line: 494
+    name: Main
+  registered_triggers:
+  - line: 178
+    message: RobPlayer
+    callback: OnRobPlayer
+    arguments_raw: RobPlayer,OnRobPlayer
+  - line: 336
+    message: Attack
+    callback: OnMagreebAttack
+    arguments_raw: Attack,OnMagreebAttack
+  - line: 399
+    message: RunJimRun
+    callback: RunJimRun
+    arguments_raw: RunJimRun, RunJimRun
+  - line: 438
+    message: ComeGetMe
+    callback: DeanGetHim
+    arguments_raw: ComeGetMe,DeanGetHim
+  - line: 454
+    message: ComeGetMe
+    callback: WalterGetHim
+    arguments_raw: ComeGetMe,WalterGetHim
+  trigger_edges:
+  - line: 226
+    target_expression: g_hTarget
+    message_expression: RunJimRun
+    arguments_raw: g_hTarget,RunJimRun
+  - line: 229
+    target_expression: g_hObject
+    message_expression: ComeGetMe
+    arguments_raw: g_hObject,ComeGetMe
+  - line: 232
+    target_expression: g_hObject
+    message_expression: ComeGetMe
+    arguments_raw: g_hObject,ComeGetMe
+  - line: 430
+    target_expression: g_hObject
+    message_expression: Attack
+    arguments_raw: g_hObject,Attack
+  movement_commands:
+  - line: 279
+    command: SetPos
+    arguments_raw: g_hMyObject,startX,startY,startZ
+  state_commands:
+  - line: 42
+    command: ClearFlag
+    arguments_raw: g_hMyObject,FLAG_VISIBLE
+  - line: 43
+    command: ClearFlag
+    arguments_raw: g_hMyObject,FLAG_SOLID
+  - line: 50
+    command: SetFlag
+    arguments_raw: g_hMyObject,FLAG_VISIBLE
+  - line: 51
+    command: SetFlag
+    arguments_raw: g_hMyObject,FLAG_SOLID
+  - line: 126
+    command: SetStat
+    arguments_raw: g_hMyObject,WalkRunMode,WALKRUNMODE_FORWARD
+  - line: 143
+    command: SetFlag
+    arguments_raw: g_hMyObject,FLAG_VISIBLE
+  - line: 144
+    command: SetFlag
+    arguments_raw: g_hMyObject,FLAG_SOLID
+  - line: 146
+    command: SetStat
+    arguments_raw: g_hMyObject,Gravity,TRUE
+  - line: 153
+    command: SetStat
+    arguments_raw: g_hMyObject,WalkRunMode,WALKRUNMODE_TARGET
+  - line: 180
+    command: ClearFlag
+    arguments_raw: g_hMyObject,FLAG_VISIBLE
+  - line: 181
+    command: ClearFlag
+    arguments_raw: g_hMyObject,FLAG_SOLID
+  - line: 183
+    command: SetStat
+    arguments_raw: g_hMyObject,Gravity,FALSE
+  - line: 252
+    command: SetStat
+    arguments_raw: g_hMyObject,GroundTouchNotify,TRUE
+  - line: 273
+    command: SetStat
+    arguments_raw: g_hMyObject,GaveTreasure,1
+  - line: 274
+    command: SetStat
+    arguments_raw: g_hMyObject,HitPoints,90
+  - line: 275
+    command: SetStat
+    arguments_raw: g_hMyObject,AC,16
+  - line: 280
+    command: SetStat
+    arguments_raw: g_hMyObject,Gravity,TRUE
+  - line: 335
+    command: SetStat
+    arguments_raw: g_hMyObject,Gravity,FALSE
+  - line: 377
+    command: SetStat
+    arguments_raw: g_hMyObject,HitPoints,1
+  - line: 383
+    command: GetStat
+    arguments_raw: g_hMyObject,RunVel,g_nTemp
+  - line: 385
+    command: SetStat
+    arguments_raw: g_hMyObject,RunVel,g_nTemp
+  - line: 398
+    command: SetStat
+    arguments_raw: g_hMyObject,HitPoints,1
+  presentation_commands:
+  - line: 185
+    command: LoopAnim
+    arguments_raw: 0,0
+  - line: 283
+    command: LoopAnim
+    arguments_raw: Run,0
+  unknown_commands:
+  - line: 44
+    command: bDisabled
+    arguments_raw: = TRUE
+  - line: 52
+    command: bDisabled
+    arguments_raw: = FALSE
+  - line: 59
+    command: HasKey
+    arguments_raw: 201,g_bTemp
+  - line: 62
+    command: HasKey
+    arguments_raw: 202,g_bTemp
+  - line: 65
+    command: goto
+    arguments_raw: Disable
+  - line: 87
+    command: OnPostMiniSaveLoad
+    arguments_raw: OnPostMiniSaveLoad
+  - line: 88
+    command: goto
+    arguments_raw: CheckDisable
+  - line: 96
+    command: g_bTemp
+    arguments_raw: = FALSE
+  - line: 98
+    command: GetGameTime
+    arguments_raw: nHour,nMinute
+  - line: 101
+    command: g_bTemp
+    arguments_raw: = TRUE
+  - line: 106
+    command: g_bTemp
+    arguments_raw: = TRUE
+  - line: 124
+    command: Stop
+    arguments_raw: ''
+  - line: 128
+    command: Taunt
+    arguments_raw: GoRobPlayer
+  - line: 141
+    command: RemoveTrigger
+    arguments_raw: RobPlayer
+  - line: 148
+    command: GetPlayerHandle
+    arguments_raw: hPlayer
+  - line: 150
+    command: Stop
+    arguments_raw: ''
+  - line: 152
+    command: Target
+    arguments_raw: hPlayer,TRUE
+  - line: 155
+    command: sMarker
+    arguments_raw: = sMyName + _Marker
+  - line: 158
+    command: WalkTo
+    arguments_raw: g_hObject,0,OnRobPlayerTaunt
+  - line: 165
+    command: GetStatStr
+    arguments_raw: g_hMyObject,ScriptName,g_sTemp
+  - line: 166
+    command: CacheScript
+    arguments_raw: g_sTemp
+  - line: 168
+    command: CacheSound
+    arguments_raw: splashSound
+  - line: 169
+    command: CacheSound
+    arguments_raw: yellSound
+  - line: 194
+    command: minWait
+    arguments_raw: = 10
+  - line: 195
+    command: maxWait
+    arguments_raw: = 25
+  - line: 199
+    command: minWait
+    arguments_raw: = 30
+  - line: 200
+    command: maxWait
+    arguments_raw: = 45
+  - line: 203
+    command: goto
+    arguments_raw: JumperWaitGetPlayer,1
+  - line: 218
+    command: OnTouchNotify
+    arguments_raw: ''
+  - line: 219
+    command: Stop
+    arguments_raw: ''
+  - line: 220
+    command: SetVelocity
+    arguments_raw: g_hMyObject,0,0,0
+  - line: 221
+    command: SetPushBack
+    arguments_raw: 0,0,0,0
+  - line: 224
+    command: Target
+    arguments_raw: g_hTarget,TRUE
+  - line: 234
+    command: Taunt
+    arguments_raw: MagreebTauntDone
+  - line: 241
+    command: IsOnGround
+    arguments_raw: g_bTemp
+  - line: 253
+    command: OnTouchNotify
+    arguments_raw: MagreebTouchNotify
+  - line: 264
+    command: RemoveTrigger
+    arguments_raw: Attack,OnMagreebAttack
+  - line: 271
+    command: GiveKey
+    arguments_raw: '202'
+  - line: 276
+    command: SetPropNumber
+    arguments_raw: RunawayChance,0
+  - line: 277
+    command: SetPropNumber
+    arguments_raw: WanderON,TRUE
+  - line: 282
+    command: GetFaceDir
+    arguments_raw: g_hMyObject,g_dirX,g_dirY,g_dirZ
+  - line: 284
+    command: g_dirY
+    arguments_raw: = 0
+  - line: 285
+    command: VecScale
+    arguments_raw: g_dirX,g_dirY,g_dirZ,500
+  - line: 286
+    command: SetVelocity
+    arguments_raw: g_hMyObject,0,500,0
+  - line: 287
+    command: SetPushBack
+    arguments_raw: g_dirX,g_dirY,g_dirZ,2
+  - line: 307
+    command: GetPlayerHandle
+    arguments_raw: g_hObject
+  - line: 313
+    command: AIGetDistance
+    arguments_raw: g_hObject,g_nTemp
+  - line: 339
+    command: AddEnemy
+    arguments_raw: Burgler
+  - line: 350
+    command: g_bTemp
+    arguments_raw: = TRUE
+  - line: 381
+    command: Target
+    arguments_raw: g_hTarget,FALSE
+  - line: 384
+    command: g_nTemp
+    arguments_raw: = g_nTemp * 0.25
+  - line: 388
+    command: RunTo
+    arguments_raw: g_hObject,0,AtHidingPlace
+  - line: 389
+    command: OnDamageDone
+    arguments_raw: JimDamageDone
+  - line: 397
+    command: OnDamage
+    arguments_raw: LetsStart
+  - line: 415
+    command: Target
+    arguments_raw: g_hTarget,TRUE
+  - line: 417
+    command: Taunt
+    arguments_raw: ''
+  - line: 427
+    command: OnDamage
+    arguments_raw: ''
+  - line: 439
+    command: OnDamage
+    arguments_raw: LetsStart
+  - line: 448
+    command: Target
+    arguments_raw: g_hTarget
+  - line: 449
+    command: goto
+    arguments_raw: RunNormalScript
+  - line: 463
+    command: startX
+    arguments_raw: = -1700
+  - line: 464
+    command: startY
+    arguments_raw: = 1646
+  - line: 465
+    command: startZ
+    arguments_raw: = -151
+  - line: 470
+    command: startX
+    arguments_raw: = -1700
+  - line: 471
+    command: startY
+    arguments_raw: = 1646
+  - line: 472
+    command: startZ
+    arguments_raw: = -151
+  - line: 477
+    command: startX
+    arguments_raw: = -583
+  - line: 478
+    command: startY
+    arguments_raw: = 1760
+  - line: 479
+    command: startZ
+    arguments_raw: = -29
+  - line: 484
+    command: startX
+    arguments_raw: = -583
+  - line: 485
+    command: startY
+    arguments_raw: = 1760
+  - line: 486
+    command: startZ
+    arguments_raw: = -29
+  - line: 490
+    command: goto
+    arguments_raw: JumperSetupPos,1
+  - line: 503
+    command: GetObjectName
+    arguments_raw: g_hMyObject,sMyName
+  - line: 505
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 517
+    command: bJumper
+    arguments_raw: = FALSE
+  - line: 522
+    command: bJumper
+    arguments_raw: = TRUE
+  - line: 526
+    command: bJumper
+    arguments_raw: = TRUE
+  - line: 530
+    command: bJumper
+    arguments_raw: = TRUE
+  - line: 534
+    command: bJumper
+    arguments_raw: = TRUE
+  - line: 563
+    command: goto
+    arguments_raw: RunNormalScript
+  command_count: 269
+- script_id: trainingenter.scr
+  source_path: TRAININGENTER.scr
+  parse_status: parsed
+  includes:
+  - line: 12
+    path: globals.inc
+  labels:
+  - line: 29
+    name: OnBreak
+  - line: 37
+    name: Init
+  - line: 54
+    name: Main
+  - line: 68
+    name: OnBreak
+  - line: 83
+    name: Init
+  registered_triggers:
+  - line: 60
+    message: Break
+    callback: OnBreak
+    arguments_raw: Break OnBreak
+  trigger_edges:
+  - line: 33
+    target_expression: g_hobject
+    message_expression: 'on'
+    arguments_raw: g_hobject on
+  - line: 44
+    target_expression: g_hobject
+    message_expression: 'on'
+    arguments_raw: g_hobject on
+  - line: 47
+    target_expression: g_hobject
+    message_expression: 'on'
+    arguments_raw: g_hobject on
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 40
+    command: haskey
+    arguments_raw: 301 g_ntemp
+  - line: 61
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 62
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 63
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 72
+    command: Haskey
+    arguments_raw: 301 g_ntemp
+  - line: 74
+    command: givekey
+    arguments_raw: '301'
+  - line: 75
+    command: GiveAttribute
+    arguments_raw: 0 5 1
+  - line: 76
+    command: GiveAttribute
+    arguments_raw: 1 5 1
+  - line: 77
+    command: giveexp
+    arguments_raw: '20000'
+  - line: 80
+    command: goto
+    arguments_raw: OnBreak, 1
+  - line: 88
+    command: haskey
+    arguments_raw: 301 g_ntemp
+  - line: 91
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 93
+    command: goto
+    arguments_raw: Init, 1
+  - line: 99
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 105
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 111
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 117
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 123
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 129
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 135
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 138
+    command: goto
+    arguments_raw: Init, 1
+  command_count: 75
+- script_id: whack-a-honky.scr
+  source_path: WHACK-A-HONKY.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: BaseGlobals.inc
+  - line: 10
+    path: ListMaker.inc
+  - line: 11
+    path: ThjorgardGamesCommon.inc
+  labels:
+  - line: 27
+    name: Main
+  - line: 47
+    name: StartGame
+  - line: 71
+    name: EndGame
+  - line: 93
+    name: ReceivePopup
+  - line: 113
+    name: OnDamage
+  - line: 128
+    name: SendPopup
+  - line: 147
+    name: OnFinishedRaise
+  - line: 158
+    name: OnFinishedLower
+  - line: 173
+    name: DisableInput
+  - line: 180
+    name: EnableInput
+  - line: 187
+    name: ResetPOS
+  registered_triggers:
+  - line: 34
+    message: start
+    callback: StartGame
+    arguments_raw: start, StartGame
+  - line: 35
+    message: popup
+    callback: ReceivePopup
+    arguments_raw: popup, ReceivePopup
+  - line: 36
+    message: reset
+    callback: ResetPOS
+    arguments_raw: reset, ResetPOS
+  - line: 104
+    message: use
+    callback: OnDamage
+    arguments_raw: use, OnDamage
+  - line: 182
+    message: start
+    callback: StartGame
+    arguments_raw: start, StartGame
+  trigger_edges:
+  - line: 168
+    target_expression: LISTOBJECT
+    message_expression: popup
+    arguments_raw: LISTOBJECT, popup
+  movement_commands:
+  - line: 108
+    command: MoveDir
+    arguments_raw: 0,1,0, 20, 100, OnFinishedRaise
+  - line: 142
+    command: MoveToPOS
+    arguments_raw: xMe,yMe,zMe, 100, OnFinishedLower
+  - line: 189
+    command: SetPOS
+    arguments_raw: hMe, xMe,yMe,zMe
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 39
+    command: SetConsoleNumVar
+    arguments_raw: WHACK_COUNTER, 0
+  - line: 57
+    command: SetConsoleNumVar
+    arguments_raw: WHACK_RUNNING, TRUE
+  - line: 75
+    command: SetConsoleNumVar
+    arguments_raw: WHACK_RUNNING, FALSE
+  - line: 77
+    command: GetConsoleNumVar
+    arguments_raw: WHACK_COUNTER, nWhackCounter
+  - line: 85
+    command: SetConsoleNumVar
+    arguments_raw: WHACK_COUNTER, 0
+  - line: 86
+    command: nWhackCounter
+    arguments_raw: = 0
+  - line: 98
+    command: GetConsoleNumVar
+    arguments_raw: WHACK_RUNNING, nTemp
+  - line: 106
+    command: bSent
+    arguments_raw: = FALSE
+  - line: 117
+    command: GetConsoleNumVar
+    arguments_raw: WHACK_COUNTER, nWhackCounter
+  - line: 118
+    command: nWhackCounter
+    arguments_raw: = nWhackCounter + 1
+  - line: 119
+    command: SetConsoleNumVar
+    arguments_raw: WHACK_COUNTER, nWhackCounter
+  - line: 136
+    command: bSent
+    arguments_raw: = TRUE
+  - line: 140
+    command: RemoveTrigger
+    arguments_raw: use
+  - line: 150
+    command: GetRandomFloat
+    arguments_raw: .5, 1, dt
+  - line: 161
+    command: GetRandomInt
+    arguments_raw: LISTFIRST, LISTLAST, LISTINDEX
+  - line: 164
+    command: GetRandomInt
+    arguments_raw: LISTFIRST, LISTLAST, LISTINDEX
+  - line: 165
+    command: endwhile
+    arguments_raw: ''
+  - line: 175
+    command: RemoveTrigger
+    arguments_raw: start
+  command_count: 73
+validation:
+  script_count: 22

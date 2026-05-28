@@ -1,0 +1,100 @@
+;-------------------------------------
+;	MummyAwaken.scr
+;	by SJR
+;	11-07-01
+;	Purpose:mummy sleeps until
+;			triggered to be awake
+;
+;	ScriptParams:
+;		p3 = name of coffin to smash
+;-------------------------------------
+#include BaseGlobals.inc
+#include flags.inc
+
+#string		sCoffinName = ""
+#hobject	hCoffin = 0
+
+#hobject	hMe = 0
+
+#number		bAnimOk = 0
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	GetParam 3, sCoffinName
+
+	OnPostStartWorld OnPostStartworld
+
+	Exit TRUE
+
+;-------------------------------------
+:OnPostStartworld
+;-------------------------------------
+	GetMyHandle hMe
+
+	IsClass hMe, "Mummy", bAnimOk
+	if( bAnimOk==FALSE )
+		IsClass hMe, "Zombie", bAnimOk
+	endif
+
+	if( bAnimOk==TRUE )
+		;;AddModelKey "PreKick", OnPostDestroy
+		LoopAnim "coffin2", 0
+	endif
+
+	SetFlag hMe, FLAG_VISIBLE
+	AddTrigger awaken, WakeUp
+	SetStat hMe, gravity, FALSE
+
+	; clear solid flag so player cannot shoot us
+	; until we're ready...
+	ClearFlag hMe,FLAG_SOLID
+
+	Exit
+
+;-------------------------------------
+:WakeUp
+;-------------------------------------
+	RemoveTrigger awaken
+	OnDamage DoNothing
+
+	SetFlag hMe, FLAG_VISIBLE
+	SetFlag hMe, FLAG_SOLID
+
+	GetObjectHandle sCoffinName, hCoffin
+	
+	AddModelKey AtKick, OnPostDestroy
+	PlayAnim wakeup2
+
+	Exit TRUE
+
+;-------------------------------------
+:GoNormal
+;-------------------------------------
+;
+;	Make sure we go after the player...
+;	(using hMe so as not to break the
+;		save game...)
+;
+	GetPlayerHandle hMe
+	Target hMe,TRUE
+
+	RunScript "baseMelee.scr"
+	Exit
+
+;-------------------------------------
+:OnPostDestroy
+;-------------------------------------
+	SetPropNumber CanDamage, TRUE
+	SetStat hMe, gravity, TRUE
+
+	if( hCoffin!=0 )
+		Trigger hCoffin, destroy
+	endif
+
+	Stop
+	SetIdle
+
+	gosub GoNormal
+
+	Exit TRUE

@@ -1,0 +1,47 @@
+;----------------------------------------------
+;yobboe.scr
+; By Timmy
+; checks to see if player has killed all the yobboes
+; and gives completion key and reward.
+; relevant RudeIDs: 89, 91, 92, 93
+
+; key 128 = player is on yobboe promo quest
+; Key 129 = player has killed all the yobboes
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+
+Haskey 128, g_ntemp
+if ( g_ntemp==1, )
+;checks to see if player is on the yobboe promo quest
+	Haskey 129 g_ntemp
+	If ( g_ntemp==0, )
+	;checks to see if player has already completed quest
+		givekey 129
+		;gives key and reward.
+		exit
+	endif
+endif
+exit
+	
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+Addtrigger Use, Onuse
+
+
+exit

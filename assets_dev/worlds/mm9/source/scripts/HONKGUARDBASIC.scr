@@ -1,0 +1,42 @@
+;-------------------------------------
+;	HONKGuardBasic.scr
+;	by SJR
+;	Purpose:standard HONK, but with
+;			checking for acts of
+;			aggression (stealing, hitting etc.)
+;-------------------------------------
+#include HonkHostility.inc
+
+#number		HONK_TYPE = 0 
+#hobject	hProp = 0
+
+;type 0=none,1=pamphlet
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	GetParam 0, HONK_TYPE
+
+	OnPostStartWorld InitHonkGuardBasic
+	OnPostMiniSaveLoad InitHonkGuardBasic
+
+	Exit TRUE
+
+;-------------------------------------
+:InitHonkGuardBasic
+;-------------------------------------
+	gosub BaseWanderInit
+	gosub BaseWanderStartup
+	gosub AttachTool
+	gosub InitHonkHostility
+
+	Exit TRUE
+
+;-------------------------------------
+:AttachTool
+;-------------------------------------
+	if( HONK_TYPE==1 )
+		AttachProp "HonkPamphlet.ABC","Pamphlet.DTX","Pamphlet",hProp
+	endif
+
+	Exit TRUE

@@ -1,0 +1,248 @@
+;--------------------------------------------------
+;NPC239.scr
+; timmy
+; handles Kira the Cold voice and quest stuff
+;
+; edited by Bones 03/25/03
+; TELP Patch 1.3 -- delays Kira's return 
+;--------------------------------------------------
+
+#include globals.inc
+#include United.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+#number			bVanish
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+;loopanim Sit 0 DoNothing
+
+
+haskey 40 g_ntemp
+if (g_ntemp==TRUE)
+	set bVanish TRUE
+	gosub vanish
+	getobjecthandle MarkeProp0 g_hobject
+	removeobject g_hobject
+endif
+
+haskey 108 g_ntemp
+if (g_ntemp==TRUE)
+	set bVanish False
+	gosub Vanish
+endif
+exit
+
+
+	
+;-------------------------------------
+:Vanish
+;-------------------------------------
+
+getmyhandle g_hobject
+
+if (bVanish==TRUE)
+	clearflag g_hobject, visible
+	clearflag g_hobject, solid
+	clearflag g_hobject, gravity
+	exit
+else
+	setflag g_hobject, visible
+	setflag g_hobject, solid
+	setflag g_hobject, gravity
+	exit
+endif
+
+exit
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub Loveletter
+gosub honkys
+gosub mountainpass
+gosub united
+gosub treaty
+exit
+
+
+;--------------------------------------------------
+:treaty
+;--------------------------------------------------
+
+;****************
+;treaty Quest
+;****************
+
+Haskey 181, keycheck
+if (keycheck==0, )
+	Haskey 89 keycheck
+	if (keycheck==1, )
+		giveKey 181
+		GiveExp 12000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		GiveItem 401
+		exit
+	endif
+endif
+
+;End treaty quest
+;******************
+exit
+
+;--------------------------------------------------
+:loveletter
+;--------------------------------------------------
+;****************
+;Love Letter Quest
+;****************
+
+
+Haskey 147, keycheck
+if (keycheck==0, )
+	Haskey 23 keycheck
+	if (keycheck==1, )
+		takeitem 247
+		giveKey 147
+		GiveExp 12000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+
+
+;End Love Letter quest
+;******************
+exit
+
+
+;--------------------------------------------------
+:honkys
+;--------------------------------------------------
+;****************
+;Rid Thronheim of Honkies Quest
+;****************
+
+
+Haskey 146 keycheck
+if (keycheck==0, )
+	Haskey 78 keycheck
+	if (keycheck==1, )
+		GiveExp 40000
+		Givekey 146
+		Givegold 7000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+
+;End Thronheim of Honkies Quest
+;******************
+exit
+
+;--------------------------------------------------
+:MountainPass
+;--------------------------------------------------
+
+;****************
+;Open Mountain Pass Quest
+;****************
+
+
+Haskey 152 keycheck
+if (keycheck==0, )
+	Haskey 81 keycheck
+	if (keycheck==1, )
+		GiveExp 120000
+		Givekey 152
+		Givegold 12000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+
+
+;End Open Moutain Pass Quest
+;******************
+
+exit
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+;loopanim Sit 0 DoNothing
+Playsound voices\NPC\NPC_239.wav, Onexit, 100, 240, FALSE, 100
+Gosub OnCheck
+;DoRude 239
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:givekey
+;-------------------------------------
+Haskey 180 g_ntemp
+If (g_ntemp==0, )
+	Haskey 88 g_ntemp
+	if (g_ntemp==1, )
+		givekey 180
+		exit
+	endif
+endif
+
+exit
+
+;-------------------------------------
+:OnKillMarkel
+;-------------------------------------
+
+getobjecthandle Prop16 g_hobject
+trigger g_hobject play
+getobjecthandle MarkeProp g_hobject
+removeobject g_hobject
+getobjecthandle MarkeProp0 g_hobject
+setflag g_hobject, visible
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+@M 6 : 00 Givekey Givekey
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+AddTrigger KillMarkel OnKillMarkel
+Set Jarl, Kira
+Gosub UnitedInit
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

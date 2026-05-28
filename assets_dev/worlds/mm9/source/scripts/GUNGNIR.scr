@@ -1,0 +1,64 @@
+;----------------------------------------------
+;Gungnir.scr
+; By Timmy
+; gives the player the Golden Honk
+; item 369
+;----------------------------------------------
+
+#include globals.inc 
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+Haskey 353 g_ntemp
+if (g_ntemp==1)
+	haskey 354 g_ntemp
+	if (g_ntemp==0)
+		giveitem 189
+		givekey 354
+		getmyhandle g_hmyobject
+		removeobject g_hmyobject
+		exit
+	endif
+else
+	haskey 355 g_ntemp
+	if (g_ntemp==0)
+		giveitem 189
+		givekey 355
+		getmyhandle g_hmyobject
+		removeobject g_hmyobject
+		exit
+	endif
+endif
+
+exit
+
+;-------------------------------------
+:DeleteCheck
+;-------------------------------------
+
+Haskey 354 g_ntemp
+if (g_ntemp==1)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+
+haskey 355 g_ntemp
+if (g_ntemp==1)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit	
+endif
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+Gosub DeleteCheck
+exit

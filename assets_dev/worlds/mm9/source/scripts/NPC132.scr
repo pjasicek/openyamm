@@ -1,0 +1,92 @@
+;--------------------------------------------------
+;NPC132.scr
+; timmy
+; handles Hjordisa the Hag voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                       KeyCheck
+#number		nUnConscious=False
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+
+
+;--------------------------------------------------
+:GiveHair
+;--------------------------------------------------
+;****************
+;Nurtigan Quest
+;****************
+hasitem 240 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+giveitem 240
+exit
+
+haskey 207 g_ntemp
+if (g_ntemp==FALSE)
+	haskey 206 g_ntemp
+	if (g_ntemp==1, )
+		givekey 207
+		giveitem 240
+		exit
+	endif
+endif
+
+;End Nurtigan quest
+;******************
+exit
+
+
+;--------------------------------------------------
+:OnDamage
+;--------------------------------------------------
+
+die
+set nUnconscious TRUE
+gosub givehair
+exit
+
+;--------------------------------------------------
+:OnStop
+;--------------------------------------------------
+
+stop
+exit
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+if (nUnConscious==TRUE)
+	gosub Givehair
+	exit
+endif
+
+DoRude 132
+Playsound voices\NPC\NPC_132.wav, DoNothing, 100, 240, FALSE, 100
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+;OnDamage OnDamage
+Addtrigger Use, OnUse
+
+exit
+

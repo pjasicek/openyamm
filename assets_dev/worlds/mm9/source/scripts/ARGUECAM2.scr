@@ -1,0 +1,61 @@
+;--------------------------------------------------
+;BattleCam1.scr
+;1/5/02
+; timmy
+; does battlefield camera
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#string		sMarker
+#number		nSpeed
+#number		nBook
+
+#number		Xpos
+#number		Ypos
+#number		Zpos
+
+#number		MyX
+#number		MyY
+#Number		MyZ
+
+;--------------------------------------------------
+
+
+;--------------------------------------------------
+:OnPlay
+;--------------------------------------------------
+
+;getobjecthandle kira g_hobject
+;target g_hobject
+
+Getobjecthandle sMarker g_hobject
+getpos g_hobject Xpos Ypos Zpos
+MoveToPos xpos Ypos Zpos nSpeed OnArrive
+exit
+
+;--------------------------------------------------
+:OnArrive
+;--------------------------------------------------
+
+if (nBook==1)
+	exit
+endif
+
+getobjecthandle Argueman g_hobject
+trigger g_hobject Done
+exit
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Play OnPlay 
+GetParam 0 sMarker
+GetParam 1 nSpeed
+GetParam 2 nBook
+exit
+
+

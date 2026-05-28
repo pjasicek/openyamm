@@ -1,0 +1,117 @@
+;----------------------------------------------
+;LoseMan.scr
+; By Timmy
+; 12/20
+;handles losegame cutscene
+;----------------------------------------------
+
+#include globals.inc 
+
+
+
+
+;-------------------------------------
+:OnLose
+;-------------------------------------
+
+ScreenFadeOut 1
+wait 1 2 OnStart
+exit
+
+;-------------------------------------
+:OnStart
+;-------------------------------------
+
+getobjecthandle Losecam1 g_hobject 
+;trigger g_hobject On
+trigger g_hobject Play
+
+exit
+
+;-------------------------------------
+:OnCam2
+;-------------------------------------
+
+
+ScreenFadeOut .5
+getobjecthandle losecam1 g_hobject
+trigger g_hobject off
+
+getobjecthandle losecam2 g_hobject
+trigger g_hobject Play
+exit
+
+;-------------------------------------
+:OnCam3
+;-------------------------------------
+
+
+ScreenFadeOut .5
+getobjecthandle losecam2 g_hobject
+trigger g_hobject off
+
+getobjecthandle losecam3 g_hobject
+trigger g_hobject on
+ScreenFadein .5
+wait 1 1 Scene3
+exit
+
+;-------------------------------------
+:Scene3
+;-------------------------------------
+
+getobjecthandle Door0 g_hobject
+trigger g_hobject use
+Playsound \Sounds\events\draweropenwood.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1.5 Speak1
+exit
+
+;-------------------------------------
+:Speak1
+;-------------------------------------
+
+getobjecthandle hanndl g_hobject
+trigger g_hobject speak
+
+exit
+
+
+;-------------------------------------
+:Close
+;-------------------------------------
+
+getobjecthandle Door0 g_hobject
+trigger g_hobject use
+Playsound \Sounds\events\draweropenwood.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 FadeOut
+exit
+
+;-------------------------------------
+:FadeOut
+;-------------------------------------
+
+ScreenFadeOut 1
+wait 1 4 fadein
+exit
+
+;-------------------------------------
+:FadeIn
+;-------------------------------------
+
+letterbox False
+getobjecthandle losecam3 g_hobject
+trigger g_hobject off
+screenfadein 1
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+
+Addtrigger Lose, OnLose
+Addtrigger Cam2 OnCam2
+Addtrigger cam3 OnCam3
+AddTrigger FadeOut Close
+exit

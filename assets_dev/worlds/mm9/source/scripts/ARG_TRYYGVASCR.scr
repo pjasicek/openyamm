@@ -1,0 +1,29 @@
+;----------------------------------------------
+;ARG_Kira.scr
+; By Timmy
+; handles Kira's Argument Cutscene stuff
+;
+
+
+;----------------------------------------------
+
+#include globals.inc 
+
+
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+loopanim Sc2_Kirashot5 0 DoNothing
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+
+exit

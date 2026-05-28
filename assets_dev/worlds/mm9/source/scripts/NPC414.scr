@@ -1,0 +1,104 @@
+;--------------------------------------------------
+;NPC414.scr
+; timmy
+; handles Nicolai Ironfist voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+#string		sLocation
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub thjorad
+gosub Refinery
+
+exit
+
+
+;--------------------------------------------------
+:Thjorad
+;--------------------------------------------------
+;****************
+;Thjorad Quest
+;****************
+
+
+
+
+;End thjorad quest
+;******************
+exit
+
+
+;--------------------------------------------------
+:Refinery
+;--------------------------------------------------
+;****************
+;Refinery Quest
+;****************
+
+
+
+
+;End Refinery Quest
+;******************
+exit
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_414.wav, DoNothing, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+haskey 121 g_ntemp
+if (g_ntemp==TRUE)
+
+	getmyhandle g_hobject
+
+	if (sLocation==Guberland)
+		setflag g_hobject, visible
+		setflag g_hobject, solid
+		setflag g_hobject, gravity
+		exit
+	else
+		clearflag g_hobject, visible
+		clearflag g_hobject, solid
+		clearflag g_hobject, gravity
+		exit
+	endif
+endif
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+Getparam 0 sLocation
+Addtrigger Use, OnUse
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

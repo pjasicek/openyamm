@@ -1,0 +1,1109 @@
+schema: openyamm.model3d.v1
+id: basilisk
+model: basilisk.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/BASILISK.abc
+  commandString: 'FadeRangeMax 5000; FadeRangeMin 4500; '
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: leg
+  materialIndex: 0
+  lods:
+  - faces: 71
+    vertices: 39
+  - faces: 37
+    vertices: 22
+  - faces: 25
+    vertices: 16
+  - faces: 13
+    vertices: 10
+- name: leg01
+  materialIndex: 0
+  lods:
+  - faces: 71
+    vertices: 39
+  - faces: 47
+    vertices: 27
+  - faces: 23
+    vertices: 15
+  - faces: 19
+    vertices: 13
+- name: leg03
+  materialIndex: 0
+  lods:
+  - faces: 71
+    vertices: 39
+  - faces: 47
+    vertices: 27
+  - faces: 23
+    vertices: 15
+  - faces: 19
+    vertices: 13
+- name: leg05
+  materialIndex: 0
+  lods:
+  - faces: 71
+    vertices: 39
+  - faces: 37
+    vertices: 22
+  - faces: 25
+    vertices: 16
+  - faces: 13
+    vertices: 10
+- name: leg02
+  materialIndex: 0
+  lods:
+  - faces: 81
+    vertices: 44
+  - faces: 53
+    vertices: 30
+  - faces: 25
+    vertices: 16
+  - faces: 21
+    vertices: 14
+- name: leg04
+  materialIndex: 0
+  lods:
+  - faces: 81
+    vertices: 44
+  - faces: 55
+    vertices: 31
+  - faces: 25
+    vertices: 16
+  - faces: 21
+    vertices: 14
+- name: body
+  materialIndex: 0
+  lods:
+  - faces: 307
+    vertices: 196
+  - faces: 289
+    vertices: 187
+  - faces: 231
+    vertices: 158
+  - faces: 157
+    vertices: 118
+materials:
+- index: 0
+  texture: skins_preview/basilisk.png
+  runtime_texture: skins/basilisk.dtx
+  preview_texture: skins_preview/basilisk.png
+  source: mm9/extracted/SKINS/SKINS/BASILISK.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: XCENTER
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 71
+  - index: 2
+    name: XbackC
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 45
+    - 58
+  - index: 3
+    name: XbackD
+    parent: 2
+    flags: 1
+    children:
+    - 4
+    - 19
+    - 32
+  - index: 4
+    name: Xneckpiv
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Xheadpiv
+    parent: 4
+    flags: 1
+    children:
+    - 6
+    - 13
+    - 14
+    - 15
+    - 16
+    - 17
+    - 18
+  - index: 6
+    name: Xhead
+    parent: 5
+    flags: 1
+    children:
+    - 7
+    - 8
+    - 11
+    - 12
+  - index: 7
+    name: Xeye
+    parent: 6
+    flags: 1
+    children: []
+  - index: 8
+    name: Xjawbase
+    parent: 6
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Xjawpiv
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Xjaw
+    parent: 9
+    flags: 1
+    children: []
+  - index: 11
+    name: XfinA
+    parent: 6
+    flags: 1
+    children: []
+  - index: 12
+    name: XfinA01
+    parent: 6
+    flags: 1
+    children: []
+  - index: 13
+    name: XfinDpiv
+    parent: 5
+    flags: 1
+    children: []
+  - index: 14
+    name: XfinDpiv01
+    parent: 5
+    flags: 1
+    children: []
+  - index: 15
+    name: XfinB
+    parent: 5
+    flags: 1
+    children: []
+  - index: 16
+    name: XfinC
+    parent: 5
+    flags: 1
+    children: []
+  - index: 17
+    name: XfinB01
+    parent: 5
+    flags: 1
+    children: []
+  - index: 18
+    name: XfinC01
+    parent: 5
+    flags: 1
+    children: []
+  - index: 19
+    name: Xfrontpivot
+    parent: 3
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Xfrontelbow
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Xfrontarm
+    parent: 20
+    flags: 1
+    children:
+    - 22
+    - 24
+    - 26
+    - 28
+    - 30
+  - index: 22
+    name: Xfthumb
+    parent: 21
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: XfthumbA
+    parent: 22
+    flags: 1
+    children: []
+  - index: 24
+    name: XffingA
+    parent: 21
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: XffingAmid
+    parent: 24
+    flags: 1
+    children: []
+  - index: 26
+    name: XffingB
+    parent: 21
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: XffingBmid
+    parent: 26
+    flags: 1
+    children: []
+  - index: 28
+    name: XffingC
+    parent: 21
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: XffingCmid
+    parent: 28
+    flags: 1
+    children: []
+  - index: 30
+    name: XffingD
+    parent: 21
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: XffingDmid
+    parent: 30
+    flags: 1
+    children: []
+  - index: 32
+    name: Xfrontpivot01
+    parent: 3
+    flags: 1
+    children:
+    - 33
+  - index: 33
+    name: Xfrontelbow01
+    parent: 32
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: Xfrontarm01
+    parent: 33
+    flags: 1
+    children:
+    - 35
+    - 37
+    - 39
+    - 41
+    - 43
+  - index: 35
+    name: XffingA01
+    parent: 34
+    flags: 1
+    children:
+    - 36
+  - index: 36
+    name: XffingAmid01
+    parent: 35
+    flags: 1
+    children: []
+  - index: 37
+    name: Xfthumb01
+    parent: 34
+    flags: 1
+    children:
+    - 38
+  - index: 38
+    name: XfthumbA01
+    parent: 37
+    flags: 1
+    children: []
+  - index: 39
+    name: XffingD01
+    parent: 34
+    flags: 1
+    children:
+    - 40
+  - index: 40
+    name: XffingDmid01
+    parent: 39
+    flags: 1
+    children: []
+  - index: 41
+    name: XffingC01
+    parent: 34
+    flags: 1
+    children:
+    - 42
+  - index: 42
+    name: XffingCmid01
+    parent: 41
+    flags: 1
+    children: []
+  - index: 43
+    name: XffingB01
+    parent: 34
+    flags: 1
+    children:
+    - 44
+  - index: 44
+    name: XffingBmid01
+    parent: 43
+    flags: 1
+    children: []
+  - index: 45
+    name: Xmidbase
+    parent: 2
+    flags: 1
+    children:
+    - 46
+  - index: 46
+    name: Xmidelbow
+    parent: 45
+    flags: 1
+    children:
+    - 47
+  - index: 47
+    name: Xmidarm
+    parent: 46
+    flags: 1
+    children:
+    - 48
+    - 50
+    - 52
+    - 54
+    - 56
+  - index: 48
+    name: XmfingD
+    parent: 47
+    flags: 1
+    children:
+    - 49
+  - index: 49
+    name: XmfingDmid
+    parent: 48
+    flags: 1
+    children: []
+  - index: 50
+    name: Xmthumb
+    parent: 47
+    flags: 1
+    children:
+    - 51
+  - index: 51
+    name: XmthumbA
+    parent: 50
+    flags: 1
+    children: []
+  - index: 52
+    name: XmfingB
+    parent: 47
+    flags: 1
+    children:
+    - 53
+  - index: 53
+    name: XmfingBmid
+    parent: 52
+    flags: 1
+    children: []
+  - index: 54
+    name: XmfingA
+    parent: 47
+    flags: 1
+    children:
+    - 55
+  - index: 55
+    name: XmfingAmid
+    parent: 54
+    flags: 1
+    children: []
+  - index: 56
+    name: XmfingC
+    parent: 47
+    flags: 1
+    children:
+    - 57
+  - index: 57
+    name: XmfingCmid
+    parent: 56
+    flags: 1
+    children: []
+  - index: 58
+    name: Xmidbase01
+    parent: 2
+    flags: 1
+    children:
+    - 59
+  - index: 59
+    name: Xmidelbow01
+    parent: 58
+    flags: 1
+    children:
+    - 60
+  - index: 60
+    name: Xmidarm01
+    parent: 59
+    flags: 1
+    children:
+    - 61
+    - 63
+    - 65
+    - 67
+    - 69
+  - index: 61
+    name: XmfingD01
+    parent: 60
+    flags: 1
+    children:
+    - 62
+  - index: 62
+    name: XmfingDmid01
+    parent: 61
+    flags: 1
+    children: []
+  - index: 63
+    name: Xmthumb01
+    parent: 60
+    flags: 1
+    children:
+    - 64
+  - index: 64
+    name: XmthumbA01
+    parent: 63
+    flags: 1
+    children: []
+  - index: 65
+    name: XmfingB01
+    parent: 60
+    flags: 1
+    children:
+    - 66
+  - index: 66
+    name: XmfingBmid01
+    parent: 65
+    flags: 1
+    children: []
+  - index: 67
+    name: XmfingA01
+    parent: 60
+    flags: 1
+    children:
+    - 68
+  - index: 68
+    name: XmfingAmid01
+    parent: 67
+    flags: 1
+    children: []
+  - index: 69
+    name: XmfingC01
+    parent: 60
+    flags: 1
+    children:
+    - 70
+  - index: 70
+    name: XmfingCmid01
+    parent: 69
+    flags: 1
+    children: []
+  - index: 71
+    name: XbackB
+    parent: 1
+    flags: 1
+    children:
+    - 72
+  - index: 72
+    name: XbackA
+    parent: 71
+    flags: 1
+    children:
+    - 73
+    - 77
+    - 92
+  - index: 73
+    name: Xtailpiv
+    parent: 72
+    flags: 1
+    children:
+    - 74
+  - index: 74
+    name: XtailA
+    parent: 73
+    flags: 1
+    children:
+    - 75
+  - index: 75
+    name: XtailB
+    parent: 74
+    flags: 1
+    children:
+    - 76
+  - index: 76
+    name: XtailC
+    parent: 75
+    flags: 1
+    children: []
+  - index: 77
+    name: Xrearbase
+    parent: 72
+    flags: 1
+    children:
+    - 78
+  - index: 78
+    name: Xrearpivot
+    parent: 77
+    flags: 1
+    children:
+    - 79
+  - index: 79
+    name: Xrearelbow
+    parent: 78
+    flags: 1
+    children:
+    - 80
+  - index: 80
+    name: Xreararm
+    parent: 79
+    flags: 1
+    children:
+    - 81
+  - index: 81
+    name: Xrearwrist
+    parent: 80
+    flags: 1
+    children:
+    - 82
+    - 84
+    - 86
+    - 88
+    - 90
+  - index: 82
+    name: XrfingD
+    parent: 81
+    flags: 1
+    children:
+    - 83
+  - index: 83
+    name: XrfingDmid
+    parent: 82
+    flags: 1
+    children: []
+  - index: 84
+    name: Xrthumb
+    parent: 81
+    flags: 1
+    children:
+    - 85
+  - index: 85
+    name: XrthumbA
+    parent: 84
+    flags: 1
+    children: []
+  - index: 86
+    name: XrfingB
+    parent: 81
+    flags: 1
+    children:
+    - 87
+  - index: 87
+    name: XrfingBmid
+    parent: 86
+    flags: 1
+    children: []
+  - index: 88
+    name: XrfingA
+    parent: 81
+    flags: 1
+    children:
+    - 89
+  - index: 89
+    name: XrfingAmid
+    parent: 88
+    flags: 1
+    children: []
+  - index: 90
+    name: XrfingC
+    parent: 81
+    flags: 1
+    children:
+    - 91
+  - index: 91
+    name: XrfingCmid
+    parent: 90
+    flags: 1
+    children: []
+  - index: 92
+    name: Xrearbase01
+    parent: 72
+    flags: 1
+    children:
+    - 93
+  - index: 93
+    name: Xrearpivot01
+    parent: 92
+    flags: 1
+    children:
+    - 94
+  - index: 94
+    name: Xrearelbow01
+    parent: 93
+    flags: 1
+    children:
+    - 95
+  - index: 95
+    name: Xreararm01
+    parent: 94
+    flags: 1
+    children:
+    - 96
+  - index: 96
+    name: Xrearwrist01
+    parent: 95
+    flags: 1
+    children:
+    - 97
+    - 99
+    - 101
+    - 103
+    - 105
+  - index: 97
+    name: XrfingD01
+    parent: 96
+    flags: 1
+    children:
+    - 98
+  - index: 98
+    name: XrfingDmid01
+    parent: 97
+    flags: 1
+    children: []
+  - index: 99
+    name: Xrthumb01
+    parent: 96
+    flags: 1
+    children:
+    - 100
+  - index: 100
+    name: XrthumbA01
+    parent: 99
+    flags: 1
+    children: []
+  - index: 101
+    name: XrfingB01
+    parent: 96
+    flags: 1
+    children:
+    - 102
+  - index: 102
+    name: XrfingBmid01
+    parent: 101
+    flags: 1
+    children: []
+  - index: 103
+    name: XrfingA01
+    parent: 96
+    flags: 1
+    children:
+    - 104
+  - index: 104
+    name: XrfingAmid01
+    parent: 103
+    flags: 1
+    children: []
+  - index: 105
+    name: XrfingC01
+    parent: 96
+    flags: 1
+    children:
+    - 106
+  - index: 106
+    name: XrfingCmid01
+    parent: 105
+    flags: 1
+    children: []
+sockets:
+- name: RangeAttack
+  node: 8
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.5738866925239563
+  - 0.05565822124481201
+  - -0.07887213677167892
+  - 0.8132253289222717
+- name: Jaw
+  node: 10
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.02726873569190502
+  - 0.998898983001709
+  - -0.03816152736544609
+  - 0.0010349502554163337
+animations:
+- name: static_model1
+  durationMs: 1
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Stand
+  durationMs: 2000
+  keyframes: 12
+  interpolationTimeMs: 200
+  events: []
+- name: Aware
+  durationMs: 2200
+  keyframes: 16
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Fidget1
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: Fidget2
+  durationMs: 2000
+  keyframes: 12
+  interpolationTimeMs: 200
+  events: []
+- name: Walk
+  durationMs: 1300
+  keyframes: 11
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 260
+    event: footstep 1
+  - timeMs: 650
+    event: footstep 2
+  - timeMs: 1040
+    event: footstep 1
+- name: Run
+  durationMs: 600
+  keyframes: 11
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 120
+    event: footstep 1
+  - timeMs: 240
+    event: footstep 2
+  - timeMs: 360
+    event: footstep 1
+- name: Search
+  durationMs: 3500
+  keyframes: 18
+  interpolationTimeMs: 200
+  events: []
+- name: Taunt
+  durationMs: 1600
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: RAttack1
+  durationMs: 2500
+  keyframes: 19
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+  - timeMs: 694
+    event: rangeattack
+- name: HAttack1
+  durationMs: 1200
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+  - timeMs: 133
+    event: lunge
+  - timeMs: 400
+    event: lunge
+  - timeMs: 666
+    event: bite
+- name: Wince1
+  durationMs: 1200
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Wince2
+  durationMs: 1400
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Die1
+  durationMs: 2000
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0  0  0
+  - timeMs: 333
+    event: Velocity  0  0  0; playanimsound
+  - timeMs: 500
+    event: Velocity  4  11  0
+  - timeMs: 666
+    event: Velocity -18  90 -61
+  - timeMs: 1000
+    event: Velocity -171  8 -4
+  - timeMs: 1333
+    event: Velocity -143 -151 -1; playdeathsound
+  - timeMs: 1666
+    event: Velocity  0  15  0
+  - timeMs: 1833
+    event: Velocity  0 -13  0
+  - timeMs: 2000
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: Die2
+  durationMs: 2400
+  keyframes: 16
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0  0  0
+  - timeMs: 159
+    event: Velocity -3  10 -30
+  - timeMs: 320
+    event: Velocity  51  69 -47; playanimsound
+  - timeMs: 639
+    event: Velocity  5  25 -32
+  - timeMs: 800
+    event: Velocity  21  21 -40
+  - timeMs: 960
+    event: Velocity  106  28 -53
+  - timeMs: 1119
+    event: Velocity  91  70 -1
+  - timeMs: 1280
+    event: Velocity  23 -79 -10
+  - timeMs: 1440
+    event: Velocity  11  11 -1
+  - timeMs: 1599
+    event: Velocity  1  20  0; playdeathsound
+  - timeMs: 1760
+    event: Velocity  2 -21  0
+  - timeMs: 1920
+    event: Velocity  1 -10  0
+  - timeMs: 2400
+    event: Velocity 0 0 0; DeadDims 1 0 1
+animationBindings:
+- name: static_model1
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Stand
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - -38.4
+- name: Aware
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - -38.4
+- name: Fidget1
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - -38.4
+- name: Fidget2
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - -38.4
+- name: Walk
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - -38.4
+- name: Run
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - -38.4
+- name: Search
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - -38.4
+- name: Taunt
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - -38.4
+- name: RAttack1
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - -38.4
+- name: HAttack1
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - -38.4
+- name: Wince1
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - -38.4
+- name: Wince2
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - -38.4
+- name: Die1
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - -38.4
+- name: Die2
+  extents:
+  - 115.2
+  - 53.76
+  - 115.2
+  origin:
+  - 0.0
+  - 0.0
+  - -38.4
+roles:
+- actor_model
+source_model: models/basilisk.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: basilisk_basilisk
+  source_skins:
+  - skins/basilisk.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 142
+    number: '150'
+    monster_name: Basilisk
+    type_picture: Basilisk A
+    base_name: Basilisk
+  - table: ACTOR
+    row: 143
+    number: '151'
+    monster_name: Fibrase Basilisk
+    type_picture: Basilisk B
+    base_name: Basilisk
+  - table: ACTOR
+    row: 144
+    number: '152'
+    monster_name: King Basilisk
+    type_picture: Basilisk C
+    base_name: Basilisk
+  - table: MONSTERS
+    row: 142
+    number: '150'
+    monster_name: Basilisk
+    type_picture: Basilisk A
+    base_name: Basilisk
+  - table: MONSTERS
+    row: 143
+    number: '151'
+    monster_name: Fibrase Basilisk
+    type_picture: Basilisk B
+    base_name: Basilisk
+- id: basilisk_basilisk2
+  source_skins:
+  - skins/basilisk2.dtx
+  actor_rows:
+  - table: MONSTERS
+    row: 144
+    number: '152'
+    monster_name: King Basilisk
+    type_picture: Basilisk C
+    base_name: Basilisk

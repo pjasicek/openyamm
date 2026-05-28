@@ -1,0 +1,116 @@
+;----------------------------------------------
+;NjamTaunt.scr
+; By Timmy
+; 
+; Handle's Njam's Taunting Stuff for Taunt Cutscene
+
+;----------------------------------------------
+
+#include globals.inc 
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+;-------------------------------------
+:OnStart
+;-------------------------------------
+
+getobjecthandle TauntMarker g_hobject
+walkto g_hobject 2 OnArrive
+exit
+
+;-------------------------------------
+:OnArrive
+;-------------------------------------
+
+getobjecthandle TauntCamB g_hobject
+FaceObject g_hobject 10 DoNothing
+
+getobjecthandle TauntMan g_hobject
+Trigger g_hobject Arrive
+wait 1 1 OnText1
+exit
+
+
+;-------------------------------------
+:OnText1
+;-------------------------------------
+
+RolloverText 15, 0
+wait 1 4 OnText2
+
+
+exit
+
+
+;-------------------------------------
+:OnText2
+;-------------------------------------
+
+RolloverText 16, 0
+wait 1 4 OnVanish
+exit
+
+
+;-------------------------------------
+:OnVanish
+;-------------------------------------
+
+
+getobjecthandle TauntMan g_hobject
+Trigger g_hobject VanishStart
+
+getmyhandle g_hmyobject
+
+; play vanish effect here
+DoClientFX g_hmyObject,GreaterDemon
+Playsound \Sounds\magic\Windup10.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 Vanish2b
+exit
+
+;-------------------------------------
+:Vanish2b
+;-------------------------------------
+
+clearflag g_hmyobject visible
+Playsound \Sounds\magic\teleport.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 Vanish2c
+exit
+
+
+;-------------------------------------
+:Vanish2c
+;-------------------------------------
+getobjecthandle TauntMan g_hobject
+Trigger g_hobject VanishDone
+
+removeobject g_hmyobject
+exit
+
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+	haskey 497 g_ntemp
+	if (g_ntemp==TRUE)
+		getmyhandle g_hmyobject
+		removeobject g_hmyobject
+	endif
+
+	exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Start, OnStart
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit

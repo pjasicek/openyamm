@@ -1,0 +1,722 @@
+format_version: 1
+source_file: NPC132.rude
+rows:
+  - source:
+      file: NPC132.rude
+      row: 1
+    raw_columns:
+      - 132
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 132
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC132.rude
+      row: 2
+    raw_columns:
+      - 132
+      - 3
+      - 1
+      - Well which is it?
+      - That I'll not tell.  Fear not.  I think Nurtigan is much better this way.  I'm through answering your questions.  Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 132
+      node_id: 3
+      choice_slot: 1
+      prompt: Well which is it?
+      response: That I'll not tell.  Fear not.  I think Nurtigan is much better this way.  I'm through answering your questions.  Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC132.rude
+      row: 3
+    raw_columns:
+      - 132
+      - 2
+      - 1
+      - What did you do to him?
+      - Maybe I did nothing.  Maybe he just cannot believe that there is a woman who would resist him.  Or maybe the thought of courting me made him crazy.  Or maybe he just bothered me.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 132
+      node_id: 2
+      choice_slot: 1
+      prompt: What did you do to him?
+      response: Maybe I did nothing.  Maybe he just cannot believe that there is a woman who would resist him.  Or maybe the thought of courting me made him crazy.  Or maybe he just bothered me.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC132.rude
+      row: 4
+    raw_columns:
+      - 132
+      - 1
+      - 1
+      - What happened to Nutty Nurtigan?
+      - He thought he was some great symbol of love.  It was his claim that there was no woman who  could resist his wooing.  Well he found out that such a woman exists.  And I am she.
+      - 2
+      - 206
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 132
+      node_id: 1
+      choice_slot: 1
+      prompt: What happened to Nutty Nurtigan?
+      response: He thought he was some great symbol of love.  It was his claim that there was no woman who  could resist his wooing.  Well he found out that such a woman exists.  And I am she.
+      next: 2
+      raw_fields:
+        c07: 206
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 206
+            qbit_id: 9206
+            state_id: mm9.keys.206
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 206
+          qbit_id: 9206
+          state_id: mm9.keys.206
+  - source:
+      file: NPC132.rude
+      row: 5
+    raw_columns:
+      - 132
+      - 132
+      - 1
+      - We'd like to ask you some questions.
+      - Questions?  I suppose I could hear them.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 132
+      node_id: 132
+      choice_slot: 1
+      prompt: We'd like to ask you some questions.
+      response: Questions?  I suppose I could hear them.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC132.rude
+      row: 6
+    raw_columns:
+      - 132
+      - 1
+      - 2
+      - Do you have any news?
+      - I live out in a cave!  How would I get any news?
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 132
+      node_id: 1
+      choice_slot: 2
+      prompt: Do you have any news?
+      response: I live out in a cave!  How would I get any news?
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC132.rude
+      row: 7
+    raw_columns:
+      - 132
+      - 132
+      - 2
+      - We've come to ask you to cure Nutty Nurtigan.
+      - That old loon?  It was his own fault he got that way!
+      - 132
+      - 206
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 132
+      node_id: 132
+      choice_slot: 2
+      prompt: We've come to ask you to cure Nutty Nurtigan.
+      response: That old loon?  It was his own fault he got that way!
+      next: 132
+      raw_fields:
+        c07: 206
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 132
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 206
+            qbit_id: 9206
+            state_id: mm9.keys.206
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 206
+          qbit_id: 9206
+          state_id: mm9.keys.206
+  - source:
+      file: NPC132.rude
+      row: 8
+    raw_columns:
+      - 132
+      - 1
+      - 3
+      - What do you know about Yrsa the Troll?
+      - Don't you dare speak that name!  Why I have my suspicions that she is not what she seems.  I wouldn't trust her to give me Njam's own luck!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 132
+      node_id: 1
+      choice_slot: 3
+      prompt: What do you know about Yrsa the Troll?
+      response: Don't you dare speak that name!  Why I have my suspicions that she is not what she seems.  I wouldn't trust her to give me Njam's own luck!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC132.rude
+      row: 9
+    raw_columns:
+      - 132
+      - 132
+      - 3
+      - Sorry to bother you.
+      - Get out of here and leave me alone.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 132
+      node_id: 132
+      choice_slot: 3
+      prompt: Sorry to bother you.
+      response: Get out of here and leave me alone.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC132.rude
+      row: 10
+    raw_columns:
+      - 132
+      - 1
+      - 7
+      - Thanks for your time.
+      - Now go, and leave me alone!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 132
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Now go, and leave me alone!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: hallofthegods
+display_name: Hall of the Gods
+source:
+  dat: ../source/worlds/HALLOFTHEGODS.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/HALLOFTHEGODS.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 9ce363c8afbc8fab9465dd705a1d948e57c521041f64bac1ada6065cddba0e1b
+runtime:
+  world_backend: dat_world
+  classification: indoor_like
+  classification_confidence: medium
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: false
+sidecars:
+  dat_world: hallofthegods.dat_world.yml
+  raw_objects: hallofthegods.raw_objects.yml
+  materials: hallofthegods.material_aliases.yml
+  events: hallofthegods.events.yml
+  scene_compat: hallofthegods.scene.yml
+  source_metadata_compat: hallofthegods.mm9.yml
+  bsp_compat: null
+  geometry_compat: null
+  model_assets_compat: hallofthegods.model_assets.yml
+  odm_compat: hallofthegods.odm
+  blv_compat: null
+scripts:
+  level: ../events/hallofthegods.lua
+  script_ir: ../events/hallofthegods.script_ir.yml
+compatibility:
+  legacy_target_format: odm
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

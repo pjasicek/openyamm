@@ -1,0 +1,80 @@
+;--------------------------------------------------
+;BookLetter.scr
+;9/21
+; timmy
+; handles Books and scrolls doing Letter interface
+;--------------------------------------------------
+
+#include globals.inc
+
+#number Item_ID
+#String Item_Type
+#number bDown = 0
+#number Open
+
+;--------------------------------------------------
+:OnUse
+; this opens the book
+;--------------------------------------------------
+
+
+if (open==false)
+	if (Item_Type!=letter)
+		PlayAnim Openbook
+		PlaySound Sounds\Events\bookopen.wav, DoNothing, 256, 2048, FALSE, 100
+		set Open, true
+		wait 0 1 Letter
+		exit
+	else
+		Doletter Item_Id
+		PlaySound Sounds\Events\bookopen.wav, DoNothing, 256, 2048, FALSE, 100
+		exit
+	endif
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:Letter
+; this does the letter interface
+;--------------------------------------------------
+
+
+doletter Item_Id
+wait 0 5 close
+exit
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+if (bDown==TRUE)
+	LoopAnim Down 0 DoNothing
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:Close
+;--------------------------------------------------
+
+playanim closebook
+PlaySound Sounds\Events\bookclose.wav, DoNothing, 256, 2048, FALSE, 100
+set Open, false
+exit
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Getparam 0 Item_ID
+Getparam 1 Item_Type
+getparam 2 bDown
+Addtrigger Use OnUse
+set Open, false
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit

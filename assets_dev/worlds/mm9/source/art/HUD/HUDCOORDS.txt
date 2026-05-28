@@ -1,0 +1,175 @@
+Main Game HUD Coordinates
+
+Notes:
+
+There are 3 elements here.  The compass, Name/Mana, and Portrait.
+
+
+GoldIcon.pcx	 17x 542y	37x32
+Gold Text ###	 56x  52y	110x18	Main Font (Might try different colors)
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                              Compass Coordinates
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+CompassBG.pcx		662x   1y	134x149	Places the compass on-screen
+CompassGem???.pcx	760x   9y	35x35	Different color gems
+Compass Inset		706x  20y	50x18	Inset CompassStrip.pcx in this space
+Compass Strip.pcx	???x  20y	200x18	Inset in above space
+Map Placement		682x  44y	98x82	Red Area is for Wizard Eye Map
+Fleet Foot Icon		639x  76y	30x44
+Torch Light Icon	646x   9y	32x64
+Feather Fall Icon	659x 120y	43x42
+
+
+Note:  I'm considering priting time/date above the flat part of the compass.
+	I'd like to try doing this in code, just on the game screen background,
+	If you can try this as a test, I'd appreciate it.  You may need me to 
+	make a very small font for this purpose.  If it doesn't work well, I'll
+	build a background into the compass BG piece.
+
+Note:  I may add an animation to the compass gem to make it more obvious when
+	it changes.
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                           PC Portrait Coordinates
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+MightBG1		  9x   4y	126x150	
+MightBG2		  9x 134y	126x150
+MightBG3		  9x 264y	126x150
+MightBG4		  9x 394y	126x150
+
+Note: Portrait backgrounds overlap.  Print the top one first, lower ones should
+	displayed on top of the one above it on screen.
+
+Note: There is a special background for non-mana using Might characters.
+
+-------------------------------------------------------------------------------
+
+HealthPC1		 34x  33y	11x82
+HealthPC2		 34x 163y	11x82
+HealthPC3		 34x 294y	11x82
+HealthPC4		 34x 424y	11x82
+
+Note: Health bar for Magic-users has an inactive area of 2 pixels at top and
+	bottom of the image.  The bar should start with 2 pixels missing from
+	the top and zero health should be at a point 2 pixels before the end
+	of the image.
+
+Note: Health bars should empty form top to bottom.
+
+-------------------------------------------------------------------------------
+
+ManaPC1			 48x 114y	70x11
+ManaPC2			 48x 244y	70x11
+ManaPC3			 48x 374y	70x11
+ManaPC4			 48x 504y	70x11
+
+Note: Mana Bar for magic has 0 dead pixel on the right -side of the bitmap.
+
+Note: Mana bar for might has 4 dead pixels on each side of the bitmap.
+
+Note: Mana bars should empty from right-to-left.
+
+-------------------------------------------------------------------------------
+
+ExperiencePC1		109x  36y	4x75
+ExperiencePC2		109x 166y	4x75
+ExperiencePC3		109x 296y	4x75
+ExperiencePC4		109x 426y	4x75
+
+Note: Experience should fill from bottom to top. (Zero experience means this
+	bar is totally invisible.
+
+-------------------------------------------------------------------------------
+
+ExperienceGemPC1	107x  28y	8x8
+ExperienceGemPC2	107x 158y	8x8
+ExperienceGemPC3	107x 288y	8x8
+ExperienceGemPC4	107x 418y	8x8
+
+Note: Only display this graphic when experience bar is full.  I will likely
+	create an animation of this gem blinking or sparkling, to make it more
+	obvious when ready to level-up.
+
+-------------------------------------------------------------------------------
+
+PCPortrait1		 47x  32y	60x80
+PCPortrait2		 47x 162y	60x80
+PCPortrait3		 47x 292y	60x80
+PCPortrait4		 47x 422y	60x80
+
+Note: There is a 12x14 overlay to add overlap of the portrait borders to each
+	portrait at the same coordinates as the portrait.
+	Add "PCOverlay-Magic.pcx" or "PCOverlay-Might.pcx" respectively.
+
+-------------------------------------------------------------------------------
+
+TurnMarker.pcx		Place at same coords as Portrait.  UNDER the overlay for
+			each portrait. (Mentioned above)
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                 Non-Player Character (NPC) Portrait Elements	
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+NPGBG1			703x 143y	87x131y
+NPCBG2			703x 273y	87x131y
+NPCBG3			703x 403y	87x131y
+
+Note: Only display these frames and related elements when NPC's accompany
+	the party.
+
+Note: There is a normal version with mana, and a "No Mana" version of this graphic. 
+
+-------------------------------------------------------------------------------
+
+NPC1Health		706x 245y	71x8
+NPC2Health		706x 375y	71x8
+NPC3Health		706x 505y	71x8
+
+NPC1Mana		706x 262y	71x8
+NPC2Mana		706x 392y	71x8
+NPC3Mana		706x 522y	71x8
+
+-------------------------------------------------------------------------------
+
+NPC1Portrait		708x 162y	60x80
+NPC2Portrait		708x 292y	60x80
+NPC3Portrait		708x 422y	60x80
+
+Note: There are some pixels of overlay for the portrait border over the npc
+	portraits.  There is a 60x3 pixel overlay to be printed over each
+	npc portrait at the same coordinates as the portrait "NPCOverlay.pcx"
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                            Health/Mana Text Coordinates
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Note: All of these health/Mana text strings should use "SmallFont" Centered
+
+PC1 Health "xxx/yyy"	 58x 114y 	50x9  
+PC1 Mana "xxx/yyy"	 68x 131y	50x9
+
+PC2 Health "xxx/xxx"	 58x 244y	50x9
+PC2 Mana "xxx/yyy"	 68x 261y	50x9
+
+PC3 Health "xxx/yyy"	 58x 374y	50x9
+PC3 Mana "xxx/yyy"	 68x 391y	50x9
+
+PC4 Health "xxx/yyy"	 58x 504y	50x9
+PC4 Mana "xxx/yyy"	 68x 521y	50x9
+
+-------------------------------------------------------------------------------
+
+NPC1 Health "xxx/yyy"	711x 244y	50x9
+NPC1 Mana "xxx/yyy"	721x 261y	50x9
+
+NPC2 Health "xxx/yyy"	711x 374y	50x9
+NPC2 Mana "xxx/yyy"	721x 391y	50x9
+
+NPC3 Health "xxx/yyy"	711x 504y	50x9
+NPC3 mana "xxx/yyy"	721x 521y	50x9
+
+-------------------------------------------------------------------------------

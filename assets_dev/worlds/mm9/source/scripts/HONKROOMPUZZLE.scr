@@ -1,0 +1,59 @@
+;-----------------------
+;	HonkRoomPuzzle.scr
+;	by SJR
+;	10-08-01
+;	Purpose:manager for the 
+;			secret room puzzle
+;-----------------------
+;-----------------------
+;	-DEDIT NOTES-
+;	ScriptParams are:
+;		p0 = Name of object
+;			 to 'use'
+;-----------------------
+
+#include BaseGlobals.inc
+
+#hobject	hLamp1=0
+#hobject	hLamp2=0
+#hobject	hSecretDoor=0
+
+;-------------
+:Main
+;-------------
+	Wait 0, .1, InitHonkRoomPuzzle
+	Exit TRUE
+
+;-------------
+:InitHonkRoomPuzzle
+;-------------
+	GetObjectHandle Brazier23, hLamp1
+	GetObjectHandle Brazier25, hLamp2
+	GetObjectHandle SecretDoor ,hSecretDoor
+
+	AddTrigger On, TurnOn
+	AddTrigger Off, TurnOff
+
+	Exit TRUE
+
+;-------------
+:TurnOn
+;-------------
+	Trigger hLamp1, On
+	Trigger hLamp2, On
+;;	Wait 1, 5, OpenSecretDoor
+	Exit TRUE
+
+;-------------
+:TurnOff
+;-------------
+	Trigger hLamp1, Off
+	Trigger hLamp2, Off
+	Wait 1, 5, OpenSecretDoor
+	Exit TRUE
+
+;-------------
+:OpenSecretDoor
+;-------------
+	Trigger hSecretDoor, Use
+	Exit TRUE

@@ -1,0 +1,92 @@
+;-------------------------------------------------
+;	ChessSquare.scr
+;	by SJR
+;	11-14-01
+;
+;	Purpose:chess attack puzzle
+;
+;	ScriptParams:
+;		p0 = LISTNAME
+;		p1 = LISTFIRST
+;		p2 = LISTLAST
+;	
+;	ChessSquare will ping pieces specified in p0->p2
+;	when the player steps on it.
+;-------------------------------------------------
+#include BaseGlobals.inc
+#include ListMaker.inc
+
+#hobject	hPlayer = 0
+#hobject	hDummy = 0
+#hobject	hMe = 0
+
+#string		sMyName = ""
+#string		sLastOne = ""
+
+;------------------------------------
+:Main
+;------------------------------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+
+	AddTrigger off, TurnOff
+	AddTrigger on, TurnOn
+
+	OnTouchNotify OnTouch
+
+	GetMyHandle hMe
+	GetObjectName hMe, sMyName
+
+	Exit TRUE
+
+;------------------------------------
+:OnTouch
+;	if player: turn me off, check danger
+;------------------------------------
+	if( hPlayer==0 )
+		GetPlayerHandle hPlayer
+	endif
+
+	GetParam 0, hDummy
+	if( hPlayer==hDummy )
+		gosub PingPieces
+		gosub UpdateInactiveSquare
+	endif
+	Exit TRUE
+
+;------------------------------------
+:UpdateInactiveSquare
+;	moves the 'off'ness from previous
+;	square to this square
+;------------------------------------
+	gosub TurnOff
+	GetConsoleStrVar LASTSQUARE, sLastOne
+	GetObjectHandle sLastOne, hDummy
+	Trigger hDummy, on
+	SetConsoleStrVar LASTSQUARE, sMyName
+	Exit TRUE
+
+;------------------------------------
+:PingPieces
+;	send a 'CanYouAttack?' message
+;	to all the pieces
+;------------------------------------
+	gosub GetFirstObject
+	while( ARRIVEDLAST!=TRUE )
+		Trigger LISTOBJECT, Ping
+		gosub GetNextObject
+	endwhile
+	Trigger LISTOBJECT, Ping
+	Exit TRUE
+
+;------------------------------------
+:TurnOff
+;------------------------------------
+	OnTouchNotify DoNothing
+	Exit TRUE
+;------------------------------------
+:TurnOn
+;------------------------------------
+	OnTouchNotify OnTouch
+	Exit TRUE

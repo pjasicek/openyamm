@@ -1,0 +1,81 @@
+;--------------------------------------------------
+;PropAnim.scr
+; timmy
+; tells a prop to run it's animation
+;
+;Note: if the first parameter is the word
+; OnUse, the second parameter becomes
+; the animation name and the script will wait until being used
+; to play the animation.  Otherwise it will just
+; loop an anim for time specified
+;--------------------------------------------------
+
+#include globals.inc
+
+#String    Params          
+#number		bLoop
+#String		sParameter2
+
+;Parameters
+;P0 Name of Animation OR whether it should be used
+;P1  # of times animation runs OR Name of amination to play
+;P2 Whether or not to allow Anim to play multiple times ONUse
+
+;--------------------------------------------------
+:PlayAnim
+;--------------------------------------------------
+
+
+LoopAnim Params 0 DoNothing
+;exitScript
+exit
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+if (bLoop=NULL)
+	set bLoop, FALSE
+endif
+
+if (Params==OnUse)
+	Addtrigger Use, OnUse
+	exit
+else
+	goto PlayAnim
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+if (g_nCounter==0)
+	Playanim sParameter2 DoNothing
+	if (bLoop=FALSE)
+		set g_nCounter, 1
+	endif
+endif
+exit
+
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+GetParam 0, Params
+GetParam 1, sParameter2
+GetParam 2, bLoop
+OnPostStartWorld Init
+;OnPostMiniSaveLoad Init
+;OnPostSaveLoad Init
+;wait 1 .1 Init
+
+
+exit
+

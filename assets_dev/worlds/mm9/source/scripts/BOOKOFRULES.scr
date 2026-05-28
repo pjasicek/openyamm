@@ -1,0 +1,85 @@
+;----------------------------------------------
+;BookOfRules.scr
+; By Timmy
+; gives the player the Book of rules
+; and the related key
+; Markel's RudeID is 127
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+
+Haskey 57 g_ntemp ; checks to see if player talked to Ludwig first
+
+if ( g_ntemp==1, )
+
+	Haskey 59 keycheck ;checks to see if player has picked up the mauscript already
+		if ( keycheck==0,  )
+	
+			givekey, 59 ;gives player finished quest key
+	
+
+			;------------------
+			; this is where the manuscript should be removed and added to inventory
+			;------------------
+			GiveItem 391
+			giveexp 5000
+			Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+			getobjecthandle BookRules g_hobject
+			removeobject g_hobject 
+			exit
+
+		endif
+endif
+Haskey 166 keycheck ; checks to see if player already picked up the manuscript
+if ( keycheck==0, )
+
+	givekey,  166
+	set keydata, 166
+
+	;------------------
+
+	; this is where the manuscript isremoved and added to inventory
+	;------------------
+	GiveItem 391
+	giveexp 5000
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+	getobjecthandle BookRules g_hobject
+	removeobject g_hobject 
+endif
+
+
+exit
+
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+Haskey 59 keycheck
+if ( g_ntemp==1, )
+	getobjecthandle manuscript g_hobject
+	removeobject g_hobject 
+	exitscript	
+	exit
+endif
+
+Haskey 166 keycheck
+if ( g_ntemp==1, )
+	getobjecthandle manuscript g_hobject
+	removeobject g_hobject 
+	exitscript	
+	exit
+endif
+exit

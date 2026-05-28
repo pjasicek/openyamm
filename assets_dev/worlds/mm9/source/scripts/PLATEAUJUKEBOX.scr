@@ -1,0 +1,128 @@
+;---------------------------------------
+;	PlateauJukebox.scr
+;	by SJR
+;	12-11-01
+;	Purpose:play soft, windy sound
+;			effects near the player
+;
+;	Triggers:
+;		"Play"	= play random sound effect behind player
+;		"Off"	= turn all sfx off
+;		"On"	= turn back on (default)
+;		"RandomOff"	= turn off randomly timed sounds
+;		"RandomOn"	= allow randomly timed sounds (default)
+;---------------------------------------
+#include BaseGlobals.inc
+
+#hobject	hMe = 0
+#hobject	hPlayer = 0
+
+#number		bActive = 1
+
+#number		nCounter = 10
+#number		nRandom = 0
+
+#number		x = 0
+#number		y = 0
+#number		z = 0
+
+#number		dt = 0
+
+#number		NUMSOUNDS = 10
+
+#stringarray	spSoundArray[10]
+#string			sFileName
+
+;------------
+:Main
+;------------
+	Wait 0, 5, InitDungeonJukebox
+
+	gosub InitStrings
+	gosub CacheAllSounds
+
+	Exit TRUE
+
+;------------
+:InitDungeonJukebox
+;------------
+	GetMyHandle hMe
+	GetPlayerHandle hPlayer
+
+	AddTrigger On, TurnOn
+	AddTrigger Off, TurnOff
+
+	gosub StartPlayLoop
+
+	Exit TRUE
+
+;------------
+:StartPlayLoop
+;------------
+	GetRandomInt 2, 8, dt
+	dt = dt * 60
+	Wait 0, dt, PlaySound
+
+	Exit TRUE
+
+;------------
+:PlaySound
+;------------
+	if( bActive==FALSE )
+		Exit TRUE
+	endif
+	gosub UpdatePOS
+	GetRandomInt 0, nCounter, nRandom
+	ArrayGet spSoundArray, nRandom, sFilename
+	PlaySound sFileName, StartPlayLoop, 1, 500, FALSE, 100
+
+	Exit TRUE
+
+;------------
+:UpdatePOS
+;------------
+	GetPOS hPlayer, x,y,z
+	SetPOS hMe, x,y,z
+	Exit TRUE
+
+;------------
+:TurnOn
+;------------
+	bActive = TRUE
+	gosub StartPlayLoop
+	Exit TRUE
+
+;------------
+:TurnOff
+;------------
+	bActive = FALSE
+	Exit TRUE
+
+;------------
+:InitStrings
+;------------
+	ArrayPut spSoundArray, 0, sounds\
+	ArrayPut spSoundArray, 1, sounds\
+	ArrayPut spSoundArray, 2, sounds\
+	ArrayPut spSoundArray, 3, sounds\
+	ArrayPut spSoundArray, 4, sounds\
+	ArrayPut spSoundArray, 5, sounds\
+	ArrayPut spSoundArray, 6, sounds\
+	ArrayPut spSoundArray, 7, sounds\
+	ArrayPut spSoundArray, 8, sounds\
+	ArrayPut spSoundArray, 9, sounds\
+
+	Exit TRUE
+
+;------------
+:CacheAllSounds
+;------------
+	nCounter = 0
+	while( nCounter<NUMSOUNDS )
+		ArrayGet spSoundArray, nCounter, sFileName
+		CacheSound sFileName
+		nCounter = nCounter + 1
+	endwhile
+	nCounter = nCounter - 1
+
+	Exit TRUE

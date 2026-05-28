@@ -1,0 +1,47 @@
+;------------------------------------------------------------------
+;	AK_GuardEscape.scr
+;	kd
+;	11-1
+;
+;	Parameters
+;
+;	p0 - Marker Root name  (ie for Markers Mrk0, Mrk1, Mrk2  "Mrk" is the root name)
+;	p1 - index of first marker
+;	p2 - index of last marker
+;-----------------------------------------------------
+#include ListTraverse.inc
+
+;-----------------------------------
+:OnTraverseDone
+;-----------------------------------
+	if( LISTINDEX==LISTLAST )
+		Stop
+		GetMyHandle LISTOBJECT
+		RemoveObject LISTOBJECT
+	endif
+
+	Exit 1
+
+;-----------------------------------
+:Main
+;-----------------------------------
+	GetParam 0 LISTNAME
+	GetParam 1 LISTFIRST
+	GetParam 2 LISTLAST
+	
+	gosub SetTraverseRun
+	gosub SetTraverseOnce
+
+	OnDamage TraverseBegin
+	OnStuck TraverseResume
+	AddTrigger Go, RunAway
+
+	Exit 1
+
+;-----------------------------------
+:RunAway
+;	display help text
+;-----------------------------------
+	RolloverText 150, 1, 5000, 4000
+
+	Exit 1

@@ -1,0 +1,521 @@
+schema: openyamm.model3d.v1
+id: lobber
+model: lobber.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/LOBBER.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: lobber
+  materialIndex: 0
+  lods:
+  - faces: 219
+    vertices: 112
+  - faces: 159
+    vertices: 82
+  - faces: 105
+    vertices: 55
+  - faces: 53
+    vertices: 29
+- name: root
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 17
+  - faces: 24
+    vertices: 17
+  - faces: 16
+    vertices: 13
+  - faces: 8
+    vertices: 9
+materials:
+- index: 0
+  texture: skins_preview/icelobber.png
+  runtime_texture: skins/icelobber.dtx
+  preview_texture: skins_preview/icelobber.png
+  source: mm9/extracted/SKINS/SKINS/ICELOBBER.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Xroot
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Xstembase
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: XstemA
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: XstemB
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: XstemC
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Xpodbase
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Xheadpiv
+    parent: 6
+    flags: 1
+    children:
+    - 8
+    - 18
+  - index: 8
+    name: Xhead
+    parent: 7
+    flags: 1
+    children:
+    - 9
+    - 10
+    - 14
+  - index: 9
+    name: Xheadmid
+    parent: 8
+    flags: 1
+    children: []
+  - index: 10
+    name: XApivot
+    parent: 8
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: XAarm
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: XAmid
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: XAclaw
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: XApivot01
+    parent: 8
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: XAarm01
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: XAmid01
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: XAclaw01
+    parent: 16
+    flags: 1
+    children: []
+  - index: 18
+    name: Xjawbase
+    parent: 7
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Xjawpiv
+    parent: 18
+    flags: 1
+    children:
+    - 20
+    - 29
+    - 33
+  - index: 20
+    name: Xjaw
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Xmouth
+    parent: 20
+    flags: 1
+    children:
+    - 22
+    - 23
+    - 26
+  - index: 22
+    name: Xchin
+    parent: 21
+    flags: 1
+    children: []
+  - index: 23
+    name: XCbase
+    parent: 21
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: XCpiv
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: XCarm
+    parent: 24
+    flags: 1
+    children: []
+  - index: 26
+    name: XCbase01
+    parent: 21
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: XCpiv01
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: XCarm01
+    parent: 27
+    flags: 1
+    children: []
+  - index: 29
+    name: XBpiv
+    parent: 19
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: XBarm
+    parent: 29
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: XBmid
+    parent: 30
+    flags: 1
+    children:
+    - 32
+  - index: 32
+    name: XBclaw
+    parent: 31
+    flags: 1
+    children: []
+  - index: 33
+    name: XBpiv01
+    parent: 19
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: XBarm01
+    parent: 33
+    flags: 1
+    children:
+    - 35
+  - index: 35
+    name: XBmid01
+    parent: 34
+    flags: 1
+    children:
+    - 36
+  - index: 36
+    name: XBclaw01
+    parent: 35
+    flags: 1
+    children: []
+sockets:
+- name: mouth
+  node: 19
+  translation:
+  - -1.3977222843095661e-05
+  - 1.5199678039550781
+  - -7.720118408203125
+  rotation:
+  - -3.403757553588349e-10
+  - 5.3267776856102955e-09
+  - 2.3462656262296377e-09
+  - 0.9999998807907104
+animations:
+- name: StandAir
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: ShowPiece root
+- name: FidgetAir1
+  durationMs: 1600
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: ShowPiece root
+  - timeMs: 389
+    event: playanimsound
+- name: FidgetAir2
+  durationMs: 2500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: ShowPiece root
+  - timeMs: 609
+    event: playanimsound
+- name: AwareAir
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: ShowPiece root
+  - timeMs: 182
+    event: PlayAnimSound
+- name: LaunchPod
+  durationMs: 800
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: ShowPiece root
+  - timeMs: 222
+    event: speakanimsound
+  - timeMs: 333
+    event: LaunchPod
+- name: Rattack1
+  durationMs: 800
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: ShowPiece root
+  - timeMs: 222
+    event: speakanimsound
+  - timeMs: 333
+    event: RangeAttack
+- name: winceAir1
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: ShowPiece root; speakanimsound
+- name: winceAir2
+  durationMs: 900
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: ShowPiece root; speakanimsound
+- name: DieAir1
+  durationMs: 900
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: HidePiece root; speakanimsound
+- name: fall1
+  durationMs: 500
+  keyframes: 6
+  interpolationTimeMs: 0
+  events:
+  - timeMs: 0
+    event: HidePiece root
+  - timeMs: 238
+    event: HidePiece root
+- name: falldown1
+  durationMs: 800
+  keyframes: 9
+  interpolationTimeMs: 0
+  events:
+  - timeMs: 0
+    event: HidePiece root
+  - timeMs: 115
+    event: playdeathsound
+  - timeMs: 800
+    event: HidePiece root
+animationBindings:
+- name: StandAir
+  extents:
+  - 38.4
+  - 79.36
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 16.895999755859375
+- name: FidgetAir1
+  extents:
+  - 38.4
+  - 79.36
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 16.895999755859375
+- name: FidgetAir2
+  extents:
+  - 38.4
+  - 79.36
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 16.895999755859375
+- name: AwareAir
+  extents:
+  - 38.4
+  - 79.36
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 16.895999755859375
+- name: LaunchPod
+  extents:
+  - 38.4
+  - 79.36
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 16.895999755859375
+- name: Rattack1
+  extents:
+  - 38.4
+  - 79.36
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 16.895999755859375
+- name: winceAir1
+  extents:
+  - 38.4
+  - 79.36
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 16.895999755859375
+- name: winceAir2
+  extents:
+  - 38.4
+  - 79.36
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 16.895999755859375
+- name: DieAir1
+  extents:
+  - 38.4
+  - 79.36
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 16.895999755859375
+- name: fall1
+  extents:
+  - 38.4
+  - 79.36
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 16.895999755859375
+- name: falldown1
+  extents:
+  - 38.4
+  - 79.36
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 16.895999755859375
+roles:
+- actor_model
+source_model: models/lobber.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: lobber_icelobber
+  source_skins:
+  - skins/icelobber.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 107
+    number: '106'
+    monster_name: Ice Lobber
+    type_picture: Lobber2 B
+    base_name: lobber
+  - table: MONSTERS
+    row: 107
+    number: '106'
+    monster_name: Ice Lobber
+    type_picture: Lobber2 B
+    base_name: lobber
+- id: lobber_lobber
+  source_skins:
+  - skins/lobber.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 87
+    number: '86'
+    monster_name: Lobber
+    type_picture: Lobber C
+    base_name: lobber
+  - table: MONSTERS
+    row: 87
+    number: '86'
+    monster_name: Lobber
+    type_picture: Lobber C
+    base_name: lobber

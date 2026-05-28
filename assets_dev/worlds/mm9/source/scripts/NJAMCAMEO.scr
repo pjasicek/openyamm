@@ -1,0 +1,50 @@
+;----------------------------------------------
+;NjamCameo.scr
+; By Timmy
+; 11/16
+; Manager for Njam's cameos
+
+;----------------------------------------------
+
+#include globals.inc 
+#include njam1000.inc
+#include basewander.inc
+;#include basemelee.inc
+
+#number							nHPRange
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;-------------------------------------
+:ShouldRunAway
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:OnDamage
+;-------------------------------------
+
+getparam 0 g_htarget
+target g_htarget
+gosub vanish
+;gosub Ondamage, 1
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+TraceOn ;delete me!!
+
+gosub Init
+Gosub BasewanderInit
+Gosub BaseWanderForceStartUp
+OnDamage OnDamage
+AddTrigger Use OnDamage
+OnTouchNotify OnDamage
+exit

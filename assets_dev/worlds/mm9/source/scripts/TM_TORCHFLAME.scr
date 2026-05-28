@@ -1,0 +1,177 @@
+;-----------------------------------------------------
+;	TM_FallingTorch.scr
+;	kd
+;	10-30-01
+;	Makes the flame fall to the ground.
+;	Then starts the barrel exploding sequence.
+;	
+;-----------------------------------------------------
+#include Globals.inc
+
+#hObject	hFTMarker
+#hObject	hBlocker
+#hObject	hDummy
+#hObject	hFire
+
+#number		nVarX
+#number		nVarY
+#number		nVarZ
+
+;-----------------------------------------------------
+:TurnMeOff
+;-----------------------------------------------------
+	
+	GetObjectHandle FallingWallTorch0, hDummy
+	RemoveObject hDummy
+	GetMyHandle hFire
+	Trigger hFire, Off
+	Exit TRUE
+;-----------------------------------------------------
+:Barrel8
+;-----------------------------------------------------
+	hBlocker = NULL
+	Trigger hFire, Off
+	hFire = NULL
+	GetObjectHandle DustObject14, hFire
+	Trigger hFire, On
+	playsound Sounds\Weapons\EQHammerImpact.wav DoNothing 500 2000 FALSE 100
+	playsound Sounds\Events\crate_smash.wav DoNothing 500 2000 FALSE 100
+	GetObjectHandle DB_Barrel8, hBlocker
+	Trigger hBlocker, Destroy
+	Wait 0, .1, TurnMeOff
+	Exit TRUE
+;-----------------------------------------------------
+:Barrel7
+;-----------------------------------------------------
+	hBlocker = NULL
+	Trigger hFire, Off
+	hFire = NULL
+	GetObjectHandle DustObject13, hFire
+	Trigger hFire, On
+	playsound Sounds\Weapons\EQHammerImpact.wav DoNothing 500 2000 FALSE 100
+	playsound Sounds\Events\crate_smash.wav DoNothing 500 2000 FALSE 100
+	GetObjectHandle DB_Barrel7, hBlocker
+	Trigger hBlocker, Destroy
+	Wait 0, .1, Barrel8
+	Exit TRUE
+;-----------------------------------------------------
+:Barrel6
+;-----------------------------------------------------
+	hBlocker = NULL
+	Trigger hFire, Off
+	hFire = NULL
+	GetObjectHandle DustObject12, hFire
+	Trigger hFire, On
+	playsound Sounds\Weapons\EQHammerImpact.wav DoNothing 500 2000 FALSE 100
+	playsound Sounds\Events\crate_smash.wav DoNothing 500 2000 FALSE 100
+	GetObjectHandle DB_Barrel6, hBlocker
+	Trigger hBlocker, Destroy
+	Wait 0, .2, Barrel7
+	Exit TRUE
+;----------------------------------------------------
+:Barrel5
+;-----------------------------------------------------
+	hBlocker = NULL
+	Trigger hFire, Off
+	hFire = NULL
+	GetObjectHandle DustObject11, hFire
+	Trigger hFire, On
+	playsound Sounds\Weapons\EQHammerImpact.wav DoNothing 500 2000 FALSE 100
+	playsound Sounds\Events\crate_smash.wav DoNothing 500 2000 FALSE 100
+	GetObjectHandle DB_Barrel5, hBlocker
+	Trigger hBlocker, Destroy
+	Wait 0, .2, Barrel6
+	Exit TRUE
+;-----------------------------------------------------
+:Barrel4
+;-----------------------------------------------------
+	hBlocker = NULL
+	Trigger hFire, Off
+	hFire = NULL
+	GetObjectHandle DustObject10, hFire
+	Trigger hFire, On
+	playsound Sounds\Weapons\EQHammerImpact.wav DoNothing 500 2000 FALSE 100
+	playsound Sounds\Events\crate_smash.wav DoNothing 500 2000 FALSE 100
+	GetObjectHandle DB_Barrel4, hBlocker
+	Trigger hBlocker, Destroy
+	Wait 0, .3, Barrel5
+	Exit TRUE
+;-----------------------------------------------------
+:Barrel3
+;-----------------------------------------------------
+	hBlocker = NULL
+	Trigger hFire, Off
+	hFire = NULL
+	GetObjectHandle DustObject9, hFire
+	Trigger hFire, On
+	playsound Sounds\Weapons\EQHammerImpact.wav DoNothing 500 2000 FALSE 100
+	playsound Sounds\Events\crate_smash.wav DoNothing 500 2000 FALSE 100
+	GetObjectHandle DB_Barrel3, hBlocker
+	Trigger hBlocker, Destroy
+	Wait 0, .4, Barrel4
+	Exit TRUE
+;-----------------------------------------------------
+:Barrel2
+;-----------------------------------------------------
+	hBlocker = NULL
+	Trigger hFire, Off
+	hFire = NULL
+	GetObjectHandle DustObject8, hFire
+	Trigger hFire, On
+	playsound Sounds\Weapons\EQHammerImpact.wav DoNothing 500 2000 FALSE 100
+	playsound Sounds\Events\crate_smash.wav DoNothing 500 2000 FALSE 100
+	GetObjectHandle DB_Barrel2, hBlocker
+	Trigger hBlocker, Destroy
+	Wait 0, .5, Barrel3
+	Exit TRUE
+;-----------------------------------------------------
+:Barrel1
+;-----------------------------------------------------
+	hBlocker = NULL
+	Trigger hFire, Off
+	hFire = NULL
+	GetObjectHandle DustObject7, hFire
+	Trigger hFire, On
+	playsound Sounds\Weapons\EQHammerImpact.wav DoNothing 500 2000 FALSE 100
+	playsound Sounds\Events\crate_smash.wav DoNothing 500 2000 FALSE 100
+	GetObjectHandle DB_Barrel1, hBlocker
+	Trigger hBlocker, Destroy
+	Wait 0, .5, Barrel2
+	Exit TRUE
+;-----------------------------------------------------
+:StartSequence
+;-----------------------------------------------------
+	hBlocker = NULL
+	GetObjectHandle DustObject6, hFire
+	Trigger hFire, On
+	GetObjectHandle DB_Barrel0, hBlocker
+	playsound Sounds\Events\steam_burst04.wav DoNothing 500 2000 FALSE 100
+	playsound Sounds\Weapons\EQHammerImpact.wav DoNothing 500 2000 FALSE 100
+	playsound Sounds\Events\crate_smash.wav DoNothing 500 2000 FALSE 100
+	Trigger hBlocker, Destroy
+	Wait 0, 1, Barrel1
+	Exit TRUE
+;-----------------------------------------------------
+:StopHere
+;-----------------------------------------------------
+	playsound Sounds\Events\steam_burst04.wav DoNothing 100 2000 FALSE 100
+	Wait 0, 3, StartSequence
+	Exit TRUE
+;-----------------------------------------------------
+:MoveToMarker
+;-----------------------------------------------------
+	MoveToPos nVarX, nVarY, nVarZ, 250, StopHere
+	Exit
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	GetObjectHandle FallingTorchMarker0, hFTMarker
+	GetPos hFTMarker, nVarX, nVarY, nVarZ
+	AddTrigger Fall, MoveToMarker
+	Exit TRUE
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	Wait 0 .1 main2
+	Exit TRUE
+;------------- E n d - O f - F i l e -------------------

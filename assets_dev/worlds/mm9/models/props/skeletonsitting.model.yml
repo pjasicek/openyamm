@@ -1,0 +1,80 @@
+schema: openyamm.model3d.v1
+id: skeletonsitting
+model: skeletonsitting.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/SKELETONSITTING.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Skeleton
+  materialIndex: 0
+  lods:
+  - faces: 452
+    vertices: 287
+  - faces: 340
+    vertices: 230
+  - faces: 226
+    vertices: 168
+materials:
+- index: 0
+  texture: skins_preview/props/skeleton.png
+  runtime_texture: skins/props/skeleton.dtx
+  preview_texture: skins_preview/props/skeleton.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SKELETON.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 2
+    - 3
+  - index: 2
+    name: Bone02
+    parent: 1
+    flags: 0
+    children: []
+  - index: 3
+    name: Skeleton
+    parent: 1
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: STATIC
+  durationMs: 366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: STATIC
+  extents:
+  - 35.84
+  - 40.96
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/skeletonsitting.abc

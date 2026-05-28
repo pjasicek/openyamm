@@ -1,0 +1,58 @@
+Coordinates for Game Options
+
+-----------------------------------------------------------------------------------
+Note: Coordinates are based on full-screen.  For coordinates relative to the
+	options background, subtract 250 from any given column number (except,
+	of course, the placement of the background itself)
+-----------------------------------------------------------------------------------
+
+OptionsGameBG.pcx	250x   0y	550x600	Background
+
+Turn Speed Handle	281x 102y	9x30	Left-Most Position (Minimum)
+			678x 102y		Right-Most Position (Maximum)
+
+Mouse Sens. Handle	281x 162y	9x30	Left-most Position (Minimum)
+			678x 162y		Right-Most Position (Maximum)
+
+Always Run Checkbox	282x 200y	20x20
+Blood Splats Checkbox	282x 230y	20x20
+Invert Mouse Checkbox	282x 260y	20x20
+Head Bob Checkbox	282x 290y	20x20
+
+Crosshair Highlight #0	282x 350y	38x38
+Crosshair Highlight #1	322x 350y	38x38
+Crosshair Highlight #2	362x 350y	38x38
+Crosshair Highlight #3	402x 350y	38x38
+Crosshair Highlight #4	442x 350y	38x38
+Crosshair Highlight #5	482x 350y	38x38
+
+Pure Text Items:
+
+"GAME OPTIONS"		282x  44y	260x20	Arial 16 Pixel Left
+"Turn Speed"		282x  80y	260x20  Arial 16 Pixel Left
+"Mouse Sensitivity"	282x 140y	260x20	Arial 16 Pixel Left
+"Always Run"		307x 200y	260x20	Arial 16 Pixel Left
+"Blood Spots"		307x 230y	260x20	Arial 16 Pixel Left
+"Invert Mouse"		307x 260y	260x20	Arial 16 Pixel Left
+"Head Bob"		307x 290y	260x20	Arial 16 Pixel Left
+"Choose Aim Crosshair"	282x 320y	284x20	Arial 16 Pixel Left
+
+Turn Speed Value	689x 107y	57x20	(If Needed)
+Mouse Sensitivity Value 689x 167y	57x20	(If Needed)
+ 
+Note: All printed text should be Arial about 16 point (Full Basic capital letter
+	should be around 16 Pixels tall)  Color rgb(220,200,150) With a 1-pixel
+	outline of color rgb(53,27,4)  All printed text should be in "Small Caps"
+	format, with no descenders from lower-case letters such as g or p.
+
+Text As Buttons:
+
+"Restore Default"	546x  44y	200x20	Arial 16 Pixel Right
+"Cancel"		543x 533y	96x20	Arial 16 Pixel Center
+"Apply"			647x 533y	96x20	Arial 16 Pixel Center
+
+Note: Button Text should be the same color as above, but when mouse-overed should 
+	highlight in color rgb(250,240,220)  And when pressed should cause a sound
+	effect and flash dark color rgb(110,100,75)
+
+----------------------------------------------------------------------------------

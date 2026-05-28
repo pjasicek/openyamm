@@ -1,0 +1,62 @@
+schema: openyamm.model3d.v1
+id: statue_guardian1ew
+model: statue_guardian1ew.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/STATUE_GUARDIAN1EW.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: Statue_Guardian1
+  materialIndex: 0
+  lods:
+  - faces: 640
+    vertices: 401
+materials:
+- index: 0
+  texture: skins_preview/props/statue_guardian1.png
+  runtime_texture: skins/props/statue_guardian1.dtx
+  preview_texture: skins_preview/props/statue_guardian1.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/STATUE_GUARDIAN1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 1366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 168.96
+  - 153.6
+  - 84.48
+  origin:
+  - -15.36
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/statue_guardian1ew.abc

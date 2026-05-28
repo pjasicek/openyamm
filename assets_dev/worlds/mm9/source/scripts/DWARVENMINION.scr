@@ -1,0 +1,335 @@
+;---------------------------------------
+;	DwarvenMinion.scr
+;	by SJR/Ed Campos
+;	10-05-01
+;	Purpose:mine an area and
+;			follow the Foreman
+;			(DwarvenMinerA will
+;			only mine and return)
+;---------------------------------------
+;---------------------------------------
+;	-DEDIT NOTES-
+;	ScriptParams are:
+;		p0 = First mining site
+;		p1 = Second mining site
+;		p2->p8 = in order waypoint names for traveling
+;					to mining sites
+;
+;		p9 = Name of place to run to during "panic"
+;	Miners will "panic" and run around
+;	and start their emergency routine
+;	when "FreakOut" is triggered
+;
+;		p10 = DwarvenForemanName
+;
+;---------------------------------------
+
+#include globals.inc
+
+#string		sSite0Name=""
+#string		sSite1Name=""
+
+#string		sWayPoint0Name=""
+#string		sWayPoint1Name=""
+#string		sWayPoint2Name=""
+#string		sWayPoint3Name=""
+#string		sWayPoint4Name=""
+#string		sWayPoint5Name=""
+#string		sWayPoint6Name=""
+
+#string		sBunkerName=""
+#string		sForemanName=""
+#string		sTemp=""
+
+#hobject	hsound = 0
+#hobject	hForeman = 0
+#hobject	hMineSite = 0
+#hobject	hWayPoint = 0
+#number		nCurSite = 0
+
+#number		MAXSites=2
+#number		ranim=1
+#number		nCurIndex = 0
+
+
+;---------------------------------------
+:InitDwarvenMinion
+;---------------------------------------
+	AddTrigger FreakOut, OnPanic
+	AddTrigger NextSite, OnNextSite
+
+	GetObjectHandle sForemanName, hForeman
+
+	SetCallback 0, SetSite0
+	SetCallback 1, SetSite1
+	
+
+	
+	Gosub StartMiningRaw
+	Exit TRUE
+
+
+;---------------------------------------
+:StartMiningRaw
+;---------------------------------------
+
+	GetObjectHandle sSite0Name, hMineSite 
+	Wait 0, .1, GotoWaypoint4
+
+	Exit TRUE
+
+;---------------------------------------
+:StartMining
+;---------------------------------------
+
+	Wait 0, .1, GotoWaypoint0
+
+	Exit TRUE
+
+;-----------------------------------------------------------
+:GotoWaypoint0
+;-----------------------------------------------------------
+	nCurIndex = 0
+	Stop
+	GetObjectHandle sWayPoint0Name, hWayPoint
+	WalkTo hWayPoint, 10, GotoWayPoint1
+	Exit TRUE
+
+;-----------------------------------------------------------
+:GotoWaypoint1
+;-----------------------------------------------------------
+	nCurIndex = 1
+	Stop
+	GetObjectHandle sWayPoint1Name, hWayPoint
+	WalkTo hWayPoint, 10, GotoWayPoint2
+	Exit TRUE
+
+;-----------------------------------------------------------
+:GotoWaypoint2
+;-----------------------------------------------------------
+	nCurIndex = 2
+	Stop
+	GetObjectHandle sWayPoint2Name, hWayPoint
+	WalkTo hWayPoint, 10, GotoWayPoint3
+	Exit TRUE
+
+;-----------------------------------------------------------
+:GotoWaypoint3
+;-----------------------------------------------------------
+	nCurIndex = 3
+	Stop
+	GetObjectHandle sWayPoint3Name, hWayPoint
+	WalkTo hWayPoint, 10, GotoWayPoint4
+	Exit TRUE
+
+;-----------------------------------------------------------
+:GotoWaypoint4
+;-----------------------------------------------------------
+	nCurIndex = 4
+	Stop
+	GetObjectHandle sWayPoint4Name, hWayPoint
+	WalkTo hWayPoint, 10, GotoWayPoint5
+	Exit TRUE
+
+;-----------------------------------------------------------
+:GotoWaypoint5
+;-----------------------------------------------------------
+	nCurIndex = 5
+	Stop
+	GetObjectHandle sWayPoint5Name, hWayPoint
+	WalkTo hWayPoint, 10, GotoWayPoint6
+	Exit TRUE
+
+;-----------------------------------------------------------
+:GotoWaypoint6
+;-----------------------------------------------------------
+	nCurIndex = 6
+	Stop
+	GetObjectHandle sWayPoint6Name, hWayPoint
+	WalkTo hWayPoint, 10, GotoMiningSpot
+	Exit TRUE
+
+;-----------------------------------------------------------
+:GotoMiningSpot
+;-----------------------------------------------------------
+	Stop
+	WalkTo hMineSite, 10, DoMining
+	Exit TRUE
+
+;------------
+:DoMining
+;------------
+	Stop
+	FaceObject hMineSite, 180, PlayMiningAnim
+;	Wait 0, 1, PlayMiningAnim
+	Exit TRUE
+
+;------------
+:PlayMiningAnim
+;------------
+
+	gosub PlayRandomSound
+	PlayAnim HAttack1, DoNothing
+	Wait 0, 1, PlayMiningAnim
+	Exit TRUE
+
+;------------
+:OnNextSite
+;------------
+	Stop
+
+	Wait 1, 3, Lookup
+	Exit TRUE
+
+;------------
+:Lookup
+;------------
+	
+	FaceObject hForeman, 180, DoNothing	
+	Wait 0, 2, ChangeSite
+	Exit TRUE
+
+;------------
+:OnPanic
+;------------
+	Exit TRUE
+
+;------------
+:ChangeSite
+;------------
+	nCurSite = nCurSite + 1
+	Mod nCurSite, MAXSites
+	DoCallback nCurSite
+	Exit TRUE
+
+;------------
+:SetSite0
+;------------
+	GetObjectHandle sSite0Name, hMineSite
+	Gosub ReverseWaypoints
+	Exit TRUE
+
+;------------
+:SetSite1
+;------------
+	GetObjectHandle sSite1Name, hMineSite
+	Gosub ReverseWaypoints
+	Exit TRUE
+
+
+;-----------------------------------------------------------
+:ReverseWaypoints
+;-----------------------------------------------------------
+	;;;Reverse path 0123456789=9876543210
+	;;;so we can go back after
+
+	sTemp = sWayPoint0Name
+	sWayPoint0Name = sWayPoint6Name
+	sWayPoint6Name = sTemp
+
+	sTemp = sWayPoint1Name
+	sWayPoint1Name = sWayPoint5Name
+	sWayPoint5Name = sTemp
+
+	sTemp = sWayPoint2Name
+	sWayPoint2Name = sWayPoint4Name
+	sWayPoint4Name = sTemp
+
+	Gosub StartMining
+
+	Exit TRUE
+;-----------------------------------------------------------
+:KeepGoing
+;-----------------------------------------------------------
+	Stop
+	
+	if( nCurIndex==0 )
+		gosub GoToWaypoint0
+		Exit TRUE
+	endif
+	if( nCurIndex==1 )
+		gosub GoToWaypoint1
+		Exit TRUE
+	endif
+	if( nCurIndex==2 )
+		gosub GoToWaypoint2
+		Exit TRUE
+	endif
+	if( nCurIndex==3 )
+		gosub GoToWaypoint3
+		Exit TRUE
+	endif
+	if( nCurIndex==4 )
+		gosub GoToWaypoint4
+		Exit TRUE
+	endif
+	if( nCurIndex==5 )
+		gosub GoToWaypoint5
+		Exit TRUE
+	endif
+	if( nCurIndex==6 )
+		gosub GoToWaypoint6
+		Exit TRUE
+	endif
+	if( nCurIndex==7 )
+		gosub DoNothing
+		Exit TRUE
+	endif
+	Exit TRUE
+
+
+;---------------
+:PlayRandomSound
+;---------------
+	GetRandomInt 0, 2, ranim
+	if( ranim==0 )
+		PlaySound sounds\animsounds\dwarfwattack1.wav, OnSoundDone, hSound, 5000, FALSE, 100
+	endif
+	if( ranim==1 )
+		PlaySound sounds\animsounds\dwarfwattack2.wav, OnSoundDone, hSound, 5000, FALSE, 100
+	endif
+	if( ranim==2 )
+		PlaySound sounds\animsounds\dwarfwince1.wav, OnSoundDone, hSound, 5000, FALSE, 100
+	endif
+	GetRandomInt 0, 2, ranim
+	if( ranim==0 )
+		PlaySound sounds\weapons\bigswordclang.wav, OnSoundDone, hSound, 5000, FALSE, 100
+	endif
+	if( ranim==1 )
+		PlaySound sounds\weapons\battleaxethump.wav, OnSoundDone, hSound, 5000, FALSE, 100
+	endif
+	if( ranim==2 )
+		PlaySound sounds\weapons\carmorchain.wav, OnSoundDone, hSound, 5000, FALSE, 100
+	endif
+	Exit TRUE
+
+;---------------
+:OnSoundDone
+;---------------
+	KillSound hSound
+	Exit TRUE
+;---------------------------------------
+:Main
+;---------------------------------------
+
+;	TraceOn
+
+	GetParam 0, sSite0Name
+	GetParam 1, sSite1Name
+	GetParam 2, sWayPoint0Name
+	GetParam 3, sWayPoint1Name
+	GetParam 4, sWayPoint2Name
+	GetParam 5, sWayPoint3Name
+	GetParam 6, sWayPoint4Name
+	GetParam 7, sWayPoint5Name
+	GetParam 8, sWayPoint6Name
+	GetParam 9, sBunkerName
+	GetParam 10, sForemanName
+
+
+	CacheSound sounds\pickupitems\metal.wav
+	CacheSound sounds\animsounds\dwarfaware.wav
+	CacheSound sounds\animsounds\dwarfwattack1.wav
+
+	Wait 0, .1, InitDwarvenMinion
+	Exit TRUE

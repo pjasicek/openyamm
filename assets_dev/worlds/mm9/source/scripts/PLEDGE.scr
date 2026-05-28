@@ -1,0 +1,37 @@
+;--------------------------------------------------
+;Pledge.scr
+; timmy
+; handles NPCs who give green man pledge
+;--------------------------------------------------
+
+#include globals.inc
+#include pledge.inc
+#include basewander.inc
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub pledge
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+gosub basewanderinit
+
+OnRudeExit OnRude
+exit
+

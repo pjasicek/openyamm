@@ -1,0 +1,27 @@
+;------------------------------------------------------------
+; FollowPath.scr
+;
+;	p0	- Base name of path to follow...
+;	p1	- Speed
+;	p2	- Num Loops
+;
+;------------------------------------------------------------
+
+#include followpath.inc
+
+#string			sPathName
+#number			bLoop
+
+;------------------------------------------------------------
+:Main
+;------------------------------------------------------------
+
+	gosub FollowPathInit
+
+	GetParam 0, g_sFollowPathName
+	GetParam 1, g_nFollowPathSpeed
+	GetParam 2, g_nFollowPathLoops
+
+	gosub FollowPath
+
+	Exit

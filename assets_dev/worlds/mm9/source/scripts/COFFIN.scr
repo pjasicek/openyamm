@@ -1,0 +1,45 @@
+;----------------------------------------------------------------
+;	coffin.scr
+;	John Machin
+;
+;		Script to handle coffin opening and closing
+;---------------------------------------------------------------- 
+
+#include globals.inc
+
+#number		bOpening	= 0
+#number		bOpened		= 0
+
+
+;----------------------------------------------------------------
+:OnUse
+;----------------------------------------------------------------
+	if( bOpening == TRUE )
+		Exit
+	endif
+
+	if( bOpened == TRUE )
+		Exit
+	endif
+
+	Set bOpening, TRUE
+	PlayAnim Open, OnOpenDone
+
+	Exit
+
+
+;----------------------------------------------------------------
+:OnOpenDone
+;----------------------------------------------------------------
+	Set bOpening, FALSE
+	Set bOpened, TRUE
+	
+	Exit
+
+;----------------------------------------------------------------
+:Main
+;----------------------------------------------------------------	
+	;Setup the following special triggers	
+	AddTrigger Use,				OnUse	
+
+	Exit

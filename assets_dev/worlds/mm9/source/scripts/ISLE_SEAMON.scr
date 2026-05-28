@@ -1,0 +1,202 @@
+;----------------------------------------------------------
+;	Isle_SeaMon.scr
+;	Jeff Leggett
+;	12/07/2001
+;	
+;	Sea Monster found in isle of ashes...
+;
+;----------------------------------------------------------
+
+#include BaseSwim.Inc
+
+#number g_bFirstTime = 1
+
+#number PLAYER_CHECK_WAIT = 21
+#number	PLAYER_CHECK_INTERVAL = 2
+
+#number MAX_WANDER_FROM_PLAYER_DIST = 5000
+
+#number g_bPaused = 0
+
+;-------------------------------------------------------------
+:SetupTarget
+;
+;	Have to handle if we're going after someone...
+;
+;-------------------------------------------------------------
+	SetStat g_hMyObject,AllowRotateY,FALSE
+	SetStat g_hMyObject,FaceVelocity,FALSE
+	gosub SetupTarget,1
+	gosub CheckForPlayerStop
+	Exit
+
+;-------------------------------------------------------------
+:ClearTarget
+;
+;	Have to handle if we're finished going after someone...
+;
+;-------------------------------------------------------------
+	gosub ClearTarget,2
+	gosub CheckForPlayerStart
+
+	SetStat g_hMyObject,AllowRotateY,TRUE
+	SetStat g_hMyObject,FaceVelocity,TRUE
+	Exit
+
+;-------------------------------------------------------------
+:Pause
+;-------------------------------------------------------------
+
+	Stop
+	g_bPaused	= TRUE
+	gosub DisableWandering
+	Exit
+
+;-------------------------------------------------------------
+:EndPause
+;-------------------------------------------------------------
+
+	g_bPaused	= FALSE
+	gosub EnableWandering
+	Exit
+
+;-------------------------------------------------------------
+:CheckForPlayerTick
+;-------------------------------------------------------------
+	Wait PLAYER_CHECK_WAIT,PLAYER_CHECK_INTERVAL,CheckForPlayerTick
+
+	GetPlayerHandle g_hObject
+
+	AIGetDistance g_hObject,g_nDist1
+
+	if ( g_bPaused==TRUE )
+		if ( g_nDist1 < MAX_WANDER_FROM_PLAYER_DIST )
+			gosub EndPause
+		endif
+	else
+		if ( g_nDist1 >=MAX_WANDER_FROM_PLAYER_DIST )
+			gosub Pause
+		endif
+	endif
+
+	Exit
+
+;-------------------------------------------------------------
+:CheckForPlayerStart
+;-------------------------------------------------------------
+	Wait PLAYER_CHECK_WAIT,PLAYER_CHECK_INTERVAL,CheckForPlayerTick
+	Exit
+
+;-------------------------------------------------------------
+:CheckForPlayerStop
+;-------------------------------------------------------------
+	Wait PLAYER_CHECK_WAIT,0,DoNothing
+	g_bPaused = FALSE
+	exit
+
+;-------------------------------------------------------------
+:CanReachCurrentMarker
+;-------------------------------------------------------------
+
+	g_bTemp	= TRUE
+
+	exit
+
+
+;----------------------------------------------------------
+:SoftLanding
+;----------------------------------------------------------
+	GetVelocity g_hMyObject,g_velX,g_velY,g_velZ
+
+	if ( g_velY < 0 )
+		g_velY = g_velY * -1.5
+	Endif
+
+	SetPushBack 0,g_velY,0, 0.5
+	
+	Exit
+
+;----------------------------------------------------------
+:PushForward
+;----------------------------------------------------------
+	GetFaceDir g_hMyObject,g_velX,g_velY,g_velZ
+
+	VecScale g_velX,g_velY,g_velZ,300
+
+	g_velY = 0
+
+	SetPushback g_velX,g_velY,g_velZ,1.5
+
+	Exit
+
+;----------------------------------------------------------
+:Jump
+;----------------------------------------------------------
+	SetStat g_hMyObject,AllowRotateY,TRUE
+	SetStat g_hMyObject,FaceVelocity,TRUE
+
+	GetFaceDir g_hMyObject,g_velX,g_velY,g_velZ
+
+	VecScale g_velX,g_velY,g_velZ,500
+	g_velY = 500
+
+	SetPushback g_velX,g_velY,g_velZ,1
+
+	Wait 25,1,PushForward
+
+	; Make sure we don't try to stop in mid-jump...
+	gosub CheckForPlayerStart
+
+	exit
+	
+
+;----------------------------------------------------------
+:OnWanderAtMarker
+;----------------------------------------------------------
+
+	GetParam 0, g_hObject
+	if ( g_hObject!=hCurrentMarker )
+		Exit
+	Endif
+
+	GetRandomInt 0,100,g_nRandom
+
+;
+;	45% chance we'll jump...
+;
+
+	if ( g_bFirstTime==TRUE )
+		g_bFirstTime = FALSE
+		g_nRandom = 0
+	endif
+
+	if ( g_nRandom < 65 )
+		Wait 29,1,Jump
+	Endif
+
+	gosub OnWanderAtMarker,1
+
+	Exit
+
+;----------------------------------------------------------
+:Main
+;
+;
+;	Just use all the defaults...
+;
+;----------------------------------------------------------
+
+	gosub BaseSwimInit
+	gosub CheckForPlayerStart
+
+	SetStat g_hMyObject,AllowRotateY,TRUE
+	SetStat g_hMyObject,FaceVelocity,TRUE
+
+;	
+;	Don't want SeaMonster going to hiding places.  He may
+;	get stuck on the way and keep the GEM red.
+;
+	g_bUseHidingPlaces	= FALSE
+
+	Exit
+

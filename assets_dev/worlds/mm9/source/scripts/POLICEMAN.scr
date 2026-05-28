@@ -1,0 +1,28 @@
+;----------------------------------------------------------------
+; PoliceMan.Scr
+; Jeff Leggett
+; 08/22/2001
+;
+;	Behavior
+;
+;		- Don't attack anyone unless someone calls for help
+;		
+;		- If we get a call for help, if we have a path to
+;		the target, then we'll go after it. Otherwise, we
+;		won't...
+;
+;		- Just run the wander script until someone needs us.
+;		(or attacks us!)
+;
+;----------------------------------------------------------------
+
+#include PoliceMan.Inc
+
+;----------------------------------------------------------------
+:Main
+;----------------------------------------------------------------
+	
+	gosub PoliceManInit
+	
+
+	Exit

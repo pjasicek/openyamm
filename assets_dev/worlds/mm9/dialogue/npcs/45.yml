@@ -1,0 +1,4312 @@
+format_version: 1
+source_file: NPC45.rude
+rows:
+  - source:
+      file: NPC45.rude
+      row: 1
+    raw_columns:
+      - 45
+      - 8
+      - 1
+      - We will do this for you.
+      - Great, come back when you've rescued him!
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 8
+      choice_slot: 1
+      prompt: We will do this for you.
+      response: Great, come back when you've rescued him!
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 12
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 12
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 2
+    raw_columns:
+      - 45
+      - 47
+      - 1
+      - What would convince you to withdraw your army?
+      - Besides the total destruction of Drangheim, you mean?  I suppose if I had a treaty signed by Sigmund himself, I could withdraw my troops.
+      - 48
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 47
+      choice_slot: 1
+      prompt: What would convince you to withdraw your army?
+      response: Besides the total destruction of Drangheim, you mean?  I suppose if I had a treaty signed by Sigmund himself, I could withdraw my troops.
+      next: 48
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 48
+  - source:
+      file: NPC45.rude
+      row: 3
+    raw_columns:
+      - 45
+      - 60
+      - 1
+      - How do we get in?
+      - The walls are in a sorry state of disrepair.  There's probably a place where you could break through the walls.
+      - 6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 60
+      choice_slot: 1
+      prompt: How do we get in?
+      response: The walls are in a sorry state of disrepair.  There's probably a place where you could break through the walls.
+      next: 6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 6
+  - source:
+      file: NPC45.rude
+      row: 4
+    raw_columns:
+      - 45
+      - 39
+      - 1
+      - Sigmund wouldn't join the coalition unless we did.
+      - See!  I told you!  Those filthy Drangheim liars!
+      - 46
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 39
+      choice_slot: 1
+      prompt: Sigmund wouldn't join the coalition unless we did.
+      response: See!  I told you!  Those filthy Drangheim liars!
+      next: 46
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 46
+  - source:
+      file: NPC45.rude
+      row: 5
+    raw_columns:
+      - 45
+      - 37
+      - 1
+      - You must stop this war immediately!
+      - Why should I?  They sent one of their agents into Anskram Keep and disabled all of its defenses!  They were planning an invasion already!!
+      - 38
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 37
+      choice_slot: 1
+      prompt: You must stop this war immediately!
+      response: Why should I?  They sent one of their agents into Anskram Keep and disabled all of its defenses!  They were planning an invasion already!!
+      next: 38
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 38
+  - source:
+      file: NPC45.rude
+      row: 6
+    raw_columns:
+      - 45
+      - 36
+      - 1
+      - Kira has told us you have gone to war with Drangheim!!
+      - That's right!  Those dirty liars are as two faced as they are ugly!  I can assure you as soon as they are wiped off the planet, I will be able to turn my attention to Tamur Leng and the Beldonians.
+      - 37
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 36
+      choice_slot: 1
+      prompt: Kira has told us you have gone to war with Drangheim!!
+      response: That's right!  Those dirty liars are as two faced as they are ugly!  I can assure you as soon as they are wiped off the planet, I will be able to turn my attention to Tamur Leng and the Beldonians.
+      next: 37
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 37
+  - source:
+      file: NPC45.rude
+      row: 7
+    raw_columns:
+      - 45
+      - 19
+      - 1
+      - Of course.  We would be happy to aid you.
+      - When you return with her response, I shall reward you well.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 22
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 19
+      choice_slot: 1
+      prompt: Of course.  We would be happy to aid you.
+      response: When you return with her response, I shall reward you well.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 22
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 22
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 8
+    raw_columns:
+      - 45
+      - 18
+      - 1
+      - What can we do for you?
+      - It is no longer a secret that Kira, the Jarla of Thronheim possesses my heart, my soul, everything that I consider me.  I have composed a letter that will sweep her from her feet and make her mine.  I want you to take it to her.
+      - 19
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 18
+      choice_slot: 1
+      prompt: What can we do for you?
+      response: It is no longer a secret that Kira, the Jarla of Thronheim possesses my heart, my soul, everything that I consider me.  I have composed a letter that will sweep her from her feet and make her mine.  I want you to take it to her.
+      next: 19
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 19
+  - source:
+      file: NPC45.rude
+      row: 9
+    raw_columns:
+      - 45
+      - 12
+      - 1
+      - Yes.  We need the help of all the clans.
+      - Then you shall have it.  However, there are a two things that you will need to do.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 20
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 12
+      choice_slot: 1
+      prompt: Yes.  We need the help of all the clans.
+      response: Then you shall have it.  However, there are a two things that you will need to do.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 20
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 20
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 10
+    raw_columns:
+      - 45
+      - 11
+      - 1
+      - Do you want Drangheim to get all the glory for saving Chedian?
+      - That's it.  I will not be manipulated.  Guards!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 11
+      choice_slot: 1
+      prompt: Do you want Drangheim to get all the glory for saving Chedian?
+      response: That's it.  I will not be manipulated.  Guards!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC45.rude
+      row: 11
+    raw_columns:
+      - 45
+      - 48
+      - 1
+      - We will get you that treaty!
+      - If you do, I shall stop my army.  Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 86
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 48
+      choice_slot: 1
+      prompt: We will get you that treaty!
+      response: If you do, I shall stop my army.  Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 86
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 86
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 12
+    raw_columns:
+      - 45
+      - 9
+      - 1
+      - As we speak, an army from Beldonia is marching on Thronheim.
+      - And you expect me to help Clan Thronheim?
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 9
+      choice_slot: 1
+      prompt: As we speak, an army from Beldonia is marching on Thronheim.
+      response: And you expect me to help Clan Thronheim?
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC45.rude
+      row: 13
+    raw_columns:
+      - 45
+      - 46
+      - 1
+      - It wasn't their fault.  The blame lies with us.
+      - If you insist.  But I still think Sigmund strong-armed you into doing it for him.
+      - 47
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 46
+      choice_slot: 1
+      prompt: It wasn't their fault.  The blame lies with us.
+      response: If you insist.  But I still think Sigmund strong-armed you into doing it for him.
+      next: 47
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 47
+  - source:
+      file: NPC45.rude
+      row: 14
+    raw_columns:
+      - 45
+      - 7
+      - 1
+      - You want us to break into a prison?
+      - If you want my help.  I can't take on these hordes without my best general.  Be careful, though.  You may need more experience before you can take on the Drangheim Prison.
+      - 8
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 7
+      choice_slot: 1
+      prompt: You want us to break into a prison?
+      response: If you want my help.  I can't take on these hordes without my best general.  Be careful, though.  You may need more experience before you can take on the Drangheim Prison.
+      next: 8
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 8
+  - source:
+      file: NPC45.rude
+      row: 15
+    raw_columns:
+      - 45
+      - 6
+      - 1
+      - We will do this for you.
+      - Great!  Come back when you're finished
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 6
+      choice_slot: 1
+      prompt: We will do this for you.
+      response: Great!  Come back when you're finished
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 11
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 11
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 16
+    raw_columns:
+      - 45
+      - 5
+      - 1
+      - How will we do that?
+      - It has been overrun by foul creatures.  If we are to occupy it once again, these things need to be destroyed.  You might have some trouble getting in, though. The portcullis is stuck, and the drawbridge is up.
+      - 60
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 148
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 5
+      choice_slot: 1
+      prompt: How will we do that?
+      response: It has been overrun by foul creatures.  If we are to occupy it once again, these things need to be destroyed.  You might have some trouble getting in, though. The portcullis is stuck, and the drawbridge is up.
+      next: 60
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 148
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 60
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 148
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 17
+    raw_columns:
+      - 45
+      - 4
+      - 1
+      - What is the first thing you need?
+      - There is a place called Anskram Keep in southern Sturmford that we used to use for the defense of our island.  If we are to defeat these invaders, you will need to clear the imps out.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 20
+      - 0
+      - 0
+      - 0
+      - 0
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 4
+      choice_slot: 1
+      prompt: What is the first thing you need?
+      response: There is a place called Anskram Keep in southern Sturmford that we used to use for the defense of our island.  If we are to defeat these invaders, you will need to clear the imps out.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 20
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 11
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 20
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 11
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 18
+    raw_columns:
+      - 45
+      - 3
+      - 1
+      - They come from Beldonia.  We must unite the clans against them.
+      - I appreciate you being straight with me.  I shall give you aid.  But in order to do so, I will need you to do two things.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 20
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 3
+      choice_slot: 1
+      prompt: They come from Beldonia.  We must unite the clans against them.
+      response: I appreciate you being straight with me.  I shall give you aid.  But in order to do so, I will need you to do two things.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 20
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 20
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 19
+    raw_columns:
+      - 45
+      - 2
+      - 1
+      - He is the leader of the Hordes that will soon overrun us.
+      - What are these Hordes?
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 2
+      choice_slot: 1
+      prompt: He is the leader of the Hordes that will soon overrun us.
+      response: What are these Hordes?
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC45.rude
+      row: 20
+    raw_columns:
+      - 45
+      - 1
+      - 1
+      - We need your help to defeat Tamur Leng.
+      - Who is that?
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 1
+      choice_slot: 1
+      prompt: We need your help to defeat Tamur Leng.
+      response: Who is that?
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC45.rude
+      row: 21
+    raw_columns:
+      - 45
+      - 45
+      - 1
+      - We know you are of great importance, and would like your help.
+      - Get to the point.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 20
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 45
+      choice_slot: 1
+      prompt: We know you are of great importance, and would like your help.
+      response: Get to the point.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 20
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 20
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 22
+    raw_columns:
+      - 45
+      - 35
+      - 1
+      - We will meet in Thronheim in two weeks.
+      - I will be sure to let them all know.  I will see you then!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 35
+      choice_slot: 1
+      prompt: We will meet in Thronheim in two weeks.
+      response: I will be sure to let them all know.  I will see you then!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC45.rude
+      row: 23
+    raw_columns:
+      - 45
+      - 10
+      - 1
+      - Drangheim has already promised soldiers and arms.
+      - I feel as though you are trying to manipulate me into doing something.  That will not happen.  Be straight with me or I will take your heads.
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 10
+      choice_slot: 1
+      prompt: Drangheim has already promised soldiers and arms.
+      response: I feel as though you are trying to manipulate me into doing something.  That will not happen.  Be straight with me or I will take your heads.
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC45.rude
+      row: 24
+    raw_columns:
+      - 45
+      - 28
+      - 1
+      - Oh.  In that case, good luck.
+      - Fear not, noble adventurers, Kira the Cold will be mine.  It only takes time.  Was there anything else you needed?.
+      - 45
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 28
+      choice_slot: 1
+      prompt: Oh.  In that case, good luck.
+      response: Fear not, noble adventurers, Kira the Cold will be mine.  It only takes time.  Was there anything else you needed?.
+      next: 45
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 45
+  - source:
+      file: NPC45.rude
+      row: 25
+    raw_columns:
+      - 45
+      - 40
+      - 1
+      - We have much work to do, yet.
+      - Then I shall await your summons.  Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 178
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 40
+      choice_slot: 1
+      prompt: We have much work to do, yet.
+      response: Then I shall await your summons.  Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 178
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 178
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 26
+    raw_columns:
+      - 45
+      - 50
+      - 1
+      - You and Sigmund will sign it together in Thronheim.
+      - Alright, that is fair.  I can't blame him for not wanting to sign it first.  Plus, it will give me a chance to be with Kira before the war council convenes!
+      - 51
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 90
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 50
+      choice_slot: 1
+      prompt: You and Sigmund will sign it together in Thronheim.
+      response: Alright, that is fair.  I can't blame him for not wanting to sign it first.  Plus, it will give me a chance to be with Kira before the war council convenes!
+      next: 51
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 90
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 51
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 90
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 27
+    raw_columns:
+      - 45
+      - 51
+      - 1
+      - We shall see you there.
+      - Yes.  Have a safe trip.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 51
+      choice_slot: 1
+      prompt: We shall see you there.
+      response: Yes.  Have a safe trip.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC45.rude
+      row: 28
+    raw_columns:
+      - 45
+      - 30
+      - 1
+      - Thanks.
+      - Ha ha!!  I can't wait to see her!  Oh will this be great!  I shall make plans to travel immediately!  Was there anything else you needed?
+      - 45
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 30
+      choice_slot: 1
+      prompt: Thanks.
+      response: Ha ha!!  I can't wait to see her!  Oh will this be great!  I shall make plans to travel immediately!  Was there anything else you needed?
+      next: 45
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 45
+  - source:
+      file: NPC45.rude
+      row: 29
+    raw_columns:
+      - 45
+      - 25
+      - 1
+      - Well, she said, umm, er, well, she said..no.
+      - What?!  How could she not be aflutter?  I sent her the best love sonnet I wrote!!
+      - 26
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 24
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 25
+      choice_slot: 1
+      prompt: Well, she said, umm, er, well, she said..no.
+      response: What?!  How could she not be aflutter?  I sent her the best love sonnet I wrote!!
+      next: 26
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 24
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 26
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 24
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 30
+    raw_columns:
+      - 45
+      - 27
+      - 1
+      - No!  That was exactly what she was afraid of.
+      - Oh yes, there's going to be a war all right!  A war of love!  I will not stop until I win her heart!
+      - 28
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 27
+      choice_slot: 1
+      prompt: No!  That was exactly what she was afraid of.
+      response: Oh yes, there's going to be a war all right!  A war of love!  I will not stop until I win her heart!
+      next: 28
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 28
+  - source:
+      file: NPC45.rude
+      row: 31
+    raw_columns:
+      - 45
+      - 26
+      - 1
+      - She called you a great warrior.  You just aren't her type.
+      - She said that, did she?  Well I appreciate your honesty.  It's time to go to war!!!
+      - 27
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 26
+      choice_slot: 1
+      prompt: She called you a great warrior.  You just aren't her type.
+      response: She said that, did she?  Well I appreciate your honesty.  It's time to go to war!!!
+      next: 27
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 27
+  - source:
+      file: NPC45.rude
+      row: 32
+    raw_columns:
+      - 45
+      - 21
+      - 1
+      - Thank you.
+      - Ivsar!  Welcome home!!  Was there anything else you needed?
+      - 45
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 21
+      choice_slot: 1
+      prompt: Thank you.
+      response: Ivsar!  Welcome home!!  Was there anything else you needed?
+      next: 45
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 45
+  - source:
+      file: NPC45.rude
+      row: 33
+    raw_columns:
+      - 45
+      - 20
+      - 1
+      - He is here.
+      - Wonderful.  Here is a little reward for your trouble.
+      - 21
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 21
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 20
+      choice_slot: 1
+      prompt: He is here.
+      response: Wonderful.  Here is a little reward for your trouble.
+      next: 21
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 21
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 21
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 21
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 34
+    raw_columns:
+      - 45
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC45.rude
+      row: 35
+    raw_columns:
+      - 45
+      - 40
+      - 2
+      - The clans are united.  It is time for the war council
+      - That is the best news I've heard all day!  My messengers will be sent to all the clans at once!
+      - 35
+      - 38
+      - 0
+      - 178
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 40
+      choice_slot: 2
+      prompt: The clans are united.  It is time for the war council
+      response: That is the best news I've heard all day!  My messengers will be sent to all the clans at once!
+      next: 35
+      raw_fields:
+        c07: 38
+        c08: 0
+        c09: 178
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 83
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 83
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 35
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 38
+            qbit_id: 9038
+            state_id: mm9.keys.38
+          - column: c09
+            raw_id: 178
+            qbit_id: 9178
+            state_id: mm9.keys.178
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 38
+          qbit_id: 9038
+          state_id: mm9.keys.38
+        - domain: mm9.keys
+          raw_id: 178
+          qbit_id: 9178
+          state_id: mm9.keys.178
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 83
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 83
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 36
+    raw_columns:
+      - 45
+      - 10
+      - 2
+      - If we do not unite the clans, they will conquer all the clans.
+      - And you wish my help?
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 10
+      choice_slot: 2
+      prompt: If we do not unite the clans, they will conquer all the clans.
+      response: And you wish my help?
+      next: 12
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12
+  - source:
+      file: NPC45.rude
+      row: 37
+    raw_columns:
+      - 45
+      - 4
+      - 2
+      - What is the second thing you need?
+      - As you know, we have been on bad terms with the filthy Drangheim Clan.  In a battle near ten years ago, they captured our tactical genius, Ivsar Forktooth.  I want you to break him out of Drangheim Prison.
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 20
+      - 0
+      - 0
+      - 0
+      - 0
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 4
+      choice_slot: 2
+      prompt: What is the second thing you need?
+      response: As you know, we have been on bad terms with the filthy Drangheim Clan.  In a battle near ten years ago, they captured our tactical genius, Ivsar Forktooth.  I want you to break him out of Drangheim Prison.
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 20
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 12
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 20
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 12
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 38
+    raw_columns:
+      - 45
+      - 38
+      - 2
+      - They didn't do that, we did!
+      - Don't be silly.  Why would my allies do such a thing?
+      - 39
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 38
+      choice_slot: 2
+      prompt: They didn't do that, we did!
+      response: Don't be silly.  Why would my allies do such a thing?
+      next: 39
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 39
+  - source:
+      file: NPC45.rude
+      row: 39
+    raw_columns:
+      - 45
+      - 5
+      - 2
+      - We've already done that.
+      - You have?  Wonderful!  Here is a reward!
+      - 4
+      - 148
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 11
+      - 41
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 5
+      choice_slot: 2
+      prompt: We've already done that.
+      response: You have?  Wonderful!  Here is a reward!
+      next: 4
+      raw_fields:
+        c07: 148
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 11
+        c17: 41
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 148
+            qbit_id: 9148
+            state_id: mm9.keys.148
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 148
+          qbit_id: 9148
+          state_id: mm9.keys.148
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 11
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c17
+        value: 41
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 40
+    raw_columns:
+      - 45
+      - 11
+      - 2
+      - If Tamur Leng is not defeated, all of Chedian will suffer.
+      - And you wish my help?
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 11
+      choice_slot: 2
+      prompt: If Tamur Leng is not defeated, all of Chedian will suffer.
+      response: And you wish my help?
+      next: 12
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12
+  - source:
+      file: NPC45.rude
+      row: 41
+    raw_columns:
+      - 45
+      - 12
+      - 2
+      - Do you not want glory?  Would you rather have Drangheim get it?
+      - I do not like to be manipulated.  Guards!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 12
+      choice_slot: 2
+      prompt: Do you not want glory?  Would you rather have Drangheim get it?
+      response: I do not like to be manipulated.  Guards!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC45.rude
+      row: 42
+    raw_columns:
+      - 45
+      - 19
+      - 2
+      - We don't have time to play matchmaker.
+      - I understand.  Should you change your mind, let me know.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 19
+      choice_slot: 2
+      prompt: We don't have time to play matchmaker.
+      response: I understand.  Should you change your mind, let me know.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC45.rude
+      row: 43
+    raw_columns:
+      - 45
+      - 25
+      - 2
+      - She, uhh, she..smiled.
+      - She did?  Of course she did!  I sent her my best love sonnet!  Ha Ha!  Thank you all!  Here's your reward!!
+      - 30
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 25
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 25
+      choice_slot: 2
+      prompt: She, uhh, she..smiled.
+      response: She did?  Of course she did!  I sent her my best love sonnet!  Ha Ha!  Thank you all!  Here's your reward!!
+      next: 30
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 25
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 30
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 25
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 44
+    raw_columns:
+      - 45
+      - 45
+      - 4
+      - Is there anything we can do for you?
+      - In fact, there might be.
+      - 18
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 22
+      - 40
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 45
+      choice_slot: 4
+      prompt: Is there anything we can do for you?
+      response: In fact, there might be.
+      next: 18
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 22
+        c22: 40
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 18
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 22
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 40
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 45
+    raw_columns:
+      - 45
+      - 8
+      - 4
+      - Perhaps some other time.
+      - Come back when you're serious
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 8
+      choice_slot: 4
+      prompt: Perhaps some other time.
+      response: Come back when you're serious
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC45.rude
+      row: 46
+    raw_columns:
+      - 45
+      - 6
+      - 4
+      - Perhaps some other time.
+      - Come back when you're serious.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 6
+      choice_slot: 4
+      prompt: Perhaps some other time.
+      response: Come back when you're serious.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC45.rude
+      row: 47
+    raw_columns:
+      - 45
+      - 45
+      - 6
+      - We've rescued Ivsar.
+      - You have?  Great!  Where is he?  We have much to talk about!
+      - 20
+      - 196
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 21
+      - 0
+      - 0
+      - 0
+      - 0
+      - 21
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 45
+      choice_slot: 6
+      prompt: We've rescued Ivsar.
+      response: You have?  Great!  Where is he?  We have much to talk about!
+      next: 20
+      raw_fields:
+        c07: 196
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 21
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 21
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 20
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 196
+            qbit_id: 9196
+            state_id: mm9.keys.196
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 196
+          qbit_id: 9196
+          state_id: mm9.keys.196
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 21
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 21
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 48
+    raw_columns:
+      - 45
+      - 45
+      - 7
+      - About those things you asked us to do..
+      - Yes?
+      - 4
+      - 20
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 38
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 45
+      choice_slot: 7
+      prompt: About those things you asked us to do..
+      response: Yes?
+      next: 4
+      raw_fields:
+        c07: 20
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 38
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 20
+            qbit_id: 9020
+            state_id: mm9.keys.20
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 20
+          qbit_id: 9020
+          state_id: mm9.keys.20
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 38
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 49
+    raw_columns:
+      - 45
+      - 4
+      - 7
+      - Thanks for your time.
+      - Farewell, adventurers.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 4
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Farewell, adventurers.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC45.rude
+      row: 50
+    raw_columns:
+      - 45
+      - 45
+      - 8
+      - We have come with a response from Kira the Cold.
+      - You have?!  What did she say??  Well?  Out with it!!
+      - 25
+      - 23
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 24
+      - 25
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 45
+      choice_slot: 8
+      prompt: We have come with a response from Kira the Cold.
+      response: You have?!  What did she say??  Well?  Out with it!!
+      next: 25
+      raw_fields:
+        c07: 23
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 24
+        c22: 25
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 25
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 23
+            qbit_id: 9023
+            state_id: mm9.keys.23
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 23
+          qbit_id: 9023
+          state_id: mm9.keys.23
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 24
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 25
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 51
+    raw_columns:
+      - 45
+      - 45
+      - 9
+      - Anskram Keep is clear.
+      - It is?  Great news!  I knew you wouldn't disappoint me!  Here is a reward for your trouble.
+      - 999
+      - 39
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 41
+      - 0
+      - 0
+      - 0
+      - 0
+      - 41
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 45
+      choice_slot: 9
+      prompt: Anskram Keep is clear.
+      response: It is?  Great news!  I knew you wouldn't disappoint me!  Here is a reward for your trouble.
+      next: 999
+      raw_fields:
+        c07: 39
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 41
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 41
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 39
+            qbit_id: 9039
+            state_id: mm9.keys.39
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 39
+          qbit_id: 9039
+          state_id: mm9.keys.39
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 41
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 41
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 52
+    raw_columns:
+      - 45
+      - 45
+      - 10
+      - We've done as you've asked.  Will you join the coalition?
+      - Yes!  Yes of course.  When shall we have the war council?
+      - 40
+      - 41
+      - 0
+      - 21
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 38
+      - 0
+      - 0
+      - 0
+      - 0
+      - 38
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 45
+      choice_slot: 10
+      prompt: We've done as you've asked.  Will you join the coalition?
+      response: Yes!  Yes of course.  When shall we have the war council?
+      next: 40
+      raw_fields:
+        c07: 41
+        c08: 0
+        c09: 21
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 38
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 38
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 40
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 41
+            qbit_id: 9041
+            state_id: mm9.keys.41
+          - column: c09
+            raw_id: 21
+            qbit_id: 9021
+            state_id: mm9.keys.21
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 41
+          qbit_id: 9041
+          state_id: mm9.keys.41
+        - domain: mm9.keys
+          raw_id: 21
+          qbit_id: 9021
+          state_id: mm9.keys.21
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 38
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 38
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 53
+    raw_columns:
+      - 45
+      - 45
+      - 11
+      - What is the meaning of this?!
+      - The meaning of what?  You'd better have a good reason for barging in here and yelling at me!
+      - 36
+      - 84
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 86
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 45
+      choice_slot: 11
+      prompt: What is the meaning of this?!
+      response: The meaning of what?  You'd better have a good reason for barging in here and yelling at me!
+      next: 36
+      raw_fields:
+        c07: 84
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 86
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 36
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 84
+            qbit_id: 9084
+            state_id: mm9.keys.84
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 84
+          qbit_id: 9084
+          state_id: mm9.keys.84
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 86
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 54
+    raw_columns:
+      - 45
+      - 45
+      - 12
+      - It is time for the war council.  The clans are united.
+      - That is the best news I've heard all day!  My messengers will be sent to all the clans at once!
+      - 35
+      - 38
+      - 0
+      - 178
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 45
+      choice_slot: 12
+      prompt: It is time for the war council.  The clans are united.
+      response: That is the best news I've heard all day!  My messengers will be sent to all the clans at once!
+      next: 35
+      raw_fields:
+        c07: 38
+        c08: 0
+        c09: 178
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 83
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 83
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 35
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 38
+            qbit_id: 9038
+            state_id: mm9.keys.38
+          - column: c09
+            raw_id: 178
+            qbit_id: 9178
+            state_id: mm9.keys.178
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 38
+          qbit_id: 9038
+          state_id: mm9.keys.38
+        - domain: mm9.keys
+          raw_id: 178
+          qbit_id: 9178
+          state_id: mm9.keys.178
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 83
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 83
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 55
+    raw_columns:
+      - 45
+      - 45
+      - 13
+      - We have a peace treaty written by Kira herself.
+      - Kira wrote it?!  Wow!  I didn't know she was so interested in the affairs of Sturmford.  Very well.  As soon as Sigmund has signed it, so will I.
+      - 50
+      - 89
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 90
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 45
+      choice_slot: 13
+      prompt: We have a peace treaty written by Kira herself.
+      response: Kira wrote it?!  Wow!  I didn't know she was so interested in the affairs of Sturmford.  Very well.  As soon as Sigmund has signed it, so will I.
+      next: 50
+      raw_fields:
+        c07: 89
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 90
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 50
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 89
+            qbit_id: 9089
+            state_id: mm9.keys.89
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 89
+          qbit_id: 9089
+          state_id: mm9.keys.89
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 90
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 56
+    raw_columns:
+      - 45
+      - 45
+      - 20
+      - Bjarni, forgive us.  We are the ones who killed you.
+      - Go, friends.  You must succeed in this.  Then all will be forgiven.
+      - 999
+      - 382
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 502
+      - 0
+      - 0
+      - 0
+      - 0
+      - 502
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 45
+      choice_slot: 20
+      prompt: Bjarni, forgive us.  We are the ones who killed you.
+      response: Go, friends.  You must succeed in this.  Then all will be forgiven.
+      next: 999
+      raw_fields:
+        c07: 382
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 502
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 502
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 382
+            qbit_id: 9382
+            state_id: mm9.keys.382
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 382
+          qbit_id: 9382
+          state_id: mm9.keys.382
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 502
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 502
+        status: raw_value_preserved
+  - source:
+      file: NPC45.rude
+      row: 57
+    raw_columns:
+      - 45
+      - 45
+      - 21
+      - Sorry to bother you.
+      - Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 45
+      node_id: 45
+      choice_slot: 21
+      prompt: Sorry to bother you.
+      response: Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

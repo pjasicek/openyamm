@@ -1,0 +1,68 @@
+;------------------------------------------------------------------
+;	Steamvent.scr
+;	Brett Yagi
+;
+;	This script is toggle the steam vents
+;
+;	Parameters
+;
+;	0 - Damage Brush Name
+;	1 - amount of seconds the vent stays on
+;	2 - amount of seconds the vent stays off
+;
+;
+;-----------------------------------------------------
+
+
+
+#hobject hMyHandle
+#hobject hDamageBrush
+#string	sMarker
+#string sDamageBrush
+#number nOffWait
+#number nOnWait
+
+;--------------------------------------------------------------
+:TurnItOff
+;--------------------------------------------------------------
+
+	trigger hMyHandle off
+	trigger hDamageBrush turnoff
+	Wait 0 nOffWait TurnItOn
+
+
+exit 1
+
+;--------------------------------------------------------------
+:TurnItOn
+;--------------------------------------------------------------
+
+	trigger hMyHandle on
+	trigger hDamageBrush turnon
+	Wait 0 nOnWait TurnItOff
+
+exit 1
+
+
+;--------------------------------------------------------------
+:main2
+;--------------------------------------------------------------
+
+	GetMyHandle hMyHandle
+	GetObjectHandle sDamageBrush hDamageBrush
+	Gosub TurnItOff
+	
+
+exit 1
+
+;--------------------------------------------------------------
+:main
+;--------------------------------------------------------------
+
+	GetParam 0 sDamageBrush
+	GetParam 1 nOffWait
+	GetParam 2 nOnWait
+
+	Wait 0 .1 main2
+
+exit 1

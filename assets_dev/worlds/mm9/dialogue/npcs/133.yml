@@ -1,0 +1,1266 @@
+format_version: 1
+source_file: NPC133.rude
+rows:
+  - source:
+      file: NPC133.rude
+      row: 1
+    raw_columns:
+      - 133
+      - 10
+      - 1
+      - What can we do for you?
+      - I'm very interested in the games the other wizards came up with.  I'd like you to visit as many games as you can.  The more games you can report on for me, the more money I'll pay you.
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 10
+      choice_slot: 1
+      prompt: What can we do for you?
+      response: I'm very interested in the games the other wizards came up with.  I'd like you to visit as many games as you can.  The more games you can report on for me, the more money I'll pay you.
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC133.rude
+      row: 2
+    raw_columns:
+      - 133
+      - 12
+      - 1
+      - Well if we ever need a Capstone of Order, we'll be by.
+      - Alright!  You just better hope it's still here!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 12
+      choice_slot: 1
+      prompt: Well if we ever need a Capstone of Order, we'll be by.
+      response: Alright!  You just better hope it's still here!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC133.rude
+      row: 3
+    raw_columns:
+      - 133
+      - 20
+      - 1
+      - We may have just the person.
+      - You have?  Great!  Bring him down!
+      - 133
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 119
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 20
+      choice_slot: 1
+      prompt: We may have just the person.
+      response: You have?  Great!  Bring him down!
+      next: 133
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 119
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 133
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 119
+        status: raw_value_preserved
+  - source:
+      file: NPC133.rude
+      row: 4
+    raw_columns:
+      - 133
+      - 133
+      - 1
+      - We'd like to play a game.
+      - Step right up!  You can buy a ticket from the ticket master.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 133
+      choice_slot: 1
+      prompt: We'd like to play a game.
+      response: Step right up!  You can buy a ticket from the ticket master.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC133.rude
+      row: 5
+    raw_columns:
+      - 133
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC133.rude
+      row: 6
+    raw_columns:
+      - 133
+      - 11
+      - 1
+      - Sounds like fun.
+      - Great!  Come back when you're done.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 11
+      choice_slot: 1
+      prompt: Sounds like fun.
+      response: Great!  Come back when you're done.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC133.rude
+      row: 7
+    raw_columns:
+      - 133
+      - 1
+      - 1
+      - Do you have any news?
+      - I'd really like to know what sort of games the other wizards came up with this year.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I'd really like to know what sort of games the other wizards came up with this year.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC133.rude
+      row: 8
+    raw_columns:
+      - 133
+      - 133
+      - 2
+      - We'd like to ask you some questions.
+      - Very well.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 133
+      choice_slot: 2
+      prompt: We'd like to ask you some questions.
+      response: Very well.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC133.rude
+      row: 9
+    raw_columns:
+      - 133
+      - 1
+      - 2
+      - What do you know about the Gathering?
+      - The Gathering?  Well I've only been coming here for ten years!  What do you think I know about it?  Everything, that's what!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about the Gathering?
+      response: The Gathering?  Well I've only been coming here for ten years!  What do you think I know about it?  Everything, that's what!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC133.rude
+      row: 10
+    raw_columns:
+      - 133
+      - 11
+      - 2
+      - We don't have time for silly games.
+      - Games stimulate the imagination, and are proven to keep you young.  I'll see you when your old!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 11
+      choice_slot: 2
+      prompt: We don't have time for silly games.
+      response: Games stimulate the imagination, and are proven to keep you young.  I'll see you when your old!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC133.rude
+      row: 11
+    raw_columns:
+      - 133
+      - 133
+      - 3
+      - Do you give out any prizes?
+      - Well, I happen to have here this wonderful Capstone of Order in my possession.  If you can give to me the entire set of prizes here at the Gathering, I will trade you for them.
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2087
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 133
+      choice_slot: 3
+      prompt: Do you give out any prizes?
+      response: Well, I happen to have here this wonderful Capstone of Order in my possession.  If you can give to me the entire set of prizes here at the Gathering, I will trade you for them.
+      next: 12
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2087
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2087
+        status: raw_value_preserved
+  - source:
+      file: NPC133.rude
+      row: 12
+    raw_columns:
+      - 133
+      - 133
+      - 4
+      - We've got your set of prizes.
+      - Great!  Here's the capstone.
+      - 999
+      - 487
+      - 0
+      - 98
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 488
+      - 0
+      - 0
+      - 0
+      - 0
+      - 488
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 133
+      choice_slot: 4
+      prompt: We've got your set of prizes.
+      response: Great!  Here's the capstone.
+      next: 999
+      raw_fields:
+        c07: 487
+        c08: 0
+        c09: 98
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 488
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 488
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 487
+            qbit_id: 9487
+            state_id: mm9.keys.487
+          - column: c09
+            raw_id: 98
+            qbit_id: 9098
+            state_id: mm9.keys.98
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 487
+          qbit_id: 9487
+          state_id: mm9.keys.487
+        - domain: mm9.keys
+          raw_id: 98
+          qbit_id: 9098
+          state_id: mm9.keys.98
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 488
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 488
+        status: raw_value_preserved
+  - source:
+      file: NPC133.rude
+      row: 13
+    raw_columns:
+      - 133
+      - 133
+      - 5
+      - You're not looking for any help, are you?
+      - Well, actually I'm looking for someone to star in the new trapeze act I'm starting.  They can't be anyone scruffy like you, though.  I'm looking for someone who looks brave and noble.  Like they could be a king!
+      - 20
+      - 118
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 119
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 133
+      choice_slot: 5
+      prompt: You're not looking for any help, are you?
+      response: Well, actually I'm looking for someone to star in the new trapeze act I'm starting.  They can't be anyone scruffy like you, though.  I'm looking for someone who looks brave and noble.  Like they could be a king!
+      next: 20
+      raw_fields:
+        c07: 118
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 119
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 20
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 118
+            qbit_id: 9118
+            state_id: mm9.keys.118
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 118
+          qbit_id: 9118
+          state_id: mm9.keys.118
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 119
+        status: raw_value_preserved
+  - source:
+      file: NPC133.rude
+      row: 14
+    raw_columns:
+      - 133
+      - 133
+      - 6
+      - Did Nicolai take the job?
+      - Yeah.  I think he's going to work out fine.  For your effort, I've got a bit of a reward for you.
+      - 133
+      - 120
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 121
+      - 0
+      - 0
+      - 0
+      - 0
+      - 122
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 133
+      choice_slot: 6
+      prompt: Did Nicolai take the job?
+      response: Yeah.  I think he's going to work out fine.  For your effort, I've got a bit of a reward for you.
+      next: 133
+      raw_fields:
+        c07: 120
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 121
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 122
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 133
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 120
+            qbit_id: 9120
+            state_id: mm9.keys.120
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 120
+          qbit_id: 9120
+          state_id: mm9.keys.120
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 121
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 122
+        status: raw_value_preserved
+  - source:
+      file: NPC133.rude
+      row: 15
+    raw_columns:
+      - 133
+      - 133
+      - 7
+      - We don't have time for games today.
+      - Why?  Are you afraid of losing?
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 133
+      choice_slot: 7
+      prompt: We don't have time for games today.
+      response: Why?  Are you afraid of losing?
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC133.rude
+      row: 16
+    raw_columns:
+      - 133
+      - 1
+      - 7
+      - Thanks for your time.
+      - Would you like to play a game?
+      - 133
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Would you like to play a game?
+      next: 133
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 133
+  - source:
+      file: NPC133.rude
+      row: 17
+    raw_columns:
+      - 133
+      - 133
+      - 13
+      - What are the prizes you are looking for?
+      - There's six of them.  The wooden sword, the wooden shield, the fur cap, the cloth gloves,   the quilted armor, and the fuzzy slippers.
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 133
+      node_id: 133
+      choice_slot: 13
+      prompt: What are the prizes you are looking for?
+      response: There's six of them.  The wooden sword, the wooden shield, the fur cap, the cloth gloves,   the quilted armor, and the fuzzy slippers.
+      next: 12
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12

@@ -1,0 +1,40 @@
+#include BaseGlobals.inc
+
+;------------------------------------
+:Main
+;------------------------------------
+	Wait 0, .1, PlayDeathAnim0
+
+	Exit 1
+
+;------------------------------------
+:PlayDeathAnim0
+;------------------------------------
+	PlaySound "sounds\animsounds\dragon\hattack1.wav", DoNothing, 1, 5000, FALSE, 200
+	PlayAnim aware, PlayDeathAnim1
+
+	Exit 1
+
+;------------------------------------
+:PlayDeathAnim1
+;------------------------------------
+	PlaySound "sounds\animsounds\dragon\wingattack.wav", DoNothing, 1, 5000, FALSE, 200
+	PlayAnim hattack1, PlayDeathAnim2
+
+	Exit 1
+
+;------------------------------------
+:PlayDeathAnim2
+;------------------------------------
+	PlaySound "sounds\animsounds\dragon\rattack1.wav", DoNothing, 1, 5000, FALSE, 200
+	PlayAnim rattack2, PlayDeathAnim3
+
+	Exit 1
+
+;------------------------------------
+:PlayDeathAnim3
+;------------------------------------
+	PlaySound "sounds\animsounds\dragon\die1.wav", DoNothing, 1, 5000, FALSE, 200
+	PlayAnim wince1
+
+	Exit 1

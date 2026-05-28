@@ -1,0 +1,239 @@
+schema: openyamm.model3d.v1
+id: gopher
+model: gopher.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/GOPHER.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 4.023306898564917e+25
+pieces:
+- name: gopher
+  materialIndex: 0
+  lods:
+  - faces: 30
+    vertices: 19
+  - faces: 8
+    vertices: 8
+- name: dirt
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 21
+  - faces: 22
+    vertices: 18
+materials:
+- index: 0
+  texture: skins_preview/gopher.png
+  runtime_texture: skins/gopher.dtx
+  preview_texture: skins_preview/gopher.png
+  source: mm9/extracted/SKINS/SKINS/GOPHER.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 7
+  - index: 1
+    name: XCENTER
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Xneckpiv
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Xheadpiv
+    parent: 2
+    flags: 1
+    children:
+    - 4
+    - 5
+    - 6
+  - index: 4
+    name: Xhead
+    parent: 3
+    flags: 1
+    children: []
+  - index: 5
+    name: Xearpiv
+    parent: 3
+    flags: 1
+    children: []
+  - index: 6
+    name: Xearpiv01
+    parent: 3
+    flags: 1
+    children: []
+  - index: 7
+    name: Yfloor
+    parent: 0
+    flags: 1
+    children: []
+sockets:
+- name: RangeAttack
+  node: 4
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.008777232840657234
+  - -0.9989597797393799
+  - -0.04049673676490784
+  - 0.019077759236097336
+animations:
+- name: peek
+  durationMs: 2400
+  keyframes: 17
+  interpolationTimeMs: 200
+  events: []
+- name: up
+  durationMs: 900
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 450
+    event: speakanimsound
+- name: Stand
+  durationMs: 1700
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: fidget1
+  durationMs: 1800
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: fidget2
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: Rattack1
+  durationMs: 500
+  keyframes: 6
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 313
+    event: RangeAttack
+- name: down
+  durationMs: 400
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: wince1
+  durationMs: 800
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 320
+    event: speakanimsound
+- name: wince2
+  durationMs: 800
+  keyframes: 6
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 320
+    event: speakanimsound
+animationBindings:
+- name: peek
+  extents:
+  - 10.24
+  - 7.68
+  - 10.24
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: up
+  extents:
+  - 10.24
+  - 7.68
+  - 10.24
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Stand
+  extents:
+  - 10.24
+  - 7.68
+  - 10.24
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fidget1
+  extents:
+  - 10.24
+  - 7.68
+  - 10.24
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fidget2
+  extents:
+  - 10.24
+  - 7.68
+  - 10.24
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Rattack1
+  extents:
+  - 10.24
+  - 7.68
+  - 10.24
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: down
+  extents:
+  - 10.24
+  - 7.68
+  - 10.24
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: wince1
+  extents:
+  - 10.24
+  - 7.68
+  - 10.24
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: wince2
+  extents:
+  - 10.24
+  - 7.68
+  - 10.24
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/gopher.abc

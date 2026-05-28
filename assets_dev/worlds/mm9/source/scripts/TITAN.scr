@@ -1,0 +1,20 @@
+;---------------------------------------------
+;	Titan.Scr
+;	Jeff Leggett
+;
+;	Big Bad Ass Dude!
+;	
+;---------------------------------------------
+
+#include BaseCrawl.inc
+#include Range.inc
+
+;---------------------------------------------
+:Main
+;---------------------------------------------
+
+	gosub BaseCrawlInit
+	gosub RangeInit
+
+	Exit
+

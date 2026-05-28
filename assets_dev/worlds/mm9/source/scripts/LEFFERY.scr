@@ -1,0 +1,147 @@
+;--------------------------------------------------
+;givetake.scr
+;10/4
+; timmy
+; gives party specific item
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#number			Item_ID
+#number			nGiveOnce = FALSE
+
+
+
+
+
+; Parameters
+;P0 Item number of item to give
+
+
+;--------------------------------------------------
+
+
+;--------------------------------------------------
+:OnStart
+;--------------------------------------------------
+SetPropNumber DoRude False
+getobjecthandle Leffery1 g_hobject
+walkto g_hobject 2 OnArrive
+exit
+
+;--------------------------------------------------
+:OnArrive
+;--------------------------------------------------
+
+
+getobjecthandle ralof g_hobject
+target g_hobject
+exit
+
+;--------------------------------------------------
+:OnSpeak12
+;--------------------------------------------------
+
+;start speaking
+LoopAnim conv2 0 DoNothing
+Playsound voices\cinema\guberlandplay\12.wav, DoNothing, 100, 512, FALSE, 100
+wait 2 1.3 Trigger13
+exit
+
+;--------------------------------------------------
+:Trigger13
+;--------------------------------------------------
+
+stop
+loopanim stand 0 Donothing
+getobjecthandle Ralof g_hobject
+trigger g_hobject Speak13
+exit
+
+;--------------------------------------------------
+:OnSpeak14
+;--------------------------------------------------
+
+;start speaking
+LoopAnim Aware 0 DoNothing
+Playsound voices\cinema\guberlandplay\14.wav, DoNothing, 100, 512, FALSE, 100
+
+exit
+
+;--------------------------------------------------
+:OnTarget
+;--------------------------------------------------
+getparam 0 g_hobject
+target g_hobject
+exit
+
+;--------------------------------------------------
+:OnExit
+;--------------------------------------------------
+SetPropNumber DoRude TRUE
+target NULL
+getobjecthandle Leffery2 g_hobject
+walkto g_hobject 1 FaceStage
+exit
+
+
+;--------------------------------------------------
+:FaceStage
+;--------------------------------------------------
+
+getobjecthandle trislan g_hobject
+target g_hobject
+exit
+
+;--------------------------------------------------
+:OnWalk2
+;--------------------------------------------------
+getobjecthandle trislan g_hobject
+target g_hobject
+getobjecthandle Wilam2 g_hobject
+walkto g_hobject 1 DoNothing
+exit
+
+
+
+;--------------------------------------------------
+:OnCastCall
+;--------------------------------------------------
+
+getobjecthandle Leffery3 g_hobject
+walkto g_hobject 1 FaceDoor
+exit
+
+;--------------------------------------------------
+:FaceDoor
+;--------------------------------------------------
+
+getobjecthandle peasant2 g_hobject
+target g_hobject
+exit
+
+;--------------------------------------------------
+:OnBow
+;--------------------------------------------------
+
+PlayAnim Bow DoNothing
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Start OnStart
+AddTrigger Speak12 OnSpeak12
+Addtrigger speak14 OnSpeak14
+Addtrigger target OnTarget
+Addtrigger Exit OnExit
+AddTrigger Walk2 OnWalk2
+AddTrigger CastCall OnCastCall
+AddTrigger Bow OnBow
+exit
+
+

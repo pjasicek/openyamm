@@ -1,0 +1,27 @@
+;----------------------------------------------
+;EboraCam1.scr
+; By L. Dean Gibson II
+; Ebora's Camera script in the bathhouse...
+;
+;----------------------------------------------
+
+;;;SJR
+
+#include BaseGlobals.inc
+
+#hobject	hEbora = 0
+
+;----------------------------------------------
+:CameraOn
+;----------------------------------------------
+	GetObjectHandle Ebora, hEbora
+	FaceObject hEbora, 0, DoNothing
+	
+Exit FALSE
+
+;----------------------------------------------
+:Main
+;----------------------------------------------
+	AddTrigger on,  CameraOn
+
+Exit TRUE

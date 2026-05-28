@@ -1,0 +1,138 @@
+;--------------------------------------------------
+;Foradworld.scr
+;1/12/02
+; timmy
+; Gives player location key for Forad Darre
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#string sWorld
+
+
+
+
+; Parameters
+;P0 The object name of the target
+;P1 the trigger message to send
+
+;--------------------------------------------------
+
+;--------------------------------------------------
+:TakeKey
+;--------------------------------------------------
+
+takekey 1024
+takekey 1025
+takekey 1026
+takekey 1027
+takekey 1028
+takekey 1029
+takekey 1030
+takekey 1031
+takekey 1032
+takekey 1033
+exit
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+takekey 1024
+takekey 1025
+takekey 1026
+takekey 1027
+takekey 1028
+takekey 1029
+takekey 1030
+takekey 1031
+takekey 1032
+takekey 1033
+
+if (sWorld==IsleOfAshes)
+	givekey 1024
+	exit
+endif
+
+if (sWorld==Thjorgard)
+	givekey 1025
+	exit
+endif
+
+if (sWorld==Sturmford)
+	givekey 1026
+	exit
+endif
+
+if (sWorld==Drangheim)
+	givekey 1027
+	exit
+endif
+
+if (sWorld==Guberland)
+	givekey 1028
+	exit
+endif
+
+if (sWorld==Frosgard)
+	givekey 1029
+	exit
+endif
+
+if (sWorld==Thronheim)
+	givekey 1030
+	exit
+endif
+
+if (sWorld==Lindisfarne)
+	givekey 1031
+	exit
+endif
+
+if (sWorld==Yorwick)
+	givekey 1032
+	exit
+endif
+
+givekey 1033
+
+;GetWorldName sWorld
+;debugout sWorld
+
+exit
+
+;-------------------------------------
+:Close
+; for closing shops
+;-------------------------------------
+
+givekey 5017
+exit
+
+;-------------------------------------
+:Open
+; for opening shops
+;-------------------------------------
+
+takekey 5017
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+
+getparam 0 sWorld
+@m 20 : 00 Close Close
+@m 6 : 00 Open Open
+wait 1 1 Init
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+OnWorldSwitch TakeKey
+exit
+
+

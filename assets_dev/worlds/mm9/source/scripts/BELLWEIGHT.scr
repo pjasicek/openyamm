@@ -1,0 +1,37 @@
+;----------------------------------------
+;	BellWeight.scr
+;	by SJR
+;----------------------------------------
+#include BaseGlobals.inc
+
+#number		MAX_HEIGHT = 0
+#number		nHeight = 0
+#number		nTemp = 0
+
+;----------------------------------------
+:Main
+;----------------------------------------
+	GetParam 0, MAX_HEIGHT
+
+	AddTrigger open, AdjustHeight
+	
+	Exit TRUE
+
+;----------------------------------------
+:AdjustHeight
+;----------------------------------------
+	GetConsoleNumVar GAME_BELL_HEIGHT, nTemp
+	if( nTemp>1 )
+		nTemp = 1
+	else
+		if( nTemp<0 )
+			nTemp = 0
+		endif
+	endif
+
+	;;scale height
+	nHeight = MAX_HEIGHT * nTemp
+
+	SetPropNumber MoveDist, nHeight
+
+	Exit FALSE

@@ -1,0 +1,93 @@
+;----------------------------------------------
+;NPC93.scr
+; By Timmy
+; checks to see if player is on the quest
+; and gives the dolly key
+; relevant RudeIDs: 89, 91, 92, 93
+
+; key 128 = player is on yobboe promo quest
+; Key 132 = player has the plow
+
+; Dolly is item 370
+; Herbs is item 372
+; plow is item 371
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+gosub dolly
+exit
+
+
+
+;-------------------------------------
+:dolly
+;-------------------------------------
+
+
+Haskey 135 g_ntemp
+If (g_ntemp==1, )
+;checks to see if player has already done this
+haskey 199 g_ntemp
+	if (g_ntemp==0, )
+		takeitem 370
+		giveexp 2000
+		givegold 500
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		givekey 199
+		exit
+	endif
+endif
+exit
+	
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_093.wav, DoNothing, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+haskey 128 g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hobject
+	setflag g_hobject, visible
+	setflag g_hobject, solid
+	setflag g_hobject, gravity
+else
+	getmyhandle g_hobject
+	clearflag g_hobject, visible
+	clearflag g_hobject, solid
+	clearflag g_hobject, gravity
+endif
+
+exit
+
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+Addtrigger Use, Onuse
+OnRudeExit OnRude
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit

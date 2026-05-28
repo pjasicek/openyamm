@@ -1,0 +1,86 @@
+********************************************************************************
+                      Character Stats Coordinates
+********************************************************************************
+
+Graphic Elements:
+
+CharacterStatsBG.pcx	  0x   0y	800x600	Background
+
+Stats Page Tab		586x   4y	85x148
+Skills Page Tab		586x 154y	85x143
+Inventory Page Tab	586x 299y	85x143
+Spells Page Button	586x 444y	85x148
+
+Character 1 Portrait	723x  13y	60x80
+Character 2 Portrait	723x 113x	60x80
+Character 3 Portrait	723x 213y	60x80
+Character 4 Portrait	723x 313y	60x80
+
+Character 1 Marker	720x  10y	66x86
+Character 2 Marker	720x 110x	66x86
+Character 3 Marker	720x 210y	66x86
+Character 4 Marker	720x 310y	66x86
+
+Map/Note Toggle Button	690x 436y	110x105
+Exit Button		690x 548y	110x52
+
+********************************************************************************
+
+Text:
+
+Character Name		 	44x  19y	350x96	Name Font
+###TH Level Class		102x  12y	308x18	Main Font Center
+### Experience / +### Level Up	102x  31y	308x15	Tiny Font Center
+Note: The previous two lines overlap with the Character Name Space
+
+(HP) ###/###			459x  32y	103x18	Main Font Center
+(SP) ###/###			459x  61y	103x18	Main Font Center
+
+(Gold) #,###,####		352x 548y	140x18	Main Font Left
+
+AC ###		309x 315y	56x18	Main Font Center
+
+Rollover Text		 	47x 572y	530x18	Main Font Center
+
+------------------------------------------------------------------------------------
+
+Statistics-Page-Exclusive Text:
+
+"Might"		 62x 146y	139x18	Main Font Left
+"Magic"		 62x 173y	139x18	Main Font Left
+"Endurance"	 62x 198y	139x18	Main Font Left
+"Accuracy"	 62x 225y	139x18	Main Font Left
+"Speed"		 62x 251y	139x18	Main Font Left
+"Luck"		 62x 277y	139x18	Main Font Left
+
+"Elemental"	 91x 423y	147x18	Main Font Left
+"Light"		 91x 449y	147x18	Main Font Left
+"Dark"		 91x 475y	147x18	Main Font Left
+"Spirit"	 91x 501y	147x18	Main Font Left
+"Physical"	 91x 527y	147x18	Main Font Left
+
+"Melee"		329x 146y	121x18	Main Font Left
+"Damage"	329x 173y	121x18	Main Font Left
+"Ranged"	329x 210y	121x18	Main Font Left
+"Damage"	329x 237y	121x18	Main Font Left
+
+Might ###	203x 146y	56x18	Main Font Center
+Magic ###	203x 173y	56x18	Main Font Center
+Endurance ###	203x 198y	56x18	Main Font Center
+Accuracy ###	203x 225y	56x18	Main Font Center
+Speed ###	203x 251y	56x18	Main Font Center
+Luck ###	203x 277y	56x18	Main Font Center
+
+Elemental ###	240x 423y	56x18	Main Font Center
+Light ###	240x 449y	56x18	Main Font Center
+Dark ###	240x 475y	56x18	Main Font Center
+Spirit ###	240x 501y	56x18	Main Font Center
+Physical ###	240x 527y	56x18	Main Font Center
+
+Melee ###	451x 146y	90x18	Main Font Center
+Damage ###-###	451x 173y	90x18	Main Font Center
+Ranged ###	451x 210y	90x18	Main Font Center
+Damage ###-###	451x 237y	90x18	Main Font Center
+
+------------------------------------------------------------------------------------
+

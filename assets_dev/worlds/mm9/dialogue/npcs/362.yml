@@ -1,0 +1,598 @@
+format_version: 1
+source_file: NPC362.rude
+rows:
+  - source:
+      file: NPC362.rude
+      row: 1
+    raw_columns:
+      - 362
+      - 2
+      - 1
+      - Do you know where it is?
+      - No.  The time I held it in my hands I was in Guberland.  I heard that someone named the Dook was looking for it, though
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 362
+      node_id: 2
+      choice_slot: 1
+      prompt: Do you know where it is?
+      response: No.  The time I held it in my hands I was in Guberland.  I heard that someone named the Dook was looking for it, though
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC362.rude
+      row: 2
+    raw_columns:
+      - 362
+      - 1
+      - 1
+      - Do you have any news?
+      - I once held Everstrike in my hands.  Me!  I held Everstrike!  I should have kept it.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 362
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I once held Everstrike in my hands.  Me!  I held Everstrike!  I should have kept it.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC362.rude
+      row: 3
+    raw_columns:
+      - 362
+      - 362
+      - 1
+      - We'd like to Grandmaster in Bow
+      - If you think you are ready, I can help.
+      - -4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 362
+      node_id: 362
+      choice_slot: 1
+      prompt: We'd like to Grandmaster in Bow
+      response: If you think you are ready, I can help.
+      next: -4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2017
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -4
+        service: skill_training
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -4
+        service: skill_training
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2017
+        status: raw_value_preserved
+  - source:
+      file: NPC362.rude
+      row: 4
+    raw_columns:
+      - 362
+      - 1
+      - 2
+      - What do you know about adventuring?
+      - If you can find it, Everstrike is the best bow that exists!  It never misses!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 362
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about adventuring?
+      response: If you can find it, Everstrike is the best bow that exists!  It never misses!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC362.rude
+      row: 5
+    raw_columns:
+      - 362
+      - 362
+      - 2
+      - We'd like to ask you some questions.
+      - Very well.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 362
+      node_id: 362
+      choice_slot: 2
+      prompt: We'd like to ask you some questions.
+      response: Very well.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC362.rude
+      row: 6
+    raw_columns:
+      - 362
+      - 1
+      - 3
+      - What do you know about Everstrike?
+      - I held it in my hands!  Me!  I wish I would have kept it.
+      - 2
+      - 238
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 241
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 362
+      node_id: 1
+      choice_slot: 3
+      prompt: What do you know about Everstrike?
+      response: I held it in my hands!  Me!  I wish I would have kept it.
+      next: 2
+      raw_fields:
+        c07: 238
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 241
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 238
+            qbit_id: 9238
+            state_id: mm9.keys.238
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 238
+          qbit_id: 9238
+          state_id: mm9.keys.238
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 241
+        status: raw_value_preserved
+  - source:
+      file: NPC362.rude
+      row: 7
+    raw_columns:
+      - 362
+      - 362
+      - 3
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 362
+      node_id: 362
+      choice_slot: 3
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2017
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2017
+        status: raw_value_preserved
+  - source:
+      file: NPC362.rude
+      row: 8
+    raw_columns:
+      - 362
+      - 1
+      - 7
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 362
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2017
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2017
+        status: raw_value_preserved

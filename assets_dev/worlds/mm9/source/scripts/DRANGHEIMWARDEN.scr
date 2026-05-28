@@ -1,0 +1,69 @@
+;------------------------------------------------------
+;  DrangheimWarden.scr
+;	SJR
+;	Feltup by kd 10-30-01
+;
+;	This guard operates the levels that open
+;	and close the cell doors.
+;------------------------------------------------------
+#include BaseGlobals.inc
+#include BaseMelee.inc
+#include DrangheimHostility.inc
+
+#hobject	hCell = 0
+
+#stringarray	spCellNames[3]
+#string			sCellName = ""
+
+#number		nCounter = 0
+
+
+;--------------
+:Main
+;--------------
+	GetParam 0, sCellName
+	ArrayPut spCellNames, 0, sCellName
+	GetParam 1, sCellName
+	ArrayPut spCellNames, 1, sCellName
+	GetParam 2, sCellName
+	ArrayPut spCellNames, 2, sCellName
+
+	gosub InitDrangheimHostility
+
+	AddTrigger open, OpenCell
+	AddTrigger close, CloseCell
+	AddTrigger change, ChangeCell
+
+	nCounter = 0
+
+	Exit TRUE
+
+;--------------
+:OpenCell
+;--------------
+	PlayAnim aware, DoNothing
+	if( hCell!=0 )
+		Trigger hCell, use
+	endif
+	
+	Exit TRUE
+
+;--------------
+:CloseCell
+;--------------
+	PlayAnim aware, DoNothing
+	if( hCell!=0 )
+		Trigger hCell, use
+	endif
+
+	Exit TRUE
+
+;--------------
+:ChangeCell
+;--------------
+	ArrayGet spCellNames, nCounter, sCellName
+	GetObjectHandle sCellName, hCell
+	nCounter = nCounter + 1
+	Mod nCounter, 3
+
+	Exit TRUE

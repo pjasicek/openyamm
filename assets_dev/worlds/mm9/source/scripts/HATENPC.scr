@@ -1,0 +1,22 @@
+;--------------------------------------------------
+;Hate.scr
+; timmy
+; Makes things hate things and then runs BaseMelee
+;--------------------------------------------------
+
+#include globals.inc
+#include basemelee.inc
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddEnemy NPC
+AddEnemy ClanSoldier
+AddEnemy KiratheCold
+gosub BaseInit
+exit
+

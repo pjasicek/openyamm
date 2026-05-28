@@ -1,0 +1,335 @@
+;------------------------------------------
+;	TronGame.scr
+;	by SJR
+;	12-12-01
+;	Purpose:
+;
+;	HowItWorks:TronPiece.scr triggers this
+;		when it is 'use'd. This script
+;		then does some checking and turns
+;		the appropriate piece visible and colored
+;------------------------------------------
+#include BaseGlobals.inc
+#include ListMaker.inc
+#include flags.inc
+#include ThjorgardGamesCommon.inc
+
+#numberarray	npSquares[63]
+#numberarray	npCheck[8]
+
+#string		sPieceName = ""
+#string		sBotName = ""
+#hobject	hPiece = 0
+#hobject	hBot = 0
+
+#number		BOARDSIZE = 0
+#number		TRON_WHITE =  1
+#number		TRON_BLACK =  0
+#number		TRON_EMPTY = -1
+
+#number		nTemp = 0
+#number		bHasTicket = 0
+#number		nCurSquare = 0
+#number		nCheck = 0
+#number		nCheckResult = 0
+#number		nMoveCount = 0
+#number		nCounter = 0
+#number		bSpaceOk = 1
+
+;------------------------------------------
+:Main
+;------------------------------------------
+	GetParam 0, LISTNAME
+	GetParam 1, BOARDSIZE
+
+	;;register game name
+	GetMyHandle hPiece
+	GetObjectName hPiece, sPieceName
+	SetConsoleStrVar TRON_NAME, sPieceName
+
+	LISTFIRST = 0
+	LISTLAST  = BOARDSIZE * BOARDSIZE - 1
+
+	OnPostStartWorld InitTronGame
+
+	Exit TRUE
+
+;------------------------------------------
+:InitTronGame
+;------------------------------------------
+	GetConsoleStrVar TRON_PLAYER, sBotName
+	GetObjectHandle sBotName, hBot
+	if( hBot!=0 )
+		CreateObjectLink hBot
+		OnObjectLinkBroken OnObjectLinkBroken
+	endif
+
+	gosub ResetBoard
+
+	AddTrigger move, CheckMove
+
+	Exit TRUE
+
+;------------------------------------------
+:OnObjectLinkBroken
+;------------------------------------------
+	hBot = NULL
+
+	Exit TRUE
+
+;------------------------------------------
+:GameOver
+;------------------------------------------
+	if( nMoveCount==TRON_WHITE )
+		RollOverText 230, 1, 3000, 2000
+		gosub RecordStonesWin
+	else
+		if( nMoveCount==TRON_BLACK )
+		RollOverText 231, 1, 3000, 2000
+		endif
+	endif
+	
+	if( hBot!=0 )
+		Trigger hBot, GameOver
+	endif
+
+	gosub ResetBoard
+
+	Exit TRUE
+
+;------------------------------------------
+:CheckMove
+;	check adjacent spaces
+;------------------------------------------
+	;;check for player ticket
+	if( bHasTicket==FALSE )
+		gosub CheckGameTicket
+		if( THJORGARD_RESULT==0 )
+			Exit TRUE
+		else
+			gosub TakeGameTicket
+			bHasTicket = TRUE
+		endif
+	endif
+
+	RemoveTrigger move
+
+	;;get the current square
+	GetConsoleNumVar TRON_INDEX, nCurSquare
+	ArrayGet npSquares, nCurSquare, nTemp
+	;;only if square is empty, check adjacent
+	if( nTemp==TRON_EMPTY )
+		;;iterate around the square
+		gosub SetupCheck
+		gosub CheckSurrounding
+	else
+		bSpaceOk = FALSE
+	endif
+
+
+	if( bSpaceOk==TRUE )
+		gosub Move
+	else
+		gosub BogusMove
+	endif
+
+	AddTrigger Move, CheckMove
+
+	Exit TRUE
+
+;------------------------------------------
+:BogusMove
+;------------------------------------------
+	;;havent incremented turn yet; bot==white
+	if( nMoveCount==TRON_WHITE )
+cprint Try again, Bot
+		if( hBot!=0 )
+			Trigger hBot, PlacePiece
+		endif
+	else
+		;;havent incremented turn yet; player==black
+		if( nMoveCount==TRON_BLACK )
+cprint Try again Player
+		endif
+	endif
+
+	Exit TRUE
+
+;------------------------------------------
+:Move
+;	turn the piece visible
+;------------------------------------------
+	GetParam 0, hPiece
+	nMoveCount = nMoveCount + 1
+	Mod nMoveCount, 2
+cprint nCurSquare
+	;;since Mod nMoveCount = 0 or 1 = black or white
+	if( nMoveCount==TRON_WHITE )
+cprint Black's turn
+		Trigger hPiece, White
+	else
+cprint White's turn
+		Trigger hPiece, Black
+	endif
+
+	SetFlag hPiece, FLAG_VISIBLE
+
+	ArrayPut npSquares, nCurSquare, nMoveCount
+
+	gosub CheckVictory
+
+	Exit TRUE
+
+#number		bCanMove = 0
+#number		bEdge = 0
+;---------------
+:CheckVictory
+;	checks empty squares to see
+;	if they are adjacent to friendly
+;---------------
+	;;start off FALSE
+	bCanMove = FALSE
+
+	nCurSquare = 0
+	while( nCurSquare<LISTLAST )
+		ArrayGet npSquares, nCurSquare, nTemp
+		;;if square is empty, check adjacent
+		if( nTemp==TRON_EMPTY )
+			gosub CheckSurrounding
+
+			if( bSpaceOk==TRUE )
+				;;if no win and white's (player's)
+				;;turn, trigger bot to make move
+				if( nMoveCount==TRON_WHITE )
+cprint Bot's turn
+					if( hBot!=0 )
+						Trigger hBot, PlacePiece
+					endif
+				endif
+
+				Exit TRUE
+			endif
+		endif
+
+		nCurSquare = nCurSquare + 1
+	endwhile
+
+	;;if we made it past all that checking...
+	gosub GameOver
+
+	Exit TRUE
+
+;------------------------------------------
+:CheckSurrounding
+;------------------------------------------
+	bSpaceOk = FALSE
+
+	nCounter = 0
+	while( nCounter<8 )
+		ArrayGet npCheck, nCounter, nCheck
+		nCheck = nCurSquare + nCheck
+
+		bEdge = FALSE
+
+		nTemp = nCurSquare + 1
+		Mod nTemp, BOARDSIZE
+		;;if on the right side, skip rights
+		if( nTemp==0 )
+		if( nCounter<3 )
+			bEdge = TRUE
+		endif
+		endif
+
+		nTemp = nCurSquare
+		Mod nTemp, BOARDSIZE
+		;;if on the left side, skip lefts
+		if( nTemp==0 )
+		if( nCounter>4)
+			bEdge = TRUE
+		endif
+		endif
+
+		;;make sure we didnt pass the ends
+		if( nCheck<0 )
+			bEdge = TRUE
+		endif
+		if( nCheck>=LISTLAST )
+			bEdge = TRUE
+		endif
+
+		if( bEdge==FALSE )
+			ArrayGet npSquares, nCheck, nCheckResult
+			nTemp = nMoveCount + 1
+			Mod nTemp, 2
+			;;if color nearby is the same
+			if( nCheckResult==nTemp )
+				bSpaceOk = TRUE
+				Exit TRUE
+			else
+			endif
+		endif
+
+		nCounter = nCounter + 1
+
+	endwhile
+
+	Exit TRUE
+
+;------------------------------------------
+:ResetBoard
+;	make all invisible, clear array
+;------------------------------------------
+	bHasTicket = FALSE
+	nMoveCount = 0
+	gosub GetFirstObject
+	while( LISTINDEX!=LISTLAST )
+		ClearFlag LISTOBJECT, FLAG_VISIBLE
+		ArrayPut npSquares, LISTINDEX, TRON_EMPTY
+		gosub GetNextObject
+	endwhile
+
+	ClearFlag LISTOBJECT, FLAG_VISIBLE
+	ArrayPut npSquares, LISTINDEX, TRON_EMPTY
+
+	;;turn one of each color on at start
+	GetRandomInt LISTFIRST, LISTLAST, LISTINDEX
+
+	gosub GetCurrentObject
+	SetFlag LISTOBJECT, FLAG_VISIBLE
+	Trigger LISTOBJECT, White
+	ArrayPut npSquares, LISTINDEX, TRON_WHITE
+	LISTINDEX = LISTLAST - LISTINDEX
+
+	gosub GetCurrentObject
+	SetFlag LISTOBJECT, FLAG_VISIBLE
+	Trigger LISTOBJECT, Black
+	ArrayPut npSquares, LISTINDEX, TRON_BLACK
+
+	Exit TRUE
+
+;------------------------------------------
+:SetupCheck
+;------------------------------------------
+;;positive side
+	nTemp = 0 - BOARDSIZE + 1
+	ArrayPut npCheck, 0, nTemp
+	nTemp = 1
+	ArrayPut npCheck, 1, nTemp
+	nTemp = BOARDSIZE + 1
+	ArrayPut npCheck, 2, nTemp
+
+;;up-down
+	nTemp = 0 - BOARDSIZE
+	ArrayPut npCheck, 3, nTemp
+	nTemp = BOARDSIZE
+	ArrayPut npCheck, 4, nTemp
+
+;;negative side
+	nTemp = 0 - BOARDSIZE - 1
+	ArrayPut npCheck, 5, nTemp
+	nTemp = -1
+	ArrayPut npCheck, 6, nTemp
+	nTemp = BOARDSIZE - 1
+	ArrayPut npCheck, 7, nTemp
+
+	Exit TRUE

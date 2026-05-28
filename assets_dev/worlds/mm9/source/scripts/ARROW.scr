@@ -1,0 +1,180 @@
+;--------------------------------------------------
+;arrow.scr
+; timmy
+; Handles the arrow shooter in A2_RD1
+;--------------------------------------------------
+
+#include globals.inc 
+#string					arrows=arrows
+       
+#Number					counter
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+getrandomint 1, 8, g_ntemp
+
+if (g_ntemp==1)
+	goto 1
+	
+endif
+
+if (g_ntemp==2)
+	goto 2
+endif
+
+if (g_ntemp==3)
+	goto 3
+endif
+
+if (g_ntemp==4)
+	goto 4
+endif
+
+if (g_ntemp==5)
+	goto 5
+endif
+
+if (g_ntemp==6)
+	goto 6
+endif
+
+if (g_ntemp==7)
+	goto 7
+endif
+
+if (g_ntemp==8)
+	goto 8
+endif
+
+exit
+
+;--------------------------------------------------
+:1
+;--------------------------------------------------
+
+
+getobjecthandle arrows1, g_hobject
+if (g_hobject==null)
+	debugout NULL!
+	exit
+endif
+trigger g_hobject On
+trigger g_hobject Off
+exit
+
+
+;--------------------------------------------------
+:2
+;--------------------------------------------------
+
+
+getobjecthandle arrows2, g_hobject
+if (g_hobject==null)
+	debugout NULL!
+	exit
+endif
+trigger g_hobject On
+trigger g_hobject Off
+exit
+
+
+;--------------------------------------------------
+:3
+;--------------------------------------------------
+
+
+getobjecthandle arrows3, g_hobject
+if (g_hobject==null)
+	debugout NULL!
+	exit
+endif
+trigger g_hobject On
+trigger g_hobject Off
+exit
+
+
+;--------------------------------------------------
+:4
+;--------------------------------------------------
+
+
+getobjecthandle arrows4, g_hobject
+if (g_hobject==null)
+	debugout NULL!
+	exit
+endif
+trigger g_hobject On
+trigger g_hobject Off
+exit
+
+
+;--------------------------------------------------
+:5
+;--------------------------------------------------
+
+
+getobjecthandle arrows5, g_hobject
+if (g_hobject==null)
+	debugout NULL!
+	exit
+endif
+trigger g_hobject On
+trigger g_hobject Off
+exit
+
+
+;--------------------------------------------------
+:6
+;--------------------------------------------------
+
+
+getobjecthandle arrows6, g_hobject
+if (g_hobject==null)
+	debugout NULL!
+	exit
+endif
+trigger g_hobject On
+trigger g_hobject Off
+exit
+
+
+;--------------------------------------------------
+:7
+;--------------------------------------------------
+
+
+getobjecthandle arrows7, g_hobject
+if (g_hobject==null)
+	debugout NULL!
+	exit
+endif
+trigger g_hobject On
+trigger g_hobject Off
+exit
+
+
+;--------------------------------------------------
+:8
+;--------------------------------------------------
+
+
+getobjecthandle arrows8, g_hobject
+if (g_hobject==null)
+	debugout NULL!
+	exit
+endif
+trigger g_hobject On
+trigger g_hobject Off
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+
+;TRACEON
+Set counter, 0
+AddTrigger Shoot, OnUse
+exit
+

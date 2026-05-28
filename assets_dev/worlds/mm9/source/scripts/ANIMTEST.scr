@@ -1,0 +1,264 @@
+
+#include aiglobals.inc
+#include BaseDoor.inc
+
+#number g_dirX
+#number g_dirY
+#number g_dirZ
+#string SPACE=" "
+#string sTemp
+
+#string sNULL
+
+#number g_bAttack = 1
+
+#number g_animNbr = 1
+
+:StopAttack
+	Stop
+	exit
+
+:TurnAround2
+	Stop
+	Wait 0, 0, DoNothing
+	Wait 1, 0, DoNothing
+	Wait 2, 0, DoNothing
+
+	GetFaceDir g_hMyObject, g_dirX, g_dirY, g_dirZ
+	RotateDir g_dirX,g_dirY,g_dirZ,180
+	FaceDir g_dirX, g_dirY, g_dirZ, 180
+
+	Wait 0, 1, start2
+
+	Exit
+
+:DoAttack2
+	if ( g_bAttack==1 )
+		Attack AttackDone2
+	Endif
+
+	Wait 3, 0.9, StopAttack
+	exit
+	
+	Exit
+
+:start2
+	walk
+	wait 1, 1.5, DoAttack2
+	Wait 2, 10, TurnAround2
+	Exit
+
+:WalkAgain
+	Wait 1, 0.5, DoAttack2
+	Walk
+	exit
+
+:AttackDone2
+	Wait 1, 1, WalkAgain
+	Exit true
+
+	Exit
+
+:TurnAround
+	Stop
+	Wait 0, 0, DoNothing
+	Wait 1, 0, DoNothing
+	Wait 2, 0, DoNothing
+
+	GetFaceDir g_hMyObject, g_dirX, g_dirY, g_dirZ
+	RotateDir g_dirX,g_dirY,g_dirZ,180
+	FaceDir g_dirX, g_dirY, g_dirZ, 180
+
+	Wait 0, 1.1, start
+	Exit
+
+:AttackDone
+	Wait 1, 0.5, DoAttack
+	Exit true
+
+:BlendDone
+	Wait 1, 0.5, DoAttack
+	Exit TRUE
+
+:DoAttack
+	if ( g_bAttack==1 )
+		Attack AttackDone
+;;		BlendAnim Aware, BlendDone
+	Endif
+	exit
+
+
+:start
+	GetFaceDir g_hMyObject, g_dirX, g_dirY, g_dirZ
+;;	RotateDir g_dirX, g_dirY, g_dirZ, 180
+;;	Strafe g_dirX, g_dirY, g_dirZ, FALSE
+	Walk
+	Wait 1, 2.0, DoAttack
+	wait 2, 6, TurnAround
+
+	SetStat g_hMyObject, RunVel, 100
+	SetStat g_hMyObject, WalkVel, 100
+
+	exit
+
+:SpawnTest
+	GetPos g_hMyObject, g_posX, g_posY, g_posZ
+	Add g_posY, 100
+;;	Spawn g_hObject,g_posX,g_posY,g_posZ,WealthyTownGuard1 ScriptName base.scr
+	Exit
+
+
+:BD_DoorOpen
+	gosub BD_DoorOpen,1
+	wait 2, 3, TurnAround
+
+	Exit
+
+:BD_OnDoor
+
+	Wait 0, 0, DoNothing
+	Wait 1, 0, DoNothing
+	Wait 2, 0, DoNothing
+
+	gosub BD_OnDoor,1
+
+	Exit TRUE
+
+:JitterTest2
+	GetFaceDir g_hMyObject,g_posX,g_posY,g_posZ
+	RotateDir g_posX,g_posY,g_posZ,180
+;;;;	Strafe g_posX,0,g_posZ,FALSE
+	LoopAnim backpedal,0
+	cprint backpedal
+
+	Wait 0, 1.4, Jittertest1
+	Exit
+
+:JitterAttackDone
+	exit TRUE
+
+:JitterAttack
+	Wait 1, 0.2, JitterAttack
+	CanAttack g_bTemp
+	if ( g_bTemp==TRUE )
+		Attack JitterAttackDone
+	endif
+	exit
+	
+:JitterTest1
+;;	Stop
+
+;;	Walk
+	LoopAnim Walk,0
+	cprint Walk
+
+	Wait 0, 1.4, JitterTest2
+	exit
+
+:BlendTest
+	BlendAnim hAttack1
+	wait 8, 3, BlendTest
+	Exit
+
+:BlendTestDone
+	Wait 5, 2, BlendTest
+	exit
+
+:Switch
+;;	SetModelFilenames models\\Terror.abc,sNULL
+	Exit
+
+:TestPos
+	GetPos g_hMyObject, g_posX, g_posY, g_posZ
+	g_posY	= g_posY + 120
+	SetPos g_hMyObject, g_posX, g_posY, g_posZ
+	wait 1,1,TestPos
+	exit
+
+:Dowalk
+	walk
+;	GetPlayerHandle g_hTarget
+;	if ( g_hTarget==NULL )
+;		cprint PLAYER HANDLE IS NULL!
+;	else
+;		cprint PLAYER HANDLE VALID!
+;	endif
+;	Target g_hTarget, FALSE
+;	OnTargetWithinDist 1000, TargetWithin1000
+	exit
+
+:TargetWithin1000
+;	cprint TARGET within 1000!!!!
+;	OnTargetWithinDist 1000, TargetWithin1000
+	Exit
+
+:OnLostTarget
+	
+	Exit TRUE
+
+:OnFoundTarget
+	GetParam 0, g_hTarget
+	Target g_hTarget, TRUE
+	Exit
+
+:animTest2
+	PlayAnim hAttack1
+	wait 1,0.5,animTest
+	exit
+
+:animtest
+	wait 1,2,animTest2
+	SetAnimPlaying FALSE
+	exit
+
+:animplaytest
+	PlayAnim hAttack1
+	Wait 1,1,animtest
+
+	exit
+
+:Main
+	GetMyHandle g_hMyObject
+	wait 1,0.1,animplaytest
+
+	Exit
+
+	OnFoundTarget OnFoundTarget
+
+	wait 1, 2, TestPos
+	wait 0,1,dowalk
+
+	OnLostTarget OnLostTarget
+
+	exit
+
+	Wait 22, 5, Switch
+
+;	gosub JitterTest1
+;	Wait 1, 0.2, JitterAttack
+;	exit
+
+	g_nTemp = 1
+;;	gosub BlendTest
+	gosub JitterTest1
+	exit
+
+	Wait 0, 3, start
+
+	gosub BaseDoorInit
+	
+	GetParam 0, g_bAttack
+
+	SEt g_bAttack, 1
+
+	Wait 5, 5, SpawnTest
+
+	Set g_posX, 1995
+
+	sTemp = The_value_of_g_posX= + g_posX
+	Debugout sTemp
+
+	g_hTarget	= g_hMyObject
+
+
+	Exit

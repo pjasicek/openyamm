@@ -1,0 +1,100 @@
+;--------------------------------------------------
+;NPC100.scr
+; timmy
+; handles Bodvar's sunflower stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+haskey 1022 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle DestructableProp0 g_hobject
+	setflag g_hobject, visible
+	setflag g_hobject, solid
+;	setflag g_hobject, gravity
+	exit
+endif
+
+exit
+
+
+
+
+;-------------------------------------
+:OnFire
+;-------------------------------------
+
+haskey 72 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+haskey 71 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle Shooter6 g_hobject
+	trigger g_hobject On
+	exit
+endif
+exit
+
+;-------------------------------------
+:Off
+;-------------------------------------
+
+haskey 72 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+haskey 71 g_ntemp
+if (g_ntemp==FALSE)
+	exit
+endif
+
+getobjecthandle Shooter6 g_hobject
+trigger g_hobject Off
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+
+haskey 1022 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+getobjecthandle DestructableProp0 g_hobject
+clearflag g_hobject, visible
+clearflag g_hobject, solid
+clearflag g_hobject, gravity
+
+exit
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+;Addtrigger Use, OnUse
+@m 22 : 00 OnFire OnFire
+@m 4 : 00 Off Off
+wait 1 1 Init
+exit
+

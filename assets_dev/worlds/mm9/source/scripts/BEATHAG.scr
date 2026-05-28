@@ -1,0 +1,84 @@
+;----------------------------------------------
+;beathag.scr
+; By Timmy
+; handles the Kenneth Wartooth (#58) and breaking his window
+;
+
+
+;----------------------------------------------
+
+#include globals.inc 
+#include nogold.inc
+
+#number					keycheck
+#String					  Params          
+
+;Parameters
+;P1  # of times animation runs
+;P0  name of animation to loop
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+haskey 5002 keycheck
+
+if ( keycheck==1, )
+	Haskey 5003, keycheck
+	if ( keycheck==1, )
+		hasgold 700 g_ntemp
+		if (g_ntemp==FALSE)
+			gosub nogold
+		else
+			takegold 700
+			takekey 5002
+			takekey 5003
+			exit
+		endif
+	endif
+	exit
+endif
+exit
+
+;-------------------------------------
+:OnBreak
+;-------------------------------------
+
+givekey 5002
+exit
+
+;-------------------------------------
+:Off
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+Playsound voices\NPC\NPC_058.wav, Off, 100, 240, FALSE, 100
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+Addtrigger break, Onbreak
+Addtrigger use, Onuse
+Onrudeexit Onexit
+CacheSound voices\NPC\NPC_058.wav
+;barkeeper animation stuff
+
+
+GetParam 0, Params
+GetParam 1, g_ntemp
+LoopAnim Params,g_ntemp Off
+gosub voiceinit
+;ExitScript
+exit
+
+
+exit

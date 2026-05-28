@@ -1,0 +1,294 @@
+;----------------------------------------------
+;LoseMan.scr
+; By Timmy
+; 12/20
+;handles losegame cutscene
+;----------------------------------------------
+
+#include globals.inc 
+
+#string		sVoice1
+
+
+;-------------------------------------
+:OnLose
+;-------------------------------------
+
+
+haskey 100 g_ntemp
+if (g_ntemp==FALSE)
+	exit
+endif
+
+haskey 9515 g_ntemp
+if (g_ntemp==TRUE)
+	Gosub DeleteHanndl
+	exit
+endif
+
+givekey 9515
+ScreenFadeOut 1
+wait 1 2 OnStart
+exit
+
+;-------------------------------------
+:OnStart
+;-------------------------------------
+
+getobjecthandle Losecam1 g_hobject 
+;trigger g_hobject On
+trigger g_hobject Play
+
+exit
+
+;-------------------------------------
+:OnCam2
+;-------------------------------------
+
+
+ScreenFadeOut .5
+getobjecthandle losecam1 g_hobject
+trigger g_hobject off
+
+getobjecthandle losecam2 g_hobject
+trigger g_hobject Play
+exit
+
+;-------------------------------------
+:OnCam3
+;-------------------------------------
+
+
+ScreenFadeOut .5
+getobjecthandle losecam2 g_hobject
+trigger g_hobject off
+
+getobjecthandle losecam3 g_hobject
+trigger g_hobject on
+ScreenFadein .5
+wait 1 1 Scene3
+exit
+
+;-------------------------------------
+:Scene3
+;-------------------------------------
+
+getobjecthandle Door0 g_hobject
+trigger g_hobject use
+Playsound \Sounds\events\draweropenwood.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1.5 Speak1
+exit
+
+;-------------------------------------
+:Speak1
+;-------------------------------------
+
+getobjecthandle hanndl g_hobject
+trigger g_hobject speak16
+
+exit
+
+
+;-------------------------------------
+:Close
+;-------------------------------------
+
+getobjecthandle Door0 g_hobject
+trigger g_hobject use
+Playsound \Sounds\events\drawerclosewood.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 FadeOut
+exit
+
+;-------------------------------------
+:DeleteHanndl
+;-------------------------------------
+
+getobjecthandle hanndl g_hobject
+removeobject g_hobject
+exit
+
+;-------------------------------------
+:FadeOut
+;-------------------------------------
+
+giveexp 170000
+Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+getobjecthandle losecam3 g_hobject
+trigger g_hobject off
+getobjecthandle losecam5 g_hobject
+trigger g_hobject on
+ScreenFadein 1
+wait 1 1 FadeOut2
+exit
+
+;-------------------------------------
+:FadeOut2
+;-------------------------------------
+
+gosub DeleteHanndl
+getobjecthandle RotatingDoor1 g_hobject
+trigger g_hobject Unlock
+getobjecthandle RotatingDoor0 g_hobject
+trigger g_hobject Unlock
+trigger g_hobject use
+getobjecthandle losecam5 g_hobject
+trigger g_hobject play
+wait 1 4 FadeOutReal
+exit
+
+
+;-------------------------------------
+:FadeOutReal
+;-------------------------------------
+
+ScreenFadeOut 1
+
+
+wait 1 2 fadein
+exit
+
+;-------------------------------------
+:FadeIn
+;-------------------------------------
+
+letterbox False
+getobjecthandle losecam5 g_hobject
+trigger g_hobject off
+screenfadein 1
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+
+getPCVoice g_ntemp
+
+
+if (g_ntemp==0)
+	set sVoice1 voices\cinema\AngryFemale\AngryFText01a.wav
+	exit
+endif
+
+if (g_ntemp==1)
+	set sVoice1 voices\cinema\ArrogantFemale\ArrogantFText01a.wav
+	exit
+endif
+
+if (g_ntemp==2)
+	set sVoice1 voices\cinema\AssertiveFemale\AssertiveFText01.wav
+	exit
+endif
+
+if (g_ntemp==3)
+	set sVoice1 voices\cinema\CowardlyFemale\CowardlyFText01b.wav
+	exit
+endif
+
+if (g_ntemp==4)
+	set sVoice1 voices\cinema\DimFemale\DimFText01.wav
+	exit
+endif
+
+if (g_ntemp==5)
+	set sVoice1 voices\cinema\HappyFemale\HappyFText01.wav
+	exit
+endif
+
+if (g_ntemp==6)
+	set sVoice1 voices\cinema\SarcasticFemale\SarcasticFText01.wav
+	exit
+endif
+
+if (g_ntemp==7)
+	set sVoice1 voices\cinema\LichFemale\LichFText01.wav
+	exit
+endif
+
+if (g_ntemp==8)
+	set sVoice1 voices\cinema\HalfOrcLichFemale\HalfOrcLichFText01.wav
+	exit
+endif
+
+if (g_ntemp==9)
+	set sVoice1 voices\cinema\Angrymale\AngryText01a.wav
+	exit
+endif
+
+if (g_ntemp==10)
+	set sVoice1 voices\cinema\ArrogantMale\ArrogantMText01.wav
+	exit
+endif
+
+if (g_ntemp==11)
+	set sVoice1 voices\cinema\AssertiveMale\AssertiveMText01.wav
+	exit
+endif
+
+if (g_ntemp==12)
+	set sVoice1 voices\cinema\CowardlyMale\CowardlyMText01.wav
+	exit
+endif
+
+if (g_ntemp==13)
+	set sVoice1 voices\cinema\DimMale\DimMText01.wav
+	exit
+endif
+
+if (g_ntemp==14)
+	set sVoice1 voices\cinema\HappyMale\HappyMText01.wav
+	exit
+endif
+
+if (g_ntemp==15)
+	set sVoice1 voices\cinema\SarcasticMale\SarcasticMText01.wav
+	exit
+endif
+
+if (g_ntemp==16)
+	set sVoice1 voices\cinema\LichMale\LichMText01.wav
+	exit
+endif
+
+if (g_ntemp==17)
+	set sVoice1 voices\cinema\HalfOrcLichMale\HalfOrcLichMText01.wav
+	exit
+endif
+
+exit
+
+
+;-------------------------------------
+:OnDone
+;-------------------------------------
+
+Playsound sVoice1, Trigger10, 100, 16000, FALSE, 100
+
+exit
+
+;-------------------------------------
+:Trigger10
+;-------------------------------------
+
+getobjecthandle Hanndl g_hobject
+trigger g_hobject Speak17
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+
+Addtrigger Lose, OnLose
+Addtrigger Cam2 OnCam2
+Addtrigger cam3 OnCam3
+AddTrigger FadeOut Close
+gosub Init
+OnPostStartWorld OnLose
+OnPostMiniSaveLoad OnLose
+OnPostSaveLoad OnLose
+Addtrigger Done OnDone
+wait 1 .1 OnLose
+exit

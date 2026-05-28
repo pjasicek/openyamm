@@ -1,0 +1,54 @@
+;----------------------------------------------
+;Spieslikeus.scr
+; By Timmy
+; handles the completion of Spies like us quest.
+;
+
+
+;----------------------------------------------
+
+#include globals.inc 
+
+
+
+
+
+;-------------------------------------
+:OnRude
+;-------------------------------------
+Haskey 471, g_ntemp
+If (g_ntemp==0, )
+	Haskey 18, g_ntemp
+	if (g_ntemp==1, )
+		GiveExp 2000
+		GiveGold 500
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		Givekey 471
+		exit
+	Endif
+Endif
+exit
+
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+Playsound voices\NPC\NPC_046.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+
+exit

@@ -1,0 +1,90 @@
+;------------------------------------
+;	BC_TreasureChest.scr
+;	by SJR
+;	Purpose:
+;------------------------------------
+#include BaseGlobals.inc
+
+#number		CHEST_TRAP = 0
+
+#hobject	hOpener = 0
+
+#string		SPELL_COLUMNOFFIRE = "spell-column of fire"
+
+;------------------------------------
+:Main
+;------------------------------------
+	GetParam 0, CHEST_TRAP
+
+	AddTrigger open, PlayOpenAnim
+
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;------------------------------------
+:CacheFiles
+;------------------------------------
+	if( CHEST_TRAP==TRUE )
+		CacheClientFX SPELL_COLUMNOFFIRE
+		CacheSound "sounds\door\doorlatch01.wav"
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:PlayOpenAnim
+;------------------------------------
+	if( CHEST_TRAP==TRUE )
+		GetParam 0, hOpener
+		PlayAnim open, SpringTrap
+	else
+		PlayAnim open, HoldOpenAnim
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:HoldOpenAnim
+;------------------------------------
+	Wait 0, 2, PlayCloseAnim
+
+	Exit TRUE
+
+;------------------------------------
+:PlayCloseAnim
+;------------------------------------
+	PlayAnim Close, DoNothing
+
+	Exit TRUE
+
+;------------------------------------
+:SpringTrap
+;------------------------------------
+	DoClientFX hOpener, SPELL_COLUMNOFFIRE, FALSE, TRUE
+
+	PlaySound "sounds\door\doorlatch01.wav", DoNothing, 1, 1000, FALSE, 100
+
+	Wait 1, 1, KillTheGuy
+
+	gosub HoldOpenAnim
+
+	Exit TRUE
+
+;------------------------------------
+:KillTheGuy
+;------------------------------------
+	Trigger hOpener, destroy
+
+	Wait 2, 2, RemoveTheGuy
+
+	Exit TRUE
+
+;------------------------------------
+:RemoveTheGuy
+;------------------------------------
+	if( hOpener!=0 )
+		RemoveObject hOpener
+	endif
+
+	Exit TRUE

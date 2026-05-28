@@ -1,0 +1,19 @@
+
+#string filename=Sounds\Ambient\BarCrowd.wav
+
+:SoundDone
+
+	cprint sounddone
+	exit
+
+:go
+	cprint playing sound...
+	PlaySound filename,SoundDone,2000
+
+	Exit
+
+
+:Main
+
+	addtrigger go,go
+	exit

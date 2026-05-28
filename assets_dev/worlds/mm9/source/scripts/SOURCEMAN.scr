@@ -1,0 +1,245 @@
+;------------------------------------------------------------------
+;	SourceMan.scr
+;	by SJR
+;	09-21-01
+;	Purpose:Used in conjunction with SourceCreature.scr
+;			to spawn out of sight and unlock doors
+;			when enough have been killed
+;------------------------------------------------------------------
+;------------------------------------------------------------------
+;-DEDIT INFO-
+;	ScriptParams are:
+;		p0 = Number of SpawnMarkers
+;		p1 = How many killed before respawn
+;		p2 = How many to spawn at a time
+;
+;		p3 = String name of creature type
+;		p4 = String name of object to trigger when "done"
+;		p5 = "Done" after this many
+;
+;	Up to 10 spawn markers, named "SpawnMarker[0...9]"
+;	Trigger to change spawn location: SetSpawn[0...9] OR SetSpawnRandom OR SetSpawnNext
+;	Trigger to force a spawn: ForceSpawn
+;	Trigger to shut off completely: Off
+;	Trigger to turn back on: On
+;------------------------------------------------------------------
+
+#include BaseGlobals.inc
+
+#number		NumKilled=0
+#number		NumOnScreen=0
+
+#number		SpawnCycle=1
+#number		SpawnSize=1
+#number		NumSpawns=1
+#number		nQuota=10
+
+#string		sCreatureName="Skeleton"
+#string		sNotifyName=""
+
+#hobject	hSpawnMarker
+#hobject	hDoneObject
+#hobject	hCurSpawn	;dummy var for Spawn()
+
+#number		nCurSpawn=0 ;current spawn index
+#number		Spawnx=0
+#number		Spawny=0
+#number		Spawnz=0
+
+#number		IsNotDivisible=0
+#number		nTemp=0
+
+#string		KEYWORD=ScriptName
+#string		SCRIPT=SourceCreature.scr
+#string		SPACE=" "
+#string		NAME="Skeleton"
+
+;-------------------
+:Main
+;-------------------
+	GetParam 0, NumSpawns
+	GetParam 1, SpawnCycle
+	GetParam 2, SpawnSize
+
+	GetParam 3, NAME
+	GetParam 4, sNotifyName
+	GetParam 5, nQuota
+
+	Wait 0, .1, InitSourceMan
+	Exit TRUE
+
+;-------------------
+:InitSourceMan
+;-------------------
+	gosub CapParams
+	sCreatureName = NAME + SPACE + KEYWORD + SPACE + SCRIPT
+
+	AddTrigger ReSpawn, OnCreatureDied
+	AddTrigger ForceSpawn, OnForceSpawn
+	AddTrigger Off, TurnOff
+	AddTrigger On, TurnOn
+	AddTrigger SetSpawnRandom, ChangeToRandom
+	AddTrigger SetSpawnNext, ChangeToNext
+
+	AddTrigger SetSpawn0, ChangeTo0
+	AddTrigger SetSpawn1, ChangeTo1
+	AddTrigger SetSpawn2, ChangeTo2
+	AddTrigger SetSpawn3, ChangeTo3
+	AddTrigger SetSpawn4, ChangeTo4
+	AddTrigger SetSpawn5, ChangeTo5
+	AddTrigger SetSpawn6, ChangeTo6
+	AddTrigger SetSpawn7, ChangeTo7
+	AddTrigger SetSpawn8, ChangeTo8
+	AddTrigger SetSpawn9, ChangeTo9
+
+	;these are to do random callbacks
+	SetCallback 0, ChangeTo0
+	SetCallback 1, ChangeTo1
+	SetCallback 2, ChangeTo2
+	SetCallback 3, ChangeTo3
+	SetCallback 4, ChangeTo4
+	SetCallback 5, ChangeTo5
+	SetCallback 6, ChangeTo6
+	SetCallback 7, ChangeTo7
+	SetCallback 8, ChangeTo8
+	SetCallback 9, ChangeTo9
+
+	GetObjectHandle SpawnMarker0, hSpawnMarker
+	GetObjectHandle sNotifyName, hDoneObject
+
+	GetPOS hSpawnMarker, Spawnx,Spawny,Spawnz
+	Exit TRUE
+
+;-------------------
+:CapParams
+;-------------------
+	if( NumSpawns>10 )
+		NumSpawns = 10
+	endif
+	if( SpawnSize>10 )
+		SpawnSize = 10
+	endif
+	Exit TRUE
+
+;-------------------
+:OnForceSpawn
+;-------------------
+	if( NumOnScreen>=10 )
+		Exit TRUE
+	endif
+	NumOnScreen = NumOnScreen + SpawnSize
+	nTemp = SpawnSize
+	while(nTemp!=0)
+		Spawn hCurSpawn, Spawnx,Spawny,Spawnz, sCreatureName
+		nTemp = nTemp - 1
+	endwhile
+	Exit TRUE
+;
+;-------------------
+:OnCreatureDied
+;-------------------
+	if( NumKilled==nQuota )
+		Trigger hDoneObject, trigger
+	endif
+
+	NumKilled = NumKilled + 1
+	NumOnScreen = NumOnScreen - 1
+	IsNotDivisible = NumKilled
+	Mod IsNotDivisible, SpawnCycle
+
+	if(IsNotDivisible==0)
+		gosub OnForceSpawn
+	endif
+	Exit TRUE
+
+;-------------------
+:TurnOn
+;-------------------
+	AddTrigger ReSpawn, OnCreatureDied
+	Exit TRUE
+
+;-------------------
+:TurnOff
+;-------------------
+	RemoveTrigger ReSpawn
+	Exit TRUE
+
+;-------------------
+:ChangeToRandom
+;-------------------
+	GetRandomInt 1, NumSpawns, nTemp
+	if( nTemp==nCurSpawn )
+		nTemp = nTemp + 1
+	endif
+	nCurSpawn = nTemp
+	DoCallback nCurSpawn
+	Exit TRUE
+
+;-------------------
+:ChangeToNext
+;-------------------
+	nCurSpawn = nCurSpawn + 1
+	Mod nCurSpawn, NumSpawns
+	DoCallBack nCurSpawn
+	Exit TRUE
+
+;-------------------
+:ChangeTo0
+;-------------------
+	GetObjectHandle SpawnMarker0, hSpawnMarker
+	GetPOS hSpawnMarker, Spawnx,Spawny,Spawnz
+	Exit TRUE
+;-------------------
+:ChangeTo1
+;-------------------
+	GetObjectHandle SpawnMarker1, hSpawnMarker
+	GetPOS hSpawnMarker, Spawnx,Spawny,Spawnz
+	Exit TRUE
+;-------------------
+:ChangeTo2
+;-------------------
+	GetObjectHandle SpawnMarker2, hSpawnMarker
+	GetPOS hSpawnMarker, Spawnx,Spawny,Spawnz
+	Exit TRUE
+;-------------------
+:ChangeTo3
+;-------------------
+	GetObjectHandle SpawnMarker3, hSpawnMarker
+	GetPOS hSpawnMarker, Spawnx,Spawny,Spawnz
+	Exit TRUE
+;-------------------
+:ChangeTo4
+;-------------------
+	GetObjectHandle SpawnMarker4, hSpawnMarker
+	GetPOS hSpawnMarker, Spawnx,Spawny,Spawnz
+	Exit TRUE
+;-------------------
+:ChangeTo5
+;-------------------
+	GetObjectHandle SpawnMarker5, hSpawnMarker
+	GetPOS hSpawnMarker, Spawnx,Spawny,Spawnz
+	Exit TRUE
+;-------------------
+:ChangeTo6
+;-------------------
+	GetObjectHandle SpawnMarker6, hSpawnMarker
+	GetPOS hSpawnMarker, Spawnx,Spawny,Spawnz
+	Exit TRUE
+;-------------------
+:ChangeTo7
+;-------------------
+	GetObjectHandle SpawnMarker7, hSpawnMarker
+	GetPOS hSpawnMarker, Spawnx,Spawny,Spawnz
+	Exit TRUE
+;-------------------
+:ChangeTo8
+;-------------------
+	GetObjectHandle SpawnMarker8, hSpawnMarker
+	GetPOS hSpawnMarker, Spawnx,Spawny,Spawnz
+	Exit TRUE
+;-------------------
+:ChangeTo9
+;-------------------
+	GetObjectHandle SpawnMarker9, hSpawnMarker
+	GetPOS hSpawnMarker, Spawnx,Spawny,Spawnz
+	Exit TRUE

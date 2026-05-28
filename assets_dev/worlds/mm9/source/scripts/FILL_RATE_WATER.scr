@@ -1,0 +1,94 @@
+;---------------------------------------------------------------------
+:	fill_rate_water.scr
+;	Tony Evans
+;
+;	This script is used to raise water and dynamically change the fill 
+;	rate in the prison room of the Grand Temple of the Moon.
+;
+;	Parameters:
+;
+;	p1	- How many inches of water to leave
+;	p2	- Fill Rate
+;
+;---------------------------------------------------------------------
+
+#include globals.inc
+
+; starting positions
+#number			nOrigPosX
+#number			nOrigPosY
+#number			nOrigPosZ
+
+; dynamic positions
+#number			nPosX
+#number			nPosY
+#number			nPosZ
+
+; dimensions of volume brush
+#number			nDimsX
+#number			nDimsY
+#number			nDimsZ
+
+;
+; Default parameters
+;
+#number			nWaterToLeave=16
+#number			nWaterFillRate=8
+
+#string			sFillSound=Sounds\water\waterfill.wav
+#string			sSinkSound=Sounds\water\watersink.wav
+
+#number			hWaterSound
+
+;---------------------------------------------------------------------
+:OnRaiseWater
+;---------------------------------------------------------------------
+
+	GetDims g_hMyObject, nDimsX, nDimsY, nDimsZ
+	Set nDestPosY, nOrigPosY
+	Add nDestPosY, nDimsY
+
+	; Leave some water there....
+
+	Sub nDestPosY, nWaterToLeave
+
+	IsSoundDone hWaterSound, g_bTemp
+	if ( g_bTemp==TRUE )
+		PlaySound sFillSound, 1000, TRUE, 100, hWaterSound
+	endif
+
+	MoveToPos nOrigPosX, nDestPosY, nOrigPosZ, nWaterFillRate, StopSound
+
+	Exit
+
+;---------------------------------------------------------------------
+:StopSound
+;---------------------------------------------------------------------
+	KillSound hWaterSound
+
+	Exit
+
+;---------------------------------------------------------------------
+:Main
+;
+;
+;---------------------------------------------------------------------
+	
+	GetMyHandle g_hMyObject
+	GetPos g_hMyObject, nOrigPosX, nOrigPosY, nOrigPosZ
+
+	AddTrigger OnRaiseWater
+
+	GetParam 0, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set nWaterToLeave, g_nTemp
+	endif
+
+	GetParam 1, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set nWaterFillRate, g_nTemp
+	endif
+
+	Exit

@@ -1,0 +1,375 @@
+schema: openyamm.model3d.v1
+id: peasantdm1
+model: peasantdm1.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PEASANTDM1.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: ngon
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: dwarf1
+  materialIndex: 0
+  lods:
+  - faces: 522
+    vertices: 262
+  - faces: 392
+    vertices: 197
+  - faces: 260
+    vertices: 131
+  - faces: 130
+    vertices: 66
+materials:
+- index: 0
+  texture: skins_preview/peasantdm1a.png
+  runtime_texture: skins/peasantdm1a.dtx
+  preview_texture: skins_preview/peasantdm1a.png
+  source: mm9/extracted/SKINS/SKINS/PEASANTDM1A.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 32
+  - index: 1
+    name: Bip01 Spine
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 24
+    - 28
+  - index: 2
+    name: Bip01 Spine1
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Bip01 Spine2
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Neck
+    parent: 3
+    flags: 1
+    children:
+    - 5
+    - 8
+    - 16
+  - index: 5
+    name: Bip01 Head
+    parent: 4
+    flags: 1
+    children:
+    - 6
+    - 7
+  - index: 6
+    name: Bip01 Ponytail1
+    parent: 5
+    flags: 1
+    children: []
+  - index: 7
+    name: Bone03
+    parent: 5
+    flags: 1
+    children: []
+  - index: 8
+    name: Bip01 L Clavicle
+    parent: 4
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bip01 L UpperArm
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bip01 L Forearm
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bip01 L Hand
+    parent: 10
+    flags: 1
+    children:
+    - 12
+    - 14
+  - index: 12
+    name: Bip01 L Finger0
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bip01 L Finger01
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Bip01 L Finger1
+    parent: 11
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 L Finger11
+    parent: 14
+    flags: 1
+    children: []
+  - index: 16
+    name: Bip01 R Clavicle
+    parent: 4
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bip01 R UpperArm
+    parent: 16
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Bip01 R Forearm
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bip01 R Hand
+    parent: 18
+    flags: 1
+    children:
+    - 20
+    - 22
+  - index: 20
+    name: Bip01 R Finger0
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bip01 R Finger01
+    parent: 20
+    flags: 1
+    children: []
+  - index: 22
+    name: Bip01 R Finger1
+    parent: 19
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bip01 R Finger11
+    parent: 22
+    flags: 1
+    children: []
+  - index: 24
+    name: Bip01 L Thigh
+    parent: 1
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bip01 L Calf
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: Bip01 L Foot
+    parent: 25
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Bip01 L Toe0
+    parent: 26
+    flags: 1
+    children: []
+  - index: 28
+    name: Bip01 R Thigh
+    parent: 1
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Bip01 R Calf
+    parent: 28
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Bip01 R Foot
+    parent: 29
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: Bip01 R Toe0
+    parent: 30
+    flags: 1
+    children: []
+  - index: 32
+    name: Bone22
+    parent: 0
+    flags: 1
+    children:
+    - 33
+    - 34
+    - 35
+    - 36
+    - 37
+    - 38
+    - 39
+    - 40
+  - index: 33
+    name: Bone11
+    parent: 32
+    flags: 1
+    children: []
+  - index: 34
+    name: Bone09
+    parent: 32
+    flags: 1
+    children: []
+  - index: 35
+    name: Bone01
+    parent: 32
+    flags: 1
+    children: []
+  - index: 36
+    name: Bone14
+    parent: 32
+    flags: 1
+    children: []
+  - index: 37
+    name: Bone13
+    parent: 32
+    flags: 1
+    children: []
+  - index: 38
+    name: Bone17
+    parent: 32
+    flags: 1
+    children: []
+  - index: 39
+    name: Bone07
+    parent: 32
+    flags: 1
+    children: []
+  - index: 40
+    name: Bone05
+    parent: 32
+    flags: 1
+    children: []
+sockets:
+- name: RHand1
+  node: 22
+  translation:
+  - 2.6857363891601564
+  - 1.053414535522461
+  - 2.5272265625
+  rotation:
+  - 0.017378361895680428
+  - 0.23541131615638733
+  - -0.12748457491397858
+  - 0.9633416533470154
+animations:
+- name: Dwarf_1
+  durationMs: 1366
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Dwarf_1
+  extents:
+  - 30.72
+  - 58.88
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- actor_model
+source_model: models/peasantdm1.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: peasantdm1_peasantdm1a
+  source_skins:
+  - skins/peasantdm1a.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 9
+    number: '8'
+    monster_name: Commoner
+    type_picture: Peasant Dwarf MaleA A
+    base_name: ''
+  - table: MONSTERS
+    row: 9
+    number: '8'
+    monster_name: Commoner
+    type_picture: Peasant Dwarf MaleA A
+    base_name: PeasantDM
+- id: peasantdm1_peasantdm1b
+  source_skins:
+  - skins/peasantdm1b.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 14
+    number: '13'
+    monster_name: Shopkeeper
+    type_picture: Peasant Dwarf MaleC B
+    base_name: ''
+  - table: ACTOR
+    row: 15
+    number: '13'
+    monster_name: Shopkeeper
+    type_picture: Peasant Dwarf MaleC B
+    base_name: ''
+  - table: MONSTERS
+    row: 14
+    number: '13'
+    monster_name: Shopkeeper
+    type_picture: Peasant Dwarf MaleC B
+    base_name: PeasantDM
+  - table: MONSTERS
+    row: 15
+    number: '14'
+    monster_name: Shopkeeper
+    type_picture: Peasant Dwarf MaleC B
+    base_name: PeasantDM

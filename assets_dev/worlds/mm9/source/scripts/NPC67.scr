@@ -1,0 +1,148 @@
+;--------------------------------------------------
+;NPC67.scr
+; timmy
+; tells a prop to run it's animation
+;--------------------------------------------------
+
+#include globals.inc
+
+#String    Params          
+#number	   sleepy ;about to go to bed
+#number		PosX
+#number		PosY
+#number		PosZ
+#number		times
+#string		callback ; designates which callback onobstacle uses
+
+;Parameters
+;P1  # of times animation runs
+
+;--------------------------------------------------
+:Onexit
+;--------------------------------------------------
+
+exit
+
+;-------------------------------------
+:GotoBed
+;-------------------------------------
+
+
+set callback, onexit
+set sleepy, 1
+GetobjectHandle NPC67M3 G_hobject
+Walkto g_hobject g_ntemp, Onexit
+
+exit
+
+;-------------------------------------
+:GotoBar
+;-------------------------------------
+
+set callback, bartender
+GetobjectHandle NPC67M1 G_hobject
+Walkto g_hobject g_ntemp, Onexit
+
+exit
+
+;-------------------------------------
+:bartender
+;-------------------------------------
+
+GetobjectHandle Bartender G_hobject
+FaceObject g_hobject 160 Onexit
+exit
+
+
+;-------------------------------------
+:Gotowork
+;-------------------------------------
+
+set callback, onexit
+set sleepy, 0
+
+GetobjectHandle NPC67M2 G_hobject
+Walkto g_hobject g_ntemp, Onexit
+
+exit
+
+
+
+;-------------------------------------
+:Obstacle
+;-------------------------------------
+
+if (callback==bartender, )
+	walkto g_hobject g_ntemp, Bartender
+	exit
+endif
+
+walkto g_hobject g_ntemp, Onexit
+exit
+
+;-------------------------------------
+:MissedBed
+;-------------------------------------
+
+GetobjectHandle Marker2 G_hobject
+Getpos g_hobject PosX PosY PosZ
+GetMyHandle g_hobject
+Setpos g_hobject PosX PosY PosZ
+exit
+
+;-------------------------------------
+:MissedBar
+;-------------------------------------
+
+GetobjectHandle Marker0 G_hobject
+Getpos g_hobject PosX PosY PosZ
+GetMyHandle g_hobject
+Setpos g_hobject PosX PosY PosZ
+
+exit
+
+;-------------------------------------
+:MissedWork
+;-------------------------------------
+
+GetobjectHandle Marker3 G_hobject
+Getpos g_hobject PosX PosY PosZ
+GetMyHandle g_hobject
+Setpos g_hobject PosX PosY PosZ
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+GetParam 0, params
+GetParam 1, times
+GetParam 2, g_ntemp
+LoopAnim Params, times Onexit
+@M 00 : 45 GotoBed Missedbed
+@M 00 : 15 GoToBar Missedbar
+@M 01 : 00 Gotowork Missedwork
+
+
+
+
+;@M 20 : 15 GotoBed Missedbed
+;@M 15 : 00 GoToBar Missedbar
+;@M 06 : 00 Gotowork Missedwork
+OnObstacle obstacle
+
+
+;Temp test triggers-----------
+
+Addtrigger Missbed, Missedbed
+Addtrigger Missbar, Missedbar
+Addtrigger Misswork, Missedwork
+
+Addtrigger Bed, GotoBed
+Addtrigger Bar, GotoBar
+Addtrigger Work, GotoWork
+exit
+

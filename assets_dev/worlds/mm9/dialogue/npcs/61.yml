@@ -1,0 +1,4615 @@
+format_version: 1
+source_file: NPC61.rude
+rows:
+  - source:
+      file: NPC61.rude
+      row: 1
+    raw_columns:
+      - 61
+      - 16
+      - 1
+      - Where can we find the Basilisk?
+      - I hear there are some hanging around the outskirts of Sturmford.  One should not be difficult to find.
+      - 14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 16
+      choice_slot: 1
+      prompt: Where can we find the Basilisk?
+      response: I hear there are some hanging around the outskirts of Sturmford.  One should not be difficult to find.
+      next: 14
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 14
+  - source:
+      file: NPC61.rude
+      row: 2
+    raw_columns:
+      - 61
+      - 60
+      - 1
+      - We've completed all the labors.
+      - So you have.  Congratulations.  You are hereby promoted to Gladiators.
+      - 999
+      - 218
+      - 0
+      - 219
+      - 0
+      - 220
+      - 0
+      - 0
+      - 0
+      - 0
+      - 26
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 60
+      choice_slot: 1
+      prompt: We've completed all the labors.
+      response: So you have.  Congratulations.  You are hereby promoted to Gladiators.
+      next: 999
+      raw_fields:
+        c07: 218
+        c08: 0
+        c09: 219
+        c10: 0
+        c11: 220
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 26
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 218
+            qbit_id: 9218
+            state_id: mm9.keys.218
+          - column: c09
+            raw_id: 219
+            qbit_id: 9219
+            state_id: mm9.keys.219
+          - column: c11
+            raw_id: 220
+            qbit_id: 9220
+            state_id: mm9.keys.220
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 218
+          qbit_id: 9218
+          state_id: mm9.keys.218
+        - domain: mm9.keys
+          raw_id: 219
+          qbit_id: 9219
+          state_id: mm9.keys.219
+        - domain: mm9.keys
+          raw_id: 220
+          qbit_id: 9220
+          state_id: mm9.keys.220
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 26
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 3
+    raw_columns:
+      - 61
+      - 998
+      - 1
+      - Goodbye.
+      - blank
+      - -14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 998
+      choice_slot: 1
+      prompt: Goodbye.
+      response: blank
+      next: -14
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -14
+        service: quest_handoff
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -14
+        service: quest_handoff
+        status: typed_pending_exact_runtime_behavior
+  - source:
+      file: NPC61.rude
+      row: 4
+    raw_columns:
+      - 61
+      - 6
+      - 1
+      - We're looking for promotions along the Might Path.
+      - Alright.  What class were you looking for?
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 6
+      choice_slot: 1
+      prompt: We're looking for promotions along the Might Path.
+      response: Alright.  What class were you looking for?
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+  - source:
+      file: NPC61.rude
+      row: 5
+    raw_columns:
+      - 61
+      - 10
+      - 1
+      - We're looking for a shop.
+      - Which shop were you looking for?
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 10
+      choice_slot: 1
+      prompt: We're looking for a shop.
+      response: Which shop were you looking for?
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC61.rude
+      row: 6
+    raw_columns:
+      - 61
+      - 7
+      - 1
+      - We're looking for Mercenary to Assassin.
+      - Look for Atli the Quick in Drangheim.
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2075
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 7
+      choice_slot: 1
+      prompt: We're looking for Mercenary to Assassin.
+      response: Look for Atli the Quick in Drangheim.
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2075
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2075
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 7
+    raw_columns:
+      - 61
+      - 11
+      - 1
+      - The weapon shop.
+      - You can find the weapon shop in the northern section of town next to a small park.
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 11
+      choice_slot: 1
+      prompt: The weapon shop.
+      response: You can find the weapon shop in the northern section of town next to a small park.
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC61.rude
+      row: 8
+    raw_columns:
+      - 61
+      - 999
+      - 1
+      - Goodbye.
+      - asdf
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: asdf
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC61.rude
+      row: 9
+    raw_columns:
+      - 61
+      - 8
+      - 1
+      - We're looking for Scholar to Mage.
+      - Johannes Bem right in Thjorgard can help you.  You can find him in the Bembridge University.
+      - 8
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2082
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 8
+      choice_slot: 1
+      prompt: We're looking for Scholar to Mage.
+      response: Johannes Bem right in Thjorgard can help you.  You can find him in the Bembridge University.
+      next: 8
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2082
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 8
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2082
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 10
+    raw_columns:
+      - 61
+      - 17
+      - 1
+      - Where is the Arena?
+      - It is within the city walls of Thjorgard.
+      - 14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 17
+      choice_slot: 1
+      prompt: Where is the Arena?
+      response: It is within the city walls of Thjorgard.
+      next: 14
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 14
+  - source:
+      file: NPC61.rude
+      row: 11
+    raw_columns:
+      - 61
+      - 41
+      - 1
+      - Thank you.
+      - Is there anything else I can do for you?
+      - 61
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 41
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 41
+      choice_slot: 1
+      prompt: Thank you.
+      response: Is there anything else I can do for you?
+      next: 61
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 41
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 61
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 41
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 12
+    raw_columns:
+      - 61
+      - 1
+      - 1
+      - We're looking for the Jarl.
+      - Bjarni lives in the longhouse in the middle of the northern section of town.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 1
+      choice_slot: 1
+      prompt: We're looking for the Jarl.
+      response: Bjarni lives in the longhouse in the middle of the northern section of town.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC61.rude
+      row: 13
+    raw_columns:
+      - 61
+      - 15
+      - 1
+      - We're looking for the bank
+      - You can find the bank west of Bjarni's Longhouse.
+      - 15
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 15
+      choice_slot: 1
+      prompt: We're looking for the bank
+      response: You can find the bank west of Bjarni's Longhouse.
+      next: 15
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+  - source:
+      file: NPC61.rude
+      row: 14
+    raw_columns:
+      - 61
+      - 5
+      - 1
+      - We're looking for Fighter to Mercenary.
+      - Thorfinn Skullsplitter in Thronheim can help you become mercenaries.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2076
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 5
+      choice_slot: 1
+      prompt: We're looking for Fighter to Mercenary.
+      response: Thorfinn Skullsplitter in Thronheim can help you become mercenaries.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2076
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2076
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 15
+    raw_columns:
+      - 61
+      - 14
+      - 1
+      - What is the first labor?
+      - The first labor is to find a basilisk and kill it.  Once you have done that, bring its skin back to me.
+      - 16
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 14
+      choice_slot: 1
+      prompt: What is the first labor?
+      response: The first labor is to find a basilisk and kill it.  Once you have done that, bring its skin back to me.
+      next: 16
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 16
+  - source:
+      file: NPC61.rude
+      row: 16
+    raw_columns:
+      - 61
+      - 2
+      - 1
+      - Our first promotion.
+      - I think I can help you.  What class did you want to be promoted to?
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 2
+      choice_slot: 1
+      prompt: Our first promotion.
+      response: I think I can help you.  What class did you want to be promoted to?
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC61.rude
+      row: 17
+    raw_columns:
+      - 61
+      - 13
+      - 1
+      - Yes, we have members who would like to be Gladiators.
+      - Very well.  There are three Gladiatorial Labors.  Before you can be promoted, you must complete all three.
+      - 14
+      - 127
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 13
+      choice_slot: 1
+      prompt: Yes, we have members who would like to be Gladiators.
+      response: Very well.  There are three Gladiatorial Labors.  Before you can be promoted, you must complete all three.
+      next: 14
+      raw_fields:
+        c07: 127
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 14
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 127
+            qbit_id: 9127
+            state_id: mm9.keys.127
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 127
+          qbit_id: 9127
+          state_id: mm9.keys.127
+  - source:
+      file: NPC61.rude
+      row: 18
+    raw_columns:
+      - 61
+      - 61
+      - 1
+      - We need some help.
+      - What sort of help did you need?
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 61
+      choice_slot: 1
+      prompt: We need some help.
+      response: What sort of help did you need?
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC61.rude
+      row: 19
+    raw_columns:
+      - 61
+      - 5
+      - 2
+      - We're looking for Fighter to Crusader
+      - Keith Bloodaxe of Drangheim will promote your fighters to crusaders.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2078
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 5
+      choice_slot: 2
+      prompt: We're looking for Fighter to Crusader
+      response: Keith Bloodaxe of Drangheim will promote your fighters to crusaders.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2078
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2078
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 20
+    raw_columns:
+      - 61
+      - 6
+      - 2
+      - We're looking for promotions along the Magic Path.
+      - Alright.  Which class were you looking for?
+      - 8
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 6
+      choice_slot: 2
+      prompt: We're looking for promotions along the Magic Path.
+      response: Alright.  Which class were you looking for?
+      next: 8
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 8
+  - source:
+      file: NPC61.rude
+      row: 21
+    raw_columns:
+      - 61
+      - 2
+      - 2
+      - Our second promotion.
+      - I think I can help you.  What path were you looking for?
+      - 6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 2
+      choice_slot: 2
+      prompt: Our second promotion.
+      response: I think I can help you.  What path were you looking for?
+      next: 6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 6
+  - source:
+      file: NPC61.rude
+      row: 22
+    raw_columns:
+      - 61
+      - 7
+      - 2
+      - We're looking for Mercenary to Gladiator.
+      - I can help you with that.
+      - 13
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2077
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 7
+      choice_slot: 2
+      prompt: We're looking for Mercenary to Gladiator.
+      response: I can help you with that.
+      next: 13
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2077
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 13
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2077
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 23
+    raw_columns:
+      - 61
+      - 1
+      - 2
+      - We're looking for someone who can promote us.
+      - What sort of promotion were you looking for?
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 1
+      choice_slot: 2
+      prompt: We're looking for someone who can promote us.
+      response: What sort of promotion were you looking for?
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC61.rude
+      row: 24
+    raw_columns:
+      - 61
+      - 11
+      - 2
+      - The armor shop.
+      - You can find the armor shop in the southern section of town next to a small park.
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 11
+      choice_slot: 2
+      prompt: The armor shop.
+      response: You can find the armor shop in the southern section of town next to a small park.
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC61.rude
+      row: 25
+    raw_columns:
+      - 61
+      - 8
+      - 2
+      - We're looking for Scholar to Lich.
+      - Skulkil the Dark in Frosgard can help you with becoming a Lich.
+      - 8
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2086
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 8
+      choice_slot: 2
+      prompt: We're looking for Scholar to Lich.
+      response: Skulkil the Dark in Frosgard can help you with becoming a Lich.
+      next: 8
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2086
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 8
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2086
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 26
+    raw_columns:
+      - 61
+      - 13
+      - 2
+      - No, we don't have anyone who wants to be promoted to Gladiator.
+      - Alright.  Is there something else you need?
+      - 61
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 13
+      choice_slot: 2
+      prompt: No, we don't have anyone who wants to be promoted to Gladiator.
+      response: Alright.  Is there something else you need?
+      next: 61
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 61
+  - source:
+      file: NPC61.rude
+      row: 27
+    raw_columns:
+      - 61
+      - 61
+      - 2
+      - Do you have any news?
+      - I'm afraid not.  Sorry.
+      - 61
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 61
+      choice_slot: 2
+      prompt: Do you have any news?
+      response: I'm afraid not.  Sorry.
+      next: 61
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 61
+  - source:
+      file: NPC61.rude
+      row: 28
+    raw_columns:
+      - 61
+      - 10
+      - 2
+      - We're looking for services.
+      - Which service were you looking for?
+      - 15
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 10
+      choice_slot: 2
+      prompt: We're looking for services.
+      response: Which service were you looking for?
+      next: 15
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+  - source:
+      file: NPC61.rude
+      row: 29
+    raw_columns:
+      - 61
+      - 14
+      - 2
+      - What is the second labor?
+      - The second labor is not a traditional labor, but as it's my duty to assign them, I shall choose the labors.  For some time, Bjarni has fancied Kira, the Jarla of Thronheim.  I'm sure if he had something dear to her she would welcome his love.
+      - 19
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 14
+      choice_slot: 2
+      prompt: What is the second labor?
+      response: The second labor is not a traditional labor, but as it's my duty to assign them, I shall choose the labors.  For some time, Bjarni has fancied Kira, the Jarla of Thronheim.  I'm sure if he had something dear to her she would welcome his love.
+      next: 19
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 19
+  - source:
+      file: NPC61.rude
+      row: 30
+    raw_columns:
+      - 61
+      - 60
+      - 2
+      - Thanks.
+      - Good luck on your continued quests.  Anything else I can help you with?
+      - 61
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 60
+      choice_slot: 2
+      prompt: Thanks.
+      response: Good luck on your continued quests.  Anything else I can help you with?
+      next: 61
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 61
+  - source:
+      file: NPC61.rude
+      row: 31
+    raw_columns:
+      - 61
+      - 15
+      - 2
+      - We're looking for the tavern.
+      - The tavern is the first building east of the northern entrance.
+      - 15
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 15
+      choice_slot: 2
+      prompt: We're looking for the tavern.
+      response: The tavern is the first building east of the northern entrance.
+      next: 15
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+  - source:
+      file: NPC61.rude
+      row: 32
+    raw_columns:
+      - 61
+      - 8
+      - 3
+      - We're looking for Healer to Priest.
+      - Gray Slemnir of Guberland can help you become a Priest.
+      - 8
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2084
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 8
+      choice_slot: 3
+      prompt: We're looking for Healer to Priest.
+      response: Gray Slemnir of Guberland can help you become a Priest.
+      next: 8
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2084
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 8
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2084
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 33
+    raw_columns:
+      - 61
+      - 15
+      - 3
+      - We're looking for the temple.
+      - The temple is in the southern section of town, past the East Gate.
+      - 15
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 15
+      choice_slot: 3
+      prompt: We're looking for the temple.
+      response: The temple is in the southern section of town, past the East Gate.
+      next: 15
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+  - source:
+      file: NPC61.rude
+      row: 34
+    raw_columns:
+      - 61
+      - 5
+      - 3
+      - We're looking for Initiate to Scholar.
+      - Seek out Tymon the Nord in Thjorgard.  He can be found in the Bembridge University.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2081
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 5
+      choice_slot: 3
+      prompt: We're looking for Initiate to Scholar.
+      response: Seek out Tymon the Nord in Thjorgard.  He can be found in the Bembridge University.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2081
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2081
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 35
+    raw_columns:
+      - 61
+      - 61
+      - 3
+      - Have you had any trouble with thieves lately?
+      - In fact, we have.  Some of the shopkeepers have complained that someone has been stealing from them.  Not very much, but enough to perhaps feed a small family.  I would be grateful if you would look into it.
+      - 61
+      - 153
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 154
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 61
+      choice_slot: 3
+      prompt: Have you had any trouble with thieves lately?
+      response: In fact, we have.  Some of the shopkeepers have complained that someone has been stealing from them.  Not very much, but enough to perhaps feed a small family.  I would be grateful if you would look into it.
+      next: 61
+      raw_fields:
+        c07: 153
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 154
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 61
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 153
+            qbit_id: 9153
+            state_id: mm9.keys.153
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 153
+          qbit_id: 9153
+          state_id: mm9.keys.153
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 154
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 36
+    raw_columns:
+      - 61
+      - 14
+      - 3
+      - What is the third labor?
+      - You must go to the Arena in Thjorgard, fight at Lord level, and win.
+      - 17
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 14
+      choice_slot: 3
+      prompt: What is the third labor?
+      response: You must go to the Arena in Thjorgard, fight at Lord level, and win.
+      next: 17
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 17
+  - source:
+      file: NPC61.rude
+      row: 37
+    raw_columns:
+      - 61
+      - 11
+      - 3
+      - The magic shop.
+      - You can find the magic shop in the southern section of town next to a small park.
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 11
+      choice_slot: 3
+      prompt: The magic shop.
+      response: You can find the magic shop in the southern section of town next to a small park.
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC61.rude
+      row: 38
+    raw_columns:
+      - 61
+      - 7
+      - 3
+      - We're looking for Crusader to Ranger.
+      - Find Fenja Tree-Friend in Frosgard.
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2079
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 7
+      choice_slot: 3
+      prompt: We're looking for Crusader to Ranger.
+      response: Find Fenja Tree-Friend in Frosgard.
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2079
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2079
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 39
+    raw_columns:
+      - 61
+      - 1
+      - 3
+      - We're looking for a shop.
+      - Were you looking to trade goods or receive services?
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 1
+      choice_slot: 3
+      prompt: We're looking for a shop.
+      response: Were you looking to trade goods or receive services?
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC61.rude
+      row: 40
+    raw_columns:
+      - 61
+      - 14
+      - 4
+      - We shall do all of these things.
+      - Come back when they are completed and you shall call yourselves Gladiators.
+      - 998
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 214
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 14
+      choice_slot: 4
+      prompt: We shall do all of these things.
+      response: Come back when they are completed and you shall call yourselves Gladiators.
+      next: 998
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 214
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 998
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 214
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 41
+    raw_columns:
+      - 61
+      - 61
+      - 4
+      - We have heard that you can promote Mercenaries.
+      - Should you wish to become a Gladiator.  I can help you with that.
+      - 13
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2077
+      - 0
+      - 0
+      - 0
+      - 0
+      - 26
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 61
+      choice_slot: 4
+      prompt: We have heard that you can promote Mercenaries.
+      response: Should you wish to become a Gladiator.  I can help you with that.
+      next: 13
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2077
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 26
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 13
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2077
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 26
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 42
+    raw_columns:
+      - 61
+      - 5
+      - 4
+      - We're looking for Initiate to Healer.
+      - Tjolnir the Super-neat in Guberland can help you promote to healer.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2083
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 5
+      choice_slot: 4
+      prompt: We're looking for Initiate to Healer.
+      response: Tjolnir the Super-neat in Guberland can help you promote to healer.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2083
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2083
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 43
+    raw_columns:
+      - 61
+      - 7
+      - 4
+      - We're looking for Crusader to Paladin.
+      - Find Grehgknak the Right in Lindisfarne.
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2080
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 7
+      choice_slot: 4
+      prompt: We're looking for Crusader to Paladin.
+      response: Find Grehgknak the Right in Lindisfarne.
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2080
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2080
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 44
+    raw_columns:
+      - 61
+      - 15
+      - 4
+      - We're looking for the training hall.
+      - The training hall is in the most southwesterly section of town.
+      - 15
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 15
+      choice_slot: 4
+      prompt: We're looking for the training hall.
+      response: The training hall is in the most southwesterly section of town.
+      next: 15
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+  - source:
+      file: NPC61.rude
+      row: 45
+    raw_columns:
+      - 61
+      - 8
+      - 4
+      - We're looking for Healer to Druid.
+      - Menja Ketildotir of Frosgard will help you become a Druid.
+      - 8
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2085
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 8
+      choice_slot: 4
+      prompt: We're looking for Healer to Druid.
+      response: Menja Ketildotir of Frosgard will help you become a Druid.
+      next: 8
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2085
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 8
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2085
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 46
+    raw_columns:
+      - 61
+      - 1
+      - 4
+      - Goodbye.
+      - asdf
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 1
+      choice_slot: 4
+      prompt: Goodbye.
+      response: asdf
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC61.rude
+      row: 47
+    raw_columns:
+      - 61
+      - 8
+      - 5
+      - We'd like to know about the Might Path.
+      - Alright.
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 8
+      choice_slot: 5
+      prompt: We'd like to know about the Might Path.
+      response: Alright.
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+  - source:
+      file: NPC61.rude
+      row: 48
+    raw_columns:
+      - 61
+      - 7
+      - 5
+      - We'd like to know about the Magic Path.
+      - Alright.
+      - 8
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 7
+      choice_slot: 5
+      prompt: We'd like to know about the Magic Path.
+      response: Alright.
+      next: 8
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 8
+  - source:
+      file: NPC61.rude
+      row: 49
+    raw_columns:
+      - 61
+      - 15
+      - 5
+      - We're looking for the dock.
+      - Go through the northern gates to find the dock.
+      - 15
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 15
+      choice_slot: 5
+      prompt: We're looking for the dock.
+      response: Go through the northern gates to find the dock.
+      next: 15
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+  - source:
+      file: NPC61.rude
+      row: 50
+    raw_columns:
+      - 61
+      - 11
+      - 5
+      - The general store.
+      - The general store is west of here, north of the library.
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 11
+      choice_slot: 5
+      prompt: The general store.
+      response: The general store is west of here, north of the library.
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC61.rude
+      row: 51
+    raw_columns:
+      - 61
+      - 5
+      - 5
+      - Thanks for your time.
+      - Anything else?
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 5
+      choice_slot: 5
+      prompt: Thanks for your time.
+      response: Anything else?
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC61.rude
+      row: 52
+    raw_columns:
+      - 61
+      - 11
+      - 6
+      - The library.
+      - The library is between the bank and the general store.
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 11
+      choice_slot: 6
+      prompt: The library.
+      response: The library is between the bank and the general store.
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC61.rude
+      row: 53
+    raw_columns:
+      - 61
+      - 8
+      - 6
+      - Thanks for your time.
+      - Anything else I can help you with?
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 8
+      choice_slot: 6
+      prompt: Thanks for your time.
+      response: Anything else I can help you with?
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC61.rude
+      row: 54
+    raw_columns:
+      - 61
+      - 7
+      - 6
+      - Thanks for your time.
+      - Anything else I can help you with?
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 7
+      choice_slot: 6
+      prompt: Thanks for your time.
+      response: Anything else I can help you with?
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC61.rude
+      row: 55
+    raw_columns:
+      - 61
+      - 11
+      - 7
+      - We'd like to find a service.
+      - Alright.  Which service were you looking for?
+      - 15
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 11
+      choice_slot: 7
+      prompt: We'd like to find a service.
+      response: Alright.  Which service were you looking for?
+      next: 15
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+  - source:
+      file: NPC61.rude
+      row: 56
+    raw_columns:
+      - 61
+      - 15
+      - 7
+      - We'd like to find a shop.
+      - Alright.  Which shop were you looking for?
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 15
+      choice_slot: 7
+      prompt: We'd like to find a shop.
+      response: Alright.  Which shop were you looking for?
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC61.rude
+      row: 57
+    raw_columns:
+      - 61
+      - 11
+      - 8
+      - Thanks for your time.
+      - Anything else I can help you with?
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 11
+      choice_slot: 8
+      prompt: Thanks for your time.
+      response: Anything else I can help you with?
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC61.rude
+      row: 58
+    raw_columns:
+      - 61
+      - 15
+      - 8
+      - Thanks for your time.
+      - Anything else I can help you with?
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 15
+      choice_slot: 8
+      prompt: Thanks for your time.
+      response: Anything else I can help you with?
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC61.rude
+      row: 59
+    raw_columns:
+      - 61
+      - 19
+      - 10
+      - What do you want us to do?
+      - I want you to go to her palace in Thronheim, and steal her shield, then bring it back to me.
+      - 14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 19
+      choice_slot: 10
+      prompt: What do you want us to do?
+      response: I want you to go to her palace in Thronheim, and steal her shield, then bring it back to me.
+      next: 14
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 14
+  - source:
+      file: NPC61.rude
+      row: 60
+    raw_columns:
+      - 61
+      - 61
+      - 14
+      - We have the Basilisk Skin
+      - Ah yes, so you do.  Congratulations on the completion of one labor.
+      - 60
+      - 215
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 218
+      - 0
+      - 0
+      - 0
+      - 0
+      - 218
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 61
+      choice_slot: 14
+      prompt: We have the Basilisk Skin
+      response: Ah yes, so you do.  Congratulations on the completion of one labor.
+      next: 60
+      raw_fields:
+        c07: 215
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 218
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 218
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 60
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 215
+            qbit_id: 9215
+            state_id: mm9.keys.215
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 215
+          qbit_id: 9215
+          state_id: mm9.keys.215
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 218
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 218
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 61
+    raw_columns:
+      - 61
+      - 61
+      - 15
+      - We have Kira's Shield
+      - Thank you!  This will win her over for sure!  Congratulations on the completion of one labor.
+      - 60
+      - 216
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 219
+      - 0
+      - 0
+      - 0
+      - 0
+      - 219
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 61
+      choice_slot: 15
+      prompt: We have Kira's Shield
+      response: Thank you!  This will win her over for sure!  Congratulations on the completion of one labor.
+      next: 60
+      raw_fields:
+        c07: 216
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 219
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 219
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 60
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 216
+            qbit_id: 9216
+            state_id: mm9.keys.216
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 216
+          qbit_id: 9216
+          state_id: mm9.keys.216
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 219
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 219
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 62
+    raw_columns:
+      - 61
+      - 61
+      - 16
+      - We have won in the Arena.
+      - You have proven your strength, adventurers.  Congratulations on the completion of one labor.
+      - 60
+      - 217
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 220
+      - 0
+      - 0
+      - 0
+      - 0
+      - 220
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 61
+      choice_slot: 16
+      prompt: We have won in the Arena.
+      response: You have proven your strength, adventurers.  Congratulations on the completion of one labor.
+      next: 60
+      raw_fields:
+        c07: 217
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 220
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 220
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 60
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 217
+            qbit_id: 9217
+            state_id: mm9.keys.217
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 217
+          qbit_id: 9217
+          state_id: mm9.keys.217
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 220
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 220
+        status: raw_value_preserved
+  - source:
+      file: NPC61.rude
+      row: 63
+    raw_columns:
+      - 61
+      - 61
+      - 20
+      - Nothing.
+      - Goodbye
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 61
+      node_id: 61
+      choice_slot: 20
+      prompt: Nothing.
+      response: Goodbye
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

@@ -1,0 +1,18 @@
+;------------------------------
+;	FireBreather.inc
+;	by SJR
+;	Purpose:fire eater at a
+;			carnival.
+;------------------------------
+#include FireBreather.inc
+
+;------------------------------
+:Main
+;------------------------------
+	GetParam 0, fire_sShooterName
+
+	Wait 0, 1, InitFireBreather
+
+AddTrigger use, BreatheFire
+
+	Exit TRUE

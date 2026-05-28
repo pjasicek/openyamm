@@ -1,0 +1,34 @@
+
+#include globals.inc
+
+#number nTemp = 2
+
+#number			FlameId
+
+
+:OnUse
+
+trigger g_hMyObject, ON
+
+GetObjectHandle ScriptObject0, g_hObject
+
+Set g_sOut, Test 
+Set g_sTemp, FlameId
+Add g_sOut, nTemp
+
+Trigger g_hObject, g_sOut
+DebugOut g_sOut
+
+
+exit
+
+:Main
+
+;;TraceOn
+
+GetMyHandle g_hMyObject
+AddTrigger Use, OnUse
+
+GetParam 0, FlameId
+
+Exit

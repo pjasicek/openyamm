@@ -1,0 +1,733 @@
+format_version: 1
+source_file: NPC389.rude
+rows:
+  - source:
+      file: NPC389.rude
+      row: 1
+    raw_columns:
+      - 389
+      - 2
+      - 1
+      - No kidding.
+      - Yeah!  Unless you are modulating, but then you would have to borrow a chord from another key to become the tonic in the new key.  But then you would still resolve to the dominant of the new key!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 389
+      node_id: 2
+      choice_slot: 1
+      prompt: No kidding.
+      response: Yeah!  Unless you are modulating, but then you would have to borrow a chord from another key to become the tonic in the new key.  But then you would still resolve to the dominant of the new key!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC389.rude
+      row: 2
+    raw_columns:
+      - 389
+      - 3
+      - 1
+      - Did you learn anything?
+      - Of course!  Did you know that the tonic in its second inversion is supposed to resolve to the dominant?
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 389
+      node_id: 3
+      choice_slot: 1
+      prompt: Did you learn anything?
+      response: Of course!  Did you know that the tonic in its second inversion is supposed to resolve to the dominant?
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC389.rude
+      row: 3
+    raw_columns:
+      - 389
+      - 1
+      - 1
+      - Do you have any news?
+      - I wanted to be a musician, but my father wouldn't have it.  I snuck out while he was gone and went to music school anyway.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 389
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I wanted to be a musician, but my father wouldn't have it.  I snuck out while he was gone and went to music school anyway.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC389.rude
+      row: 4
+    raw_columns:
+      - 389
+      - 389
+      - 1
+      - We'd like to become Experts in Thrown Weapons.
+      - If you have quick hands and good eyes, I can help you.
+      - -4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2018
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 389
+      node_id: 389
+      choice_slot: 1
+      prompt: We'd like to become Experts in Thrown Weapons.
+      response: If you have quick hands and good eyes, I can help you.
+      next: -4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2018
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -4
+        service: skill_training
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -4
+        service: skill_training
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2018
+        status: raw_value_preserved
+  - source:
+      file: NPC389.rude
+      row: 5
+    raw_columns:
+      - 389
+      - 1
+      - 2
+      - Where can we become Grandmasters in Thrown Weapons?
+      - Find Thorfinn Quickeye in Thjorgard.  He will help.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2020
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 389
+      node_id: 1
+      choice_slot: 2
+      prompt: Where can we become Grandmasters in Thrown Weapons?
+      response: Find Thorfinn Quickeye in Thjorgard.  He will help.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2020
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2020
+        status: raw_value_preserved
+  - source:
+      file: NPC389.rude
+      row: 6
+    raw_columns:
+      - 389
+      - 389
+      - 2
+      - We'd like to become Masters in Thrown Weapons.
+      - If you have quick hands and good eyes, I can help you.
+      - -4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2018
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 389
+      node_id: 389
+      choice_slot: 2
+      prompt: We'd like to become Masters in Thrown Weapons.
+      response: If you have quick hands and good eyes, I can help you.
+      next: -4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2018
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -4
+        service: skill_training
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -4
+        service: skill_training
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2018
+        status: raw_value_preserved
+  - source:
+      file: NPC389.rude
+      row: 7
+    raw_columns:
+      - 389
+      - 1
+      - 3
+      - What do you know about adventuring?
+      - It gets lonely out there.  If I were you, I'd hire a musician to keep me company.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 389
+      node_id: 1
+      choice_slot: 3
+      prompt: What do you know about adventuring?
+      response: It gets lonely out there.  If I were you, I'd hire a musician to keep me company.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC389.rude
+      row: 8
+    raw_columns:
+      - 389
+      - 389
+      - 3
+      - We'd like to ask you some questions.
+      - Very well.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 389
+      node_id: 389
+      choice_slot: 3
+      prompt: We'd like to ask you some questions.
+      response: Very well.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC389.rude
+      row: 9
+    raw_columns:
+      - 389
+      - 389
+      - 4
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2018
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 389
+      node_id: 389
+      choice_slot: 4
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2018
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2018
+        status: raw_value_preserved
+  - source:
+      file: NPC389.rude
+      row: 10
+    raw_columns:
+      - 389
+      - 1
+      - 7
+      - Thanks for your time.
+      - Farewell
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 389
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Farewell
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

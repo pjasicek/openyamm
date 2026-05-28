@@ -1,0 +1,77 @@
+;--------------------------------
+;	MastermindColor.scr
+;	by SJR
+;	12-18-01
+;	Purpose:when the player uses this,
+;			it changes color and notifies
+;			mastermind.scr
+;	ScriptParams:
+;		p0 = index of slot, (0,1,2,3)
+;--------------------------------
+#include BaseGlobals.inc
+
+#string		sMastermindName = ""
+#hobject	hMastermind = 0
+#number		nColor = 0
+#number		nIndex = 0
+
+#stringarray	spSkins[5]
+#string			sSkin = ""
+
+;--------------------------------
+:Main
+;--------------------------------
+	GetParam 0, nIndex
+
+	OnPostStartWorld InitMastermindSpace
+	OnPostMiniSaveLoad InitMastermindSpace
+
+	Exit TRUE
+
+;--------------------------------
+:InitMastermindSpace
+;--------------------------------
+	gosub InitColors
+
+	AddTrigger use,	UpdateColor
+
+	GetConsoleStrVar MASTERMIND_NAME, sMastermindName
+	GetObjectHandle sMastermindName, hMastermind
+
+	Exit TRUE
+
+;--------------------------------
+:UpdateColor
+;--------------------------------
+	SetConsoleNumVar MASTERMIND_INDEX, nIndex
+	GetConsoleNumVar MASTERMIND_COLOR, nColor
+
+	if( hMastermind!=0 )
+		Trigger hMastermind, update
+	endif
+
+	gosub ChangeColor
+
+	Exit TRUE
+
+;--------------------------------
+:ChangeColor
+;	change our color
+;--------------------------------
+	PlaySound "sounds\door\doorlatch01.wav", DoNothing, 1, 500, FALSE, 100
+
+	ArrayGet spSkins, nColor, sSkin
+	SetModelFilenames "models\gibs\stone.abc", sSkin
+
+	Exit TRUE
+
+;--------------------------------
+:InitColors
+;--------------------------------
+	ArrayPut spSkins, 0, "skins\gibs\red.dtx"
+	ArrayPut spSkins, 1, "skins\gibs\blue.dtx"
+	ArrayPut spSkins, 2, "skins\gibs\yellow.dtx"
+	ArrayPut spSkins, 3, "skins\gibs\orange.dtx"
+	ArrayPut spSkins, 4, "skins\gibs\green.dtx"
+
+	Exit TRUE

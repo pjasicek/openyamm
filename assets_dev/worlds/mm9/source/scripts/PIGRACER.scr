@@ -1,0 +1,99 @@
+;---------------------------------
+;	PigRacer.scr
+;	by SJR
+;	12-11-01
+;	Purpose:player rides this pig
+;			during Thjorgard races.
+;---------------------------------
+#include BaseGlobals.inc
+#include PigPlaylist.inc
+
+#hobject	hMe = 0
+#hobject	hPlayer = 0
+#hobject	hCamera = 0
+
+#string		sCameraName = ""
+
+#number		xMe = 0
+#number		yMe = 0
+#number		zMe = 0
+
+#number		dx = 0
+#number		dy = 0
+#number		dz = 0
+
+#number		xVel = 0
+#number		zVel = 0
+
+#number		nTemp = 0
+#number		bQuit = 0
+
+;----------------
+:Main
+;----------------
+	GetParam 0, sCameraName
+
+	Wait 0, 3, InitPigRacer
+
+	Exit TRUE
+
+;----------------
+:InitPigRacer
+;----------------
+	gosub InitPigPlaylist
+
+;;	AddTrigger Use, StartRacing
+
+	GetMyHandle hMe
+	GetPlayerHandle hPlayer
+	GetObjectHandle sCameraName, hCamera
+
+	GetStat hMe, RunVel, nTemp
+	nTemp = nTemp * 8
+	SetStat hMe, RunVel, nTemp
+
+	Exit TRUE
+
+;----------------
+:StartRacing
+;----------------
+	bQuit = FALSE
+	Trigger hCamera, start
+	RemoveTrigger Use
+	gosub RaceLoop
+	gosub SoundLoop
+	Wait 0, 300, EndRace
+
+	Exit TRUE
+
+;----------------
+:RaceLoop
+;----------------
+	if( bQuit==TRUE )
+;;		AddTrigger Use, StartRacing
+		Exit TRUE
+	endif
+	GetFaceDir hPlayer, dx,dy,dz
+	VecNorm dx,dy,dz
+	FaceDir dx,dy,dz, 360
+	Run
+
+	Wait 0, .05, RaceLoop
+
+	Exit TRUE
+
+;----------------
+:SoundLoop
+;----------------
+	gosub PlayRandomPig
+
+	Wait 1, 2, SoundLoop
+
+	Exit TRUE
+
+;----------------
+:EndRace
+;----------------
+	bQuit = TRUE
+
+	Exit TRUE

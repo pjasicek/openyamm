@@ -1,0 +1,54 @@
+;--------------------------------------------------------
+;	ILSfan.scr
+;	Timmy
+;
+;	This script makes Nagash do stuff
+;
+;	Parameters:
+;
+
+
+;
+;--------------------------------------------------------
+#include globals.inc
+
+
+
+;--------------------------------------------------------
+:OnStart
+;--------------------------------------------------------
+
+Getmyhandle g_hobject
+trigger g_hobject, On
+GetObjectHandle Wind0, g_hobject
+trigger g_hobject, On
+GetObjectHandle Wind1, g_hobject
+trigger g_hobject, On
+GetObjecthandle Trigger9, g_hobject
+trigger g_hobject off
+exit
+
+;--------------------------------------------------------
+:OnStop
+;--------------------------------------------------------
+
+Getmyhandle g_hobject
+trigger g_hobject, Off
+GetObjectHandle Wind0, g_hobject
+trigger g_hobject, Off
+GetObjectHandle Wind1, g_hobject
+trigger g_hobject, Off
+
+exit
+
+
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+;TRACEON
+
+Addtrigger start, OnStart
+Addtrigger Stop, OnStop
+	exit

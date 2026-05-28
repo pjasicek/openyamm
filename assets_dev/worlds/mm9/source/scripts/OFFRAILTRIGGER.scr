@@ -1,0 +1,54 @@
+;--------------------------------------------------
+;OffRailTrigger.scr
+;1/12/02
+; timmy
+; Sends itself a message when player is not on a rail
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#string sMessage2
+#String sMessage
+
+
+
+; Parameters
+;P0 The object name of the target
+;P1 the trigger message to send
+
+;--------------------------------------------------
+
+
+;--------------------------------------------------
+:Check
+;--------------------------------------------------
+target null
+
+getplayerhandle g_hPlayer
+GetContainerCount g_hplayer g_ntemp
+if (g_ntemp==0)
+	target g_hplayer
+	getmyhandle g_hmyobject
+	trigger g_hmyobject sMessage
+	exit
+endif
+
+;getmyhandle g_hmyobject
+;trigger g_hmyobject sMessage2
+wait 1 .5 Check
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+
+
+getParam 0 sMessage
+getparam 1 sMessage2
+Gosub check
+exit
+
+

@@ -1,0 +1,189 @@
+schema: openyamm.model3d.v1
+id: coffinraised
+model: coffinraised.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/COFFINRAISED.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Lid
+  materialIndex: 0
+  lods:
+  - faces: 76
+    vertices: 40
+  - faces: 76
+    vertices: 40
+- name: CoffinRaised
+  materialIndex: 0
+  lods:
+  - faces: 98
+    vertices: 58
+  - faces: 94
+    vertices: 56
+- name: Skeleton
+  materialIndex: 0
+  lods:
+  - faces: 465
+    vertices: 301
+  - faces: 309
+    vertices: 222
+materials:
+- index: 0
+  texture: skins_preview/props/skeleton.png
+  runtime_texture: skins/props/skeleton.dtx
+  preview_texture: skins_preview/props/skeleton.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SKELETON.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone05
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 1033
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Open
+  durationMs: 600
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: Closed
+  durationMs: 600
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: Static_open
+  durationMs: 1
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: NS
+  durationMs: 1033
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: NS_Open
+  durationMs: 600
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: NS_Closed
+  durationMs: 600
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: NS_Static_open
+  durationMs: 1
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 161.28
+  - 64.0
+  - 56.32
+  origin:
+  - 2.56
+  - 0.0
+  - 2.56
+- name: Open
+  extents:
+  - 161.28
+  - 64.0
+  - 56.32
+  origin:
+  - 2.56
+  - 0.0
+  - 2.56
+- name: Closed
+  extents:
+  - 161.28
+  - 64.0
+  - 56.32
+  origin:
+  - 2.56
+  - 0.0
+  - 2.56
+- name: Static_open
+  extents:
+  - 161.28
+  - 64.0
+  - 56.32
+  origin:
+  - 2.56
+  - 0.0
+  - 2.56
+- name: NS
+  extents:
+  - 56.32
+  - 64.0
+  - 161.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: NS_Open
+  extents:
+  - 56.32
+  - 64.0
+  - 161.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: NS_Closed
+  extents:
+  - 56.32
+  - 64.0
+  - 161.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: NS_Static_open
+  extents:
+  - 56.32
+  - 64.0
+  - 161.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+roles:
+- static_model
+source_model: models/props/coffinraised.abc

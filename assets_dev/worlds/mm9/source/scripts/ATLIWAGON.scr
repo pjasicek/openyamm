@@ -1,0 +1,109 @@
+;--------------------------------------------------
+;atliwagon.scr
+; timmy
+; handles The wagon appearing and summoning monsters when on the quest.
+;--------------------------------------------------
+
+#include globals.inc
+
+#String					SCRIPT
+#string					sMonsterA = Bandit
+#hObject				hMonsterA
+
+#string					sMonsterB = Cutpurse
+#hObject				hMonsterB
+
+#number					bSpawned = 0
+
+#number							XPos
+#number							YPos
+#number							ZPos
+
+
+
+;--------------------------------------------------
+:summonatli
+;--------------------------------------------------
+
+
+haskey 197, g_ntemp
+if (g_ntemp==1, )
+	getobjecthandle atli g_hobject
+	trigger g_hobject summon
+	givekey 126
+	exit
+endif
+exit
+
+
+
+;--------------------------------------------------
+:Summonbandit
+;--------------------------------------------------
+
+if (bSpawned==TRUE)
+	exit
+endif
+
+haskey 197 g_ntemp
+if (g_ntemp==FALSE)
+	exit
+endif
+
+;spawn bandits at marker
+
+set SCRIPT " ScriptName BanditAttack.scr"
+set bSpawned, True
+
+sMonsterA = sMonsterA + Script
+sMonsterB = sMonsterB + Script
+
+getobjecthandle SpawnMarker g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn hMonsterA Xpos YPos ZPos sMonsterA
+Spawn hMonsterA Xpos YPos ZPos sMonsterA
+Spawn hMonsterA Xpos YPos ZPos sMonsterA
+Spawn hMonsterB Xpos YPos ZPos sMonsterB
+Spawn hMonsterB Xpos YPos ZPos sMonsterB
+Spawn hMonsterB Xpos YPos ZPos sMonsterB
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+
+Haskey 127 g_ntemp
+if (g_ntemp==1, )
+
+
+	getMyhandle G_hmyobject
+	removeobject g_hmyobject
+
+
+else
+
+
+	@M 6 : 00 summonatli summonatli
+	@M 3 : 30 Summonbandit summonbandit
+
+
+endif
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .5 Init
+exit
+

@@ -1,0 +1,139 @@
+;--------------------------------------------------
+;ArenaVictory.scr
+; timmy
+; handles scholar promo stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include basedoor.inc
+
+#number			bWonBattle
+
+
+;-------------------------------------
+:OnWin
+;-------------------------------------
+
+
+stop
+takekey 1017
+wait 1 3 StartWin
+exit
+
+;-------------------------------------
+:StartWin
+;-------------------------------------
+
+;onfoundtarget OnFoundTarget 56
+getobjecthandle Marker2 g_hobject
+Target g_hObject,FALSE
+walkto g_hobject 8 OnVictory
+exit
+
+
+
+;-------------------------------------
+:DoTaunt
+;-------------------------------------
+	Taunt DoRunAway
+	Exit
+
+;-------------------------------------
+:DoRunAway
+;-------------------------------------
+	Wait 22,0.5,RunAway
+	Exit
+
+;-------------------------------------
+:TauntAgain
+;-------------------------------------
+
+#number	dirX
+#number	dirY
+#number	dirZ
+#number	random
+
+	GetFaceDir g_hmyobject,dirX,dirY,dirZ
+	GetRandomInt 0,1,random
+
+	RotateDir dirX,dirY,dirZ,180
+
+	FaceDir dirX,dirY,dirZ,450,DoTaunt
+
+	Exit
+
+;-------------------------------------
+:TauntLoopStop
+;-------------------------------------
+	Stop
+	Wait 22,0,DoNothing
+	Exit
+
+;-------------------------------------
+:OnVictory
+;-------------------------------------
+
+Stop
+Taunt
+Wait 22,1.5,TauntAgain
+
+exit TRUE
+
+
+;-------------------------------------
+:RunAway
+;-------------------------------------
+getobjecthandle Marker1 g_hobject
+Target g_hObject,FALSE
+runto g_hobject 2 Delete
+
+getobjecthandle RotatingDoor2 g_hobject
+trigger g_hobject unlock
+
+GetobjectHandle RotatingDoor2,g_hObject
+Trigger g_hObject,Use
+
+getobjecthandle RotatingDoor0 g_hobject
+trigger g_hobject unlock
+
+getobjecthandle RotatingDoor1 g_hobject
+trigger g_hobject unlock
+exit
+
+Wait 24,10,Delete
+
+exit
+
+
+;-------------------------------------
+:Delete
+;-------------------------------------
+
+takekey 1011
+
+getobjecthandle ShopkeeperElfMaleB0 g_hobject
+trigger g_hobject Pick
+
+getmyhandle g_hmyobject
+removeobject g_hmyobject
+
+exit
+
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;Don't Forget to Delete this!
+
+getmyhandle g_hmyobject
+
+gosub basedoorinit
+wait 1 1 OnWin
+
+;tRACEon
+
+
+exit
+

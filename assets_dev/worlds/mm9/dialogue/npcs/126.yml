@@ -1,0 +1,814 @@
+format_version: 1
+source_file: NPC126.rude
+rows:
+  - source:
+      file: NPC126.rude
+      row: 1
+    raw_columns:
+      - 126
+      - 3
+      - 1
+      - Sounds like a deal to us!  Let's go.
+      - Really?  You'll take me on your adventure?  Great!
+      - -10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 126
+      node_id: 3
+      choice_slot: 1
+      prompt: Sounds like a deal to us!  Let's go.
+      response: Really?  You'll take me on your adventure?  Great!
+      next: -10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -10
+        service: hire
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -10
+        service: hire
+        status: typed_pending_exact_runtime_behavior
+  - source:
+      file: NPC126.rude
+      row: 2
+    raw_columns:
+      - 126
+      - 2
+      - 1
+      - Perhaps we could come to an arrangement.  What can you do?
+      - I am a banker!  I can increase the riches you find by 20%!  I couldn't do it for free, though.  I would need at least 700 gold per month, plus 10% of all the gold we find!
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 126
+      node_id: 2
+      choice_slot: 1
+      prompt: Perhaps we could come to an arrangement.  What can you do?
+      response: I am a banker!  I can increase the riches you find by 20%!  I couldn't do it for free, though.  I would need at least 700 gold per month, plus 10% of all the gold we find!
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC126.rude
+      row: 3
+    raw_columns:
+      - 126
+      - 1
+      - 1
+      - Why don't you seek adventure, then?
+      - I am but a banker.  I could not survive on my own.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 126
+      node_id: 1
+      choice_slot: 1
+      prompt: Why don't you seek adventure, then?
+      response: I am but a banker.  I could not survive on my own.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC126.rude
+      row: 4
+    raw_columns:
+      - 126
+      - 10
+      - 1
+      - Do you have any news?
+      - I'm so bored here I could just spit!  Sitting behind this desk is not the most exciting place to be, you know!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 456
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 126
+      node_id: 10
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I'm so bored here I could just spit!  Sitting behind this desk is not the most exciting place to be, you know!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 456
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 456
+        status: raw_value_preserved
+  - source:
+      file: NPC126.rude
+      row: 5
+    raw_columns:
+      - 126
+      - 126
+      - 1
+      - You look bored.
+      - I am!  I have a thirst for adventure that cannot be quenched behind a desk.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 456
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 126
+      node_id: 126
+      choice_slot: 1
+      prompt: You look bored.
+      response: I am!  I have a thirst for adventure that cannot be quenched behind a desk.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 456
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 456
+        status: raw_value_preserved
+  - source:
+      file: NPC126.rude
+      row: 6
+    raw_columns:
+      - 126
+      - 3
+      - 2
+      - Maybe you'll find some sucker who will pay you that.
+      - Blank
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 126
+      node_id: 3
+      choice_slot: 2
+      prompt: Maybe you'll find some sucker who will pay you that.
+      response: Blank
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC126.rude
+      row: 7
+    raw_columns:
+      - 126
+      - 10
+      - 2
+      - What do you know about banking?
+      - Only everything there is!  Why, with my knowledge, I could make you rich!
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 126
+      node_id: 10
+      choice_slot: 2
+      prompt: What do you know about banking?
+      response: Only everything there is!  Why, with my knowledge, I could make you rich!
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC126.rude
+      row: 8
+    raw_columns:
+      - 126
+      - 126
+      - 2
+      - Can we ask you some questions?
+      - Please do!
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 456
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 126
+      node_id: 126
+      choice_slot: 2
+      prompt: Can we ask you some questions?
+      response: Please do!
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 456
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 456
+        status: raw_value_preserved
+  - source:
+      file: NPC126.rude
+      row: 9
+    raw_columns:
+      - 126
+      - 126
+      - 3
+      - Your services are no longer required.
+      - Very well, I understand.  I'm not really that useful.  I shall be around, if you need me again.
+      - -11
+      - 456
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 456
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 126
+      node_id: 126
+      choice_slot: 3
+      prompt: Your services are no longer required.
+      response: Very well, I understand.  I'm not really that useful.  I shall be around, if you need me again.
+      next: -11
+      raw_fields:
+        c07: 456
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 456
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -11
+        service: dismiss
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 456
+            qbit_id: 9456
+            state_id: mm9.keys.456
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 456
+          qbit_id: 9456
+          state_id: mm9.keys.456
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -11
+        service: dismiss
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c26
+        value: 456
+        status: raw_value_preserved
+  - source:
+      file: NPC126.rude
+      row: 10
+    raw_columns:
+      - 126
+      - 126
+      - 4
+      - We don't have time to entertain you.
+      - Come back if you're bored like me!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 126
+      node_id: 126
+      choice_slot: 4
+      prompt: We don't have time to entertain you.
+      response: Come back if you're bored like me!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC126.rude
+      row: 11
+    raw_columns:
+      - 126
+      - 10
+      - 7
+      - Thanks for your time.
+      - I have plenty of it to give!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 126
+      node_id: 10
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: I have plenty of it to give!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

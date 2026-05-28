@@ -1,0 +1,86 @@
+;--------------------------------------------------
+;ChangeModel.scr
+; timmy
+; Hides or Unhides model based on player key
+;--------------------------------------------------
+
+#include globals.inc
+#include pledge.inc
+
+
+
+#number			nKey
+#string			sHideStatus
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;parameters:
+; p0 The key to check for
+; p1 Hide or Unhide
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+if (sHideStatus==Hide)
+	gosub Hide
+else
+	gosub Unhide
+endif
+exit
+
+;-------------------------------------
+:Hide
+;-------------------------------------
+
+haskey nKey g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hobject
+	clearflag g_hobject, visible
+	clearflag g_hobject, solid
+	clearflag g_hobject, gravity
+else
+	getmyhandle g_hobject
+	setflag g_hobject, visible
+	setflag g_hobject, solid
+	setflag g_hobject, gravity
+endif
+exit
+
+;-------------------------------------
+:Unhide
+;-------------------------------------
+
+haskey nKey g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hobject
+	setflag g_hobject, visible
+	setflag g_hobject, solid
+	setflag g_hobject, gravity
+else
+	getmyhandle g_hobject
+	clearflag g_hobject, visible
+	clearflag g_hobject, solid
+	clearflag g_hobject, gravity
+endif
+	exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+getparam 0 nKey
+getparam 1 sHideStatus
+wait 1 1 Init
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+exit
+

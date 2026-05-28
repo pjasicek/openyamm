@@ -1,0 +1,327 @@
+;--------------------------------------------------
+;NPC7.scr
+; timmy
+; handles Hjarrrand Fixer voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include SvenShowtake.inc
+
+#number		nCamCount
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+#number		Xpos
+#number		Ypos
+#number		Zpos
+
+#number		MyX
+#number		MyY
+#Number		MyZ
+
+
+
+;--------------------------------------------------
+:OnSven01
+;--------------------------------------------------
+
+
+Playsound \voices\cinema\Battlefield\sven01.wav, DoNothing, 100, 50000, FALSE, 100
+exit
+
+
+;--------------------------------------------------
+:OnSven02
+;--------------------------------------------------
+
+Playsound \voices\cinema\Battlefield\sven02.wav, DoNothing, 100, 50000, FALSE, 100
+exit
+
+
+;--------------------------------------------------
+:OnSven03
+;--------------------------------------------------
+
+Playsound \voices\cinema\Battlefield\sven03.wav, DoNothing, 100, 50000, FALSE, 100
+exit
+
+
+;-------------------------------------
+:OnSven04
+;-------------------------------------
+
+Playsound \voices\cinema\Battlefield\sven04.wav, DoNothing, 100, 50000, FALSE, 100
+gosub Award
+exit
+
+
+;-------------------------------------
+:PlaySpeech
+;-------------------------------------
+
+PlayAnim Sven_scene06 ONDead
+exit
+
+;-------------------------------------
+:OnStart
+;-------------------------------------
+
+getobjecthandle AmbientSound0 g_hobject
+trigger g_hobject off
+getobjecthandle AmbientSound1 g_hobject
+trigger g_hobject off
+getobjecthandle AmbientSound2 g_hobject
+trigger g_hobject off
+getobjecthandle AmbientSound3 g_hobject
+trigger g_hobject off
+getobjecthandle AmbientSound4 g_hobject
+trigger g_hobject off
+getobjecthandle AmbientSound5 g_hobject
+trigger g_hobject off
+getobjecthandle AmbientSound6 g_hobject
+trigger g_hobject off
+getobjecthandle AmbientSound7 g_hobject
+trigger g_hobject off
+
+	set ShowAll, TRUE
+	gosub RemoveAll
+screenfadeout 1
+wait 1 1 FadeIn
+exit
+
+
+;-------------------------------------
+:FadeIn
+;-------------------------------------
+
+
+letterbox true
+getobjecthandle Camera0 g_hobject
+trigger g_hobject On
+Trigger g_hobject Play
+screenfadein 1
+;wait 1 1 ShootOn
+exit
+
+;-------------------------------------
+:Cam2
+;-------------------------------------
+screenfadein 1
+getobjecthandle Camera0 g_hobject
+trigger g_hobject Off
+
+getobjecthandle Camera1 g_hobject
+trigger g_hobject On
+Trigger g_hobject Play
+exit
+
+;-------------------------------------
+:Cam3
+;-------------------------------------
+screenfadein 1
+getobjecthandle Camera1 g_hobject
+trigger g_hobject Off
+
+getobjecthandle Camera3 g_hobject
+trigger g_hobject On
+Trigger g_hobject Play
+exit
+
+;-------------------------------------
+:Cam5
+;-------------------------------------
+screenfadein .5
+getobjecthandle Camera3 g_hobject
+trigger g_hobject Off
+
+getobjecthandle Camera5 g_hobject
+trigger g_hobject On
+gosub Playspeech
+exit
+
+
+;-------------------------------------
+:OnCam6
+;-------------------------------------
+
+getobjecthandle Camera5 g_hobject
+trigger g_hobject Off
+
+getobjecthandle Camera6 g_hobject
+trigger g_hobject On
+
+exit
+
+
+;-------------------------------------
+:OnCam7
+;-------------------------------------
+
+getobjecthandle Camera6 g_hobject
+trigger g_hobject Off
+
+getobjecthandle Camera7 g_hobject
+trigger g_hobject On
+
+exit
+
+;-------------------------------------
+:OnCam8
+;-------------------------------------
+
+getobjecthandle Camera7 g_hobject
+trigger g_hobject Off
+
+getobjecthandle Camera8 g_hobject
+trigger g_hobject On
+
+exit
+
+;--------------------------------------------------
+:Award
+;--------------------------------------------------
+
+
+
+haskey 97 g_ntemp
+if (g_ntemp==0, )
+	Haskey 95 g_ntemp
+	if (g_ntemp==1, )
+
+		givekey 97
+		giveexp 114000
+		exit
+	endif
+endif
+exit
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+
+
+haskey 95 g_ntemp
+if (g_ntemp==FALSE)
+	set ShowAll, FALSE
+	gosub RemoveAll
+
+	exit
+endif
+
+haskey 97 g_ntemp
+if (g_ntemp==TRUE)
+	set ShowAll, FALSE
+	gosub RemoveAll
+
+	exit
+endif
+
+Set ShowAll, True
+gosub RemoveAll
+Loopanim static_model 0 DoNothing
+wait 1 .3 OnStart
+
+exit
+
+
+
+;--------------------------------------------------
+:OnDead
+;--------------------------------------------------
+
+Loopanim static_model 0 DoNothing
+exit
+
+;--------------------------------------------------
+:OnDone
+;--------------------------------------------------
+
+nCamCount = nCamCount + 1
+
+if (nCamCount==1)
+	Gosub Cam2
+	exit
+endif
+
+if (nCamCount==2)
+	Gosub Cam3
+	exit
+endif
+
+if (nCamCount==3)
+	Gosub Cam5
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:OnFadeOut
+;--------------------------------------------------
+
+wait 1 1 FadeOut
+exit
+
+;--------------------------------------------------
+:FadeOut
+;--------------------------------------------------
+screenFadeout 1
+wait 1 1 FadeOut2
+exit
+
+;--------------------------------------------------
+:FadeOut2
+;--------------------------------------------------
+getobjecthandle AmbientSound0 g_hobject
+trigger g_hobject On
+getobjecthandle AmbientSound1 g_hobject
+trigger g_hobject On
+getobjecthandle AmbientSound2 g_hobject
+trigger g_hobject On
+getobjecthandle AmbientSound3 g_hobject
+trigger g_hobject On
+getobjecthandle AmbientSound4 g_hobject
+trigger g_hobject On
+getobjecthandle AmbientSound5 g_hobject
+trigger g_hobject On
+getobjecthandle AmbientSound6 g_hobject
+trigger g_hobject On
+getobjecthandle AmbientSound7 g_hobject
+trigger g_hobject On
+Playsound sounds\events\quest.wav, DoNothing, 100, 50000, FALSE, 100
+letterbox false
+getobjecthandle Camera8 g_hobject
+trigger g_hobject Off
+screenFadeIn 1
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+Addtrigger Done OnDone
+Addtrigger Start, OnStart
+AddModelKey Sven01 OnSven01
+AddModelKey Sven02 OnSven02
+AddModelKey Sven03 OnSven03
+AddModelKey Sven04 OnSven04
+AddModelKey Camera6 OnCam6
+AddModelKey Camera7 OnCam7
+AddModelKey Camera8 OnCam8
+AddModelKey FadeOut OnFadeOut
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

@@ -1,0 +1,365 @@
+format_version: 1
+kind: mm9_model_assets
+source_dat: mm9/extracted/WORLDS/WORLDS/DRANGHEIM.dat
+unique_model_count: 37
+models:
+- source_model: models/DragonFly.abc
+  model_asset: models/dragonfly.glb
+  instance_count: 7
+  source_object_indices:
+  - 139
+  - 140
+  - 141
+  - 142
+  - 143
+  - 144
+  - 145
+  source_classes:
+  - FireDragonFly
+- source_model: models/highwayman.abc
+  model_asset: models/highwayman.glb
+  instance_count: 7
+  source_object_indices:
+  - 193
+  - 194
+  - 195
+  - 197
+  - 198
+  - 199
+  - 200
+  source_classes:
+  - Bandit
+  - Cutpurse
+- source_model: models/PeasantF1.ABC
+  model_asset: models/peasantf1.glb
+  instance_count: 1
+  source_object_indices:
+  - 31
+  source_classes:
+  - CommonerChildElfChildA
+- source_model: models/PeasantF1.ABC
+  model_asset: models/peasantf5.glb
+  instance_count: 1
+  source_object_indices:
+  - 29
+  source_classes:
+  - CommonerHuman2FemaleA
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantf8.glb
+  instance_count: 1
+  source_object_indices:
+  - 32
+  source_classes:
+  - CommonerElfFemaleA
+- source_model: models/PeasantF1.ABC
+  model_asset: models/peasantm1.glb
+  instance_count: 1
+  source_object_indices:
+  - 30
+  source_classes:
+  - CommonerHumanMaleA
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantm4.glb
+  instance_count: 2
+  source_object_indices:
+  - 24
+  - 114
+  source_classes:
+  - PrisonerHumanMaleA
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantm6.glb
+  instance_count: 1
+  source_object_indices:
+  - 23
+  source_classes:
+  - ShopkeeperHuman2MaleA
+- source_model: models/PickUpItems/quest/BagHerbs2.ABC
+  model_asset: models/pickupitems/quest/bagherbs2.glb
+  instance_count: 1
+  source_object_indices:
+  - 25
+  source_classes:
+  - Prop
+- source_model: models/PickUpItems/quest/FarmerPlow.ABC
+  model_asset: models/pickupitems/quest/farmerplow.glb
+  instance_count: 1
+  source_object_indices:
+  - 26
+  source_classes:
+  - Prop
+- source_model: models/PickUpItems/quest/GirlDolly.ABC
+  model_asset: models/pickupitems/quest/girldolly.glb
+  instance_count: 1
+  source_object_indices:
+  - 27
+  source_classes:
+  - Prop
+- source_model: models/PickUpItems/quest/GreatBook.ABC
+  model_asset: models/pickupitems/quest/greatbook.glb
+  instance_count: 1
+  source_object_indices:
+  - 28
+  source_classes:
+  - Prop
+- source_model: models/Props/Bed_Cot.ABC
+  model_asset: models/props/bed_cot.glb
+  instance_count: 1
+  source_object_indices:
+  - 50
+  source_classes:
+  - Prop
+- source_model: models/Props/bonepile.ABC
+  model_asset: models/props/bonepile.glb
+  instance_count: 3
+  source_object_indices:
+  - 190
+  - 191
+  - 192
+  source_classes:
+  - BonePile
+- source_model: models/Props/cauldron01.ABC
+  model_asset: models/props/cauldron01.glb
+  instance_count: 1
+  source_object_indices:
+  - 166
+  source_classes:
+  - Cauldron
+- source_model: models/Props/Chair_forDesk02.ABC
+  model_asset: models/props/chair_fordesk02.glb
+  instance_count: 2
+  source_object_indices:
+  - 55
+  - 56
+  source_classes:
+  - Prop
+- source_model: models/Props/Chest1.ABC
+  model_asset: models/props/chest1.glb
+  instance_count: 4
+  source_object_indices:
+  - 19
+  - 51
+  - 112
+  - 113
+  source_classes:
+  - TreasureChest
+- source_model: models/Props/CoatRack1.ABC
+  model_asset: models/props/coatrack1.glb
+  instance_count: 1
+  source_object_indices:
+  - 46
+  source_classes:
+  - Prop
+- source_model: models/Props/Cookpot.ABC
+  model_asset: models/props/cookpot.glb
+  instance_count: 1
+  source_object_indices:
+  - 138
+  source_classes:
+  - Cookpot
+- source_model: models/props/crate.abc
+  model_asset: models/props/crate.glb
+  instance_count: 2
+  source_object_indices:
+  - 17
+  - 18
+  source_classes:
+  - Prop
+- source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  model_asset: models/props/debris/stonedebris01.glb
+  instance_count: 24
+  source_object_indices:
+  - 65
+  - 68
+  - 69
+  - 70
+  - 71
+  - 72
+  - 73
+  - 76
+  - 77
+  - 78
+  - 79
+  - 80
+  - 159
+  - 161
+  - 162
+  - 163
+  - 164
+  - 165
+  - 172
+  - 175
+  - 176
+  - 177
+  - 178
+  - 179
+  source_classes:
+  - Prop
+- source_model: models/props/debris/stonedebris05.abc
+  model_asset: models/props/debris/stonedebris05.glb
+  instance_count: 2
+  source_object_indices:
+  - 15
+  - 16
+  source_classes:
+  - Prop
+- source_model: models/Props/Dresser.ABC
+  model_asset: models/props/dresser.glb
+  instance_count: 1
+  source_object_indices:
+  - 48
+  source_classes:
+  - Prop
+- source_model: MODELS/Props/LogsBurning.ABC
+  model_asset: models/props/logsburning.glb
+  instance_count: 4
+  source_object_indices:
+  - 66
+  - 74
+  - 167
+  - 173
+  source_classes:
+  - Prop
+- source_model: models/Props/LogsBurning.ABC
+  model_asset: models/props/logsburning.glb
+  instance_count: 1
+  source_object_indices:
+  - 52
+  source_classes:
+  - Prop
+- source_model: models/props/LogsBurning.abc
+  model_asset: models/props/logsburning.glb
+  instance_count: 1
+  source_object_indices:
+  - 13
+  source_classes:
+  - Prop
+- source_model: models/Props/OilLamp.ABC
+  model_asset: models/props/oillamp.glb
+  instance_count: 1
+  source_object_indices:
+  - 62
+  source_classes:
+  - CandleProp
+- source_model: models/props/PlantsandTrees/Tree05.abc
+  model_asset: models/props/plantsandtrees/tree05.glb
+  instance_count: 10
+  source_object_indices:
+  - 21
+  - 81
+  - 86
+  - 87
+  - 89
+  - 92
+  - 98
+  - 99
+  - 100
+  - 101
+  source_classes:
+  - Prop
+- source_model: models/props/PlantsandTrees/Tree06.abc
+  model_asset: models/props/plantsandtrees/tree06.glb
+  instance_count: 24
+  source_object_indices:
+  - 20
+  - 22
+  - 82
+  - 83
+  - 84
+  - 85
+  - 88
+  - 90
+  - 91
+  - 93
+  - 94
+  - 95
+  - 96
+  - 97
+  - 102
+  - 103
+  - 104
+  - 105
+  - 106
+  - 107
+  - 108
+  - 109
+  - 110
+  - 111
+  source_classes:
+  - Prop
+- source_model: models/Props/ShelfItem07.ABC
+  model_asset: models/props/shelfitem07.glb
+  instance_count: 1
+  source_object_indices:
+  - 49
+  source_classes:
+  - Prop
+- source_model: models/Props/Stool02.ABC
+  model_asset: models/props/stool02.glb
+  instance_count: 2
+  source_object_indices:
+  - 45
+  - 47
+  source_classes:
+  - Prop
+- source_model: models/Props/Stovens.ABC
+  model_asset: models/props/stovens.glb
+  instance_count: 1
+  source_object_indices:
+  - 59
+  source_classes:
+  - Prop
+- source_model: models/Props/TableRound2.ABC
+  model_asset: models/props/tableround2.glb
+  instance_count: 2
+  source_object_indices:
+  - 44
+  - 58
+  source_classes:
+  - Prop
+- source_model: models/props/vikingship.abc
+  model_asset: models/props/vikingship.glb
+  instance_count: 1
+  source_object_indices:
+  - 3
+  source_classes:
+  - Prop
+- source_model: models/Props/windmill.abc
+  model_asset: models/props/windmill.glb
+  instance_count: 1
+  source_object_indices:
+  - 150
+  source_classes:
+  - Prop
+- source_model: models/Props/WoodBin.ABC
+  model_asset: models/props/woodbin.glb
+  instance_count: 1
+  source_object_indices:
+  - 43
+  source_classes:
+  - Prop
+- source_model: models/thrall.abc
+  model_asset: models/thrall.glb
+  instance_count: 18
+  source_object_indices:
+  - 131
+  - 132
+  - 133
+  - 134
+  - 135
+  - 136
+  - 137
+  - 146
+  - 147
+  - 148
+  - 149
+  - 168
+  - 169
+  - 170
+  - 171
+  - 180
+  - 181
+  - 182
+  source_classes:
+  - FieldThrall
+  - Thrall
+  - ThrallMaster

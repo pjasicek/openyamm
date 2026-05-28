@@ -1,0 +1,47 @@
+#include BaseGlobals.inc
+
+#hobject	hPig = 0
+#hobject	hMe = 0
+#hobject	hPlayer = 0
+
+#string		sPigName = ""
+
+#number		x = 0
+#number		y = 0
+#number		z = 0
+
+#number		dx = 0
+#number		dy = 0
+#number		dz = 0
+
+:Main
+	GetParam 0, sPigName
+	Wait 0, 3, InitPigCam
+
+	Exit TRUE
+
+:InitPigCam
+	AddTrigger start, OnStart
+
+	Exit TRUE
+
+:OnStart
+	GetMyHandle hMe
+	GetObjectHandle sPigName, hPig
+	GetPlayerHandle hPlayer
+
+	Trigger hMe, on
+	gosub RaceLoop
+
+	Exit TRUE
+
+:RaceLoop
+	GetPOS hPig, x,y,z
+	GetFaceDir hPlayer, dx,dy,dz
+	dy = dy - .35
+	FaceDir dx,dy,dz, 0, DoNothing
+	y = y + 25
+	MoveToPOS x,y,z, 0, DoNothing
+	Wait 0, .05, RaceLoop
+
+	Exit TRUE

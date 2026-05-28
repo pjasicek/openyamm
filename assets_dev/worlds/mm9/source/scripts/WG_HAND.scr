@@ -1,0 +1,65 @@
+;--------------------------------------------------
+;WG_Hand.scr
+; timmy
+; tells a prop to run it's animation
+;
+;Note: if the first parameter is the word
+; OnUse, the second parameter becomes
+; the animation name and the script will wait until being used
+; to play the animation.  Otherwise it will just
+; loop an anim for time specified
+;--------------------------------------------------
+
+#include globals.inc
+
+
+
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+getmyhandle g_hmyobject
+Clearflag g_hmyobject Visible
+Clearflag g_hmyobject Gravity
+Clearflag g_hmyobject Solid
+exit
+
+;--------------------------------------------------
+:OnPlay
+;--------------------------------------------------
+
+getmyhandle g_hmyobject
+;SetFlag g_hmyobject Visible
+PlayAnim SC07_Shot1 DoNothing
+Wait 1 1 OnDone
+exit
+
+;--------------------------------------------------
+:OnDone
+;--------------------------------------------------
+
+getobjecthandle WinMan g_hobject
+trigger g_hobject HandDone
+getmyhandle g_hmyobject
+Clearflag g_hmyobject Visible
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddTrigger Play OnPlay
+Gosub Init
+
+
+exit
+

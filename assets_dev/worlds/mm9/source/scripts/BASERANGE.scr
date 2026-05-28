@@ -1,0 +1,21 @@
+;---------------------------------------------
+;	BaseRange.Scr
+;
+;	Base script for simple AI that have range
+;	attacks....
+;
+;---------------------------------------------
+
+#include baseMelee.inc
+#include range.inc
+
+;---------------------------------------------------
+:Main
+;
+;---------------------------------------------------
+
+	gosub BaseInit
+	gosub RangeInit
+
+
+	Exit

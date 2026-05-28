@@ -1,0 +1,3109 @@
+format_version: 1
+kind: "mm9_raw_world_objects"
+source_dat: "mm9/extracted/WORLDS/WORLDS/GREATGATE.dat"
+object_count: 17
+unknown_property_count: 0
+unknown_property_codes: []
+objects:
+  - object_index: 0
+    name: "StartPoint"
+    property_count: 5
+    data_length: 141
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 13
+        consumed_data_length: 13
+        decoded: true
+        raw_hex: "0b005374617274506f696e7430"
+        value_json: "\"StartPoint0\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "000000000000c0420000c042"
+        value_json: "[0.0, 96.0, 96.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "00000000000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0, 0.0]"
+      - name: "TeamNbr"
+        code: 6
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "PlayerNbr"
+        code: 6
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+  - object_index: 1
+    name: "WorldProperties"
+    property_count: 45
+    data_length: 1180
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 18
+        consumed_data_length: 18
+        decoded: true
+        raw_hex: "1000576f726c6450726f7065727469657330"
+        value_json: "\"WorldProperties0\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "00000cc40000c0420000c0c2"
+        value_json: "[-560.0, 96.0, -96.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "00000000000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0, 0.0]"
+      - name: "MoveToFloor"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "ScriptName"
+        code: 0
+        flags: 16384
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "ScriptParams"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "NeedsTick"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Wind"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0]"
+      - name: "EnableFog"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "AllSkyPortals"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "FogColor"
+        code: 2
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000fe420000fe420000fe42"
+        value_json: "[127.0, 127.0, 127.0]"
+      - name: "FogNearZ"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000803f"
+        value_json: "1.0"
+      - name: "FogFarZ"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00409c45"
+        value_json: "5000.0"
+      - name: "FarZ"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0050c347"
+        value_json: "100000.0"
+      - name: "SkyFog"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "SkyFogNearZ"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000c842"
+        value_json: "100.0"
+      - name: "SkyFogFarZ"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00007a44"
+        value_json: "1000.0"
+      - name: "EnvironmentMap"
+        code: 0
+        flags: 16384
+        declared_data_length: 38
+        consumed_data_length: 38
+        decoded: true
+        raw_hex: "240054657874757265735c656e7669726f6e6d656e746d6170735c64656661756c742e647478"
+        value_json: "\"Textures\\\\environmentmaps\\\\default.dtx\""
+      - name: "SkyPanning"
+        code: 6
+        flags: 96
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "LightScale"
+        code: 2
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "00007f4300007f4300007f43"
+        value_json: "[255.0, 255.0, 255.0]"
+      - name: "SoftSky"
+        code: 0
+        flags: 16384
+        declared_data_length: 44
+        consumed_data_length: 44
+        decoded: true
+        raw_hex: "2a0074657874757265735c656e7669726f6e6d656e746d6170735c636c6f7564735c636c6f7564732e647478"
+        value_json: "\"textures\\\\environmentmaps\\\\clouds\\\\clouds.dtx\""
+      - name: "PlayerLightOn"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "VFogInfo"
+        code: 6
+        flags: 288
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "NightLightScale"
+        code: 2
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "00007f4300007f4300007f43"
+        value_json: "[255.0, 255.0, 255.0]"
+      - name: "Optimizations"
+        code: 6
+        flags: 544
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "PanSkyTexture"
+        code: 0
+        flags: 16448
+        declared_data_length: 21
+        consumed_data_length: 21
+        decoded: true
+        raw_hex: "130054657874757265735c536b7950616e2e647478"
+        value_json: "\"Textures\\\\SkyPan.dtx\""
+      - name: "PanSky"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "PanSkyOffsetX"
+        code: 3
+        flags: 64
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00002041"
+        value_json: "10.0"
+      - name: "PanSkyOffsetZ"
+        code: 3
+        flags: 64
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00002041"
+        value_json: "10.0"
+      - name: "PanSkyScaleX"
+        code: 3
+        flags: 64
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00002041"
+        value_json: "10.0"
+      - name: "PanSkyScaleZ"
+        code: 3
+        flags: 64
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00002041"
+        value_json: "10.0"
+      - name: "VFog"
+        code: 5
+        flags: 256
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "VFogMinY"
+        code: 3
+        flags: 256
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0.0"
+      - name: "VFogMaxY"
+        code: 3
+        flags: 256
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0080a244"
+        value_json: "1300.0"
+      - name: "VFogDensity"
+        code: 3
+        flags: 256
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000e144"
+        value_json: "1800.0"
+      - name: "VFogMax"
+        code: 3
+        flags: 256
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000f042"
+        value_json: "120.0"
+      - name: "VFogMinYVal"
+        code: 3
+        flags: 256
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000003f"
+        value_json: "0.5"
+      - name: "VFogMaxYVal"
+        code: 3
+        flags: 256
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000803f"
+        value_json: "1.0"
+      - name: "DrawSpriteDist"
+        code: 3
+        flags: 512
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00401c45"
+        value_json: "2500.0"
+      - name: "TouchNotify"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "CanSaveGame"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "CanMiniSaveGame"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "DrawParticlesDist"
+        code: 3
+        flags: 512
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00401c45"
+        value_json: "2500.0"
+      - name: "DynamicLightDist"
+        code: 3
+        flags: 512
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00401c45"
+        value_json: "2500.0"
+      - name: "LockPVSRefresh"
+        code: 6
+        flags: 512
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+  - object_index: 2
+    name: "StaticSunLight"
+    property_count: 7
+    data_length: 210
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 17
+        consumed_data_length: 17
+        decoded: true
+        raw_hex: "0f0053746174696353756e4c6967687430"
+        value_json: "\"StaticSunLight0\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000000000003045000080c4"
+        value_json: "[0.0, 2816.0, -1024.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "f953bc3f000000000000000000000000"
+        value_json: "[1.4713126420974731, 0.0, 0.0, 0.0]"
+      - name: "InnerColor"
+        code: 2
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "00007f4300007f4300007f43"
+        value_json: "[255.0, 255.0, 255.0]"
+      - name: "OuterColor"
+        code: 2
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0]"
+      - name: "BrightScale"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000803f"
+        value_json: "1.0"
+      - name: "Bias"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000803f"
+        value_json: "1.0"
+  - object_index: 3
+    name: "TOD_Sky"
+    property_count: 23
+    data_length: 509
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 10
+        consumed_data_length: 10
+        decoded: true
+        raw_hex: "0800544f445f536b7930"
+        value_json: "\"TOD_Sky0\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000a8c4000070c30000c0c2"
+        value_json: "[-1344.0, -240.0, -96.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "00000000000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0, 0.0]"
+      - name: "MoveToFloor"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "ScriptName"
+        code: 0
+        flags: 16384
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "ScriptParams"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "NeedsTick"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "Visible"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "Solid"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "RayHit"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "AttachTo"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "DamagerStuff"
+        code: 6
+        flags: 288
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "SurfaceType"
+        code: 6
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "DayAlpha"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0.0"
+      - name: "NightAlpha"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000803f"
+        value_json: "1.0"
+      - name: "DoDamage"
+        code: 5
+        flags: 256
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "DamagePerSecond"
+        code: 3
+        flags: 256
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00002041"
+        value_json: "10.0"
+      - name: "DamageSound"
+        code: 0
+        flags: 16640
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "LoopDamageSound"
+        code: 5
+        flags: 256
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "BoxPhysics"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "Alpha"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000803f"
+        value_json: "1.0"
+      - name: "TouchNotify"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "DisableFog"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+  - object_index: 4
+    name: "SkyPointer"
+    property_count: 10
+    data_length: 273
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 13
+        consumed_data_length: 13
+        decoded: true
+        raw_hex: "0b00536b79506f696e74657230"
+        value_json: "\"SkyPointer0\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000a8c4000080c30000c0c2"
+        value_json: "[-1344.0, -256.0, -96.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "00000000000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0, 0.0]"
+      - name: "SkyObjectName"
+        code: 0
+        flags: 0
+        declared_data_length: 10
+        consumed_data_length: 10
+        decoded: true
+        raw_hex: "0800544f445f536b7930"
+        value_json: "\"TOD_Sky0\""
+      - name: "SkyDims"
+        code: 1
+        flags: 4
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0]"
+      - name: "Flags"
+        code: 6
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000803f"
+        value_json: "1065353216"
+      - name: "Index"
+        code: 6
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000a040"
+        value_json: "1084227584"
+      - name: "InnerPercentX"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "cdcccc3d"
+        value_json: "0.10000000149011612"
+      - name: "InnerPercentY"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "cdcccc3d"
+        value_json: "0.10000000149011612"
+      - name: "InnerPercentZ"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "cdcccc3d"
+        value_json: "0.10000000149011612"
+  - object_index: 5
+    name: "DemoSkyWorldModel"
+    property_count: 9
+    data_length: 244
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 9
+        consumed_data_length: 9
+        decoded: true
+        raw_hex: "0700536b79426f7830"
+        value_json: "\"SkyBox0\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000a8c4000040c30000c0c2"
+        value_json: "[-1344.0, -192.0, -96.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "00000000000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0, 0.0]"
+      - name: "SkyDims"
+        code: 1
+        flags: 4
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "000000430000004300000043"
+        value_json: "[128.0, 128.0, 128.0]"
+      - name: "Flags"
+        code: 6
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000803f"
+        value_json: "1065353216"
+      - name: "Index"
+        code: 6
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "InnerPercentX"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "cdcccc3d"
+        value_json: "0.10000000149011612"
+      - name: "InnerPercentY"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "cdcccc3d"
+        value_json: "0.10000000149011612"
+      - name: "InnerPercentZ"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "cdcccc3d"
+        value_json: "0.10000000149011612"
+  - object_index: 6
+    name: "Hanndl"
+    property_count: 61
+    data_length: 1472
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 8
+        consumed_data_length: 8
+        decoded: true
+        raw_hex: "060048616e6e646c"
+        value_json: "\"Hanndl\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000c041cc8cc8430080a044"
+        value_json: "[24.0, 401.0999755859375, 1284.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "00000000799d48400000000000000000"
+        value_json: "[0.0, 3.1346113681793213, 0.0, 0.0]"
+      - name: "ScriptName"
+        code: 0
+        flags: 16384
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0a0048616e6e646c2e736372"
+        value_json: "\"Hanndl.scr\""
+      - name: "ScriptParams"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "NeedsTick"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "TouchNotify"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Options"
+        code: 6
+        flags: 96
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "Scale"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000803f"
+        value_json: "1.0"
+      - name: "TintColor"
+        code: 2
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0]"
+      - name: "SurfaceType"
+        code: 6
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "DamageTriggerTarget"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "DamageTriggerMessage"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "DeathTriggerTarget"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "DeathTriggerMessage"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "TriggerDestroyOnly"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "SpawnObject"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "SpawnObjectVel"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0]"
+      - name: "CanDamage"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "FadeOnDeath"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "SightDistance"
+        code: 3
+        flags: 2
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000e144"
+        value_json: "1800.0"
+      - name: "HearingDistance"
+        code: 3
+        flags: 2
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000b443"
+        value_json: "360.0"
+      - name: "ExecuteScript"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "CacheOnly"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "WanderOptions"
+        code: 6
+        flags: 160
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "HidingPlaces"
+        code: 6
+        flags: 288
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "RailDist"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00006146"
+        value_json: "14400.0"
+      - name: "RangeAttackType"
+        code: 6
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000803f"
+        value_json: "1065353216"
+      - name: "NPCProps"
+        code: 6
+        flags: 544
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "Visible"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "Solid"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "Gravity"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "Shadow"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "Rayhit"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "Chromakey"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Transparent"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "MoveToFloor"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "AutoDeactivate"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "CheckForCliffs"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "CheckForAIBarrier"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "RunawayChance"
+        code: 3
+        flags: 64
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000803e"
+        value_json: "0.25"
+      - name: "BuryOnDeath"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "TerrainMode"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "WanderON"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "WanderPathRandom"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "WanderPathName"
+        code: 0
+        flags: 128
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "WanderPathStart"
+        code: 6
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "WanderLeash"
+        code: 3
+        flags: 130
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0.0"
+      - name: "WanderWaitMin"
+        code: 3
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00004040"
+        value_json: "3.0"
+      - name: "WanderWaitMax"
+        code: 3
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00002041"
+        value_json: "10.0"
+      - name: "WanderTimeMin"
+        code: 3
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00004040"
+        value_json: "3.0"
+      - name: "WanderTimeMax"
+        code: 3
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000c040"
+        value_json: "6.0"
+      - name: "HidingPlace0"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "HidingPlace1"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "HidingPlace2"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "ShouldMiniSave"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "ShouldRepopulate"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "CanBeResurrected"
+        code: 5
+        flags: 64
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "NPCNbr"
+        code: 6
+        flags: 512
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000a743"
+        value_json: "1135017984"
+      - name: "Filename"
+        code: 0
+        flags: 21
+        declared_data_length: 19
+        consumed_data_length: 19
+        decoded: true
+        raw_hex: "11006d6f64656c735c48616e6e646c2e616263"
+        value_json: "\"models\\\\Hanndl.abc\""
+      - name: "GreetingSound"
+        code: 0
+        flags: 16896
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+  - object_index: 7
+    name: "Camera"
+    property_count: 12
+    data_length: 286
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 10
+        consumed_data_length: 10
+        decoded: true
+        raw_hex: "08004c6f736563616d31"
+        value_json: "\"Losecam1\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000404433d39344000070c4"
+        value_json: "[768.0, 1182.5999755859375, -960.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "4a82b43e6ecabf400000000000000000"
+        value_json: "[0.3525565266609192, 5.993460655212402, 0.0, 0.0]"
+      - name: "MoveToFloor"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "ScriptName"
+        code: 0
+        flags: 16384
+        declared_data_length: 14
+        consumed_data_length: 14
+        decoded: true
+        raw_hex: "0c004c6f736543616d312e736372"
+        value_json: "\"LoseCam1.scr\""
+      - name: "ScriptParams"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "NeedsTick"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "TouchNotify"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "ActiveTime"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "000080bf"
+        value_json: "-1.0"
+      - name: "OneTime"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "StartActive"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "FOV"
+        code: 3
+        flags: 9
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000b442"
+        value_json: "90.0"
+  - object_index: 8
+    name: "CameraMarker"
+    property_count: 20
+    data_length: 484
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 15
+        consumed_data_length: 15
+        decoded: true
+        raw_hex: "0d0043616d6572614d61726b657230"
+        value_json: "\"CameraMarker0\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000804133d39344000074c4"
+        value_json: "[16.0, 1182.5999755859375, -976.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "c2b8b23e000000000000000000000000"
+        value_json: "[0.3490658402442932, 0.0, 0.0, 0.0]"
+      - name: "MoveToFloor"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "ScriptName"
+        code: 0
+        flags: 16384
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "ScriptParams"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "NeedsTick"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "TouchNotify"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Radius"
+        code: 3
+        flags: 2
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00004041"
+        value_json: "12.0"
+      - name: "TriggerTarget"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "Trigger"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "Dims"
+        code: 1
+        flags: 4
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000c8410000c8410000c841"
+        value_json: "[25.0, 25.0, 25.0]"
+      - name: "WanderOptions"
+        code: 6
+        flags: 160
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "UseMarkerWaitTime"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "WanderWaitMin"
+        code: 3
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00004040"
+        value_json: "3.0"
+      - name: "WanderWaitMax"
+        code: 3
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00002041"
+        value_json: "10.0"
+      - name: "AnimationName"
+        code: 0
+        flags: 128
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "UseMarkerRotation"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "LoopAnim"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "FOV"
+        code: 3
+        flags: 9
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000b442"
+        value_json: "90.0"
+  - object_index: 9
+    name: "CameraMarker"
+    property_count: 20
+    data_length: 484
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 15
+        consumed_data_length: 15
+        decoded: true
+        raw_hex: "0d0043616d6572614d61726b657231"
+        value_json: "\"CameraMarker1\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000804166a6574400009244"
+        value_json: "[16.0, 862.5999755859375, 1168.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "c2b8b23e000000000000000000000000"
+        value_json: "[0.3490658402442932, 0.0, 0.0, 0.0]"
+      - name: "MoveToFloor"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "ScriptName"
+        code: 0
+        flags: 16384
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "ScriptParams"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "NeedsTick"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "TouchNotify"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Radius"
+        code: 3
+        flags: 2
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00004041"
+        value_json: "12.0"
+      - name: "TriggerTarget"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "Trigger"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "Dims"
+        code: 1
+        flags: 4
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000c8410000c8410000c841"
+        value_json: "[25.0, 25.0, 25.0]"
+      - name: "WanderOptions"
+        code: 6
+        flags: 160
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "UseMarkerWaitTime"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "WanderWaitMin"
+        code: 3
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00004040"
+        value_json: "3.0"
+      - name: "WanderWaitMax"
+        code: 3
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00002041"
+        value_json: "10.0"
+      - name: "AnimationName"
+        code: 0
+        flags: 128
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "UseMarkerRotation"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "LoopAnim"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "FOV"
+        code: 3
+        flags: 9
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000b442"
+        value_json: "90.0"
+  - object_index: 10
+    name: "Camera"
+    property_count: 12
+    data_length: 286
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 10
+        consumed_data_length: 10
+        decoded: true
+        raw_hex: "08004c6f736563616d32"
+        value_json: "\"Losecam2\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000000000000043000008c4"
+        value_json: "[0.0, 128.0, -544.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "83ddb840000000000000000000000000"
+        value_json: "[5.777040004730225, 0.0, 0.0, 0.0]"
+      - name: "MoveToFloor"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "ScriptName"
+        code: 0
+        flags: 16384
+        declared_data_length: 14
+        consumed_data_length: 14
+        decoded: true
+        raw_hex: "0c004c6f736543616d322e736372"
+        value_json: "\"LoseCam2.scr\""
+      - name: "ScriptParams"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "NeedsTick"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "TouchNotify"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "ActiveTime"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "000080bf"
+        value_json: "-1.0"
+      - name: "OneTime"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "StartActive"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "FOV"
+        code: 3
+        flags: 9
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000b442"
+        value_json: "90.0"
+  - object_index: 11
+    name: "CameraMarker"
+    property_count: 20
+    data_length: 484
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 15
+        consumed_data_length: 15
+        decoded: true
+        raw_hex: "0d0043616d6572614d61726b657232"
+        value_json: "\"CameraMarker2\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "000080400000604300003043"
+        value_json: "[4.0, 224.0, 176.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "00000000000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0, 0.0]"
+      - name: "MoveToFloor"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "ScriptName"
+        code: 0
+        flags: 16384
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "ScriptParams"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "NeedsTick"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "TouchNotify"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Radius"
+        code: 3
+        flags: 2
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00004041"
+        value_json: "12.0"
+      - name: "TriggerTarget"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "Trigger"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "Dims"
+        code: 1
+        flags: 4
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000c8410000c8410000c841"
+        value_json: "[25.0, 25.0, 25.0]"
+      - name: "WanderOptions"
+        code: 6
+        flags: 160
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "UseMarkerWaitTime"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "WanderWaitMin"
+        code: 3
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00004040"
+        value_json: "3.0"
+      - name: "WanderWaitMax"
+        code: 3
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00002041"
+        value_json: "10.0"
+      - name: "AnimationName"
+        code: 0
+        flags: 128
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "UseMarkerRotation"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "LoopAnim"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "FOV"
+        code: 3
+        flags: 9
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000b442"
+        value_json: "90.0"
+  - object_index: 12
+    name: "Camera"
+    property_count: 12
+    data_length: 286
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 10
+        consumed_data_length: 10
+        decoded: true
+        raw_hex: "08004c6f736563616d33"
+        value_json: "\"Losecam3\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000c0410000c14300009c44"
+        value_json: "[24.0, 386.0, 1248.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "00000000000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0, 0.0]"
+      - name: "MoveToFloor"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "ScriptName"
+        code: 0
+        flags: 16384
+        declared_data_length: 14
+        consumed_data_length: 14
+        decoded: true
+        raw_hex: "0c004c6f736543616d322e736372"
+        value_json: "\"LoseCam2.scr\""
+      - name: "ScriptParams"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "NeedsTick"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "TouchNotify"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "ActiveTime"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "000080bf"
+        value_json: "-1.0"
+      - name: "OneTime"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "StartActive"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "FOV"
+        code: 3
+        flags: 9
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000b442"
+        value_json: "90.0"
+  - object_index: 13
+    name: "Door"
+    property_count: 75
+    data_length: 1747
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 7
+        consumed_data_length: 7
+        decoded: true
+        raw_hex: "0500446f6f7230"
+        value_json: "\"Door0\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "000000420000c14300009f44"
+        value_json: "[32.0, 386.0, 1272.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "00000000000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0, 0.0]"
+      - name: "MoveToFloor"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "ScriptName"
+        code: 0
+        flags: 16384
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "ScriptParams"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "NeedsTick"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "TouchNotify"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Visible"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "Solid"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "RayHit"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "AttachTo"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "Alpha"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000803f"
+        value_json: "1.0"
+      - name: "DamagerStuff"
+        code: 6
+        flags: 288
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "SurfaceType"
+        code: 6
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "DisableFog"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Speed"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000a041"
+        value_json: "20.0"
+      - name: "ClosingSpeed"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00004842"
+        value_json: "50.0"
+      - name: "MoveDelay"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0.0"
+      - name: "MoveDist"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00004041"
+        value_json: "12.0"
+      - name: "MoveDir"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "0000803f0000000000000000"
+        value_json: "[1.0, 0.0, 0.0]"
+      - name: "SoundPos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0]"
+      - name: "PortalName"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "DoubleDoorName"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "Sounds"
+        code: 6
+        flags: 96
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "SoundRadius"
+        code: 3
+        flags: 2
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00007a44"
+        value_json: "1000.0"
+      - name: "OpenWaitTime"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0.0"
+      - name: "CloseWaitTime"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0.0"
+      - name: "Waveform"
+        code: 6
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "Mass"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000f041"
+        value_json: "30.0"
+      - name: "Options"
+        code: 6
+        flags: 160
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "Triggers"
+        code: 6
+        flags: 288
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "Volume"
+        code: 6
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000c842"
+        value_json: "1120403456"
+      - name: "DoDamage"
+        code: 5
+        flags: 256
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "DamagePerSecond"
+        code: 3
+        flags: 256
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00002041"
+        value_json: "10.0"
+      - name: "DamageSound"
+        code: 0
+        flags: 16640
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "LoopDamageSound"
+        code: 5
+        flags: 256
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "OpenStartSound"
+        code: 0
+        flags: 16448
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "OpenBusySound"
+        code: 0
+        flags: 16448
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "OpenStopSound"
+        code: 0
+        flags: 16448
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "CloseStartSound"
+        code: 0
+        flags: 16448
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "CloseBusySound"
+        code: 0
+        flags: 16448
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "CloseStopSound"
+        code: 0
+        flags: 16448
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "AITriggerable"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "TriggerDims"
+        code: 1
+        flags: 148
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0]"
+      - name: "AutoTrigger"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Sticky"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "StartOpen"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Looping"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "LoopCount"
+        code: 6
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0"
+      - name: "PushOpen"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "BoxPhysics"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "TouchToOpen"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Locked"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "LockJiggleCount"
+        code: 6
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00004040"
+        value_json: "1077936128"
+      - name: "LockJigglePct"
+        code: 3
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0ad7a33c"
+        value_json: "0.019999999552965164"
+      - name: "LockJiggleSpeed"
+        code: 3
+        flags: 128
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00000000"
+        value_json: "0.0"
+      - name: "JiggleSound"
+        code: 0
+        flags: 16512
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "ReopenOnContact"
+        code: 5
+        flags: 128
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "OpenTriggerTarget0"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "OpenTrigger0"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "OpenTriggerTarget1"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "OpenTrigger1"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "OpenTriggerTarget2"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "OpenTrigger2"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "OpenTriggerTarget3"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "OpenTrigger3"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "CloseTriggerTarget0"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "CloseTrigger0"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "CloseTriggerTarget1"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "CloseTrigger1"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "CloseTriggerTarget2"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "CloseTrigger2"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "CloseTriggerTarget3"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "CloseTrigger3"
+        code: 0
+        flags: 256
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+  - object_index: 14
+    name: "ScriptObject"
+    property_count: 16
+    data_length: 351
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 9
+        consumed_data_length: 9
+        decoded: true
+        raw_hex: "07004c6f73656d616e"
+        value_json: "\"Loseman\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "00008042000000000000d044"
+        value_json: "[64.0, 0.0, 1664.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "00000000000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0, 0.0]"
+      - name: "ScriptName"
+        code: 0
+        flags: 16384
+        declared_data_length: 13
+        consumed_data_length: 13
+        decoded: true
+        raw_hex: "0b004c6f73654d616e2e736372"
+        value_json: "\"LoseMan.scr\""
+      - name: "ScriptParams"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "NeedsTick"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "TouchNotify"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Parameters"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "StartOn"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "Visible"
+        code: 5
+        flags: 1
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Solid"
+        code: 5
+        flags: 1
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Gravity"
+        code: 5
+        flags: 1
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Shadow"
+        code: 5
+        flags: 1
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Rayhit"
+        code: 5
+        flags: 1
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Chromakey"
+        code: 5
+        flags: 1
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "MoveToFloor"
+        code: 5
+        flags: 1
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+  - object_index: 15
+    name: "ScriptObject"
+    property_count: 16
+    data_length: 351
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 9
+        consumed_data_length: 9
+        decoded: true
+        raw_hex: "0700466174656d616e"
+        value_json: "\"Fateman\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "00000000000000000000d044"
+        value_json: "[0.0, 0.0, 1664.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "00000000000000000000000000000000"
+        value_json: "[0.0, 0.0, 0.0, 0.0]"
+      - name: "ScriptName"
+        code: 0
+        flags: 16384
+        declared_data_length: 13
+        consumed_data_length: 13
+        decoded: true
+        raw_hex: "0b00466174654d616e2e736372"
+        value_json: "\"FateMan.scr\""
+      - name: "ScriptParams"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "NeedsTick"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "TouchNotify"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Parameters"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "StartOn"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "01"
+        value_json: "1"
+      - name: "Visible"
+        code: 5
+        flags: 1
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Solid"
+        code: 5
+        flags: 1
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Gravity"
+        code: 5
+        flags: 1
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Shadow"
+        code: 5
+        flags: 1
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Rayhit"
+        code: 5
+        flags: 1
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "Chromakey"
+        code: 5
+        flags: 1
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "MoveToFloor"
+        code: 5
+        flags: 1
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+  - object_index: 16
+    name: "Camera"
+    property_count: 12
+    data_length: 286
+    trailing_hex: ""
+    properties:
+      - name: "Name"
+        code: 0
+        flags: 0
+        declared_data_length: 10
+        consumed_data_length: 10
+        decoded: true
+        raw_hex: "08004c6f736563616d34"
+        value_json: "\"Losecam4\""
+      - name: "Pos"
+        code: 1
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "000040c433d39344000070c4"
+        value_json: "[-768.0, 1182.5999755859375, -960.0]"
+      - name: "Rotation"
+        code: 7
+        flags: 0
+        declared_data_length: 16
+        consumed_data_length: 16
+        decoded: true
+        raw_hex: "4a82b43e00674a3f0000000000000000"
+        value_json: "[0.3525565266609192, 0.7906341552734375, 0.0, 0.0]"
+      - name: "MoveToFloor"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "ScriptName"
+        code: 0
+        flags: 16384
+        declared_data_length: 14
+        consumed_data_length: 14
+        decoded: true
+        raw_hex: "0c004c6f736543616d312e736372"
+        value_json: "\"LoseCam1.scr\""
+      - name: "ScriptParams"
+        code: 0
+        flags: 0
+        declared_data_length: 2
+        consumed_data_length: 2
+        decoded: true
+        raw_hex: "0000"
+        value_json: "\"\""
+      - name: "NeedsTick"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "TouchNotify"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "ActiveTime"
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "000080bf"
+        value_json: "-1.0"
+      - name: "OneTime"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "StartActive"
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: "FOV"
+        code: 3
+        flags: 9
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "0000b442"
+        value_json: "90.0"

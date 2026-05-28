@@ -1,0 +1,89 @@
+;--------------------------------------------------
+;SpawnGeneric.scr
+; timmy
+; spawns a Generic Monster
+; 1/21/02
+;--------------------------------------------------
+
+#include globals.inc
+
+
+
+;
+#number							XPos
+#number							YPos
+#number							ZPos
+#number							nLinked
+
+#string							sMonster = Skeletoid
+#number							bFace = 1
+
+#hobject						hMonster
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+#string							WanderName = " WanderPathName "
+#string							sPath
+#string							sScript = " ScriptName SpawnFace.scr"
+
+;--------------------------------------------------
+:Onspawn
+;--------------------------------------------------
+
+
+wait 1 1 OnSpawn2
+exit
+
+
+;--------------------------------------------------
+:Onspawn2
+;--------------------------------------------------
+
+if (sPath==Terrors)
+	getobjecthandle EndCount g_hobject
+	if (g_hobject!=NULL)
+		trigger g_hobject Spawned
+	endif
+endif
+
+
+Getmyhandle g_hmyobject
+DoClientFX g_hMyObject,GreaterDemon
+Playsound \Sounds\magic\Windup10.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 2 Appear
+exit
+
+
+;--------------------------------------------------
+:Appear
+;--------------------------------------------------
+
+; play appear effect here
+Playsound \Sounds\spells\TownPortal.wav, DoNothing, 100, 24000, FALSE, 100
+getpos g_hmyobject XPos YPos ZPos
+Spawn hMonster Xpos YPos ZPos sMonster
+exit
+
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddTrigger Spawn Onspawn
+Getparam 0 sMonster
+getparam 1 sPath
+
+if (bFace==1)
+	exit
+endif
+sMonster = sMonster + sScript
+
+
+
+exit
+

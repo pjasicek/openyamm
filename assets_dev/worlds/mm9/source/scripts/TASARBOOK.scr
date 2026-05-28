@@ -1,0 +1,161 @@
+;--------------------------------------------------
+;TaSarBook.scr
+;10/4
+; timmy
+; handles Books and scrolls doing Letter interface
+;--------------------------------------------------
+
+#include globals.inc
+
+#number							Book_Key
+#number							 Item_ID
+#String							Item_Type
+#String							Location
+#number							Invisible
+
+#number							nPlacedKey
+#number							bPlacedLastBook = 0
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:OnUse
+; This adds the item to inventory
+;--------------------------------------------------
+
+Gosub Keycheck
+Gosub PlacedBook
+
+if (bPlacedLastBook==FALSE)
+	exit
+endif
+
+	haskey 9516 g_ntemp
+	if (g_ntemp==0)
+		takekey Book_Key
+		GetMyHandle g_hobject
+		Clearflag g_hobject, visible
+		Clearflag g_hobject, solid
+		Clearflag g_hobject, gravity
+		removetrigger Use
+		giveitem item_ID
+		debugout Item_ID
+		exit
+	endif
+exit
+
+;--------------------------------------------------
+:Init
+; This adds the item to inventory
+;--------------------------------------------------
+
+Gosub KeyInit
+
+if (Location!=Start)
+	GetMyHandle g_hobject
+	Clearflag g_hobject, visible
+	Clearflag g_hobject, solid
+	Clearflag g_hobject, gravity
+	Set Invisible 1
+	RemoveTrigger use
+	exit
+else
+endif
+exit	
+
+;--------------------------------------------------
+:PlacedBook
+; This checks to see if book is properly placed
+;--------------------------------------------------
+
+haskey Book_Key g_ntemp
+
+if (g_ntemp==TRUE)
+	bPlacedLastBook = FALSE
+endif
+
+exit
+
+
+;--------------------------------------------------
+:KeyCheck
+; This adds the item to inventory
+;--------------------------------------------------
+
+if (nPlacedKey==0)
+	bPlacedLastBook = TRUE
+	exit
+endif
+
+haskey nPlacedKey g_ntemp
+if (g_ntemp==TRUE)
+	bPlacedLastBook = TRUE
+endif
+exit
+
+
+
+;--------------------------------------------------
+:KeyInit
+; This adds the item to inventory
+;--------------------------------------------------
+
+if (Item_ID==435)
+	Set Book_Key 9501
+	nPlacedKey = 0
+	exit
+endif
+
+if (Item_ID==436)
+	Set Book_Key 9502
+	nPlacedKey = 9517
+	exit
+endif
+
+if (Item_ID==437)
+	Set Book_Key 9503
+	nPlacedKey = 9518
+	exit
+endif
+
+if (Item_ID==438)
+	Set Book_Key 9504
+	nPlacedKey = 9519
+	exit
+endif
+
+exit
+
+;--------------------------------------------------
+:OnVisible
+;--------------------------------------------------
+
+
+Addtrigger Use OnUse
+getmyhandle g_hobject
+Setflag g_hobject, visible
+Setflag g_hobject, solid
+Setflag g_hobject, gravity
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+traceon 
+;Don't Forget to Delete this!
+Getparam 0 Item_ID
+GetParam 1 Location
+Addtrigger Use OnUse
+Addtrigger Visible1 OnVisible
+
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

@@ -1,0 +1,816 @@
+format_version: 1
+source_file: NPC91.rude
+rows:
+  - source:
+      file: NPC91.rude
+      row: 1
+    raw_columns:
+      - 91
+      - 2
+      - 1
+      - Can we ask you something else?
+      - Okay.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 91
+      node_id: 2
+      choice_slot: 1
+      prompt: Can we ask you something else?
+      response: Okay.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC91.rude
+      row: 2
+    raw_columns:
+      - 91
+      - 1
+      - 1
+      - Do you have any news?
+      - I wish someone would show those Yobboes the what for!  They certainly deserve it!
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 130
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 91
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I wish someone would show those Yobboes the what for!  They certainly deserve it!
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 130
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 130
+        status: raw_value_preserved
+  - source:
+      file: NPC91.rude
+      row: 3
+    raw_columns:
+      - 91
+      - 91
+      - 1
+      - We'll get your plow back for you.
+      - Mercy be on you!
+      - 91
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 130
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 91
+      node_id: 91
+      choice_slot: 1
+      prompt: We'll get your plow back for you.
+      response: Mercy be on you!
+      next: 91
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 130
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 91
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 130
+        status: raw_value_preserved
+  - source:
+      file: NPC91.rude
+      row: 4
+    raw_columns:
+      - 91
+      - 2
+      - 2
+      - Thanks for your time.
+      - Bye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 91
+      node_id: 2
+      choice_slot: 2
+      prompt: Thanks for your time.
+      response: Bye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC91.rude
+      row: 5
+    raw_columns:
+      - 91
+      - 1
+      - 2
+      - What happened to your plow?
+      - Those darned Yobboes took it!  As payment for protection against Sturmford they say.  I think they just like watching us suffer!
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 133
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 91
+      node_id: 1
+      choice_slot: 2
+      prompt: What happened to your plow?
+      response: Those darned Yobboes took it!  As payment for protection against Sturmford they say.  I think they just like watching us suffer!
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 133
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 133
+        status: raw_value_preserved
+  - source:
+      file: NPC91.rude
+      row: 6
+    raw_columns:
+      - 91
+      - 91
+      - 2
+      - Can we ask you a few questions?
+      - Yeah, I guess.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 91
+      node_id: 91
+      choice_slot: 2
+      prompt: Can we ask you a few questions?
+      response: Yeah, I guess.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC91.rude
+      row: 7
+    raw_columns:
+      - 91
+      - 91
+      - 3
+      - We have your plow.
+      - Thank you!  I was afraid I wasn't going to be able to get the plowing done for the planting!
+      - 91
+      - 130
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 133
+      - 0
+      - 0
+      - 0
+      - 0
+      - 133
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 91
+      node_id: 91
+      choice_slot: 3
+      prompt: We have your plow.
+      response: Thank you!  I was afraid I wasn't going to be able to get the plowing done for the planting!
+      next: 91
+      raw_fields:
+        c07: 130
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 133
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 133
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 91
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 130
+            qbit_id: 9130
+            state_id: mm9.keys.130
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 130
+          qbit_id: 9130
+          state_id: mm9.keys.130
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 133
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 133
+        status: raw_value_preserved
+  - source:
+      file: NPC91.rude
+      row: 8
+    raw_columns:
+      - 91
+      - 1
+      - 3
+      - What do you know about Mendossus?
+      - Isn't that some sort of illness?  I think my brother Dean came down with that a few weeks ago.  I'd stay away from him if I were you!  It's very contagious!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 91
+      node_id: 1
+      choice_slot: 3
+      prompt: What do you know about Mendossus?
+      response: Isn't that some sort of illness?  I think my brother Dean came down with that a few weeks ago.  I'd stay away from him if I were you!  It's very contagious!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC91.rude
+      row: 9
+    raw_columns:
+      - 91
+      - 1
+      - 4
+      - Do you have any news?
+      - I've got my plow back, thanks to you!
+      - 1
+      - 133
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 91
+      node_id: 1
+      choice_slot: 4
+      prompt: Do you have any news?
+      response: I've got my plow back, thanks to you!
+      next: 1
+      raw_fields:
+        c07: 133
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 133
+            qbit_id: 9133
+            state_id: mm9.keys.133
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 133
+          qbit_id: 9133
+          state_id: mm9.keys.133
+  - source:
+      file: NPC91.rude
+      row: 10
+    raw_columns:
+      - 91
+      - 1
+      - 7
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 91
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC91.rude
+      row: 11
+    raw_columns:
+      - 91
+      - 91
+      - 7
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 91
+      node_id: 91
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

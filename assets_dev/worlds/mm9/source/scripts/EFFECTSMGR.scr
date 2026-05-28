@@ -1,0 +1,206 @@
+;-----------------------------
+;	EffectsMgr.scr
+;	by SJR
+;	10-16-01
+;	See also: CinemaMgr.scr
+;	Purpose:incorporate letterbox,
+;			text, quaking, sound.
+;			Must be run by
+;			an earthquake object.
+;
+;	Triggers:
+;	
+;		"StartQuake"		= executes all current effects
+;
+;	Style Changes
+;	
+;		"Quake[On\Off]"			= allows\restricts earthquakes
+;	--	"Text[On\Off]"			= allows\restricts text display
+;		"Box[On\Off]"			= allows\restricts letterbox usage
+;
+;		"Quake[Strong\Weak]"	= sets intensity of quake (100%, 50%)
+;
+;		"Duration[Long\Short\Instant]"	= sets duration (12, 6, 1 seconds)
+;-----------------------------
+
+#include BaseGlobals.inc
+
+#hobject	hPlayer = 0
+#hobject	hMe = 0
+
+#number		bQuakeOn = 1
+#number		bTextOn = 0
+#number		bBoxOn = 0
+
+#number		x = 0
+#number		y = 0
+#number		z = 0
+
+#number		nLoopCount = 1
+#number		nCountHolder = 1
+
+;---------------
+:Main
+;---------------
+	Wait 0, 2, InitEffectsMgr
+	CacheSound sounds\weapons\eqhammerpostimpactloop.wav
+	Exit TRUE
+
+;---------------
+:InitEffectsMgr
+;---------------
+	gosub SetupQuakeObject
+	gosub SetupAllTriggers
+
+	AddTrigger StartScene, DoScene
+
+	GetMyHandle hMe
+	GetPlayerHandle hPlayer
+
+	;;turn me on just in case
+	Trigger hMe, On
+	
+	Exit TRUE
+
+;---------------
+:DoScene
+;---------------
+	nLoopCount = nCountHolder
+	if( bQuakeOn==TRUE )
+		gosub DoQuake
+	endif
+	if( bBoxOn==TRUE )
+		gosub DoLetterBox
+	endif
+	if( bTextOn==TRUE )
+		gosub DoText
+	endif
+	Exit TRUE
+
+;---------------
+:DoQuake
+;---------------
+	;;move eq object to player
+	gosub UpdatePOS
+	;;start rumble loop
+	gosub PlaySoundLoop
+	;;turn quake on
+	Trigger hMe, trigger
+	Exit TRUE
+
+;---------------
+:DoText
+;---------------
+;;put excel text thing here
+	Exit TRUE
+
+;---------------
+:DoLetterBox
+;---------------
+	LetterBox TRUE
+	Exit TRUE
+
+;---------------
+:PlaySoundLoop
+;	loop sound according to duration
+;---------------
+	if( nLoopCount==0 )
+		gosub EndScene
+		Exit TRUE
+	endif
+	nLoopCount = nLoopCount - 1
+	PlaySound sounds\weapons\eqhammerpostimpactloop.wav, PlaySoundLoop, 1, 1000, FALSE, 100
+	Exit TRUE
+
+;---------------
+:EndScene
+;---------------
+	LetterBox FALSE
+	Exit TRUE
+
+;---------------
+:UpdatePOS
+;	move EQobject to player
+;---------------
+	GetPOS hPlayer, x,y,z
+	SetPOS hMe, x,y,z
+	Exit TRUE
+
+;---------------
+:SetupAllTriggers
+;	setup dedit triggerable options
+;---------------
+	AddTrigger QuakeOn, TurnQuakeOn
+	AddTrigger QuakeOff, TurnQuakeOff
+	AddTrigger TextOn, TurnTextOn
+	AddTrigger TextOff, TurnTextOff
+	AddTrigger BoxOn, TurnBoxOn
+	AddTrigger BoxOff, TurnBoxOff
+
+	AddTrigger DurationLong, SetDurationLong
+	AddTrigger DurationShort, SetDurationShort
+	AddTrigger DurationInstant, SetDurationInstant
+
+	AddTrigger QuakeStrong, SetQuakeHigh
+	AddTrigger QuakeWeak, SetQuakeMed
+
+	Exit TRUE
+
+;---------------
+:SetupQuakeObject
+;	init all the dedit options
+;---------------
+	;;if user set 0, eq wont end ever!
+	SetPropNumber DecayRate, 1
+	;;no damage, effect only
+	SetPropNumber InnerDamage, 0
+	SetPropNumber InnerRadius, 1
+	SetPropNumber OuterRadius, 500
+	;;default duration
+	SetPropNumber QuakeDuration, 12
+	;;max eq is 12
+	SetPropNumber ShakeAmount, 12
+
+	Exit TRUE
+
+
+;;;settings
+
+:TurnQuakeOn
+	bQuakeOn = TRUE
+	Exit TRUE
+:TurnQuakeOff
+	bQuakeOn = FALSE
+	Exit TRUE
+:TurnTextOn
+	bTextOn = TRUE
+	Exit TRUE
+:TurnTextOff
+	bTextOn = FALSE
+	Exit TRUE
+:TurnBoxOn
+	bBoxOn = TRUE
+	Exit TRUE
+:TurnBoxOff
+	bBoxOn = FALSE
+	Exit TRUE
+
+:SetDurationLong
+	SetPropNumber QuakeDuration, 12
+	nCountHolder = 4
+	Exit TRUE
+:SetDurationShort
+	SetPropNumber QuakeDuration, 6
+	nCountHolder = 2
+	Exit TRUE
+:SetDurationInstant
+	SetPropNumber QuakeDuration, 1
+	nCountHolder = 0
+	Exit TRUE
+
+:SetQuakeHigh
+	SetPropNumber ShakeAmount, 12
+	Exit TRUE
+:SetQuakeMed
+	SetPropNumber ShakeAmount, 6
+	Exit TRUE

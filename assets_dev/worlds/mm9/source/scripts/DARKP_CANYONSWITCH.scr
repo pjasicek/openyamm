@@ -1,0 +1,94 @@
+;------------------------------------------------
+;
+;	DarkP_CanyonSwitch.scr
+;	kd
+;	11-6-01
+;
+;	Not sure what this can do
+;
+;
+;------------------------------------------------
+
+#include Globals.inc
+
+#hObject	hBansheeObjectA
+#hObject	hBansheeObjectB
+
+;------------------------------------------------
+:CanyonDoors
+;------------------------------------------------
+	GetObjectHandle CanyonDoorL0, hBansheeObjectA
+	GetObjectHandle CanyonDoorR0, hBansheeObjectB
+	Trigger hBansheeObjectA, Unlock
+	Trigger hBansheeObjectB, Unlock
+	Trigger hBansheeObjectA, Use
+	Exit TRUE
+;------------------------------------------------
+:Stop
+;------------------------------------------------
+	GetObjectHandle BansheeAEye4, hBansheeObjectA
+	GetObjectHandle BansheeAEye5, hBansheeObjectB
+	Trigger hBansheeObjectA, On
+	Trigger hBansheeObjectB, On
+	Cprint hBansheeObjectA
+	Cprint hBansheeObjectB
+	Stop
+	RemoveTrigger Use
+	Gosub CanyonDoors
+	Exit TRUE
+;------------------------------------------------
+:OnUse
+;------------------------------------------------
+	playsound Sounds\spells\EnchantItem.wav DoNothing 500 1000 FALSE 100
+	PlayAnim Hattack2, AnimateA
+	Exit TRUE
+;------------------------------------------------
+:AnimateA
+;------------------------------------------------
+	GetObjectHandle BansheeAEye0, hBansheeObjectA
+	GetObjectHandle BansheeAEye1, hBansheeObjectB
+	Trigger hBansheeObjectA, On
+	Trigger hBansheeObjectB, On
+	Cprint hBansheeObjectA
+	Cprint hBansheeObjectB
+	playsound Sounds\spells\EnchantItem.wav DoNothing 500 1000 FALSE 100
+	PlayAnim Taunt, AnimateB
+	Exit TRUE
+
+;------------------------------------------------
+:AnimateB
+;------------------------------------------------
+	GetObjectHandle BansheeAEye2, hBansheeObjectA
+	GetObjectHandle BansheeAEye3, hBansheeObjectB
+	Trigger hBansheeObjectA, On
+	Trigger hBansheeObjectB, On
+	Cprint hBansheeObjectA
+	Cprint hBansheeObjectB
+	playsound Sounds\spells\EnchantItem.wav DoNothing 500 1000 FALSE 100
+	PlayAnim Rattack1, AnimateC
+	Exit TRUE
+;------------------------------------------------
+:AnimateC
+;------------------------------------------------
+	GetObjectHandle BansheeAEye6, hBansheeObjectA
+	GetObjectHandle BansheeAEye7, hBansheeObjectB
+	Trigger hBansheeObjectA, On
+	Trigger hBansheeObjectB, On
+	Cprint hBansheeObjectA
+	Cprint hBansheeObjectB
+	playsound Sounds\spells\EnchantItem.wav DoNothing 500 1000 FALSE 100
+	PlayAnim Fidget1, Stop
+	Exit TRUE
+;------------------------------------------------
+:Main2
+;------------------------------------------------
+
+	AddTrigger Use, OnUse
+	PlayAnim CastSpell, DoNothing
+	Exit TRUE
+;------------------------------------------------
+:Main
+;------------------------------------------------
+	
+	Wait 0, 0.1, Main2
+	Exit TRUE

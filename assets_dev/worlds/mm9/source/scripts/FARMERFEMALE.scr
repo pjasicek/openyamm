@@ -1,0 +1,109 @@
+;----------------------------------------------------------------
+;	femalefarmer.scr
+;	John Machin
+;
+;		Default script for wanderers
+;----------------------------------------------------------------
+#include globals.inc
+#include wander.inc
+#include aiglobals.inc
+
+;#hobject	hAlertedBy 
+;#string		sAlertName
+
+;#hobject	hAttacker
+;#hobject	hTouchedBy
+
+#numberarray	g_hHenArray[50]
+#number			g_nCtr				= 0
+#number			g_nObjects
+#hobject		g_hCurrHen
+
+;Passed in Parameter to get Wander distance
+#number		g_nDistance
+
+
+
+;----------------------------------------------------------------
+:OnSpecial
+;----------------------------------------------------------------
+	;Feeding the chickens	
+	
+	;Randomly pick between the 2 chicken feeding anims
+	GetRandomInt 1, 10, g_nRandom
+	if( g_nRandom <= 5 )
+		PlayAnim feedchicken1, OnFeedChickenDone
+	else
+		PlayAnim feedchicken2, OnFeedChickenDone
+	endif
+
+	;Alert the chickens
+	gosub FarmerFeedChickens
+																 
+
+	Exit
+
+
+;----------------------------------------------------------------
+:FarmerFeedChickens
+;----------------------------------------------------------------
+	GetObjects Hen, 500, 50, g_hHenArray, g_nObjects
+
+	:GetHens
+		if(	g_nCtr < g_nObjects )
+			ArrayGet g_hHenArray, g_nCtr, g_hCurrHen
+			Add g_nCtr, 1
+
+			Trigger g_hCurrHen, Feeding
+
+			gosub GetHens
+		endif				
+
+	Exit
+
+
+;----------------------------------------------------------------
+:OnFeedChickenDone
+;----------------------------------------------------------------
+	Wait 1, WanderTick
+
+	Exit
+
+
+;----------------------------------------------------------------
+:OnSpecialDone
+;----------------------------------------------------------------
+	;Were done just exit	
+																																
+	Exit   
+
+;----------------------------------------------------------------
+:Main
+;----------------------------------------------------------------
+	
+	;Set Rooster wander distance
+	GetParam 1, g_nDistance
+	
+	if( g_nDistance != 0 )
+		Set MAX_DIST_FROM_STARTPOINT, g_nDistance
+	else
+		Set MAX_DIST_FROM_STARTPOINT, 350
+	endif	
+
+	;Set how often hen is idle 1 equals 10% valid numbers are 1 to 10
+	Set g_IdleFrequency, 10
+
+	;Set max time in seconds before idle check
+	Set g_IdleCheckMin, 2
+	Set g_IdleCheckMax, 6
+
+	;Set how often special anim is played valid numbers are 1 to 10
+	Set g_SpeicalAnimFrequency, 5 
+	
+	;OnDamage FarmerOnDamage
+	
+	gosub WanderInit	
+
+	AddTrigger SpecialAnim OnSpecial
+
+	Exit

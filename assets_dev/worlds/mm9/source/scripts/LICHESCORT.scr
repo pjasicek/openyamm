@@ -1,0 +1,42 @@
+#include BaseGlobals.inc
+#include CutSceneActor.inc
+
+#string		sDestinationName = ""
+#hobject	hDestination = 0
+
+#hobject	hMe = 0
+
+#string		SPELL_TRANSFUSION = "spell-transfusion"
+#string		SPELL_SPIRIT = "spirit"
+
+;----------------------------
+:Main
+;----------------------------
+	GetParam 0, sDestinationName
+
+	GetMyHandle hMe
+
+	AddTrigger walk WalkToEngine
+	AddTrigger play, PlayAnim
+
+	Exit TRUE
+
+;----------------------------
+:WalkToEngine
+;----------------------------
+	GetObjectHandle sDestinationName, hDestination
+	if( hDestination!=0 )
+		WalkTo hDestination, 10, StopMoving
+		Wait 0, 10, EndScene
+	endif
+
+	Exit TRUE
+
+;----------------------------
+:PlayAnim
+;----------------------------
+	DoClientFX hMe, SPELL_TRANSFUSION, FALSE, TRUE
+
+	PlayAnim resurrectspell, EndScene
+
+	Exit TRUE

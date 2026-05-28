@@ -1,0 +1,652 @@
+schema: openyamm.model3d.v1
+id: dwarf
+model: dwarf.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/DWARF.abc
+  commandString: FadeRangeMax 3000; FadeRangeMin 2500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: LHand1
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: RHand1
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: d_body
+  materialIndex: 0
+  lods:
+  - faces: 150
+    vertices: 77
+  - faces: 130
+    vertices: 67
+  - faces: 94
+    vertices: 49
+  - faces: 52
+    vertices: 28
+- name: d_leg01
+  materialIndex: 0
+  lods:
+  - faces: 51
+    vertices: 29
+  - faces: 35
+    vertices: 21
+  - faces: 25
+    vertices: 16
+  - faces: 13
+    vertices: 10
+- name: d_leg
+  materialIndex: 0
+  lods:
+  - faces: 51
+    vertices: 29
+  - faces: 35
+    vertices: 21
+  - faces: 23
+    vertices: 15
+  - faces: 11
+    vertices: 9
+- name: d_neck
+  materialIndex: 0
+  lods:
+  - faces: 8
+    vertices: 8
+  - faces: 8
+    vertices: 8
+  - faces: 8
+    vertices: 8
+  - faces: 8
+    vertices: 8
+- name: d_head
+  materialIndex: 0
+  lods:
+  - faces: 117
+    vertices: 68
+  - faces: 75
+    vertices: 47
+  - faces: 37
+    vertices: 28
+  - faces: 9
+    vertices: 14
+materials:
+- index: 0
+  texture: skins_preview/dwarf.png
+  runtime_texture: skins/dwarf.dtx
+  preview_texture: skins_preview/dwarf.png
+  source: mm9/extracted/SKINS/SKINS/DWARF.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Spine
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 13
+    - 17
+  - index: 2
+    name: Bip01 Spine1
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Bip01 Neck
+    parent: 2
+    flags: 1
+    children:
+    - 4
+    - 5
+    - 9
+  - index: 4
+    name: Bip01 Head
+    parent: 3
+    flags: 1
+    children: []
+  - index: 5
+    name: Bip01 L UpperArm
+    parent: 3
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Bip01 L Forearm
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Bip01 L Hand
+    parent: 6
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: LHand1
+    parent: 7
+    flags: 1
+    children: []
+  - index: 9
+    name: Bip01 R UpperArm
+    parent: 3
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bip01 R Forearm
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bip01 R Hand
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: RHand1
+    parent: 11
+    flags: 1
+    children: []
+  - index: 13
+    name: Bip01 L Thigh
+    parent: 1
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: Bip01 L Calf
+    parent: 13
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 L Foot
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bip01 L Toe0
+    parent: 15
+    flags: 1
+    children: []
+  - index: 17
+    name: Bip01 R Thigh
+    parent: 1
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Bip01 R Calf
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bip01 R Foot
+    parent: 18
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Bip01 R Toe0
+    parent: 19
+    flags: 1
+    children: []
+sockets:
+- name: RHand1
+  node: 12
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.12427494674921036
+  - 0.18153132498264313
+  - -0.18110577762126923
+  - 0.958541989326477
+- name: arrow1
+  node: 6
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.08612009137868881
+  - 0.13889621198177338
+  - 0.5198735594749451
+  - 0.8384644389152527
+- name: arrow2
+  node: 18
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.3722592294216156
+  - 0.6000349521636963
+  - -0.37328892946243286
+  - 0.601694643497467
+- name: arrow3
+  node: 2
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.4734326899051666
+  - 0.47344017028808594
+  - 0.5252177715301514
+  - 0.5252258777618408
+- name: RangeAttack
+  node: 12
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.12427506595849991
+  - 0.18153142929077148
+  - -0.1811061054468155
+  - 0.9585419297218323
+animations:
+- name: static_model1
+  durationMs: 1
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Stand
+  durationMs: 1300
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: ShowWeapon
+- name: Aware
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Fidget1
+  durationMs: 2500
+  keyframes: 12
+  interpolationTimeMs: 200
+  events: []
+- name: Fidget2
+  durationMs: 2500
+  keyframes: 12
+  interpolationTimeMs: 200
+  events: []
+- name: Walk
+  durationMs: 1050
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 393
+    event: footstep 1
+  - timeMs: 918
+    event: footstep 2
+- name: Run
+  durationMs: 650
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 317
+    event: footstep 1
+  - timeMs: 634
+    event: footstep 2
+- name: Search
+  durationMs: 2700
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: Taunt
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 333
+    event: speakanimsound
+- name: Rattack1
+  durationMs: 1500
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound; ShowWeapon
+  - timeMs: 333
+    event: attacksound
+  - timeMs: 500
+    event: Rangeattack; HideWeapon
+  - timeMs: 1500
+    event: ShowWeapon
+- name: WAttack1
+  durationMs: 1500
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 333
+    event: lunge; playanimsound
+  - timeMs: 500
+    event: Rattack
+- name: WAttack2
+  durationMs: 1400
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+  - timeMs: 311
+    event: lunge; playanimsound
+  - timeMs: 467
+    event: Rattack
+- name: HAttack1
+  durationMs: 975
+  keyframes: 8
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 163
+    event: lunge; playanimsound
+  - timeMs: 228
+    event: playsoundFX
+  - timeMs: 326
+    event: 'rattack; '
+- name: Wince1
+  durationMs: 1400
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Wince2
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Die1
+  durationMs: 1800
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound; Velocity  0 0  1
+  - timeMs: 199
+    event: Velocity  0 0 -11
+  - timeMs: 400
+    event: Velocity  0 0 -2
+  - timeMs: 600
+    event: Velocity -4 0  78
+  - timeMs: 799
+    event: Velocity -4 0  36
+  - timeMs: 1000
+    event: Velocity  0 0  17
+  - timeMs: 1200
+    event: Velocity  0 0  6; playdeathsound
+  - timeMs: 1399
+    event: Velocity  0 0  8
+  - timeMs: 1600
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: Die2
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound; Velocity  3 0  1
+  - timeMs: 166
+    event: Velocity  4 0 -40
+  - timeMs: 333
+    event: Velocity  1 0 -60
+  - timeMs: 500
+    event: Velocity  0 0 -17
+  - timeMs: 666
+    event: Velocity  7 0 -17
+  - timeMs: 833
+    event: Velocity  1 0 -15; playdeathsound
+  - timeMs: 1000
+    event: Velocity  0 0 -11
+  - timeMs: 1166
+    event: Velocity  0 0 -10
+  - timeMs: 1333
+    event: Velocity 0 0 0; DeadDims 1 0 1
+animationBindings:
+- name: static_model1
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Stand
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Aware
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Fidget1
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Fidget2
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Walk
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Run
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Search
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Taunt
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Rattack1
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: WAttack1
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: WAttack2
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: HAttack1
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Wince1
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Wince2
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Die1
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Die2
+  extents:
+  - 35.84
+  - 61.44
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- actor_model
+source_model: models/dwarf.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: dwarf_dwarf
+  source_skins:
+  - skins/dwarf.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 118
+    number: '120'
+    monster_name: Dwarven Guard
+    type_picture: Dwarf A
+    base_name: Dwarf
+  - table: ACTOR
+    row: 119
+    number: '121'
+    monster_name: Dwarven Soldier
+    type_picture: Dwarf B
+    base_name: Dwarf
+  - table: ACTOR
+    row: 120
+    number: '122'
+    monster_name: Dwarven Commander
+    type_picture: Dwarf C
+    base_name: Dwarf
+  - table: MONSTERS
+    row: 118
+    number: '120'
+    monster_name: Dwarven Guard
+    type_picture: Dwarf A
+    base_name: Dwarf
+  - table: MONSTERS
+    row: 119
+    number: '121'
+    monster_name: Dwarven Soldier
+    type_picture: Dwarf B
+    base_name: Dwarf
+  - table: MONSTERS
+    row: 120
+    number: '122'
+    monster_name: Dwarven Commander
+    type_picture: Dwarf C
+    base_name: Dwarf

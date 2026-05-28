@@ -1,0 +1,1134 @@
+format_version: 1
+source_file: NPC142.rude
+rows:
+  - source:
+      file: NPC142.rude
+      row: 1
+    raw_columns:
+      - 142
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC142.rude
+      row: 2
+    raw_columns:
+      - 142
+      - 11
+      - 1
+      - Thanks.
+      - If all goes well, I should be thanking you.  He's our strongest warrior, and we've been very vulnerable since he went crazy.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 11
+      choice_slot: 1
+      prompt: Thanks.
+      response: If all goes well, I should be thanking you.  He's our strongest warrior, and we've been very vulnerable since he went crazy.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC142.rude
+      row: 3
+    raw_columns:
+      - 142
+      - 10
+      - 1
+      - Thank you.
+      - Don't thank me yet, we're still not sure it will work.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 10
+      choice_slot: 1
+      prompt: Thank you.
+      response: Don't thank me yet, we're still not sure it will work.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC142.rude
+      row: 4
+    raw_columns:
+      - 142
+      - 1
+      - 1
+      - Do you have any news?
+      - That poor man in the pillory.  He's gone crazy, and there's nothing I can do to heal him.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: That poor man in the pillory.  He's gone crazy, and there's nothing I can do to heal him.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC142.rude
+      row: 5
+    raw_columns:
+      - 142
+      - 3
+      - 1
+      - It will be done.  Where can we find the Old Hag?
+      - I hear she lives in a cave somewhere along the beach.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 478
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 3
+      choice_slot: 1
+      prompt: It will be done.  Where can we find the Old Hag?
+      response: I hear she lives in a cave somewhere along the beach.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 478
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 478
+        status: raw_value_preserved
+  - source:
+      file: NPC142.rude
+      row: 6
+    raw_columns:
+      - 142
+      - 2
+      - 1
+      - We need a way to cure him. Tjolnir told us you might help.
+      - I could have made a potion to cure him already, but I need a lock from the Old Hag's head.  If you can bring me that, I will give you the potion for free.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 2
+      choice_slot: 1
+      prompt: We need a way to cure him. Tjolnir told us you might help.
+      response: I could have made a potion to cure him already, but I need a lock from the Old Hag's head.  If you can bring me that, I will give you the potion for free.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC142.rude
+      row: 7
+    raw_columns:
+      - 142
+      - 142
+      - 1
+      - We've come to speak to you about Nutty Nurtigan.
+      - Ah yes, the crazy old soldier in the Idiot's Box.  What about him?
+      - 2
+      - 206
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 207
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 142
+      choice_slot: 1
+      prompt: We've come to speak to you about Nutty Nurtigan.
+      response: Ah yes, the crazy old soldier in the Idiot's Box.  What about him?
+      next: 2
+      raw_fields:
+        c07: 206
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 207
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 206
+            qbit_id: 9206
+            state_id: mm9.keys.206
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 206
+          qbit_id: 9206
+          state_id: mm9.keys.206
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 207
+        status: raw_value_preserved
+  - source:
+      file: NPC142.rude
+      row: 8
+    raw_columns:
+      - 142
+      - 1
+      - 2
+      - What do you know about potions?
+      - You want to stay alive?  Get yourself a bunch of them.  They'll come in handy more often than you think!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about potions?
+      response: You want to stay alive?  Get yourself a bunch of them.  They'll come in handy more often than you think!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC142.rude
+      row: 9
+    raw_columns:
+      - 142
+      - 142
+      - 2
+      - We would like to see your wares.
+      - Of course!
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 142
+      choice_slot: 2
+      prompt: We would like to see your wares.
+      response: Of course!
+      next: -2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5017
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -2
+        service: shop
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -2
+        service: shop
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5017
+        status: raw_value_preserved
+  - source:
+      file: NPC142.rude
+      row: 10
+    raw_columns:
+      - 142
+      - 142
+      - 3
+      - We would like to see your wares.
+      - Sorry, we're closed.
+      - 999
+      - 5017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 142
+      choice_slot: 3
+      prompt: We would like to see your wares.
+      response: Sorry, we're closed.
+      next: 999
+      raw_fields:
+        c07: 5017
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5017
+            qbit_id: 14017
+            state_id: mm9.keys.5017
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5017
+          qbit_id: 14017
+          state_id: mm9.keys.5017
+  - source:
+      file: NPC142.rude
+      row: 11
+    raw_columns:
+      - 142
+      - 142
+      - 6
+      - We've got a lock of the hag's hair.
+      - Ah, so you did.  Come back in two hours, and I'll have the potion for you.
+      - 10
+      - 207
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 208
+      - 0
+      - 0
+      - 0
+      - 0
+      - 208
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 142
+      choice_slot: 6
+      prompt: We've got a lock of the hag's hair.
+      response: Ah, so you did.  Come back in two hours, and I'll have the potion for you.
+      next: 10
+      raw_fields:
+        c07: 207
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 208
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 208
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 207
+            qbit_id: 9207
+            state_id: mm9.keys.207
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 207
+          qbit_id: 9207
+          state_id: mm9.keys.207
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 208
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 208
+        status: raw_value_preserved
+  - source:
+      file: NPC142.rude
+      row: 12
+    raw_columns:
+      - 142
+      - 142
+      - 7
+      - We've returned for the potion.
+      - Yes, here it is.  Just go use it on Nutty Nurtigan, and he should be good as new!
+      - 11
+      - 209
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 210
+      - 0
+      - 0
+      - 0
+      - 0
+      - 210
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 142
+      choice_slot: 7
+      prompt: We've returned for the potion.
+      response: Yes, here it is.  Just go use it on Nutty Nurtigan, and he should be good as new!
+      next: 11
+      raw_fields:
+        c07: 209
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 210
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 210
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 209
+            qbit_id: 9209
+            state_id: mm9.keys.209
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 209
+          qbit_id: 9209
+          state_id: mm9.keys.209
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 210
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 210
+        status: raw_value_preserved
+  - source:
+      file: NPC142.rude
+      row: 13
+    raw_columns:
+      - 142
+      - 1
+      - 7
+      - Thanks for your time.
+      - Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC142.rude
+      row: 14
+    raw_columns:
+      - 142
+      - 142
+      - 8
+      - We'd like to ask you some questions.
+      - Certainly!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 142
+      choice_slot: 8
+      prompt: We'd like to ask you some questions.
+      response: Certainly!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC142.rude
+      row: 15
+    raw_columns:
+      - 142
+      - 142
+      - 9
+      - Thanks for your time.
+      - Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 142
+      node_id: 142
+      choice_slot: 9
+      prompt: Thanks for your time.
+      response: Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

@@ -1,0 +1,148 @@
+;--------------------------------------------------
+;NPC109.scr
+; timmy
+; handles Alfrigg's speech
+;--------------------------------------------------
+
+#include globals.inc
+#include basemelee.inc
+
+#string			Sound
+#number			nKey
+
+#number			bTargetDead
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:OnStop
+;--------------------------------------------------
+stop
+Loopanim stand 0 DoNothing
+exit
+
+;--------------------------------------------------
+:OnSpeak2
+;--------------------------------------------------
+
+if (bTargetDead==TRUE)
+	exit
+endif
+SetPropNumber DoRude False
+Loopanim conv1 0 DoNothing
+Playsound voices\cinema\dwarvesandhumans\02.wav, DoNothing, 100, 2400, FALSE, 100
+wait 1 7.3, Trigger3
+exit
+
+
+;--------------------------------------------------
+:Trigger3
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Hrolf g_hobject
+trigger g_hobject Speak3
+exit
+
+
+;--------------------------------------------------
+:OnSpeak4
+;--------------------------------------------------
+
+if (bTargetDead==TRUE)
+	exit
+endif
+Loopanim conv1 0 DoNothing
+Playsound voices\cinema\dwarvesandhumans\04c.wav, DoNothing, 100, 2400, FALSE, 100
+wait 1 3.2, Trigger5
+exit
+
+
+;--------------------------------------------------
+:Trigger5
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Hrolf g_hobject
+trigger g_hobject Speak5
+exit
+
+
+
+;--------------------------------------------------
+:OnSpeak6
+;--------------------------------------------------
+if (bTargetDead==TRUE)
+	exit
+endif
+Loopanim conv1 0 DoNothing
+Playsound voices\cinema\dwarvesandhumans\06.wav, DoNothing, 100, 2400, FALSE, 100
+wait 1 1, Trigger7
+exit
+
+
+;--------------------------------------------------
+:Trigger7
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Hrolf g_hobject
+trigger g_hobject Speak7
+exit
+
+
+;--------------------------------------------------
+:OnFight
+;--------------------------------------------------
+
+getobjecthandle Hrolf g_hobject
+target g_hobject
+addenemy commonerhuman2maleB
+gosub baseinit
+exit
+
+;-------------------------------------
+:OnTargetDead
+;-------------------------------------
+SetPropNumber DoRude True
+removeEnemy commonerhuman2maleB
+set bTargetDead, True
+exitscript
+
+Exit TRUE
+
+
+;--------------------------------------------------
+:OnTarget
+;--------------------------------------------------
+
+getparam 0 g_hTarget
+target g_htarget
+exit
+
+;-------------------------------------
+:OnLost
+;-------------------------------------
+
+Exit TRUE
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+OnLosttarget ONLost
+
+Addtrigger Speak2 OnSpeak2
+AddTrigger Speak4 OnSpeak4
+Addtrigger Speak6 OnSpeak6
+AddTrigger Fight OnFight
+Addtrigger Target OnTarget
+
+exit
+

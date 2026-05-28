@@ -1,0 +1,637 @@
+;----------------------------------------------
+;Arena.scr
+; By Timmy
+; gives the player the key for killing 5 monsters in arena
+; 11/29/01
+;----------------------------------------------
+
+#include globals.inc
+#include Pickmon.inc
+#include nogold.inc
+
+#number							nMonsterA_Level
+#number							nMonsterB_Level
+
+#number							nPlayerLevel
+#number							nNumberMonsters
+#number							nBetAmount
+#number							nLord=False
+
+#string							sMonsterA
+#string							SMiniMonsterA
+#string							sMonsterB
+#string							SMiniMonsterB
+
+#string							sBetOn
+
+#hobject						hMonsterA
+#hobject						hMonsterB
+
+#number							XPos
+#number							YPos
+#number							ZPos
+
+#number							nMinLevel = 1
+#number							nMaxLevel = 89
+
+#number							nMin2
+#number							nMax2
+
+#number							nDeadCounter = 0
+
+#string							SCRIPT = " ScriptName ArenaCreature.scr"
+
+
+#hobject hWinner
+#hobject hMonster
+
+;-------------------------------------
+:OnRude
+;-------------------------------------
+
+nDeadCounter = 0
+
+haskey 231 g_hobject
+if (g_hobject==FALSE)
+	haskey 230 g_ntemp
+	if (g_ntemp==TRUE)
+		gosub Reset
+		exit
+	endif
+endif
+
+haskey 1018 g_ntemp
+if (g_ntemp==TRUE)
+	Gosub GiveWin
+	exit
+endif
+
+haskey 1009 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+
+haskey 1011 g_ntemp
+if (g_ntemp==TRUE)
+	haskey 1020 g_ntemp
+	if (g_ntemp==TRUE)
+		Gosub FightWin
+		exit
+	endif	
+	exit
+endif
+
+haskey 1010 g_ntemp
+if (g_ntemp==TRUE)
+	Gosub OnWatch
+	exit
+endif
+
+haskey 1017 g_ntemp
+if (g_ntemp==TRUE)
+	Gosub OnBet
+	exit
+endif
+
+
+
+gosub fightcheck
+exit
+
+;-------------------------------------
+:FightCheck
+;-------------------------------------
+
+
+haskey 1004 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle ArenaFight g_hobject
+	trigger g_hobject Page
+	gosub UnLockDoors
+	exit
+endif
+
+haskey 1005 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle ArenaFight g_hobject
+	trigger g_hobject Squire
+	gosub UnLockDoors
+	exit
+endif
+
+haskey 1006 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle ArenaFight g_hobject
+	trigger g_hobject Knight
+	gosub UnLockDoors
+	exit
+endif
+
+
+haskey 1007 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle ArenaFight g_hobject
+	trigger g_hobject Lord
+	gosub UnLockDoors
+	exit
+endif
+
+exit
+
+
+
+;-------------------------------------
+:OnWatch
+;-------------------------------------
+
+set SCRIPT " ScriptName ArenaCreature.scr"
+
+removeobject hMonsterA
+sMonsterA = sMonsterA + Script
+getobjecthandle marker0 g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn hMonsterA Xpos YPos ZPos sMonsterA
+
+set SCRIPT " ScriptName ArenaCreature.scr;ScriptParams WinMonsterB"
+
+removeobject hMonsterB
+sMonsterB = sMonsterB + Script
+getobjecthandle marker1 g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn hMonsterB Xpos YPos ZPos sMonsterB
+
+;getobjecthandle RotatingDoor3 g_hobject
+;trigger g_hobject use
+
+;;getobjecthandle RotatingDoor4 g_hobject
+;;trigger g_hobject use
+
+gosub LockDoors
+
+Playsound sounds\Events\Cheer.wav, DoNothing, 100, 2400, FALSE, 100
+
+exit
+
+
+;-------------------------------------
+:pick
+;-------------------------------------
+
+#number	mon1
+#number	mon2
+
+getrandomint nMinLevel, nMaxLevel mon1
+g_nTemp = mon1
+gosub PickMonster
+sMonsterA = sMonster_Temp
+nMonsterA_Level = nMonster_Level
+
+nMin2 = mon1 - 4
+
+if ( nMin2 < nMinLevel )
+	nMin2	= nMinLevel
+endif
+
+nMax2	= nMin2 + 8
+
+if ( nMax2 > nMaxLevel )
+	nMax2	= nMaxLevel
+	nMin2	= nMax2 - 8
+endif
+
+getrandomint nMin2, nMax2, mon2
+;
+; don't want same monster
+;
+if ( mon2==mon1 )
+	mon2 = mon1 - 1
+	if ( mon2<nMinLevel )
+		mon2 = mon1 + 1
+	endif
+endif
+g_ntemp = mon2
+gosub PickMonster
+SMonsterB = sMonster_Temp
+nMonsterB_Level = nMonster_Level
+;cprint sMonsterA
+;cprint vs
+;cprint sMonsterB
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+if (g_nCounter==3)
+	givekey 1009 
+	exit
+endif
+add g_nCounter, 1
+
+Gosub pick
+
+set Script " ScriptName ArenaMini.scr;Scale .30;ScriptParams MonsterA"
+
+sMiniMonsterA = sMonsterA + Script
+getobjecthandle marker3 g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn2 hMonsterA Xpos YPos ZPos 1 0 0 sMiniMonsterA
+
+
+set Script " ScriptName ArenaMini.scr;Scale .30;ScriptParams MonsterB"
+
+sMiniMonsterB = sMonsterB + Script
+getobjecthandle marker4 g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn2 hMonsterB Xpos YPos ZPos 1 0 0 sMiniMonsterB
+
+exit
+
+#number		bMonAThere
+#number		bMonBThere
+
+;-------------------------------------
+:OnArrive
+;-------------------------------------
+
+getparam 0 g_hobject
+
+if ( g_hObject==hMonsterA )
+	bMonAThere = TRUE
+
+	if ( bMonBThere==FALSE )
+		exit
+	endif
+
+endif
+
+if ( g_hObject==hMonsterB )
+	bMonBThere = TRUE
+	if ( bMonAThere==FALSE )
+		exit
+	endif
+endif
+
+trigger hMonsterA HateAll
+trigger hMonsterB HateAll
+
+exit
+
+
+
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+exit
+haskey 217 g_ntemp
+if (g_ntemp==0, )
+	Haskey 214 g_ntemp
+	if (g_ntemp==1, )
+		givekey 217
+		Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+		exit
+	endif
+endif
+exit
+
+
+
+
+;-------------------------------------
+:OnMonsterA
+;-------------------------------------
+
+set sBetOn MonsterA
+g_ntemp = nMonsterB_Level - nMonsterA_Level
+if (g_ntemp<0)
+	nBetAmount = nBetAmount * 1.5
+	exit
+endif
+
+if (g_ntemp>5)
+	nBetAmount = nBetAmount * 2
+	exit
+endif
+
+if (g_ntemp>10)
+	nBetAmount = nBetAmount * 3
+	exit
+endif
+
+if (g_ntemp>15)
+	nBetAmount = nBetAmount * 4
+	exit
+endif
+exit
+
+
+;-------------------------------------
+:OnMonsterB
+;-------------------------------------
+
+set sBetOn MonsterB
+g_ntemp = nMonsterA_Level - nMonsterB_Level
+if (g_ntemp<0)
+	nBetAmount = nBetAmount * 1.5
+	exit
+endif
+
+if (g_ntemp>5)
+	nBetAmount = nBetAmount * 2
+	exit
+endif
+
+if (g_ntemp>10)
+	nBetAmount = nBetAmount * 3
+	exit
+endif
+
+if (g_ntemp>15)
+	nBetAmount = nBetAmount * 4
+	exit
+endif
+exit
+
+;-------------------------------------
+:OnMonsterAWin
+;-------------------------------------
+
+if (sBetOn==MonsterA)
+	Givekey 1018
+	RolloverText 6, 0
+else
+	RolloverText 7, 0
+	exit
+endif
+exit
+
+;-------------------------------------
+:OnMonsterBWin
+;-------------------------------------
+
+if (sBetOn==MonsterB)
+	Givekey 1018
+	RolloverText 6, 0
+else
+	RolloverText 7, 0
+	exit
+endif
+exit
+
+;-------------------------------------
+:FightWin
+;-------------------------------------
+if (nLord==TRUE)
+	givekey 217
+	exit
+endif
+givekey 1009
+takekey 1020
+GetConsoleNumVar nWinAmount nBetAmount
+givegold nBetAmount
+exit
+
+;-------------------------------------
+:Givewin
+;-------------------------------------
+
+takekey 1018
+takekey 1019
+gosub Reset
+givegold nBetAmount
+debugout nBetAmount
+exit
+
+;-------------------------------------
+:LockDoors
+;-------------------------------------
+getobjecthandle RotatingDoor0 g_hobject
+trigger g_hobject close
+trigger g_hobject lock
+
+getobjecthandle RotatingDoor1 g_hobject
+trigger g_hobject close
+trigger g_hobject lock
+
+Exit
+
+;-------------------------------------
+:UnLockDoors
+;-------------------------------------
+getobjecthandle RotatingDoor0 g_hobject
+trigger g_hobject unlock
+
+getobjecthandle RotatingDoor1 g_hobject
+trigger g_hobject unlock
+exit
+
+:OnBet
+;	traceON
+	gosub OnBet2
+;	traceOFF
+
+;-------------------------------------
+:OnBet2
+;-------------------------------------
+
+gosub LockDoors
+
+haskey 1012 g_ntemp
+if (g_ntemp==TRUE)
+	hasgold 50 g_ntemp
+	if (g_ntemp==FALSE)
+		gosub NoGold
+		gosub Reset
+		exit
+	else
+		takekey 1012
+		takegold 50
+		set nBetAmount 50
+	endif
+	exit
+endif
+
+haskey 1013 g_ntemp
+if (g_ntemp==TRUE)
+	hasgold 100 g_ntemp
+	if (g_ntemp==FALSE)
+		gosub NoGold
+		gosub Reset
+		exit
+	else
+		takekey 1013
+		takegold 100
+		set nBetAmount 100
+	endif
+	exit
+endif
+
+haskey 1014 g_ntemp
+if (g_ntemp==TRUE)
+	hasgold 250 g_ntemp
+	if (g_ntemp==FALSE)
+		gosub NoGold
+		gosub Reset
+		exit
+	else
+		takekey 1014
+		takegold 250
+		set nBetAmount 250
+	endif
+	exit
+endif
+
+haskey 1015 g_ntemp
+if (g_ntemp==TRUE)
+	hasgold 500 g_ntemp
+	if (g_ntemp==FALSE)
+		gosub NoGold
+		gosub Reset
+		exit
+	else
+		takekey 1015
+		takegold 500
+		set nBetAmount 500
+	endif
+	exit
+endif
+
+haskey 1016 g_ntemp
+if (g_ntemp==TRUE)
+	hasgold 1000 g_ntemp
+	if (g_ntemp==FALSE)
+		gosub NoGold
+		gosub Reset
+		exit
+	else
+		takekey 1016
+		takegold 1000
+		set nBetAmount 1000
+	endif
+	exit
+endif
+exit
+
+;-------------------------------------
+:OnLord
+;-------------------------------------
+
+haskey 214 g_ntemp
+if (g_ntemp==TRUE)
+	set nLord TRUE
+	exit
+endif
+exit
+
+;-------------------------------------
+:Reset
+;-------------------------------------
+
+takekey 1004
+takekey 1005
+takekey 1006
+takekey 1007
+takekey 1008
+takekey 1010
+takekey 1011
+takekey 1012
+takekey 1013
+takekey 1014
+takekey 1015
+takekey 1016
+takekey 1017
+takekey 1018
+takekey 1019
+
+exit
+
+
+;-------------------------------------
+:BeVictorious
+;-------------------------------------
+
+	Takekey 1010
+	Trigger hWinner,RunScript ArenaVictory.scr
+
+	Exit
+	
+;-------------------------------------
+:OnMonsterDead
+;
+;	Find out who this is, and trigger
+;	the opposite one..
+;-------------------------------------
+
+; in case both of them die...
+
+nDeadCounter = nDeadCounter + 1
+
+if (nDeadCounter==2)
+	Gosub Reset
+	gosub Init
+	gosub UnLockDoors
+	exit
+endif
+
+
+	takekey 1019
+
+#number bHasKey
+	haskey 1017 bHasKey
+
+	GetParam 0,hMonster
+	if ( hMonster==hMonsterA )
+;		cprint MonsterB won!
+		hWinner	= hMonsterB
+		if ( bHasKey==1 )
+			gosub OnMonsterBWin
+		endif
+	else
+;		cprint MonsterA won!
+		hWinner = hMonsterA
+		if ( bHasKey==1 )
+			gosub OnMonsterAWin
+		endif
+	endif
+
+	Wait 20,1,BeVictorious
+
+	Exit
+
+
+;-------------------------------------
+:OnPostStartWorld
+;-------------------------------------
+	gosub Init
+
+	Exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+
+;TraceOn ;DELETE ME!!
+takekey 1009
+gosub reset
+;AddTrigger Use, Onuse
+AddTrigger Arrive OnArrive
+AddTrigger Pick Init
+AddTrigger MonsterA OnMonsterA
+AddTrigger MonsterB OnMonsterB
+AddTrigger WinMonsterA OnMonsterAWin
+AddTrigger WinMonsterB OnMonsterBWin
+AddTrigger Fight OnWatch
+AddTrigger Lord OnLord
+AddTrigger IDied, OnMonsterDead
+OnRudeExit OnRude
+gosub voiceinit
+
+OnPostStartWorld OnPostStartWorld
+
+
+exit
+

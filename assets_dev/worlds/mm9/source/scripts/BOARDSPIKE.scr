@@ -1,0 +1,59 @@
+;----------------------------------------------
+; BoardSpike.scr
+; By Karl
+; When spike is used it disappears. 
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#hobject	hSpike = 0
+#hobject	hBoardDoor = 0
+
+#string		sDoor
+
+#number		nVar = 0
+
+
+;-------------------------------------
+:RemoveMe
+;-------------------------------------
+
+	RemoveObject hSpike
+
+	Exit TRUE
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+	playsound Sounds\Events\metalwood04.wav DoNothing 100 200 FALSE 100
+
+
+	Trigger hBoardDoor OnePulled
+
+
+	GetMyHandle hSpike
+	Wait 0 .1 RemoveMe
+
+
+	
+	Exit  1
+
+;-------------------------------------
+:main2
+;-------------------------------------
+	
+	GetObjectHandle sDoor, hBoardDoor
+
+	Exit 1
+
+
+;-------------------------------------
+:main
+;-------------------------------------
+	GetParam 0, sDoor
+	AddTrigger Use, OnUse
+	Wait 0 .1 main2
+
+	Exit

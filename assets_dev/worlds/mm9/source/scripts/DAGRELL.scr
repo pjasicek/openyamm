@@ -1,0 +1,33 @@
+;------------------------------------------
+;	dagrell.scr
+;	Jeff Leggett
+;	
+;
+;	For now, just a simple crawRange
+;
+;	If time permits, I'll make him more 
+;	interesting....
+;------------------------------------------
+
+#include basemelee.inc
+
+
+;------------------------------------------
+:SpeedThrottleStart
+;
+;	Don't speed throttle the Dagrell
+;	Looks funny....
+;
+;------------------------------------------
+	exit
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+
+
+	gosub BaseInit
+
+	Exit		

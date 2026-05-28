@@ -1,0 +1,302 @@
+;-------------------------------------
+;	MonkGuardBasic.scr
+;	by SJR
+;	Purpose:standard monk, but with
+;			checking for acts of
+;			aggression
+;
+;	Params:
+;		p0 = type (-1,0,1,2,3,4)->(chat,pray,hoe,broom,hammer,wash)
+;		p1 = rude id
+;		p3 = name of pray or work place
+;-------------------------------------
+#include MonkHostility.inc
+#include MonkSounds.inc
+
+#number		MONK_TYPE = 0
+#number		MONK_RUDE = 0
+#string		MONK_PLACE = 0
+#hobject	hPlace = 0
+#hobject	hMe = 0
+
+#number		xMe = 0
+#number		yMe = 0
+#number		zMe = 0
+
+#hobject	hProp = 0
+#string		sPrayName = "pray"
+#string		sAnimName = "stand"
+#string		sPauseName = "stand"
+#string		Fidget_Name = "fidget1"
+
+#hobject	hSpeaker = 0
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	GetParam 0, MONK_TYPE
+	GetParam 1, MONK_RUDE
+	if( MONK_TYPE>=0 )
+		GetParam 2, MONK_PLACE
+	endif
+
+	OnPostStartWorld InitMonkGuardBasic
+	OnPostMiniSaveLoad InitMonkGuardBasic
+
+	AddTrigger use, OnRudeEnter
+	OnRudeExit OnRudeExit
+
+	Exit TRUE
+
+;-------------------------------------
+:InitMonkGuardBasic
+;-------------------------------------
+	gosub MS_Init
+
+	if( MONK_TYPE<0 )
+	else
+		GetMyHandle hMe
+		GetPOS hMe, xMe,yMe,zMe
+		GetObjectHandle MONK_PLACE, hPlace
+		;;only wander if not hammer or cloth
+		if( MONK_TYPE==0 )
+			AddTrigger gotopray, StartPrayer
+		endif
+		if( MONK_TYPE<3 )
+			gosub BaseWanderInit
+			gosub BaseWanderStartup
+		endif
+		;;only attach if not pray or chat
+		if( MONK_TYPE>0 )
+			gosub AttachTool
+			if( MONK_TYPE>2 )
+				FaceObject hPlace, 360, StartWork
+			endif
+		endif
+	endif
+
+	gosub InitMonkHostility
+
+	Exit TRUE
+
+;-------------------------------------
+:StartPrayer
+;-------------------------------------
+	if( hPlace!=0 )
+		WalkTo hPlace, 100, Pray
+	endif
+
+	Exit TRUE
+
+;-------------------------------------
+:Pray
+;-------------------------------------
+	LoopAnim sPrayName, 0
+
+	Wait 0, 30, StopPrayer
+
+	Exit TRUE
+
+;-------------------------------------
+:StopPrayer
+;-------------------------------------
+	WalkToPOS xMe,yMe,zMe, 10, DoNothing
+
+	Exit TRUE
+
+;-------------------------------------
+:StartWork
+;-------------------------------------
+	LoopAnim sAnimName, 0
+
+	Exit TRUE
+
+;-------------------------------------
+:StopWork
+;-------------------------------------
+	LoopAnim sPauseName, 0
+
+	Exit TRUE
+
+;-------------------------------------
+:AttachTool
+;-------------------------------------
+	if( MONK_TYPE==1 )
+		AttachProp "MonkHoe.ABC", "MonkHoe.DTX", "Hoe", hProp
+		sAnimName = "hoe"
+		sPauseName = "hoewait"
+		Fidget_Name = "HoeFidget"
+	else
+	if( MONK_TYPE==2 )
+		AttachProp "MonkBroom.ABC", "MonkBroom.DTX", "Broom", hProp
+		sAnimName = "sweep"
+		sPauseName = "sweepwait"
+		Fidget_Name = "SweepFidget"
+	else
+	if( MONK_TYPE==3 )
+		AttachProp "MonkHammer.ABC", "MonkHammer.DTX", "Hammer", hProp
+		sAnimName = "hammer"
+		sPauseName = "hammerwait"
+		Fidget_Name = "HammerFidget"
+	else
+	if( MONK_TYPE==4 )
+		AttachProp "MonkCloth.ABC", "MonkCloth.DTX", "Cloth", hProp
+		sAnimName = "wash"
+		sPauseName = "washwait"
+		Fidget_Name = "WashFidget"
+	endif
+	endif
+	endif
+	endif
+
+	Exit TRUE
+
+;-------------------------------------
+:OnRudeEnter
+;-------------------------------------
+	GetParam 0, hSpeaker
+
+	if( MONK_TYPE<0 )
+		FaceObject hSpeaker, 360, DoNothing
+	else
+		if( MONK_TYPE==0 )
+			FaceObject hSpeaker, 360, BaseWanderStop
+		else
+		;;;;TL    loopAnim stand, 0
+			PlayAnim Fidget_Name, FidgetStand
+		;;;;TL
+			FaceObject hSpeaker, 360, DoNothing
+		endif
+	endif
+
+	PauseWait -1
+
+	DoRude MONK_RUDE
+
+	Exit TRUE
+
+
+;--------------------------------------------------
+:FidgetStand
+;
+;--------------------------------------------------
+	
+	LoopAnim sPauseName 0 Donothing
+
+	exit TRUE
+
+
+;-------------------------------------
+:OnRudeExit
+;-------------------------------------
+
+ResumeWait -1
+
+	if( MONK_TYPE<0 )
+	else
+		if( MONK_TYPE<3 )
+			gosub BaseWanderStart
+		else
+			if( hPlace!=0 )
+				FaceObject hPlace, 360, StartWork
+			endif
+		endif
+	endif
+
+	Exit TRUE
+
+;-------------------------------------
+:BaseWanderStopTick
+;-------------------------------------
+	;;only do special wander if broom or hoe
+	if( MONK_TYPE==1 )
+		LoopAnim sAnimName, 0, DoNothing
+		gosub Basewanderstart, 1 ; <--------TL
+	else
+		if( MONK_TYPE==2 )
+			LoopAnim sAnimName, 0, DoNothing
+			gosub Basewanderstart, 1 ; <--------TL
+		else
+			gosub BaseWanderStopTick, 1
+		endif
+	endif
+
+	Exit TRUE
+
+
+
+;-------------------------------------
+:BaseWanderStart
+;; TL 
+; Loop sPauseName in case
+; we take a bit to start wandering
+;-------------------------------------
+
+	LoopAnim sPauseName 0 Donothing
+
+	Gosub BaseWanderStart, 1
+
+	Exit
+
+;--------------------------------------------------
+:BaseWanderObstacle
+;--------------------------------------------------
+	if ( hCurrentMarker!=NULL )
+		Exit FALSE
+	endif
+
+	GetRandomInt 0, 100, g_nRandom
+
+	GetParam 0, g_hObject
+	IsClass g_hObject,Actor, g_bTemp
+
+	if ( g_bTemp==TRUE )
+		if ( g_nRandom < 90 )
+			Exit FALSE
+		endif	
+	else
+		if ( g_nRandom < 70 )
+			Exit FALSE
+		endif	
+	endif
+
+	GetParam 1, normalX
+	GetParam 2, normalY
+	GetParam 3, normalZ
+
+	gosub BaseWanderPause
+	Stop
+	LoopAnim sAnimName, 0 Donothing
+	Wait WANDER_LEASH_WAIT, 0, DoNothing
+	bObstacle = TRUE
+	gosub BaseWanderResume
+
+	GetParam 0, g_hObject
+	IsClass g_hObject,Actor, g_bTemp
+	if ( g_bTemp==FALSE )
+		FaceDir normalX, 0, normalZ, 360
+	Endif
+
+	
+	Exit TRUE
+
+;--------------------------------------------------
+:BecomeHostile
+;	detach tool before attacking
+;--------------------------------------------------
+	gosub SafeDetach
+	gosub BecomeHostile, 1
+
+	Exit TRUE
+
+;--------------------------------------------------
+:SafeDetach
+;	safe = no crash
+;--------------------------------------------------
+	if( hProp!=0 )
+		DetachProp hProp, FALSE
+		RemoveObject hProp
+		hProp = NULL
+	endif
+
+	Exit TRUE

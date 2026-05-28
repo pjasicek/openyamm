@@ -1,0 +1,12 @@
+;	startuptest.scr
+;
+;	Set's up console variables for startup..
+;
+
+
+:Main
+;;        ConsoleCommand ShowFrameRate 1
+        ConsoleCommand NumConsoleLines 1
+	ExitScript
+
+	Exit

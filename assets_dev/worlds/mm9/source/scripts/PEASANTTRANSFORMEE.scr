@@ -1,0 +1,77 @@
+;---------------------------------
+;	PeasantTransformee.scr
+;	by SJR
+;	11-01-01
+;	Purpose:convert creature into
+;			other creature the painful
+;			way. Will be normal or will
+;			be player's buddy
+;---------------------------------
+#include BaseGlobals.inc
+
+#hobject	hSpawner = 0
+#hobject	hMe = 0
+
+#number		x = 0
+#number		y = 0
+#number		z = 0
+#number		t = 0
+
+;---------------------------------
+:Main
+;---------------------------------
+	Wait 0, .1, InitPeasantTransformee
+
+	Exit TRUE
+
+;---------------------------------
+:InitPeasantTransformee
+;---------------------------------
+	GetMyHandle hMe
+	AddTrigger walk, WalkToSpawner
+	OnStuck OnStuck
+
+	Exit TRUE
+
+;---------------------------------
+:WalkToSpawner
+;---------------------------------
+	GetParam 0, hSpawner
+	GetPOS hSpawner, x,t,z
+	GetPOS hMe, t,y,t
+
+	WalkToPOS x,y,z, 5, PlayMagicSound
+
+	Exit TRUE
+
+;---------------------------------
+:OnStuck
+;---------------------------------
+	Stop
+	Wait 0, 1, Continue
+
+	Exit TRUE
+
+;---------------------------------
+:Continue
+;---------------------------------
+	WalkToPOS x,y,z, 5, PlayMagicSound
+
+	Exit TRUE
+
+;---------------------------------
+:PlayMagicSound
+;---------------------------------
+	Stop
+	LoopAnim cower, 1, TriggerSpawner
+	PlaySound "sounds\magic\wizardeyeloop.wav", DoNothing, 1, 1000, FALSE, 100
+
+	Exit TRUE
+
+;---------------------------------
+:TriggerSpawner
+;---------------------------------
+	PlaySound "sounds\animsounds\pig\wince1.wav", DoNothing, 1, 500, FALSE, 100
+	Trigger hSpawner, convert
+
+	Exit TRUE

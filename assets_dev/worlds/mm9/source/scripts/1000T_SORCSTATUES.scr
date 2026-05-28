@@ -1,0 +1,77 @@
+;-----------------------------------------------------
+;
+;	1000T_SorcStatues.scr
+;
+;	Karl Drown 11-20-01
+;	Statues that call a shooter object to fire
+;	at the party.
+;	
+;-----------------------------------------------------
+
+#include Globals.inc
+
+#hObject hMe
+#hObject hDummy
+#hObject hCastingSmoke
+
+#number	bIsCasting
+
+#string sShooter
+#string sCastingSmoke
+
+;-----------------------------------------------------
+:DoNothing
+;-----------------------------------------------------
+
+	Exit True
+
+;-----------------------------------------------------
+:Start
+;-----------------------------------------------------
+	bIsCasting = TRUE
+	Trigger hDummy, Go
+	Trigger hCastingSmoke, On
+	Gosub StartSequence
+	Exit TRUE
+;-----------------------------------------------------
+:TurnOff
+;-----------------------------------------------------
+	Wait 1, 1, DoNothing
+	Trigger hCastingSmoke, Off
+	bIsCasting = FALSE
+	Exit TRUE
+;-----------------------------------------------------
+:Continue
+;-----------------------------------------------------
+	if (bIsCasting==FALSE)
+		exit
+	endif
+	PlayAnim Taunt, StartSequence
+	Exit True
+;-----------------------------------------------------
+:StartSequence
+;-----------------------------------------------------
+	if (bIsCasting==FALSE)
+		exit
+	endif
+
+	PlayAnim fidget2, Continue
+	
+	Exit True
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+	PlayAnim fidget2, DoNothing
+	AddTrigger Go, Start
+	AddTrigger Stop, TurnOff
+	GetObjectHandle sShooter, hDummy
+	GetObjectHandle sCastingSmoke, hCastingSmoke
+	Exit True
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	GetParam 0, sShooter
+	GetParam 1, sCastingSmoke
+	Wait 0, 0.5, Main2
+	Exit
+;------------- E n d - O f - F i l e -------------------

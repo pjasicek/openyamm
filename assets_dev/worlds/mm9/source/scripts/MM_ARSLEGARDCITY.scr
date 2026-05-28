@@ -1,0 +1,612 @@
+;----------------------------------------------------------------
+;	MM_ArslegardCity.scr
+;	Jim Craig
+;
+;		Mundane Task List for Arslegard City
+;
+;	Current NPCs :
+;
+;		Gossip NPCs
+;			Eirik Thorvaldssen	( 352 )
+;			Falki Bergfinnssen  ( 353 )
+;			Beowulf Ingssen		( 354 )
+;			Gote Tjorvidotir	( 355 )
+;
+;			Rurik Moyol			( 358 ) <<< REMOVED >>>
+;			Onund Thordssen		( 359 ) <<< REMOVED >>>
+;			Kolskegg Skulissen	( 360 )
+;
+;		Ambient NPCs
+;			Gymir Afissen		( 363 )
+;			Aso Darbyssen		( 364 )
+;			Dain Kolskeggssen	( 365 )
+;			Dagny Daindotir		( 366 )
+;			Osk Thorgrimdotir	( 367 )
+;			Tepil Ahura			( 368 )
+;			Val Tonlan			( 369 )
+;			Ateed Haji			( 370 )
+;			Sechnassach A'Washadi	( 371 )
+;			Angus A'Mor				( 372 )
+;			Orabilia A'Dlinn		( 373 )
+;			Eilinoir A'Endlar		( 374 )
+;			Bjarni Eirikssen		( 375 )
+;			Unn Canutedotir			( 376 )
+;			Phili, The Great Honk	( 377 ) <<< REMOVED >>>
+;
+;----------------------------------------------------------------
+
+#include Globals.inc
+
+#hObject npc_object	= NULL
+
+#number Work = 1
+#number Home = 2
+#number Misc = 3
+#number goto_location = 1
+
+#number npc_id = 0
+
+#number current_group = 1
+#number Group1 = 1
+#number Group2 = 2
+#number Group3 = 3
+#number Group4 = 4
+
+#number index = 0
+#numberArray aGroup1[10]
+#numberArray aGroup2[10]
+#numberArray aGroup3[10]
+#numberArray aGroup4[10]
+
+#number bWarp = FALSE
+
+#string goto_marker = ""
+#string marker_home = "Marker_Home_"
+#string marker_work = "Marker_Work_"
+#string marker_misc = "Marker_Misc_"
+
+;----------------------------------------------------------------
+:OnArrived
+;----------------------------------------------------------------
+	
+	Exit
+
+;----------------------------------------------------------------
+:WarpOn
+;----------------------------------------------------------------
+
+	bWarp = TRUE
+	
+	Exit
+
+;----------------------------------------------------------------
+:WarpOff
+;----------------------------------------------------------------
+
+	bWarp = FALSE
+	
+	Exit
+
+;----------------------------------------------------------------
+:CreateMarker
+;----------------------------------------------------------------
+
+	if( goto_location == Work )
+		goto_marker = marker_work + npc_id	
+	endif
+
+	if( goto_location == Home )
+		goto_marker = marker_home + npc_id	
+	endif
+	
+	if( goto_location == Misc )
+		goto_marker = marker_misc + npc_id	
+	endif
+
+	Exit
+
+;----------------------------------------------------------------
+:GoToLocation
+;----------------------------------------------------------------
+
+	GetObjectHandleByRUDEID npc_id, npc_object
+
+	SetStat npc_object, PARAM, goto_marker
+
+	if( bWarp == FALSE )
+		Trigger npc_object, GoToLoc
+	endif
+
+	if( bWarp == TRUE )
+		Trigger npc_object, WarpToLoc
+	endif
+
+	Exit
+
+;----------------------------------------------------------------
+:LaunchGroup
+;----------------------------------------------------------------
+
+	index = 0
+
+	while( index < 10 )
+	
+		npc_id = 0
+		
+		if( current_group == Group1 )
+			ArrayGet aGroup1,index,npc_id
+		endif
+
+		if( current_group == Group2 )
+			ArrayGet aGroup2,index,npc_id
+		endif
+
+		if( current_group == Group3 )
+			ArrayGet aGroup3,index,npc_id
+		endif
+
+		if( current_group == Group4 )
+			ArrayGet aGroup4,index,npc_id
+		endif
+
+		if( npc_id != 0 )
+			gosub CreateMarker
+			gosub GoToLocation
+		endif
+
+		index = index + 1
+	endwhile
+
+	Exit
+
+;----------------------------------------------------------------
+;----------------------------------------------------------------
+;----------------------------------------------------------------
+
+;----------------------------------------------------------------
+:Group1_GoWork
+;----------------------------------------------------------------
+
+	gosub WarpOff
+	current_group = Group1
+	goto_location = Work
+	gosub LaunchGroup
+
+	Exit
+
+;----------------------------------------------------------------
+:Group1_WarpWork
+;----------------------------------------------------------------
+
+	gosub WarpOn
+	current_group = Group1
+	goto_location = Work
+	gosub LaunchGroup
+	
+	Exit
+
+;----------------------------------------------------------------
+:Group1_GoHome
+;----------------------------------------------------------------
+
+	gosub WarpOff
+	current_group = Group1
+	goto_location = Home
+	gosub LaunchGroup
+
+	Exit
+
+;----------------------------------------------------------------
+:Group1_WarpHome
+;----------------------------------------------------------------
+
+	gosub WarpOn
+	current_group = Group1
+	goto_location = Home
+	gosub LaunchGroup
+	
+	Exit
+
+;----------------------------------------------------------------
+:Group1_GoMisc
+;----------------------------------------------------------------
+
+	gosub WarpOff
+	current_group = Group1
+	goto_location = Misc
+	gosub LaunchGroup
+	
+	Exit
+
+;----------------------------------------------------------------
+:Group1_WarpMisc
+;----------------------------------------------------------------
+
+	gosub WarpOn
+	current_group = Group1
+	goto_location = Misc
+	gosub LaunchGroup
+	
+	Exit
+
+
+;----------------------------------------------------------------
+:Group2_GoWork
+;----------------------------------------------------------------
+
+	gosub WarpOff
+	current_group = Group2
+	goto_location = Work
+	gosub LaunchGroup
+
+	Exit
+
+;----------------------------------------------------------------
+:Group2_WarpWork
+;----------------------------------------------------------------
+
+	gosub WarpOn
+	current_group = Group2
+	goto_location = Work
+	gosub LaunchGroup
+	
+	Exit
+
+;----------------------------------------------------------------
+:Group2_GoHome
+;----------------------------------------------------------------
+
+	gosub WarpOff
+	current_group = Group2
+	goto_location = Home
+	gosub LaunchGroup
+
+	Exit
+
+;----------------------------------------------------------------
+:Group2_WarpHome
+;----------------------------------------------------------------
+
+	gosub WarpOn
+	current_group = Group2
+	goto_location = Home
+	gosub LaunchGroup
+	
+	Exit
+
+;----------------------------------------------------------------
+:Group2_GoMisc
+;----------------------------------------------------------------
+
+	gosub WarpOff
+	current_group = Group2
+	goto_location = Misc
+	gosub LaunchGroup
+	
+	Exit
+
+;----------------------------------------------------------------
+:Group2_WarpMisc
+;----------------------------------------------------------------
+
+	gosub WarpOn
+	current_group = Group2
+	goto_location = Misc
+	gosub LaunchGroup
+	
+	Exit
+
+;----------------------------------------------------------------
+:Group3_GoWork
+;----------------------------------------------------------------
+
+	gosub WarpOff
+	current_group = Group3
+	goto_location = Work
+	gosub LaunchGroup
+
+	Exit
+
+;----------------------------------------------------------------
+:Group3_WarpWork
+;----------------------------------------------------------------
+
+	gosub WarpOn
+	current_group = Group3
+	goto_location = Work
+	gosub LaunchGroup
+	
+	Exit
+
+;----------------------------------------------------------------
+:Group3_GoHome
+;----------------------------------------------------------------
+
+	gosub WarpOff
+	current_group = Group3
+	goto_location = Home
+	gosub LaunchGroup
+
+	Exit
+
+;----------------------------------------------------------------
+:Group3_WarpHome
+;----------------------------------------------------------------
+
+	gosub WarpOn
+	current_group = Group3
+	goto_location = Home
+	gosub LaunchGroup
+	
+	Exit
+
+;----------------------------------------------------------------
+:Group3_GoMisc
+;----------------------------------------------------------------
+
+	gosub WarpOff
+	current_group = Group3
+	goto_location = Misc
+	gosub LaunchGroup
+	
+	Exit
+
+;----------------------------------------------------------------
+:Group3_WarpMisc
+;----------------------------------------------------------------
+
+	gosub WarpOn
+	current_group = Group3
+	goto_location = Misc
+	gosub LaunchGroup
+	
+	Exit
+
+;----------------------------------------------------------------
+:Group4_GoWork
+;----------------------------------------------------------------
+
+	gosub WarpOff
+	current_group = Group4
+	goto_location = Work
+	gosub LaunchGroup
+
+	Exit
+
+;----------------------------------------------------------------
+:Group4_WarpWork
+;----------------------------------------------------------------
+
+	gosub WarpOn
+	current_group = Group4
+	goto_location = Work
+	gosub LaunchGroup
+	
+	Exit
+
+
+;----------------------------------------------------------------
+:Group4_GoHome
+;----------------------------------------------------------------
+
+	gosub WarpOff
+	current_group = Group4
+	goto_location = Home
+	gosub LaunchGroup
+
+	Exit
+
+;----------------------------------------------------------------
+:Group4_WarpHome
+;----------------------------------------------------------------
+
+	gosub WarpOn
+	current_group = Group4
+	goto_location = Home
+	gosub LaunchGroup
+	
+	Exit
+
+;----------------------------------------------------------------
+:Group4_GoMisc
+;----------------------------------------------------------------
+
+	gosub WarpOff
+	current_group = Group4
+	goto_location = Misc
+	gosub LaunchGroup
+	
+	Exit
+
+;----------------------------------------------------------------
+:Group4_WarpMisc
+;----------------------------------------------------------------
+
+	gosub WarpOn
+	current_group = Group4
+	goto_location = Misc
+	gosub LaunchGroup
+	
+	Exit
+
+
+;----------------------------------------------------------------
+;----------------------------------------------------------------
+;----------------------------------------------------------------
+
+;----------------------------------------------------------------
+:InitWorkSchedule
+;----------------------------------------------------------------
+	
+	@M 6 : 15 Group1_GoWork Group1_WarpWork
+	@M 6 : 30 Group2_GoWork Group2_WarpWork
+	@M 6 : 45 Group3_GoWork Group3_WarpWork
+	@M 7 : 00 Group4_GoWork Group4_WarpWork
+	
+	Exit
+
+
+;----------------------------------------------------------------
+:InitHomeSchedule
+;----------------------------------------------------------------
+	
+	@M 18 : 00 Group1_GoHome Group1_WarpHome
+	@M 18 : 15 Group2_GoHome Group2_WarpHome
+	@M 18 : 30 Group3_GoHome Group3_WarpHome
+	@M 18 : 45 Group4_GoHome Group4_WarpHome
+	
+	Exit 
+
+;----------------------------------------------------------------
+:InitMiscSchedule
+;----------------------------------------------------------------
+
+	; Go Wander off to somewhere	
+	@M  13 : 00 Group1_GoMisc Group1_WarpMisc
+	@M  13 : 15 Group2_GoMisc Group2_WarpMisc
+	@M  13 : 30 Group3_GoMisc Group3_WarpMisc
+	@M  13 : 45 Group4_GoMisc Group4_WarpMisc
+	
+	; Go Back to work
+	@M  15 : 00 Group1_GoWork Group1_WarpWork
+	@M  15 : 15 Group2_GoWork Group2_WarpWork
+	@M  15 : 30 Group3_GoWork Group3_WarpWork
+	@M  15 : 45 Group4_GoWork Group4_WarpWork
+
+	Exit
+
+
+;----------------------------------------------------------------
+;----------------------------------------------------------------
+;----------------------------------------------------------------
+
+;----------------------------------------------------------------
+:InitArrays
+;----------------------------------------------------------------
+	
+	index = 0
+	while( index < 10 )
+		ArrayPut aGroup1, index , 0
+		ArrayPut aGroup2, index , 0
+		ArrayPut aGroup3, index , 0
+		ArrayPut aGroup4, index , 0
+		index = index + 1
+	endwhile
+
+	Exit	 
+
+	 	 
+;----------------------------------------------------------------
+:LoadGroup1
+;----------------------------------------------------------------
+	
+;	Eirik Thorvaldssen	( 352 )
+	ArrayPut aGroup1,0,352
+
+;	Aso Darbyssen		( 364 )
+	ArrayPut aGroup1,1,364
+
+;	Val Tonlan			( 369 )
+	ArrayPut aGroup1,2,369
+
+;	Orabilia A'Dlinn		( 373 )
+	ArrayPut aGroup1,3,373
+
+;	Rurik Moyol			( 358 )	<<< REMOVED >>>
+;	ArrayPut aGroup1,4,358
+
+;	Phili, The Great Honk	( 377 ) <<< REMOVED >>>
+;	ArrayPut aGroup1,5,377
+
+	Exit
+
+;----------------------------------------------------------------
+:LoadGroup2
+;----------------------------------------------------------------
+	
+;	Falki Bergfinnssen  ( 353 )
+	ArrayPut aGroup2,0,353
+		
+;	Dain Kolskeggssen	( 365 )
+	ArrayPut aGroup2,1,365
+
+;	Ateed Haji			( 370 )
+	ArrayPut aGroup2,2,370
+
+;	Eilinoir A'Endlar		( 374 )
+	ArrayPut aGroup2,3,374
+
+;	Onund Thordssen		( 359 ) <<< REMOVED >>>
+;	ArrayPut aGroup2,4,359
+									   
+	Exit
+
+;----------------------------------------------------------------
+:LoadGroup3
+;----------------------------------------------------------------
+
+;	Beowulf Ingssen		( 354 )
+	ArrayPut aGroup3,0,354
+
+;	Kolskegg Skulissen	( 360 )
+	ArrayPut aGroup3,1,360
+
+;	Dagny Daindotir		( 366 )
+	ArrayPut aGroup3,2,366
+
+;	Sechnassach A'Washadi	( 371 )
+	ArrayPut aGroup3,3,371
+
+;	Bjarni Eirikssen		( 375 )
+	ArrayPut aGroup3,4,375
+
+	Exit
+
+;----------------------------------------------------------------
+:LoadGroup4
+;----------------------------------------------------------------
+	
+;	Gote Tjorvidotir	( 355 )
+	ArrayPut aGroup4,0,355
+
+;	Gymir Afissen		( 363 )
+	ArrayPut aGroup4,1,363
+		
+;	Osk Thorgrimdotir	( 367 )
+	ArrayPut aGroup4,2,367
+
+;	Tepil Ahura			( 368 )
+	ArrayPut aGroup4,3,368
+
+;	Angus A'Mor				( 372 )
+	ArrayPut aGroup4,4,372
+
+;	Unn Canutedotir			( 376 )
+	ArrayPut aGroup4,5,376
+
+
+	Exit
+
+;----------------------------------------------------------------
+:Init
+;----------------------------------------------------------------
+	gosub InitArrays
+	
+	gosub LoadGroup1
+	gosub LoadGroup2
+	gosub LoadGroup3
+	gosub LoadGroup4
+	
+	gosub InitWorkSchedule
+	gosub InitHomeSchedule
+	gosub InitMiscSchedule
+
+	Exit
+
+;----------------------------------------------------------------
+:Main
+;----------------------------------------------------------------
+	gosub Init
+	AddTrigger HasArrived, OnArrived
+		
+	Exit

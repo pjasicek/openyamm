@@ -1,0 +1,157 @@
+;----------------------------------------------
+;Alfriggfight.scr
+; By Timmy
+; handles robert and douglas's argument 
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         sound   ; checks to see if a sound is currently playing
+#number							soundhandle ; handler for sounds
+#number							sounddur ; duration of sound
+#number							sounddone ; if sound is done this is true
+#number							soundhandle2  ;handler for second actor
+
+;-------------------------------------
+:Onblabber
+;-------------------------------------
+; starts with Hrolf speech
+
+
+if (sound==0, )
+	set sound, 1
+	Givekey 115
+	Playsoundhandle voices\cinema\dwarvesandhumans\01.wav, soundhandle, 240, FALSE, 100
+	GetSoundDuration, soundhandle, sounddur
+	Wait 1 sounddur, Alfrigg02
+endif
+
+exit
+
+
+;-------------------------------------
+:Alfrigg02
+;-------------------------------------
+
+KillSound soundhandle2
+Playsoundhandle voices\cinema\dwarvesandhumans\02.wav, soundhandle2, 240, FALSE, 100
+GetSoundDuration, soundhandle2, sounddur
+Wait 1 sounddur, Hrolf03
+exit
+
+
+;-------------------------------------
+:Hrolf03
+;-------------------------------------
+
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\dwarvesandhumans\03.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+subtract sounddur, .6
+Wait 1 sounddur, Alfrigg04
+exit
+
+
+;-------------------------------------
+:Alfrigg04
+;-------------------------------------
+
+
+KillSound soundhandle2
+
+Playsoundhandle voices\cinema\dwarvesandhumans\04c.wav, soundhandle2, 240, FALSE, 100
+GetSoundDuration, soundhandle2, sounddur
+subtract sounddur, .5
+Wait 1 sounddur, Hrolf05
+exit
+
+
+;-------------------------------------
+:Hrolf05
+;-------------------------------------
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\dwarvesandhumans\05.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+subtract sounddur, .5
+Wait 1 sounddur, Alfrigg06
+exit
+
+
+;-------------------------------------
+:Alfrigg06
+;-------------------------------------
+
+KillSound soundhandle2
+Playsoundhandle voices\cinema\dwarvesandhumans\06.wav, soundhandle2, 240, FALSE, 100
+GetSoundDuration, soundhandle2, sounddur
+Wait 1 sounddur, Hrolf07
+exit
+
+
+
+;-------------------------------------
+:Hrolf07
+;-------------------------------------
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\dwarvesandhumans\07.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+add sounddur, 3
+Wait 1 sounddur, Onexit
+exit
+
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+;if sound is playing, kill it
+
+if (sound==1, )
+	KillSound soundhandle
+	KillSound soundhandle2
+	set sound, 0
+	set g_ntemp, 0
+endif
+;start rude dialog
+DoRude 110
+exit
+
+
+;-------------------------------------
+:Onexit
+;-------------------------------------
+
+; kill the sound if it's done
+
+IsSoundDone soundhandle, sounddone
+if (sounddone==1, )
+	KillSound soundhandle
+	KillSound soundhandle2
+
+	; commence with the fight!
+	exit
+endif
+;goto ondrink
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger blabber, Onblabber
+;AddTrigger Use, OnUse ; ADD THIS BACK IN WHEN PROPS CAN REACT TO WAIT COMMAND
+
+set sound, 0
+set g_ntemp, 0
+haskey 115, g_ntemp
+if (g_ntemp==1)
+	set sound, 1
+endif
+exit

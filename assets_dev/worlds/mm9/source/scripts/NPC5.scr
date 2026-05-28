@@ -1,0 +1,132 @@
+;--------------------------------------------------
+;NPC5.scr
+; timmy
+; handles Gunnar Thjorsmith voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub thjorad
+gosub Refinery
+
+exit
+
+
+;--------------------------------------------------
+:Thjorad
+;--------------------------------------------------
+
+haskey 464 g_ntemp
+if (g_ntemp==FALSE)
+	exit
+endif
+
+haskey 399 g_ntemp
+if (g_ntemp==TRUE)
+	takeitem 359
+	givegold 700
+endif
+
+haskey 400 g_ntemp
+if (g_ntemp==TRUE)
+	takeitem 360
+	givegold 1500
+endif
+
+haskey 463 g_ntemp
+if (g_ntemp==TRUE)
+	takeitem 361
+	givegold 3000
+endif
+
+takekey 395
+takekey 396
+takekey 397
+takekey 398
+takekey 399
+takekey 400
+takekey 463
+takekey 464
+exit
+
+
+;--------------------------------------------------
+:Refinery
+;--------------------------------------------------
+;****************
+;Refinery Quest
+;****************
+haskey 9514 g_ntemp
+if (g_ntemp==FALSE)
+	haskey 9513 g_ntemp
+	if (g_ntemp==TRUE)
+		takeitem 398
+		giveitem 399
+		givekey 9514
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+exit
+
+
+
+;End Refinery Quest
+;******************
+exit
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+hasitem 359 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 395
+	givekey 396
+endif
+
+hasitem 360 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 395
+	givekey 397
+endif
+
+hasitem 361 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 395
+	givekey 398
+endif
+
+Playsound voices\NPC\NPC_005.wav, DoNothing, 100, 240, FALSE, 100
+exit
+
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

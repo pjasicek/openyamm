@@ -1,0 +1,91 @@
+;--------------------------------------------------
+;NPC334.scr
+; timmy
+; handles Hanndl and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub Gungnir
+
+
+exit
+
+
+;
+;--------------------------------------------------
+:Gungnir
+;--------------------------------------------------
+;****************
+;Gungnir Quest
+;****************
+
+haskey 357 g_ntemp
+if (g_ntemp==0)
+	haskey 356 g_ntemp
+	if (g_ntemp==1)
+		takeitem 189
+		givekey 357
+		givegold 40000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		giveexp 5000
+		exit
+	endif
+endif
+
+;End Gungir Quest
+;******************
+exit
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+haskey 353 g_ntemp
+if (g_ntemp==TRUE)
+	hasitem 189 g_ntemp
+	if (g_ntemp==TRUE)
+
+		givekey 354
+
+	endif
+endif
+Playsound voices\NPC\NPC_334.wav, Onexit, 100, 240, FALSE, 100
+
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

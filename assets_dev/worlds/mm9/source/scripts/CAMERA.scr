@@ -1,0 +1,36 @@
+;-------------------
+; camera.scr
+;jeffs fun test
+;--------------------
+
+
+#include followpath.inc
+#include globals.inc
+
+
+:main
+ 
+
+getmyhandle g_hThisObject
+addtrigger on, OnCall
+exit
+
+
+
+:OnCall
+
+Gosub FollowPathinit
+	Set g_sFollowPathName, Marker
+		Set g_nFollowPathSpeed, 120
+;		Set g_nFollowPathCallback, < Callback # to use when we reach a marker>
+		Set g_nFollowPathDoneCallback, Pathdone
+;		Set g_nFollowPathLoops, 1
+;		SetCallback g_nFollowPath
+		gosub FollowPath
+		exit 0
+
+:Pathdone
+
+trigger g_hThisObject off
+
+exit

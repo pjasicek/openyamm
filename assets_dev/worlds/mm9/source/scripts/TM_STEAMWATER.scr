@@ -1,0 +1,51 @@
+;-----------------------------------------------------
+;
+;	TM_SteamWater.scr
+;
+;	Karl Drown 10-28-01
+;	Super simple "Move My World Object" script.
+;	Moves a water brush that breaks a board barrier.
+;	
+;-----------------------------------------------------
+
+#include Globals.inc
+
+#hObject	hMCMarker
+#hObject	hBlocker
+#number		nVarX
+#number		nVarY
+#number		nVarZ
+
+;-----------------------------------------------------
+:StopHere
+;-----------------------------------------------------
+	hBlocker = NULL
+	GetObjectHandle ABMineBoards1, hBlocker
+	Trigger hBlocker, Destroy
+	Exit TRUE
+;-----------------------------------------------------
+:MoveToMarker
+;-----------------------------------------------------
+	GetObjectHandle WaterMarker0, hMCMarker
+	GetPos hMCMarker, nVarX, nVarY, nVarZ
+	MoveToPos nVarX, nVarY, nVarZ, 1500, StopHere
+	Exit 1
+;-----------------------------------------------------
+:MoveBack
+;-----------------------------------------------------
+	GetObjectHandle WaterMarker1, hMCMarker
+	GetPos hMCMarker, nVarX, nVarY, nVarZ
+	MoveToPos nVarX, nVarY, nVarZ, 2000, DoNothing
+	Exit 1
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+	AddTrigger MoveWater, MoveToMarker
+	AddTrigger ReturnWater, MoveBack
+	Exit 1
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	Wait 0, 0.1, Main2
+	Exit
+;------------- E n d - O f - F i l e -------------------

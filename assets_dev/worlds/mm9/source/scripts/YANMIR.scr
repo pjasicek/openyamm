@@ -1,0 +1,53 @@
+;----------------------------------------------
+;Yanmir.scr
+; By Timmy
+; checks to see if the player has killed everything in anskram keep
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+
+
+;-------------------------------------
+:GiveEeps
+;NOTE this script just completes the quest right now.
+; this is the routine where additional functionality should go
+;-------------------------------------
+haskey 69 g_ntemp ;checks to see if player has done this yet
+
+if (g_ntemp==0,  )
+
+	Haskey 68 keycheck ;checks to see if player is on kill anskram keep Quest
+	if ( keycheck==1,  )
+	
+		givekey, 69 ;gives player finished quest key
+		GiveEXP 8000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+
+Haskey 173 keycheck ;checks to see if player is on kill anskram keep Quest
+if ( keycheck==0,  )
+	
+	givekey, 173 ;gives player finished quest key
+	GiveEXP 8000
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+	exit
+	endif
+exit
+
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Use, DoNothing
+Addtrigger Trigger, DoNothing
+exit

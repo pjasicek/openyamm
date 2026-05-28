@@ -1,0 +1,24 @@
+;---------------------------------------
+;	AK_ImpGateSpawn.scr
+;	by SJR
+;	Purpose:
+;---------------------------------------
+#include baseMelee.inc
+#include flags.inc
+
+;---------------------------------------
+:Main
+;---------------------------------------
+	Wait 0, .1, InitImpGateSpawn
+
+	Exit 1
+
+;---------------------------------------
+:InitImpGateSpawn
+;---------------------------------------
+	gosub BaseInit
+	GetPlayerHandle g_hTarget
+	gosub SetupTarget
+	gosub AggressiveStart
+
+	Exit 1

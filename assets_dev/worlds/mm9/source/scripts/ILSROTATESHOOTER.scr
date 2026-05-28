@@ -1,0 +1,90 @@
+;--------------------------------------------------
+;rotateshooter.scr
+; timmy
+;randomly rotates shooter
+;--------------------------------------------------
+
+#include globals.inc 
+#include book.scr
+       
+
+#Number					rotate
+#Number                 param0
+#Number					Param1
+#Number					Param2
+#number					Stop
+#hobject				h_target
+
+:Parameters
+; P0 wait time B/T shots
+; P1 minimum random int range
+; P0 maximum random int range
+
+;--------------------------------------------------
+:OnRun
+;--------------------------------------------------
+
+
+
+if (stop!=true)
+	
+	GetMyHandle, g_hobject
+	trigger g_hobject, on
+	getrandomint Param1, Param2, g_ntemp
+	Rotate 0, 1, 0, g_ntemp, 0, 
+	goto wait
+endif
+
+trigger g_hobject, off
+exit
+
+
+
+;--------------------------------------------------
+:wait
+;--------------------------------------------------
+
+
+wait param0, Onrun
+
+exit
+
+
+;--------------------------------------------------
+:Onstart
+;--------------------------------------------------
+
+
+
+Set stop, false
+
+goto Onrun
+exit
+
+
+;--------------------------------------------------
+:Onstop
+;--------------------------------------------------
+
+Set stop, true
+
+exit
+
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+
+;traceon
+;delete!!!
+
+getparam 0, param0
+getparam 1, param1
+getparam 2, param2
+
+Addtrigger Stop, OnStop
+AddTrigger Start, Onstart
+exit
+

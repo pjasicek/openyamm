@@ -1,0 +1,85 @@
+;-------------------------------------------------------------
+;	Banshee.Scr
+;	Jeff Leggett
+;	10/31/2001
+;	
+;	Go UnDead when we melee attack and go back to normal after
+;	attack is done.
+;
+;-------------------------------------------------------------
+
+#include FlyRange.inc
+
+#number				UNDEAD_WAIT=15
+#number				UNDEAD_TICK=0.9
+#number				MAX_UNDEAD_TIME=5
+
+
+;-------------------------------------------------------------
+:GoNormal
+;-------------------------------------------------------------
+
+	Wait UNDEAD_WAIT, 0, DoNothing
+	
+	SetStat g_hMyObject,Undead, FALSE
+
+	Exit
+
+;-------------------------------------------------------------
+:GoUndead
+;-------------------------------------------------------------
+
+	SetStat g_hMyObject,Undead, TRUE
+;
+;	Make sure we don't stay undead....
+;
+	Wait UNDEAD_WAIT, 5, GoNormal
+
+	Exit
+
+
+;-------------------------------------------------------------
+:BaseFlyAttack
+;-------------------------------------------------------------
+
+	GetStat g_hMyObject,Undead,g_bTemp
+	
+	if ( g_bTemp==FALSE )
+		gosub GoUndead
+	endif
+
+	gosub BaseFlyAttack,1
+
+	Exit
+
+;-------------------------------------------------------------
+:BaseFlyAttackDone
+;-------------------------------------------------------------
+
+	gosub GoNormal
+	gosub BaseFlyAttackDone, 1
+	
+	Exit
+
+;-------------------------------------------------------------
+:SwoopIn
+;
+;	Don't want this functionality for the Banshee...
+;-------------------------------------------------------------
+	gosub SwoopDone
+
+	Exit
+
+;-------------------------------------------------------------
+:Main
+;-------------------------------------------------------------
+
+	gosub FlyRangeInit
+
+	g_backOffYVal	= 0.2
+	g_backOffTime	= 0.6
+
+	HidePiece Cloth
+
+	Exit
+

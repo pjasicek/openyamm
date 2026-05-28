@@ -1,0 +1,46 @@
+;------------------------------------------------------------------
+;	SourceCreature.scr
+;	by SJR
+;	09-21-01
+;	Purpose:Used in conjunction with SourceMan.scr
+;			to continuously spawn out of sight w/ a limit
+;------------------------------------------------------------------
+
+#include BaseGlobals.inc
+#include baseMelee.inc
+
+#hobject	hSourceManager=0
+#hobject	hGoal=0
+
+;-------------------
+:Main
+;-------------------
+	Wait 0, .1, InitSourceCreature
+	Exit TRUE
+
+;-------------------
+:InitSourceCreature
+;-------------------
+	GetObjectHandle SourceManager, hSourceManager
+	GetObjectHandle RallyPoint, hGoal
+
+	OnDeath NotifyManager
+
+	gosub BaseInit	;;;init wander,door,evade,melee
+
+	RunTo hGoal, 50, BaseWanderStart
+
+	Exit TRUE
+
+;-------------------
+:NotifyManager
+;-------------------
+	Trigger hSourceManager, ReSpawn
+	Exit TRUE
+
+
+
+
+
+
+

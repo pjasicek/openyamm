@@ -1,0 +1,188 @@
+;--------------------------------------------------
+;SpawnNjam.scr
+; timmy
+; spawns Njam in the 1000 terrors
+; 1/21/02
+;--------------------------------------------------
+
+#include globals.inc
+
+
+
+;
+#number							XPos
+#number							YPos
+#number							ZPos
+#number							nLinked
+
+#string							sNjam = NjamtheMeddler
+
+#hobject						hNjam
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+#string							SCRIPT = " ScriptName Njam1000.scr"
+
+
+;--------------------------------------------------
+:DeleteAllNjams
+;--------------------------------------------------
+
+getobjecthandle NjamSpawnMarker0 g_hobject
+trigger g_hobject KillNjam
+getobjecthandle NjamSpawnMarker1 g_hobject
+trigger g_hobject KillNjam
+getobjecthandle NjamSpawnMarker2 g_hobject
+trigger g_hobject KillNjam
+getobjecthandle NjamSpawnMarker3 g_hobject
+trigger g_hobject KillNjam
+getobjecthandle NjamSpawnMarker4 g_hobject
+trigger g_hobject KillNjam
+getobjecthandle NjamSpawnMarker5 g_hobject
+trigger g_hobject KillNjam
+getobjecthandle NjamSpawnMarker6 g_hobject
+trigger g_hobject KillNjam
+exit
+
+
+;--------------------------------------------------
+:Onspawn
+;--------------------------------------------------
+
+getparam 0 g_hobject
+
+gosub DeleteAllNjams
+
+removeobject g_hobject
+wait 1 1 OnSpawn2
+;gosub Onspawn2
+exit
+
+
+;--------------------------------------------------
+:Onspawn2
+;--------------------------------------------------
+Getmyhandle g_hmyobject
+DoClientFX g_hMyObject,GreaterDemon
+Playsound \Sounds\magic\Windup10.wav, DoNothing, 100, 24000, FALSE, 100
+wait 2 2 Appear
+exit
+
+;--------------------------------------------------
+:BreakLink
+;--------------------------------------------------
+
+set nLinked, FALSE
+exit
+;--------------------------------------------------
+:Appear
+;--------------------------------------------------
+
+; play appear effect here
+Playsound \Sounds\spells\TownPortal.wav, DoNothing, 100, 24000, FALSE, 100
+getpos g_hmyobject XPos YPos ZPos
+Spawn hNjam Xpos YPos ZPos sNjam
+CreateObjectLink hNjam
+OnObjectLinkBroken BreakLink
+set nLinked, TRUE
+getrandomint 20 60 g_ntemp
+wait 2 g_ntemp Vanish2
+exit
+
+;-------------------------------------
+:Vanish2
+;-------------------------------------
+
+if (nLinked==FALSE)
+	exit
+endif
+
+; play vanish effect here
+DoClientFX hNjam,GreaterDemon
+Playsound \Sounds\magic\Windup10.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 Vanish2b
+exit
+
+;-------------------------------------
+:Vanish2b
+;-------------------------------------
+
+clearflag hNjam visible
+Playsound \Sounds\magic\teleport.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 Vanish2c
+exit
+
+
+;-------------------------------------
+:Vanish2c
+;-------------------------------------
+
+if (nLinked==TRUE)
+	removeobject hNjam
+endif
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+
+haskey 108 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle TriggerNjam0 g_hobject
+	trigger g_hobject On
+	getobjecthandle TriggerNjam1 g_hobject
+	trigger g_hobject On
+	getobjecthandle TriggerNjam2 g_hobject
+	trigger g_hobject On
+	getobjecthandle TriggerNjam3 g_hobject
+	trigger g_hobject On
+	getobjecthandle TriggerNjam4 g_hobject
+	trigger g_hobject On
+;	getobjecthandle TriggerNjam5 g_hobject
+;	trigger g_hobject On
+	getobjecthandle TriggerNjam6 g_hobject
+	trigger g_hobject On
+	getobjecthandle TriggerNjam7 g_hobject
+	trigger g_hobject On
+	exit
+else
+	getobjecthandle TriggerNjam0 g_hobject
+	trigger g_hobject Off
+	getobjecthandle TriggerNjam1 g_hobject
+	trigger g_hobject Off
+	getobjecthandle TriggerNjam2 g_hobject
+	trigger g_hobject Off
+	getobjecthandle TriggerNjam3 g_hobject
+	trigger g_hobject Off
+	getobjecthandle TriggerNjam4 g_hobject
+	trigger g_hobject Off
+;	getobjecthandle TriggerNjam5 g_hobject
+;	trigger g_hobject Off
+	getobjecthandle TriggerNjam6 g_hobject
+	trigger g_hobject Off
+	getobjecthandle TriggerNjam7 g_hobject
+	trigger g_hobject Off
+	exit
+endif
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddTrigger Spawn Onspawn
+Addtrigger KillNjam Vanish2c
+sNjam = sNjam + Script
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

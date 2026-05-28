@@ -1,0 +1,71 @@
+;----------------------------------------------
+;realbook.scr
+; By Timmy
+; gives the player verhoffin's real book.
+; and the related key
+; real book is item 243
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+gosub haskey
+
+
+
+
+;-------------------------------------
+:haskey
+;-------------------------------------
+
+haskey 283 g_ntemp
+if (g_ntemp==0)
+	hasitem 244 g_ntemp
+	if (g_ntemp==TRUE)
+		giveitem 347
+		giveitem 560
+		givekey 283
+		givekey 290
+		getmyhandle g_hmyobject
+		removeobject g_hmyobject
+		exit
+	endif
+endif
+exit
+
+
+;-------------------------------------
+:deletecheck
+;-------------------------------------
+
+haskey 284 g_ntemp
+if (g_ntemp==1)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+
+haskey 283 g_ntemp
+if (g_ntemp==1)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+exit
+	
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+gosub deletecheck
+
+exit

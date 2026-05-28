@@ -1,0 +1,90 @@
+;--------------------------------------------------
+;bell.scr
+; timmy
+; rings bell
+;--------------------------------------------------
+
+#include globals.inc
+
+#String    Params          
+#number    Counter
+#number		innerRadius = 200
+#number		outerRadius = 1000
+
+;Parameters
+;P0  inner radius
+;p1  outer radius
+
+
+;--------------------------------------------------
+:DoNothing
+;--------------------------------------------------
+	Exit
+
+;--------------------------------------------------
+:StopDone
+;--------------------------------------------------
+
+	Set Counter, 0
+
+	Exit
+
+;--------------------------------------------------
+:RingDone
+;--------------------------------------------------
+
+  PlayAnim Stop
+  Wait 1,3,StopDone
+  Exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+
+if ( counter==0 )
+	Add Counter, 1
+	PlayAnim Ring, RingDone
+	Wait 1, 3, DoNothing
+	exit
+endif
+
+Exit
+
+;--------------------------------------------------
+:OnBellBing
+;--------------------------------------------------
+	PlaySound Sounds\Ambient\bellbing.wav, DoNothing, innerRadius, outerRadius, FALSE, 100
+
+	Exit
+
+;--------------------------------------------------
+:OnBellBong
+;--------------------------------------------------
+	PlaySound Sounds\Ambient\bellbing.wav, DoNothing, innerRadius, outerRadius, FALSE, 100
+
+	Exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;;TraceON
+
+Set Counter, 0
+GetParam 0, innerRadius
+GetParam 1, outerRadius
+
+AddTrigger Use, Onuse
+AddModelKey BellBing, OnBellBing
+AddModelKey BellBong, OnBellBong
+OnDamage OnUse
+
+CacheSound Sounds\Ambient\bellbing.wav
+CacheSound Sounds\Ambient\bellbong.wav
+
+
+;ExitScript
+exit
+

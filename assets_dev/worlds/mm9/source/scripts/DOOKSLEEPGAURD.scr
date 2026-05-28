@@ -1,0 +1,121 @@
+;-----------------------------------------------------------
+;	DookSleepGaurd.scr
+;	by Ed Campos
+;	10-22-01
+;	Purpose: Gaurds Stand in place
+;	With the ability to Fall Asleep
+;	Possibly have Player able to Sneak 
+;	past the sleeping Gaurd	
+;		
+;-----------------------------------------------------------
+;-----------------------------------------------------------
+;	-DEDIT NOTES-
+;	ScriptParams are:
+;	p0->p7 = in order waypoint names for Patroling Gaurds
+;	
+;		
+;
+;-----------------------------------------------------------
+
+;;;SJR( added all hostility stuff)
+#include DookHostility.inc
+;;;endSJR
+
+#hobject	hTarget = 0
+#hobject	hWayPoint=0
+
+#string		sWayPoint0=""
+#string		sTarget0=""
+
+#number		SleepMarkerX = 0
+#number		SleepMarkerY = 0
+#number		SleepMarkerZ = 0
+
+
+
+;-----------------------------------------------------------
+:InitDookSleepGaurd
+;-----------------------------------------------------------
+	gosub InitDookHostility
+
+	GetObjectHandle sTarget0, hTarget
+	GetObjectHandle sWayPoint0, hWayPoint
+	Wait 0, 2, SleepRoutine
+	
+	Exit TRUE
+
+;-----------------------------------------------------------
+:SleepRoutine
+;-----------------------------------------------------------
+	Stop
+	LoopAnim Sleep, 0, DoNothing
+
+	Exit TRUE
+
+;-----------------------------------------------------------
+:WakeUp
+;-----------------------------------------------------------
+	FaceObject, hTarget, 180, DoNothing
+	PlayAnim Cowerstart, GoCower
+
+
+	Exit TRUE
+
+;-----------------------------------------------------------
+:GoCower
+;-----------------------------------------------------------
+	Wait 1, 4, EndCower
+	PlayAnim CowerEnd, DoNothing
+
+	Exit TRUE
+
+;-----------------------------------------------------------
+:EndCower
+;-----------------------------------------------------------
+	GetFaceDir hWayPoint, SleepMarkerX, SleepMarkerY, SleepMarkerZ
+	FaceDir SleepMarkerX, SleepMarkerY, SleepMarkerZ, 500,GoWait
+
+	Exit TRUE
+
+;-----------------------------------------------------------
+:GoWait
+;-----------------------------------------------------------
+	Stop
+
+	Wait 0,10, DoFidget3
+
+	Exit TRUE
+
+;-----------------------------------------------------------
+:DoFidget3
+;-----------------------------------------------------------
+	Stop
+
+	Wait 0,10, DoFidget2
+
+	PlayAnim Fidget3, DoNothing
+
+	Exit TRUE
+
+;---------------------------------------
+:DoFidget2
+;---------------------------------------
+	Stop
+
+	Wait 0,20, SleepRoutine
+
+	PlayAnim Fidget2, DoNothing
+	
+	Exit TRUE
+	
+;-----------------------------------------------------------
+:Main
+;-----------------------------------------------------------	
+	AddTrigger WakeUp, WakeUp
+
+	GetParam 0 sTarget0
+	GetParam 1 sWayPoint0
+
+	OnPostStartWorld InitDookSleepGaurd
+
+	Exit TRUE

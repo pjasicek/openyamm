@@ -1,0 +1,77 @@
+;--------------------------------------------------
+;DP3startup.scr
+; timmy
+;--------------------------------------------------
+
+#include globals.inc
+
+
+
+
+
+
+exit
+
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+
+	;starts animation
+GetObjectHandle Shoot1, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, on
+endif
+GetObjectHandle Shoot2, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, on
+endif
+GetObjectHandle Shoot3, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, on
+endif
+GetObjectHandle Shoot4, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, on
+endif
+GetObjectHandle Shoot5, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, on
+endif
+GetObjectHandle Shoot6, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, on
+endif
+GetObjectHandle Shoot7, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, on
+endif
+GetObjectHandle Shoot8, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, on
+
+
+endif
+	;turns on first shooter
+Set g_stemp,loopanim 
+add g_stemp,idle
+GetObjectHandle fountain, g_hObject
+Trigger g_hObject, g_stemp 
+Set g_stemp,loopanim 
+add g_stemp,Operate
+GetObjectHandle shooter, g_hObject
+Trigger g_hObject, g_stemp 
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon
+;wait 0.5, Init
+;getmyhandle g_hObject
+;trigger g_hObject on
+goto Init
+exit
+

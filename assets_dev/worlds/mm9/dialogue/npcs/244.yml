@@ -1,0 +1,301 @@
+format_version: 1
+source_file: NPC244.rude
+rows:
+  - source:
+      file: NPC244.rude
+      row: 1
+    raw_columns:
+      - 244
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 244
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC244.rude
+      row: 2
+    raw_columns:
+      - 244
+      - 10
+      - 1
+      - Not too well behaved, are you?
+      - Shush!  Go away.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 244
+      node_id: 10
+      choice_slot: 1
+      prompt: Not too well behaved, are you?
+      response: Shush!  Go away.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC244.rude
+      row: 3
+    raw_columns:
+      - 244
+      - 244
+      - 1
+      - We've got all the stuff you asked for.
+      - Gimme gimme!!
+      - 10
+      - 94
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 95
+      - 0
+      - 0
+      - 0
+      - 0
+      - 95
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 244
+      node_id: 244
+      choice_slot: 1
+      prompt: We've got all the stuff you asked for.
+      response: Gimme gimme!!
+      next: 10
+      raw_fields:
+        c07: 94
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 95
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 95
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 94
+            qbit_id: 9094
+            state_id: mm9.keys.94
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 94
+          qbit_id: 9094
+          state_id: mm9.keys.94
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 95
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 95
+        status: raw_value_preserved
+  - source:
+      file: NPC244.rude
+      row: 4
+    raw_columns:
+      - 244
+      - 244
+      - 2
+      - Nothing.
+      - Go away, then!!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 244
+      node_id: 244
+      choice_slot: 2
+      prompt: Nothing.
+      response: Go away, then!!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

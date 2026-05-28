@@ -1,0 +1,26 @@
+;----------------------------------
+;	DookGuardBasic.scr
+;	by SJR
+;	01-01-02
+;	Purpose:basic script for all guards.
+;			Refrain from attacking player
+;			until they go through the tunnel.
+;----------------------------------
+#include DookHostility.inc
+
+;----------------------------------
+:Main
+;----------------------------------
+	OnPostStartWorld InitDookGuardBasic
+	OnPostMiniSaveLoad InitDookGuardBasic
+
+	Exit TRUE
+
+;----------------------------------
+:InitDookGuardBasic
+;----------------------------------
+	gosub BaseWanderInit
+	gosub BaseWanderStartup
+	gosub InitDookHostility
+
+	Exit TRUE

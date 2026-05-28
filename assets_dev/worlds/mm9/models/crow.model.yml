@@ -1,0 +1,479 @@
+schema: openyamm.model3d.v1
+id: crow
+model: crow.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/CROW.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 4.023306898564917e+25
+pieces:
+- name: bird
+  materialIndex: 0
+  lods:
+  - faces: 158
+    vertices: 80
+  - faces: 118
+    vertices: 60
+materials:
+- index: 0
+  texture: skins_preview/crow.png
+  runtime_texture: skins/crow.dtx
+  preview_texture: skins_preview/crow.png
+  source: mm9/extracted/SKINS/SKINS/CROW.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: XCENTER
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 16
+    - 20
+    - 24
+  - index: 2
+    name: Xbody
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 10
+    - 13
+  - index: 3
+    name: Xneckpiv
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: XneckB
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: XneckA
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Xheadpiv
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Xhead
+    parent: 6
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Xbeak
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Xjawpiv
+    parent: 8
+    flags: 1
+    children: []
+  - index: 10
+    name: Xwingpiv
+    parent: 2
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Xwbase
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Xwmid
+    parent: 11
+    flags: 1
+    children: []
+  - index: 13
+    name: Xwingpiv01
+    parent: 2
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: Xwbase01
+    parent: 13
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Xwmid01
+    parent: 14
+    flags: 1
+    children: []
+  - index: 16
+    name: Xback
+    parent: 1
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Xtailmid
+    parent: 16
+    flags: 1
+    children:
+    - 18
+    - 19
+  - index: 18
+    name: Xtailside
+    parent: 17
+    flags: 1
+    children: []
+  - index: 19
+    name: Xtailside01
+    parent: 17
+    flags: 1
+    children: []
+  - index: 20
+    name: Xlegpiv
+    parent: 1
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Xleg
+    parent: 20
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Xfoot
+    parent: 21
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Xtoe
+    parent: 22
+    flags: 1
+    children: []
+  - index: 24
+    name: Xlegpiv01
+    parent: 1
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Xleg01
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: Xfoot01
+    parent: 25
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Xtoe01
+    parent: 26
+    flags: 1
+    children: []
+sockets:
+- name: jaw
+  node: 8
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 1.0340843736855732e-08
+  - 0.9091528058052063
+  - -0.4164627194404602
+  - 2.0437564529629526e-08
+- name: RHand1
+  node: 23
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.1112460196018219
+  - -0.7919972538948059
+  - 0.5967670679092407
+  - 0.06513815373182297
+- name: LHand1
+  node: 27
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.09997455030679703
+  - 0.5919263362884521
+  - 0.7971483469009399
+  - 0.06467463076114655
+animations:
+- name: stand
+  durationMs: 1200
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: fidget1
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: fly
+  durationMs: 400
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 334
+    event: flap
+- name: fidgetAir1
+  durationMs: 2000
+  keyframes: 16
+  interpolationTimeMs: 200
+  events: []
+- name: HattackAir1
+  durationMs: 450
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge; flap
+  - timeMs: 299
+    event: bite
+- name: winceair1
+  durationMs: 550
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 76
+    event: flap
+- name: winceair2
+  durationMs: 600
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 83
+    event: flap
+- name: dieair1
+  durationMs: 650
+  keyframes: 8
+  interpolationTimeMs: 200
+  events: []
+- name: fall1
+  durationMs: 400
+  keyframes: 5
+  interpolationTimeMs: 200
+  events: []
+- name: falldown1
+  durationMs: 800
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: dieair2
+  durationMs: 600
+  keyframes: 8
+  interpolationTimeMs: 200
+  events: []
+- name: fall2
+  durationMs: 400
+  keyframes: 5
+  interpolationTimeMs: 200
+  events: []
+- name: falldown2
+  durationMs: 700
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: stand
+  extents:
+  - 20.48
+  - 20.48
+  - 20.48
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: fidget1
+  extents:
+  - 20.48
+  - 20.48
+  - 20.48
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: fly
+  extents:
+  - 20.48
+  - 20.48
+  - 20.48
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: fidgetAir1
+  extents:
+  - 20.48
+  - 20.48
+  - 20.48
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: HattackAir1
+  extents:
+  - 20.48
+  - 20.48
+  - 20.48
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: winceair1
+  extents:
+  - 20.48
+  - 20.48
+  - 20.48
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: winceair2
+  extents:
+  - 20.48
+  - 20.48
+  - 20.48
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: dieair1
+  extents:
+  - 20.48
+  - 20.48
+  - 20.48
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: fall1
+  extents:
+  - 20.48
+  - 20.48
+  - 20.48
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: falldown1
+  extents:
+  - 20.48
+  - 20.48
+  - 20.48
+  origin:
+  - 0.0
+  - 17.92
+  - 0.0
+- name: dieair2
+  extents:
+  - 20.48
+  - 20.48
+  - 20.48
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: fall2
+  extents:
+  - 20.48
+  - 20.48
+  - 20.48
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: falldown2
+  extents:
+  - 20.48
+  - 20.48
+  - 20.48
+  origin:
+  - 0.0
+  - 17.92
+  - 0.0
+roles:
+- actor_model
+source_model: models/crow.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: crow_crow
+  source_skins:
+  - skins/crow.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 94
+    number: '93'
+    monster_name: Bird
+    type_picture: Bird A
+    base_name: ''
+  - table: ACTOR
+    row: 95
+    number: '94'
+    monster_name: Bird
+    type_picture: Bird B
+    base_name: ''
+  - table: MONSTERS
+    row: 94
+    number: '93'
+    monster_name: Bird
+    type_picture: Bird A
+    base_name: ''
+  - table: MONSTERS
+    row: 95
+    number: '94'
+    monster_name: Bird
+    type_picture: Bird B
+    base_name: ''
+- id: crow_drow
+  source_skins: []
+  actor_rows:
+  - table: ACTOR
+    row: 96
+    number: '95'
+    monster_name: Bird
+    type_picture: Bird C
+    base_name: ''
+  - table: MONSTERS
+    row: 96
+    number: '95'
+    monster_name: Bird
+    type_picture: Bird C
+    base_name: ''

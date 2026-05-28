@@ -1,0 +1,150 @@
+;--------------------------------------------------
+;WorkingMonk.scr
+; timmy
+; Makes Monks play working animations
+; 10/23
+;--------------------------------------------------
+
+#include globals.inc
+#include basemelee.inc
+#include guardsounds.inc
+
+#number			NPC_ID
+#Number			nSleeping
+#String			L_Marker
+
+
+
+;parameters:
+;p0 - name of Rude to do
+
+;--------------------------------------------------
+:OnAlarm
+; makes guards hostile
+;--------------------------------------------------
+
+	Addenemy Player
+	Goto BaseInit
+	exit
+
+;--------------------------------------------------
+:Wakeup
+;--------------------------------------------------
+
+Playanim Stand DoNothing
+exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+if (nSleeping==TRUE)
+	gosub Wakeup
+endif
+
+		Getparam 0 g_hobject
+		FaceObject g_hobject 200 DoNothing
+		DoRude NPC_ID
+		exit
+
+;--------------------------------------------------
+:OnDamage
+;--------------------------------------------------
+	haskey 5006 g_ntemp
+	if (g_ntemp==FALSE)
+		givekey 5006
+	endif
+	getobjecthandle AlarmControl g_hobject
+	trigger g_hobject Alarm
+	exit
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+;TraceOn
+
+Haskey 5006 g_ntemp
+if (g_ntemp==TRUE)
+	gosub OnDamage
+	exit
+endif
+
+
+
+haskey 5007 g_ntemp
+if (g_ntemp==TRUE)
+	Gosub OnMove
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:OnMove
+;--------------------------------------------------
+
+if (NPC_ID==426)
+	hasitem 446 g_ntemp
+	if (g_ntemp==TRUE)
+		exit
+	else
+		giveitem 446
+		traceoff
+	endif
+	exit
+else
+	;get out of player's way.
+	
+	getobjecthandle L_Marker g_hobject
+	if (L_Marker==NULL)
+		exit
+	endif
+	Walkto g_hobject 0 DoNothing 
+	exit 
+endif
+exit
+
+;--------------------------------------------------
+:OnTarget
+;--------------------------------------------------
+
+haskey 5006 g_ntemp
+if (g_ntemp==TRUE)
+	gosub OnDamage
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:StartWork
+;--------------------------------------------------
+
+GetRandomInt 1, 20, G_ntemp
+
+
+
+if (g_ntemp==1)
+	LoopAnim sleep 0 DoNothing
+	set nSleeping, TRUE
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;TraceON
+
+
+GetParam 0 NPC_ID
+GetParam 1 L_Marker
+Addtrigger Use, Onuse
+OnRudeExit OnRude
+OnDamage OnDamage
+Addtrigger Alarm ONAlarm
+OnFoundTarget OnTarget
+gosub GS_Init
+gosub Startwork
+exit
+

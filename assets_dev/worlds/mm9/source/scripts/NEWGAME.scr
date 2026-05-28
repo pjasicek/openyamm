@@ -1,0 +1,223 @@
+;----------------------------------------------
+;Newgame.scr
+; By Timmy
+; handles scandlan's rant about his new game.
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         sound   ; checks to see if a sound is currently playing
+#number							soundhandle ; handler for sounds
+#number							sounddur ; duration of sound
+#number							sounddone ; if sound is done this is true
+#number							soundhandle2 ; handler for second actor
+
+
+;-------------------------------------
+:Onblabber
+;-------------------------------------
+; starts with scandlan's speech
+
+
+if (sound==0, )
+	set sound, 1
+	Givekey 112
+	Playsoundhandle voices\cinema\newgame\01.wav, soundhandle, 240, FALSE, 100
+	GetSoundDuration, soundhandle, sounddur
+	Subtract sounddur, .13
+	Wait 1 sounddur, Broccan02
+endif
+
+exit
+
+
+;-------------------------------------
+:Broccan02
+;-------------------------------------
+
+;KillSound soundhandle
+Playsoundhandle voices\cinema\newgame\02.wav, soundhandle2, 240, FALSE, 100
+GetSoundDuration, soundhandle2, sounddur
+Subtract sounddur, .3
+Wait 1 sounddur, Scandlan03
+exit
+
+
+;-------------------------------------
+:Scandlan03
+;-------------------------------------
+
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\newgame\03.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+Subtract sounddur, .12
+Wait 1 sounddur, Broccan04
+exit
+
+
+;-------------------------------------
+:Broccan04
+;-------------------------------------
+
+
+KillSound soundhandle2
+Playsoundhandle voices\cinema\newgame\04.wav, soundhandle2, 240, FALSE, 100
+GetSoundDuration, soundhandle2, sounddur
+Subtract sounddur, .6
+Wait 1 sounddur, Scandlan05
+exit
+
+
+;-------------------------------------
+:Scandlan05
+;-------------------------------------
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\newgame\05.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+Subtract sounddur, .7
+Wait 1 sounddur, Broccan06
+exit
+
+
+;-------------------------------------
+:Broccan06
+;-------------------------------------
+
+KillSound soundhandle2
+Playsoundhandle voices\cinema\newgame\06.wav, soundhandle2, 240, FALSE, 100
+GetSoundDuration, soundhandle2, sounddur
+Subtract sounddur, .13
+Wait 1 sounddur, Scandlan07
+exit
+
+
+;-------------------------------------
+:Scandlan07
+;-------------------------------------
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\newgame\07.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+Wait 1 sounddur, Broccan08
+exit
+
+
+;-------------------------------------
+:Broccan08
+;-------------------------------------
+
+KillSound soundhandle2
+Playsoundhandle voices\cinema\newgame\08.wav, soundhandle2, 240, FALSE, 100
+GetSoundDuration, soundhandle2, sounddur
+Subtract sounddur, .6
+Wait 1 sounddur, Scandlan09
+exit
+
+
+;-------------------------------------
+:Scandlan09
+;-------------------------------------
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\newgame\09.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+
+Wait 1 sounddur, Broccan10
+exit
+
+;-------------------------------------
+:Broccan10
+;-------------------------------------
+
+KillSound soundhandle2
+Playsoundhandle voices\cinema\newgame\10.wav, soundhandle2, 240, FALSE, 100
+GetSoundDuration, soundhandle2, sounddur
+Subtract sounddur, .7
+Wait 1 sounddur, Scandlan11
+exit
+
+;-------------------------------------
+:Scandlan11
+;-------------------------------------
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\newgame\11.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+Wait 1 sounddur, Scandlan12
+exit
+
+;-------------------------------------
+:Scandlan12
+;-------------------------------------
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\newgame\12.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+add sounddur, 3
+Wait 1 sounddur, Onexit
+exit
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+;if sound is playing, kill it
+
+if (sound==1, )
+	KillSound soundhandle
+	Killsound soundhandle2
+	set sound, 0
+	set g_ntemp, 0
+endif
+;start rude dialog
+DoRude 214
+exit
+
+
+;-------------------------------------
+:Onexit
+;-------------------------------------
+
+; kill the sound if it's done
+
+IsSoundDone soundhandle, sounddone
+if (sounddone==1, )
+	KillSound soundhandle
+endif
+IsSoundDone soundhandle2, sounddone
+if (sounddone==1, )
+	KillSound soundhandle2
+	exit
+endif
+;goto ondrink
+exit
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger blabber, Onblabber
+;AddTrigger Use, OnUse ; ADD THIS BACK IN WHEN PROPS CAN REACT TO WAIT COMMAND
+CacheSound voices\cinema\newgame\01.wav
+CacheSound voices\cinema\newgame\02.wav
+CacheSound voices\cinema\newgame\03.wav
+CacheSound voices\cinema\newgame\04.wav
+CacheSound voices\cinema\newgame\05.wav
+CacheSound voices\cinema\newgame\06.wav
+CacheSound voices\cinema\newgame\07.wav
+CacheSound voices\cinema\newgame\08.wav
+CacheSound voices\cinema\newgame\09.wav
+CacheSound voices\cinema\newgame\10.wav
+CacheSound voices\cinema\newgame\11.wav
+CacheSound voices\cinema\newgame\12.wav
+set sound, 0
+set g_ntemp, 0
+haskey 112, g_ntemp
+if (g_ntemp==1)
+	set sound, 1
+endif
+exit

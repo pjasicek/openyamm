@@ -1,0 +1,70 @@
+;--------------------------------------------------
+;NPC183.scr
+; timmy
+; handles Skulki the Dark voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub GiveLich
+
+
+exit
+
+
+;--------------------------------------------------
+:GiveLich
+;--------------------------------------------------
+
+haskey 295 g_ntemp
+if (g_ntemp==TRUE)
+	hasitem 245 g_ntemp
+	if (g_ntemp==TRUE)
+		exit
+	endif
+
+	giveitem 245
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_183.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

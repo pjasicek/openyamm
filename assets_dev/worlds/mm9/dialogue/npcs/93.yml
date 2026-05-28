@@ -1,0 +1,602 @@
+format_version: 1
+source_file: NPC93.rude
+rows:
+  - source:
+      file: NPC93.rude
+      row: 1
+    raw_columns:
+      - 93
+      - 1
+      - 1
+      - Do you have any news?
+      - I've got my dolly back!  See!  Lori's all happy now!  Thank you!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 93
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I've got my dolly back!  See!  Lori's all happy now!  Thank you!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC93.rude
+      row: 2
+    raw_columns:
+      - 93
+      - 93
+      - 1
+      - What happened to your dolly?
+      - I can't find it!  Little Lori has been missing since the Yobboes came.  I'm getting real worried about her!
+      - 93
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 132
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 93
+      node_id: 93
+      choice_slot: 1
+      prompt: What happened to your dolly?
+      response: I can't find it!  Little Lori has been missing since the Yobboes came.  I'm getting real worried about her!
+      next: 93
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 132
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 93
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 132
+        status: raw_value_preserved
+  - source:
+      file: NPC93.rude
+      row: 3
+    raw_columns:
+      - 93
+      - 1
+      - 2
+      - What do you know about Drangheim?
+      - That's the name of the place I live at!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 93
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about Drangheim?
+      response: That's the name of the place I live at!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC93.rude
+      row: 4
+    raw_columns:
+      - 93
+      - 93
+      - 2
+      - We've found your dolly.
+      - You found my dolly?  Thank you!  Oh Lori, are you alright?
+      - 93
+      - 132
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 135
+      - 0
+      - 0
+      - 0
+      - 0
+      - 135
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 93
+      node_id: 93
+      choice_slot: 2
+      prompt: We've found your dolly.
+      response: You found my dolly?  Thank you!  Oh Lori, are you alright?
+      next: 93
+      raw_fields:
+        c07: 132
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 135
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 135
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 93
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 132
+            qbit_id: 9132
+            state_id: mm9.keys.132
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 132
+          qbit_id: 9132
+          state_id: mm9.keys.132
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 135
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 135
+        status: raw_value_preserved
+  - source:
+      file: NPC93.rude
+      row: 5
+    raw_columns:
+      - 93
+      - 93
+      - 3
+      - Can we ask you some questions?
+      - I'm not supposed to talk to anyone I don't know.  Especially since the Yobboes came.
+      - 93
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 135
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 93
+      node_id: 93
+      choice_slot: 3
+      prompt: Can we ask you some questions?
+      response: I'm not supposed to talk to anyone I don't know.  Especially since the Yobboes came.
+      next: 93
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 135
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 93
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 135
+        status: raw_value_preserved
+  - source:
+      file: NPC93.rude
+      row: 6
+    raw_columns:
+      - 93
+      - 93
+      - 4
+      - Can we ask you some questions?
+      - Sure!
+      - 1
+      - 135
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 93
+      node_id: 93
+      choice_slot: 4
+      prompt: Can we ask you some questions?
+      response: Sure!
+      next: 1
+      raw_fields:
+        c07: 135
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 135
+            qbit_id: 9135
+            state_id: mm9.keys.135
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 135
+          qbit_id: 9135
+          state_id: mm9.keys.135
+  - source:
+      file: NPC93.rude
+      row: 7
+    raw_columns:
+      - 93
+      - 1
+      - 7
+      - Thanks for your time.
+      - Goodbye!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 93
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Goodbye!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC93.rude
+      row: 8
+    raw_columns:
+      - 93
+      - 93
+      - 7
+      - Thanks for your time.
+      - Bye bye!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 93
+      node_id: 93
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Bye bye!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

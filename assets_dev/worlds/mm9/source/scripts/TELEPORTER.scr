@@ -1,0 +1,109 @@
+;------------------------------------
+;	Teleporter.scr
+;	by SJR
+;	11-21-01
+;
+;	Purpose:teleport creatures or player
+;			to some remote spot OnTouch
+;
+;	ScriptParams:
+;		p0 = name of destination object
+;		p1 = activation mode  (1='Use', 0='OnTouch)
+;		p2 = what to teleport (0=monsters only, 1=monsters+player, 2=player only)
+;		p3 = object to trigger OnTeleport
+;------------------------------------
+#include BaseGlobals.inc
+
+#hobject	hDest = 0
+#hobject	hObject = 0
+#hobject	hTrigger = 0
+
+#number		bIsPlayer = 0
+#number		bIsMonster = 0
+
+#string		sDestName = ""
+#string		sMessageName = ""
+
+#number		bOnUseOnly = 0
+#number		bMonstersOnly = 1
+
+;------------------------------------
+:Main
+;------------------------------------
+	GetParam 0, sDestName
+	GetParam 1, bOnUseOnly
+	GetParam 2, bMonstersOnly
+	GetParam 3, sMessageName
+
+	Wait 0, 2, InitTeleporter
+
+	Exit TRUE
+
+#number		xDest = 0
+#number		yDest = 0
+#number		zDest = 0
+;------------------------------------
+:InitTeleporter
+;------------------------------------
+	AddTrigger Off, TurnOff
+	AddTrigger On , TurnOn
+
+	gosub TurnOn
+
+	GetObjectHandle sMessageName, hTrigger
+	GetObjectHandle sDestName, hDest
+	GetPOS hDest, xDest,yDest,zDest
+
+	AddTrigger Use, Teleport
+	OnTouchNotify Teleport
+
+	Exit TRUE
+
+;------------------------------------
+:Teleport
+;	whether 'use' or touch, check object
+;------------------------------------
+cprint Teleport
+	GetParam 0, hObject
+cprint hObject
+
+	;;if 1 or 2, do player
+	if( bMonstersOnly>0 )
+		IsPlayer hObject, bIsPlayer
+		if( bIsPlayer==TRUE )
+			SetPOS hObject, xDest,yDest,zDest
+			Trigger hTrigger, trigger
+		endif
+	endif
+
+	;;if 0 or 1, do monster
+	if( bMonstersOnly<2 )
+		IsAI hObject, bIsMonster
+		if( bIsMonster==TRUE )
+			SetPOS hObject, xDest,yDest,zDest
+			Trigger hTrigger, trigger
+		endif
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:TurnOff
+;	disable teleporting
+;------------------------------------
+	RemoveTrigger Use
+	OnTouchNotify DoNothing
+
+	Exit TRUE
+
+;------------------------------------
+:TurnOn
+;	enable teleporting with current options
+;------------------------------------
+	if( bOnUseOnly==TRUE )
+		AddTrigger Use, Teleport
+	else
+		OnTouchNotify Teleport
+	endif
+
+	Exit TRUE

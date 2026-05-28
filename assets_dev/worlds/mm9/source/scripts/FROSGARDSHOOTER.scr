@@ -1,0 +1,100 @@
+;----------------------------------------------
+;FrosgardShooter.scr
+; By Timmy
+; Turns the shooter on and Off in Frosgard
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#string			sTarget = Shoot
+#string			sTargetName
+
+#number			nCounter = 0
+#number			bTest
+
+;-------------------------------------
+:OnStart
+;-------------------------------------
+
+if (sTargetName==NULL)
+	set sTargetName, Shoot
+endif
+
+
+getparam 0 g_hTarget
+
+GetMyHandle g_hmyobject
+trigger g_hmyobject On
+
+if (bTest==FALSE)
+	getobjecthandle BreakIce g_hobject
+	trigger g_hobject start
+endif
+
+if (bTest==TRUE)
+	wait 4 5 Fire
+endif
+
+goto Target
+exit
+
+
+
+;-------------------------------------
+:Target
+;-------------------------------------
+
+
+
+if (nCounter==8)
+	gosub off
+	exit
+endif 
+
+target NULL
+
+set sTarget, sTargetName
+
+
+getrandomInt 0, 5 g_ntemp
+sTarget = sTarget + g_ntemp
+
+getobjecthandle sTarget g_hobject
+target g_hobject
+
+wait 1 .4 Target
+Add nCounter, 1
+exit
+
+;-------------------------------------
+:Fire
+;-------------------------------------
+
+getobjecthandle shooter7 g_hobject
+trigger g_hobject on
+
+exit
+
+;-------------------------------------
+:Off
+;-------------------------------------
+
+trigger g_hmyobject Off
+if (bTest==FALSE)
+	getobjecthandle DestructableProp0 g_hobject
+	trigger g_hobject destroy
+endif
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Start OnStart
+getparam 0 sTargetName
+getparam 1 bTest
+exit

@@ -1,0 +1,75 @@
+;--------------------------------------------------
+;NPC337.scr
+; timmy
+; handles Fre voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub GoldenHonk
+
+
+exit
+
+
+;--------------------------------------------------
+:GoldenHonk
+;--------------------------------------------------
+;****************
+;GoldenHonk Quest
+;****************
+
+haskey 347 g_ntemp
+if (g_ntemp==0)
+	haskey 346 g_ntemp
+	if (g_ntemp==1)
+		givegold 10000
+		giveexp 80000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		takeitem 369
+		givekey 347
+		exit
+	endif
+endif
+
+
+;End GoldenHonk Quest
+;******************
+exit
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_337.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

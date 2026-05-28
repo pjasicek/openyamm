@@ -1,0 +1,593 @@
+format_version: 1
+source_file: NPC338.rude
+rows:
+  - source:
+      file: NPC338.rude
+      row: 1
+    raw_columns:
+      - 338
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 338
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC338.rude
+      row: 2
+    raw_columns:
+      - 338
+      - 10
+      - 1
+      - How do we get out of here?
+      - How can you save the world when you can't find your way around a place as simple as this?  Go through the magic portal behind me.  It will take you where you need to go.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 338
+      node_id: 10
+      choice_slot: 1
+      prompt: How do we get out of here?
+      response: How can you save the world when you can't find your way around a place as simple as this?  Go through the magic portal behind me.  It will take you where you need to go.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC338.rude
+      row: 3
+    raw_columns:
+      - 338
+      - 3
+      - 1
+      - We will do this.  Thank you for your time.
+      - Stop wasting time with your flowery speeches.  Get on with it!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 476
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 338
+      node_id: 3
+      choice_slot: 1
+      prompt: We will do this.  Thank you for your time.
+      response: Stop wasting time with your flowery speeches.  Get on with it!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 476
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 476
+        status: raw_value_preserved
+  - source:
+      file: NPC338.rude
+      row: 4
+    raw_columns:
+      - 338
+      - 2
+      - 1
+      - Why the Isle of Ashes?
+      - It's a convenient place to store it until I need it later.  Take it to Verhoffin's Ruins, and place it on the pedestal in the Lab Room.  Once the Capstone of Order is placed, your Writ of Fate will present itself.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 338
+      node_id: 2
+      choice_slot: 1
+      prompt: Why the Isle of Ashes?
+      response: It's a convenient place to store it until I need it later.  Take it to Verhoffin's Ruins, and place it on the pedestal in the Lab Room.  Once the Capstone of Order is placed, your Writ of Fate will present itself.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC338.rude
+      row: 5
+    raw_columns:
+      - 338
+      - 1
+      - 1
+      - What is it?
+      - I am rather fond of the Capstone of Order, a magical device that insures orderliness.  It seems to have fallen from Arslegard and landed in Guberland.  Go to The Gathering in Guberland, retrieve the Capstone, and take it to the Isle of Ashes.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 338
+      node_id: 1
+      choice_slot: 1
+      prompt: What is it?
+      response: I am rather fond of the Capstone of Order, a magical device that insures orderliness.  It seems to have fallen from Arslegard and landed in Guberland.  Go to The Gathering in Guberland, retrieve the Capstone, and take it to the Isle of Ashes.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC338.rude
+      row: 6
+    raw_columns:
+      - 338
+      - 338
+      - 1
+      - We've come seeking a Writ of Fate.
+      - Yes, yes, I know.  That wort Hanndl won't let you in without one.  I can assure you that there is a Writ of Fate with your names on it.  I shall give it to you.  But first, there is something you will do for me.
+      - 1
+      - 97
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 476
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 338
+      node_id: 338
+      choice_slot: 1
+      prompt: We've come seeking a Writ of Fate.
+      response: Yes, yes, I know.  That wort Hanndl won't let you in without one.  I can assure you that there is a Writ of Fate with your names on it.  I shall give it to you.  But first, there is something you will do for me.
+      next: 1
+      raw_fields:
+        c07: 97
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 476
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 97
+            qbit_id: 9097
+            state_id: mm9.keys.97
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 97
+          qbit_id: 9097
+          state_id: mm9.keys.97
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 476
+        status: raw_value_preserved
+  - source:
+      file: NPC338.rude
+      row: 7
+    raw_columns:
+      - 338
+      - 338
+      - 2
+      - Uhh, one more thing?
+      - What is it?
+      - 10
+      - 476
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 338
+      node_id: 338
+      choice_slot: 2
+      prompt: Uhh, one more thing?
+      response: What is it?
+      next: 10
+      raw_fields:
+        c07: 476
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 476
+            qbit_id: 9476
+            state_id: mm9.keys.476
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 476
+          qbit_id: 9476
+          state_id: mm9.keys.476
+  - source:
+      file: NPC338.rude
+      row: 8
+    raw_columns:
+      - 338
+      - 338
+      - 3
+      - Thanks for your time.
+      - Farewell, Adventurers.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 338
+      node_id: 338
+      choice_slot: 3
+      prompt: Thanks for your time.
+      response: Farewell, Adventurers.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

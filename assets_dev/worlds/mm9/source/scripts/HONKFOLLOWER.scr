@@ -1,0 +1,158 @@
+;--------------------------------------
+;	HonkFollower.scr
+;	by SJR
+;	10-06-01
+;	Purpose:participate in the ceremony
+;			started by HonkLeader.scr
+;
+;	ScriptParams are:
+;		p0 = Base name of marker list
+;		p1 = index of first marker
+;		p2 = index of last marker
+;--------------------------------------
+#include ListTraverse.inc
+#include baseWander.inc
+#include HonkHostility.inc
+
+#hobject	hPodium = 0
+
+#hobject	hLink = 0
+
+#number		dir = 1
+#number		x = 0
+#number		y = 0
+#number		z = 0
+
+#number		bAttended = 0
+#number		bCeremonyDone = 0
+
+#number		rand = 1
+#string		sPastorName = ""
+
+#stringarray	spAnims[4]
+#string			sAnim = ""
+
+;--------------------------------------
+:Main
+;--------------------------------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+
+	OnPostStartWorld InitHonkFollower
+	OnPostMiniSaveLoad InitHonkFollower
+
+	Exit TRUE
+
+;--------------------------------------
+:InitHonkFollower
+;--------------------------------------
+	GetMyHandle hPodium
+	SetStat hPodium, AutoDeactivate, FALSE
+	hPodium = NULL
+
+	gosub InitHonkHostility
+
+	GetConsoleStrVar HONK_PASTOR, sPastorName
+	GetObjectHandle sPastorName, hPodium
+	if( hPodium!=0 )
+		CreateObjectLink hPodium
+		OnObjectLinkBroken OnObjectLinkBroken
+	endif
+
+	ArrayPut spAnims, 0, "hattack2"
+	ArrayPut spAnims, 1, "hattack1"
+	ArrayPut spAnims, 2, "fidget1"
+	ArrayPut spAnims, 3, "fidget2"
+
+	gosub SetTraverseWalk
+	gosub SetTraverseOnce
+
+	@M 6 : 15, OnRingGong, DoNothing
+	@M 6 : 45, EndCeremony, DoNothing
+
+	@M 18 : 15, OnRingGong, DoNothing
+	@M 18 : 45, EndCeremony, DoNothing
+
+	gosub BaseWanderInit
+	gosub BaseWanderStartup
+
+	Exit TRUE
+
+;--------------------------------------
+:OnObjectLinkBroken
+;--------------------------------------
+	GetParam 0, hLink
+	if( hLink==hPodium )
+		hPodium = NULL
+	endif
+
+	gosub BecomeHostile
+
+	Exit TRUE
+
+;--------------------------------------
+:OnRingGong
+;	scheduled for beginning of ceremony
+;--------------------------------------
+	gosub BaseWanderStop
+
+	if( bAttended==TRUE )
+		Exit TRUE
+	endif
+	bAttended = TRUE
+
+	if( hPodium!=0 )
+		FaceObject hPodium, 180, TraverseBegin
+	endif
+
+	Exit TRUE
+
+;--------------------------------------
+:StartCeremony
+;	start anim\sound loop
+;--------------------------------------
+	Stop
+	if( hPodium!=0 )
+		Trigger hPodium, FollowerReady
+		FaceObject hPodium, 180, PlayRandomAnim
+	endif
+
+	Exit TRUE
+
+;--------------------------------------
+:OnTraverseDone
+;	do whatever when we're at each marker
+;--------------------------------------
+	gosub TraversePause
+	if( LISTINDEX==LISTLAST )
+		gosub StartCeremony
+	else
+		gosub TraverseResume
+	endif
+
+	Exit TRUE
+
+;--------------------------------------
+:EndCeremony
+;	reverse path, go back
+;--------------------------------------
+	bCeremonyDone = TRUE
+	gosub ReversePath
+	Wait 1, 5, TraverseBegin
+
+	Exit TRUE
+
+;--------------------------------------
+:PlayRandomAnim
+;	pick number, do that anim
+;--------------------------------------
+	if( bCeremonyDone==TRUE )
+		Exit TRUE
+	endif
+
+	GetRandomInt 1, 3, rand
+	ArrayGet spAnims, rand, sAnim
+	PlayAnim sAnim, PlayRandomAnim
+
+	Exit TRUE

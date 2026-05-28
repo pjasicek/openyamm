@@ -1,0 +1,99 @@
+;-------------------------------------
+;	ArmWrestle.scr
+;	by SJR
+;	Purpose:armwrestler in the thing.
+;-------------------------------------
+#include ThjorgardGamesCommon.inc
+#include BaseGlobals.inc
+
+#number		PLAYER_MIGHT = 0
+#number		MY_MIGHT = 0
+#number		nMight = 0
+#number		nRandom = 0
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	GetParam 0, nMight
+
+	AddTrigger use, OnUse
+
+	Exit TRUE
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+	gosub CheckGameTicket
+	if( THJORGARD_RESULT==0 )
+		Exit TRUE
+	else
+		gosub TakeGameTicket
+	endif
+
+	gosub RemoveUse
+	gosub StartMightGame
+
+	Exit TRUE
+
+;-------------------------------------
+:StartMightGame
+;-------------------------------------
+	GetRandomInt 1, 40 nRandom
+	MY_MIGHT = nMight + nRandom
+
+	GetAttribute 0, PLAYER_MIGHT
+	GetRandomInt 9, 50, nRandom
+	PLAYER_MIGHT = PLAYER_MIGHT + nRandom
+
+	if (PLAYER_MIGHT>=MY_MIGHT)
+		gosub StartCower
+		gosub RecordMightWin
+	else
+		gosub LoopTaunt
+		RolloverText TEXT_DEFEAT, 1, 3000, 2000
+	endif
+
+	Exit TRUE
+
+;-------------------------------------
+:LoopTaunt
+;-------------------------------------
+	gosub RestoreUse
+;;	LoopAnim CowerStart, 2, RestoreUse
+
+	Exit TRUE
+
+;-------------------------------------
+:StartCower
+;-------------------------------------
+	PlayAnim "cowerstart", LoopCower
+
+	Exit TRUE
+
+;-------------------------------------
+:LoopCower
+;-------------------------------------
+	Loopanim "cower", 5, FinishCower
+
+	Exit TRUE
+
+;-------------------------------------
+:FinishCower
+;-------------------------------------
+	Playanim "cowerstop", RestoreUse
+
+	Exit TRUE
+
+;-------------------------------------
+:RemoveUse
+;-------------------------------------
+	RemoveTrigger use
+
+	Exit TRUE
+
+;-------------------------------------
+:RestoreUse
+;-------------------------------------
+	AddTrigger use, OnUse
+
+	Exit TRUE

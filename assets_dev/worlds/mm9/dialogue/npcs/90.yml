@@ -1,0 +1,696 @@
+format_version: 1
+source_file: NPC90.rude
+rows:
+  - source:
+      file: NPC90.rude
+      row: 1
+    raw_columns:
+      - 90
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 90
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC90.rude
+      row: 2
+    raw_columns:
+      - 90
+      - 6
+      - 1
+      - Very well.
+      - All right!  See you there!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 90
+      node_id: 6
+      choice_slot: 1
+      prompt: Very well.
+      response: All right!  See you there!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC90.rude
+      row: 3
+    raw_columns:
+      - 90
+      - 5
+      - 1
+      - We're supposed to take you to see Bjarni.
+      - What, you think I want to go gallivanting around with you?  Not likely.  Besides, I need a drink!  When you're ready to see Bjarni, you can find me in the tavern in Sturmford.
+      - 6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 90
+      node_id: 5
+      choice_slot: 1
+      prompt: We're supposed to take you to see Bjarni.
+      response: What, you think I want to go gallivanting around with you?  Not likely.  Besides, I need a drink!  When you're ready to see Bjarni, you can find me in the tavern in Sturmford.
+      next: 6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 6
+  - source:
+      file: NPC90.rude
+      row: 4
+    raw_columns:
+      - 90
+      - 2
+      - 1
+      - Let's go.
+      - Woooweee!!  Freedom!!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 90
+      node_id: 2
+      choice_slot: 1
+      prompt: Let's go.
+      response: Woooweee!!  Freedom!!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC90.rude
+      row: 5
+    raw_columns:
+      - 90
+      - 1
+      - 1
+      - We've been sent by Bjarni Thorvaldssen to rescue you.
+      - Bjarni sent you?  To get me?  What are we waiting for?  I may be an old man now, but I can move just as good as when I was twenty!  And don't worry if you lose me.  I know my way around.  If we get separated I'll meet you outside.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 17
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 90
+      node_id: 1
+      choice_slot: 1
+      prompt: We've been sent by Bjarni Thorvaldssen to rescue you.
+      response: Bjarni sent you?  To get me?  What are we waiting for?  I may be an old man now, but I can move just as good as when I was twenty!  And don't worry if you lose me.  I know my way around.  If we get separated I'll meet you outside.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 17
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 17
+        status: raw_value_preserved
+  - source:
+      file: NPC90.rude
+      row: 6
+    raw_columns:
+      - 90
+      - 90
+      - 1
+      - We've come to take you back to Sturmford.
+      - What?  Who are you?
+      - 1
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 17
+      - 21
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 90
+      node_id: 90
+      choice_slot: 1
+      prompt: We've come to take you back to Sturmford.
+      response: What?  Who are you?
+      next: 1
+      raw_fields:
+        c07: 12
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 17
+        c22: 21
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 12
+            qbit_id: 9012
+            state_id: mm9.keys.12
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 12
+          qbit_id: 9012
+          state_id: mm9.keys.12
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 17
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 21
+        status: raw_value_preserved
+  - source:
+      file: NPC90.rude
+      row: 7
+    raw_columns:
+      - 90
+      - 90
+      - 2
+      - What is it, General?
+      - I know the way from here!
+      - 5
+      - 194
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 242
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 90
+      node_id: 90
+      choice_slot: 2
+      prompt: What is it, General?
+      response: I know the way from here!
+      next: 5
+      raw_fields:
+        c07: 194
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 242
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 194
+            qbit_id: 9194
+            state_id: mm9.keys.194
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 194
+          qbit_id: 9194
+          state_id: mm9.keys.194
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 242
+        status: raw_value_preserved
+  - source:
+      file: NPC90.rude
+      row: 8
+    raw_columns:
+      - 90
+      - 90
+      - 3
+      - Come on, General.
+      - Sure thing!  Ready to go!
+      - -1
+      - 17
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 21
+      - 194
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 90
+      node_id: 90
+      choice_slot: 3
+      prompt: Come on, General.
+      response: Sure thing!  Ready to go!
+      next: -1
+      raw_fields:
+        c07: 17
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 21
+        c22: 194
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 17
+            qbit_id: 9017
+            state_id: mm9.keys.17
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 17
+          qbit_id: 9017
+          state_id: mm9.keys.17
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 21
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 194
+        status: raw_value_preserved
+  - source:
+      file: NPC90.rude
+      row: 9
+    raw_columns:
+      - 90
+      - 90
+      - 4
+      - Sorry to bother you, old man.
+      - Wait!  Come back!  Keep an old man some company.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 194
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 90
+      node_id: 90
+      choice_slot: 4
+      prompt: Sorry to bother you, old man.
+      response: Wait!  Come back!  Keep an old man some company.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 194
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 194
+        status: raw_value_preserved

@@ -1,0 +1,193 @@
+;----------------------------------------------
+;knutspeech.scr
+; By Timmy
+; handles knut fastmouth's political rant.
+
+;parameters
+;p0 Dedit object name for Ake
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         sound   ; checks to see if a sound is currently playing
+#number							soundhandle ; handler for sounds
+#number							sounddur ; duration of sound
+#number							sounddone ; if sound is done this is true
+#string							params
+#number							nShutup = 0
+
+#number							nPosition = 1
+
+;-------------------------------------
+:Onblabber
+;-------------------------------------
+; knuts blabber
+
+wait 1 1, Speak
+gosub Conv
+
+exit
+;-------------------------------------
+:Speak
+;-------------------------------------
+
+if (sound==0, )
+	set sound, 1
+	Givekey 114
+	Playsoundhandle voices\cinema\socialism\KnutFAstmouth01.wav, soundhandle, 768, FALSE, 100
+	GetSoundDuration, soundhandle, sounddur
+
+	; trigger ake's script to start heckles
+	getobjecthandle params, g_hobject
+	trigger g_hobject blabber
+	subtract sounddur, 5
+	Wait 1 sounddur, shutup
+endif
+
+exit
+
+;-------------------------------------
+:Conv
+;-------------------------------------
+if (nShutup==TRUE)
+	EXIT
+endif
+
+converse -1 conv
+exit
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+;if sound is playing, kill it
+
+if (sound==1, )
+	KillSound soundhandle
+
+	set sound, 0
+	set g_ntemp, 0
+endif
+;start rude dialog
+;DoRude 261
+exit
+
+;-------------------------------------
+:shutup
+;-------------------------------------
+
+set nShutup, True
+trigger g_hobject shutup
+wait 1 6, onexit
+exit
+
+;-------------------------------------
+:Onexit
+;-------------------------------------
+
+; kill the sound if it's done
+
+IsSoundDone soundhandle, sounddone
+if (sounddone==1, )
+	KillSound soundhandle
+	endif
+;goto ondrink
+exit
+
+;-------------------------------------
+:GoPosition1
+;-------------------------------------
+	SetPos g_hMyObject,3424.0 1344.0 -672.0
+	FaceDir 0,0,0,0
+
+	Exit
+
+;-------------------------------------
+:GoPosition2
+;-------------------------------------
+	SetPos g_hMyObject,3494,1254,3166
+	FaceDir 0.78,0,0.63,0
+
+	Exit
+
+;-------------------------------------
+:GoPosition3
+;-------------------------------------
+
+	SetPos g_hMyObject,-933,1254,2036
+	FaceDir 0.7,0,0.72,0
+
+	Exit
+
+;-------------------------------------
+:GoPosition4
+;-------------------------------------
+
+	SetPos g_hMyObject,-2324,1254,4559
+	FaceDir 0.75,0,0.67,0
+
+	Exit
+
+;-------------------------------------
+:SetupPosition
+;-------------------------------------
+
+	GetMyHandle g_hMyObject
+
+	Add nPosition,1
+
+	if ( nPosition>4 )
+		nPosition = 1
+	endif
+
+	if ( nPosition==1 )
+		goto GoPosition1
+	endif
+
+	if ( nPosition==2 )
+		goto GoPosition2
+	endif
+
+	if ( nPosition==3 )
+		goto GoPosition3
+	endif
+
+	if ( nPosition==4 )
+		goto GoPosition4
+	endif
+
+	exit
+
+;-------------------------------------
+:PostMiniSaveLoad
+;-------------------------------------
+
+	gosub SetupPosition
+	exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger blabber, Onblabber
+AddTrigger Use, OnUse ; ADD THIS BACK IN WHEN PROPS CAN REACT TO WAIT COMMAND
+Onfoundplayer OnBlabber
+GetParam 0, Params
+set sound, 0
+set g_ntemp, 0
+haskey 114, g_ntemp
+if (g_ntemp==1)
+	set sound, 1
+endif
+
+gosub SetupPosition
+
+OnPostMiniSaveLoad	PostMiniSaveLoad
+AddTrigger GoPosition1,GoPosition1
+AddTrigger GoPosition2,GoPosition2
+AddTrigger GoPosition3,GoPosition3
+AddTrigger GoPosition4,GoPosition4
+
+
+exit
+

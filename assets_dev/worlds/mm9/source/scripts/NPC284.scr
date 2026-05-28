@@ -1,0 +1,103 @@
+;--------------------------------------------------
+;NPC284.scr
+; timmy
+; handles Robert Aefgil voice and stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include baseMelee.inc
+
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+
+haskey 255 g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+
+Haskey 254 g_ntemp
+
+if (g_ntemp==0, )
+	getmyhandle g_hobject
+	clearflag g_hobject, visible
+	clearflag g_hobject, solid
+	clearflag g_hobject, gravity
+	exit
+endif
+
+Gosub baseWanderInit
+
+exit
+
+;--------------------------------------------------
+:Appear
+;--------------------------------------------------
+
+haskey 255 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+Haskey 254 g_ntemp
+if (g_ntemp==1, )
+	getmyhandle g_hobject
+	setflag g_hobject, visible
+	setflag g_hobject, solid
+	setflag g_hobject, gravity
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Stop
+Gosub BaseWanderStop
+Getparam 0 g_hobject
+FaceObject g_hobject 240 DoNothing
+DoRude 284
+Playsound voices\NPC\NPC_284.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnRude
+;-------------------------------------
+
+Gosub BaseWanderStart
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+@M 6 : 00 Appear Appear
+Addtrigger Use, OnUse
+AddTrigger Appear Appear
+OnRudeExit OnRude
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+
+exit
+

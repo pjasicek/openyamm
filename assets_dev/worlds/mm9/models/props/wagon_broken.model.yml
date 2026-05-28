@@ -1,0 +1,76 @@
+schema: openyamm.model3d.v1
+id: wagon_broken
+model: wagon_broken.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/WAGON_BROKEN.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 512.0
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: Wagon_Broken
+  materialIndex: 0
+  lods:
+  - faces: 503
+    vertices: 435
+- name: Wheel-faces
+  materialIndex: 1
+  lods:
+  - faces: 80
+    vertices: 88
+materials:
+- index: 0
+  texture: skins_preview/props/wagon_broken.png
+  runtime_texture: skins/props/wagon_broken.dtx
+  preview_texture: skins_preview/props/wagon_broken.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/WAGON_BROKEN.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 499.2
+  - 189.44
+  - 217.6
+  origin:
+  - -7.68
+  - 40.96
+  - 12.8
+roles:
+- static_model
+source_model: models/props/wagon_broken.abc

@@ -1,0 +1,257 @@
+;----------------------------------------------
+;ARG_Kira.scr
+; By Timmy
+; handles Kira's Argument Cutscene stuff
+;
+
+
+;----------------------------------------------
+
+#include globals.inc 
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;-------------------------------------
+:OnApplause
+;-------------------------------------
+
+playAnim Applause Init
+exit
+;-------------------------------------
+:OnScene2
+;-------------------------------------
+
+PlayAnim Sc2_MARKEL02 OnIdle
+wait 1 1.5 Book
+
+exit
+
+;-------------------------------------
+:Book
+;-------------------------------------
+Playsound \sounds\events\bookopen.wav, DoNothing, 100, 24000, FALSE, 100
+getobjecthandle Prop8 g_hobject
+trigger g_hobject use
+exit
+;-------------------------------------
+:OnVoice1
+;-------------------------------------
+
+Playsound \voices\cinema\TheArgument\01.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnSpeak4
+;-------------------------------------
+
+PlayAnim Sc2_MARKEL04 OnIdle
+exit
+
+;-------------------------------------
+:OnVoice4
+;-------------------------------------
+
+Playsound \voices\cinema\TheArgument\04.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnSpeak8
+;-------------------------------------
+
+PlayAnim Sc2_MARKEL08 OnIdle
+exit
+
+;-------------------------------------
+:OnVoice8
+;-------------------------------------
+
+Playsound \voices\cinema\TheArgument\08.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnSpeak11
+;-------------------------------------
+
+PlayAnim Sc2_MARKEL10 OnIdle
+exit
+
+;-------------------------------------
+:OnVoice11
+;-------------------------------------
+
+Playsound \voices\cinema\TheArgument\11.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnSpeak13
+;-------------------------------------
+
+PlayAnim Sc2_MARKEL13 OnIdle
+exit
+
+;-------------------------------------
+:OnVoice13
+;-------------------------------------
+
+Playsound \voices\cinema\TheArgument\13.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnSpeak15
+;-------------------------------------
+
+PlayAnim Sc2_MARKEL15 OnIdle
+exit
+
+;-------------------------------------
+:OnVoice15
+;-------------------------------------
+
+Playsound \voices\cinema\TheArgument\15.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnDone
+;-------------------------------------
+
+getobjecthandle Argueman g_hobject
+trigger g_hobject Done
+
+
+;-------------------------------------
+:OnIdle
+;-------------------------------------
+
+loopanim Sit 0 DoNothing
+exit
+
+;-------------------------------------
+:OnMove
+;-------------------------------------
+getobjecthandle prop7 g_hobject
+	clearflag g_hobject, solid
+	clearflag g_hobject, gravity
+trigger g_hobject Play
+
+Playsound Sounds\events\Chairslide.wav, DoNothing, 100, 24000, FALSE, 100
+Getobjecthandle KiraMarker1 g_hobject
+walkto g_hobject 8 Target
+exit
+
+;-------------------------------------
+:OnAgree
+;-------------------------------------
+PlayAnim Agree DoNothing
+exit
+
+;-------------------------------------
+:Target
+;-------------------------------------
+
+getobjecthandle Kira g_hobject
+target g_hobject
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+loopanim Sit 0 DoNothing
+exit
+
+
+;-------------------------------------
+:OnKill
+;-------------------------------------
+
+Playanim Sc2_markel21 Dead
+exit
+
+;-------------------------------------
+:OnDie
+;-------------------------------------
+
+
+Playsound \sounds\Weapons\cflesh.wav, DoNothing, 100, 24000, FALSE, 25
+Playsound \voices\cinema\TheArgument\16a.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:Dead
+;-------------------------------------
+
+
+Loopanim static_die2 0 DoNothing
+exit
+
+;-------------------------------------
+:Onclap
+;-------------------------------------
+getrandomint 1, 7 g_ntemp
+
+if (g_ntemp==1)
+	Playsound \sounds\events\clap01.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==2)
+	Playsound \sounds\events\clap02.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==3)
+	Playsound \sounds\events\clap03.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==4)
+	Playsound \sounds\events\clap04.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==5)
+	Playsound \sounds\events\clap05.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==6)
+	Playsound \sounds\events\clap06.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==7)
+	Playsound \sounds\events\clap07.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+exit
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+AddTrigger Scene2 OnScene2
+AddModelKey Voice1 OnVoice1
+AddTrigger Speak4 OnSpeak4
+AddModelKey Voice4 OnVoice4
+AddTrigger Speak8 OnSpeak8
+AddModelKey Voice8 OnVoice8
+AddTrigger Speak11 OnSpeak11
+AddModelKey Voice11 OnVoice11
+AddTrigger Speak13 OnSpeak13
+AddModelKey Voice13 OnVoice13
+AddTrigger Speak15 OnSpeak15
+AddModelKey Voice15 OnVoice15
+AddTrigger Move OnMove
+AddModelKey Done OnDone
+AddTrigger Kill OnKill
+AddModelKey Die OnDie
+AddTrigger Clap OnApplause
+AddModelKey Clap OnClap
+AddTrigger Agree OnAgree
+wait 1 .1 Init
+exit

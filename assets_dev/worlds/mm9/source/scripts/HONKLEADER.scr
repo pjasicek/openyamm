@@ -1,0 +1,173 @@
+;----------------------------
+;	HonkLeader.scr
+;	by SJR
+;	10-06-01
+;	Purpose:script for the
+;			leader of ceremony
+;----------------------------
+#include BaseGlobals.inc
+#include HonkHostility.inc
+
+#hobject	hPlatform = 0
+#hobject	hFire = 0
+#string		sMyName = ""
+
+#number		bAttended = 0
+#number		bBeginCeremony = 0
+#number		bEndCeremony = 1
+
+#number		TempMod = 0
+#number		nRandom = 1
+
+#stringarray	spSounds[4]
+#stringarray	spAnims[4]
+#stringarray	spObjects[4]
+#string			sHolder = ""
+
+;-------------------
+:Main
+;-------------------
+	GetMyHandle hFire
+	GetObjectName hFire, sMyName
+	SetConsoleStrVar HONK_PASTOR, sMyName
+
+	OnPostStartWorld InitHonkFollower
+	OnPostMiniSaveLoad InitHonkFollower
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;-------------------
+:CacheFiles
+;-------------------
+	CacheSound "sounds\events\churchbellring.wav"
+
+	Exit TRUE
+
+;-------------------
+:InitHonkFollower
+;-------------------
+	gosub InitStrings
+
+	AddTrigger FollowerReady, StartCeremony
+
+	@M 6 : 15, RingGong, DoNothing
+	@M 6 : 45, EndCeremony, DoNothing
+
+	@M 18 : 15, RingGong, DoNothing
+	@M 18 : 45, EndCeremony, DoNothing
+
+	gosub InitHonkHostility
+	gosub EndCeremony
+
+	Exit TRUE
+
+;-------------------
+:StartCeremony
+;-------------------
+	if( bBeginCeremony==TRUE )
+		Exit TRUE
+	endif
+
+	bBeginCeremony = TRUE
+
+	GetObjectHandle Brimstone0, hFire
+	if( hFire!=0 )
+		Trigger hFire, on
+	endif
+	GetObjectHandle Brimstone1, hFire
+	if( hFire!=0 )
+		Trigger hFire, on
+	endif
+
+	FaceDir -1,0,0, 180, RandomPreach
+	PlaySound "sounds\ambient\thunder01.wav", DoNothing, 1, 5000, FALSE, 100
+
+	Exit TRUE
+
+;-------------------
+:RingGong
+;-------------------
+	bEndCeremony = FALSE
+	bBeginCeremony = TRUE
+	if( bAttended==TRUE )
+		Exit TRUE
+	endif
+
+	bAttended = TRUE
+	PlaySound sounds\events\churchbellring.wav, DoNothing, 1, 5000, FALSE, 100
+
+	Exit TRUE
+
+;-------------------
+:EndCeremony
+;-------------------
+	LoopAnim "prop-stand", 0
+	Stop
+	bEndCeremony = TRUE
+	bBeginCeremony = FALSE
+
+	GetObjectHandle Brimstone0, hFire
+	if( hFire!=0 )
+		Trigger hFire, Off
+	endif
+
+	GetObjectHandle Brimstone1, hFire
+	if( hFire!=0 )
+		Trigger hFire, Off
+	endif
+
+	Exit TRUE
+
+;-------------------
+:Pace
+;-------------------
+	if( bEndCeremony==TRUE )
+		Exit TRUE
+	endif
+
+	GetRandomInt 1, 3, nRandom
+	ArrayGet spObjects, nRandom, sHolder
+	GetObjectHandle sHolder, hPlatform
+	if( hPlatform!=0 )
+		WalkTo hPlatform, 0, RandomPreach
+	endif
+
+	Exit TRUE
+
+;-------------------
+:RandomPreach
+;-------------------
+	Stop
+
+	FaceDir -1,0,0, 270, DoNothing
+
+	GetRandomInt 0, 3, nRandom
+	ArrayGet spAnims, nRandom, sHolder
+	PlayAnim sHolder
+
+	GetRandomInt 0, 3, nRandom
+	ArrayGet spSounds, nRandom, sHolder
+	PlaySound sHolder, Pace, 1, 1000, 0, 100
+
+	Exit TRUE
+
+;-------------------
+:InitStrings
+;-------------------
+	ArrayPut spAnims, 0, "prop-fidget1"
+	ArrayPut spAnims, 1, "prop-fidget2"
+	ArrayPut spAnims, 2, "fidget1"
+	ArrayPut spAnims, 3, "prop-stand"
+
+	ArrayPut spSounds, 0, "sounds\ambient\thunder04.wav"
+	ArrayPut spSounds, 1, "sounds\ambient\thunder03.wav"
+	ArrayPut spSounds, 2, "sounds\ambient\thunder02.wav"
+	ArrayPut spSounds, 3, "sounds\ambient\thunder01.wav"
+
+	ArrayPut spObjects, 0, "PlatformMarker0"
+	ArrayPut spObjects, 1, "PlatformMarker1"
+	ArrayPut spObjects, 2, "PlatformMarker2"
+	ArrayPut spObjects, 3, "PlatformMarker3"
+
+	Exit TRUE

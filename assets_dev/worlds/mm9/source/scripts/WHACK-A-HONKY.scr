@@ -1,0 +1,191 @@
+;--------------------------------
+;	Mastermind.scr
+;	by SJR
+;	12-20-01
+;	Purpose:chuckEcheese whack a mole
+;			give script to each whackee.
+;			10 whacks in 10 seconds
+;--------------------------------
+#include BaseGlobals.inc
+#include ListMaker.inc
+#include ThjorgardGamesCommon.inc
+
+#number		dt = 0
+#number		bSent = 0
+#number		nMyIndex = 0
+#number		nWhackCounter = 0
+#number		nTemp = 0
+
+#number		WIN_CONDITION = 8
+
+#hobject	hMe = 0
+#number		xMe = 0
+#number		yMe = 0
+#number		zMe = 0
+
+;--------------------------------
+:Main
+;--------------------------------
+	GetParam 0, nMyIndex
+	GetParam 1, LISTNAME
+	GetParam 2, LISTFIRST
+	GetParam 3, LISTLAST
+
+	AddTrigger start, StartGame
+	AddTrigger popup, ReceivePopup
+	AddTrigger reset, ResetPOS
+
+	;;global counter
+	SetConsoleNumVar WHACK_COUNTER, 0
+
+	GetMyHandle hMe
+	GetPOS hMe, xMe,yMe,zMe
+
+	Exit TRUE
+
+;--------------------------------
+:StartGame
+;--------------------------------
+	gosub CheckGameTicket
+	if( THJORGARD_RESULT==0 )
+		Exit TRUE
+	else
+		gosub TakeGameTicket
+	endif
+
+	;;set game in progress
+	SetConsoleNumVar WHACK_RUNNING, TRUE
+
+	gosub ResetPOS
+
+	;;timers for start and win
+	gosub Countdown5
+	Wait 0, 5, ReceivePopup
+	Wait 19, 15, EndGame
+
+	gosub DisableInput
+
+	Exit TRUE
+
+;--------------------------------
+:EndGame
+;	what to do when player won\lost
+;--------------------------------
+	;;set game not in progress
+	SetConsoleNumVar WHACK_RUNNING, FALSE
+
+	GetConsoleNumVar WHACK_COUNTER, nWhackCounter
+	if( nWhackCounter>=WIN_CONDITION )
+		gosub RecordHonkyWin
+	else
+		RolloverText TEXT_DEFEAT, 1, 3000, 2000
+	endif
+
+	;;reset counters
+	SetConsoleNumVar WHACK_COUNTER, 0
+	nWhackCounter = 0
+
+	gosub EnableInput
+
+	Exit TRUE
+
+;--------------------------------
+:ReceivePopup
+;	received popup message
+;	raise me, allow whacking
+;--------------------------------
+	;;check if game running
+	GetConsoleNumVar WHACK_RUNNING, nTemp
+	if( nTemp==FALSE )
+		Exit TRUE
+	endif
+
+	;;enable user input
+	AddTrigger use, OnDamage
+
+	bSent = FALSE
+
+	MoveDir 0,1,0, 20, 100, OnFinishedRaise
+
+	Exit TRUE
+
+;--------------------------------
+:OnDamage
+;	play sound, check victory
+;--------------------------------
+	;;increment global counter
+	GetConsoleNumVar WHACK_COUNTER, nWhackCounter
+	nWhackCounter = nWhackCounter + 1
+	SetConsoleNumVar WHACK_COUNTER, nWhackCounter
+
+	PlaySound "sounds\animsounds\hen\fidget01.wav", DoNothing, 1, 1000, FALSE, 100
+
+	gosub SendPopup
+
+	Exit TRUE
+
+;--------------------------------
+:SendPopup
+;	trigger another to raise
+;	lower me, and disable whacking
+;--------------------------------
+	;;only go down once
+	if( bSent==TRUE )
+		Exit TRUE
+	else
+		bSent = TRUE
+	endif
+
+	;;disable user input until finished
+	RemoveTrigger use
+
+	MoveToPOS xMe,yMe,zMe, 100, OnFinishedLower
+
+	Exit TRUE
+
+;--------------------------------
+:OnFinishedRaise
+;	wait before returning
+;--------------------------------
+	GetRandomFloat .5, 1, dt
+
+	;;wait at top for a bit
+	Wait 0, dt, SendPopup
+
+	Exit TRUE
+
+;--------------------------------
+:OnFinishedLower
+;	trigger next random mole
+;--------------------------------
+	GetRandomInt LISTFIRST, LISTLAST, LISTINDEX
+	;;make sure we dont psych ourselves out
+	while( LISTINDEX==nMyIndex )
+		GetRandomInt LISTFIRST, LISTLAST, LISTINDEX
+	endwhile
+
+	gosub GetCurrentObject
+	Trigger LISTOBJECT, popup
+
+	Exit TRUE
+
+;--------------------------------
+:DisableInput
+;--------------------------------
+	RemoveTrigger start
+
+	Exit TRUE
+
+;--------------------------------
+:EnableInput
+;--------------------------------
+	AddTrigger start, StartGame
+
+	Exit TRUE
+
+;--------------------------------
+:ResetPOS
+;--------------------------------
+	SetPOS hMe, xMe,yMe,zMe
+
+	Exit TRUE

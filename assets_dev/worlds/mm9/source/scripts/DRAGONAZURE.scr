@@ -1,0 +1,151 @@
+;---------------------------------------------------------
+:DragonAzure.scr
+;
+;
+;	Specifically handles the Azure dragon
+;---------------------------------------------------------
+
+
+#include aiglobals.inc
+#include base.inc
+
+#hobject		hWater
+#number			minWaterX
+#number			minWaterY
+#number			minWaterZ
+#number			maxWaterX
+#number			maxWaterY
+#number			maxWaterZ
+
+
+#number			normalX
+#number			normalY
+#number			normalZ
+
+#number			dimsX
+#number			dimsY
+#number			dimsZ
+
+
+;----------------------------------------------------------------
+:GetWaterDims
+;----------------------------------------------------------------
+	GetLiquidContainer g_hMyObject, hWater
+
+	if ( hWater!=NULL )
+		GetObjectMinMax hWater, minWaterX, minWaterY, minWaterZ, maxWaterX, maxWaterY, maxWaterZ
+	endif
+
+	exit
+
+;---------------------------------------------------------
+:JumpDone
+;---------------------------------------------------------
+	gosub BaseGoGetHim
+	exit FALSE
+
+;---------------------------------------------------------
+:JumpAtTarget
+;---------------------------------------------------------
+
+	Jump JumpDone
+
+	exit
+
+;---------------------------------------------------------
+:CheckForJump
+;	
+;	See if we should attempt to jump out of the water
+;---------------------------------------------------------
+
+	; get obstacle handle
+	GetParam 0, g_hObject
+
+	; See if obstacle handle is world geometry
+	if ( g_hObject==NULL )
+		exit FALSE
+	endif
+
+	GetClassName g_hObject, g_sTemp
+
+	if ( g_sTemp!=World )
+		; only jump over world obstacles
+		Exit FALSE
+	endif
+
+	gosub GetWaterDims
+
+	if ( hWater==NULL )
+		; we're not in water, so don't jump....
+		exit FALSE
+	endif
+
+	; Okay, we're in water....
+
+	if ( g_hTarget==NULL )
+		Exit FALSE
+	endif
+
+	GetPos g_hTarget, g_posX, g_posY, g_posZ
+
+	GetParam 1, normalX
+	GetParam 2, normalY
+	GetParam 3, normalZ
+
+	Mul normalX, -1
+	Mul normalY, -1
+	Mul normalZ, -1
+
+	if ( g_posY <= maxWaterY )
+		exit FALSE
+	endif
+
+	GetPos g_hMyObject, g_posX, g_posY, g_posZ
+	GetDims g_hMyObject, dimsX, dimsY, dimsZ
+
+	Add g_posY, dimsY
+	Add g_posY, dimsY
+	Add g_posY, dimsY
+
+	Set g_nTemp, dimsZ
+
+	Mul g_nTemp, 3
+
+	; Now see if there's a wall in the way...
+	CheckWorldCollision g_posX, g_posY, g_posZ, normalX, normalY, normalZ, g_nTemp, g_hObject
+
+	if ( g_hObject!=NULL )
+	; There's a wall in our way...
+		exit FALSE
+		DebugOut Can't Jump... There's a wall in the way!
+	endif
+
+	; if we're here, it's time to do the jump!
+
+	FaceDir normalX, normalY, normalZ, 180
+	gosub JumpAtTarget
+
+	Exit TRUE
+
+;---------------------------------------------------------
+:DamageDone
+;
+;	Don't ever go after one of our own...
+;
+;---------------------------------------------------------
+
+	gosub BaseDamageDone
+
+	Exit
+
+;---------------------------------------------------------
+:Main
+;---------------------------------------------------------
+
+	gosub InitBase
+
+;;;	OnStuck CheckForJump
+	OnObstacle CheckForJump
+	OnDamageDone DamageDone
+	
+	Exit

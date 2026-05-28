@@ -1,0 +1,58 @@
+format_version: 1
+services:
+  - opcode: -16
+    name: donation
+    observed_count: 7
+    status: typed
+  - opcode: -15
+    name: town_portal
+    observed_count: 3
+    status: typed
+  - opcode: -14
+    name: quest_handoff
+    observed_count: 11
+    status: pending_exact_validation
+  - opcode: -13
+    name: item_combine
+    observed_count: 2
+    status: typed
+  - opcode: -11
+    name: dismiss
+    observed_count: 13
+    status: typed
+  - opcode: -10
+    name: hire
+    observed_count: 17
+    status: typed
+  - opcode: -8
+    name: healer
+    observed_count: 8
+    status: typed
+  - opcode: -7
+    name: inn
+    observed_count: 7
+    status: typed
+  - opcode: -6
+    name: bank
+    observed_count: 7
+    status: typed
+  - opcode: -5
+    name: travel
+    observed_count: 8
+    status: typed
+  - opcode: -4
+    name: skill_training
+    observed_count: 115
+    status: typed
+  - opcode: -3
+    name: training
+    observed_count: 8
+    status: typed
+  - opcode: -2
+    name: shop
+    observed_count: 48
+    status: typed
+  - opcode: -1
+    name: close
+    observed_count: 1004
+    status: typed

@@ -1,0 +1,106 @@
+;-----------------------------------
+;	BC_MonsterFight.scr
+;	by SJR
+;	Purpose:two monsters duke it out
+;			to show the player a fight
+;-----------------------------------
+#include BaseGlobals.inc
+
+#hobject	hTreasure0 = 0
+#hobject	hTreasure1 = 0
+#hobject	hTreasure2 = 0
+
+;-----------------------------------
+:Main
+;-----------------------------------
+	Wait 0, .1, InitMonsterOpen
+
+	Exit TRUE
+
+;-----------------------------------
+:InitMonsterOpen
+;-----------------------------------
+	AddFriend AIBase
+	AddFriend Player
+
+	GetObjectHandle TreasureChest0, hTreasure2
+	GetObjectHandle TreasureChest3, hTreasure1
+	GetObjectHandle TreasureChest4, hTreasure0
+
+	Wait 0, 1, BeginOpen
+
+	Exit TRUE
+
+;-----------------------------------
+:BeginOpen
+;-----------------------------------
+	gosub WalkToFirst
+
+	Exit TRUE
+
+;-----------------------------------
+:DieHard
+;-----------------------------------
+	Die
+
+	Exit TRUE
+
+;-----------------------------------
+:WalkToFirst
+;-----------------------------------
+	WalkTo hTreasure0, 0, OpenFirst
+
+	Exit TRUE
+
+;-----------------------------------
+:WalkToSecond
+;-----------------------------------
+	WalkTo hTreasure1, 0, OpenSecond
+
+	Exit TRUE
+
+;-----------------------------------
+:WalkToThird
+;-----------------------------------
+	WalkTo hTreasure2, 0, OpenThird
+
+	Exit TRUE
+
+;-----------------------------------
+:OpenFirst
+;-----------------------------------
+	Stop
+	FaceObject hTreasure0, 180, DoNothing
+
+	Trigger hTreasure0, open
+	
+	PlayAnim castspell3, DoNothing
+	PlaySound "sounds\ambient\people\crowdnoise-cheer01.wav", WalkToSecond, 1, 1000, FALSE, 100
+
+	Exit TRUE
+
+;-----------------------------------
+:OpenSecond
+;-----------------------------------
+	Stop
+	FaceObject hTreasure1, 180, DoNothing
+
+	Trigger hTreasure1, open
+	
+	PlayAnim castspell3, DoNothing
+	PlaySound "sounds\ambient\people\crowdnoise-cheer02.wav", WalkToThird, 1, 1000, FALSE, 100
+
+	Exit TRUE
+
+#string		WHY_DO_PEOPLE_USE_SPACES = "sounds\ambient\people\crowdnoise-ohhh 02.wav"
+;-----------------------------------
+:OpenThird
+;-----------------------------------
+	Stop
+	FaceObject hTreasure2, 180, DoNothing
+
+	Trigger hTreasure2, open
+
+	PlaySound WHY_DO_PEOPLE_USE_SPACES, DoNothing, 1, 1000, FALSE, 100
+
+	Exit TRUE

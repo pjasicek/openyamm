@@ -1,0 +1,252 @@
+;---------------------------------------
+;	AK_ImpGate.scr
+;	by SJR
+;	Purpose:spawn certain number of imps
+;			and destroy self when done.
+;			anskrammainline.scr passes out key.
+;	Params:
+;		p0 = creature name
+;		p1 = number to spawn
+;		p2 = anskrammainline.scr name
+;		p3 = fire object to turn off
+;---------------------------------------
+#include BaseGlobals.inc
+#include globals.inc
+
+#hobject	hMe = 0
+#number		xMe = 0
+#number		yMe = 0
+#number		zMe = 0
+
+#number		nQuantity = 0
+
+#string		SPAWN_PARAM = ""
+#string		sCreatureName = "Imp"
+#string		sScriptName = " ScriptName AK_ImpGateSpawn.scr"
+#string		sFireName = ""
+#string		sSignalName = ""
+
+#hobject	hCreature = 0
+
+#number		NUM_GATES = 8
+#number		bHasKey = 0
+#number		nKey
+
+
+#string		SPELL_BLUEFIRE = "fireblue"
+
+;---------------------------------------
+:Main
+;---------------------------------------
+	GetParam 0, sCreatureName
+	GetParam 1, nQuantity
+	GetParam 2, sSignalName
+	GetParam 3, sFireName
+
+	OnPostStartWorld InitImpGate
+	OnPostMiniSaveLoad InitImpGate
+
+	Exit TRUE
+
+
+
+;---------------------------------------
+:InitKey
+;---------------------------------------
+
+if (sFireName==ImpGateFire0)
+	nKey = 510
+	exit
+endif
+
+if (sFireName==ImpGateFire1)
+	nKey = 511
+	exit
+endif
+
+if (sFireName==ImpGateFire2)
+	nKey = 512
+	exit
+endif
+
+if (sFireName==ImpGateFire3)
+	nKey = 513
+	exit
+endif
+
+if (sFireName==ImpGateFire4)
+	nKey = 514
+	exit
+endif
+
+if (sFireName==ImpGateFire5)
+	nKey = 515
+	exit
+endif
+
+if (sFireName==ImpGateFire6)
+	nKey = 516
+	exit
+endif
+
+if (sFireName==ImpGateFire7)
+	nKey = 517
+	exit
+endif
+
+exit
+
+;---------------------------------------
+:ConsoleCheck
+;---------------------------------------
+
+set g_nCounter, 0
+
+haskey 510 g_ntemp
+if (g_ntemp==TRUE)
+	add g_nCounter, 1
+endif
+
+haskey 511 g_ntemp
+if (g_ntemp==TRUE)
+	add g_nCounter, 1
+endif
+
+haskey 512 g_ntemp
+if (g_ntemp==TRUE)
+	add g_nCounter, 1
+endif
+
+haskey 513 g_ntemp
+if (g_ntemp==TRUE)
+	add g_nCounter, 1
+endif
+
+haskey 514 g_ntemp
+if (g_ntemp==TRUE)
+	add g_nCounter, 1
+endif
+
+haskey 515 g_ntemp
+if (g_ntemp==TRUE)
+	add g_nCounter, 1
+endif
+
+haskey 516 g_ntemp
+if (g_ntemp==TRUE)
+	add g_nCounter, 1
+endif
+
+haskey 517 g_ntemp
+if (g_ntemp==TRUE)
+	add g_nCounter, 1
+endif
+
+SetConsoleNumVar AK_IMP_TOTAL, g_nCounter
+
+exit
+
+
+;---------------------------------------
+:InitImpGate
+;---------------------------------------
+
+	Gosub InitKey
+
+	HasKey nKey, bHasKey
+	if( bHasKey==TRUE )
+		GetObjectHandle sFireName, hMe
+		if( hMe!=0 )
+			RemoveObject hMe
+		endif
+		Exit TRUE
+	endif
+
+	if( nQuantity>5 )
+		nQuantity = 5
+	else
+	if( nQuantity<1 )
+		nQuantity = 1
+	endif
+	endif
+
+
+	Gosub ConsoleCheck
+
+	GetMyHandle hMe
+	GetPOS hMe, xMe, yMe, zMe
+
+	AddTrigger spawn, Spawn
+	OnTargetDead Respawn
+
+	Exit TRUE
+
+;---------------------------------------
+:Respawn
+;	keep an eye on creature, respawn if dead
+;---------------------------------------
+	Target NULL
+	hCreature = NULL
+	Wait 0, 3, Spawn
+
+	Exit TRUE
+
+;---------------------------------------
+:Spawn
+;	keep an eye on creature, respawn if dead
+;---------------------------------------
+	if( nQuantity<=0 )
+		gosub Terminate
+		Exit TRUE
+	endif
+
+	nQuantity = nQuantity - 1
+	SPAWN_PARAM = sCreatureName + sScriptName
+	Spawn hCreature, xMe, yMe, zMe, SPAWN_PARAM
+
+	if( hCreature!=0 )
+		DoClientFX hCreature, SPELL_BLUEFIRE, FALSE, TRUE
+		Target hCreature
+	endif
+	
+	Exit TRUE
+
+;---------------------------------------
+:Terminate
+;	turn off, signal keygiver, disable stuff
+;---------------------------------------
+
+	givekey nKey
+
+	GetConsoleNumVar AK_IMP_TOTAL, xMe
+	xMe = xMe + 1
+	hCreature = NULL
+	Target NULL
+
+	if( xMe==NUM_GATES )
+		GetObjectHandle sSignalName, hCreature
+		Trigger hCreature, use
+		GetObjectHandle TriggerGiantImp, hCreature
+		Trigger hCreature, on
+		hCreature = NULL
+	else
+		SetConsoleNumVar AK_IMP_TOTAL, xMe
+	endif
+
+	GetObjectHandle sFireName, hCreature
+	if( hCreature!=0 )
+		RemoveObject hCreature
+	endif
+
+	RemoveTrigger spawn
+	OnTargetDead DoNothing
+	Wait 0, 1, RemoveObject
+
+	Exit TRUE
+
+;---------------------------------------
+:RemoveObject
+;---------------------------------------
+	RemoveObject hMe
+
+	Exit TRUE

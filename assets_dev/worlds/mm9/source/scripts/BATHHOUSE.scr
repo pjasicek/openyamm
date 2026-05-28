@@ -1,0 +1,44 @@
+;----------------------------------------------
+;bathhouse.scr
+; By Timmy
+; checks to see if the player has killed everything in anskram keep
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+
+
+
+;-------------------------------------
+:Onuse
+;NOTE this script just completes the quest right now.
+; this is the routine where additional functionality should go
+;-------------------------------------
+
+haskey 348 g_ntemp
+if (g_ntemp==1)
+	haskey 349 g_ntemp
+	if (g_ntemp==0)
+		givekey 349
+		exit
+	endif
+else
+	haskey 350 g_ntemp
+	if (g_ntemp==0)
+		givekey 350
+		exit
+	endif
+endif
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Use, Onuse
+Addtrigger kill, Onuse
+exit

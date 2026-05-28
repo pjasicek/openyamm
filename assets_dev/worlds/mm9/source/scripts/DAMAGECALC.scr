@@ -1,0 +1,7 @@
+#include DamageCalc.inc
+
+;----------------------------
+:Main
+;----------------------------
+	Wait 0, 1, InitDamageCalc
+	Exit 1

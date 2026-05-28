@@ -1,0 +1,111 @@
+;--------------------------------------------------
+;ThjoradMonk.scr
+; timmy
+; Monks who walk to pray for bells
+;--------------------------------------------------
+#include MonkHostility.inc
+
+#include globals.inc
+#include Monksounds.inc
+
+#String			Anim_1
+#String			L_Marker
+#number			NPC_ID
+#Number			AtPrayer
+
+;parameters:
+;p0 = Name of animation to run
+;p1 = name of marker to walk to at prayer timeo
+
+;--------------------------------------------------
+:Pray
+;--------------------------------------------------
+
+if (NPC_ID==0)
+	AttachProp MonkHammer.ABC MonkHammer.dtx Hammer g_hobject2
+endif
+
+playanim stand Pray2
+exit
+
+
+
+;--------------------------------------------------
+:Pray2
+;--------------------------------------------------
+LoopAnim Anim_1, 0 Donothing
+exit
+
+;--------------------------------------------------
+:OnGoToPray
+;--------------------------------------------------
+
+if (NPC_ID==0)
+	DetachProp g_hobject2 False
+endif
+
+set atPrayer, True
+gosub BaseDoorInit
+loopanim pray 0 DoNothing
+set Anim_1 Pray
+getobjecthandle L_Marker g_hobject
+Walkto g_hobject 8 Pray 
+exit
+
+;--------------------------------------------------
+:OnTurnedHostile
+;--------------------------------------------------
+
+Set AtPrayer, TRUE
+getobjecthandle thjorad g_hobject
+trigger g_hobject TurnOn
+Playanim stand DoNothing
+Gosub BaseInit
+exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+if (NPC_ID!=0)
+	if (AtPrayer==0)
+		Getparam 0 g_hobject
+		FaceObject g_hobject 200 DoNothing
+		DoRude NPC_ID
+		exit
+	endif
+endif
+exit
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+getobjecthandle Thjorad g_hobject
+FaceObject g_hobject 180 DoNothing
+exit
+
+;--------------------------------------------------
+:OnStuck
+;--------------------------------------------------
+
+walkto g_hobject 8 Pray
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;TraceON
+getparam 0 Anim_1
+getparam 1 L_Marker
+GetParam 2 NPC_ID
+Gosub Pray
+OnStuck Onstuck
+Addtrigger GoToPray OnGoToPray
+Addtrigger Use, Onuse
+OnRudeExit OnRude
+gosub MS_Init
+Wait 0, 5, InitMonkHostility
+exit
+

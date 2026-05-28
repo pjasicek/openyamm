@@ -1,0 +1,553 @@
+schema: openyamm.model3d.v1
+id: rabbit
+model: rabbit.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/RABBIT.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500;  ShadowEnable; ShadowSizeX
+    10; ShadowSizeY 10
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 4.023306898564917e+25
+pieces:
+- name: foot
+  materialIndex: 0
+  lods:
+  - faces: 17
+    vertices: 11
+  - faces: 13
+    vertices: 9
+- name: head
+  materialIndex: 0
+  lods:
+  - faces: 20
+    vertices: 12
+  - faces: 20
+    vertices: 12
+- name: frontfoot01
+  materialIndex: 0
+  lods:
+  - faces: 17
+    vertices: 11
+  - faces: 9
+    vertices: 7
+- name: body
+  materialIndex: 0
+  lods:
+  - faces: 56
+    vertices: 30
+  - faces: 36
+    vertices: 20
+- name: frontfoot
+  materialIndex: 0
+  lods:
+  - faces: 17
+    vertices: 11
+  - faces: 9
+    vertices: 7
+- name: foot01
+  materialIndex: 0
+  lods:
+  - faces: 17
+    vertices: 11
+  - faces: 15
+    vertices: 10
+- name: ear01
+  materialIndex: 0
+  lods:
+  - faces: 9
+    vertices: 7
+  - faces: 9
+    vertices: 7
+- name: ear
+  materialIndex: 0
+  lods:
+  - faces: 9
+    vertices: 7
+  - faces: 9
+    vertices: 7
+- name: tail
+  materialIndex: 0
+  lods:
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+materials:
+- index: 0
+  texture: skins_preview/rabbit.png
+  runtime_texture: skins/rabbit.dtx
+  preview_texture: skins_preview/rabbit.png
+  source: mm9/extracted/SKINS/SKINS/RABBIT.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Xcenter
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 16
+  - index: 2
+    name: XbackB
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 10
+    - 13
+  - index: 3
+    name: Xneck
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Xhead
+    parent: 3
+    flags: 1
+    children:
+    - 5
+    - 6
+    - 8
+  - index: 5
+    name: Xnose
+    parent: 4
+    flags: 1
+    children: []
+  - index: 6
+    name: Xearpiv
+    parent: 4
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Xear
+    parent: 6
+    flags: 1
+    children: []
+  - index: 8
+    name: Xearpiv01
+    parent: 4
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Xear01
+    parent: 8
+    flags: 1
+    children: []
+  - index: 10
+    name: Xfleg
+    parent: 2
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Xffootpiv
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Xffoot
+    parent: 11
+    flags: 1
+    children: []
+  - index: 13
+    name: Xfleg01
+    parent: 2
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: Xffootpiv01
+    parent: 13
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Xffoot01
+    parent: 14
+    flags: 1
+    children: []
+  - index: 16
+    name: XbackA
+    parent: 1
+    flags: 1
+    children:
+    - 17
+    - 19
+    - 22
+  - index: 17
+    name: Xtailbase
+    parent: 16
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Xtail
+    parent: 17
+    flags: 1
+    children: []
+  - index: 19
+    name: Xbleg
+    parent: 16
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Xbfootpiv
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Xbfoot
+    parent: 20
+    flags: 1
+    children: []
+  - index: 22
+    name: Xbleg01
+    parent: 16
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Xbfootpiv01
+    parent: 22
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Xbfoot01
+    parent: 23
+    flags: 1
+    children: []
+sockets:
+- name: rangeattack
+  node: 5
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 1.5493284433176768e-09
+  - 0.9974842071533203
+  - -0.07088902592658997
+  - 2.180070346469165e-08
+- name: Rhand1
+  node: 15
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -1.2965849505164329e-09
+  - 0.7175607681274414
+  - -0.6964958906173706
+  - 3.1716844262064114e-08
+- name: Lhand1
+  node: 12
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -1.2965960527466791e-09
+  - 0.7175607681274414
+  - -0.6964958906173706
+  - 3.171685136749147e-08
+animations:
+- name: static_model
+  durationMs: 2022
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand0
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: stand1
+  durationMs: 1200
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: fidget1
+  durationMs: 2500
+  keyframes: 17
+  interpolationTimeMs: 200
+  events: []
+- name: fidget2
+  durationMs: 2000
+  keyframes: 13
+  interpolationTimeMs: 200
+  events: []
+- name: fidget3
+  durationMs: 4000
+  keyframes: 23
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 500
+  keyframes: 6
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 400
+    event: footstep
+  - timeMs: 500
+    event: footstep
+- name: run
+  durationMs: 300
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 231
+    event: footstep
+  - timeMs: 289
+    event: footstep
+- name: Hattack1
+  durationMs: 800
+  keyframes: 17
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 97
+    event: footstep; lunge
+  - timeMs: 390
+    event: LAttack
+  - timeMs: 488
+    event: Rattack
+- name: Hattack2
+  durationMs: 1400
+  keyframes: 16
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 467
+    event: Rattack
+  - timeMs: 583
+    event: Lattack
+- name: rattack1
+  durationMs: 900
+  keyframes: 15
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 399
+    event: Rangeattack
+- name: wince1
+  durationMs: 800
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: wince2
+  durationMs: 800
+  keyframes: 11
+  interpolationTimeMs: 200
+  events: []
+- name: die1
+  durationMs: 1200
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  1  5 -4
+  - timeMs: 107
+    event: Velocity -1  8 -5
+  - timeMs: 213
+    event: Velocity -8  14 -4
+  - timeMs: 321
+    event: Velocity -4  9 -5
+  - timeMs: 429
+    event: Velocity -10  7 -9
+  - timeMs: 535
+    event: Velocity  13  13 -8
+  - timeMs: 643
+    event: Velocity  6 -15 -2
+  - timeMs: 750
+    event: Velocity  2 -10 -1
+  - timeMs: 857
+    event: Velocity  0  1 -3
+  - timeMs: 965
+    event: Velocity  0  0 -1
+  - timeMs: 1071
+    event: Velocity  0 -1 -2
+  - timeMs: 1179
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: die2
+  durationMs: 1400
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity -20  62 -37
+  - timeMs: 311
+    event: Velocity -10  14 -25
+  - timeMs: 467
+    event: Velocity -4  14 -32
+  - timeMs: 622
+    event: Velocity -6 -33 -20
+  - timeMs: 777
+    event: Velocity -1 -14 -1
+  - timeMs: 933
+    event: Velocity -4  4 -12
+  - timeMs: 1088
+    event: Velocity -1  0 -7
+  - timeMs: 1244
+    event: Velocity -2 -4 -3
+  - timeMs: 1400
+    event: Velocity 0 0 0; DeadDims 1 0 1
+animationBindings:
+- name: static_model
+  extents:
+  - 12.8
+  - 40.96
+  - 23.04
+  origin:
+  - 0.0
+  - -20.48
+  - 12.8
+- name: stand0
+  extents:
+  - 12.8
+  - 20.48
+  - 33.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: stand1
+  extents:
+  - 12.8
+  - 20.48
+  - 33.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: fidget1
+  extents:
+  - 12.8
+  - 20.48
+  - 33.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: fidget2
+  extents:
+  - 12.8
+  - 20.48
+  - 33.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: fidget3
+  extents:
+  - 12.8
+  - 20.48
+  - 33.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: walk
+  extents:
+  - 12.8
+  - 20.48
+  - 33.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: run
+  extents:
+  - 12.8
+  - 20.48
+  - 33.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: Hattack1
+  extents:
+  - 12.8
+  - 20.48
+  - 33.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: Hattack2
+  extents:
+  - 12.8
+  - 20.48
+  - 33.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: rattack1
+  extents:
+  - 12.8
+  - 20.48
+  - 33.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: wince1
+  extents:
+  - 12.8
+  - 20.48
+  - 33.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: wince2
+  extents:
+  - 12.8
+  - 20.48
+  - 33.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: die1
+  extents:
+  - 12.8
+  - 20.48
+  - 33.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+- name: die2
+  extents:
+  - 12.8
+  - 20.48
+  - 33.28
+  origin:
+  - 0.0
+  - 0.0
+  - -2.56
+roles:
+- static_model
+source_model: models/rabbit.abc

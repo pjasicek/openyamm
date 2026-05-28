@@ -1,0 +1,170 @@
+;----------------------------------------------------------
+;	PropThrower.scr
+;	Jeff Leggett
+;	12/06/2001
+;	
+;
+;	Script that can turn a prop into a projectile...
+;
+;----------------------------------------------------------
+
+#include globals.inc
+#include flags.inc
+
+#number			targetX
+#number			targetY
+#number			targetZ
+
+#number			homeX
+#number			homeY
+#number			homeZ
+
+#hobject		hPlayer
+
+#number			bThrowing = 0
+
+#number			rotX
+#number			rotY
+#number			rotZ
+
+#hobject		hRequester
+#number			bDidDamage = 0
+
+
+
+;----------------------------------------------------------
+:KeepRotating
+;----------------------------------------------------------
+	if (bThrowing==TRUE)
+		Rotate rotX,rotY,rotZ,180,450,KeepRotating
+	Endif
+
+	Exit
+
+;----------------------------------------------------------
+:DoRotation
+;----------------------------------------------------------
+;	GetRandomFloat 0.5,1,rotX
+;	GetRandomFloat 0.5,1,rotY
+;	GetRandomFloat 0.5,1,rotZ
+	rotX = 0
+	rotY = 0
+	rotZ = 1
+	gosub KeepRotating
+	Exit
+
+;----------------------------------------------------------
+:ThrowAtPlayer
+;----------------------------------------------------------
+	GetParam 0, g_hObject
+
+	if ( g_hObject!=hRequester )
+		if ( hRequester!=NULL )
+			BreakObjectLink hRequester
+		endif
+		hRequester = g_hObject
+		CreateObjectLink hRequester
+	endif
+
+	GetPlayerHandle hPlayer
+
+	GetPos hPlayer, targetX,targetY,targetZ
+	GetPos g_hMyObject, g_posX, g_posY, g_posZ
+
+	VecSub targetX,targetY,targetZ,g_posX,g_posY,g_posZ
+	VecNorm targetX,targetY,targetZ
+	FaceDir targetX,targetY,targetZ
+	VecScale targetX,targetY,targetZ,450
+
+	SetVelocity g_hMyObject,targetX,targetY,targetZ
+	SetFlag g_hMyObject,FLAG_VISIBLE
+
+	bThrowing = TRUE
+	bDidDamage = FALSE
+
+	gosub DoRotation
+
+	Wait 5,5,Reset
+
+	exit
+
+;----------------------------------------------------------
+:Reset
+;----------------------------------------------------------
+
+	if ( hRequester!=NULL )
+		Trigger hRequester,PropThrowerDone
+	Endif
+
+	Wait 5,0,DoNothing
+	ClearFlag g_hMyObject,FLAG_VISIBLE
+	SetVelocity g_hMyObject,0,0,0
+	bThrowing = FALSE
+	wait 7,0.1,ResetPosition
+
+	bDidDamage = FALSE
+
+	exit
+
+;----------------------------------------------------------
+:OnTouchNotify
+;----------------------------------------------------------
+	GetParam 0, g_hObject
+
+	if ( g_hObject==hRequester )
+		Exit FALSE
+	Endif
+
+	if ( bDidDamage==FALSE )
+		IsClass g_hObject,Actor,g_bTemp
+		if ( g_bTemp==TRUE )
+			bDidDamage = TRUE
+			GetRandomInt 1,3,g_nTemp
+			Damage g_hObject,g_nTemp,0
+		Endif
+	Endif
+
+;
+;	TODO:Play sound here...
+;
+	gosub Reset
+
+	exit
+
+
+;----------------------------------------------------------
+:ResetPosition
+;----------------------------------------------------------
+
+	SetPos g_hMyObject,homeX,homeY,homeZ
+
+	exit
+
+;----------------------------------------------------------
+:OnLinkBroken
+;----------------------------------------------------------
+	
+	GetParam 0,g_hObject
+	if ( g_hObject==hRequester )
+		hRequester = NULL
+	endif
+	
+	exit
+
+;----------------------------------------------------------
+:Main
+;----------------------------------------------------------
+	GetMyHandle g_hMyObject
+	ClearFlag g_hMyObject,FLAG_VISIBLE
+	ClearFlag g_hMyObject,FLAG_SOLID
+
+	GetPos g_hMyObject,homeX,homeY,homeZ
+	
+	AddTrigger ThrowAtPlayer,ThrowAtPlayer
+	AddTrigger GetPlayer,ThrowAtPlayer
+	AddTrigger ResetPosition,ResetPosition
+	OnTouchNotify OnTouchNotify
+	OnObjectLinkBroken OnLinkBroken
+
+	Exit
+

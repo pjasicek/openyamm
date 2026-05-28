@@ -1,0 +1,30 @@
+;-------------------
+;	GreenParty.scr
+;	Karl
+;	10-15-01
+;	
+;	Simply kill creatures at level launch.
+;		
+;-------------------
+
+#include Globals.inc
+
+#hObject	hKillMe=0
+
+#string		sDeadGuy=""
+
+
+;-----------
+:KillThem
+;-----------
+
+	GetObjectHandle sDeadGuy, hKillMe
+	Die
+
+;-----------
+:Main
+;-----------
+	GetParam 0, sDeadGuy
+
+	Wait 0, .1, KillThem
+	Exit TRUE

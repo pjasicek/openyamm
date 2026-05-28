@@ -1,0 +1,874 @@
+format_version: 1
+source_file: NPC177.rude
+rows:
+  - source:
+      file: NPC177.rude
+      row: 1
+    raw_columns:
+      - 177
+      - 1
+      - 1
+      - Do you have any news?
+      - I'm ready to get out of here.  These Guberlandians are driving me crazy!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 177
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I'm ready to get out of here.  These Guberlandians are driving me crazy!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC177.rude
+      row: 2
+    raw_columns:
+      - 177
+      - 13
+      - 1
+      - Sounds good.  You're hired.
+      - Great!  Get me off this rock!
+      - -10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 177
+      node_id: 13
+      choice_slot: 1
+      prompt: Sounds good.  You're hired.
+      response: Great!  Get me off this rock!
+      next: -10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -10
+        service: hire
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -10
+        service: hire
+        status: typed_pending_exact_runtime_behavior
+  - source:
+      file: NPC177.rude
+      row: 3
+    raw_columns:
+      - 177
+      - 12
+      - 1
+      - What do you charge?
+      - My fee is 500 gold per month plus 2% of all the gold we find.
+      - 13
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 177
+      node_id: 12
+      choice_slot: 1
+      prompt: What do you charge?
+      response: My fee is 500 gold per month plus 2% of all the gold we find.
+      next: 13
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 13
+  - source:
+      file: NPC177.rude
+      row: 4
+    raw_columns:
+      - 177
+      - 11
+      - 1
+      - So you're for hire?
+      - Yes.  As I said, I'm a merchant.  I have a keen eye for quality, and a quick tongue.  I could help you get better prices for all the things you buy and sell.
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 177
+      node_id: 11
+      choice_slot: 1
+      prompt: So you're for hire?
+      response: Yes.  As I said, I'm a merchant.  I have a keen eye for quality, and a quick tongue.  I could help you get better prices for all the things you buy and sell.
+      next: 12
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12
+  - source:
+      file: NPC177.rude
+      row: 5
+    raw_columns:
+      - 177
+      - 10
+      - 1
+      - Why Haven't you left?
+      - I seem to have lost all my money in a bar bet.  I've been trying to hire out my services to raise some cash.
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 177
+      node_id: 10
+      choice_slot: 1
+      prompt: Why Haven't you left?
+      response: I seem to have lost all my money in a bar bet.  I've been trying to hire out my services to raise some cash.
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC177.rude
+      row: 6
+    raw_columns:
+      - 177
+      - 177
+      - 1
+      - We'd like to ask you some questions.
+      - Alright.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 177
+      node_id: 177
+      choice_slot: 1
+      prompt: We'd like to ask you some questions.
+      response: Alright.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC177.rude
+      row: 7
+    raw_columns:
+      - 177
+      - 1
+      - 2
+      - What do you know about Guberland?
+      - I know I've seen enough of it!  These people are making me nuts!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 177
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about Guberland?
+      response: I know I've seen enough of it!  These people are making me nuts!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC177.rude
+      row: 8
+    raw_columns:
+      - 177
+      - 13
+      - 2
+      - Maybe some other time.
+      - Alright, but you're losing money as long as I'm not around.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 177
+      node_id: 13
+      choice_slot: 2
+      prompt: Maybe some other time.
+      response: Alright, but you're losing money as long as I'm not around.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC177.rude
+      row: 9
+    raw_columns:
+      - 177
+      - 177
+      - 2
+      - What are you doing here?
+      - I'm a merchant.  I've been stranded here in Guberland for weeks.  It's beginning driving me crazy.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 457
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 177
+      node_id: 177
+      choice_slot: 2
+      prompt: What are you doing here?
+      response: I'm a merchant.  I've been stranded here in Guberland for weeks.  It's beginning driving me crazy.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 457
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 457
+        status: raw_value_preserved
+  - source:
+      file: NPC177.rude
+      row: 10
+    raw_columns:
+      - 177
+      - 177
+      - 3
+      - We no longer need your help.
+      - Very well.  See you later.
+      - -11
+      - 457
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 457
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 177
+      node_id: 177
+      choice_slot: 3
+      prompt: We no longer need your help.
+      response: Very well.  See you later.
+      next: -11
+      raw_fields:
+        c07: 457
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 457
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -11
+        service: dismiss
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 457
+            qbit_id: 9457
+            state_id: mm9.keys.457
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 457
+          qbit_id: 9457
+          state_id: mm9.keys.457
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -11
+        service: dismiss
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c26
+        value: 457
+        status: raw_value_preserved
+  - source:
+      file: NPC177.rude
+      row: 11
+    raw_columns:
+      - 177
+      - 177
+      - 4
+      - Sorry to bother you.
+      - Goodbye
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 177
+      node_id: 177
+      choice_slot: 4
+      prompt: Sorry to bother you.
+      response: Goodbye
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC177.rude
+      row: 12
+    raw_columns:
+      - 177
+      - 1
+      - 7
+      - Sorry to bother you.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 177
+      node_id: 1
+      choice_slot: 7
+      prompt: Sorry to bother you.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

@@ -1,0 +1,514 @@
+format_version: 1
+source_file: NPC226.rude
+rows:
+  - source:
+      file: NPC226.rude
+      row: 1
+    raw_columns:
+      - 226
+      - 999
+      - 1
+      - Goodbye.
+      - blank
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 226
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: blank
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC226.rude
+      row: 2
+    raw_columns:
+      - 226
+      - 1
+      - 1
+      - Do you have any news?
+      - I long for the days Brand and I used to spend on adventures.  He's married these days, and his wife hardly lets him go out any more.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 226
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I long for the days Brand and I used to spend on adventures.  He's married these days, and his wife hardly lets him go out any more.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC226.rude
+      row: 3
+    raw_columns:
+      - 226
+      - 226
+      - 1
+      - Can we ask you some questions?
+      - Sure.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 226
+      node_id: 226
+      choice_slot: 1
+      prompt: Can we ask you some questions?
+      response: Sure.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC226.rude
+      row: 4
+    raw_columns:
+      - 226
+      - 226
+      - 2
+      - We are collecting pledges for the Green Man.
+      - If I can do anything that will bring him back, I shall.  I will give you that pledge.
+      - 999
+      - 265
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 275
+      - 0
+      - 0
+      - 0
+      - 0
+      - 277
+      - 275
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 226
+      node_id: 226
+      choice_slot: 2
+      prompt: We are collecting pledges for the Green Man.
+      response: If I can do anything that will bring him back, I shall.  I will give you that pledge.
+      next: 999
+      raw_fields:
+        c07: 265
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 275
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 277
+        c22: 275
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 265
+            qbit_id: 9265
+            state_id: mm9.keys.265
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 265
+          qbit_id: 9265
+          state_id: mm9.keys.265
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 275
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 277
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 275
+        status: raw_value_preserved
+  - source:
+      file: NPC226.rude
+      row: 5
+    raw_columns:
+      - 226
+      - 1
+      - 2
+      - What do you know about adventuring?
+      - Make sure you have someone who can cast spells in your group.  They're worth their weight in Thjorad!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 226
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about adventuring?
+      response: Make sure you have someone who can cast spells in your group.  They're worth their weight in Thjorad!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC226.rude
+      row: 6
+    raw_columns:
+      - 226
+      - 226
+      - 3
+      - Thanks for your time.
+      - Bye!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 226
+      node_id: 226
+      choice_slot: 3
+      prompt: Thanks for your time.
+      response: Bye!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC226.rude
+      row: 7
+    raw_columns:
+      - 226
+      - 1
+      - 7
+      - Thanks for your time.
+      - Bye!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 226
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Bye!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

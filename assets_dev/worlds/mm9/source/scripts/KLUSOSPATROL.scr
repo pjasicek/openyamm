@@ -1,0 +1,101 @@
+;-------------------------------
+;	KlusosPatrol.scr
+;	by SJR
+;	12-24-01 (yes 24)
+;	Purpose:walk around KlusosHouse
+;			guarding stuff
+;-------------------------------
+#include baseMelee.inc
+#include ListTraverse.inc
+
+#string		sBuddyName = ""
+#hobject	hBuddy = 0
+#hobject	hTrigger = 0
+#number		nTemp = 0
+
+;-------------------------------
+:Main
+;-------------------------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+	GetParam 3, sBuddyName
+	
+	OnPostStartWorld InitKlusosPatrol
+	OnPostMiniSaveLoad InitKlusosPatrol
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;-------------------------------
+:CacheFiles
+;-------------------------------
+	CacheSound "sounds\animsounds\guard\aware2.wav"
+
+	Exit TRUE
+
+;-------------------------------
+:InitKlusosPatrol
+;-------------------------------
+	GetObjectHandle GuardTrigger, hTrigger
+	GetObjectHandle sBuddyName, hBuddy
+
+	AddFriend AIBase
+	AddEnemy Player
+
+	gosub SetTraverseLoop
+	gosub SetTraverseWalk
+
+	gosub BaseWanderInit
+	gosub BaseDoorInit
+
+	TRAVERSERADIUS = 10
+
+	AddTrigger start, TraverseBegin
+	AddTrigger charge, HuntPlayer
+
+	OnFoundTarget AlertOthers
+
+	gosub TraverseBegin
+
+	Exit TRUE
+
+;-------------------------------
+:AlertOthers
+;	messages trigger to alert all guards
+;-------------------------------
+	if( hTrigger!=0 )
+		Trigger hTrigger, trigger
+	endif
+
+	PlaySound "sounds\animsounds\guard\aware2.wav", DoNothing, 1, 100, FALSE, 100
+
+	gosub HuntPlayer
+
+	Exit TRUE
+
+;-------------------------------
+:HuntPlayer
+;	runs if foundplayer or alerted
+;-------------------------------
+	gosub BaseInit
+	GetPlayerHandle g_hTarget
+	gosub SetupTarget
+	gosub AggressiveStart
+
+	Exit TRUE
+
+;-------------------------------
+:OnTraverseDone
+;-------------------------------
+;;indices: 0-24
+;;midpoint 12,13
+;;rooms: 4,7,10,13,15,18,21
+
+	if( LISTINDEX==38 )
+		if( hBuddy!=0 )
+			Trigger hBuddy, start
+		endif
+	endif
+
+	Exit TRUE

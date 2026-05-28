@@ -1,0 +1,73 @@
+;--------------------------------------------------------
+;	ILSMinotaurcage.scr
+;	Timmy
+;
+;	This script makes Minotaur's exit cages and then run the base ai script
+;
+;	Parameters:
+;
+;
+;P0 nav point
+;
+;--------------------------------------------------------
+#include globals.inc
+#include base.inc
+
+
+
+#String					Param0
+
+
+;--------------------------------------------------------
+:OnStart
+;--------------------------------------------------------
+
+
+GetObjectHandle param0, g_hobject
+DEBUGOUT g_hobject
+FaceObject g_hobject, 80, walk
+exit
+
+
+
+
+;--------------------------------------------------------
+:Stuck
+;--------------------------------------------------------
+
+
+GetObjectHandle param0, g_hobject
+
+FaceObject g_hobject, 30, walk
+exit
+
+
+;--------------------------------------------------------
+:Walk
+;--------------------------------------------------------
+
+GetObjectHandle param0, g_hobject
+Runto g_hobject 16 Alert
+exit
+
+
+;--------------------------------------------------------
+:Alert
+;--------------------------------------------------------
+
+gosub InitBase
+exit
+
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+;TRACEON
+
+
+
+getParam 0, param0
+Addtrigger Start, Onstart
+OnStuck, stuck
+	exit

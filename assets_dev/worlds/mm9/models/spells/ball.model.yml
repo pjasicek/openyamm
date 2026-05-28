@@ -1,0 +1,279 @@
+schema: openyamm.model3d.v1
+id: ball
+model: ball.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/SPELLS/BALL.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: ball
+  materialIndex: 0
+  lods:
+  - faces: 72
+    vertices: 38
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+    - 17
+    - 18
+    - 19
+    - 20
+    - 21
+    - 22
+    - 23
+    - 24
+    - 25
+    - 26
+    - 27
+    - 28
+    - 29
+    - 30
+    - 31
+    - 32
+    - 33
+    - 34
+    - 35
+    - 36
+    - 37
+    - 38
+  - index: 1
+    name: Xmid45
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Xmid01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Xmid02
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Xmid03
+    parent: 0
+    flags: 1
+    children: []
+  - index: 5
+    name: Xmid04
+    parent: 0
+    flags: 1
+    children: []
+  - index: 6
+    name: Xmid05
+    parent: 0
+    flags: 1
+    children: []
+  - index: 7
+    name: Xmid07
+    parent: 0
+    flags: 1
+    children: []
+  - index: 8
+    name: Xmid08
+    parent: 0
+    flags: 1
+    children: []
+  - index: 9
+    name: Xmid09
+    parent: 0
+    flags: 1
+    children: []
+  - index: 10
+    name: Xmid10
+    parent: 0
+    flags: 1
+    children: []
+  - index: 11
+    name: Xmid11
+    parent: 0
+    flags: 1
+    children: []
+  - index: 12
+    name: Xmid37
+    parent: 0
+    flags: 1
+    children: []
+  - index: 13
+    name: Xmid38
+    parent: 0
+    flags: 1
+    children: []
+  - index: 14
+    name: Xmid39
+    parent: 0
+    flags: 1
+    children: []
+  - index: 15
+    name: Xmid40
+    parent: 0
+    flags: 1
+    children: []
+  - index: 16
+    name: Xmid41
+    parent: 0
+    flags: 1
+    children: []
+  - index: 17
+    name: Xmid43
+    parent: 0
+    flags: 1
+    children: []
+  - index: 18
+    name: Xmid44
+    parent: 0
+    flags: 1
+    children: []
+  - index: 19
+    name: Xmid
+    parent: 0
+    flags: 1
+    children: []
+  - index: 20
+    name: Xmid46
+    parent: 0
+    flags: 1
+    children: []
+  - index: 21
+    name: Xmid47
+    parent: 0
+    flags: 1
+    children: []
+  - index: 22
+    name: Xmid49
+    parent: 0
+    flags: 1
+    children: []
+  - index: 23
+    name: Xmid50
+    parent: 0
+    flags: 1
+    children: []
+  - index: 24
+    name: Xmid51
+    parent: 0
+    flags: 1
+    children: []
+  - index: 25
+    name: Xmid54
+    parent: 0
+    flags: 1
+    children: []
+  - index: 26
+    name: Xmid55
+    parent: 0
+    flags: 1
+    children: []
+  - index: 27
+    name: Xmid61
+    parent: 0
+    flags: 1
+    children: []
+  - index: 28
+    name: Xmid56
+    parent: 0
+    flags: 1
+    children: []
+  - index: 29
+    name: Xmid58
+    parent: 0
+    flags: 1
+    children: []
+  - index: 30
+    name: Xmid57
+    parent: 0
+    flags: 1
+    children: []
+  - index: 31
+    name: Xmid63
+    parent: 0
+    flags: 1
+    children: []
+  - index: 32
+    name: Xmid60
+    parent: 0
+    flags: 1
+    children: []
+  - index: 33
+    name: Xmid64
+    parent: 0
+    flags: 1
+    children: []
+  - index: 34
+    name: Xmid62
+    parent: 0
+    flags: 1
+    children: []
+  - index: 35
+    name: Xmid59
+    parent: 0
+    flags: 1
+    children: []
+  - index: 36
+    name: Xmid65
+    parent: 0
+    flags: 1
+    children: []
+  - index: 37
+    name: Xmid66
+    parent: 0
+    flags: 1
+    children: []
+  - index: 38
+    name: Xmid67
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: BALL
+  durationMs: 1500
+  keyframes: 12
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: BALL
+  extents:
+  - 25.6
+  - 25.6
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/spells/ball.abc

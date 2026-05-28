@@ -1,0 +1,59 @@
+Coordinates for placeing the name font on the following screens:
+
+Create Character
+Character Sheet Skills
+Character Sheet Stats
+Character Sheet Spells
+Character Sheet Inventory
+
+
+-----------------------------------------------------------------------------------
+The name font is now a standard font (No seperate drop-cap graphics)
+
+Characters should normally have 1 pixel spacing.  We can try it with 0 to 
+	see if it works, though.
+
+Simply write the name in the font, but as we discussed, a few letters need
+	kerning adjustment, particularly those with descenders (i.e. g)
+
+The following list "Pre" reflects how many pixels to the left a character should be
+	shifted to account for its descender.
+The following list "next" reflects how many pixels to the left the NEXT character
+	should be shifted to account for this characters oddities.
+The following list "Tall" is a yes/no flag.  If a character is tall, it should not
+	be affectd by the "next" value.
+In case a character has both a pre value and its left-neighbor has a next value, 
+	both should apply.
+
+
+Note: Ideally, this will work well.  It may not work perfectly once we start getting 
+	sample words in here...  Fingers Crossed.  I hope you can pull this off.
+
+
+   	Pre	Next	Tall
+a	0	0	no
+b	0	0	yes
+c	0	0	no
+d	0	0	yes
+e	0	0	no
+f	0	9	yes
+g  	22	0	no
+h	0	0	yes
+i	0	0	yes
+j	17	0	yes
+k	0	0	yes
+l	0	0	yes
+m	0	0	no
+n	0	0	no
+o	0	0	no
+p	0	0	no
+q	0	0	no
+r	0	0	no
+s	0	0	no
+t	0	4	no
+u	0	0	no
+v	0	0	no
+w	0	0	no
+x	0	0	no
+y	21	0	no
+z	0	0	no

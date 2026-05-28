@@ -1,0 +1,42 @@
+;--------------------------------------------------
+;Slagbase.scr
+; timmy
+; handles the slag extractor stuff.
+;--------------------------------------------------
+
+#include globals.inc
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+
+
+
+hasitem 399 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle slag g_hobject
+	Trigger g_hobject, Show
+	Exit
+endif
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+Addtrigger Use, OnUse
+
+exit
+

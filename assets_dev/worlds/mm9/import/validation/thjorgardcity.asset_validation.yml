@@ -1,0 +1,1345 @@
+format_version: 1
+kind: "mm9_asset_validation_report"
+scope: "active_two_map_slice"
+map_id: "thjorgardcity"
+display_name: "Thjorgard City"
+level_file: "thjorgardcity.level.yml"
+source_dat: "../source/worlds/THJORGARDCITY.dat"
+clean: true
+source_integrity:
+  level_load_diagnostics: 0
+  source_mutation_snapshot_verified: true
+  source_mutation_snapshot_files: 443
+  source_dat_hash_expected: "a180590a8bb7a6e1369c3f3af9d476b6f3e43e646c87028b7adeb8e485e33013"
+  source_dat_hash_diagnostics: 0
+  source_dat_hash_verified: true
+  source_manifest_diagnostics: 0
+  source_manifest_families_declared: 14
+  source_manifest_families_required: 14
+  source_manifest_expected_files: 12646
+  source_manifest_actual_files: 12646
+  source_manifest_count_drift_families: 0
+  source_manifest_missing_directories: 0
+  level_load_issue_details: []
+  source_manifest_issue_details: []
+document_paths:
+  total: 153
+  missing: 0
+  missing_required: 0
+  source_read_only: 2
+  generated: 150
+  authored: 2
+  compatibility_derived: 4
+  source_read_only_files:
+    - label: "source_dat"
+      role: "read_only_source"
+      relative_path: "../source/worlds/THJORGARDCITY.dat"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/source/worlds/THJORGARDCITY.dat"
+      exists: true
+    - label: "source_manifest"
+      role: "read_only_source"
+      relative_path: "manifest.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm9/source/manifest.yml"
+      exists: true
+  authored_files:
+    - label: "level"
+      role: "authored_or_generated_entrypoint"
+      relative_path: "thjorgardcity.level.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.level.yml"
+      exists: true
+    - label: "source_asset_aliases"
+      role: "authored_override"
+      relative_path: "../import/overrides/mm9_active_slice.source_asset_aliases.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/import/overrides/mm9_active_slice.source_asset_aliases.yml"
+      exists: true
+  authored_overrides:
+    - label: "source_asset_aliases"
+      role: "authored_override"
+      relative_path: "../import/overrides/mm9_active_slice.source_asset_aliases.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/import/overrides/mm9_active_slice.source_asset_aliases.yml"
+      exists: true
+  generated_files:
+    - label: "level"
+      role: "authored_or_generated_entrypoint"
+      relative_path: "thjorgardcity.level.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.level.yml"
+      exists: true
+    - label: "dat_world_sidecar"
+      role: "generated_sidecar"
+      relative_path: "thjorgardcity.dat_world.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.dat_world.yml"
+      exists: true
+    - label: "raw_objects_sidecar"
+      role: "generated_sidecar"
+      relative_path: "thjorgardcity.raw_objects.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.raw_objects.yml"
+      exists: true
+    - label: "material_aliases_sidecar"
+      role: "generated_sidecar"
+      relative_path: "thjorgardcity.material_aliases.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.material_aliases.yml"
+      exists: true
+    - label: "events_sidecar"
+      role: "generated_sidecar"
+      relative_path: "thjorgardcity.events.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.events.yml"
+      exists: true
+    - label: "level_lua"
+      role: "generated_event_script"
+      relative_path: "../events/thjorgardcity.lua"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/events/thjorgardcity.lua"
+      exists: true
+    - label: "script_ir"
+      role: "generated_event_script"
+      relative_path: "../events/thjorgardcity.script_ir.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/events/thjorgardcity.script_ir.yml"
+      exists: true
+    - label: "scene_compat"
+      role: "derived_compatibility_artifact"
+      relative_path: "thjorgardcity.scene.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.scene.yml"
+      exists: true
+    - label: "source_metadata_compat"
+      role: "derived_compatibility_artifact"
+      relative_path: "thjorgardcity.mm9.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.mm9.yml"
+      exists: true
+    - label: "model_assets_compat"
+      role: "derived_compatibility_artifact"
+      relative_path: "thjorgardcity.model_assets.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.model_assets.yml"
+      exists: true
+    - label: "odm_compat"
+      role: "derived_compatibility_artifact"
+      relative_path: "thjorgardcity.odm"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.odm"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/ABNDFOR000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/ABNDFOR000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/AMAZING000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/AMAZING000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/BENCHWOOD.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/BENCHWOOD.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/CARPET2.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/CARPET2.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/CARPETO000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/CARPETO000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/CARPETO001.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/CARPETO001.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/CARPETO002.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/CARPETO002.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/CHAINLINK.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/CHAINLINK.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/DARKWOOD01.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/DARKWOOD01.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/DEFAULT.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/DEFAULT.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/FANCYRO000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/FANCYRO000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/FIRETHR000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/FIRETHR000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/GREENSC000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/GREENSC000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/INVISIB000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/INVISIB000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/INVISIBLE.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/INVISIBLE.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/MTNDOWN.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/MTNDOWN.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/PERCEPT000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/PERCEPT000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/RAIL.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/RAIL.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/REFINER000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/REFINER000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/REFINER001.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/REFINER001.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/SEWR01G.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/SEWR01G.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/SKYMARKER.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/SKYMARKER.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/SNOWMTN000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/SNOWMTN000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/SNOWMTNSE.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/SNOWMTNSE.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/SNOWMTNSN.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/SNOWMTNSN.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/SNOWMTNSS.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/SNOWMTNSS.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/SNOWMTNSUP.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/SNOWMTNSUP.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/SNOWMTNSW.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/SNOWMTNSW.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/STARFIELD.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/STARFIELD.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/STURMOL000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/STURMOL000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/STURMTA000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/STURMTA000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/STURMYE000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/STURMYE000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/STURMYE001.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/STURMYE001.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/TAPESTR000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/TAPESTR000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/TAPESTR001.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/TAPESTR001.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBARS.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBARS.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBO000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBO000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBOOKS.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBOOKS.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR001.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR001.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR002.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR002.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR003.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR003.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR004.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR004.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR005.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR005.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR006.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR006.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR007.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR007.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR008.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR008.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR009.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR009.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR010.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR010.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR011.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR011.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR012.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR012.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR013.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR013.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR014.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR014.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR015.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR015.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR016.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR016.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBR017.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBR017.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORBRICK.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORBRICK.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORCE000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORCE000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORCE001.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORCE001.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORCE002.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORCE002.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORCE003.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORCE003.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORCE004.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORCE004.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORCE005.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORCE005.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORCE006.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORCE006.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORCE007.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORCE007.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORCE008.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORCE008.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORCE009.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORCE009.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORCO000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORCO000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORCO001.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORCO001.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORDO000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORDO000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORDO001.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORDO001.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORDO002.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORDO002.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORDO003.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORDO003.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORDO004.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORDO004.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORDO005.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORDO005.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORDO006.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORDO006.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORDOOR.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORDOOR.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORDOOR3.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORDOOR3.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORDOOR4.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORDOOR4.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORDOOR5.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORDOOR5.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORFL000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORFL000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORFL001.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORFL001.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORFL002.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORFL002.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORFL003.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORFL003.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORFL004.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORFL004.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORFL005.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORFL005.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORFL006.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORFL006.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORFL007.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORFL007.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORFLOOR.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORFLOOR.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORGA000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORGA000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORGATE.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORGATE.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORPA000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORPA000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORPO000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORPO000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORRO000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORRO000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORRO001.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORRO001.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORROOF.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORROOF.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORSC000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORSC000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORSH000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORSH000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORSH001.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORSH001.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORSH002.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORSH002.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORSI000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORSI000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORSIGNS.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORSIGNS.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORSL000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORSL000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORSLATE.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORSLATE.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA001.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA001.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA002.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA002.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA003.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA003.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA004.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA004.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA005.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA005.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA006.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA006.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA007.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA007.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA008.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA008.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA009.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA009.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA010.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA010.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA011.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA011.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA012.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA012.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA013.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA013.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA014.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA014.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWA015.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWA015.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWALL.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWALL.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWALL2.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWALL2.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWALL3.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWALL3.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWALL4.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWALL4.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWALL5.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWALL5.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWALL6.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWALL6.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWALL8.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWALL8.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWI000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWI000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWI001.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWI001.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWI002.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWI002.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWI003.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWI003.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWO000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWO000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWO001.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWO001.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWO002.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWO002.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/THJORWO003.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/THJORWO003.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/WATER115.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/WATER115.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/WATER125.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/WATER125.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/WOODCEI000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/WOODCEI000.bmp"
+      exists: true
+    - label: "material_cache"
+      role: "generated_cache"
+      relative_path: "thjorgardcity.bitmaps/WOODGRA000.bmp"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.bitmaps/WOODGRA000.bmp"
+      exists: true
+  compatibility_derived_files:
+    - label: "scene_compat"
+      role: "derived_compatibility_artifact"
+      relative_path: "thjorgardcity.scene.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.scene.yml"
+      exists: true
+    - label: "source_metadata_compat"
+      role: "derived_compatibility_artifact"
+      relative_path: "thjorgardcity.mm9.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.mm9.yml"
+      exists: true
+    - label: "model_assets_compat"
+      role: "derived_compatibility_artifact"
+      relative_path: "thjorgardcity.model_assets.yml"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.model_assets.yml"
+      exists: true
+    - label: "odm_compat"
+      role: "derived_compatibility_artifact"
+      relative_path: "thjorgardcity.odm"
+      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgardcity.odm"
+      exists: true
+summary:
+  world_models: 788
+  leaves: 4700
+  user_portals: 35
+  dat_world_reference_issues: 0
+  dat_world_invalid_leaf_references: 0
+  dat_world_invalid_surface_texture_refs: 0
+  dat_world_invalid_poly_surface_refs: 0
+  dat_world_invalid_poly_plane_refs: 0
+  dat_world_invalid_poly_vertex_refs: 0
+  dat_world_invalid_node_poly_refs: 0
+  dat_world_invalid_root_node_refs: 0
+  dat_world_models_with_unknown_values: 787
+  dat_world_user_portals_with_raw_unknowns: 35
+  native_mesh_triangles: 76414
+  native_mesh_source_polies: 28134
+  viewport_native_renderable_triangles: 51397
+  viewport_native_renderable_physics_triangles: 47895
+  viewport_native_textured_triangles: 51395
+  viewport_native_missing_material_triangles: 2
+  viewport_native_placeholder_material_triangles: 2
+  viewport_native_unresolved_material_triangles: 0
+  world_model_overlay_vertices: 18912
+  world_model_overlay_pick_candidates: 788
+  selected_polygon_overlay_vertices: 18
+  selected_surface_overlay_vertices: 6
+  viewport_model_instance_drawable_geometry: 790
+  viewport_model_instance_decoded_skin_textures: 794
+  script_registered_triggers: 20
+  script_trigger_edges: 1
+  script_movement_commands: 5
+  script_unknown_commands: 372
+  script_command_count: 1140
+  unresolved_events: 1
+  unresolved_event_warnings: 1
+  unresolved_event_errors: 0
+  unresolved_event_rotation_candidates: 0
+  unresolved_event_position_candidates: 5
+  raw_objects: 1771
+  object_source_transforms: 1771
+  object_bounds_evidence: 796
+  object_trigger_volumes: 3
+  object_overlay_vertices: 144
+  object_overlay_pick_candidates: 6
+  light_objects: 165
+  light_overlay_vertices: 5940
+  static_render_lights: 165
+  light_diagnostics: 0
+  sound_objects: 202
+  sound_overlay_vertices: 5772
+  sound_references: 358
+  resolved_sound_references: 358
+  unresolved_required_sound_references: 0
+  spawn_source_objects: 72
+  spawn_overlay_vertices: 432
+  spawn_npc_numbers: 60
+  model_instances: 790
+  model_instances_in_camera_front: 790
+  model_instances_in_camera_depth_range: 790
+  model_instances_in_camera_frame: 790
+  expected_model_instances: 790
+  resolved_model_instance_assets: 790
+  missing_model_instance_assets: 0
+  drawable_model_instance_geometry: 790
+  missing_drawable_model_instance_geometry: 0
+  decoded_model_instance_skin_textures: 794
+  actor_variant_candidates: 60
+  actor_variant_resolved: 60
+  actor_variant_unresolved: 0
+  actor_variant_actor_rows: 60
+  actor_variant_gameplay_identity_rows: 60
+  scripted_objects: 207
+  scripted_objects_with_collision_visuals: 0
+  missing_scripted_object_collision_visuals: 207
+  mechanism_preview_candidates: 153
+  mechanism_preview_changed_bounds: 153
+  material_textures: 139
+  resolved_dtx: 134
+  ambiguous_dtx: 0
+  dtx_headers: 134
+  dtx_headers_matching_sidecar: 133
+  dtx_mip_payloads: 535
+  dtx_decoded_preview_mips: 535
+  dtx_section_metadata_records: 0
+  dtx_section_payloads_available: 0
+  dtx_command_strings: 5
+  sprite_materials: 3
+  resolved_sprite_materials: 3
+  sprite_frame_textures: 50
+  resolved_sprite_frame_textures: 50
+  unresolved_sprite_frame_textures: 0
+  ambiguous_sprite_frame_textures: 0
+  raw_object_asset_refs: 1942
+  required_raw_object_asset_refs: 1939
+  optional_raw_object_asset_refs: 3
+  unresolved_required_raw_object_asset_refs: 0
+  unresolved_optional_raw_object_asset_refs: 3
+  asset_issue_marker_source_objects: 1
+  asset_issue_marker_candidates: 1
+  asset_issue_marker_unpositioned: 0
+  asset_issue_marker_required_candidates: 0
+  asset_issue_marker_required_unpositioned: 0
+  mechanism_target_marker_groups: 405
+  mechanism_target_marker_candidates: 405
+  mechanism_target_marker_vertices: 12960
+  mechanism_target_marker_source_links: 405
+dat_world_reference_validation:
+  issues: 0
+  invalid_leaf_reference_count: 0
+  invalid_leaf_refs: 0
+  invalid_surface_texture_refs: 0
+  invalid_poly_surface_refs: 0
+  invalid_poly_plane_refs: 0
+  invalid_poly_vertex_refs: 0
+  invalid_node_poly_refs: 0
+  invalid_root_node_refs: 0
+  issue_details: []
+unresolved_events:
+  total: 1
+  warnings: 1
+  errors: 0
+  entries:
+    - kind: "unresolved_binding"
+      source_object_index: 686
+      source_name: "ScriptObject0"
+      source_class: "ScriptObject"
+      severity: "warning"
+      nearest_movable_world_models_by_rotation_point: 0
+      nearest_movable_world_models_by_position: 5
+mechanisms:
+  total: 206
+  with_binding: 206
+  movable_world_models: 785
+  world_model_targets: 405
+  world_model_targets_with_movable_role: 405
+  world_model_targets_without_movable_role: 0
+  world_model_targets_missing_model: 0
+  world_model_targets_with_polygon_group: 405
+  world_model_targets_missing_polygon_group: 0
+  world_model_targets_mismatched_polygon_group: 0
+  model_instance_targets: 2
+  with_linear_motion: 146
+  with_rotation_motion: 77
+  trigger_outputs: 0
+  unresolved_trigger_outputs: 0
+  incomplete_linear_motion: 0
+  incomplete_rotation_motion: 0
+  unresolved_targets: 1
+  unresolved_required_targets: 0
+  preview_candidates: 153
+  preview_target_found: 153
+  preview_transformed_triangles: 1884
+  preview_changed_bounds: 153
+  incomplete_motion: []
+  unresolved:
+    - source_object_index: 686
+      source_class: "ScriptObject"
+      source_name: "ScriptObject0"
+      mechanism_id: "mm9:thjorgardcity:object:686:mechanism"
+      target_kind: "unresolved"
+      confidence: "unresolved"
+      required: false
+  non_movable_world_model_targets: []
+  polygon_group_target_issues: []
+asset_graph:
+  total: 2228
+  resolved: 2223
+  unresolved: 5
+  ambiguous: 0
+  stale: 0
+  required_total: 2080
+  required_resolved: 2080
+  required_unresolved: 0
+  required_ambiguous: 0
+  optional_total: 148
+  optional_resolved: 143
+  optional_unresolved: 5
+  optional_ambiguous: 0
+  families:
+    - family: "authored_overrides"
+      total: 1
+      resolved: 1
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 1
+      required_resolved: 1
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+    - family: "generated_caches"
+      total: 139
+      resolved: 139
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 0
+      required_resolved: 0
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 139
+      optional_resolved: 139
+      optional_unresolved: 0
+      optional_ambiguous: 0
+    - family: "generated_events"
+      total: 2
+      resolved: 2
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 2
+      required_resolved: 2
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+    - family: "models"
+      total: 794
+      resolved: 794
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 794
+      required_resolved: 794
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+    - family: "scripts"
+      total: 43
+      resolved: 43
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 43
+      required_resolved: 43
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+    - family: "sidecars"
+      total: 4
+      resolved: 4
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 4
+      required_resolved: 4
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+    - family: "skins"
+      total: 724
+      resolved: 724
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 724
+      required_resolved: 724
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+    - family: "sounds"
+      total: 330
+      resolved: 330
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 330
+      required_resolved: 330
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+    - family: "sprites"
+      total: 3
+      resolved: 3
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 0
+      required_resolved: 0
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 3
+      optional_resolved: 3
+      optional_unresolved: 0
+      optional_ambiguous: 0
+    - family: "textures"
+      total: 159
+      resolved: 154
+      unresolved: 5
+      ambiguous: 0
+      stale: 0
+      required_total: 153
+      required_resolved: 153
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 6
+      optional_resolved: 1
+      optional_unresolved: 5
+      optional_ambiguous: 0
+    - family: "voices"
+      total: 28
+      resolved: 28
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 28
+      required_resolved: 28
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+    - family: "worlds"
+      total: 1
+      resolved: 1
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 1
+      required_resolved: 1
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+viewport_missing_material_triangles:
+  entries:
+    - triangle_index: 2462
+      source_model_index: 177
+      source_poly_index: 9
+      source_surface_index: 9
+      source_texture_index: 6
+      source_texture: "TEXTURES\\ENVIRONMENTMAPS\\MountainSky\\MTN_Down.dtx"
+      filter_flags: 517
+      assigned: true
+      ambiguous: false
+      material_candidate_count: 1
+      alias: "MTNDOWN"
+      source_dtx_resolved: false
+      placeholder_missing_source: true
+    - triangle_index: 2463
+      source_model_index: 177
+      source_poly_index: 9
+      source_surface_index: 9
+      source_texture_index: 6
+      source_texture: "TEXTURES\\ENVIRONMENTMAPS\\MountainSky\\MTN_Down.dtx"
+      filter_flags: 517
+      assigned: true
+      ambiguous: false
+      material_candidate_count: 1
+      alias: "MTNDOWN"
+      source_dtx_resolved: false
+      placeholder_missing_source: true
+material_textures:
+  invalid_or_unresolved: []
+  stale_caches: []
+raw_object_asset_references:
+  unresolved_required: []
+  unresolved_optional:
+    - source_object_index: 1760
+      source_class: "WorldProperties"
+      object_name: "WorldProperties0"
+      property_index: 17
+      property_name: "EnvironmentMap"
+      source_family: "textures"
+      source_value: "Textures\\environmentmaps\\default.dtx"
+      normalized_key: "environmentmaps/default.dtx"
+      required: false
+      resolved: false
+      ambiguous: false
+      alias_applied: false
+    - source_object_index: 1760
+      source_class: "WorldProperties"
+      object_name: "WorldProperties0"
+      property_index: 20
+      property_name: "SoftSky"
+      source_family: "textures"
+      source_value: "textures\\environmentmaps\\clouds\\clouds.dtx"
+      normalized_key: "environmentmaps/clouds/clouds.dtx"
+      required: false
+      resolved: false
+      ambiguous: false
+      alias_applied: false
+    - source_object_index: 1760
+      source_class: "WorldProperties"
+      object_name: "WorldProperties0"
+      property_index: 25
+      property_name: "PanSkyTexture"
+      source_family: "textures"
+      source_value: "Textures\\SkyPan.dtx"
+      normalized_key: "skypan.dtx"
+      required: false
+      resolved: false
+      ambiguous: false
+      alias_applied: false
+diagnostics:
+  total: 11
+  errors: 0
+  warnings: 11
+  info: 0
+  severity_policy:
+    - severity: "error"
+      category: "parse failure, invalid source index/reference, unresolved required asset or target, ambiguous required asset or target, generated sidecar data loss/cross-link drift, stale hash/cache mismatch, source mutation"
+      blocks_clean_validation: true
+      suggested_owner: "parser/source asset mirror/sidecar generator/authored override"
+    - severity: "warning"
+      category: "unused or source-only asset, unresolved optional asset or target, optional preview cache missing, placeholder preview material, unsupported preview-only metadata"
+      blocks_clean_validation: false
+      suggested_owner: "source asset mirror/sidecar generator"
+    - severity: "info"
+      category: "derived compatibility artifact missing, cache regenerated/refreshed, optional authored override absent"
+      blocks_clean_validation: false
+      suggested_owner: "sidecar generator/authored override"
+  entries:
+    - severity: "warning"
+      source_file: "Default"
+      source_index_path: "material_textures/9"
+      sidecar_path: "thjorgardcity.material_aliases.yml"
+      resolver: "mm9_material_texture_resolver"
+      suggested_owner: "source asset mirror"
+      message: "DAT material alias still renders from a placeholder cache: Default dat_refs=3"
+    - severity: "warning"
+      source_file: "TEXTURES\\LevelTextures\\Invisible.dtx"
+      source_index_path: "material_textures/14"
+      sidecar_path: "thjorgardcity.material_aliases.yml"
+      resolver: "mm9_material_texture_resolver"
+      suggested_owner: "source asset mirror"
+      message: "DAT material alias still renders from a placeholder cache: TEXTURES\\LevelTextures\\Invisible.dtx dat_refs=1"
+    - severity: "warning"
+      source_file: "TEXTURES\\ENVIRONMENTMAPS\\MountainSky\\MTN_Down.dtx"
+      source_index_path: "material_textures/15"
+      sidecar_path: "thjorgardcity.material_aliases.yml"
+      resolver: "mm9_material_texture_resolver"
+      suggested_owner: "source asset mirror"
+      message: "DAT material alias still renders from a placeholder cache: TEXTURES\\ENVIRONMENTMAPS\\MountainSky\\MTN_Down.dtx dat_refs=1"
+    - severity: "warning"
+      source_file: "Sprites\\Perception2.spr"
+      source_index_path: "material_textures/16"
+      sidecar_path: "thjorgardcity.material_aliases.yml"
+      resolver: "mm9_material_texture_resolver"
+      suggested_owner: "source asset mirror"
+      message: "DAT material alias still renders from a placeholder cache: Sprites\\Perception2.spr dat_refs=24"
+    - severity: "warning"
+      source_file: "Sprites\\Water\\Water115.spr"
+      source_index_path: "material_textures/135"
+      sidecar_path: "thjorgardcity.material_aliases.yml"
+      resolver: "mm9_material_texture_resolver"
+      suggested_owner: "source asset mirror"
+      message: "DAT material alias still renders from a placeholder cache: Sprites\\Water\\Water115.spr dat_refs=4"
+    - severity: "warning"
+      source_file: "Sprites\\Water\\water125.spr"
+      source_index_path: "material_textures/136"
+      sidecar_path: "thjorgardcity.material_aliases.yml"
+      resolver: "mm9_material_texture_resolver"
+      suggested_owner: "source asset mirror"
+      message: "DAT material alias still renders from a placeholder cache: Sprites\\Water\\water125.spr dat_refs=1"
+    - severity: "warning"
+      source_file: "../source/worlds/THJORGARDCITY.dat"
+      source_index_path: "raw_objects/1760/properties/17"
+      sidecar_path: "thjorgardcity.raw_objects.yml"
+      resolver: "mm9_raw_object_asset_resolver"
+      suggested_owner: "source asset mirror"
+      message: "optional raw object asset reference is unresolved or ambiguous: textures Textures\\environmentmaps\\default.dtx"
+    - severity: "warning"
+      source_file: "../source/worlds/THJORGARDCITY.dat"
+      source_index_path: "raw_objects/1760/properties/20"
+      sidecar_path: "thjorgardcity.raw_objects.yml"
+      resolver: "mm9_raw_object_asset_resolver"
+      suggested_owner: "source asset mirror"
+      message: "optional raw object asset reference is unresolved or ambiguous: textures textures\\environmentmaps\\clouds\\clouds.dtx"
+    - severity: "warning"
+      source_file: "../source/worlds/THJORGARDCITY.dat"
+      source_index_path: "raw_objects/1760/properties/25"
+      sidecar_path: "thjorgardcity.raw_objects.yml"
+      resolver: "mm9_raw_object_asset_resolver"
+      suggested_owner: "source asset mirror"
+      message: "optional raw object asset reference is unresolved or ambiguous: textures Textures\\SkyPan.dtx"
+    - severity: "warning"
+      source_file: "../source/worlds/THJORGARDCITY.dat"
+      source_index_path: "model_instances"
+      sidecar_path: "thjorgardcity.material_aliases.yml"
+      resolver: "mm9_scripted_billboard_visual_resolver"
+      suggested_owner: "sidecar generator"
+      message: "scripted object billboard collision visuals are not generated for 207 of 207 scripted/model-backed objects"
+    - severity: "warning"
+      source_file: "../source/worlds/THJORGARDCITY.dat"
+      source_index_path: "raw_objects/686"
+      sidecar_path: "thjorgardcity.events.yml"
+      resolver: "mm9_mechanism_target_resolver"
+      suggested_owner: "sidecar generator"
+      message: "mechanism target is unresolved: ScriptObject0 target_kind=unresolved confidence=unresolved"

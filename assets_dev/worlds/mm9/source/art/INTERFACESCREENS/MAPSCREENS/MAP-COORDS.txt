@@ -1,0 +1,43 @@
+********************************************************************************
+                      Map Screen Coordinates
+********************************************************************************
+
+Graphic Elements:
+
+CharacterMapBG.pcx		  0x   0y	800x600	Background
+
+Map Page Tab		644x   9y	75x148
+Notes Page Tab		644x 158y	75x148
+Character Sheet Button	690x 436y	110x105
+Exit Button		690x 548y	110x52
+
+------------------------------------------------------------------------------------
+
+Map Region	129x  15y	236x27	Main Font A 	Left Justify
+
+Note: This text is optional, something I thought would be cool.  Feel free to see me
+	about it.
+
+------------------------------------------------------------------------------------
+
+Previous Map Arrow	 42x  34y	52x52
+Next Map Arrow		588x  34y	52x52
+
+Map Area		 69x 159y	380x380	Map Itself occupies this area
+
+Map Scroll Up Button	 83X 142Y	512x16
+Map Scroll Down Button	 83x 541y	512x16	
+Map Scroll Left Button	 51x 172y	16x360
+Map Scroll Right Button	613x 172y	16x360
+	
+------------------------------------------------------------------------------------
+
+Text:
+
+Map Name		101x  19y	480x96 Name Font
+
+
+Rollover Text	 44x 570y	596x18	Main Font Center
+
+------------------------------------------------------------------------------------
+

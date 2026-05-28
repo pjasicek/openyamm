@@ -1,0 +1,531 @@
+format_version: 1
+source_file: NPC429.rude
+rows:
+  - source:
+      file: NPC429.rude
+      row: 1
+    raw_columns:
+      - 429
+      - 1
+      - 1
+      - Sure!
+      - Great!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 7004
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 429
+      node_id: 1
+      choice_slot: 1
+      prompt: Sure!
+      response: Great!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 7004
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 7004
+        status: raw_value_preserved
+  - source:
+      file: NPC429.rude
+      row: 2
+    raw_columns:
+      - 429
+      - 999
+      - 1
+      - Goodbye.
+      - blank
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 429
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: blank
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC429.rude
+      row: 3
+    raw_columns:
+      - 429
+      - 429
+      - 1
+      - Sure!  We'd love to play.
+      - Great!  Here's your ticket.  That will be 5 gold.  If you win, you'll get a prize!  If this is your first time, I'll give you some instructions with your ticket.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1001
+      - 0
+      - 0
+      - 0
+      - 0
+      - 7003
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 429
+      node_id: 429
+      choice_slot: 1
+      prompt: Sure!  We'd love to play.
+      response: Great!  Here's your ticket.  That will be 5 gold.  If you win, you'll get a prize!  If this is your first time, I'll give you some instructions with your ticket.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 1001
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 7003
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 1001
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 7003
+        status: raw_value_preserved
+  - source:
+      file: NPC429.rude
+      row: 4
+    raw_columns:
+      - 429
+      - 429
+      - 2
+      - We want a batch of tickets.
+      - Spectacular!  You will get 10 tickets for 40 gold.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1010
+      - 0
+      - 0
+      - 0
+      - 0
+      - 7003
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 429
+      node_id: 429
+      choice_slot: 2
+      prompt: We want a batch of tickets.
+      response: Spectacular!  You will get 10 tickets for 40 gold.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 1010
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 7003
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 1010
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 7003
+        status: raw_value_preserved
+  - source:
+      file: NPC429.rude
+      row: 5
+    raw_columns:
+      - 429
+      - 429
+      - 3
+      - What sort of game is this?
+      - This, my friends is a boat race.  Whoever can get their boat to the end the fastest wins.  Care to play?
+      - 1
+      - 7003
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 429
+      node_id: 429
+      choice_slot: 3
+      prompt: What sort of game is this?
+      response: This, my friends is a boat race.  Whoever can get their boat to the end the fastest wins.  Care to play?
+      next: 1
+      raw_fields:
+        c07: 7003
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 7003
+            qbit_id: 16003
+            state_id: mm9.keys.7003
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 7003
+          qbit_id: 16003
+          state_id: mm9.keys.7003
+  - source:
+      file: NPC429.rude
+      row: 6
+    raw_columns:
+      - 429
+      - 429
+      - 5
+      - We'd like to ask you some questions.
+      - Sorry kids, I don't have time for chit chat.
+      - 429
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 7003
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 429
+      node_id: 429
+      choice_slot: 5
+      prompt: We'd like to ask you some questions.
+      response: Sorry kids, I don't have time for chit chat.
+      next: 429
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 7003
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 429
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 7003
+        status: raw_value_preserved
+  - source:
+      file: NPC429.rude
+      row: 7
+    raw_columns:
+      - 429
+      - 429
+      - 7
+      - Not right now, sorry.
+      - Come back when you're interested.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 429
+      node_id: 429
+      choice_slot: 7
+      prompt: Not right now, sorry.
+      response: Come back when you're interested.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999

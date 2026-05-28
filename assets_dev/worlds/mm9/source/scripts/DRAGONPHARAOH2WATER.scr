@@ -1,0 +1,55 @@
+;---------------------------------------------------------------------
+:	dragonpharaoh2Water.scr
+;	Timmy
+;
+;	This script can be used to sink and fill water...
+;
+;
+;	Parameters:
+;
+;	p1	- How many inches of water to leave (when sinking)
+;	p2	- Sink Rate
+;	p3	- Fill Rate
+;
+;---------------------------------------------------------------------
+
+#include water.inc
+
+
+;---------------------------------------------------------------------
+:DoneSinking
+
+;---------------------------------------------------------------------
+
+
+GetObjectHandle WallTorch0, g_hObject
+	trigger g_hObject, Enable
+GetObjectHandle WallTorch1, g_hObject
+	trigger g_hObject, Enable
+GetObjectHandle WallTorch2, g_hObject
+	trigger g_hObject, Enable
+GetObjectHandle WallTorch3, g_hObject
+	trigger g_hObject, Enable
+GetObjectHandle WallTorch4, g_hObject
+	trigger g_hObject, Enable
+GetObjectHandle WallTorch5, g_hObject
+	trigger g_hObject, Enable
+
+exit
+
+
+
+;---------------------------------------------------------------------
+:main
+;
+;---------------------------------------------------------------------
+
+
+
+gosub waterinit
+SetCallback 1, DoneSinking
+
+exit
+
+
+

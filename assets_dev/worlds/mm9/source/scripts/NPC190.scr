@@ -1,0 +1,91 @@
+;--------------------------------------------------
+;NPC190.scr
+; timmy
+; handles Soxolf Tryygvassen voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include pledge.inc
+
+#String Model_Name = models\PickUpItems\Quest\Maypole.ABC
+#String Model_Skin = skins\PickUpItems\Quest\Maypole.dtx
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub maypole
+gosub pledge
+
+exit
+
+
+;--------------------------------------------------
+:Maypole
+;--------------------------------------------------
+;****************
+;maypole Quest
+;****************
+haskey 268 g_ntemp
+if (g_ntemp==0, )
+	haskey 267 g_ntemp
+	if (g_ntemp==1, )
+		hasgold 500 g_ntemp
+		if (g_ntemp==1, )
+			takegold 500
+			givekey 268
+			exit
+		else
+			takekey 267
+			;playsound "you don't have enough"
+			exit
+		endif
+	endif
+endif
+exit
+			
+
+
+
+
+;End maypole quest
+;******************
+exit
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_190.wav, DoNothing, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+haskey 268 g_ntemp
+if (g_ntemp==FALSE)
+	exit
+endif
+
+getobjecthandle Prop0 g_hobject
+SetModelFilenames model_name Model_skin
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+wait 1 1 Init
+exit
+

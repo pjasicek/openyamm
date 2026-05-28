@@ -1,0 +1,289 @@
+;--------------------------------------------------
+;WorkingMonk.scr
+; timmy
+; Makes Monks play working animations
+; 10/23
+;--------------------------------------------------
+
+#include globals.inc
+#include basemelee.inc
+#include Monksounds.inc
+
+
+#number			NPC_ID
+#Number			Attacked
+#Number			Working
+#Number			Talking = 0
+
+#String			Monk_Anim
+#String			Prop_Name
+#String			Skin_Name
+#String			Socket_Name
+#String			Fidget_Name
+#String			Fidget_Stand
+
+#string			BLANK
+
+
+#String			Face_Object
+
+;parameters:
+;p0 the name of the animation to play
+;p1 number of NPC to do
+;p2 the name of the object to face after completing dialog
+
+
+;--------------------------------------------------
+:DoRUDEAnim
+;--------------------------------------------------
+
+	Exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+if (NPC_ID!=NULL)
+	Set Talking, TRUE
+	Stop
+	Gosub BasewanderStop
+	GetmyHandle g_hmyobject
+	GetCurranim g_hmyobject g_ntemp
+	GetAnimName g_hmyobject g_ntemp g_stemp
+;		cprint g_stemp
+;	if (g_stemp==Monk_Anim)
+		PlayAnim Fidget_Name, FidgetStand
+;	endif
+	Getparam 0 g_hobject
+	FaceObject g_hobject 200 DoNothing
+	PauseWait -1
+	DoRude NPC_ID
+	exit TRUE
+endif
+
+exit TRUE
+
+
+;--------------------------------------------------
+:FidgetStand
+;
+;--------------------------------------------------
+	
+	LoopAnim Fidget_Stand 0 Donothing
+
+	exit TRUE
+
+;--------------------------------------------------
+:OnRude
+;
+;--------------------------------------------------
+
+ResumeWait -1
+set talking, FALSE
+Getobjecthandle Face_Object g_hobject2
+
+if (g_hobject2!=NULL)
+	FaceObject g_hobject2 200 DoNothing
+endif
+
+LoopAnim Monk_Anim, 0 Donothing
+
+if ( bWanderEnabled==TRUE )
+	Gosub Basewanderstart
+	exit
+endif
+
+exit
+
+
+;--------------------------------------------------
+:OnDamage
+;--------------------------------------------------
+
+
+DetachProp g_hobject2, false
+removeobject g_hobject2
+Set Attacked, True
+Gosub BaseInit
+
+exit
+
+;--------------------------------------------------
+:SetupWork
+;--------------------------------------------------
+	AttachProp Prop_Name Skin_Name Socket_Name g_hobject2
+	Set Working, True
+
+	LoopAnim Fidget_Stand,0,Donothing
+
+	Exit
+
+;--------------------------------------------------
+:StartWork
+;--------------------------------------------------
+
+GetRandomInt 1, 10, g_ntemp
+wait 1 g_ntemp OnWorkStart
+exit
+
+;--------------------------------------------------
+:OnWorkStart
+;--------------------------------------------------
+
+	Set Working, True
+	Wait 1 500 Rest
+	LoopAnim Monk_Anim 0 Donothing
+
+	Gosub BaseWanderInit
+	
+	exit
+
+;--------------------------------------------------
+:Rest
+;--------------------------------------------------
+
+PlayAnim Fidget_Name StartWork
+exit
+
+;--------------------------------------------------
+:BaseWanderGo
+;--------------------------------------------------
+
+PlayAnim Fidget_Name WanderGo
+exit
+	
+;--------------------------------------------------
+:WanderGo
+;--------------------------------------------------
+
+LoopAnim Fidget_Stand, 0 Donothing
+if (Talking==FALSE)
+	Gosub BaseWanderGo, 1
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:BaseWanderStopTick
+;--------------------------------------------------
+
+	Wait WANDER_LEASH_WAIT, 0, DoNothing
+	Stop
+	LoopAnim Monk_Anim, 0 Donothing
+	gosub BaseWanderStart
+
+exit
+
+;--------------------------------------------------
+:BaseWanderObstacle
+;--------------------------------------------------
+	if ( hCurrentMarker!=NULL )
+		Exit FALSE
+	endif
+
+	GetRandomInt 0, 100, g_nRandom
+
+	GetParam 0, g_hObject
+	IsClass g_hObject,Actor, g_bTemp
+
+	if ( g_bTemp==TRUE )
+		if ( g_nRandom < 90 )
+			Exit FALSE
+		endif	
+	else
+		if ( g_nRandom < 70 )
+			Exit FALSE
+		endif	
+	endif
+
+	GetParam 1, normalX
+	GetParam 2, normalY
+	GetParam 3, normalZ
+
+	gosub BaseWanderPause
+	Stop
+	LoopAnim Monk_Anim, 0 Donothing
+	Wait WANDER_LEASH_WAIT, 0, DoNothing
+	bObstacle = TRUE
+	gosub BaseWanderResume
+
+	GetParam 0, g_hObject
+	IsClass g_hObject,Actor, g_bTemp
+	if ( g_bTemp==FALSE )
+		FaceDir normalX, 0, normalZ, 360
+	Endif
+
+	
+	Exit TRUE
+
+;--------------------------------------------------
+:WorkInit
+;--------------------------------------------------
+
+if (Monk_Anim==Hoe)
+	Set Prop_Name MonkHoe.ABC
+	Set Skin_Name MonkHoe.dtx
+	Set Socket_Name Hoe
+	Set Fidget_Name HoeFidget
+	Set Fidget_Stand Hoewait
+	exit
+endif
+
+if (Monk_Anim==Sweep)
+	Set Prop_Name MonkBroom.ABC
+	Set Skin_Name MonkBroom.dtx
+	Set Socket_Name Broom
+	Set Fidget_Name sweepfidget
+	Set Fidget_Stand Sweepwait
+	exit
+endif
+
+if (Monk_Anim==Hammer)
+	Set Prop_Name MonkHammer.ABC
+	Set Skin_Name MonkHammer.dtx
+	Set Socket_Name Hammer
+	Set Fidget_Name HammerFidget
+	Set Fidget_Stand Hammerwait
+	exit
+endif
+
+if (Monk_Anim==Wash)
+	Set Prop_Name MonkCloth.ABC
+	Set Skin_Name MonkCloth.dtx
+	Set Socket_Name Cloth
+	Set Fidget_Name WashFidget
+	Set Fidget_Stand WashWait
+	exit
+endif
+
+exit
+
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+Gosub WorkInit
+Gosub SetupWork
+Gosub StartWork
+Gosub MS_Init
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+GetParam 0 Monk_Anim
+GetParam 1 NPC_ID
+GetParam 2 Face_Object
+GetParam 3 bSoundOn
+Addtrigger Use, Onuse
+OnRudeExit OnRude
+OnDamage OnDamage
+OnPostStartWorld Init
+;jsl-->OnPostMiniSaveLoad Init
+;jsl-->OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

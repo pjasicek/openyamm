@@ -1,0 +1,2030 @@
+format_version: 1
+source_file: NPC1.rude
+rows:
+  - source:
+      file: NPC1.rude
+      row: 1
+    raw_columns:
+      - 1
+      - 4
+      - 1
+      - Thronheim?  Kira the Cold's soldiers will certainly stop them!
+      - Don't confuse bravery with ability.  Her army will face Tamur Leng, and be destroyed.  As will all the other Clans of the Chedian.  That is why you are here.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 4
+      choice_slot: 1
+      prompt: Thronheim?  Kira the Cold's soldiers will certainly stop them!
+      response: Don't confuse bravery with ability.  Her army will face Tamur Leng, and be destroyed.  As will all the other Clans of the Chedian.  That is why you are here.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC1.rude
+      row: 2
+    raw_columns:
+      - 1
+      - 5
+      - 1
+      - You spoke of a destiny.  Is this our fate?
+      - Your fate, is to unite the six clans of the Chedian.  Unite them and lead them against Tamur Leng.  If you cannot stop him, we are all doomed.
+      - 6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 5
+      choice_slot: 1
+      prompt: You spoke of a destiny.  Is this our fate?
+      response: Your fate, is to unite the six clans of the Chedian.  Unite them and lead them against Tamur Leng.  If you cannot stop him, we are all doomed.
+      next: 6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 6
+  - source:
+      file: NPC1.rude
+      row: 3
+    raw_columns:
+      - 1
+      - 6
+      - 1
+      - For the sake of all the Chedian, we will take this quest.
+      - There is no choice.  It is your destiny.
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 6
+      choice_slot: 1
+      prompt: For the sake of all the Chedian, we will take this quest.
+      response: There is no choice.  It is your destiny.
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 1
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 1
+        status: raw_value_preserved
+  - source:
+      file: NPC1.rude
+      row: 4
+    raw_columns:
+      - 1
+      - 7
+      - 1
+      - Goodbye
+      - Goodbye
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 7
+      choice_slot: 1
+      prompt: Goodbye
+      response: Goodbye
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC1.rude
+      row: 5
+    raw_columns:
+      - 1
+      - 8
+      - 1
+      - Tell us more about Jevar the Bastard.
+      - After he declared himself Emperor, Jevar fled to the province of Beldonia, a place untouched by the Great Cataclysm.  It was there he slew his father.  It was that that crumbled the Ursanian Empire, not the Great Cataclysm.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 8
+      choice_slot: 1
+      prompt: Tell us more about Jevar the Bastard.
+      response: After he declared himself Emperor, Jevar fled to the province of Beldonia, a place untouched by the Great Cataclysm.  It was there he slew his father.  It was that that crumbled the Ursanian Empire, not the Great Cataclysm.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC1.rude
+      row: 6
+    raw_columns:
+      - 1
+      - 1
+      - 1
+      - Who are you?
+      - I am called Yrsa the Troll.  I will help you leave this island, but you must agree to do something for me at any time of my choosing.
+      - 15
+      - 27
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 1
+      choice_slot: 1
+      prompt: Who are you?
+      response: I am called Yrsa the Troll.  I will help you leave this island, but you must agree to do something for me at any time of my choosing.
+      next: 15
+      raw_fields:
+        c07: 27
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 1
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 27
+            qbit_id: 9027
+            state_id: mm9.keys.27
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 27
+          qbit_id: 9027
+          state_id: mm9.keys.27
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 1
+        status: raw_value_preserved
+  - source:
+      file: NPC1.rude
+      row: 7
+    raw_columns:
+      - 1
+      - 2
+      - 1
+      - Destiny?  What destiny?
+      - There is a man, who calls himself Tamur Leng.  He claims to be the 11th direct descendant of Jevar the Bastard.  He and his hordes from Beldonia are sweeping across Rysh conquering everything in their path.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 2
+      choice_slot: 1
+      prompt: Destiny?  What destiny?
+      response: There is a man, who calls himself Tamur Leng.  He claims to be the 11th direct descendant of Jevar the Bastard.  He and his hordes from Beldonia are sweeping across Rysh conquering everything in their path.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC1.rude
+      row: 8
+    raw_columns:
+      - 1
+      - 3
+      - 1
+      - What does Tamur Leng have to do with us?
+      - Soon they will reach the first of the six clans of the Chedian.  With the six clans divided, they will not stand a chance against Tamur Leng.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 3
+      choice_slot: 1
+      prompt: What does Tamur Leng have to do with us?
+      response: Soon they will reach the first of the six clans of the Chedian.  With the six clans divided, they will not stand a chance against Tamur Leng.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC1.rude
+      row: 9
+    raw_columns:
+      - 1
+      - 12
+      - 1
+      - What?  You're interrupting us so we can go win some prize?!
+      - Yes!  My daughter wants it.  You must go get it NOW!!
+      - 13
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 12
+      choice_slot: 1
+      prompt: What?  You're interrupting us so we can go win some prize?!
+      response: Yes!  My daughter wants it.  You must go get it NOW!!
+      next: 13
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 13
+  - source:
+      file: NPC1.rude
+      row: 10
+    raw_columns:
+      - 1
+      - 999
+      - 1
+      - Goodbye
+      - blank
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye
+      response: blank
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC1.rude
+      row: 11
+    raw_columns:
+      - 1
+      - 15
+      - 1
+      - Very well.
+      - Good.  In my hand, I have your destiny.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 15
+      choice_slot: 1
+      prompt: Very well.
+      response: Good.  In my hand, I have your destiny.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC1.rude
+      row: 12
+    raw_columns:
+      - 1
+      - 13
+      - 1
+      - Alright.  We will get this prize for you.
+      - When you've given the prize to my daughter, you can return here.  I'm sure they will be ready for you by then.  Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 499
+      - 93
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 13
+      choice_slot: 1
+      prompt: Alright.  We will get this prize for you.
+      response: When you've given the prize to my daughter, you can return here.  I'm sure they will be ready for you by then.  Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 499
+        c17: 93
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 499
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c17
+        value: 93
+        status: raw_value_preserved
+  - source:
+      file: NPC1.rude
+      row: 13
+    raw_columns:
+      - 1
+      - 11
+      - 1
+      - Alright, what do you need done?
+      - You must travel to the Thing in Thjorgard.  Once there, you must win the Dragon Prize by winning in all the games, and take it to my daughter Bikki in Thronheim.
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 11
+      choice_slot: 1
+      prompt: Alright, what do you need done?
+      response: You must travel to the Thing in Thjorgard.  Once there, you must win the Dragon Prize by winning in all the games, and take it to my daughter Bikki in Thronheim.
+      next: 12
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12
+  - source:
+      file: NPC1.rude
+      row: 14
+    raw_columns:
+      - 1
+      - 10
+      - 1
+      - What?  We're a little busy right now.
+      - You are never too busy for me!  As I recall, you agreed to do anything for me at a time of my choosing.  These people here can deal with this!  This must be done NOW!!  Leave your friend Forad behind and get busy!!
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 10
+      choice_slot: 1
+      prompt: What?  We're a little busy right now.
+      response: You are never too busy for me!  As I recall, you agreed to do anything for me at a time of my choosing.  These people here can deal with this!  This must be done NOW!!  Leave your friend Forad behind and get busy!!
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC1.rude
+      row: 15
+    raw_columns:
+      - 1
+      - 3
+      - 2
+      - Who is Jevar the Bastard?
+      - Do they not teach history any longer?  Jevar the Bastard was the illegitimate son of the Old Ursanian Emperor Trandis.  Twenty-three years before the Great Cataclysm he declared himself the true Emperor and set out to destroy his father's empire.
+      - 8
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 3
+      choice_slot: 2
+      prompt: Who is Jevar the Bastard?
+      response: Do they not teach history any longer?  Jevar the Bastard was the illegitimate son of the Old Ursanian Emperor Trandis.  Twenty-three years before the Great Cataclysm he declared himself the true Emperor and set out to destroy his father's empire.
+      next: 8
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 8
+  - source:
+      file: NPC1.rude
+      row: 16
+    raw_columns:
+      - 1
+      - 2
+      - 2
+      - No one controls our destiny.  Goodbye.
+      - Goodbye
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 2
+      choice_slot: 2
+      prompt: No one controls our destiny.  Goodbye.
+      response: Goodbye
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC1.rude
+      row: 17
+    raw_columns:
+      - 1
+      - 8
+      - 2
+      - What is the Great Cataclysm?
+      - Five hundred years ago, the Dark Mage Verhoffin stood atop his tower on this very island, and cast a spell that rent destruction throughout most of the Ursanian Empire.  Most believe that is what destroyed the Ursanian Empire.
+      - 8
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 8
+      choice_slot: 2
+      prompt: What is the Great Cataclysm?
+      response: Five hundred years ago, the Dark Mage Verhoffin stood atop his tower on this very island, and cast a spell that rent destruction throughout most of the Ursanian Empire.  Most believe that is what destroyed the Ursanian Empire.
+      next: 8
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 8
+  - source:
+      file: NPC1.rude
+      row: 18
+    raw_columns:
+      - 1
+      - 15
+      - 2
+      - We'll find another way off the island.
+      - No, I don't think you will.  Goodbye.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 15
+      choice_slot: 2
+      prompt: We'll find another way off the island.
+      response: No, I don't think you will.  Goodbye.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC1.rude
+      row: 19
+    raw_columns:
+      - 1
+      - 1
+      - 2
+      - How do we get off this island?
+      - I will help you leave this island, but you must agree to do something for me at any time of my choosing.
+      - 15
+      - 27
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 1
+      choice_slot: 2
+      prompt: How do we get off this island?
+      response: I will help you leave this island, but you must agree to do something for me at any time of my choosing.
+      next: 15
+      raw_fields:
+        c07: 27
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 1
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 27
+            qbit_id: 9027
+            state_id: mm9.keys.27
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 27
+          qbit_id: 9027
+          state_id: mm9.keys.27
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 1
+        status: raw_value_preserved
+  - source:
+      file: NPC1.rude
+      row: 20
+    raw_columns:
+      - 1
+      - 6
+      - 2
+      - We will not do this!  No one controls our destiny!
+      - Whether you accept this or not, it is your destiny.  Go now and meet it.
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 6
+      choice_slot: 2
+      prompt: We will not do this!  No one controls our destiny!
+      response: Whether you accept this or not, it is your destiny.  Go now and meet it.
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 1
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 1
+        status: raw_value_preserved
+  - source:
+      file: NPC1.rude
+      row: 21
+    raw_columns:
+      - 1
+      - 1
+      - 3
+      - Who are you?
+      - I will tell you that all in good time, and will be more than willing to help you.  First though, you will help me.  There is a group of dragonflies who have been pestering me to no end, just through that tunnel there.  Go through it and kill them.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 27
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 1
+      choice_slot: 3
+      prompt: Who are you?
+      response: I will tell you that all in good time, and will be more than willing to help you.  First though, you will help me.  There is a group of dragonflies who have been pestering me to no end, just through that tunnel there.  Go through it and kill them.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 7
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 27
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 7
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 27
+        status: raw_value_preserved
+  - source:
+      file: NPC1.rude
+      row: 22
+    raw_columns:
+      - 1
+      - 1
+      - 4
+      - How do we get off this island?
+      - Perhaps you should speak to Forad Darre.
+      - 999
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 40
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 1
+      choice_slot: 4
+      prompt: How do we get off this island?
+      response: Perhaps you should speak to Forad Darre.
+      next: 999
+      raw_fields:
+        c07: 1
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 40
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 1
+            qbit_id: 9001
+            state_id: mm9.keys.1
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 1
+          qbit_id: 9001
+          state_id: mm9.keys.1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 40
+        status: raw_value_preserved
+  - source:
+      file: NPC1.rude
+      row: 23
+    raw_columns:
+      - 1
+      - 1
+      - 5
+      - Yrsa?  What do you want?
+      - There is something you must do for me immediately!
+      - 10
+      - 40
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 499
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 1
+      choice_slot: 5
+      prompt: Yrsa?  What do you want?
+      response: There is something you must do for me immediately!
+      next: 10
+      raw_fields:
+        c07: 40
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 499
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 40
+            qbit_id: 9040
+            state_id: mm9.keys.40
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 40
+          qbit_id: 9040
+          state_id: mm9.keys.40
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 499
+        status: raw_value_preserved
+  - source:
+      file: NPC1.rude
+      row: 24
+    raw_columns:
+      - 1
+      - 1
+      - 7
+      - What do you know about that big tower?
+      - Those are the Verhoffin Ruins!  That is the tower where Verhoffin himself cast the spell that caused the Great Cataclysm.  Don't go in there!  It's very bad in there!  Unless of course, you want to be killed!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 1
+      choice_slot: 7
+      prompt: What do you know about that big tower?
+      response: Those are the Verhoffin Ruins!  That is the tower where Verhoffin himself cast the spell that caused the Great Cataclysm.  Don't go in there!  It's very bad in there!  Unless of course, you want to be killed!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 29
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 29
+        status: raw_value_preserved
+  - source:
+      file: NPC1.rude
+      row: 25
+    raw_columns:
+      - 1
+      - 1
+      - 8
+      - How do we through that door?
+      - Eh?  Oh right.  That door.  Here, try this.
+      - 999
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 469
+      - 0
+      - 0
+      - 0
+      - 0
+      - 469
+      - 40
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 1
+      choice_slot: 8
+      prompt: How do we through that door?
+      response: Eh?  Oh right.  That door.  Here, try this.
+      next: 999
+      raw_fields:
+        c07: 29
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 469
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 469
+        c22: 40
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 469
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 469
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 40
+        status: raw_value_preserved
+  - source:
+      file: NPC1.rude
+      row: 26
+    raw_columns:
+      - 1
+      - 1
+      - 9
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 92
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 1
+      choice_slot: 9
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 92
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 92
+        status: raw_value_preserved
+  - source:
+      file: NPC1.rude
+      row: 27
+    raw_columns:
+      - 1
+      - 1
+      - 10
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 92
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 93
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 1
+      node_id: 1
+      choice_slot: 10
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 92
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 93
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 92
+            qbit_id: 9092
+            state_id: mm9.keys.92
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 92
+          qbit_id: 9092
+          state_id: mm9.keys.92
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 93
+        status: raw_value_preserved

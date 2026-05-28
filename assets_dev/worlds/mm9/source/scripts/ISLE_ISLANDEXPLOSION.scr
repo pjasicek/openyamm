@@ -1,0 +1,52 @@
+;------------------------------------
+;	Isle_IslandExplosion.scr
+;	by SJR
+;	01-01-02
+;	Purpose:explosions at the sinking
+;			island during the cinema.
+;------------------------------------
+#include flags.inc
+
+#hobject	hMe = 0
+#number		EFFECTS_COUNTER = 0
+#number		EFFECTS_WAIT = 1
+
+#string		SPELL_ELEMBLAST = "elemental blast"
+#string		SPELL_BLACKSMOKE = "blacksmoke"
+#string		SPELL_MIST = "mist"
+
+;------------------------------------
+:Main
+;------------------------------------
+	GetMyHandle hMe
+
+	AddTrigger explode, CreateExplosion
+
+	Exit 1
+
+;------------------------------------
+:CreateExplosion
+;------------------------------------
+	SetFlag hMe, FLAG_VISIBLE
+
+	DoClientFX hMe, SPELL_ELEMBLAST, 0, 1
+	DoClientFX hMe, SPELL_BLACKSMOKE, 0, 1
+
+	EFFECTS_COUNTER = EFFECTS_COUNTER + 1
+
+	if( EFFECTS_COUNTER<5 )
+		GetRandomFloat 1, 2, EFFECTS_WAIT
+		Wait 0, EFFECTS_WAIT, CreateExplosion
+	else
+		EFFECTS_COUNTER = 0
+		gosub CreateSteam
+	endif
+
+	Exit 1
+
+;------------------------------------
+:CreateSteam
+;------------------------------------
+	DoClientFX hMe, SPELL_MIST, 1, 0
+
+	Exit 1

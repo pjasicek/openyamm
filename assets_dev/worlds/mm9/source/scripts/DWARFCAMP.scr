@@ -1,0 +1,414 @@
+;------------------------------------------
+;	dwarfcamp.scr
+;	John Machin
+;	
+;	This script uses base.inc and extends
+;	it to allow for this dwarf camp to attack
+;	the Zombie camp.
+;
+;------------------------------------------
+
+#include base.inc
+#include aiglobals.inc
+
+#hobject		hAlertedBy 
+#string			sAlertName
+
+#number			g_nObjects
+#numberarray	g_hEnemyArray[10]
+
+#number			g_bOkAttackType = 0
+
+#hobject		g_hCampDirector
+
+#hobject		g_hObstacle 
+#string			g_sObstacleName	 
+#string			g_sMyClassName
+#string			g_sEnemyName
+
+
+
+;------------------------------------------
+:OnUse
+;------------------------------------------
+
+	GetParam 0, g_hObject
+
+	FaceObject g_hObject, 180
+
+	Exit
+
+;------------------------------------------
+:DwarfOnAlert
+;------------------------------------------
+	if ( g_hTarget!=NULL )
+		; only a small chance we'll go consider switching targets...
+		GetRandomInt 0,100,g_nRandom
+		if ( g_nRandom > 10 )
+			Exit FALSE
+		endif
+	endif
+
+	GetParam 0, hAlertedBy
+	GetClassName hAlertedBy, sAlertName
+
+	if( sAlertName != g_sMyClassName )			
+		exit FALSE
+	endif
+	
+	; Ok, we were alerted by our buddies, therefore
+	; let's see if we want to attack the guy who
+	; is attacking our buddy!
+
+	GetParam 1, g_hObject
+	GetClassName g_hObject, g_sTemp
+
+	if ( g_sTemp==g_sMyClassName )
+		exit FALSE
+	endif
+
+	Set g_hTarget, g_hObject
+	Target g_hTarget
+
+	gosub BaseGoGetHim
+	
+	Exit
+
+;------------------------------------------
+:DwarfFindTarget
+;------------------------------------------
+	GetObjects g_sEnemyName, 1000, 10, g_hEnemyArray, g_nObjects		
+	
+	if( g_nObjects != NULL )
+		if( g_hTarget == NULL )
+			;Randomly pick a target
+			Sub g_nObjects, 1
+			GetRandomInt 0, g_nObjects, g_nRandom
+			ArrayGet g_hEnemyArray, g_nRandom, g_hTarget		
+			Target g_hTarget		
+			Gosub BaseGoGetHim
+		endif
+	else
+		SetIdle
+		Wait 0, 5, DwarfFindTarget
+	endif
+	
+	Exit
+
+;------------------------------------------
+:DwarfTargetDead
+;------------------------------------------
+
+	GetParam 0, g_nTemp
+
+	Target NULL
+	Set g_hTarget, NULL
+
+	if ( g_nTemp==g_hMyObject )
+		;
+		;	We killed him!
+		;
+		; taunt him, and go home....
+		Taunt DwarfFindTarget
+	else
+		; just go home...
+		gosub DwarfFindTarget 
+	endif
+
+	Exit TRUE
+
+;------------------------------------------
+:DwarfDamageDone
+;
+;	We were attacked, now we want to run
+;	after whoever attacked us!
+;	
+;------------------------------------------
+
+	if ( g_hAttacker==g_hMyObject )
+		exit FALSE
+	endif
+
+	GetClassName g_hAttacker, sAlertName
+	
+	;Make sure we don't attack fellow dwarves
+	if( sAlertName == g_sMyClassName )
+		exit FALSE
+	endif	
+
+	gosub BaseDamageDone
+
+	Exit
+
+;------------------------------------------
+:DwarfAttackReady
+;
+;	We are now in attack range (for our
+;	currently selected weapon) and ready
+;	to attack.  So let's do it!
+;------------------------------------------
+	
+	GetClassName g_hTarget, sAlertName
+	if( sAlertName == g_sMyClassName )
+		Target NULL
+		Set g_hTarget, NULL
+		gosub DwarfFindTarget
+	else	
+		Set g_bFighting, TRUE
+
+		GetTime g_nLastAttackTime
+
+		Attack
+	endif
+
+	Exit
+
+;------------------------------------------
+:DwarfOnLostTarget
+;
+;	We lost the target.  But in this we
+;	don't want this to happen so we exit
+;	TRUE
+;------------------------------------------
+	;This will keep us from losing the target
+	if( g_hTarget != NULL )
+		Target g_hTarget
+		gosub BaseGoGetHim
+	else
+		Target NULL
+		Set g_hTarget, NULL
+		gosub DwarfFindTarget
+	endif
+
+	Exit TRUE
+
+;------------------------------------------
+:DwarfTargetOutOfRange
+;
+;	Target moved out of our weapon range.
+;	Go after him!
+;	
+;------------------------------------------
+
+	CanAttack g_bCanAttack
+	IsAttacking g_bAttacking
+
+	if ( g_bAttacking==TRUE )
+		Wait 0, 0.5, DwarfOutOfRangeWait
+	endif
+
+	if ( g_bCanAttack==TRUE )
+		gosub BaseGoGetHim
+	else
+		Wait 0, 0.5, DwarfOutOfRangeWait
+	endif
+
+	Exit
+
+;------------------------------------------
+:DwarfOutOfRangeWait
+;
+;	We don't want to run after target
+;	until it's far enough away or we are
+;	ready to attack...
+;------------------------------------------
+
+	if ( g_hTarget==NULL )
+		Exit TRUE
+	endif
+
+	IsAttacking g_bAttacking
+
+	if ( g_bAttacking==TRUE )
+		Wait 0, 0.5, DwarfOutOfRangeWait
+		Exit TRUE
+	endif
+
+	CanAttack g_bCanAttack
+	if ( g_bCanAttack==TRUE )
+		IsAttacking g_bAttacking
+
+		if ( g_bAttacking==TRUE )
+			exit TRUE
+		endif
+
+		gosub BaseGoGetHim
+		Exit TRUE
+	endif
+
+	; randomly play a taunt animation...
+	GetRandomInt 0, 100, g_nRandom
+
+	if ( g_nRandom < 30 )
+		if ( g_nRandom < 15 )
+			Taunt DwarfAttackWaitAnimDone
+		else
+			Aware DwarfAttackWaitAnimDone
+		endif
+		Exit TRUE
+	endif
+
+	;AIGetDistance g_hTarget, g_nDist1
+
+	;if ( g_nDist1 > 200 )		; if they are too far away...
+		WalkTo g_hTarget
+	;	Wait 0, 0.5, DwarfOutOfRangeWalkingWait
+	;	Exit TRUE
+	;endif
+
+	; Continue waiting....
+
+	Wait 0, 0.5, DwarfOutOfRangeWait
+
+	Exit
+
+;------------------------------------------
+:DwarfStuckDone
+;
+;	This is called when a stuck animation
+;	has finished... We'll just re-attempt
+;	to run after our target...
+;------------------------------------------
+
+	if ( g_hTarget==NULL )
+		gosub DwarfFindTarget
+		Exit TRUE
+	endif
+
+
+	; for now, don't wait when stuck..just get another target
+	gosub BaseGoGetHim
+	
+	Exit TRUE  
+
+
+;------------------------------------------
+:DwarfOutOfRangeWalkingWait
+;
+;	Once we start walking after target,
+;   we want to start running as soon as
+;	we are attack ready...
+;
+;------------------------------------------
+
+	CanAttack g_bCanAttack
+	if ( g_bCanAttack==TRUE )
+		IsAttacking g_bAttacking
+
+		if ( g_bAttacking==TRUE )
+			exit TRUE
+		endif
+
+		gosub BaseGoGetHim
+		Exit TRUE
+	endif
+
+	Wait 0, 0.5, DwarfOutOfRangeWait
+
+	Exit
+
+
+;------------------------------------------
+:DwarfAttackWaitAnimDone
+;------------------------------------------
+
+	gosub DwarfOutOfRangeWait
+
+	Exit
+
+;------------------------------------------
+:DwarfObstacle
+;
+;------------------------------------------
+	GetParam 0, g_hObstacle
+	GetClassName g_hObstacle, g_sObstacleName
+
+	if( g_sObstacleName == g_sEnemyName )
+		GetRandomInt 0, 10, g_nRandom
+		if( g_nRandom > 3 )			
+			Set g_hTarget, g_hObstacle
+			Target g_hTarget
+			gosub BaseGoGetHim
+
+			Exit TRUE
+		endif
+	endif		
+
+	gosub BaseObstacle
+	
+	Exit 
+
+
+;------------------------------------------
+:DwarfDeathDone
+;	Report death of dwarf to the director
+;------------------------------------------
+	Trigger g_hCampDirector, DwarfDeath
+
+	Exit FALSE
+
+;------------------------------------------
+:Init
+;------------------------------------------
+
+	GetObjectHandle CampDirector, g_hCampDirector	
+	
+;	See if we already have a target (this would normally happen if
+;	the ai were running another script and then decided to start running 
+;	this one...
+;
+	GetTarget g_hTarget
+
+	if ( g_hTarget!=NULL )
+		gosub BaseGoGetHim
+	else
+	;commented because I don't want dwarfs running out and killing at this time
+	;	Wait 0.1, DwarfFindTarget	
+	endif
+
+	Exit
+
+;------------------------------------------
+:DoNothing
+;------------------------------------------
+	exit TRUE
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+
+	GetMyHandle g_hMyObject
+	GetClassName g_hMyObject, g_sMyClassName
+
+	gosub InitBase
+
+;
+;   Setup our event handlers...
+;
+
+	;Base callbacks				
+	OnDamage					BaseDamage
+	OnCongestion				BaseCongestion
+	OnPathClear					BasePathClear		
+
+	;Dwarf script call backs
+	OnDamageDone				DwarfDamageDone
+	OnAlert						DwarfOnAlert
+	OnTargetDead				DwarfTargetDead
+	OnAttackReady				DwarfAttackReady
+	OnLostTarget				DwarfOnLostTarget
+	OnDeathDone					DwarfDeathDone
+	OnTargetOutOfRange			DwarfTargetOutOfRange
+	OnStuckDone					DwarfStuckDone
+	OnObstacle					DwarfObstacle
+	OnFoundPlayer				DoNothing
+
+	Set g_bAlwaysRunToTarget, TRUE
+	Set g_sEnemyName,Zombie
+
+	Wait 0, 0.1, Init
+
+	Exit
+		

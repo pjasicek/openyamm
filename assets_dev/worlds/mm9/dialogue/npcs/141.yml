@@ -1,0 +1,1100 @@
+format_version: 1
+source_file: NPC141.rude
+rows:
+  - source:
+      file: NPC141.rude
+      row: 1
+    raw_columns:
+      - 141
+      - 13
+      - 1
+      - You're sure?
+      - Yes.  No if you don't mind, I've got other customers to attend to.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 305
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 13
+      choice_slot: 1
+      prompt: You're sure?
+      response: Yes.  No if you don't mind, I've got other customers to attend to.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 305
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 305
+        status: raw_value_preserved
+  - source:
+      file: NPC141.rude
+      row: 2
+    raw_columns:
+      - 141
+      - 999
+      - 1
+      - Goodbye.
+      - blank
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: blank
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC141.rude
+      row: 3
+    raw_columns:
+      - 141
+      - 12
+      - 1
+      - Sounds good.
+      - It's a deal then.  Thanks for doing business.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 304
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 12
+      choice_slot: 1
+      prompt: Sounds good.
+      response: It's a deal then.  Thanks for doing business.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 304
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 304
+        status: raw_value_preserved
+  - source:
+      file: NPC141.rude
+      row: 4
+    raw_columns:
+      - 141
+      - 11
+      - 1
+      - Er,..Yes.
+      - In that case, I would be happy to purchase it from you!  Say 500 gold?
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 11
+      choice_slot: 1
+      prompt: Er,..Yes.
+      response: In that case, I would be happy to purchase it from you!  Say 500 gold?
+      next: 12
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12
+  - source:
+      file: NPC141.rude
+      row: 5
+    raw_columns:
+      - 141
+      - 10
+      - 1
+      - It's a special brew from Frosgard.
+      - From Frosgard?  You mean it was made by the legendary Brewmaster Smith?
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 305
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 10
+      choice_slot: 1
+      prompt: It's a special brew from Frosgard.
+      response: From Frosgard?  You mean it was made by the legendary Brewmaster Smith?
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 305
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 305
+        status: raw_value_preserved
+  - source:
+      file: NPC141.rude
+      row: 6
+    raw_columns:
+      - 141
+      - 1
+      - 1
+      - Do you have any news?
+      - This is the place for news, that's for sure!  I've been looking for a new brew to try!  My clientele grow tired of my same old brews.  It would be wonderful if I could find something new to serve to them!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: This is the place for news, that's for sure!  I've been looking for a new brew to try!  My clientele grow tired of my same old brews.  It would be wonderful if I could find something new to serve to them!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC141.rude
+      row: 7
+    raw_columns:
+      - 141
+      - 141
+      - 1
+      - We'd like to do business.
+      - Of course!
+      - -7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 141
+      choice_slot: 1
+      prompt: We'd like to do business.
+      response: Of course!
+      next: -7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -7
+        service: inn
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -7
+        service: inn
+        status: typed_pending_exact_runtime_behavior
+  - source:
+      file: NPC141.rude
+      row: 8
+    raw_columns:
+      - 141
+      - 10
+      - 2
+      - It's a special brew from Frosgard.
+      - You're not going to fool me.  I know you're trying to sell that same beer you were selling last time you were in here.  Now if you don't mind, I've got other customers.
+      - 999
+      - 305
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 10
+      choice_slot: 2
+      prompt: It's a special brew from Frosgard.
+      response: You're not going to fool me.  I know you're trying to sell that same beer you were selling last time you were in here.  Now if you don't mind, I've got other customers.
+      next: 999
+      raw_fields:
+        c07: 305
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 305
+            qbit_id: 9305
+            state_id: mm9.keys.305
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 305
+          qbit_id: 9305
+          state_id: mm9.keys.305
+  - source:
+      file: NPC141.rude
+      row: 9
+    raw_columns:
+      - 141
+      - 12
+      - 2
+      - That's not enough.
+      - Well that's all I'm going to offer.  Take it or leave it.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 12
+      choice_slot: 2
+      prompt: That's not enough.
+      response: Well that's all I'm going to offer.  Take it or leave it.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC141.rude
+      row: 10
+    raw_columns:
+      - 141
+      - 11
+      - 2
+      - Uh, no.  It was made by his apprentices.
+      - Oh!  Well in that case, I don't want to buy any.  Sorry.
+      - 13
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 11
+      choice_slot: 2
+      prompt: Uh, no.  It was made by his apprentices.
+      response: Oh!  Well in that case, I don't want to buy any.  Sorry.
+      next: 13
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 13
+  - source:
+      file: NPC141.rude
+      row: 11
+    raw_columns:
+      - 141
+      - 141
+      - 2
+      - We have some beer we'd like to sell.
+      - Is that so?  And what makes you think that I want to buy your beer?
+      - 10
+      - 302
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 304
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 141
+      choice_slot: 2
+      prompt: We have some beer we'd like to sell.
+      response: Is that so?  And what makes you think that I want to buy your beer?
+      next: 10
+      raw_fields:
+        c07: 302
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 304
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 302
+            qbit_id: 9302
+            state_id: mm9.keys.302
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 302
+          qbit_id: 9302
+          state_id: mm9.keys.302
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 304
+        status: raw_value_preserved
+  - source:
+      file: NPC141.rude
+      row: 12
+    raw_columns:
+      - 141
+      - 1
+      - 2
+      - What do you know about Chedian?
+      - It's the place where I grew up!  My father used to say that we were actually descended from Ursanian Nobility.  Wouldn't that be great if it were true?  I could have been an emperor!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about Chedian?
+      response: It's the place where I grew up!  My father used to say that we were actually descended from Ursanian Nobility.  Wouldn't that be great if it were true?  I could have been an emperor!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC141.rude
+      row: 13
+    raw_columns:
+      - 141
+      - 141
+      - 3
+      - We'd like to ask you some questions.
+      - Sure.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 141
+      choice_slot: 3
+      prompt: We'd like to ask you some questions.
+      response: Sure.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC141.rude
+      row: 14
+    raw_columns:
+      - 141
+      - 141
+      - 4
+      - Thanks for your time.
+      - Come back soon!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 141
+      choice_slot: 4
+      prompt: Thanks for your time.
+      response: Come back soon!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC141.rude
+      row: 15
+    raw_columns:
+      - 141
+      - 1
+      - 7
+      - Thanks for your time.
+      - Maybe you'd like to buy a drink?
+      - 141
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 141
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Maybe you'd like to buy a drink?
+      next: 141
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 141

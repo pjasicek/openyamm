@@ -1,0 +1,40 @@
+format_version: 1
+state_domains:
+  keys:
+    state_id_prefix: mm9.keys
+    backend: qbits
+    qbit_base: 9000
+    default: false
+  console_num_vars:
+    backend: mm9_script_state
+    default: 0
+  console_str_vars:
+    backend: mm9_script_state
+    default: ""
+  map_vars:
+    backend: mm9_script_state
+    scope: map
+  object_properties:
+    backend: mm9_script_state
+    scope: map_object
+initial_state:
+  console_num_vars:
+    {}
+  console_str_vars:
+    {}
+  map_num_vars:
+    {}
+  map_str_vars:
+    {}
+  script_num_vars:
+    {}
+  script_str_vars:
+    {}
+  object_handle_vars:
+    {}
+  object_number_properties:
+    {}
+  triggers:
+    []
+  trigger_dispatches:
+    []

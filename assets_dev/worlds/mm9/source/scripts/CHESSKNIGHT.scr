@@ -1,0 +1,94 @@
+;---------------------------------------
+;	ChessKnight.scr
+;	by SJR
+;	Purpose:Knight
+;---------------------------------------
+#include BaseGlobals.inc
+#include ChessBase.inc
+
+;---------------------------------------
+:Main
+;---------------------------------------
+	GetParam 0, sSquareName
+	GetParam 1, sFloorName
+	GetParam 2, BOARDSIZE
+	GetParam 3, nLocation
+
+	OnPostStartWorld InitChessBase
+
+	Exit TRUE
+
+#number		nCounter = 0
+#number		dx = 0
+#number		dz = 0
+#number		xTemp = 0
+#number		zTemp = 0
+;---------------------------------------
+:PreAttackRoutine
+;---------------------------------------
+	gosub BeginAttack
+
+	Exit TRUE
+
+;---------------------------------------
+:CheckPath
+;	check 8 knight squares
+;---------------------------------------
+	GetParam 0, hTrigger
+
+	dx = 1
+	dz = 2
+
+	;;4 passes checking 2 squares at a time
+	nCounter = 4
+	while( nCounter>0 )
+		;;change to second z after we checked
+		;;all 4 x's for the first z
+		if( nCounter==2 )
+			dx = 2
+			dz = 1
+		endif
+
+		zTemp = zMe + dz
+		;;check z boundaries of board
+		if( zTemp<BOARDSIZE )
+		if( zTemp>=0		)
+		;;ping the first x square at this z
+			xTemp = xMe + dx
+			;;check x boundaries of board
+			if( xTemp<BOARDSIZE )
+			if( xTemp >= 0		)
+				;;change index coords to plane coords
+				LISTINDEX = BOARDSIZE * zTemp + xMe + dx
+				gosub GetCurrentObject
+				if( LISTOBJECT==hTrigger )
+					gosub PreAttackRoutine
+					Exit TRUE
+				endif
+			endif
+			endif
+
+			xTemp = xMe - dx
+			;;ping the second x square at this z
+			;;check x boundaries of board
+			if( xTemp<BOARDSIZE )
+			if( xTemp>=0		)
+				;;change index coords to plane coords
+				LISTINDEX = BOARDSIZE * zTemp + xMe - dx
+				gosub GetCurrentObject
+				if( LISTOBJECT==hTrigger )
+					gosub PreAttackRoutine
+					Exit TRUE
+				endif
+			endif
+			endif
+		endif
+		endif
+		
+		;;check the same x's, but on the other side
+		dz = dz * -1
+
+		nCounter = nCounter - 1
+	endwhile
+
+	Exit TRUE

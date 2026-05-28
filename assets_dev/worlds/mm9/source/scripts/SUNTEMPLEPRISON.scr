@@ -1,0 +1,90 @@
+;--------------------------------------------------------
+;	SunTemplePrison.scr
+;	Tony Evans
+;
+;	This script controls the buttons that operate the 
+;	Prison Gate in the Grand Temple of the Sun
+;
+;	Parameters: none
+;
+;--------------------------------------------------------
+#include globals.inc
+
+#number					PrisonBut1=0
+#number					PrisonBut2=0
+
+;--------------------------------------------------------
+:HandleButton1
+;--------------------------------------------------------
+
+	if (PrisonBut1==TRUE)
+		set PrisonBut1, FALSE
+	else 
+		set PrisonBut1, TRUE
+	endif
+
+	if (PrisonBut1==TRUE)
+		if (PrisonBut2==TRUE)
+			gosub HandlePrisonGateOpen
+			set PrisonBut1, FALSE
+			set PrisonBut2, FALSE
+		endif
+	endif
+
+exit
+
+;--------------------------------------------------------
+:HandleButton2
+;--------------------------------------------------------
+
+	if (PrisonBut2==TRUE)
+		set PrisonBut2, FALSE
+	else 
+		set PrisonBut2, TRUE
+	endif
+
+	if (PrisonBut2==TRUE)
+		if (PrisonBut1==TRUE)
+			gosub HandlePrisonGateOpen
+			set PrisonBut1, FALSE
+			set PrisonBut2, FALSE
+		endif
+	endif
+
+exit
+
+;--------------------------------------------------------
+:HandlePrisonGateOpen
+;--------------------------------------------------------
+
+	; make Gate open
+	GetObjectHandle PrisonDoor, g_hobject
+	Trigger g_hobject open
+	GetObjectHandle RopeWheel, g_hobject
+	Trigger g_hobject reverse
+	Trigger g_hobject on
+exit
+
+;--------------------------------------------------------
+:HandlePrisonGateClose
+;--------------------------------------------------------
+
+	; make Gate close
+	GetObjectHandle PrisonDoor, g_hobject
+	Trigger g_hobject close
+	GetObjectHandle RopeWheel, g_hobject
+	Trigger g_hobject reverse
+	Trigger g_hobject on
+exit
+
+
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+Addtrigger Button1, HandleButton1
+Addtrigger Button2, HandleButton2
+Addtrigger ClosePrison, HandlePrisonGateClose
+
+exit

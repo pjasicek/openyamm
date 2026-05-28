@@ -1,0 +1,78 @@
+;----------------------------------------------
+;EboraConcubine.scr
+; By L. Dean Gibson II
+; Ebora's Concubine's script in the bathhouse
+;
+;----------------------------------------------
+
+;;;SJR
+
+#include baseMelee.inc
+
+;------------------------------------------
+:OnLaunchDone
+;------------------------------------------
+	gosub SetupTarget
+	gosub AggressiveStart
+
+Exit TRUE
+
+
+;------------------------------------------
+:OnFoundPlayer
+;------------------------------------------
+	OnFoundPlayer DoNothing
+
+	GetParam 0, g_hTarget
+
+	PlayAnim launch, OnLaunchDone
+
+Exit TRUE
+
+;------------------------------------------
+:OnDeath
+;	message to ebora of our death
+;------------------------------------------
+	GetObjectHandle Ebora, g_hMyObject
+	Trigger g_hMyObject, DeadConcubine
+
+	gosub OnDeath, 1
+
+Exit TRUE
+
+;-------------------------------------
+:InitEboraConcubine
+;-------------------------------------
+	GetRandomInt 0, 3, g_nTemp
+
+	if( g_nTemp==0 )
+		SetModelFilenames "models\ebora.abc", "skins\Siren1.dtx"
+	else
+	if( g_nTemp==1 )
+		SetModelFilenames "models\ebora.abc", "skins\Siren2.dtx"
+	else
+	if( g_nTemp==2 )
+		SetModelFilenames "models\ebora.abc", "skins\Siren3.dtx"
+	else
+	if( g_nTemp==3 )
+		SetModelFilenames "models\ebora.abc", "skins\Siren4.dtx"
+	endif
+	endif
+	endif
+	endif
+
+	gosub BaseInit
+
+	OnDeath OnDeath
+	OnFoundPlayer OnFoundPlayer
+
+	SetIdle
+
+Exit TRUE
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	OnPostStartWorld InitEboraConcubine
+
+Exit TRUE

@@ -1,0 +1,39 @@
+; Auto-spawn...
+
+#numberArray	array[50]
+#number			count
+#hobject		hSpawner
+
+:DoSpawn
+
+	GetObjectHandle AISpawn0, hSpawner
+	Trigger hSpawner, Trigger
+
+	GetObjectHandle AISpawn1, hSpawner
+	Trigger hSpawner, Trigger
+
+	GetObjectHandle AISpawn2, hSpawner
+	Trigger hSpawner, Trigger
+
+	exit
+
+:SpawnCheck
+
+	GetObjects AIBase, 5000, 50, array, count
+
+	if (count==0)
+		gosub DoSpawn
+		Wait 0, 5, SpawnCheck
+		exit
+	endif
+	
+	Wait 0, 0.1, SpawnCheck
+
+	exit
+
+
+:Main
+	Wait 0, 0.1, SpawnCheck
+
+
+exit

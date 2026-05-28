@@ -1,0 +1,135 @@
+;--------------------------------------------------
+;NPC89.scr
+; timmy
+; handles Keith Bloodaxe voice and quest stuff
+; Dolly is item 370
+; Herbs is item 372
+; plow is item 371
+;--------------------------------------------------
+
+#include globals.inc
+
+
+;promo variables
+
+#number		Fighter = 0
+#number		Mercenary = 1
+#number		Crusader = 2
+#number		Assassin = 3
+#number		Gladiator = 4
+#number		Ranger = 5
+#number		Paladin = 6
+#number		Initiate = 7
+#number		Scholar = 8
+#number		Healer = 9
+#number		Mage = 10
+#number		Lich = 11
+#number		Priest = 12
+#number		Druid = 13
+#number		Char1 = 0
+#number		Char2 = 1
+#number		Char3 = 2
+#number		Char4 = 3
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub crusaderpromo
+
+exit
+
+
+;--------------------------------------------------
+:crusaderpromo
+;--------------------------------------------------
+;****************
+;crusaderpromo Quest
+;****************
+
+Haskey 136, g_ntemp
+if ( g_ntemp==1, )
+;checks to see if player took atli where he goes
+	Haskey 137 g_ntemp
+	If ( g_ntemp==0, )
+	;checks to see if player has already completed quest
+		givekey 137
+		givegold 5000
+		giveexp 24500
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		gosub PromoteCrusader
+		;gives key and reward.
+		exit
+	endif
+endif
+exit
+	
+
+
+
+;End crusaderpromo quest
+;******************
+exit
+
+
+
+;--------------------------------------------------
+:PromoteCrusader
+;
+; Player has already completed the quest
+; just check to see who gets promoted
+;--------------------------------------------------
+
+haskey 413 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Crusader Char1
+	takekey 413
+endif
+
+haskey 414 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Crusader Char2
+	takekey 414
+endif
+
+haskey 415 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Crusader Char3
+	takekey 415
+endif
+
+haskey 416 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Crusader Char4
+	takekey 416
+endif
+exit
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_089.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

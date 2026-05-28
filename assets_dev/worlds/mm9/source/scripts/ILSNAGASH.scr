@@ -1,0 +1,281 @@
+;--------------------------------------------------------
+;	ILSnagash.scr
+;	Timmy
+;
+;	This script makes Nagash do stuff
+;
+;	Parameters:
+;
+
+
+;
+;--------------------------------------------------------
+#include globals.inc
+#include base.inc
+
+
+
+#Number					Aware
+#Number					Lever
+
+
+;--------------------------------------------------------
+:OnAware
+;--------------------------------------------------------
+
+
+Set Aware, True
+If (Lever==true)
+	goto InitBase
+	exit
+Endif
+
+wait 2, Awarestart
+
+;--------------------------------------------------------
+:AwareStart
+;--------------------------------------------------------
+
+
+getobjecthandle RotatingDoor68, g_hobject
+trigger g_hobject use
+getobjecthandle RotatingDoor69, g_hobject
+trigger g_hobject use
+getobjecthandle Switch0, g_hobject
+Runto g_hobject 32 Alert
+exit
+
+;--------------------------------------------------------
+:Alert
+;--------------------------------------------------------
+
+getobjecthandle Switch0, g_hobject
+Trigger g_hobject use
+wait 3, Startfight
+
+;--------------------------------------------------------
+:Startfight
+;--------------------------------------------------------
+
+
+set Lever, True			
+goto InitBase
+exit
+
+
+;--------------------------------------------------------
+:OnTurn
+;--------------------------------------------------------
+
+loopanim walk 0
+Rotate 0, 1, 0, 180, 40
+
+exit
+
+;--------------------------------------------------------
+:Nav1
+;--------------------------------------------------------
+
+If (Aware==True)
+	goto OnAware
+	exit
+Endif
+
+
+getobjecthandle nav1, g_hobject
+Walkto g_hobject 32 Fidget1
+exit
+
+
+;--------------------------------------------------------
+:Fidget1
+;--------------------------------------------------------
+
+
+;Playanim fidget2
+wait 3, nav2
+
+exit
+
+
+;--------------------------------------------------------
+:Nav2
+;--------------------------------------------------------
+
+getobjecthandle nav2, g_hobject 
+
+Walkto g_hobject 32 Fidget2
+exit
+
+;--------------------------------------------------------
+:Fidget2
+;--------------------------------------------------------
+
+
+Playanim Threat
+wait 3, nav3
+
+exit
+
+;--------------------------------------------------------
+:Nav3
+;--------------------------------------------------------
+
+getobjecthandle nav3, g_hobject 
+
+Walkto g_hobject 32 Fidget3
+exit
+
+
+;--------------------------------------------------------
+:Fidget3
+;--------------------------------------------------------
+
+
+
+getobjecthandle RotatingDoor69, g_hobject
+FaceObject g_hobject, 30, OpenDoor1
+
+exit
+
+
+;--------------------------------------------------------
+:OpenDoor1
+;--------------------------------------------------------
+ 
+Playanim HAttack1
+trigger g_hobject use
+wait 3, nav4
+
+exit
+
+
+;--------------------------------------------------------
+:Nav4
+;--------------------------------------------------------
+
+getobjecthandle nav4, g_hobject 
+
+Walkto g_hobject 32 Fidget4
+exit
+
+
+;--------------------------------------------------------
+:Fidget4
+;--------------------------------------------------------
+
+
+Playanim Threat
+wait 3, nav5
+
+exit
+
+;--------------------------------------------------------
+:Nav5
+;--------------------------------------------------------
+
+getobjecthandle nav5, g_hobject 
+
+Walkto g_hobject 32 Fidget5
+exit
+
+;--------------------------------------------------------
+:Fidget5
+;--------------------------------------------------------
+
+
+
+getobjecthandle RotatingDoor68, g_hobject
+FaceObject g_hobject, 60, OpenDoor2
+
+exit
+
+
+;--------------------------------------------------------
+:OpenDoor2
+;--------------------------------------------------------
+ 
+Playanim HAttack1
+trigger g_hobject use
+wait 3, nav6
+
+exit
+
+
+
+;--------------------------------------------------------
+:Nav6
+;--------------------------------------------------------
+
+getobjecthandle nav6, g_hobject 
+
+Walkto g_hobject 32 Fidget6
+exit
+
+
+;--------------------------------------------------------
+:Fidget6
+;--------------------------------------------------------
+
+
+Playanim Threat
+wait 3, nav7
+
+exit
+
+
+;--------------------------------------------------------
+:Nav7
+;--------------------------------------------------------
+
+getobjecthandle nav7, g_hobject 
+
+Walkto g_hobject 32 Fidget7
+exit
+
+
+;--------------------------------------------------------
+:Fidget7
+;--------------------------------------------------------
+
+
+
+wait 3, nav1
+
+exit
+
+
+;--------------------------------------------------------
+:Stuck
+;--------------------------------------------------------
+
+getobjecthandle RotatingDoor68, g_hobject
+trigger g_hobject use
+getobjecthandle RotatingDoor69, g_hobject
+trigger g_hobject use
+wait 3, stucknav
+
+;--------------------------------------------------------
+:Stucknav
+;--------------------------------------------------------
+
+
+
+getobjecthandle stucknav, g_hobject 
+
+Walkto g_hobject 32 nav1
+exit
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+;TRACEON
+
+Set Aware, False
+OnStuck Stuck
+Addtrigger Aware, OnAware
+Ondamage, OnAware
+wait 2, nav1
+
+	exit

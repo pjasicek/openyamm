@@ -1,0 +1,119 @@
+;-----------------------------------------------------
+;	BathFurnace.scr
+;	Brett Yagi
+;
+;	This script is controls the furnace pistons
+;	and turns on and off the damage brushes in water
+;
+;	Parameters
+;
+;	0 - Marker that damagebrush will move to and from
+;	1 - Speed at which the damage brush moves
+;
+;-----------------------------------------------------
+#include globals.inc
+
+
+#hobject	hBoilingSteam0
+#hobject	hBoilingSteam1
+
+#hobject	hDamageBrush0
+#hobject	hDamageBrush1
+#hobject	hPiston0
+#hobject	hPiston1
+#number		nSwitchOpen = 0
+
+
+;--------------------------------------------------------------
+:dn
+;--------------------------------------------------------------
+
+exit 1
+
+
+;--------------------------------------------------------------
+:repeat0
+;--------------------------------------------------------------
+
+	if ( nSwitchOpen == 1)
+		Trigger hPiston0 toggle
+	endif
+
+exit 1
+
+;--------------------------------------------------------------
+:repeat1
+;--------------------------------------------------------------
+
+	if ( nSwitchOpen == 1)
+		Trigger hPiston1 toggle
+	endif
+
+exit 1
+
+
+;--------------------------------------------------------------
+:turnoff
+;--------------------------------------------------------------
+
+	Trigger hBoilingSteam0 off
+	Trigger hBoilingSteam1 off
+	Trigger hDamageBrush0 turnoff
+	Trigger hDamageBrush1 turnoff
+	nSwitchOpen = 0
+exit 1
+
+;--------------------------------------------------------------
+:turnon
+;--------------------------------------------------------------
+
+	Trigger hBoilingSteam0 on
+	Trigger hBoilingSteam1 on
+	Trigger hDamageBrush0 turnon
+	Trigger hDamageBrush1 turnon
+	Trigger hPiston0 toggle
+	Trigger hPiston1 toggle
+	wait 1 2 KillFatc
+	nSwitchOpen = 1
+
+exit 1
+
+;--------------------------------------------------------------
+:KillFatc
+;--------------------------------------------------------------
+
+getobjecthandle BigColWinPool2 g_hobject
+trigger g_hobject Die
+
+exit
+
+;--------------------------------------------------------------
+:main2
+;--------------------------------------------------------------
+
+	GetObjectHandle BoilingSteam0 hBoilingSteam0
+	GetObjectHandle BoilingSteam1 hBoilingSteam1
+	GetObjectHandle PoolDamageBr0 hDamageBrush0
+	GetObjectHandle PoolDamageBr1 hDamageBrush1
+	GetObjectHandle PistonDown0 hPiston0
+	GetObjectHandle PistonDown1 hPiston1
+
+
+
+exit 1
+
+
+;--------------------------------------------------------------
+:main
+;--------------------------------------------------------------
+
+traceon
+
+	AddTrigger turnon turnon
+	AddTrigger turnoff turnoff
+	AddTrigger repeat0 repeat0
+	AddTrigger repeat1 repeat1
+	wait 0 .1 main2
+
+exit 1
+

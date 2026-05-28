@@ -1,0 +1,311 @@
+;----------------------------------------------------------
+;	Dog.Scr
+;	Jeff Leggett
+;	08/03/2001
+;
+;	Behavior:
+;
+;		- go from actor to actor and hang out with them
+;		- Search for cats.  If a cat appears, then we'll
+;		go chase him until we are "tired".  
+;		- Follow the player for a while perhaps....
+;
+;
+;----------------------------------------------------------
+
+
+#Include aiglobals.inc
+#Include baseWander.inc
+
+#number				HANGOUT_WAIT			= 11
+#number				SITTING_WAIT			= 12
+#number				CAT_SEARCH_WAIT			= 14
+
+#number				g_targetX = 0
+#number				g_targetY = 0
+#number				g_targetZ = 0
+
+#numberArray		g_hCatArray[5]
+#number				g_nNumCats
+
+#number				g_angle1
+#number				g_angle2
+
+#string				sAnimal=Cat
+;----------------------------------------------------------
+:DoNothing
+;----------------------------------------------------------
+
+	exit
+
+;----------------------------------------------------------
+:OnHangoutObstacle
+;----------------------------------------------------------
+
+	gosub DoneHangingOut
+
+	exit TRUE
+
+;----------------------------------------------------------
+:OnHangoutStuckDone
+;----------------------------------------------------------
+
+	gosub DoneHangingOut
+
+	exit TRUE
+
+
+;----------------------------------------------------------
+:DisableWandering
+;
+;	Do all things necessary to disable
+;	Wandering...
+;
+;----------------------------------------------------------
+
+	gosub BaseWanderStop
+
+	OnObstacle					OnHangoutObstacle
+	OnStuckDone					OnHangoutStuckDone
+	OnStuck
+
+	Exit
+
+;----------------------------------------------------------
+:LookForPerson
+;
+;	Just turn on the OnFoundPlayer again..
+;
+;----------------------------------------------------------
+
+	OnFoundTarget FoundTarget
+
+	Exit
+
+;----------------------------------------------------------
+:DoneHangingOut
+;
+;	Time to move on from this guy... (ie: stop following)
+;----------------------------------------------------------
+
+; Cancel out some timers...
+	Wait HANGOUT_WAIT, 0, DoNothing
+	Wait SITTING_WAIT, 0, DoNothing
+	OnTargetBeyondDist 0, DoNothing
+
+	g_hTarget = NULL
+	Target NULL
+	Stop
+
+	gosub BaseWanderStart
+
+	OnFoundTarget DoNothing
+
+	GetRandomInt 10, 20, g_nRandom
+
+	Wait HANGOUT_WAIT, g_nRandom, LookForPerson
+
+	Exit
+
+;----------------------------------------------------------
+:FoundTarget
+;
+;	Note: Target for cat is all NPCs and player.
+;
+;----------------------------------------------------------
+
+	GetParam 0, g_hTarget
+	Target g_hTarget, FALSE
+
+	gosub DisableWandering
+
+	WalkTo g_hTarget, 0, OnArrival
+	Exit
+
+
+;----------------------------------------------------------
+:OnArrival
+;----------------------------------------------------------
+
+	GetRandomFloat 8, 15, g_nRandom
+
+	Wait HANGOUT_WAIT, g_nRandom, DoneHangingOut
+	Stop
+
+	OnTargetBeyondDist 120, GoAfterHim
+
+	LoopAnim Sitting, 0
+
+	Trigger g_hTarget,LookAtMe
+
+	Exit TRUE
+
+;----------------------------------------------------------
+:GoAfterHim
+;----------------------------------------------------------
+
+	OnTargetBeyondDist 0
+	Wait SITTING_WAIT, 0, DoNothing
+
+	Stop
+	SetIdle
+	
+	WalkTo g_hTarget, 0, OnArrival
+
+	Exit
+
+
+;----------------------------------------------------------
+:CatArrival
+;----------------------------------------------------------
+
+	PlayAnim Bark, ChaseCat
+
+	Exit
+
+;----------------------------------------------------------
+:WarnCat
+;----------------------------------------------------------
+
+	OnTargetWithinDist, 0
+	Trigger g_hTarget,DogChase
+	Exit
+
+;----------------------------------------------------------
+:OnChaseStuckDone
+;----------------------------------------------------------
+
+	gosub ChaseCat
+
+	Exit TRUE
+
+;----------------------------------------------------------
+:ChaseCat
+;
+;	Cat is in g_hTarget
+;----------------------------------------------------------
+
+	OnTargetWithinDist 120, WarnCat
+
+	Stop
+	SetIdle
+	OnObstacle
+	OnStuckDone OnChaseStuckDone
+	
+	Target g_hTarget, TRUE
+	RunTo g_hTarget, 0, CatArrival
+
+	Exit
+
+;----------------------------------------------------------
+:ChaseCatEnd
+;
+;	Stop chasing the poor cat...
+;----------------------------------------------------------
+
+	GetRandomInt 15, 30, g_nRandom
+	Wait CAT_SEARCH_WAIT, g_nRandom, LookForCats
+	Trigger g_hTarget, DogGiveUp
+
+	PlayAnim Bark, DoneHangingOut
+;;;;	gosub DoneHangingOut
+
+	Exit
+
+;----------------------------------------------------------
+:LookForCats
+;
+;	See if any cats are near by....
+;	
+;----------------------------------------------------------
+
+	GetObjects sAnimal, 500, 5, g_hCatArray, g_nNumCats
+
+	if ( nNumCats==0 )
+		Wait CAT_SEARCH_WAIT, 1, LookForCats
+		Exit
+	endif
+
+	g_nTemp	= 0
+
+	while ( g_nTemp < g_nNumCats )
+		ArrayGet g_hCatArray, g_nTemp, g_hObject
+
+		IsFacing g_hObject, g_bTemp
+
+		if ( g_bTemp==FALSE )
+			goto LookForCatsNext
+		endif
+		
+		IsVisible g_hObject, g_bTemp
+		
+		if ( g_bTemp==TRUE )
+			goto FoundCat
+		Endif	
+
+:LookForCatsNext
+	
+		g_nTemp = g_nTemp + 1
+	
+	endwhile
+
+:LookForCatsDone
+	Wait CAT_SEARCH_WAIT,1,LookForCats
+	Exit
+
+:FoundCat
+
+	g_hTarget	= g_hObject
+
+	GetRandomInt 15, 25, g_nRandom
+
+	Wait CAT_SEARCH_WAIT, g_nRandom, ChaseCatEnd
+	gosub DisableWandering
+	gosub ChaseCat
+
+	Exit
+
+
+;----------------------------------------------------------
+:StartUp
+;----------------------------------------------------------
+
+;;	g_bUseHidingPlaces = FALSE
+
+	gosub BaseWanderForceStartUp
+	gosub LookForCats
+
+	Exit
+
+;----------------------------------------------------------
+:OnTargetDead
+;----------------------------------------------------------
+	gosub DoneHangingOut
+	
+	Exit FALSE
+
+;----------------------------------------------------------
+:Main
+;
+;
+;----------------------------------------------------------
+	
+#number	nTemp
+
+	GetParam 0 nTemp
+
+	if ( nTemp!=0 )
+		;<----------TL
+		GetParam 0 sAnimal
+	Endif
+
+	GetMyHandle g_hMyObject
+	OnFoundTarget FoundTarget
+	OnTargetDead OnTargetDead
+
+	gosub BaseWanderInit
+	Wait 0, 1.0, StartUp
+
+	Exit
+
+

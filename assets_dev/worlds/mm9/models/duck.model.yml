@@ -1,0 +1,417 @@
+schema: openyamm.model3d.v1
+id: duck
+model: duck.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/DUCK.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500; ShadowEnable; ShadowSizeX 15;
+    ShadowSizeY 15
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: duck
+  materialIndex: 0
+  lods:
+  - faces: 184
+    vertices: 94
+  - faces: 138
+    vertices: 71
+  - faces: 92
+    vertices: 48
+materials:
+- index: 0
+  texture: skins_preview/duck.png
+  runtime_texture: skins/duck.dtx
+  preview_texture: skins_preview/duck.png
+  source: mm9/extracted/SKINS/SKINS/DUCK.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: XCENTER
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 14
+  - index: 2
+    name: Xbase
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 4
+    - 9
+  - index: 3
+    name: Xtail
+    parent: 2
+    flags: 1
+    children: []
+  - index: 4
+    name: Xleg
+    parent: 2
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Xfoot
+    parent: 4
+    flags: 1
+    children:
+    - 6
+    - 7
+    - 8
+  - index: 6
+    name: Xtoeb
+    parent: 5
+    flags: 1
+    children: []
+  - index: 7
+    name: Xtoea
+    parent: 5
+    flags: 1
+    children: []
+  - index: 8
+    name: Xtoec
+    parent: 5
+    flags: 1
+    children: []
+  - index: 9
+    name: Xleg01
+    parent: 2
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Xfoot01
+    parent: 9
+    flags: 1
+    children:
+    - 11
+    - 12
+    - 13
+  - index: 11
+    name: Xtoeb01
+    parent: 10
+    flags: 1
+    children: []
+  - index: 12
+    name: Xtoea01
+    parent: 10
+    flags: 1
+    children: []
+  - index: 13
+    name: Xtoec01
+    parent: 10
+    flags: 1
+    children: []
+  - index: 14
+    name: Xback
+    parent: 1
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: XneckB
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: XneckC
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: XneckD
+    parent: 16
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: XneckE
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Xhead
+    parent: 18
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Xbeak
+    parent: 19
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: static_model
+  durationMs: 1500
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Stand
+  durationMs: 1200
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: Fidget1
+  durationMs: 1800
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 400
+    event: speakanimsound
+- name: Fidget2
+  durationMs: 2500
+  keyframes: 16
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 500
+    event: speakanimsound
+- name: Walk
+  durationMs: 800
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 400
+    event: footstep 1
+  - timeMs: 800
+    event: footstep 2
+- name: Run
+  durationMs: 400
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 200
+    event: footstep 3
+  - timeMs: 400
+    event: footstep 4
+- name: Wince1
+  durationMs: 1000
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 334
+    event: speakanimsound
+- name: Die1
+  durationMs: 1500
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0  0  1
+  - timeMs: 136
+    event: Velocity  5  1 -12
+  - timeMs: 273
+    event: Velocity -2  0 -14
+  - timeMs: 409
+    event: Velocity -23  1 -2
+  - timeMs: 545
+    event: Velocity -38 -14 -5; speakanimsound
+  - timeMs: 682
+    event: Velocity -14 -15 -5
+  - timeMs: 818
+    event: Velocity  0  5  0
+  - timeMs: 954
+    event: Velocity -1 -4  0
+  - timeMs: 1091
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: StandWater
+  durationMs: 1200
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: FidgetWater1
+  durationMs: 3000
+  keyframes: 18
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 353
+    event: speakanimsound
+- name: FidgetWater2
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: Swim
+  durationMs: 600
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: Swim2
+  durationMs: 300
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: WinceWater
+  durationMs: 1400
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 636
+    event: speakanimsound
+- name: Diewater
+  durationMs: 1700
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 463
+    event: speakanimsound
+animationBindings:
+- name: static_model
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Stand
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Fidget1
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Fidget2
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Walk
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Run
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Wince1
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Die1
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: StandWater
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: FidgetWater1
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: FidgetWater2
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Swim
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Swim2
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: WinceWater
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Diewater
+  extents:
+  - 20.48
+  - 30.72
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/duck.abc

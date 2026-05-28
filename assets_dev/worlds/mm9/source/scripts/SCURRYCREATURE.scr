@@ -1,0 +1,75 @@
+;----------------------------------
+;	ScurryCreature.scr
+;	by SJR
+;	10-14-01
+;	Purpose:to scurry
+;	Triggers:
+;		"Hide" = bone out and disappear
+;----------------------------------
+
+#string		sHideName
+
+#hobject	hMe = 0
+#hobject	hHide = 0
+
+#number		v = 1
+
+#number		x = 1
+#number		y = 1
+#number		z = 1
+
+;-----------
+:Main
+;-----------
+	GetParam 0, sHideName
+
+;;	OnPostStartWorld InitScurryCreature
+Wait 0, 5, InitScurryCreature
+
+	Exit 1
+
+;-----------
+:InitScurryCreature
+;-----------
+	GetMyHandle hMe
+	GetStat hMe, RunVel, v
+	v = v * 6
+	SetStat hMe, RunVel, v
+	AddTrigger Hide, GoHide
+	OnObstacle Turn
+	OnStuck Turn
+
+	Exit 1
+
+;-----------
+:GoHide
+;-----------
+	GetObjectHandle sHideName, hHide
+	PlaySound sounds\animsounds\dragonflyhattackair1.wav, DoNothing, 1, 500, 0, 100
+	RunTo hHide, 100, Disappear
+
+	Exit 1
+
+;-----------
+:Turn
+;-----------
+	GetFaceDir hMe, x,y,z
+	GetRandomInt -5, 5, v
+	x = x * v
+	z = z * v
+	FaceDir z,y,x, 0, GoHide
+
+	Exit 1
+
+;-----------
+:Disappear
+;-----------
+	RemoveObject hMe
+
+	Exit 1
+
+;-----------
+:DoNothing
+;-----------
+	Exit 1
+	

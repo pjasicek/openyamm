@@ -1,0 +1,97 @@
+;-----------------------------------
+;	Prop[whatever].scr
+;	by SJR
+;	12-20-01
+;	Purpose:give bonuses out when the
+;			player clicks on junk that
+;			is strewn about.
+;	ScriptParams:
+;		p0 = type of bonus
+;				(0,1,2,3,4)==(gold, health, exp, skill, attribute)
+;		p1 = minimum value
+;		p2 = maximum value
+;		p3 = animation name (such as 'tumble' for trashpile.abc)
+;-----------------------------------
+#include BaseGlobals.inc
+
+#number		BONUS_MIN = 0
+#number		BONUS_MAX = 0
+
+#hobject	hPlayer = 0
+#number		nType = 0
+#number		nBonusValue = 0
+#string		sAnimName = "static_model"
+
+;-----------------------------------
+:Main
+;-----------------------------------
+	GetParam 0, nType
+	GetParam 1, BONUS_MIN
+	GetParam 2, BONUS_MAX
+	GetParam 3, sAnimName
+
+	;;default to gold
+	if( nType<0 )
+		nType = 0
+	else
+		if( nType>3 )
+			nType = 0
+		endif
+	endif
+
+	AddTrigger use, GiveBonus
+
+	Exit TRUE
+
+;-----------------------------------
+:GiveBonus
+;-----------------------------------
+	GetRandomInt BONUS_MIN,BONUS_MAX, nBonusValue
+
+	if( nType==0 )
+		GiveGold nBonusValue
+	endif
+
+	if( nType==1 )
+		if( hPlayer==0 )
+			GetPlayerHandle hPlayer
+		endif
+		Heal hPlayer, nBonusValue
+	endif
+
+	if( nType==2 )
+		GiveExp nBonusValue
+	endif
+
+	if( nType==3 )
+		;;give skill points here
+	endif
+
+	if( nType==4 )
+		;;give attr points here
+	endif
+
+	PlayAnim sAnimName, FadeOut
+
+	Exit TRUE
+
+;-----------------------------------
+:FadeOut
+;	loop an alpha decreaser to fade
+;-----------------------------------
+	if( nBonusValue<=0 )
+		GetMyHandle hPlayer
+		RemoveObject hPlayer
+		Exit TRUE
+	endif
+
+	;;decrement the alpha by frametime
+	;;GetFrameTime nType
+	;;nType = nType / 2
+	;;GetColor nBonusValue
+	;;nBonusValue = nBonusValue - nType
+	;;SetColor nBonusValue
+
+	Wait 0, .01, FadeOut
+
+	Exit TRUE

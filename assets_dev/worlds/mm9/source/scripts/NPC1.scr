@@ -1,0 +1,180 @@
+;--------------------------------------------------
+;NPC1.scr
+; timmy
+; handles Kira the Cold voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub Loveletter
+gosub honkys
+gosub mountainpass
+gosub united
+gosub treaty
+exit
+
+
+;--------------------------------------------------
+:treaty
+;--------------------------------------------------
+
+;****************
+;treaty Quest
+;****************
+
+Haskey 181, keycheck
+if (keycheck==0, )
+	Haskey 89 keycheck
+	if (keycheck==1, )
+		giveKey 181
+		GiveExp 2000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		GiveItem 401
+		exit
+	endif
+endif
+
+;End treaty quest
+;******************
+exit
+
+;--------------------------------------------------
+:loveletter
+;--------------------------------------------------
+;****************
+;Love Letter Quest
+;****************
+
+
+Haskey 147, keycheck
+if (keycheck==0, )
+	Haskey 23 keycheck
+	if (keycheck==1, )
+		takeitem 247
+		giveKey 147
+		GiveExp 2000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+
+
+;End Love Letter quest
+;******************
+exit
+
+
+;--------------------------------------------------
+:honkys
+;--------------------------------------------------
+;****************
+;Rid Thronheim of Honkies Quest
+;****************
+
+
+Haskey 146 keycheck
+if (keycheck==0, )
+	Haskey 78 keycheck
+	if (keycheck==1, )
+		GiveExp 4000
+		Givekey 146
+		Givegold 6000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+
+;End Thronheim of Honkies Quest
+;******************
+exit
+
+;--------------------------------------------------
+:MountainPass
+;--------------------------------------------------
+
+;****************
+;Open Mountain Pass Quest
+;****************
+
+
+Haskey 152 keycheck
+if (keycheck==0, )
+	Haskey 81 keycheck
+	if (keycheck==1, )
+		GiveExp 4000
+		Givekey 152
+		Givegold 6000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+
+
+;End Open Moutain Pass Quest
+;******************
+
+exit
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_239.wav, Onexit, 100, 240, FALSE, 100
+Gosub OnCheck
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:givekey
+;-------------------------------------
+Haskey 180 g_ntemp
+If (g_ntemp==0, )
+	Haskey 88 g_ntemp
+	if (g_ntemp==1, )
+		givekey 180
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+@M 6 : 00 Givekey Givekey
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+Set Jarl, Kira
+Gosub UnitedInit
+
+
+
+
+exit
+

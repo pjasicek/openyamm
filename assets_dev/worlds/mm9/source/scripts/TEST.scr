@@ -1,0 +1,28 @@
+;-------------------
+; test.scr
+;jeffs fun test
+;--------------------
+
+
+#include followpath.inc
+#include globals.inc
+#include camera.scr
+
+
+:main
+
+ontouchnotify run
+
+exit
+
+
+
+:run
+
+runscript camera.scr
+
+;:Goto
+
+;Goto OnCall
+
+;exit

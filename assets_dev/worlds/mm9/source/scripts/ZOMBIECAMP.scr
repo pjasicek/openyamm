@@ -1,0 +1,431 @@
+;------------------------------------------
+;	Zombiecamp.scr
+;	John Machin
+;	
+;	This script uses base.inc and extends
+;	it to allow for this Zombie camp to attack
+;	the Zombie camp nearby
+;
+;------------------------------------------
+
+#include base.inc
+#include aiglobals.inc
+
+#hobject		hAlertedBy 
+#string			sAlertName
+
+#number			g_nObjects
+#numberarray	g_hEnemyArray[5]
+
+#number			g_bOkAttackType = 0	
+#number			g_nLostTime
+
+#hobject		g_hCampDirector	
+
+#hobject		g_hObstacle 
+#string			g_sObstacleName
+
+#string			g_sMyClassName
+#string			g_sEnemyName
+
+
+
+;------------------------------------------
+:OnUse
+;------------------------------------------
+
+	GetParam 0, g_hObject
+
+	FaceObject g_hObject, 180
+
+	Exit
+
+;------------------------------------------
+:ZombieOnAlert
+;------------------------------------------
+	if ( g_hTarget!=NULL )
+		; only a small chance we'll go consider switching targets...
+		GetRandomInt 0,100,g_nRandom
+		if ( g_nRandom > 10 )
+			Exit FALSE
+		endif
+	endif
+
+	GetParam 0, hAlertedBy
+	GetClassName hAlertedBy, sAlertName
+
+	if( sAlertName != g_sMyClassName )			
+		exit FALSE
+	endif
+	
+	; Ok, we were alerted by our buddies, therefore
+	; let's see if we want to attack the guy who
+	; is attacking our buddy!
+
+	GetParam 1, g_hObject
+	GetClassName g_hObject, g_sTemp
+
+	if ( g_sTemp==g_sMyClassName )
+		exit FALSE
+	endif
+
+	Set g_hTarget, g_hObject
+	Target g_hTarget
+
+	gosub BaseGoGetHim
+	
+	Exit
+
+;------------------------------------------
+:ZombieFindTarget
+;------------------------------------------
+	GetObjects g_sEnemyName, 50000, 5, g_hEnemyArray, g_nObjects			
+	
+	if( g_nObjects != NULL
+		if( g_hTarget == NULL )
+			;Randomly pick a target from the three
+			Sub g_nObjects, 1
+			GetRandomInt 0, g_nObjects, g_nRandom
+			ArrayGet g_hEnemyArray, g_nRandom, g_hTarget		
+			Target g_hTarget
+			if( g_hTarget != NULL )
+				Gosub BaseGoGetHim
+			endif
+			
+		endif
+	else
+		SetIdle
+		Wait 0, 5, ZombieFindTarget
+	endif
+	
+	Exit
+
+;------------------------------------------
+:ZombieTargetDead
+;------------------------------------------
+
+	GetParam 0, g_nTemp
+
+	Target NULL
+	Set g_hTarget, NULL
+
+	if ( g_nTemp==g_hMyObject )		
+		;	We killed him!	   		
+		; taunt him
+		;Taunt ZombieFindTarget
+		gosub ZombieFindTarget
+	else
+		; just go home...
+		gosub ZombieFindTarget 
+	endif
+
+	Exit TRUE
+
+;------------------------------------------
+:ZombieDamageDone
+;
+;	We were attacked, now we want to run
+;	after whoever attacked us!
+;	
+;------------------------------------------
+
+	if ( g_hAttacker==g_hMyObject )
+		exit FALSE
+	endif
+
+	GetClassName g_hAttacker, sAlertName
+	
+	;Make sure we don't attack fellow zombies
+	if( sAlertName == g_sMyClassName )
+		exit FALSE
+	endif	
+
+	gosub BaseDamageDone
+
+	Exit
+
+
+;------------------------------------------
+:ZombieAttackReady
+;
+;	We are now in attack range (for our
+;	currently selected weapon) and ready
+;	to attack.  So let's do it!
+;------------------------------------------
+	
+	GetClassName g_hTarget, sAlertName
+	if( sAlertName == g_sMyClassName )
+		Target NULL
+		Set g_hTarget, NULL
+		gosub ZombieFindTarget
+	else	
+		Set g_bFighting, TRUE
+		GetTime g_nLastAttackTime
+		Attack
+	endif
+
+	Exit
+	
+;------------------------------------------
+:ZombieLostTarget
+;
+;	We lost the target.  Reaquire and attack;
+;------------------------------------------	
+	if( g_hTarget != NULL )
+		Target g_hTarget
+		gosub BaseGoGetHim
+	else
+		Target NULL
+		Set g_hTarget, NULL
+		gosub ZombieFindTarget
+	endif
+
+	Exit TRUE
+
+;------------------------------------------
+:ZombieOutOfRangeWait
+;
+;	We don't want to run after target
+;	until it's far enough away or we are
+;	ready to attack...
+;------------------------------------------
+
+	if ( g_hTarget==NULL )
+		Exit TRUE
+	endif
+
+	IsAttacking g_bAttacking
+
+	if ( g_bAttacking==TRUE )
+		Wait 0, 0.5, ZombieOutOfRangeWait
+		Exit TRUE
+	endif
+
+	CanAttack g_bCanAttack
+	if ( g_bCanAttack==TRUE )
+		IsAttacking g_bAttacking
+
+		if ( g_bAttacking==TRUE )
+			exit TRUE
+		endif
+
+		gosub BaseGoGetHim
+		Exit TRUE
+	endif
+
+	; randomly play a taunt animation...
+	GetRandomInt 0, 100, g_nRandom
+
+	if ( g_nRandom < 30 )
+		if ( g_nRandom < 15 )
+			Taunt ZombieAttackWaitAnimDone
+		else
+			Aware ZombieAttackWaitAnimDone
+		endif
+		Exit TRUE
+	endif
+
+	;AIGetDistance g_hTarget, g_nDist1
+
+	;if ( g_nDist1 > 200 )		; if they are too far away...
+		WalkTo g_hTarget
+	;	Wait 0, 0.5, ZombieOutOfRangeWalkingWait
+	;	Exit TRUE
+	;endif
+
+	; Continue waiting....
+
+	Wait 0, 0.5, ZombieOutOfRangeWait
+
+	Exit
+
+;------------------------------------------
+:ZombieStuckDone
+;
+;	This is called when a stuck animation
+;	has finished... We'll just re-attempt
+;	to run after our target...
+;------------------------------------------
+
+	if ( g_hTarget==NULL )
+		Exit FALSE
+	endif
+
+
+	; for now, don't Wait 0, when stuck..
+
+	gosub ZombieFindTarget
+	Exit TRUE  
+
+	if ( g_nStuckTime==0.0 )
+		GetTime g_nStuckTime
+	else
+		GetTime g_nTemp
+		Sub g_nTemp, g_nStuckTime
+
+		if ( g_nTemp > MIN_STUCK_TIME )
+			Set g_nStuckTime, 0
+			gosub BaseGoGetHim
+			Exit TRUE
+		endif
+	endif
+	
+	Exit FALSE
+
+
+;------------------------------------------
+:ZombieOutOfRangeWalkingWait
+;
+;	Once we start walking after target,
+;   we want to start running as soon as
+;	we are attack ready...
+;
+;------------------------------------------
+
+	CanAttack g_bCanAttack
+	if ( g_bCanAttack==TRUE )
+		IsAttacking g_bAttacking
+
+		if ( g_bAttacking==TRUE )
+			exit TRUE
+		endif
+
+		gosub BaseGoGetHim
+		Exit TRUE
+	endif
+
+	Wait 0, 0.5, ZombieOutOfRangeWait
+
+	Exit
+
+
+;------------------------------------------
+:ZombieAttackWaitAnimDone
+;------------------------------------------
+
+	gosub ZombieOutOfRangeWait
+
+	Exit
+
+
+;------------------------------------------
+:ZombieTargetOutOfRange
+;
+;	Target moved out of our weapon range.
+;	Go after him!
+;	
+;------------------------------------------
+
+	CanAttack g_bCanAttack
+	IsAttacking g_bAttacking
+
+	if ( g_bAttacking==TRUE )
+		Wait 0, 0.5, ZombieOutOfRangeWait
+	endif
+
+	if ( g_bCanAttack==TRUE )
+		gosub BaseGoGetHim
+	else
+		Wait 0, 0.5, ZombieOutOfRangeWait
+	endif
+
+	Exit
+
+
+;------------------------------------------
+:ZombieObstacle
+;
+;------------------------------------------
+	GetParam 0, g_hObstacle
+	GetClassName g_hObstacle, g_sObstacleName
+
+	if( g_sObstacleName == g_sEnemyName )
+		GetRandomInt 0, 10, g_nRandom
+		if( g_nRandom > 3 )			
+			Set g_hTarget, g_hObstacle
+			Target g_hTarget
+			gosub BaseGoGetHim
+
+			Exit TRUE
+		endif
+	endif		
+
+	gosub BaseObstacle
+	
+	Exit 
+
+
+
+;------------------------------------------
+:ZombieDeathDone
+;------------------------------------------	
+	Trigger g_hCampDirector ZombieDeath
+
+	Exit FALSE
+	
+;------------------------------------------
+:Init
+;------------------------------------------
+
+	GetObjectHandle CampDirector, g_hCampDirector	
+
+	GetTarget g_hTarget
+	if ( g_hTarget!=NULL )
+		gosub BaseGoGetHim
+	else
+		gosub ZombieFindTarget	
+	endif	
+
+	Exit	 
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+
+	GetMyHandle g_hMyObject
+	GetClassName g_hMyObject, g_sMyClassName
+
+;
+;   Setup our event handlers...
+;
+
+	;Base callbacks		
+	
+	OnDamage					BaseDamage	
+	OnPathClear					BasePathClear	
+	;OnObstacle					BaseObstacle		
+
+	;Zombie script call backs
+	OnAlert						ZombieOnAlert		
+	OnTargetDead				ZombieTargetDead
+	OnDamageDone				ZombieDamageDone
+	OnAttackReady				ZombieAttackReady
+	OnLostTarget				ZombieLostTarget
+	OnDeathDone					ZombieDeathDone
+	OnTargetOutOfRange			ZombieTargetOutOfRange
+	OnStuckDone					ZombieStuckDone	
+	OnObstacle					ZombieObstacle
+
+
+	HasRangeAttack g_bHasRangeAttack	
+
+	if ( g_bHasRangeAttack == TRUE )
+		;OnFoundPlayer BaseFoundPlayerRange
+	endif
+
+	SetTargetLostTime 30
+	Set g_bAlwaysRunToTarget, TRUE
+	Set g_sEnemyName,Dwarf
+
+
+;
+;	See if we already have a target (this would normally happen if
+;	the ai were running another script and then decided to start running 
+;	this one...
+;	
+	Wait 0, 0.1, Init	
+
+	Exit
+		

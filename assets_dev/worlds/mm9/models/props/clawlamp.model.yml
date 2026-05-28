@@ -1,0 +1,94 @@
+schema: openyamm.model3d.v1
+id: clawlamp
+model: clawlamp.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/CLAWLAMP.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Glow-Node
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Claw-Lamp
+  materialIndex: 0
+  lods:
+  - faces: 420
+    vertices: 246
+  - faces: 314
+    vertices: 193
+  - faces: 210
+    vertices: 141
+materials:
+- index: 0
+  texture: skins_preview/props/clawlamp.png
+  runtime_texture: skins/props/clawlamp.dtx
+  preview_texture: skins_preview/props/clawlamp.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/CLAWLAMP.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+  - index: 1
+    name: Glow-Node
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets:
+- name: flame
+  node: 1
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.70708829164505
+  - -0.0051103136502206326
+  - 0.0034069805406033993
+  - 0.7070986032485962
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 17.92
+  - 25.6
+  - 17.92
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/clawlamp.abc

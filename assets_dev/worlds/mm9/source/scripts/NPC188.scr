@@ -1,0 +1,75 @@
+;--------------------------------------------------
+;NPC188.scr
+; timmy
+; handles Nathi A'Mor voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub ritual
+
+
+exit
+
+
+;--------------------------------------------------
+:ritual
+;--------------------------------------------------
+;****************
+;ritual Quest
+;****************
+
+haskey 258 g_ntemp
+if (g_ntemp==0, )
+	haskey 257 g_ntemp
+	if (g_ntemp==1, )
+		giveitem 430
+		giveexp 5000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		givekey 258
+		exit
+	endif
+endif
+exit
+
+
+
+;End ritual quest
+;******************
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_188.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

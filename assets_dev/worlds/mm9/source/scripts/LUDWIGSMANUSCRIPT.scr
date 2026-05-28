@@ -1,0 +1,83 @@
+;----------------------------------------------
+;Ludwigsmanuscript.scr
+; By Timmy
+; gives the player ludwig's manuscript
+; and the related key
+; Ludwig's RudeID is 47
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+
+Haskey 14 g_ntemp ; checks to see if player talked to Ludwig first
+
+if ( g_ntemp==1, )
+
+	Haskey 16 keycheck ;checks to see if player has picked up the mauscript already
+		if ( keycheck==0,  )
+	
+			givekey, 16 ;gives player finished quest key
+			Set keydata, 16
+			giveitem 248
+			getmyhandle g_hmyobject
+			removeobject g_hmyobject
+			Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+			exit
+		endif
+endif
+Haskey 110 keycheck 
+if ( keycheck==0, )
+
+	givekey,  110
+	set keydata, 110
+	giveitem 248
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+endif
+exit
+
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+haskey 16 g_ntemp
+if (g_ntemp==TRUE)
+	gosub delete
+endif
+
+haskey 110 g_ntemp
+if (g_ntemp==TRUE)
+	gosub delete
+endif
+
+exit
+
+
+;-------------------------------------
+:Delete
+;-------------------------------------
+
+getmyhandle g_hmyobject
+removeobject g_hmyobject
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit

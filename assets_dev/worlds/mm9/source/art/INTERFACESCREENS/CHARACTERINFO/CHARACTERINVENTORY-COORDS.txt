@@ -1,0 +1,146 @@
+********************************************************************************
+                      Character Inventory Coordinates
+********************************************************************************
+
+Graphic Elements:
+
+CharacterInventoryBG.pcx	  0x   0y	800x600	Background
+
+Stats Page Tab		586x   4y	85x148
+Skills Page Tab		586x 154y	85x143
+Inventory Page Tab	586x 299y	85x143
+Spells Page Button	586x 444y	85x148
+
+Character 1 Portrait	723x  13y	60x80
+Character 2 Portrait	723x 113x	60x80
+Character 3 Portrait	723x 213y	60x80
+Character 4 Portrait	723x 313y	60x80
+
+Character 1 Marker	720x  10y	66x86
+Character 2 Marker	720x 110x	66x86
+Character 3 Marker	720x 210y	66x86
+Character 4 Marker	720x 310y	66x86
+
+Map/Note Toggle Button	690x 436y	110x105
+Exit Button		690x 548y	110x52
+
+Paper Doll Overlay	316x 272y	270x320
+
+Inventory Slot Highlight 65x 195y	204x36
+			 65x 230y
+			 65x 265y
+			 65x 300y
+			 65x 335y
+			 65x 370y
+			 65x 405y
+			 65x 440y
+			 65x 475y
+			 65x 510y
+
+********************************************************************************
+
+Text:
+
+Character Name		 	44x  19y	350x96	Name Font
+###TH Level Class		102x  12y	308x18	Main Font Center
+### Experience / +### Level Up	102x  31y	308x15	Tiny Font Center
+Note: The previous two lines overlap with the Character Name Space
+
+(HP) ###/###			459x  32y	103x18	Main Font Center
+(SP) ###/###			459x  61y	103x18	Main Font Center
+
+(Gold) #,###,####		352x 548y	140x18	Main Font Left
+
+AC ###		309x 315y	56x18	Main Font Center
+
+Rollover Text		 	47x 572y	530x18	Main Font Center
+
+********************************************************************************
+
+Inventory-Page-Exclusive:
+
+Equipment Area:
+
+Icon #1		 66x 197y	32x32
+Icon #2		 66x 232y	32x32
+Icon #3		 66x 267y	32X32
+Icon #4		 66x 302y	32X32
+Icon #5		 66X 337y	32X32
+Icon #6		 66x 372y	32x32
+Icon #7		 66x 407y	32x32
+Icon #8		 66x 442y	32x32
+Icon #9		 66x 477y	32x32
+Icon #10	 66x 512y	32x32
+
+Text #1		 99x 197y	168x32	Main Font Left
+Text #2		 99x 232y	168x32	Main Font Left
+Text #3		 99x 267y	168x32	Main Font Left
+Text #4		 99x 302y	168x32	Main Font Left
+Text #5		 99x 337y	168x32	Main Font Left
+Text #6		 99x 372y	168x32	Main Font Left
+Text #7		 99x 407y	168x32	Main Font Left
+Text #8		 99x 442y	168x32	Main Font Left
+Text #9		 99x 477y	168x32	Main Font Left
+Text #10	 99x 512y	168x32	Main Font Left
+
+Note: There are now 10 fixed inventory slots now instead of a single big area.
+	Icons and stuff must be placed accurately in these slots.
+Note: The text space is taller than the 18 required for the main font, if the 
+	name of the item is too long to fit, you should use 2 lines of the
+	tiny font in the space instead. (2 pixels between them for a total of 32)
+
+
+Up Arrow	274x 195y	16x24
+Down Arrow	274x 523y	16x24
+Scroll Handle	274x 220y	16x20	Upper Limit
+		274x 502y	16x20	Lower Limit
+
+Item Description Text:
+The box on the right side is for an item description of the current item.  There
+	are 6 lines for text at the following coordinates.
+
+Line 1		312x 144y	226x18	Main Font
+Line 2		312x 163y
+Line 3		312x 182y
+Line 4		312x 201y
+Line 5		312x 220y
+Line 6		312x 239y
+
+Note: THESE COORDINATES UPDATED NOV 19
+
+Helmet Slot	507x 278y	32x32
+Amulet Slot	525x 318y	32x32
+Armor Slot	538x 358y	32x32
+Belt Slot	547x 398y	32x32
+Ranged Slot	388x 280y	32x32
+Gauntlet Slot	359x 398y	32x32
+Right Hand Slot	359x 447y	32x32
+Left Hand Slot	548x 447y	32x32
+Boots Slot	545x 536y	32x32
+Ring 1 Slot	323x 368y	24x24
+Ring 2 Slot	323x 396y	24x24
+Ring 3 Slot	323x 424y	24x24
+Ring 4 Slot	323x 452y	24x24
+Ring 5 Slot	323x 480y	24x24
+Ring 6 Slot	323x 508y	24x24
+
+Note: There is a highlight graphic for these slots, when mouse-overed, or 
+	otherwise needed.  Please place either "CharacterInventoryHighlightBig.pcx"
+	or "CharacterInventorySlotHighlightSmall.pcx" one row up and one column
+	left of the slot needing highlighting.  Big is 34x34 and small is 26x26.
+
+Display Buttons:
+
+Weapons Button	 	 66x 145y	36x32
+Armor/Shield/Helm	104x 145y	36x32
+Gloves/Boots		142x 145y	36x32
+Jewelry			180x 145y	36x32
+Potions/Other		218x 145y	36x32
+Quest Items		256x 145y	36x32
+
+Note: These buttons determine which items are displayed in the area to the left.
+
+Note: The currently selected item type should display remain pressed. 
+
+------------------------------------------------------------------------------------
+

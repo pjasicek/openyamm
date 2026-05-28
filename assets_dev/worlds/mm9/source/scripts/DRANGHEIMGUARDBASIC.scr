@@ -1,0 +1,22 @@
+;-------------------------------------
+;	DrangheimGuardBasic.scr
+;	by SJR
+;	Purpose:standard guard, but with
+;			checking for visitor pass
+;-------------------------------------
+#include DrangheimHostility.inc
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	OnPostStartWorld InitDrangheimGuardBasic
+	OnPostMiniSaveLoad InitDrangheimGuardBasic
+
+	Exit TRUE
+
+;-------------------------------------
+:InitDrangheimGuardBasic
+;-------------------------------------
+	gosub InitDrangheimHostility
+
+	Exit TRUE

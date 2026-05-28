@@ -1,0 +1,809 @@
+format_version: 1
+source_file: NPC209.rude
+rows:
+  - source:
+      file: NPC209.rude
+      row: 1
+    raw_columns:
+      - 209
+      - 3
+      - 1
+      - Thanks!
+      - Anything else I can help you with?
+      - 209
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 209
+      node_id: 3
+      choice_slot: 1
+      prompt: Thanks!
+      response: Anything else I can help you with?
+      next: 209
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 209
+  - source:
+      file: NPC209.rude
+      row: 2
+    raw_columns:
+      - 209
+      - 2
+      - 1
+      - Do you have any news?
+      - A friend of mine sailed through Hanndl's Grasp.  He said he was attacked by a giant sea monster that sunk his boat.  I think he just doesn't know how to navigate the shallows!
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 209
+      node_id: 2
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: A friend of mine sailed through Hanndl's Grasp.  He said he was attacked by a giant sea monster that sunk his boat.  I think he just doesn't know how to navigate the shallows!
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC209.rude
+      row: 3
+    raw_columns:
+      - 209
+      - 1
+      - 1
+      - Yes, I think we will.
+      - Climb aboard!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 209
+      node_id: 1
+      choice_slot: 1
+      prompt: Yes, I think we will.
+      response: Climb aboard!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC209.rude
+      row: 4
+    raw_columns:
+      - 209
+      - 209
+      - 1
+      - Yes.
+      - Great!
+      - -5
+      - 73
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 209
+      node_id: 209
+      choice_slot: 1
+      prompt: Yes.
+      response: Great!
+      next: -5
+      raw_fields:
+        c07: 73
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -5
+        service: travel
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 73
+            qbit_id: 9073
+            state_id: mm9.keys.73
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 73
+          qbit_id: 9073
+          state_id: mm9.keys.73
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -5
+        service: travel
+        status: typed_pending_exact_runtime_behavior
+  - source:
+      file: NPC209.rude
+      row: 5
+    raw_columns:
+      - 209
+      - 209
+      - 2
+      - Yes.
+      - Well I'm afraid I can't help you.  You see, I'm frozen in.  If someone were to clear all the ice out from the docks, I would be glad to take you anywhere you want to go.
+      - 209
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 73
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 209
+      node_id: 209
+      choice_slot: 2
+      prompt: Yes.
+      response: Well I'm afraid I can't help you.  You see, I'm frozen in.  If someone were to clear all the ice out from the docks, I would be glad to take you anywhere you want to go.
+      next: 209
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 73
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 209
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 73
+        status: raw_value_preserved
+  - source:
+      file: NPC209.rude
+      row: 6
+    raw_columns:
+      - 209
+      - 2
+      - 2
+      - What do you know about Hanndl's Grasp?
+      - Hanndl's Grasp is the name our fathers gave to the collection of islands that surround the Verhoffin Sea.  The islands Guberland and Sturmford are on are part of it.  The islands from eastern Thjorgard all the way to Lachmon Cove in Mendossus.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 209
+      node_id: 2
+      choice_slot: 2
+      prompt: What do you know about Hanndl's Grasp?
+      response: Hanndl's Grasp is the name our fathers gave to the collection of islands that surround the Verhoffin Sea.  The islands Guberland and Sturmford are on are part of it.  The islands from eastern Thjorgard all the way to Lachmon Cove in Mendossus.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC209.rude
+      row: 7
+    raw_columns:
+      - 209
+      - 1
+      - 2
+      - Not today, thanks.
+      - Very well.
+      - 209
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 209
+      node_id: 1
+      choice_slot: 2
+      prompt: Not today, thanks.
+      response: Very well.
+      next: 209
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 209
+  - source:
+      file: NPC209.rude
+      row: 8
+    raw_columns:
+      - 209
+      - 209
+      - 3
+      - The ice is clear from the docks.
+      - I see that!  I really appreciate all that you've done.  Here, take this dock schedule as my gift for helping me out like that!
+      - 3
+      - 73
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 378
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 209
+      node_id: 209
+      choice_slot: 3
+      prompt: The ice is clear from the docks.
+      response: I see that!  I really appreciate all that you've done.  Here, take this dock schedule as my gift for helping me out like that!
+      next: 3
+      raw_fields:
+        c07: 73
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 378
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 73
+            qbit_id: 9073
+            state_id: mm9.keys.73
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 73
+          qbit_id: 9073
+          state_id: mm9.keys.73
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 378
+        status: raw_value_preserved
+  - source:
+      file: NPC209.rude
+      row: 9
+    raw_columns:
+      - 209
+      - 209
+      - 4
+      - We're looking for some information.
+      - Alright.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 209
+      node_id: 209
+      choice_slot: 4
+      prompt: We're looking for some information.
+      response: Alright.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC209.rude
+      row: 10
+    raw_columns:
+      - 209
+      - 2
+      - 7
+      - Thanks for your time.
+      - Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 209
+      node_id: 2
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC209.rude
+      row: 11
+    raw_columns:
+      - 209
+      - 209
+      - 7
+      - Not today, thanks.
+      - Very well.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 209
+      node_id: 209
+      choice_slot: 7
+      prompt: Not today, thanks.
+      response: Very well.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

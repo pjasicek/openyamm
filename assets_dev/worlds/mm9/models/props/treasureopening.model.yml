@@ -1,0 +1,120 @@
+schema: openyamm.model3d.v1
+id: treasureopening
+model: treasureopening.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/TREASUREOPENING.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: TreasureOpening
+  materialIndex: 0
+  lods:
+  - faces: 466
+    vertices: 293
+  - faces: 348
+    vertices: 234
+  - faces: 232
+    vertices: 175
+- name: Glow-Node1
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Glow-Node2
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+materials:
+- index: 0
+  texture: skins_preview/props/treasureopening.png
+  runtime_texture: skins/props/treasureopening.dtx
+  preview_texture: skins_preview/props/treasureopening.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/TREASUREOPENING.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Glow-Node1
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Glow-Node2
+    parent: 0
+    flags: 1
+    children: []
+sockets:
+- name: Glownode
+  node: 2
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.2128130942583084
+  - -0.7312403917312622
+  - 0.26266464591026306
+  - 0.5924570560455322
+- name: Glownode2
+  node: 3
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.21574649214744568
+  - 0.7311956882476807
+  - -0.2677581310272217
+  - 0.5891619920730591
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 61.44
+  - 122.88
+  - 56.32
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/treasureopening.abc

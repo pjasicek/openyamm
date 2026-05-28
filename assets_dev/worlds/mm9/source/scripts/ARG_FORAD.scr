@@ -1,0 +1,137 @@
+;----------------------------------------------
+;ARG_Kira.scr
+; By Timmy
+; handles Kira's Argument Cutscene stuff
+;
+
+
+;----------------------------------------------
+
+#include globals.inc 
+;-------------------------------------
+:OnAgree
+;-------------------------------------
+PlayAnim Agree Init
+exit
+;-------------------------------------
+:OnApplause
+;-------------------------------------
+
+playAnim Applause Init
+exit
+;-------------------------------------
+:OnDone
+;-------------------------------------
+
+;loopanim Sc2_Bjarni2 0 DoNothing
+getobjecthandle Argueman g_hobject
+trigger g_hobject Done
+exit
+
+;-------------------------------------
+:OnSpeak6
+;-------------------------------------
+
+playanim Sc2_Forad6 OnIdle
+
+exit
+
+;-------------------------------------
+:OnVoice6
+;-------------------------------------
+
+
+Playsound \voices\cinema\TheArgument\06.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnSpeak20
+;-------------------------------------
+
+playanim Sc2_Forad26 OnIdle
+
+exit
+
+;-------------------------------------
+:OnVoice20
+;-------------------------------------
+
+
+Playsound \voices\cinema\TheArgument\20.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+
+;-------------------------------------
+:OnIdle
+;-------------------------------------
+
+loopanim Sit 0 DoNothing
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+loopanim Sit 0 DoNothing
+exit
+
+;-------------------------------------
+:Onclap
+;-------------------------------------
+getrandomint 1, 7 g_ntemp
+
+if (g_ntemp==1)
+	Playsound \sounds\events\clap01.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==2)
+	Playsound \sounds\events\clap02.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==3)
+	Playsound \sounds\events\clap03.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==4)
+	Playsound \sounds\events\clap04.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==5)
+	Playsound \sounds\events\clap05.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==6)
+	Playsound \sounds\events\clap06.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==7)
+	Playsound \sounds\events\clap07.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+AddTrigger Speak6 OnSpeak6
+AddModelKey Voice6 OnVoice6
+AddTrigger Speak20 OnSpeak20
+AddModelKey Voice20 OnVoice20
+AddModelKey Done OnDone
+AddTrigger Clap OnApplause
+AddModelKey Clap OnCLap
+AddTrigger Agree OnAgree
+exit

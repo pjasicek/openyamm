@@ -1,0 +1,1449 @@
+format_version: 1
+source_file: NPC7.rude
+rows:
+  - source:
+      file: NPC7.rude
+      row: 1
+    raw_columns:
+      - 7
+      - 4
+      - 1
+      - Well how much do you want?
+      - How much are you offering?
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 4
+      choice_slot: 1
+      prompt: Well how much do you want?
+      response: How much are you offering?
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC7.rude
+      row: 2
+    raw_columns:
+      - 7
+      - 2
+      - 1
+      - They say you're the only one who could fix it.
+      - Heh heh.  First they fire me for being too old, and now that something has broken, they have to come running to me to fix it.  Is there money involved?
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 2
+      choice_slot: 1
+      prompt: They say you're the only one who could fix it.
+      response: Heh heh.  First they fire me for being too old, and now that something has broken, they have to come running to me to fix it.  Is there money involved?
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC7.rude
+      row: 3
+    raw_columns:
+      - 7
+      - 3
+      - 1
+      - We'll pay you 50 gold
+      - Hah!  Fat chance.  Maybe you should find some other sucker.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 3
+      choice_slot: 1
+      prompt: We'll pay you 50 gold
+      response: Hah!  Fat chance.  Maybe you should find some other sucker.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC7.rude
+      row: 4
+    raw_columns:
+      - 7
+      - 7
+      - 1
+      - One of the machines in the Refinery is broken.
+      - What should I care about that?
+      - 2
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 360
+      - 361
+      - 364
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 7
+      choice_slot: 1
+      prompt: One of the machines in the Refinery is broken.
+      response: What should I care about that?
+      next: 2
+      raw_fields:
+        c07: 5
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 360
+        c22: 361
+        c23: 364
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5
+            qbit_id: 9005
+            state_id: mm9.keys.5
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5
+          qbit_id: 9005
+          state_id: mm9.keys.5
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 360
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 361
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c23
+        value: 364
+        status: raw_value_preserved
+  - source:
+      file: NPC7.rude
+      row: 5
+    raw_columns:
+      - 7
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC7.rude
+      row: 6
+    raw_columns:
+      - 7
+      - 997
+      - 1
+      - OK.  Thanks.
+      - asdf
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 997
+      choice_slot: 1
+      prompt: OK.  Thanks.
+      response: asdf
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC7.rude
+      row: 7
+    raw_columns:
+      - 7
+      - 998
+      - 1
+      - Alright.
+      - asdf
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 998
+      choice_slot: 1
+      prompt: Alright.
+      response: asdf
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC7.rude
+      row: 8
+    raw_columns:
+      - 7
+      - 5
+      - 1
+      - Alright!  Let's go.
+      - I know the way.  See you there.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 5
+      choice_slot: 1
+      prompt: Alright!  Let's go.
+      response: I know the way.  See you there.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC7.rude
+      row: 9
+    raw_columns:
+      - 7
+      - 3
+      - 2
+      - We'll pay you 100 gold
+      - I could almost be bothered to get out of my bed for that.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 3
+      choice_slot: 2
+      prompt: We'll pay you 100 gold
+      response: I could almost be bothered to get out of my bed for that.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC7.rude
+      row: 10
+    raw_columns:
+      - 7
+      - 4
+      - 2
+      - Forget it then.  See you later
+      - Good riddance.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 4
+      choice_slot: 2
+      prompt: Forget it then.  See you later
+      response: Good riddance.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC7.rude
+      row: 11
+    raw_columns:
+      - 7
+      - 7
+      - 2
+      - Is the machine fixed yet?
+      - Settle down!  I haven't even looked at it yet!  But you'll have to come with me when I do!!
+      - 998
+      - 362
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 364
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 7
+      choice_slot: 2
+      prompt: Is the machine fixed yet?
+      response: Settle down!  I haven't even looked at it yet!  But you'll have to come with me when I do!!
+      next: 998
+      raw_fields:
+        c07: 362
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 364
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 998
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 362
+            qbit_id: 9362
+            state_id: mm9.keys.362
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 362
+          qbit_id: 9362
+          state_id: mm9.keys.362
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 364
+        status: raw_value_preserved
+  - source:
+      file: NPC7.rude
+      row: 12
+    raw_columns:
+      - 7
+      - 3
+      - 3
+      - We'll pay you 500 gold.
+      - Hm..er..ahh..I guess..not.  That just isn't worth my time.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 3
+      choice_slot: 3
+      prompt: We'll pay you 500 gold.
+      response: Hm..er..ahh..I guess..not.  That just isn't worth my time.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC7.rude
+      row: 13
+    raw_columns:
+      - 7
+      - 7
+      - 3
+      - We have the money.
+      - Great!
+      - 5
+      - 363
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 364
+      - 0
+      - 0
+      - 0
+      - 0
+      - 363
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 7
+      choice_slot: 3
+      prompt: We have the money.
+      response: Great!
+      next: 5
+      raw_fields:
+        c07: 363
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 364
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 363
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 363
+            qbit_id: 9363
+            state_id: mm9.keys.363
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 363
+          qbit_id: 9363
+          state_id: mm9.keys.363
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 364
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c26
+        value: 363
+        status: raw_value_preserved
+  - source:
+      file: NPC7.rude
+      row: 14
+    raw_columns:
+      - 7
+      - 3
+      - 4
+      - We'll pay you 1,000 gold
+      - Mmmmm..uh..alright.  I guess I could do it for that
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 360
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 3
+      choice_slot: 4
+      prompt: We'll pay you 1,000 gold
+      response: Mmmmm..uh..alright.  I guess I could do it for that
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 360
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 360
+        status: raw_value_preserved
+  - source:
+      file: NPC7.rude
+      row: 15
+    raw_columns:
+      - 7
+      - 7
+      - 4
+      - Did you fix the machine?
+      - What?  Fix it?  Of course not!  Fixing it's your job.  That mark I made is where it is broken.  Don't dally now!  Get to work!
+      - 998
+      - 364
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 37
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 7
+      choice_slot: 4
+      prompt: Did you fix the machine?
+      response: What?  Fix it?  Of course not!  Fixing it's your job.  That mark I made is where it is broken.  Don't dally now!  Get to work!
+      next: 998
+      raw_fields:
+        c07: 364
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 37
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 998
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 364
+            qbit_id: 9364
+            state_id: mm9.keys.364
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 364
+          qbit_id: 9364
+          state_id: mm9.keys.364
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 37
+        status: raw_value_preserved
+  - source:
+      file: NPC7.rude
+      row: 16
+    raw_columns:
+      - 7
+      - 7
+      - 5
+      - Thanks for your help.
+      - Did you hear the good news?  They offered me my job back!  Isn't that great!  I owe it all to you.  Thanks!
+      - 999
+      - 37
+      - 0
+      - 364
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 7
+      choice_slot: 5
+      prompt: Thanks for your help.
+      response: Did you hear the good news?  They offered me my job back!  Isn't that great!  I owe it all to you.  Thanks!
+      next: 999
+      raw_fields:
+        c07: 37
+        c08: 0
+        c09: 364
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 37
+            qbit_id: 9037
+            state_id: mm9.keys.37
+          - column: c09
+            raw_id: 364
+            qbit_id: 9364
+            state_id: mm9.keys.364
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 37
+          qbit_id: 9037
+          state_id: mm9.keys.37
+        - domain: mm9.keys
+          raw_id: 364
+          qbit_id: 9364
+          state_id: mm9.keys.364
+  - source:
+      file: NPC7.rude
+      row: 17
+    raw_columns:
+      - 7
+      - 3
+      - 5
+      - We'll pay you 2,000 gold
+      - YAAA-Heee!  Saddle 'em up!  I'll take a look at that machine for ya.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 361
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 3
+      choice_slot: 5
+      prompt: We'll pay you 2,000 gold
+      response: YAAA-Heee!  Saddle 'em up!  I'll take a look at that machine for ya.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 361
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 361
+        status: raw_value_preserved
+  - source:
+      file: NPC7.rude
+      row: 18
+    raw_columns:
+      - 7
+      - 7
+      - 6
+      - Where can we find a new Slag Extractor?
+      - I got the last replacement from Gunnar Thjorsmith, the Armor Merchant.  I don't know if he's still in business, though.
+      - 997
+      - 9512
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 9513
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 7
+      choice_slot: 6
+      prompt: Where can we find a new Slag Extractor?
+      response: I got the last replacement from Gunnar Thjorsmith, the Armor Merchant.  I don't know if he's still in business, though.
+      next: 997
+      raw_fields:
+        c07: 9512
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 9513
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 997
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 9512
+            qbit_id: 18512
+            state_id: mm9.keys.9512
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 9512
+          qbit_id: 18512
+          state_id: mm9.keys.9512
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 9513
+        status: raw_value_preserved
+  - source:
+      file: NPC7.rude
+      row: 19
+    raw_columns:
+      - 7
+      - 7
+      - 7
+      - Nothing.  Sorry to bother you
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 7
+      node_id: 7
+      choice_slot: 7
+      prompt: Nothing.  Sorry to bother you
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

@@ -1,0 +1,82 @@
+schema: openyamm.model3d.v1
+id: marketstall
+model: marketstall.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/MARKETSTALL.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: MarketStall
+  materialIndex: 0
+  lods:
+  - faces: 213
+    vertices: 222
+  - faces: 159
+    vertices: 190
+  - faces: 107
+    vertices: 155
+materials:
+- index: 0
+  texture: skins_preview/props/marketstall.png
+  runtime_texture: skins/props/marketstall.dtx
+  preview_texture: skins_preview/props/marketstall.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/MARKETSTALL.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: NS
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 84.48
+  - 128.0
+  - 33.28
+  origin:
+  - 0.0
+  - -12.8
+  - -8.96
+- name: NS
+  extents:
+  - 33.28
+  - 128.0
+  - 84.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/marketstall.abc

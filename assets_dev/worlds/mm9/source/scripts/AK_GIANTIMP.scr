@@ -1,0 +1,65 @@
+;---------------------------------------
+;	AK_GiantImp.scr
+;	by SJR
+;	Purpose:
+;---------------------------------------
+#include baseMelee.inc
+#include flags.inc
+
+#string		SPELL_BLACKSMOKE = "blacksmoke"
+
+;---------------------------------------
+:Main
+;---------------------------------------
+	OnCacheFiles CacheFiles
+
+	GetMyHandle g_hMyObject
+
+	SetStat g_hMyObject, gravity, FALSE
+	ClearFlag g_hMyObject, FLAG_SOLID
+	ClearFlag g_hMyObject, FLAG_VISIBLE
+
+	AddTrigger appear, Appear
+
+	gosub IncreaseStats
+
+	Exit TRUE
+
+;---------------------------------------
+:CacheFiles
+;---------------------------------------
+	CacheClientFX SPELL_BLACKSMOKE
+	CacheSound "sounds\animsounds\gezzampt\aware.wav"
+
+	Exit TRUE
+
+;---------------------------------------
+:Appear
+;---------------------------------------
+	PlaySound "sounds\animsounds\gezzampt\aware.wav", StartScene, 1, 1000, 0, 100
+
+	Exit TRUE
+
+;---------------------------------------
+:StartScene
+;---------------------------------------
+	DoClientFX g_hMyObject, SPELL_BLACKSMOKE, TRUE, TRUE
+
+	SetFlag g_hMyObject, FLAG_SOLID
+	SetFlag g_hMyObject, FLAG_VISIBLE
+	SetStat g_hMyObject, Gravity, TRUE
+
+	gosub BaseInit
+	GetPlayerHandle g_hTarget
+	gosub SetupTarget
+	gosub AggressiveStart
+
+	Exit TRUE
+
+;---------------------------------------
+:IncreaseStats
+;---------------------------------------
+	SetStat g_hMyObject, HitPoints, 100
+	SetStat g_hMyObject, AC, 15
+
+	Exit TRUE

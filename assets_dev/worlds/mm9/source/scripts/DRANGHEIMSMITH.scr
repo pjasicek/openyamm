@@ -1,0 +1,206 @@
+;------------------------------------
+;	DrangheimPrisoner.scr
+;	SJR
+;	Purpose:
+;------------------------------------
+#include BaseGlobals.inc
+
+#string		sAnvilName = "MarkerAnvil"
+#string		sFireName = "MarkerFire"
+#string		sRackName = "WeaponRack"
+#string		sSteamName = "MarkerWater"
+
+#hobject	hAnvil = 0
+#hobject	hFire = 0
+#hobject	hRack = 0
+#hobject	hSteam = 0
+#hobject	hWeapon = 0
+
+#number		nCounter = 10
+#number		nTemp = 0
+#number		rand = 0
+#number		bBearer = 0
+#number		bQuit = 0
+
+#stringarray	spSounds[5]
+#string			sSound = ""
+
+;------------------------------------
+:Main
+;------------------------------------
+	GetParam 0, bBearer
+
+	if( bBearer==0 )
+		GetMyHandle hRack
+		RemoveObject hRack
+		Exit TRUE
+	endif
+
+	OnPostStartWorld InitDrangheimSmith
+	OnPostMiniSaveLoad InitDrangheimSmith
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;------------------------------------
+:CacheFiles
+;------------------------------------
+	CacheSound sounds\events\metalmetal01.wav"
+	CacheSound sounds\events\metalmetal02.wav"
+	CacheSound sounds\events\metalmetal03.wav"
+	CacheSound sounds\events\metalmetal04.wav"
+	CacheSound sounds\events\metalmetal05.wav"
+
+	Exit TRUE
+
+;------------------------------------
+:InitDrangheimSmith
+;------------------------------------
+	GetObjectHandle sAnvilName, hAnvil
+	GetObjectHandle sRackName, hRack
+	GetObjectHandle sSteamName, hSteam
+	GetObjectHandle sFireName, hFire
+
+	OnDeath DetachItem
+
+	AddTrigger off, TurnOff
+	AddTrigger on, OnReturnedWeapon
+
+	gosub InitStrings
+	gosub OnReturnedWeapon
+
+	Exit TRUE
+
+;------------------------------------
+:AnvilLoop
+;------------------------------------
+	if( bQuit==TRUE )
+		bQuit = FALSE
+		Exit TRUE
+	else
+
+	if( nCounter==0 )
+		nCounter = 10
+		gosub CoolWeapon
+		Exit TRUE
+	endif
+	endif
+
+	FaceObject hAnvil, 180, DoNothing
+	gosub PlayRandom
+	nCounter = nCounter - bBearer
+	Wait 0, 3, AnvilLoop
+
+	Exit TRUE
+
+;------------------------------------
+:CoolWeapon
+;------------------------------------
+	gosub AttachSword
+	
+	WalkTo hSteam, 40, OnCooledWeapon
+
+	Exit TRUE
+
+;------------------------------------
+:OnCooledWeapon
+;------------------------------------
+	Stop
+	FaceObject hSteam, 180, DoNothing
+	Trigger hSteam, on
+	Wait 0, 5, ReturnWeapon
+
+	Exit TRUE
+
+;------------------------------------
+:ReturnWeapon
+;------------------------------------
+	Stop
+	Trigger hSteam, off
+	WalkTo hRack, 5, OnReturnedWeapon
+
+	Exit TRUE
+
+;------------------------------------
+:OnReturnedWeapon
+;------------------------------------
+	Stop
+	gosub AttachHammer
+
+	WalkTo hAnvil, 10, StartOver
+
+	Exit TRUE
+
+;------------------------------------
+:StartOver
+;------------------------------------
+	Stop
+	Wait 0, 5, AnvilLoop
+
+	Exit TRUE
+
+;------------------------------------
+:PlayRandom
+;------------------------------------
+	PlayAnim HAttack1, PlayRandomSound
+
+	Exit TRUE
+
+;------------------------------------
+:PlayRandomSound
+;------------------------------------
+	GetRandomInt 0, 4, nTemp
+	ArrayGet spSounds, nTemp, sSound
+	PlaySound sSound, DoNothing, 1, 500, 0, 100
+
+	Exit TRUE
+
+;------------------------------------
+:InitStrings
+;------------------------------------
+	ArrayPut spSounds, 0, "sounds\events\metalmetal01.wav"
+	ArrayPut spSounds, 1, "sounds\events\metalmetal02.wav"
+	ArrayPut spSounds, 2, "sounds\events\metalmetal03.wav"
+	ArrayPut spSounds, 3, "sounds\events\metalmetal04.wav"
+	ArrayPut spSounds, 4, "sounds\events\metalmetal05.wav"
+
+	Exit TRUE
+
+;------------------------------------
+:TurnOff
+;------------------------------------
+	Stop
+	bQuit = TRUE
+;;	GetObjectHandle MarkerWait, hDummy
+;;	RunTo hDummy, 10, StopMoving
+
+	Exit TRUE
+
+;------------------------------------
+:AttachHammer
+;------------------------------------
+	gosub DetachItem
+
+	AttachProp "hammer.abc", "hammer.dtx", rhand1, hWeapon
+
+	Exit TRUE
+
+;------------------------------------
+:AttachSword
+;------------------------------------
+	gosub DetachItem
+
+	AttachProp "kirasword.abc", "kirasword.dtx", rhand1, hWeapon
+
+	Exit TRUE
+
+;------------------------------------
+:DetachItem
+;------------------------------------
+	if( hWeapon!=0 )
+		DetachProp hWeapon, FALSE
+		RemoveObject hWeapon
+		hWeapon = NULL
+	endif
+
+	Exit TRUE

@@ -1,0 +1,32 @@
+;--------------------------------
+;	MastermindColor.scr
+;	by SJR
+;	12-18-01
+;	Purpose:when the player uses this,
+;			it switches the current
+;			color.
+;	ScriptParams:
+;		p0 = colorvalue (0,1,2,3,4)->(red,blue,yellow,orange,green)
+;--------------------------------
+#include BaseGlobals.inc
+
+#number		nColor = 0
+
+;--------------------------------
+:Main
+;--------------------------------
+	GetParam 0, nColor
+
+	AddTrigger use, ChangeColor
+
+	Exit TRUE
+
+;--------------------------------
+:ChangeColor
+;	sets the current color
+;--------------------------------
+	PlaySound "sounds\door\trapdooropen.wav", DoNothing, 1, 100, FALSE, 100
+
+	SetConsoleNumVar MASTERMIND_COLOR, nColor
+
+	Exit TRUE

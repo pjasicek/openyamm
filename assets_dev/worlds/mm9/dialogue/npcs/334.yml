@@ -1,0 +1,1193 @@
+format_version: 1
+source_file: NPC334.rude
+rows:
+  - source:
+      file: NPC334.rude
+      row: 1
+    raw_columns:
+      - 334
+      - 11
+      - 1
+      - What's Gungnir?
+      - On the day Krohn foresaw the coming of the Great Reckoning, he demanded that we all fashion weapons.  Gungnir was the spear I made for myself.  Of course I lost it, and I can't go off looking for it, can I?
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 11
+      choice_slot: 1
+      prompt: What's Gungnir?
+      response: On the day Krohn foresaw the coming of the Great Reckoning, he demanded that we all fashion weapons.  Gungnir was the spear I made for myself.  Of course I lost it, and I can't go off looking for it, can I?
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC334.rude
+      row: 2
+    raw_columns:
+      - 334
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC334.rude
+      row: 3
+    raw_columns:
+      - 334
+      - 334
+      - 1
+      - We need to get into Arslegard.
+      - Like I told you!  You're not on my list.  If you want to get in here, you need to visit the Wyrdes and get a Writ of Fate!
+      - 334
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 100
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 334
+      choice_slot: 1
+      prompt: We need to get into Arslegard.
+      response: Like I told you!  You're not on my list.  If you want to get in here, you need to visit the Wyrdes and get a Writ of Fate!
+      next: 334
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 100
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 334
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 100
+        status: raw_value_preserved
+  - source:
+      file: NPC334.rude
+      row: 4
+    raw_columns:
+      - 334
+      - 10
+      - 1
+      - That's unfortunate.  You must have really upset Krohn.
+      - Perhaps I displeased him once.  But the wrath he has shown me in the past isn't going to match what happens when he finds out I lost Gungnir!  What am I going to do when the Great Reckoning comes?
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 10
+      choice_slot: 1
+      prompt: That's unfortunate.  You must have really upset Krohn.
+      response: Perhaps I displeased him once.  But the wrath he has shown me in the past isn't going to match what happens when he finds out I lost Gungnir!  What am I going to do when the Great Reckoning comes?
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC334.rude
+      row: 5
+    raw_columns:
+      - 334
+      - 12
+      - 1
+      - Huh?
+      - I mean, there will come a day when Njam will lead a revolt against the gods.  On that day a great battle is fated to be fought.  Krohn demanded that we gods fashion weapons for ourselves.  Of course I lost mine.
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 12
+      choice_slot: 1
+      prompt: Huh?
+      response: I mean, there will come a day when Njam will lead a revolt against the gods.  On that day a great battle is fated to be fought.  Krohn demanded that we gods fashion weapons for ourselves.  Of course I lost mine.
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC334.rude
+      row: 6
+    raw_columns:
+      - 334
+      - 13
+      - 1
+      - We could find it for you.
+      - Yes!  I suppose you could.  I think you may want to ask Fre.  She might have some idea where you can start looking.  Now don't dawdle!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 353
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 13
+      choice_slot: 1
+      prompt: We could find it for you.
+      response: Yes!  I suppose you could.  I think you may want to ask Fre.  She might have some idea where you can start looking.  Now don't dawdle!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 353
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 353
+        status: raw_value_preserved
+  - source:
+      file: NPC334.rude
+      row: 7
+    raw_columns:
+      - 334
+      - 14
+      - 1
+      - Not even a thank you?
+      - Don't get impertinent with me!  Seeing as how you did find it, however, I will give you a small reward.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 14
+      choice_slot: 1
+      prompt: Not even a thank you?
+      response: Don't get impertinent with me!  Seeing as how you did find it, however, I will give you a small reward.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC334.rude
+      row: 8
+    raw_columns:
+      - 334
+      - 13
+      - 2
+      - Maybe we couldn't.  Never mind.
+      - That's what I figured.  Goodbye.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 13
+      choice_slot: 2
+      prompt: Maybe we couldn't.  Never mind.
+      response: That's what I figured.  Goodbye.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC334.rude
+      row: 9
+    raw_columns:
+      - 334
+      - 334
+      - 2
+      - We want to get in to Arslegard.
+      - Oh yes, you HAVE to wander around and show off your Writ of Fate, don't you?  Very well, I shall let you in.
+      - 999
+      - 100
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 334
+      choice_slot: 2
+      prompt: We want to get in to Arslegard.
+      response: Oh yes, you HAVE to wander around and show off your Writ of Fate, don't you?  Very well, I shall let you in.
+      next: 999
+      raw_fields:
+        c07: 100
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 100
+            qbit_id: 9100
+            state_id: mm9.keys.100
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 100
+          qbit_id: 9100
+          state_id: mm9.keys.100
+  - source:
+      file: NPC334.rude
+      row: 10
+    raw_columns:
+      - 334
+      - 11
+      - 2
+      - What's the Great Reckoning?
+      - It's also called The Day of Wrath.  There will come a day when Njam will break out...umm....
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 11
+      choice_slot: 2
+      prompt: What's the Great Reckoning?
+      response: It's also called The Day of Wrath.  There will come a day when Njam will break out...umm....
+      next: 12
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12
+  - source:
+      file: NPC334.rude
+      row: 11
+    raw_columns:
+      - 334
+      - 11
+      - 3
+      - Maybe we could help?
+      - How could you help?
+      - 13
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 355
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 11
+      choice_slot: 3
+      prompt: Maybe we could help?
+      response: How could you help?
+      next: 13
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 355
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 13
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 355
+        status: raw_value_preserved
+  - source:
+      file: NPC334.rude
+      row: 12
+    raw_columns:
+      - 334
+      - 334
+      - 3
+      - You don't seem to like us very much.
+      - Well what do you expect of me?  I sit here day after day after day.  From the beginning of time until the Great Reckoning.  I've seen your kind come through here millions of times.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 353
+      - 356
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 334
+      choice_slot: 3
+      prompt: You don't seem to like us very much.
+      response: Well what do you expect of me?  I sit here day after day after day.  From the beginning of time until the Great Reckoning.  I've seen your kind come through here millions of times.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 353
+        c22: 356
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 353
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 356
+        status: raw_value_preserved
+  - source:
+      file: NPC334.rude
+      row: 13
+    raw_columns:
+      - 334
+      - 11
+      - 4
+      - Does your spear look like this?
+      - Where did you find that?  Give that here.  No mortal should have the use of that.
+      - 14
+      - 355
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 356
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 11
+      choice_slot: 4
+      prompt: Does your spear look like this?
+      response: Where did you find that?  Give that here.  No mortal should have the use of that.
+      next: 14
+      raw_fields:
+        c07: 355
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 356
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 14
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 355
+            qbit_id: 9355
+            state_id: mm9.keys.355
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 355
+          qbit_id: 9355
+          state_id: mm9.keys.355
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 356
+        status: raw_value_preserved
+  - source:
+      file: NPC334.rude
+      row: 14
+    raw_columns:
+      - 334
+      - 334
+      - 4
+      - We found your spear.
+      - I trust it wasn't too easy to find.  A fine job.  Here's your reward.
+      - 999
+      - 354
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 356
+      - 0
+      - 0
+      - 0
+      - 0
+      - 356
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 334
+      choice_slot: 4
+      prompt: We found your spear.
+      response: I trust it wasn't too easy to find.  A fine job.  Here's your reward.
+      next: 999
+      raw_fields:
+        c07: 354
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 356
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 356
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 354
+            qbit_id: 9354
+            state_id: mm9.keys.354
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 354
+          qbit_id: 9354
+          state_id: mm9.keys.354
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 356
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 356
+        status: raw_value_preserved
+  - source:
+      file: NPC334.rude
+      row: 15
+    raw_columns:
+      - 334
+      - 334
+      - 6
+      - Can we ask you some questions?
+      - What do I look like, a tour guide?  No!
+      - 334
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 334
+      choice_slot: 6
+      prompt: Can we ask you some questions?
+      response: What do I look like, a tour guide?  No!
+      next: 334
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 334
+  - source:
+      file: NPC334.rude
+      row: 16
+    raw_columns:
+      - 334
+      - 334
+      - 7
+      - Nothing, sorry.
+      - That's right!  Now get lost!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 334
+      node_id: 334
+      choice_slot: 7
+      prompt: Nothing, sorry.
+      response: That's right!  Now get lost!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999

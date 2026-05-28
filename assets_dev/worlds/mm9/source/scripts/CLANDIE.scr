@@ -1,0 +1,31 @@
+;--------------------------------------------------
+;ClanDie.scr
+; timmy
+; Makes things hate things and then runs BaseMelee
+;--------------------------------------------------
+
+#include globals.inc
+#include basemelee.inc
+
+
+;--------------------------------------------------
+:OnDamage
+;--------------------------------------------------
+getmyhandle g_hmyobject
+trigger g_hmyobject destroy
+gosub OnDamage, 1
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddFriend NPC
+AddFriend Player
+AddEnemy Horde
+OnDamage OnDamage
+gosub BaseInit
+exit
+

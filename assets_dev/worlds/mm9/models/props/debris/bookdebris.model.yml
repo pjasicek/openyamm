@@ -1,0 +1,75 @@
+schema: openyamm.model3d.v1
+id: bookdebris
+model: bookdebris.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/DEBRIS/BOOKDEBRIS.abc
+  commandString: NoAnimation; FadeRangeMax 1500; FadeRangeMin 1000
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Book01
+  materialIndex: 0
+  lods:
+  - faces: 20
+    vertices: 12
+  - faces: 16
+    vertices: 10
+  - faces: 10
+    vertices: 7
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 2
+    - 3
+  - index: 2
+    name: Bone02
+    parent: 1
+    flags: 0
+    children: []
+  - index: 3
+    name: Book01
+    parent: 1
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: BookDebris
+  durationMs: 100
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: BookDebris
+  extents:
+  - 20.48
+  - 6.4
+  - 15.36
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/debris/bookdebris.abc

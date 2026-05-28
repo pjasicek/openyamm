@@ -1,0 +1,132 @@
+;--------------------------------------------------
+;NPC417.scr
+; timmy
+; handles Chadwick Boorsley voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#Number			Trap
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub Secrets
+exit
+
+
+;--------------------------------------------------
+:Secrets
+;--------------------------------------------------
+;****************
+;secrets Quest
+;****************
+
+haskey 247 g_ntemp
+if (g_ntemp==0, )
+	haskey 246 g_ntemp
+	if (g_ntemp==1, )
+		giveexp 10000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+		givekey 247
+		exit
+	endif
+endif
+exit
+
+;End secrets quest
+;******************
+exit
+
+
+;-------------------------------------
+:OnTrap
+;-------------------------------------
+haskey 243 g_ntemp
+if (g_ntemp==1, )
+	set Trap true
+	givekey 244
+	exit
+endif
+exit
+
+;-------------------------------------
+:OnRemove
+;-------------------------------------
+
+
+haskey 243 g_ntemp
+if (g_ntemp==1, )
+	takekey 244
+	set Trap false
+	exit
+endif
+exit
+
+;-------------------------------------
+:OnFinish
+;-------------------------------------
+haskey 243 g_ntemp
+if (g_ntemp==1, )
+	if (Trap==false, )
+		givekey 245
+		Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+		exit
+	endif
+endif
+exit	
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_189.wav, DoNothing, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+;gosub OnRemove
+
+takekey 243
+takekey 244
+
+OnRudeExit OnRude
+AddTrigger Use OnUse
+Addtrigger DoTrap OnTrap
+Addtrigger RemoveTrap OnRemove
+Addtrigger done OnFinish
+exit
+
+;-------------------------------------
+:Init2
+;-------------------------------------
+
+
+
+OnRudeExit OnRude
+AddTrigger Use OnUse
+Addtrigger DoTrap OnTrap
+Addtrigger RemoveTrap OnRemove
+Addtrigger done OnFinish
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init2
+wait 1 .1 Init
+
+
+exit
+

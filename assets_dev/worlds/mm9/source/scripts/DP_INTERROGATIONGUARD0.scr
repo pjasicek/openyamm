@@ -1,0 +1,304 @@
+;-----------------------------------------------------
+;	DP_InterrogationGuard0.scr
+;	kd
+;	10-21-01
+;	Simple following guard
+;	Nothing slick or fancy
+;
+;	
+;	
+;
+;
+;-----------------------------------------------------
+#include BaseMelee.inc
+
+
+#hObject	hDummy
+#hObject	hDoorMan
+#hObject	hCellDoor
+#hObject	hWarden
+#hObject	hParam = FALSE
+
+#number		bHasHostileKey = FALSE
+#number		bHasFriendlyKey = FALSE
+#number		bIsPlayer = FALSE
+#number		bResult = FALSE
+#number		nKeyValue = 5007
+
+#string		sCellDoorA
+#string		sCellDoorB
+#string		sCellDoorC
+#string		sMyGuard
+
+#string		sWayPoint
+#string		sMarker
+
+#number		nNumMarkers
+#number		nMarker = 0
+
+#hobject	hMarker
+#hObject	hDummy
+
+#number		nVarPath = 0
+#number		nNumA
+#number		nCount
+#number		nReset
+
+;--------------------------------------------------------------
+:Directions
+;--------------------------------------------------------------
+	nCount = nCount + 1
+
+	if ( nCount==1 )
+		Gosub NextPrisoner
+	else
+		if ( nCount==2 )
+			Gosub DoTheWalk
+		else
+			if ( nCount==3 )
+				Gosub NextPrisoner
+			else
+				if ( nCount==4 )
+					Gosub DoTheWalk
+				else
+					if ( nCount==5 )
+						Gosub NextPrisoner
+					else
+						if ( nCount==6 )
+							nCount = 0
+							Gosub DoTheWalk
+						endif
+					endif
+				endif
+			endif
+		endif
+	endif
+	Exit 1
+;--------------------------------------------------------------
+:WalkToLastMarker
+;--------------------------------------------------------------
+	if ( nNumA==1)
+		nMarker = nMarker + 1
+		sMarker = sWayPoint + nMarker
+		GetObjectHandle sMarker hMarker
+		hCellDoor = NULL
+		GetObjectHandle sCellDoorA, hCellDoor
+		WalkTo hMarker 10 Cell
+	endif
+	if ( nNumA==2)
+		nMarker = nMarker + 2
+		sMarker = sWayPoint + nMarker
+		GetObjectHandle sMarker hMarker
+		hCellDoor = NULL
+		GetObjectHandle sCellDoorB, hCellDoor
+		WalkTo hMarker 10 Cell
+	endif
+	if ( nNumA==3)
+		nMarker = nMarker + 3
+		sMarker = sWayPoint + nMarker
+		GetObjectHandle sMarker hMarker
+		hCellDoor = NULL
+		GetObjectHandle sCellDoorC, hCellDoor
+		WalkTo hMarker 10 Cell
+	endif
+	Exit 1
+
+
+
+;--------------------------------------------------------------
+:DoTheWalk
+;--------------------------------------------------------------
+	nReset = nReset + 1
+	cprint "DoTheWalk"
+	cprint nReset
+	if ( nVarPath==0)
+		nVarPath = 1
+		nNumA = nNumA + 1
+		Gosub ToTheWarden
+	else	
+		nVarPath = 0
+		
+		Gosub ToTheInterrogation
+	endif
+	
+
+	Exit 1
+
+;;--------------------------------------------------------------
+:ToTheWarden
+;--------------------------------------------------------------
+
+	if ( nMarker == 0 )
+		
+		PlaySound Sounds\Door\doorslammetal02.wav, DoNothing, hDummy, 5000, FALSE, 100
+		Wait 0, .3, DoNothing
+		Trigger hDoorMan, UnlockRoom
+	endif
+
+	if ( nMarker < nNumMarkers )
+		nMarker = nMarker + 1
+		sMarker = sWayPoint + nMarker
+		GetObjectHandle sMarker hMarker
+		WalkTo hMarker 10 ToTheWarden
+	else
+		GoSub WalkToLastMarker
+	endif
+
+	Exit 1
+;;--------------------------------------------------------------
+:ToTheInterrogation
+;--------------------------------------------------------------
+
+	if ( nMarker != 0 )
+		nMarker = nMarker - 1
+		sMarker = sWayPoint + nMarker
+		GetObjectHandle sMarker hMarker
+		WalkTo hMarker 10 ToTheInterrogation
+	else
+		GoSub InterrogationRoom
+	endif
+
+	Exit 1
+
+;--------------------------------------------------------------
+:InterrogationRoom
+;--------------------------------------------------------------
+	if (nReset==6)
+		nReset = 0
+		Stop
+	else	
+		nMarker = 0
+		Trigger hDoorMan, LockRoom
+		Stop
+		PlayAnim Aware, DoNothing
+		Playsound sounds\BeatdownMixChained_8.wav, DoNothing, 100, 500, FALSE, 90
+		Wait 1, 15, DoTheWalk
+	endif
+
+	
+	Exit 1
+
+
+;--------------------------------------------------------------
+:NextPrisoner
+;--------------------------------------------------------------
+	Trigger hWarden, ChangeCell
+
+	if ( nNumA==1)
+		nMarker = nMarker + 1
+		sMarker = sWayPoint + nMarker
+		GetObjectHandle sMarker hMarker
+		nMarker = 4
+		hCellDoor = NULL
+		GetObjectHandle sCellDoorB, hCellDoor
+		WalkTo hMarker 10 Cell
+	endif
+
+	if ( nNumA==2)
+		nMarker = nMarker + 1
+		sMarker = sWayPoint + nMarker
+		GetObjectHandle sMarker hMarker
+		nMarker = 4
+		hCellDoor = NULL
+		GetObjectHandle sCellDoorC, hCellDoor
+		WalkTo hMarker 10 Cell
+	endif
+
+	if ( nNumA==3)
+		nMarker = nMarker - 2
+		sMarker = sWayPoint + nMarker
+		GetObjectHandle sMarker hMarker
+		nMarker = 4
+		hCellDoor = NULL
+		GetObjectHandle sCellDoorA, hCellDoor
+		nNumA = 0
+		WalkTo hMarker 10 Cell
+	endif
+
+	
+	Exit 1
+
+;--------------------------------------------------------------
+:Cell
+;--------------------------------------------------------------
+	Stop
+	Trigger hWarden, OpenCell
+	Wait 1, 2, DoNothing
+	PlayAnim Fidget1, DoNothing
+	FaceObject hCellDoor, 220, DoNothing
+	
+	Exit 1
+
+;--------------------------------------------------------------
+:CheckPlayer
+;--------------------------------------------------------------
+	GetParam 0, hParam
+	IsPlayer hParam, bIsPlayer
+	HasKey 5007, bHasFriendlyKey
+	HasKey 5006, bHasHostileKey
+	bHasHostileKey = 1 - bHasHostileKey
+	bResult = bHasFriendlyKey * bHasHostileKey * bIsPlayer
+	if (bResult == FALSE)
+		GiveKey 5006
+		Gosub AlertCall
+	else
+		AddFriend Player
+	endif
+
+	Exit 1
+;--------------------------------------------------------------
+:SetKeyValue
+;--------------------------------------------------------------
+	GetParam 0, hParam
+	IsPlayer hParam, bIsPlayer
+	if (blsPlayer==TRUE)
+		GiveKey 5006
+		RemoveFriend Player
+		Gosub AlertCall
+	else
+		AddFriend Player
+		Gosub baseinit
+	endif
+	Exit 1
+;--------------------------------------------------------------
+:AlertCall
+;--------------------------------------------------------------
+	If ( sMyGuard==Interrogator0 )
+		PlaySound sounds\VO\Charrrge.wav, DoNothing, 100, 500, FALSE, 90
+	Else
+		PlaySound sounds\VO\TheyAreHere.wav, DoNothing, 100, 500, FALSE, 90
+	endif
+	RunTo hParam, 25, BaseInit
+	Exit 1
+
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	GetObjectHandle InterrDoorman, hDoorMan
+	GetObjectHandle InterrWarden, hWarden
+	nVarPath = 0
+	nNumMarkers = nNumMarkers - 2
+
+	AddTrigger LetsGo, DoTheWalk
+	AddTrigger Start, InterrogationRoom
+	AddTrigger NextCell, Directions 
+	OnFoundTarget CheckPlayer
+	OnDamage SetKeyValue
+	
+	Exit 1
+
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	AddFriend PrisonerHumanMaleA
+	GetParam 0, sWayPoint
+	GetParam 1 nNumMarkers
+	GetParam 2 sCellDoorA
+	GetParam 3 sCellDoorB
+	GetParam 4 sCellDoorC
+	GetParam 5 sMyGuard
+
+	Wait 0 .1 main2
+
+	Exit 1
+

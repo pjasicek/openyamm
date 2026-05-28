@@ -1,0 +1,51 @@
+format_version: 1
+kind: "mm9_indoor_source_metadata"
+source:
+  source_kind: "mm9_dat"
+  source_dat: "mm9/extracted/WORLDS/WORLDS/1000TERRORS.dat"
+  coordinate_scale: 2.56
+target:
+  classification: "indoor_like"
+  strategy: "sectorized_blv_prototype"
+  geometry_file: "1000terrors.blv"
+  scene_file: "1000terrors.scene.yml"
+  source_glb: "1000terrors.source.glb"
+  geometry_metadata: "1000terrors.geometry.yml"
+  bsp_diagnostics: "1000terrors.bsp.yml"
+  bitmap_alias_dir: "assets_dev/worlds/mm9/textures"
+source_world_models: 753
+source_objects: 2199
+layout:
+  sector_mode: "leaf_grid"
+  grid_size: 4
+  visbsp_leaves: 1550
+  visbsp_leaf_polygon_entries: 19318
+  valid_leaf_polygon_refs: 19318
+  matched_leaf_polygon_refs: 19318
+  invalid_leaf_model_refs: 0
+  invalid_leaf_poly_refs: 0
+  leaves_with_geometry: 1550
+  unassigned_source_triangles: 37016
+  source_triangles: 84480
+  rooms: 15
+  portals: 36
+  synthetic_bridge_portals: 14
+  dat_user_portals: 22
+  dat_user_portals_emitted: 22
+  dat_user_portals_skipped: 0
+  dat_user_portal_duplicate_pairs: 0
+  synthetic_portals_replaced_by_dat_user_portals: 9
+stats:
+  source_models: 753
+  source_polies: 34284
+  emitted_faces: 84480
+  skipped_polies: 0
+  triangulated_polies: 29317
+  skipped_degenerate_triangles: 16854
+  source_plane_orientation_flips: 11204
+  clamped_plane_distances: 0
+  source_glb_vertices: 84510
+  source_glb_triangles: 84552
+  source_glb_materials: 52
+  source_glb_rooms: 15
+  source_glb_portals: 36

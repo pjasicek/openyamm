@@ -1,0 +1,267 @@
+;--------------------------------------------------
+;givetake.scr
+;10/4
+; timmy
+; gives party specific item
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#number			Item_ID
+#number			nGiveOnce = FALSE
+
+
+#number			bACTIII = False
+
+
+; Parameters
+;P0 Item number of item to give
+
+
+;--------------------------------------------------
+
+
+
+
+;--------------------------------------------------
+:OnWalk1
+;--------------------------------------------------
+SetPropNumber DoRude False
+getobjecthandle trislan g_hobject
+target g_hobject
+
+getobjecthandle Abriel1 g_hobject
+walkto g_hobject 1 DoNothing
+exit
+
+;--------------------------------------------------
+:OnSpeak4
+;--------------------------------------------------
+
+Loopanim conv2 0 DoNothing
+Playsound voices\cinema\guberlandplay\04.wav, DoNothing, 100, 512, FALSE, 100
+Wait 1 13 Trigger5
+exit
+
+
+;--------------------------------------------------
+:Trigger5
+;--------------------------------------------------
+
+stop
+Loopanim stand 0 DoNothing
+getobjecthandle trislan g_hobject
+trigger g_hobject Speak5
+exit
+
+;--------------------------------------------------
+:OnSpeak6
+;--------------------------------------------------
+
+Loopanim conv2 0 DoNothing
+Playsound voices\cinema\guberlandplay\06.wav, DoNothing, 100, 512, FALSE, 100
+Wait 1 9.85 Trigger7
+exit
+
+;--------------------------------------------------
+:Trigger7
+;--------------------------------------------------
+
+stop
+Loopanim stand 0 DoNothing
+getobjecthandle trislan g_hobject
+trigger g_hobject Speak7
+exit
+
+;--------------------------------------------------
+:OnSpeak8
+;--------------------------------------------------
+
+Loopanim conv2 0 DoNothing
+Playsound voices\cinema\guberlandplay\08.wav, DoNothing, 100, 512, FALSE, 100
+Wait 1 3 Trigger9
+exit
+
+;--------------------------------------------------
+:Trigger9
+;--------------------------------------------------
+
+stop
+Loopanim stand 0 DoNothing
+getobjecthandle Narrator g_hobject
+trigger g_hobject Speak9
+exit
+
+
+;--------------------------------------------------
+:OnExit
+;--------------------------------------------------
+SetPropNumber DoRude TRUE
+target NULL
+getobjecthandle Abriel2 g_hobject
+walkto g_hobject 1 FaceStage
+exit
+
+;--------------------------------------------------
+:FaceStage
+;--------------------------------------------------
+
+getobjecthandle Wilam g_hobject
+target g_hobject
+if (bACTIII==TRUE)
+	getobjecthandle Narrator g_hobject
+	trigger g_hobject Speak22
+	set bACTIII FALSE
+	exit
+endif
+
+exit
+
+;--------------------------------------------------
+:OnSpeak14
+;--------------------------------------------------
+
+getobjecthandle Ralof g_hobject
+target g_hobject
+;getobjecthandle abriel3 g_hobject
+walkto g_hobject 1 OnSlap
+exit
+
+
+;--------------------------------------------------
+:OnSlap
+;--------------------------------------------------
+
+attack OnStop
+wait 1 .75 Slapsound
+
+exit
+
+;--------------------------------------------------
+:Slapsound
+;--------------------------------------------------
+getobjecthandle ralof g_hobject
+trigger g_hobject wince
+Playsound Sounds\Weapons\FleshHit03.wav, DoNothing, 100, 512, FALSE, 100
+exit
+
+;--------------------------------------------------
+:OnStop
+;--------------------------------------------------
+
+getobjecthandle leffery g_hobject
+trigger g_hobject target
+getobjecthandle wilam g_hobject
+trigger g_hobject target
+wait 1 .1 speak15
+exit
+
+;--------------------------------------------------
+:speak15
+;--------------------------------------------------
+Loopanim conv2 0 DoNothing
+Playsound voices\cinema\guberlandplay\15.wav, DoNothing, 100, 512, FALSE, 100
+wait 1 3.4 Trigger16
+exit
+
+;--------------------------------------------------
+:Trigger16
+;--------------------------------------------------
+
+
+getobjecthandle Ralof g_hobject
+trigger g_hobject Speak16
+exit
+
+;--------------------------------------------------
+:Onspeak17
+;--------------------------------------------------
+
+;Loopanim conv2 0 DoNothing
+Playsound voices\cinema\guberlandplay\17.wav, DoNothing, 100, 512, FALSE, 100
+wait 1 6.4 Trigger18
+exit
+
+;--------------------------------------------------
+:Trigger18
+;--------------------------------------------------
+
+
+getobjecthandle Ralof g_hobject
+trigger g_hobject Speak18
+exit
+
+;--------------------------------------------------
+:Onspeak19
+;--------------------------------------------------
+
+;Loopanim conv2 0 DoNothing
+Playsound voices\cinema\guberlandplay\19.wav, DoNothing, 100, 512, FALSE, 100
+wait 1 6.6 Trigger20
+exit
+
+;--------------------------------------------------
+:Trigger20
+;--------------------------------------------------
+
+stop
+LoopAnim Stand 0 DoNothing
+getobjecthandle Ralof g_hobject
+trigger g_hobject Speak20
+set bACTIII true
+exit
+
+;--------------------------------------------------
+:OnWalk2
+;--------------------------------------------------
+
+getobjecthandle Ralof g_hobject
+target g_hobject
+getobjecthandle Abriel3 g_hobject
+walkto g_hobject 1 DoNothing
+exit
+
+;--------------------------------------------------
+:OnCastCall
+;--------------------------------------------------
+
+getobjecthandle Abriel4 g_hobject
+walkto g_hobject 1 FaceDoor
+exit
+
+;--------------------------------------------------
+:FaceDoor
+;--------------------------------------------------
+
+getobjecthandle peasant2 g_hobject
+target g_hobject
+exit
+
+;--------------------------------------------------
+:OnBow
+;--------------------------------------------------
+
+PlayAnim Bow DoNothing
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger walk1 OnWalk1
+addtrigger speak4 OnSpeak4
+Addtrigger speak6 OnSpeak6
+Addtrigger speak8 OnSpeak8
+AddTrigger Speak14 OnSpeak14
+Addtrigger Speak17 OnSpeak17
+AddTrigger Speak19 OnSpeak19
+Addtrigger Exit OnExit
+AddTrigger Walk2 OnWalk2
+AddTrigger CastCall OnCastCall
+AddTrigger Bow OnBow
+exit
+
+

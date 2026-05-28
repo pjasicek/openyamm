@@ -1,0 +1,22 @@
+Coordinates for Main menu Items:
+
+MainMenuBG.pcx		  0x   0y	800x600	Background
+MainMenuInactive.pcx	  0x   0y	250x600 Covers Left Menu
+StartGameAnim.pcx	 36x  30y	209x100
+LoadGameAnim.pcx	 36x 142y	209x100
+OptionsAnim.pcx		 36x 252y	209x100
+ViewIntroAnim.pcx	 36x 362y	209x100
+CreditsAnim.pcx		 36x 472y	209X100
+QuitAnim.pcx		554x 449y	209x100
+
+Note: Highlighted areas should play their anim at ~15 FPS
+
+Note: All Animations are 10 frames long
+
+Note: Anims should "Fade" in and out when mouse over and leaves the button.
+	Fade in and out should be about 1/2 second. (If Possible)
+
+Note: The "Inactive" graphic should cover the entire left side menu when 
+	choosing Load Game (And perhaps credits, depending on how we do that)
+
+Note: I have edited positioning so they no longer overlap.

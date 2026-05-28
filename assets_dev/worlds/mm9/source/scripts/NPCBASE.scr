@@ -1,0 +1,28 @@
+;----------------------------------------------------------------
+;	NPCBASE.SCR
+;	Jeff Leggett
+;	08/09/2001
+;
+;	Behavior:
+;
+;		- Wander around using basewander script.  If the USE
+;		key is used on us, then this script will be paused.
+;		And the RUDE system will take over....
+;		
+;		- If projectiles have been used near us, or we've been
+;		damaged, then we'll run away from the attacker.
+;
+;		- Occasionally, we'll look for another NPC to walk over
+;		and talk to.
+;
+;----------------------------------------------------------------
+
+#include npcBase.inc
+
+;----------------------------------------------------------------
+:Main
+;
+;
+;----------------------------------------------------------------
+	gosub NPCBaseInit
+	Exit

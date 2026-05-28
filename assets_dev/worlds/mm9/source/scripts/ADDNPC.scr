@@ -1,0 +1,36 @@
+;--------------------------------------------------
+;AddNPC.scr
+; timmy
+; handles Aymril Banito voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#number		nKeycheck = 0
+
+
+;
+
+
+;--------------------------------------------------
+:ONUse
+;--------------------------------------------------
+if (nKeycheck==false)
+	AddNPC 2 g_hobject
+	set nKeycheck, TRUE
+else
+	removeNPC 2 g_hobject
+	set nKeycheck, FALSE
+endif
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+traceon 
+;Don't Forget to Delete this!
+Addtrigger Use, OnUse
+exit
+

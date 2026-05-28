@@ -1,0 +1,172 @@
+schema: openyamm.model3d.v1
+id: chandelier3
+model: chandelier3.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/CHANDELIER3.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Flame
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame2
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame3
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame4
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Chandelier3
+  materialIndex: 0
+  lods:
+  - faces: 306
+    vertices: 191
+  - faces: 228
+    vertices: 152
+  - faces: 150
+    vertices: 113
+materials:
+- index: 0
+  texture: skins_preview/props/chandelier3.png
+  runtime_texture: skins/props/chandelier3.dtx
+  preview_texture: skins_preview/props/chandelier3.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/CHANDELIER3.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+  - index: 1
+    name: Flame
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Flame2
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Flame3
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Flame4
+    parent: 0
+    flags: 1
+    children: []
+  - index: 5
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets:
+- name: Flame
+  node: 1
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.042539939284324646
+  - -0.7058259844779968
+  - -0.042539939284324646
+  - 0.7058259844779968
+- name: Flame2
+  node: 2
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.04297894611954689
+  - 0.705799400806427
+  - 0.04297894984483719
+  - 0.705799400806427
+- name: Flame3
+  node: 3
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.0676790252327919
+  - -0.7046627998352051
+  - -0.06783504039049149
+  - 0.7030421495437622
+- name: Flame4
+  node: 4
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.0702088251709938
+  - 0.7044450640678406
+  - 0.0703769326210022
+  - 0.7027623653411865
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 61.44
+  - 30.72
+  - 61.44
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/chandelier3.abc

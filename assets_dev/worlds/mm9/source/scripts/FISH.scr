@@ -1,0 +1,160 @@
+;----------------------------------------------------------------
+;	FISH.SCR
+;	Jeff Leggett
+;	01/14/2000
+;
+;
+;		Simple Fishy script
+;		
+;----------------------------------------------------------------
+
+
+#include aiglobals.inc
+
+#hobject	hWater
+
+#number		minWaterX
+#number		minWaterY
+#number		minWaterZ
+#number		maxWaterX
+#number		maxWaterY
+#number		maxWaterZ
+
+#number		dimX
+#number		dimY
+#number		dimZ
+
+#number		dirX
+#number		dirY
+#number		dirZ
+
+#number		turnDeg
+#number		turnRate
+
+
+
+;----------------------------------------------------------------
+:Tick
+;----------------------------------------------------------------
+
+	Walk
+
+	GetRandomInt 0, 100, g_nRandom
+
+	if ( g_nRandom < 5 )
+		
+		; It's time to jump... (if we're close enough to the surface...)
+
+		if ( hWater==NULL )
+			gosub GetWaterDims
+		endif
+
+		if ( hWater!=NULL )
+			GetPos g_hMyObject, g_posX, g_posY, g_posZ
+
+			Set g_nTemp, dimY
+			Mul g_nTemp, 5
+
+			Add g_posY, g_nTemp
+ 
+;			DebugOut g_posY
+;			DebugOut maxWaterY
+
+			if ( g_posY > maxWaterY )
+				PlayAnim Jump, Tick
+				Exit
+			endif
+		endif
+	endif
+
+	GetRandomFloat 15, 90, turnDeg
+;;	GetRandomFloat 20, 50, turnRate
+
+	Set turnRate, turnDeg
+	
+	GetRandomInt 0,1, g_nRandom
+
+	if ( g_nRandom==0 )
+		Mul turnDeg, -1
+	endif
+
+	Rotate 0,1,0,turnDeg,turnRate,Tick
+
+	GetRandomFloat 0.5, 1.0, g_nRandom
+
+	Wait 0, g_nRandom, Tick
+
+	exit
+	
+
+;----------------------------------------------------------------
+:GetWaterDims
+;----------------------------------------------------------------
+	GetLiquidContainer g_hMyObject, hWater
+
+	if ( hWater!=NULL )
+		GetObjectMinMax hWater, minWaterX, minWaterY, minWaterZ, maxWaterX, maxWaterY, maxWaterZ
+	endif
+
+	exit
+;----------------------------------------------------------------
+:Init
+;----------------------------------------------------------------
+
+	GetMyHandle g_hMyObject
+	GetDims g_hMyObject, dimX, dimY, dimZ
+
+	Stop
+	
+	gosub Tick
+
+	Exit
+
+;----------------------------------------------------------------
+:OnTest
+;----------------------------------------------------------------
+
+	Walk
+	Wait 0,1, Tick
+	
+	Exit
+
+;----------------------------------------------------------------
+:HandleObstacle
+;
+;
+;	p0		- handle to obstacle
+;	p1-3	- Normal of the collision... 
+;
+;	For now, just go the exact opposite direction of the collision!
+;----------------------------------------------------------------
+
+	GetParam 1, g_rotX
+	GetParam 2, g_rotY
+	GetParam 3, g_rotZ
+
+	FaceDir g_rotX, g_rotY, g_rotZ, 90, Tick
+	Walk
+
+	Exit TRUE
+
+;----------------------------------------------------------------
+:HandleStuck
+;----------------------------------------------------------------
+
+	gosub Tick
+
+	Exit TRUE
+;----------------------------------------------------------------
+:Main
+;----------------------------------------------------------------
+
+	OnObstacle HandleObstacle
+	OnStuck HandleStuck
+	AddTrigger Test, OnTest
+
+	Wait 0, 0.5, Init
+
+	;; TraceON
+
+	Exit

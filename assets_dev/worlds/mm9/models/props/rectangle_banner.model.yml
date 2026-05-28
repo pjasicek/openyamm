@@ -1,0 +1,234 @@
+schema: openyamm.model3d.v1
+id: rectangle_banner
+model: rectangle_banner.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/RECTANGLE_BANNER.abc
+  commandString: FadeRangeMax 3500; FadeRangeMin 2000
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: banner
+  materialIndex: 0
+  lods:
+  - faces: 72
+    vertices: 49
+  - faces: 54
+    vertices: 40
+  - faces: 36
+    vertices: 31
+  - faces: 18
+    vertices: 22
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone78
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 6
+    - 10
+    - 14
+    - 18
+    - 22
+    - 26
+  - index: 2
+    name: Bone14
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Bone64
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bone66
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bone68
+    parent: 4
+    flags: 1
+    children: []
+  - index: 6
+    name: Bone06
+    parent: 1
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Bone07
+    parent: 6
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Bone09
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bone11
+    parent: 8
+    flags: 1
+    children: []
+  - index: 10
+    name: Bone46
+    parent: 1
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bone55
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Bone57
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bone59
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Bone38
+    parent: 1
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bone47
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bone49
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bone51
+    parent: 16
+    flags: 1
+    children: []
+  - index: 18
+    name: Bone22
+    parent: 1
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bone31
+    parent: 18
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Bone33
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bone35
+    parent: 20
+    flags: 1
+    children: []
+  - index: 22
+    name: Bone05
+    parent: 1
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bone16
+    parent: 22
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bone18
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bone20
+    parent: 24
+    flags: 1
+    children: []
+  - index: 26
+    name: Bone23
+    parent: 1
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Bone72
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Bone74
+    parent: 27
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Bone76
+    parent: 28
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: banner
+  durationMs: 2000
+  keyframes: 47
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: banner
+  extents:
+  - 327.68
+  - 102.4
+  - 40.96
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+roles:
+- static_model
+source_model: models/props/rectangle_banner.abc

@@ -1,0 +1,338 @@
+schema: openyamm.model3d.v1
+id: ram
+model: ram.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/RAM.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: ramhorn
+  materialIndex: 1
+  lods:
+  - faces: 72
+    vertices: 42
+  - faces: 64
+    vertices: 38
+  - faces: 36
+    vertices: 24
+  - faces: 8
+    vertices: 8
+- name: body
+  materialIndex: 0
+  lods:
+  - faces: 360
+    vertices: 178
+  - faces: 254
+    vertices: 125
+  - faces: 170
+    vertices: 83
+  - faces: 86
+    vertices: 41
+- name: ear1
+  materialIndex: 0
+  lods:
+  - faces: 9
+    vertices: 7
+  - faces: 9
+    vertices: 7
+  - faces: 7
+    vertices: 6
+  - faces: 7
+    vertices: 6
+- name: tail
+  materialIndex: 0
+  lods:
+  - faces: 9
+    vertices: 7
+  - faces: 9
+    vertices: 7
+  - faces: 9
+    vertices: 7
+  - faces: 7
+    vertices: 6
+- name: ear
+  materialIndex: 0
+  lods:
+  - faces: 9
+    vertices: 7
+  - faces: 9
+    vertices: 7
+  - faces: 7
+    vertices: 6
+  - faces: 7
+    vertices: 6
+materials:
+- index: 0
+  texture: skins_preview/sheep2.png
+  runtime_texture: skins/sheep2.dtx
+  preview_texture: skins_preview/sheep2.png
+  source: mm9/extracted/SKINS/SKINS/SHEEP2.dtx
+- index: 1
+  texture: skins_preview/ramhornblack.png
+  runtime_texture: skins/ramhornblack.dtx
+  preview_texture: skins_preview/ramhornblack.png
+  source: mm9/extracted/SKINS/SKINS/RAMHORNBLACK.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: XCENTER
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 23
+  - index: 2
+    name: XbackA
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Xback
+    parent: 2
+    flags: 1
+    children:
+    - 4
+    - 14
+  - index: 4
+    name: Xneckbase
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Xneckpiv
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Xneck
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Xheadpiv
+    parent: 6
+    flags: 1
+    children:
+    - 8
+    - 10
+    - 12
+  - index: 8
+    name: Xhead
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Xjawpiv
+    parent: 8
+    flags: 3
+    children: []
+  - index: 10
+    name: Xearpiv
+    parent: 7
+    flags: 3
+    children:
+    - 11
+  - index: 11
+    name: Xear
+    parent: 10
+    flags: 3
+    children: []
+  - index: 12
+    name: Xearpiv01
+    parent: 7
+    flags: 3
+    children:
+    - 13
+  - index: 13
+    name: Xear01
+    parent: 12
+    flags: 3
+    children: []
+  - index: 14
+    name: Xfrontleg
+    parent: 3
+    flags: 3
+    children:
+    - 15
+    - 19
+  - index: 15
+    name: Xflegpiv
+    parent: 14
+    flags: 3
+    children:
+    - 16
+  - index: 16
+    name: Xfleg
+    parent: 15
+    flags: 3
+    children:
+    - 17
+  - index: 17
+    name: Xfankle
+    parent: 16
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Xffoot
+    parent: 17
+    flags: 1
+    children: []
+  - index: 19
+    name: Xflegpiv01
+    parent: 14
+    flags: 3
+    children:
+    - 20
+  - index: 20
+    name: Xfleg01
+    parent: 19
+    flags: 3
+    children:
+    - 21
+  - index: 21
+    name: Xfankle01
+    parent: 20
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Xffoot01
+    parent: 21
+    flags: 1
+    children: []
+  - index: 23
+    name: XbackB
+    parent: 1
+    flags: 3
+    children:
+    - 24
+  - index: 24
+    name: XbackC
+    parent: 23
+    flags: 3
+    children:
+    - 25
+    - 26
+    - 31
+  - index: 25
+    name: Xtail
+    parent: 24
+    flags: 3
+    children: []
+  - index: 26
+    name: Xblegpiv
+    parent: 24
+    flags: 3
+    children:
+    - 27
+  - index: 27
+    name: Xbleg
+    parent: 26
+    flags: 3
+    children:
+    - 28
+  - index: 28
+    name: Xblegmid
+    parent: 27
+    flags: 3
+    children:
+    - 29
+  - index: 29
+    name: Xbankle
+    parent: 28
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Xbfoot
+    parent: 29
+    flags: 1
+    children: []
+  - index: 31
+    name: Xblegpiv01
+    parent: 24
+    flags: 3
+    children:
+    - 32
+  - index: 32
+    name: Xbleg01
+    parent: 31
+    flags: 3
+    children:
+    - 33
+  - index: 33
+    name: Xblegmid01
+    parent: 32
+    flags: 3
+    children:
+    - 34
+  - index: 34
+    name: Xbankle01
+    parent: 33
+    flags: 1
+    children:
+    - 35
+  - index: 35
+    name: Xbfoot01
+    parent: 34
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: sheepsetup02
+  durationMs: 366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: sheepsetup02
+  extents:
+  - 56.32
+  - 51.2
+  - 56.32
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+roles:
+- actor_model
+source_model: models/ram.abc
+source_tables:
+- MONSTERS
+skin_bindings:
+- id: ram_sheep2_ramhornblack
+  source_skins:
+  - skins/sheep2.dtx
+  - skins/ramhornblack.dtx
+  actor_rows:
+  - table: MONSTERS
+    row: 254
+    number: '273'
+    monster_name: Ram
+    type_picture: Ram
+    base_name: sheep

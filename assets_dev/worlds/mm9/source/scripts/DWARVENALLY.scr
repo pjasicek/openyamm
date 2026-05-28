@@ -1,0 +1,124 @@
+;-----------------------------------
+;	DwarvenAlly.scr
+;	by SJR
+;	10-03-01
+;	Purpose:aid in staged
+;			fights, guide player to
+;			first shutoff area,
+;			basically a plot device
+;	ScriptParams:
+;		p0 = name of tunnel to destroy for player
+;			 if omitted, will just fight
+;-----------------------------------
+#include baseMelee.inc
+#include ListTraverse.inc
+
+#hobject	hTunnel = 0
+#string		sTunnelName = ""
+#number		nTemp = 0
+
+;-----------------------------------
+:Main
+;-----------------------------------
+	GetParam 0, sTunnelName
+
+	if( sTunnelName=="0" )
+		OnFoundTarget SetupMelee
+	else
+		GetParam 1, LISTNAME
+		GetParam 2, LISTFIRST
+		GetParam 3, LISTLAST
+		nTemp = LISTFIRST + 1
+		gosub SetTraverseOnce
+		gosub SetTraverseRun
+		OnFoundPlayer TraverseBegin
+		OnDeath UnlockBin
+	endif
+
+;;	OnPostStartWorld InitDwarvenAlly
+Wait 0, 5, InitDwarvenAlly
+
+	Exit TRUE
+
+;-----------------------------------
+:InitDwarvenAlly
+;-----------------------------------
+	AddEnemy AIBase
+
+	;;add the whole family
+	AddFriend DwarvenSoldier
+	AddFriend DwarvenGuard
+	AddFriend DwarvenCommander
+	AddFriend Player
+
+	OnStuck TraverseResume
+
+	Exit TRUE
+
+;-----------------------------------
+:SetupMelee
+;-----------------------------------
+	gosub BaseInit
+
+	GetParam 0, g_hTarget
+
+	gosub SetupTarget
+	gosub AggressiveStart
+
+	Exit TRUE
+
+#number		SCREEN_TYPE = 1
+#number		SCREEN_X = 400
+#number		SCREEN_Y = 5
+
+;-----------------------------------
+:OnTraverseDone
+;-----------------------------------
+	OnFoundPlayer DoNothing
+
+	if( LISTINDEX==LISTFIRST )
+		RolloverText 100, SCREEN_TYPE, 3000, 3000, SCREEN_X, SCREEN_Y
+		;;play sound "follow me!"
+		;;play animation
+	endif
+
+	if( LISTINDEX = nTemp )
+		RolloverText 103, SCREEN_TYPE, 3000, 3000, SCREEN_X, SCREEN_Y
+	endif
+
+	if( LISTINDEX==LISTLAST )
+		gosub TraversePause
+		RolloverText 101, SCREEN_TYPE, 3000, 3000, SCREEN_X, SCREEN_Y
+		GetObjectHandle sTunnelName, hTunnel
+		if( hTunnel!=0 )
+			Trigger hTunnel, unlock
+			Trigger hTunnel, use
+		endif
+		OnDeath DoNothing
+		Wait 0, 6, InformPlayer
+	endif
+
+	Exit TRUE
+
+;-----------------------------------
+:InformPlayer
+;-----------------------------------
+	RolloverText 102, SCREEN_TYPE, 5000, 4000, SCREEN_X, SCREEN_Y
+
+	OnFoundTarget SetupMelee
+
+	Exit TRUE
+
+;-----------------------------------
+:UnlockBin
+;	ondeath, make sure player can shut it
+;	if we die prematurely
+;-----------------------------------
+	if( hTunnel==0 )
+		GetObjectHandle sTunnelName, hTunnel
+	endif
+	if( hTunnel!=0 )
+		Trigger hTunnel, unlock
+	endif
+
+	Exit TRUE

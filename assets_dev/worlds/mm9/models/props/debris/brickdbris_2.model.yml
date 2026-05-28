@@ -1,0 +1,60 @@
+schema: openyamm.model3d.v1
+id: brickdbris_2
+model: brickdbris_2.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/DEBRIS/BRICKDBRIS_2.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 4.023306898564917e+25
+pieces:
+- name: BrickDebris02
+  materialIndex: 0
+  lods:
+  - faces: 72
+    vertices: 42
+  - faces: 54
+    vertices: 33
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: BrickDebris_2
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: BrickDebris_2
+  extents:
+  - 128.0
+  - 43.52
+  - 128.0
+  origin:
+  - 25.6
+  - 58.88
+  - 15.36
+roles:
+- static_model
+source_model: models/props/debris/brickdbris_2.abc

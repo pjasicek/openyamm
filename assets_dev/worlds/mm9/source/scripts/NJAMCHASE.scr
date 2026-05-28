@@ -1,0 +1,87 @@
+;----------------------------------------------
+;NjamChase.scr
+; By Timmy
+; 1/16
+; Manager for Njam's chasing stuff
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+#include njam1000.inc
+#include basemelee.inc
+#include basedoor.inc
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;-------------------------------------
+:OnChase
+;-------------------------------------
+
+
+
+haskey 470 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+
+haskey 108 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle Njamdoor g_hobject
+	trigger g_hobject Unlock
+	;trigger door to unlock and him to go through it.
+	givekey 470
+	giveexp 226000
+	Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+	gosub Chase
+	exit
+endif
+
+
+exit
+;-------------------------------------
+:Chase
+;-------------------------------------
+
+
+getplayerhandle g_hplayer
+target g_hplayer
+Addenemy player
+
+gosub BaseInit
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+haskey 470 g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hobject
+	removeobject g_hobject
+else
+	gosub init, 1
+endif
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Chase, OnChase
+OnDamage Chase
+;Gosub Init
+gosub BaseDoorInit
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit

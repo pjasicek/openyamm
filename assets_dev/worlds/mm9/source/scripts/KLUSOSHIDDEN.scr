@@ -1,0 +1,55 @@
+;-------------------------------
+;	KlusosHidden.scr
+;	by SJR
+;	12-24-01 (yes 24)
+;	Purpose:
+;-------------------------------
+#include BaseGlobals.inc
+#include flags.inc
+
+#hobject		hBlackheart = 0
+#hobject		hMe = 0
+
+;-------------------------------
+:Main
+;-------------------------------
+	OnPostStartWorld InitKlusosHidden
+	OnPostMiniSaveLoad InitKlusosHidden
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;-------------------------------
+:CacheFiles
+;-------------------------------
+	CacheScript "baseMelee.scr"
+
+	Exit TRUE
+
+;-------------------------------
+:InitKlusosHidden
+;-------------------------------
+	GetMyHandle hMe
+
+	GetObjectHandle Blackheart, hBlackheart
+	if( hBlackheart!=0 )
+		CreateObjectLink hBlackheart
+		OnObjectLinkBroken OnObjectLinkBroken
+	endif
+
+	ClearFlag hMe, FLAG_VISIBLE
+	ClearFlag hMe, FLAG_SOLID
+
+	Exit TRUE
+
+;-------------------------------
+:OnObjectLinkBroken
+;-------------------------------
+	hBlackheart = NULL
+
+	SetFlag hMe, FLAG_VISIBLE
+	SetFlag hMe, FLAG_SOLID
+
+	RunScript "baseMelee.scr"
+
+	Exit TRUE

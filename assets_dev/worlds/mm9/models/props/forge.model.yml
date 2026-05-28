@@ -1,0 +1,65 @@
+schema: openyamm.model3d.v1
+id: forge
+model: forge.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/FORGE.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 4.023306898564917e+25
+pieces:
+- name: chimney
+  materialIndex: 0
+  lods:
+  - faces: 400
+    vertices: 223
+  - faces: 300
+    vertices: 173
+materials:
+- index: 0
+  texture: skins_preview/props/forge.png
+  runtime_texture: skins/props/forge.dtx
+  preview_texture: skins_preview/props/forge.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/FORGE.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: forge
+  durationMs: 66
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: forge
+  extents:
+  - 128.0
+  - 176.64000000000001
+  - 128.0
+  origin:
+  - 0.0
+  - 0.0
+  - 30.72
+roles:
+- static_model
+source_model: models/props/forge.abc

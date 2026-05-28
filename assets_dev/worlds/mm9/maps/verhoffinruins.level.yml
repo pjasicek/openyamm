@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: verhoffinruins
+display_name: Verhoffin Ruins
+source:
+  dat: ../source/worlds/VERHOFFINRUINS.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/VERHOFFINRUINS.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: ffa1773bd8aba56937da5bb3501f54d9a9f90e58616d442cde51b303437fb602
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: verhoffinruins.dat_world.yml
+  raw_objects: verhoffinruins.raw_objects.yml
+  materials: verhoffinruins.material_aliases.yml
+  events: verhoffinruins.events.yml
+  scene_compat: verhoffinruins.scene.yml
+  source_metadata_compat: verhoffinruins.mm9.yml
+  bsp_compat: verhoffinruins.bsp.yml
+  geometry_compat: verhoffinruins.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: verhoffinruins.blv
+scripts:
+  level: ../events/verhoffinruins.lua
+  script_ir: ../events/verhoffinruins.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

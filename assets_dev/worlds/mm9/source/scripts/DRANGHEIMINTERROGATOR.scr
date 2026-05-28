@@ -1,0 +1,306 @@
+;------------------------------------
+;	DrangheimInterrogator.scr
+;	by SJR
+;	Purpose:
+;------------------------------------
+#include BaseGlobals.inc
+#include ListTraverse.inc
+#include DrangheimHostility.inc
+
+;;hardcode these later
+#string		ANIM_SHUTCELL = "aware"
+#string		ANIM_OPENCELL = "aware"
+#string		ANIM_COMEOUT = "fidget2"
+#string		ANIM_GOBACK = "fidget1"
+
+#hobject	hWarden = 0
+#hobject	hDoorman = 0
+#hobject	hLinkBroken = 0
+
+#string		PRISONER_BASE = "InterrPrisoner"
+#string		sPrisonerName = ""
+#hobject	hPrisoner = 0
+
+#string		sTemp = ""
+#hobject	hDummy = 0
+#number		nTemp = 0
+#hobject	hMe = 0
+#number		nMyWalk = 0
+
+#number		bReturning = 0
+#number		nCounter = 0
+
+#number		DOOR_OPEN_TIME = 0
+#number		CELL_OPEN_TIME = 0
+
+;------------------------------------
+:Main
+;------------------------------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+
+	OnPostStartWorld InitDrangheimInterrogator
+	OnPostMiniSaveLoad InitDrangheimInterrogator
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;------------------------------------
+:CacheFiles
+;------------------------------------
+	CacheSound "sounds\events\BeatdownMix8bit.wav"
+
+	Exit TRUE
+
+;------------------------------------
+:InitDrangheimInterrogator
+;	setup hostility and triggers
+;------------------------------------
+	GetMyHandle hMe
+	GetStat hMe, WalkVel, nMyWalk
+	GetObjectHandle InterrWarden, hWarden
+	GetObjectHandle InterrDoorman, hDoorman
+	GetObjectHandle CellDoor13, hDummy
+	if( hDummy!=0 )
+		GetStat hDummy, DoorOpenTime, CELL_OPEN_TIME
+	endif
+	GetObjectHandle RightDoor0, hDummy
+	if( hDummy!=0 )
+		GetStat hDummy, DoorOpenTime, DOOR_OPEN_TIME
+	endif
+
+	if( hWarden!=0 )
+		CreateObjectLink hWarden
+	endif
+	if( hDoorman!=0 )
+		CreateObjectLink hDoorman
+	endif
+	OnObjectLinkBroken OnObjectLinkBroken
+
+	;;add a little grace period
+	DOOR_OPEN_TIME = DOOR_OPEN_TIME + 1
+	CELL_OPEN_TIME = CELL_OPEN_TIME + 1
+
+	gosub InitDrangheimHostility
+
+	gosub SetTraverseWalk
+	gosub SetTraversePace
+	TRAVERSERADIUS = 5
+
+	OnStuck TraverseResume
+
+	AddTrigger start, StartScript
+	AddTrigger outside, OnPrisonerOut
+	AddTrigger inside,  OnPrisonerIn
+
+	Exit TRUE
+
+;------------------------------------
+:OnObjectLinkBroken
+;------------------------------------
+	GetParam 0, hLinkBroken
+	if( hLinkBroken==hWarden )
+		hWarden = NULL
+	else
+	if( hLinkBroken==hDoorman )
+		hDoorman = NULL
+	endif
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:StartScript
+;	get all the handles, start moving
+;------------------------------------
+	RemoveTrigger start
+
+	nCounter = 0
+	bReturning = FALSE
+	LISTINDEX = LISTFIRST
+	gosub TraverseBegin
+
+	Exit TRUE
+
+;------------------------------------
+:GetNextPrisoner
+;	change cells, signal to open
+;------------------------------------
+	if( hWarden!=0 )
+		Trigger hWarden, change
+		Trigger hWarden, open
+	endif
+
+	Wait 0, CELL_OPEN_TIME, EscortNextPrisoner
+
+	Exit TRUE
+
+;------------------------------------
+:EscortNextPrisoner
+;	get prisoner, addfriend, signal exit
+;------------------------------------
+	sPrisonerName = PRISONER_BASE + nCounter
+	GetObjectHandle sPrisonerName, hPrisoner
+
+	if( hPrisoner!=0 )
+		GetClassName hPrisoner, sTemp
+		AddFriend sTemp
+		GetStat hPrisoner, WalkVel, nTemp
+		SetStat hMe, WalkVel, nTemp
+		PlayAnim ANIM_COMEOUT, OnSignalComeOut
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:OnSignalComeOut
+;	tell prisoner to leave cell
+;------------------------------------
+	if( hPrisoner!=0 )
+		Trigger hPrisoner, leave
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:OnPrisonerOut
+;	signal to shut cell
+;------------------------------------
+	PlayAnim ANIM_SHUTCELL, OnSignalShutCell
+
+	Exit TRUE
+
+;------------------------------------
+:OnSignalShutCell
+;	take prisoner to interrogation room
+;------------------------------------
+	if( hPrisoner!=0 )
+		Trigger hPrisoner, followme
+	endif
+	if( hWarden!=0 )
+		Trigger hWarden, close
+	endif
+
+	Wait 0, CELL_OPEN_TIME, TraverseResume
+
+	Exit TRUE
+
+;------------------------------------
+:OnPrisonerIn
+;	close cell, go to next prisoner
+;------------------------------------
+	if( hWarden!=0 )
+		Trigger hWarden, close
+	endif
+
+	if( nCounter==3 )
+		AddTrigger start, StartScript
+		nCounter = 0
+		SetStat hMe, WalkVel, nMyWalk
+		Exit TRUE
+	else
+		gosub TraverseResume
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:OnBeatingStart
+;	play beating sound, callback
+;------------------------------------
+	gosub TraversePause
+	PlaySound "sounds\events\BeatdownMix8bit.wav", OnBeatingDone, 1, 500, FALSE, 100
+
+	Exit TRUE
+
+;------------------------------------
+:OnBeatingDone
+;	open door, take prisoner back to cell
+;------------------------------------
+	if( hDoorman!=0 )
+		Trigger hDoorman, open
+	endif
+	bReturning = TRUE
+	Wait 0, DOOR_OPEN_TIME, TraverseResume
+
+	Exit TRUE
+
+;------------------------------------
+:OnReturned
+;	signal prisoner to return to cell
+;------------------------------------
+	PlayAnim ANIM_GOBACK, OnSignalGoBack
+
+	Exit TRUE
+
+;------------------------------------
+:OnSignalGoBack
+;	trigger return to cell
+;------------------------------------
+	if( hPrisoner!=0 )
+		Trigger hPrisoner, return
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:OnTraverseDone
+;	check where we are, do stuff accordingly
+;------------------------------------
+	if( LISTINDEX==8 )
+		gosub TraversePause
+		if( hDoorman!=0 )
+			if( bReturning==TRUE )
+				Trigger hDoorman, close
+			else
+				Trigger hDoorman, open
+			endif
+
+			Wait 0, DOOR_OPEN_TIME, TraverseResume
+		endif
+	else
+
+	if( LISTINDEX==9 )
+		if( bReturning==FALSE )
+			gosub TraversePause
+			if( hDoorman!=0 )
+				Trigger hDoorman, close
+				Wait 0, DOOR_OPEN_TIME, OnBeatingStart
+			endif
+		endif
+	else
+
+	if( LISTINDEX==nCounter )
+		gosub TraversePause
+		if( bReturning==TRUE )
+			if( hWarden!=0 )
+				nCounter = nCounter + 1
+				Trigger hWarden, open
+				Wait 0, CELL_OPEN_TIME, OnReturned
+				bReturning = FALSE
+			endif
+		else
+			gosub GetNextPrisoner
+		endif
+	else
+
+	if( LISTINDEX==LISTFIRST )
+		gosub TraversePause
+		if( hWarden!=0 )
+			FaceObject hWarden, 180, OnSignalOpenCell
+		endif
+	endif
+	endif
+	endif
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:OnSignalOpenCell
+;	wait til cell is open, get prisoner
+;------------------------------------
+	PlayAnim ANIM_OPENCELL, TraverseResume
+
+	Exit TRUE

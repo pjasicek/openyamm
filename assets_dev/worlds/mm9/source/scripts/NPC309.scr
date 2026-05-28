@@ -1,0 +1,110 @@
+;--------------------------------------------------
+;NPC309.scr
+; timmy
+; handles Tamur Leng voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub StopTamur
+
+
+exit
+
+
+;--------------------------------------------------
+:StopTamur
+;--------------------------------------------------
+;****************
+;Stop Tamur Quest
+;****************
+
+
+
+Haskey 190, g_ntemp
+if (g_ntemp==0, )
+; checks to see if they already have got the reward.
+	Haskey 106, g_ntemp
+	if (g_ntemp==1, )
+	; checks to see if they've spoken to Krohn
+
+		GiveKey 190
+		GiveExp 412000
+		AddNPC 309 g_hobject
+		getmyhandle g_hmyobject
+		clearflag g_hobject visible
+		Clearflag g_hobject Solid
+		Clearflag g_hobject gravity
+		wait 1 1 Delete
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		; gives reward
+
+		exit
+	endif
+endif
+
+exit
+
+
+;End stop tamur quest
+;******************
+exit
+
+;-------------------------------------
+:Delete
+;-------------------------------------
+		getobjecthandle Thorolf2 g_hobject
+		trigger g_hobject appear
+		removeobject g_hmyobject
+		exit
+
+;-------------------------------------
+:Vanish
+;-------------------------------------
+
+getmyhandle g_hobject
+clearflag g_hobject, visible
+clearflag g_hobject, solid
+clearflag g_hobject, gravity
+exit
+
+;-------------------------------------
+:OnAppear
+;-------------------------------------
+
+getmyhandle g_hobject
+setflag g_hobject, visible
+setflag g_hobject, solid
+setflag g_hobject, gravity
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+AddTrigger Appear OnAppear
+Gosub Vanish
+
+exit
+

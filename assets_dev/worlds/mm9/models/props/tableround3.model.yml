@@ -1,0 +1,98 @@
+schema: openyamm.model3d.v1
+id: tableround3
+model: tableround3.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/TABLEROUND3.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: TableRound_Broken
+  materialIndex: 0
+  lods:
+  - faces: 82
+    vertices: 58
+  - faces: 62
+    vertices: 48
+  - faces: 42
+    vertices: 38
+- name: Leg02
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Leg01
+  materialIndex: 0
+  lods:
+  - faces: 22
+    vertices: 16
+  - faces: 16
+    vertices: 13
+  - faces: 8
+    vertices: 9
+materials:
+- index: 0
+  texture: skins_preview/props/tableround3.png
+  runtime_texture: skins/props/tableround3.dtx
+  preview_texture: skins_preview/props/tableround3.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/TABLEROUND3.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone05
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 700
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 81.92
+  - 46.08
+  - 81.92
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/tableround3.abc

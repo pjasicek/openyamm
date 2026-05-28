@@ -1,0 +1,44 @@
+
+#include aiglobals.inc
+
+:OnTest3
+	MoveDir -1,0,0,12,36
+	exit
+
+:OnTest2
+	MoveDir 1,0,0,12,36
+
+	exit
+
+:OnTest
+
+	Rotate 0,1,0,90,90
+	Exit
+
+
+:OnTest4
+	GetParam 0, g_hObject
+
+	GetPos g_hObject, g_dirX, g_dirY, g_dirZ
+	GetPos g_hMyObject, g_posX, g_posY, g_posZ
+	VecSub g_dirX, g_dirY, g_dirZ, g_posX, g_posY, g_posZ
+	VecNorm g_dirX, g_dirY, g_dirZ
+
+;;	g_dirY = 0.75
+
+	FaceDir g_dirX, g_dirY, g_dirZ, 180
+
+
+	Exit
+
+:main
+	GetMyHandle g_hMyObject
+
+	AddTrigger Test, OnTest
+	addtrigger test2, OnTest2
+	addtrigger test3, OnTest3
+
+	AddTrigger test4, OnTest4
+	AddTrigger Use,OnTest4
+
+	exit

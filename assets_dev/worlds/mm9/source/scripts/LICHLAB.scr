@@ -1,0 +1,41 @@
+;----------------------------------------------
+;LichLab.scr
+; By Timmy
+; gives the player the Lich Promo
+; and the related key
+; Lich Instructions is item 245
+;----------------------------------------------
+
+#include globals.inc 
+
+
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+haskey 297 g_ntemp
+if (g_ntemp==0)
+	Haskey 296 g_ntemp
+	if (g_ntemp==1)
+		giveexp 10000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		;give promo here
+		givekey 297
+		exit
+	endif
+endif
+exit
+
+; note:  this just completes the quest right now. 
+; the actual lich procedure still needs to be implemented
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+
+
+exit

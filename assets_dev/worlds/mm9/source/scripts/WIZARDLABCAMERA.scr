@@ -1,0 +1,44 @@
+#include CutScene.inc
+
+;---------------------
+:Main
+;---------------------
+	GetParam 0, sLocationName
+	GetParam 1, sTargetName
+	GetParam 2, sNotifyName
+	GetParam 3, LISTFIRST
+	GetParam 4, LISTLAST
+
+	gosub InitWizardLabCamera
+
+	Exit 1
+
+;---------------------
+:InitWizardLabCamera
+;---------------------
+	AddTrigger next, SoftExit
+
+	gosub InitCutScene
+
+	Exit 1
+
+;---------------------
+:SoftExit
+;---------------------
+	RemoveTrigger next
+	AddTrigger next, StartNextScene
+
+	ScreenFadeOut 0
+
+	Wait 0, 2, SoftEntrance
+
+	Exit TRUE
+
+;---------------------
+:SoftEntrance
+;---------------------
+	gosub StartNextScene
+
+	ScreenFadeIn 2
+
+	Exit TRUE

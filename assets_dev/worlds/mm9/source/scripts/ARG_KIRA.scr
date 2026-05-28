@@ -1,0 +1,332 @@
+;----------------------------------------------
+;ARG_Kira.scr
+; By Timmy
+; handles Kira's Argument Cutscene stuff
+;
+
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#hobject g_hobject3
+
+#hobject		hSven
+#hobject		hBjarni
+#hobject		hSigmund
+#hobject		hMarkel
+#hobject		hTryygva
+#hobject		hKira
+#hobject		hForad
+
+;-------------------------------------
+:OnApplause
+;-------------------------------------
+
+playAnim Applause Init
+exit
+;-------------------------------------
+:OnDone
+;-------------------------------------
+
+loopanim Sit 0 DoNothing
+getobjecthandle Argueman g_hobject
+trigger g_hobject Done
+exit
+
+;-------------------------------------
+:OnDone2
+;-------------------------------------
+
+
+getobjecthandle Argueman g_hobject
+trigger g_hobject Done
+exit
+
+;-------------------------------------
+:OnSpeak5
+;-------------------------------------
+
+PlayAnim Sc2_KIRA5 OnIdle
+exit
+
+;-------------------------------------
+:Onclap
+;-------------------------------------
+getrandomint 1, 7 g_ntemp
+
+if (g_ntemp==1)
+	Playsound \sounds\events\clap01.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==2)
+	Playsound \sounds\events\clap02.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==3)
+	Playsound \sounds\events\clap03.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==4)
+	Playsound \sounds\events\clap04.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==5)
+	Playsound \sounds\events\clap05.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==6)
+	Playsound \sounds\events\clap06.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==7)
+	Playsound \sounds\events\clap07.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+
+exit
+
+;-------------------------------------
+:OnVoice5
+;-------------------------------------
+
+Playsound \voices\cinema\TheArgument\05.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnSpeak7
+;-------------------------------------
+
+PlayAnim Sc2_Kira7 OnIdle
+exit
+
+;-------------------------------------
+:OnVoice7
+;-------------------------------------
+
+Playsound \voices\cinema\TheArgument\07.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnSpeak10
+;-------------------------------------
+
+PlayAnim Sc2_Kira9b OnIdle
+exit
+
+;-------------------------------------
+:OnVoice10
+;-------------------------------------
+
+Playsound \voices\cinema\TheArgument\10.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnSpeak12
+;-------------------------------------
+
+PlayAnim Sc2_KIRA12 OnIdle
+exit
+
+;-------------------------------------
+:OnVoice12
+;-------------------------------------
+
+Playsound \voices\cinema\TheArgument\12.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnSpeak14
+;-------------------------------------
+
+PlayAnim Sc2_KIRA14 OnIdle
+exit
+
+;-------------------------------------
+:OnVoice14
+;-------------------------------------
+
+Playsound \voices\cinema\TheArgument\14.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnSpeak17
+;-------------------------------------
+
+;gosub OnDone2
+Playsound \voices\cinema\TheArgument\17.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnVoice19
+;-------------------------------------
+
+Playsound \voices\cinema\TheArgument\19.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnSpeak18
+;-------------------------------------
+
+;gosub OnDone2
+Playsound \voices\cinema\TheArgument\18.wav, OnDone2, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnAgree
+;-------------------------------------
+PlayAnim Agree DoNothing
+exit
+
+;-------------------------------------
+:OnSpeak19
+;-------------------------------------
+
+
+PlayAnim Sc2_Kira19 DoNothing
+exit
+
+
+;-------------------------------------
+:OnStand
+;-------------------------------------
+
+
+AttachProp kirasword.ABC KiraSword.dtx Sheath g_hobject2
+PlayAnim Sc2_KIRA16b Walk
+exit
+
+
+;-------------------------------------
+:Walk
+;-------------------------------------
+
+;Gosub OnDone2
+getobjecthandle Markel g_hobject
+target g_hobject
+getobjecthandle KiraMarker1 g_hobject
+walkto g_hobject 8 DrawSword
+exit
+
+;-------------------------------------
+:DrawSword
+;-------------------------------------
+
+
+; switch to behind Markel Cam
+;Gosub OnDone2
+PlayAnim Sc2_Kira17 Attack
+exit
+
+;-------------------------------------
+:Attack
+;-------------------------------------
+
+PlayAnim Sc2_Kira20-23 DoNothing
+exit
+
+;-------------------------------------
+:WittyRetort
+;-------------------------------------
+
+PlayAnim Sc2_Kira22 DoNothing
+wait 2 .5 ClapTrigger
+exit
+
+
+;-------------------------------------
+:ClapTrigger
+;-------------------------------------
+	getobjecthandle Sven hSven
+	getobjecthandle Bjarni hBjarni
+	getobjecthandle Sigmund hSigmund
+	getobjecthandle Tryygva hTryygva
+	getobjecthandle Forad hForad
+
+trigger hBjarni Clap
+trigger hSigmund Clap
+trigger hSven Clap
+trigger hForad Clap
+trigger htryygva clap
+exit
+
+;-------------------------------------
+:OnIdle
+;-------------------------------------
+
+loopanim Sit 0 DoNothing
+exit
+;-------------------------------------
+:Init
+;-------------------------------------
+
+loopanim Sit 0 DoNothing
+exit
+
+;-------------------------------------
+:OnAttach
+;-------------------------------------
+
+DetachProp g_hobject2, false
+removeobject g_hobject2
+AttachProp kirasword.ABC KiraSword.dtx RHand1 g_hobject3
+Playsound \sounds\events\DrawSword.wav, OnDone2, 100, 24000, FALSE, 100
+
+exit
+
+;-------------------------------------
+:OnKillMarkel
+;-------------------------------------
+
+getobjecthandle Markel g_hobject
+trigger g_hobject Kill
+exit
+
+;-------------------------------------
+:OnFootstep
+;-------------------------------------
+
+Playsound \Sounds\AnimSounds\Footsteps\Dirt1.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+AddTrigger Clap OnApplause
+AddTrigger Speak5 OnSpeak5
+AddModelKey Voice5 OnVoice5
+AddTrigger Speak7 OnSpeak7
+AddModelKey Voice7 OnVoice7
+AddTrigger Speak10 OnSpeak10
+AddModelKey Voice10 OnVoice10
+AddTrigger Speak12 OnSpeak12
+AddModelKey Voice12 OnVoice12
+AddTrigger Speak14 OnSpeak14
+AddModelKey Voice14 OnVoice14
+AddModelKey Done OnDone
+AddModelKey Done2 OnDone2
+AddModelKey Speak17 OnSpeak17
+AddTrigger Stand OnStand
+AddModelKey Attach OnAttach
+AddTrigger Speak18 OnSpeak18
+AddTrigger Speak19 OnSpeak19
+AddModelKey voice19 OnVoice19
+AddModelKey Done2 OnDone2
+AddModelKey KillMarkel OnKillMarkel
+AddModelKey Clap OnClap
+AddModelKey Witty WittyRetort
+AddTrigger Agree OnAgree
+AddModelKey Footsteps OnFootstep
+exit

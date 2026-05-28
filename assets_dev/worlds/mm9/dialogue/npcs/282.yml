@@ -1,0 +1,1605 @@
+format_version: 1
+source_file: NPC282.rude
+rows:
+  - source:
+      file: NPC282.rude
+      row: 1
+    raw_columns:
+      - 282
+      - 9
+      - 1
+      - Where is this place?
+      - It is not too far from the Monastery. Be careful. May the Gods smile upon you as you go.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 9
+      choice_slot: 1
+      prompt: Where is this place?
+      response: It is not too far from the Monastery. Be careful. May the Gods smile upon you as you go.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC282.rude
+      row: 2
+    raw_columns:
+      - 282
+      - 2
+      - 1
+      - Yes. Please tell us what you have for us.
+      - For those Crusaders who would wish to become Paladins, they must face the trials of the Three Crusades.
+      - 3
+      - 137
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 2
+      choice_slot: 1
+      prompt: Yes. Please tell us what you have for us.
+      response: For those Crusaders who would wish to become Paladins, they must face the trials of the Three Crusades.
+      next: 3
+      raw_fields:
+        c07: 137
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 137
+            qbit_id: 9137
+            state_id: mm9.keys.137
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 137
+          qbit_id: 9137
+          state_id: mm9.keys.137
+  - source:
+      file: NPC282.rude
+      row: 3
+    raw_columns:
+      - 282
+      - 5
+      - 1
+      - Yes.
+      - The first task is to save the life of a man. At this time, we have heard of a possible attempt to assassinate the Jarl of Thjorgard. He is a very important man, if he dies all hopes of a united Chedian die with him. You must save his life.
+      - 6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 5
+      choice_slot: 1
+      prompt: Yes.
+      response: The first task is to save the life of a man. At this time, we have heard of a possible attempt to assassinate the Jarl of Thjorgard. He is a very important man, if he dies all hopes of a united Chedian die with him. You must save his life.
+      next: 6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 6
+  - source:
+      file: NPC282.rude
+      row: 4
+    raw_columns:
+      - 282
+      - 11
+      - 1
+      - Alright, what are the other crusades?
+      - The other crusades are that you must damn a family, and then you must save them.
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 11
+      choice_slot: 1
+      prompt: Alright, what are the other crusades?
+      response: The other crusades are that you must damn a family, and then you must save them.
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+  - source:
+      file: NPC282.rude
+      row: 5
+    raw_columns:
+      - 282
+      - 7
+      - 1
+      - What? That's terrible!
+      - The life of a Paladin is made of very difficult decisions. You must prove that you have the power to do the right thing, even when it's not the best thing to do.
+      - 8
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 7
+      choice_slot: 1
+      prompt: What? That's terrible!
+      response: The life of a Paladin is made of very difficult decisions. You must prove that you have the power to do the right thing, even when it's not the best thing to do.
+      next: 8
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 8
+  - source:
+      file: NPC282.rude
+      row: 6
+    raw_columns:
+      - 282
+      - 282
+      - 1
+      - Do you have any interesting tasks for a party of adventurers?
+      - Well, I have many tasks for any among you who are Crusaders. Are there any among your party?
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2080
+      - 0
+      - 0
+      - 0
+      - 0
+      - 153
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 282
+      choice_slot: 1
+      prompt: Do you have any interesting tasks for a party of adventurers?
+      response: Well, I have many tasks for any among you who are Crusaders. Are there any among your party?
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2080
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 153
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2080
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 153
+        status: raw_value_preserved
+  - source:
+      file: NPC282.rude
+      row: 7
+    raw_columns:
+      - 282
+      - 4
+      - 1
+      - What other methods?
+      - A crusader who wishes to go through the three crusades is on the path of the true Holy Warrior. All three tasks must be completed and then you must return here to receive the blessings of the Gods. Would you like to hear the first task?
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 4
+      choice_slot: 1
+      prompt: What other methods?
+      response: A crusader who wishes to go through the three crusades is on the path of the true Holy Warrior. All three tasks must be completed and then you must return here to receive the blessings of the Gods. Would you like to hear the first task?
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC282.rude
+      row: 8
+    raw_columns:
+      - 282
+      - 998
+      - 1
+      - Thank you.
+      - blank
+      - -14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 998
+      choice_slot: 1
+      prompt: Thank you.
+      response: blank
+      next: -14
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -14
+        service: quest_handoff
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -14
+        service: quest_handoff
+        status: typed_pending_exact_runtime_behavior
+  - source:
+      file: NPC282.rude
+      row: 9
+    raw_columns:
+      - 282
+      - 10
+      - 1
+      - Do you have any news?
+      - I hear the abbot of the monastery is looking for someone to do a task for him.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 10
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I hear the abbot of the monastery is looking for someone to do a task for him.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC282.rude
+      row: 10
+    raw_columns:
+      - 282
+      - 15
+      - 1
+      - We will do this.
+      - Good luck!
+      - 998
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 153
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 15
+      choice_slot: 1
+      prompt: We will do this.
+      response: Good luck!
+      next: 998
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 153
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 998
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 153
+        status: raw_value_preserved
+  - source:
+      file: NPC282.rude
+      row: 11
+    raw_columns:
+      - 282
+      - 20
+      - 1
+      - Thank you.
+      - Good luck out there, brothers.  Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 236
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 20
+      choice_slot: 1
+      prompt: Thank you.
+      response: Good luck out there, brothers.  Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 236
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 236
+        status: raw_value_preserved
+  - source:
+      file: NPC282.rude
+      row: 12
+    raw_columns:
+      - 282
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC282.rude
+      row: 13
+    raw_columns:
+      - 282
+      - 8
+      - 1
+      - What family do I have to ruin?
+      - You will know when the time has come. Perhaps you should consult with the clerks in the Town Halls of Chedian.  They may know of a troubled family.  Have strength candidates, you will need it.
+      - 15
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 8
+      choice_slot: 1
+      prompt: What family do I have to ruin?
+      response: You will know when the time has come. Perhaps you should consult with the clerks in the Town Halls of Chedian.  They may know of a troubled family.  Have strength candidates, you will need it.
+      next: 15
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+  - source:
+      file: NPC282.rude
+      row: 14
+    raw_columns:
+      - 282
+      - 282
+      - 2
+      - We'd like to ask you some questions.
+      - Very well.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 282
+      choice_slot: 2
+      prompt: We'd like to ask you some questions.
+      response: Very well.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC282.rude
+      row: 15
+    raw_columns:
+      - 282
+      - 10
+      - 2
+      - What do you know about adventuring?
+      - Do not be drawn to the easy path.  For true enlightenment comes through trials.  Face the trials with courage, honor, and nobility, and you shall come out rewarded.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 10
+      choice_slot: 2
+      prompt: What do you know about adventuring?
+      response: Do not be drawn to the easy path.  For true enlightenment comes through trials.  Face the trials with courage, honor, and nobility, and you shall come out rewarded.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC282.rude
+      row: 16
+    raw_columns:
+      - 282
+      - 6
+      - 2
+      - How are we going to do that?
+      - Take this letter.  It is all we have to go on right now.  We found it on the body of a dying raider.  He claimed to only be the messenger.  When we asked him where he was going, he only laughed.  We can only assume he was headed to Thjorgard.
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 228
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 6
+      choice_slot: 2
+      prompt: How are we going to do that?
+      response: Take this letter.  It is all we have to go on right now.  We found it on the body of a dying raider.  He claimed to only be the messenger.  When we asked him where he was going, he only laughed.  We can only assume he was headed to Thjorgard.
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 228
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 228
+        status: raw_value_preserved
+  - source:
+      file: NPC282.rude
+      row: 17
+    raw_columns:
+      - 282
+      - 3
+      - 2
+      - Tell us of the Three Crusades.
+      - A Crusader who wishes to go through the Three Crusades is on the path of the true Holy Warrior. All three tasks must be completed and then you must return here to receive the blessings of the Gods. Would you like to hear the first task?
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 3
+      choice_slot: 2
+      prompt: Tell us of the Three Crusades.
+      response: A Crusader who wishes to go through the Three Crusades is on the path of the true Holy Warrior. All three tasks must be completed and then you must return here to receive the blessings of the Gods. Would you like to hear the first task?
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC282.rude
+      row: 18
+    raw_columns:
+      - 282
+      - 2
+      - 2
+      - No. There are no Crusaders in our group
+      - Well, if you ever need to hear of them, I will be here to help you. Go with the gods.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 2
+      choice_slot: 2
+      prompt: No. There are no Crusaders in our group
+      response: Well, if you ever need to hear of them, I will be here to help you. Go with the gods.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC282.rude
+      row: 19
+    raw_columns:
+      - 282
+      - 282
+      - 3
+      - We have completed our Crusades.
+      - You wear the experience on your faces like badges of honor.  I can tell already you will do the order proud.  It gives me great pleasure to promote you to Paladins!
+      - 20
+      - 157
+      - 0
+      - 235
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 236
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 282
+      choice_slot: 3
+      prompt: We have completed our Crusades.
+      response: You wear the experience on your faces like badges of honor.  I can tell already you will do the order proud.  It gives me great pleasure to promote you to Paladins!
+      next: 20
+      raw_fields:
+        c07: 157
+        c08: 0
+        c09: 235
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 236
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 20
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 157
+            qbit_id: 9157
+            state_id: mm9.keys.157
+          - column: c09
+            raw_id: 235
+            qbit_id: 9235
+            state_id: mm9.keys.235
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 157
+          qbit_id: 9157
+          state_id: mm9.keys.157
+        - domain: mm9.keys
+          raw_id: 235
+          qbit_id: 9235
+          state_id: mm9.keys.235
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 236
+        status: raw_value_preserved
+  - source:
+      file: NPC282.rude
+      row: 20
+    raw_columns:
+      - 282
+      - 10
+      - 3
+      - What do you know about  the Gauntlet of Fire?
+      - The Gauntlet of Fire is an ancient place. Built before the great cataclysm to test the heart of the candidates for the rank of Paladin. We have other methods for that now.  The Gauntlet of Fire has been lost to time.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 10
+      choice_slot: 3
+      prompt: What do you know about  the Gauntlet of Fire?
+      response: The Gauntlet of Fire is an ancient place. Built before the great cataclysm to test the heart of the candidates for the rank of Paladin. We have other methods for that now.  The Gauntlet of Fire has been lost to time.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC282.rude
+      row: 21
+    raw_columns:
+      - 282
+      - 282
+      - 5
+      - No thank you sir, sorry to have bothered you.
+      - No need to apologize.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 282
+      choice_slot: 5
+      prompt: No thank you sir, sorry to have bothered you.
+      response: No need to apologize.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC282.rude
+      row: 22
+    raw_columns:
+      - 282
+      - 10
+      - 7
+      - Thanks for your time.
+      - Farewell.  May the gods smile upon you.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 282
+      node_id: 10
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Farewell.  May the gods smile upon you.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

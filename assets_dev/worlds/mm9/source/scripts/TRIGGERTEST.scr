@@ -1,0 +1,13 @@
+#hobject h=0
+:Main
+	AddTrigger Message, OnMessage
+	Exit 1
+
+:OnMessage
+	GetObjectHandle TriggerB, h
+	cprint Real TriggerB =
+	cprint h
+	GetParam 0, h
+	cprint GetParam =
+	cprint h
+	Exit 1

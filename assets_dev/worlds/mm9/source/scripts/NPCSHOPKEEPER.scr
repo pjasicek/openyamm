@@ -1,0 +1,53 @@
+;--------------------------------------------------
+;shopkeeper.scr
+; timmy
+; handles shopkeeper voice and anims
+;--------------------------------------------------
+
+#include globals.inc
+#include BaseWander.inc
+
+#String    Params          
+#String    sound
+
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound sound, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+GetParam 0, sound
+GetParam 1, Params
+GetParam 2, g_ntemp
+LoopAnim Params,g_ntemp DoNothing
+
+
+Addtrigger Use, OnUse
+
+; jsl-->Wander if we're setup to..
+gosub BaseWanderInit
+
+exit
+

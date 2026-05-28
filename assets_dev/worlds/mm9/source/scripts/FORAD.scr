@@ -1,0 +1,185 @@
+;----------------------------------------------
+;forad.scr
+; By Timmy
+; handles forad's stuff
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+#Include BaseWander.inc
+#include BaseMelee.inc
+
+#number			bTalking
+#string			sForad
+#number			bHostile = FALSE
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+haskey 480 g_ntemp
+if (g_ntemp==FALSE)
+	givekey 480
+	giveexp 800
+	Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+endif
+
+	Set bTalking, TRUE
+	Stop
+	Gosub BasewanderStop
+	getparam 0 g_hobject
+	FaceObject g_hobject 200 DoNothing
+;	DoRude 2
+	playanim bow DoNothing	
+;	Playsound voices\NPC\NPC_002.wav, Onexit, 100, 24000, FALSE, 100
+exit
+
+
+
+;-------------------------------------
+:OnRude
+;-------------------------------------
+
+
+haskey 104 g_ntemp
+if (g_ntemp==TRUE)
+	OnFoundPlayer
+	gosub BaseInit
+	set bHostile, TRUE
+	exit
+endif
+gosub Forad
+exit
+
+;-------------------------------------
+:Forad
+; forad joins the party
+;-------------------------------------
+
+
+
+; XP
+
+haskey 368 g_ntemp
+if (g_ntemp==FALSE)
+	giveexp 4000
+	Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+	givekey 368
+endif
+
+
+set bTalking, false
+Haskey 29 g_ntemp
+if (g_ntemp==TRUE)
+;	Playsound voices\NPC\NPC_002.wav, Onexit, 100, 24000, FALSE, 100
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+
+exit
+;-------------------------------------
+:Onexit
+;-------------------------------------
+
+exit
+
+
+
+;-------------------------------------
+:DeleteCheck
+;-------------------------------------
+
+
+
+Haskey 29 g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+
+exit
+
+;-------------------------------------
+:Vanish
+;-------------------------------------
+
+getmyhandle g_hobject
+clearflag g_hobject, visible
+clearflag g_hobject, solid
+clearflag g_hobject, gravity
+exit
+
+;-------------------------------------
+:OnAppear
+;-------------------------------------
+
+getmyhandle g_hobject
+setflag g_hobject, visible
+setflag g_hobject, solid
+setflag g_hobject, gravity
+OnFoundPlayer OnTarget 256
+exit
+
+;-------------------------------------
+:OnTarget
+;-------------------------------------
+
+if (bTalking==TRUE)
+	exit
+endif
+
+getparam 0 g_hplayer
+target g_hplayer
+OnTargetWithinDist 16 Talk
+exit
+
+;--------------------------------------------------
+:OnDeath
+;--------------------------------------------------
+
+
+haskey 494 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+		GiveExp 194000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+		gosub OnDeath, 1
+		Givekey 494
+		exit
+
+;--------------------------------------------------
+:Talk
+;--------------------------------------------------
+
+stop
+set bTalking, TRUE
+DoRude 2
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+
+;TraceOn ;delete me!!
+OnRudeExit OnRude
+AddTrigger Use, OnUse
+AddTrigger Appear OnAppear
+getparam 0 sForad
+if (sForad!=HATE)
+	Gosub DeleteCheck
+else
+	gosub Vanish
+endif
+
+exit

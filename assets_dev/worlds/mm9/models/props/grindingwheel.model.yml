@@ -1,0 +1,309 @@
+schema: openyamm.model3d.v1
+id: grindingwheel
+model: grindingwheel.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/GRINDINGWHEEL.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 4.023306898564917e+25
+pieces:
+- name: stone
+  materialIndex: 0
+  lods:
+  - faces: 68
+    vertices: 42
+  - faces: 48
+    vertices: 32
+- name: gear
+  materialIndex: 0
+  lods:
+  - faces: 33
+    vertices: 21
+  - faces: 21
+    vertices: 15
+- name: pedal
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+- name: rope
+  materialIndex: 0
+  lods:
+  - faces: 6
+    vertices: 6
+  - faces: 6
+    vertices: 6
+- name: rope01
+  materialIndex: 0
+  lods:
+  - faces: 6
+    vertices: 6
+  - faces: 6
+    vertices: 6
+- name: peg
+  materialIndex: 0
+  lods:
+  - faces: 9
+    vertices: 7
+  - faces: 7
+    vertices: 6
+- name: bar
+  materialIndex: 0
+  lods:
+  - faces: 6
+    vertices: 6
+  - faces: 6
+    vertices: 6
+- name: leg01
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 18
+  - faces: 22
+    vertices: 15
+- name: leg
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 18
+  - faces: 22
+    vertices: 15
+materials:
+- index: 0
+  texture: skins_preview/props/grindingwheel.png
+  runtime_texture: skins/props/grindingwheel.dtx
+  preview_texture: skins_preview/props/grindingwheel.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/GRINDINGWHEEL.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 10
+    - 17
+    - 21
+    - 25
+  - index: 1
+    name: Spot01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 2
+    name: Spot01.Target
+    parent: 0
+    flags: 0
+    children: []
+  - index: 3
+    name: Spot02
+    parent: 0
+    flags: 0
+    children: []
+  - index: 4
+    name: Spot02.Target
+    parent: 0
+    flags: 0
+    children: []
+  - index: 5
+    name: Omni01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 6
+    name: Xwheel
+    parent: 0
+    flags: 0
+    children:
+    - 7
+    - 9
+  - index: 7
+    name: Bone02
+    parent: 6
+    flags: 0
+    children:
+    - 8
+  - index: 8
+    name: Bone03
+    parent: 7
+    flags: 0
+    children: []
+  - index: 9
+    name: stone
+    parent: 6
+    flags: 0
+    children: []
+  - index: 10
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 11
+    - 15
+    - 16
+  - index: 11
+    name: Bone04
+    parent: 10
+    flags: 0
+    children:
+    - 12
+  - index: 12
+    name: Bone05
+    parent: 11
+    flags: 0
+    children:
+    - 13
+  - index: 13
+    name: Bone06
+    parent: 12
+    flags: 0
+    children:
+    - 14
+  - index: 14
+    name: Bone07
+    parent: 13
+    flags: 0
+    children: []
+  - index: 15
+    name: gear
+    parent: 10
+    flags: 0
+    children: []
+  - index: 16
+    name: pedal
+    parent: 10
+    flags: 0
+    children: []
+  - index: 17
+    name: Bone08
+    parent: 0
+    flags: 0
+    children:
+    - 18
+    - 20
+  - index: 18
+    name: Bone09
+    parent: 17
+    flags: 0
+    children:
+    - 19
+  - index: 19
+    name: Bone10
+    parent: 18
+    flags: 0
+    children: []
+  - index: 20
+    name: rope
+    parent: 17
+    flags: 0
+    children: []
+  - index: 21
+    name: Bone11
+    parent: 0
+    flags: 0
+    children:
+    - 22
+    - 24
+  - index: 22
+    name: Bone12
+    parent: 21
+    flags: 0
+    children:
+    - 23
+  - index: 23
+    name: Bone13
+    parent: 22
+    flags: 0
+    children: []
+  - index: 24
+    name: rope01
+    parent: 21
+    flags: 0
+    children: []
+  - index: 25
+    name: Bone14
+    parent: 0
+    flags: 0
+    children:
+    - 26
+    - 27
+    - 28
+    - 29
+    - 30
+  - index: 26
+    name: Bone15
+    parent: 25
+    flags: 0
+    children: []
+  - index: 27
+    name: peg
+    parent: 25
+    flags: 0
+    children: []
+  - index: 28
+    name: bar
+    parent: 25
+    flags: 0
+    children: []
+  - index: 29
+    name: leg01
+    parent: 25
+    flags: 0
+    children: []
+  - index: 30
+    name: leg
+    parent: 25
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: static_model
+  durationMs: 1
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Spin
+  durationMs: 700
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: static_model
+  extents:
+  - 40.96
+  - 46.08
+  - 40.96
+  origin:
+  - 0.0
+  - 23.04
+  - 0.0
+- name: Spin
+  extents:
+  - 40.96
+  - 46.08
+  - 40.96
+  origin:
+  - 0.0
+  - 23.04
+  - 0.0
+roles:
+- static_model
+source_model: models/props/grindingwheel.abc

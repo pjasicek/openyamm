@@ -1,0 +1,34 @@
+;--------------------------------------------------
+;Orb.scr
+; timmy
+; handles checking to see if the party got 6 orbs of linking.
+;
+
+;--------------------------------------------------
+
+#include globals.inc
+
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+getobjecthandle Orb g_hobject
+trigger g_hobject Placed
+exit
+
+
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon  ; delete me
+
+Addtrigger Use OnUse
+exit
+

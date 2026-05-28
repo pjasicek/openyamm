@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: beethoven
+display_name: Beet Hoven
+source:
+  dat: ../source/worlds/BEETHOVEN.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/BEETHOVEN.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: e6b9174e058752c0d55d4bce00115fe3f96212912e449b9f8a0f3bb45db5d0f0
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: beethoven.dat_world.yml
+  raw_objects: beethoven.raw_objects.yml
+  materials: beethoven.material_aliases.yml
+  events: beethoven.events.yml
+  scene_compat: beethoven.scene.yml
+  source_metadata_compat: beethoven.mm9.yml
+  bsp_compat: beethoven.bsp.yml
+  geometry_compat: beethoven.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: beethoven.blv
+scripts:
+  level: ../events/beethoven.lua
+  script_ir: ../events/beethoven.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

@@ -1,0 +1,61 @@
+;------------------------------------------------------------------
+;	SpawnCreature.scr
+;	by SJR
+;	09-21-01
+;	Purpose:Used in conjunction with SpawnMgr.scr
+;			to continuously spawn out of sight w/ a limit
+;
+;	Will run to "SpawnRally" or player if it does not exist
+;------------------------------------------------------------------
+#include baseMelee.inc
+
+#hobject	hSpawnMgr = 0
+#hobject	hRally = 0
+
+;-------------------
+:Main
+;-------------------
+	Wait 0, .1, InitSpawnCreature
+
+	Exit TRUE
+
+;-------------------
+:InitSpawnCreature
+;-------------------
+	SetPropNumber CheckForAIBarriers, TRUE
+	SetPropNumber CheckForCliffs, TRUE
+
+	GetObjectHandle SpawnMgr, hSpawnMgr
+	GetObjectHandle SpawnRally, hRally
+
+	gosub BaseInit
+
+	;;message Mgr when dead
+	OnDeath OnDeath
+
+	if( hRally==0 )
+		GetPlayerHandle g_hTarget
+		gosub SetupTarget
+		gosub AggressiveStart
+	else
+		RunTo hRally, 10, DoNothing
+	endif
+
+	Exit TRUE
+
+;-------------------
+:OnDeath
+;	when dead, notify Mgr for respawn
+;-------------------
+	if( hSpawnMgr!=0 )
+		Trigger hSpawnMgr, Respawn
+	endif
+
+	Exit TRUE
+
+
+
+
+
+
+

@@ -1,0 +1,56 @@
+;--------------------------------------------------
+;arguetreaty.scr
+;1/5/02
+; timmy
+; does battlefield camera
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#string		sMarker
+#number		nSpeed
+#number		nBook
+
+#number		Xpos
+#number		Ypos
+#number		Zpos
+
+#number		MyX
+#number		MyY
+#Number		MyZ
+
+;--------------------------------------------------
+
+
+;--------------------------------------------------
+:OnPlay
+;--------------------------------------------------
+
+
+
+Getobjecthandle sMarker g_hobject
+getpos g_hobject Xpos Ypos Zpos
+MoveToPos xpos Ypos Zpos nSpeed DoNothing
+exit
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+LoopAnim Down 0 DoNothing
+exit
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Play OnPlay 
+Getparam 0 sMarker
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+
+

@@ -1,0 +1,729 @@
+format_version: 1
+source_file: NPC215.rude
+rows:
+  - source:
+      file: NPC215.rude
+      row: 1
+    raw_columns:
+      - 215
+      - 999
+      - 1
+      - Goodbye.
+      - adsf
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 215
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: adsf
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC215.rude
+      row: 2
+    raw_columns:
+      - 215
+      - 11
+      - 1
+      - Thanks for the tip.
+      - I'll have the barrel sent right over!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 215
+      node_id: 11
+      choice_slot: 1
+      prompt: Thanks for the tip.
+      response: I'll have the barrel sent right over!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC215.rude
+      row: 3
+    raw_columns:
+      - 215
+      - 10
+      - 1
+      - On the ice just outside the dock.
+      - "On the ice?  Okay, but here's some advice:  If you're planning a special show, the sunflowers shine the brightest at night."
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 215
+      node_id: 10
+      choice_slot: 1
+      prompt: On the ice just outside the dock.
+      response: "On the ice?  Okay, but here's some advice:  If you're planning a special show, the sunflowers shine the brightest at night."
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC215.rude
+      row: 4
+    raw_columns:
+      - 215
+      - 215
+      - 1
+      - What do you do all the way out here?
+      - I make sunflowers!  They're barrels of magic powder that explode when you shoot them!  I have a demonstration rigged up if you would like to see one!  Just go ahead and shoot that barrel.
+      - 215
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1021
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 215
+      node_id: 215
+      choice_slot: 1
+      prompt: What do you do all the way out here?
+      response: I make sunflowers!  They're barrels of magic powder that explode when you shoot them!  I have a demonstration rigged up if you would like to see one!  Just go ahead and shoot that barrel.
+      next: 215
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 1021
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 215
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 1021
+        status: raw_value_preserved
+  - source:
+      file: NPC215.rude
+      row: 5
+    raw_columns:
+      - 215
+      - 1
+      - 1
+      - Do you have any news?
+      - Watch out for your children!  The Frost Giant that lives in the sky will come down at night and eat them!  It happened to me!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 215
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: Watch out for your children!  The Frost Giant that lives in the sky will come down at night and eat them!  It happened to me!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC215.rude
+      row: 6
+    raw_columns:
+      - 215
+      - 215
+      - 2
+      - Say, you wouldn't mind making a delivery would you?
+      - Certainly!  Where would you like it delivered?
+      - 10
+      - 71
+      - 0
+      - 1021
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1022
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 215
+      node_id: 215
+      choice_slot: 2
+      prompt: Say, you wouldn't mind making a delivery would you?
+      response: Certainly!  Where would you like it delivered?
+      next: 10
+      raw_fields:
+        c07: 71
+        c08: 0
+        c09: 1021
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 1022
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 71
+            qbit_id: 9071
+            state_id: mm9.keys.71
+          - column: c09
+            raw_id: 1021
+            qbit_id: 10021
+            state_id: mm9.keys.1021
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 71
+          qbit_id: 9071
+          state_id: mm9.keys.71
+        - domain: mm9.keys
+          raw_id: 1021
+          qbit_id: 10021
+          state_id: mm9.keys.1021
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 1022
+        status: raw_value_preserved
+  - source:
+      file: NPC215.rude
+      row: 7
+    raw_columns:
+      - 215
+      - 1
+      - 2
+      - What do you know about the Frost Giant?
+      - Watch out for him.  He can't be killed.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 215
+      node_id: 1
+      choice_slot: 2
+      prompt: What do you know about the Frost Giant?
+      response: Watch out for him.  He can't be killed.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC215.rude
+      row: 8
+    raw_columns:
+      - 215
+      - 215
+      - 3
+      - We'd like to ask you some questions.
+      - Okay
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 215
+      node_id: 215
+      choice_slot: 3
+      prompt: We'd like to ask you some questions.
+      response: Okay
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC215.rude
+      row: 9
+    raw_columns:
+      - 215
+      - 215
+      - 4
+      - Sorry to bother you.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 215
+      node_id: 215
+      choice_slot: 4
+      prompt: Sorry to bother you.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC215.rude
+      row: 10
+    raw_columns:
+      - 215
+      - 1
+      - 7
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 215
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

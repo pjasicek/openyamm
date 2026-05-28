@@ -1,0 +1,87 @@
+;--------------------------------------------------
+;Blackheart.scr
+;12/20
+; timmy
+; gives party specific item
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#number			Item_ID
+#number			nGiveOnce = FALSE
+
+
+
+
+
+; Parameters
+;P0 Item number of item to give
+
+
+;--------------------------------------------------
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+
+
+
+
+		giveitem 29
+		getmyhandle g_hmyobject
+		removeobject g_hmyobject
+		givekey 223
+
+;;;SJR(alarm sound)
+PlaySound "sounds\events\alarmbell.wav", DoNothing, 1, 5000, FALSE, 100
+;;;endSJR
+
+		exit
+
+
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+
+ 
+
+
+Haskey 223 g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+exit
+
+;;;SJR(cache routine)
+;--------------------------------------------------
+:CacheFiles
+;--------------------------------------------------
+	CacheSound "sounds\events\alarmbell.wav"
+
+	Exit TRUE
+;;;endSJR
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Use OnUse
+
+;;;SJR(cache the sound)
+OnCacheFiles CacheFiles
+;;;endSJR
+
+wait 1 1 Init
+
+exit
+
+

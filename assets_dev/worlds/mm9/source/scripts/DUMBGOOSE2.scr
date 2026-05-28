@@ -1,0 +1,67 @@
+;-----------------------------------
+;	DumbGoose2.scr
+;	by SJR
+;	10-08-01
+;	Foyer Goose stuff
+;-----------------------------------
+#include HonkHostility.inc
+
+
+
+;-------------------------------
+:TurnHostilityOn
+;
+; overloaded so dumb goose death
+; won't set of Hostility
+;-------------------------------
+
+	getmyhandle g_hmyobject
+	g_ntemp = 10
+	setstat g_hmyobject HitPoints g_ntemp
+	g_ntemp = 1
+	getstat g_hmyobject AC g_ntemp
+
+	gosub BecomeHostile
+
+	Exit 
+
+;-----------------------------------
+:Main
+;-----------------------------------
+;;	OnPostStartWorld InitDumbGoose
+Wait 0, 5, InitDumbGoose
+
+	Exit 1
+
+;-----------------------------------
+:InitDumbGoose
+;-----------------------------------
+
+
+
+	GetMyHandle g_hMyObject
+	GetStat g_hMyObject, RunVel, g_nTemp
+	SetStat g_hMyObject, RunVel, g_nTemp
+	SetStat g_hMyObject, WalkVel, g_nTemp
+
+	gosub InitHonkHostility
+
+	gosub RunLoop
+
+	Exit 1
+
+
+
+
+;-----------------------------------
+:RunLoop
+;-----------------------------------
+	GetRandomInt -5000, 5000, g_nTemp
+
+	RunToPOS g_nTemp, g_nTemp, g_nTemp
+
+
+
+	Wait 0, 2, RunLoop
+
+	Exit TRUE

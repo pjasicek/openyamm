@@ -1,0 +1,25 @@
+;--------------------------------------------------
+;Guardsounds.scr
+; timmy
+; 10/30
+; randomizes guard idle sounds.
+;--------------------------------------------------
+
+#include globals.inc
+#include Basemelee.scr
+#include guardsounds.inc
+         
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+
+
+	gosub BaseInit
+	gosub GS_Init
+
+
+exit
+

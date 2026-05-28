@@ -1,0 +1,76 @@
+schema: openyamm.model3d.v1
+id: axe
+model: axe.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROJECTILES/AXE.abc
+  commandString: NoAnimation; FadeRangeMax3000; FadeRangeMin 2500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: magneticax
+  materialIndex: 0
+  lods:
+  - faces: 142
+    vertices: 284
+materials:
+- index: 0
+  texture: skins_preview/projectiles/axe.png
+  runtime_texture: skins/projectiles/axe.dtx
+  preview_texture: skins_preview/projectiles/axe.png
+  source: mm9/extracted/SKINS/SKINS/PROJECTILES/AXE.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: magnetic
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 0
+  events: []
+- name: pose
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 0
+  events: []
+animationBindings:
+- name: magnetic
+  extents:
+  - 2.56
+  - 33.28
+  - 15.36
+  origin:
+  - 0.0
+  - -15.36
+  - 0.0
+- name: pose
+  extents:
+  - 2.56
+  - 33.28
+  - 15.36
+  origin:
+  - 0.0
+  - -7.68
+  - -7.68
+roles:
+- static_model
+source_model: models/projectiles/axe.abc

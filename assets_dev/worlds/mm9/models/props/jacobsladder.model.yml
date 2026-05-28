@@ -1,0 +1,119 @@
+schema: openyamm.model3d.v1
+id: jacobsladder
+model: jacobsladder.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/JACOBSLADDER.abc
+  commandString: FadeRangeMax 2000; FadeRageMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: d_Bolt
+  materialIndex: 0
+  lods:
+  - faces: 32
+    vertices: 18
+  - faces: 14
+    vertices: 9
+  - faces: 8
+    vertices: 6
+- name: Mechanism
+  materialIndex: 0
+  lods:
+  - faces: 118
+    vertices: 79
+  - faces: 98
+    vertices: 69
+  - faces: 68
+    vertices: 54
+materials:
+- index: 0
+  texture: skins_preview/props/jacobsladder.png
+  runtime_texture: skins/props/jacobsladder.dtx
+  preview_texture: skins_preview/props/jacobsladder.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/JACOBSLADDER.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+  - index: 1
+    name: Bone05
+    parent: 0
+    flags: 0
+    children:
+    - 2
+    - 8
+  - index: 2
+    name: Bone06
+    parent: 1
+    flags: 0
+    children:
+    - 3
+  - index: 3
+    name: Bone01
+    parent: 2
+    flags: 0
+    children:
+    - 4
+    - 7
+  - index: 4
+    name: Bone02
+    parent: 3
+    flags: 0
+    children:
+    - 5
+  - index: 5
+    name: Bone03
+    parent: 4
+    flags: 0
+    children:
+    - 6
+  - index: 6
+    name: Bone04
+    parent: 5
+    flags: 0
+    children: []
+  - index: 7
+    name: d_Bolt
+    parent: 3
+    flags: 0
+    children: []
+  - index: 8
+    name: Mechanism
+    parent: 1
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: JacobsLadder
+  durationMs: 2033
+  keyframes: 8
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: JacobsLadder
+  extents:
+  - 30.72
+  - 122.88
+  - 64.0
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/jacobsladder.abc

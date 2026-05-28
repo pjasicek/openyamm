@@ -1,0 +1,88 @@
+;----------------------------------------------
+;Atlipromo.scr
+; By Timmy
+;
+; handles the guard behavior!
+;
+; Thorfinn's RudeID is 240
+; Atli's RudeID is 186
+; key 125 = player has got Atli
+; Key 126 = player has taken atli where he belongs
+; key 127 = player has completed the quest
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+#number							nHour
+#Number							nMinute
+
+;-------------------------------------
+:OnLeave
+;-------------------------------------
+
+haskey 376 g_ntemp
+if (g_ntemp==TRUE)
+		haskey 125 g_ntemp
+		if (g_ntemp==1, )
+			givekey 197
+			getobjecthandle AtliMarker g_hobject
+			walkto g_hobject 64 DoNothing
+			exit
+		endif
+	
+endif
+	exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+OnfoundPlayer OnLeave
+
+Haskey 197 g_ntemp
+if (g_ntemp==1, )
+	getMyhandle G_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+exit
+
+;-------------------------------------
+:Givekey
+;-------------------------------------
+
+givekey 376
+exit
+
+;-------------------------------------
+:TakeKey
+;-------------------------------------
+
+takekey 376
+exit
+;-------------------------------------
+:OnReturn
+;-------------------------------------
+
+getobjecthandle Atlimarker0 g_hobject
+walkto g_hobject 256 DoNothing
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+
+
+AddTrigger Return OnReturn
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .5 Init
+@m 2 : 45 givekey givekey
+@m 3 : 15 takekey takekey
+exit

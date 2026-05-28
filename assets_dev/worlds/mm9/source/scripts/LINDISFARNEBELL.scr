@@ -1,0 +1,141 @@
+;--------------------------------------------------
+;LLindisfarneBell.scr
+; timmy
+; rings bell for Lindisfarne Bells
+;--------------------------------------------------
+
+#include globals.inc
+
+#String    Params          
+#number    Counter
+#number		innerRadius = 200
+#number		outerRadius = 1000
+#number		BellSound
+#String		Bell_Note
+#String		Bell_Trigger
+
+;Parameters
+;P0  inner radius
+;p1  outer radius
+
+
+;--------------------------------------------------
+:DoNothing
+;--------------------------------------------------
+	Exit
+
+;--------------------------------------------------
+:StopDone
+;--------------------------------------------------
+
+	Set Counter, 0
+	haskey 9507 g_ntemp
+	if (g_ntemp==0)
+		Trigger g_hobject Bell_Trigger
+		Exit
+	endif
+	exit
+
+;--------------------------------------------------
+:RingDone
+;--------------------------------------------------
+
+  PlayAnim Stop
+  Wait 1,3,StopDone
+  Exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+
+	if ( counter==0 )
+		Add Counter, 1
+		PlayAnim Ring, RingDone
+		GetObjectHandle BellControl g_hobject
+
+		Wait 1, 3, DoNothing
+		exit
+	endif
+;endif
+
+Exit
+
+
+;--------------------------------------------------
+:OnBellBing
+;--------------------------------------------------
+	PlaySound Bell_Note, DoNothing, innerRadius, outerRadius, FALSE, 100
+
+	Exit
+
+;--------------------------------------------------
+:OnBellBong
+;--------------------------------------------------
+	PlaySound Bell_Note, DoNothing, innerRadius, outerRadius, FALSE, 100
+
+	Exit
+
+;--------------------------------------------------
+:BellSound
+;--------------------------------------------------
+
+if (BellSound==1)
+	Set Bell_Note Sounds\Events\churchbellring.wav
+	Set Bell_Trigger Bell1
+	exit
+endif
+
+if (BellSound==2)
+	Set Bell_Note Sounds\Events\churchbellring2.wav
+	Set Bell_Trigger Bell2
+	exit
+endif
+
+
+if (BellSound==3)
+	Set Bell_Note Sounds\Events\churchbellring3.wav
+	Set Bell_Trigger Bell3
+	exit
+endif
+
+
+if (BellSound==4)
+	Set Bell_Note Sounds\Events\churchbellring4.wav
+	Set Bell_Trigger Bell4
+	exit
+endif
+
+
+if (BellSound==5)
+	Set Bell_Note Sounds\Events\churchbellring5.wav
+	Set Bell_Trigger Bell5
+	exit
+endif
+
+exit	
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;TraceON
+
+Set Counter, 0
+GetParam 0, innerRadius
+GetParam 1, outerRadius
+GetParam 2, BellSound
+
+AddTrigger Use, Onuse
+AddModelKey BellBing, OnBellBing
+AddModelKey BellBong, OnBellBong
+OnDamage OnUse
+
+Gosub BellSound
+;CacheSound Sounds\Events\churchbellring.wav
+;CacheSound Sounds\Ambient\bellbong.wav
+
+
+;ExitScript
+exit
+

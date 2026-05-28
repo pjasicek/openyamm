@@ -1,0 +1,198 @@
+;--------------------------------------------------
+;NPC150.scr
+; timmy
+; handles Scandlan the Long tounge's speech
+;--------------------------------------------------
+
+#include globals.inc
+
+#number			bSpeak
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+
+
+;--------------------------------------------------
+:OnStart
+;--------------------------------------------------
+
+haskey 5020 bSpeak
+IF (bSpeak==TRUE)
+	exit
+endif
+
+SetPropNumber DoRude False
+
+getobjecthandle Broccan g_hobject
+target g_hobject
+trigger g_hobject Target
+
+givekey 5020
+Loopanim conv2 0 DoNothing
+Playsound voices\cinema\NewGame\01.wav, DoNothing, 100, 768, FALSE, 100
+wait 1 6.5, Trigger2
+exit
+
+
+;--------------------------------------------------
+:Trigger2
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Broccan g_hobject
+trigger g_hobject Speak2
+exit
+
+
+;--------------------------------------------------
+:OnSpeak3
+;--------------------------------------------------
+
+Loopanim conv2 0 DoNothing
+Playsound voices\cinema\NewGame\03.wav, DoNothing, 100, 768, FALSE, 100
+wait 1 13.3, Trigger4
+exit
+
+
+;--------------------------------------------------
+:Trigger4
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Broccan g_hobject
+trigger g_hobject Speak4
+exit
+
+
+;--------------------------------------------------
+:OnSpeak5
+;--------------------------------------------------
+
+Loopanim conv5 0 DoNothing
+Playsound voices\cinema\NewGame\05.wav, DoNothing, 100, 768, FALSE, 100
+wait 1 18.5, Trigger6
+exit
+
+
+;--------------------------------------------------
+:Trigger6
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Broccan g_hobject
+trigger g_hobject Speak6
+exit
+
+
+;--------------------------------------------------
+:OnSpeak7
+;--------------------------------------------------
+
+Loopanim conv4 0 DoNothing
+Playsound voices\cinema\NewGame\07.wav, DoNothing, 100, 768, FALSE, 100
+wait 1 7, Trigger8
+exit
+
+
+;--------------------------------------------------
+:Trigger8
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Broccan g_hobject
+trigger g_hobject Speak8
+exit
+
+
+;--------------------------------------------------
+:OnSpeak9
+;--------------------------------------------------
+
+Loopanim conv5 0 DoNothing
+Playsound voices\cinema\NewGame\09.wav, DoNothing, 100, 768, FALSE, 100
+wait 1 12.5, Trigger10
+exit
+
+
+;--------------------------------------------------
+:Trigger10
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Broccan g_hobject
+trigger g_hobject Speak10
+exit
+
+;--------------------------------------------------
+:OnSpeak11
+;--------------------------------------------------
+
+Loopanim conv5 0 DoNothing
+Playsound voices\cinema\NewGame\11.wav, DoNothing, 100, 768, FALSE, 100
+wait 1 8.5, Trigger12
+exit
+
+
+;--------------------------------------------------
+:Trigger12
+;--------------------------------------------------
+target Null
+gosub Onstop
+getobjecthandle Broccan g_hobject
+trigger g_hobject Speak12
+wait 1 1 OnSpeak12
+exit
+
+;--------------------------------------------------
+:OnSpeak12
+;--------------------------------------------------
+
+Loopanim conv5 0 DoNothing
+Playsound voices\cinema\NewGame\12.wav, DoNothing, 100, 768, FALSE, 100
+;wait 1 18.5, Trigger12
+setpropnumber DoRude TRUE
+exit
+
+
+;-------------------------------------
+:OnLost
+;-------------------------------------
+
+Exit TRUE
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+OnFoundPlayer OnStart
+OnLosttarget ONLost
+Exit TRUE
+
+;--------------------------------------------------
+:OnStop
+;--------------------------------------------------
+;stop
+;Loopanim stand 0 DoNothing
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddTrigger Start OnStart
+Addtrigger Speak3 OnSpeak3
+AddTrigger Speak5 OnSpeak5
+Addtrigger Speak7 OnSpeak7
+AddTrigger Speak9 OnSpeak9
+AddTrigger Speak11 OnSpeak11
+;AddTrigger Speak12 OnSpeak12
+gosub Init
+
+exit
+

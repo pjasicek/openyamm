@@ -1,0 +1,98 @@
+;---------------------------------------------------------------------
+:	TAladdermove.scr
+;	Timmy
+;
+;	 moves the ladder object up and down for Training Arena 1
+;
+;	Parameters:
+;
+;	p1	- How far to go
+;	p2	- Drop Wait Rate
+;
+;---------------------------------------------------------------------
+
+#include globals.inc
+
+#number			nOrigPosX
+#number			nOrigPosY
+#number			nOrigPosZ
+
+#number			nDestPosY
+
+
+#number			nDimsX
+#number			nDimsY
+#number			nDimsZ
+
+
+#number			Distance
+;
+; Default parameters
+;
+
+#number			rate=24
+
+#string			sFillSound=Sounds\water\waterfill.wav
+#string			sSinkSound=Sounds\water\watersink.wav
+
+#number			hWaterSound
+
+;---------------------------------------------------------------------
+:OnRaiseLadder
+;---------------------------------------------------------------------
+
+exit
+
+;---------------------------------------------------------------------
+:OnlowerLadder
+;---------------------------------------------------------------------
+
+	GetDims g_hMyObject, nDimsX, nDimsY, nDimsZ
+	Set nDestPosY, nOrigPosY
+	sub nDestPosY, Distance
+
+
+
+	MoveToPos nOrigPosX, nDestPosY, nOrigPosZ, Rate 
+
+	Exit
+
+
+
+
+
+;---------------------------------------------------------------------
+:StopSound
+;---------------------------------------------------------------------
+	KillSound hWaterSound
+
+	Exit
+
+;---------------------------------------------------------------------
+:Main
+;
+;
+;---------------------------------------------------------------------
+
+;TRACEON
+	
+	GetMyHandle g_hMyObject
+	GetPos g_hMyObject, nOrigPosX, nOrigPosY, nOrigPosZ
+
+	AddTrigger Lower, OnLowerladder
+	AddTrigger Raise, OnRaiseLadder
+
+
+	GetParam 0, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set Distance, g_nTemp
+	endif
+
+	GetParam 1, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set Rate, g_nTemp
+	endif
+
+	Exit

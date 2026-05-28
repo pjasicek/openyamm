@@ -1,0 +1,96 @@
+;----------------------------------------------------------------
+;	thegopher.scr
+;	John Machin
+;
+;		Gopher script handles specific anims for gopher
+;----------------------------------------------------------------
+#include globals.inc
+#include wander.inc
+#include aiglobals.inc
+
+#hobject	hAlertedBy 
+#string		sAlertName
+
+;Passed in Parameter to get Wander distance
+#number		g_nDistance
+
+;----------------------------------------------------------------
+:OnSpecial
+;----------------------------------------------------------------
+	GetRandomInt 0, 10, g_nRandom
+	if( g_nRandom < 6 )		
+		PlayAnim up, GopherUpDone
+	else		
+		;We put the gopher down here so we can peek out
+		PlayAnim down, GopherDownDone
+	endif
+	
+	Wait 0, 2, WanderTick
+
+	Exit
+
+;----------------------------------------------------------------
+:GopherUpDone
+;----------------------------------------------------------------
+	Wait 0, 2 ,WanderTick
+
+	Exit
+
+;----------------------------------------------------------------
+:GopherDownDone
+;----------------------------------------------------------------
+	Wait 0, 4, GopherPeek
+
+	Exit
+
+;----------------------------------------------------------------
+:GopherPeek
+;----------------------------------------------------------------
+	PlayAnim peek
+
+	Exit
+
+;----------------------------------------------------------------
+:OnSpecialDone
+;----------------------------------------------------------------
+	;Were done just exit	
+																																
+	Exit   
+
+;----------------------------------------------------------------
+:InitTheGopher
+;----------------------------------------------------------------
+	;Set wander distance
+	GetParam 1, g_nDistance
+	
+	if( g_nDistance != 0 )
+		Set MAX_DIST_FROM_STARTPOINT, g_nDistance
+	else
+		Set MAX_DIST_FROM_STARTPOINT, 350
+	endif
+
+	;Set how often we idle 1 equals 10% valid numbers are 1 to 10
+	Set g_IdleFrequency, 10
+
+	;Set max time in seconds before idle check
+	Set g_IdleCheckMin, 10
+	Set g_IdleCheckMax, 10
+
+	;Set how often special anim is played valid numbers are 1 to 10
+	Set g_SpecialAnimFrequency, 7
+
+	Exit
+
+;----------------------------------------------------------------
+:Main
+;----------------------------------------------------------------
+	;Initialize the gopher
+	gosub InitTheGopher	
+	
+	;Initialize wandering behavior
+	gosub WanderInit
+
+	;setup these triggers
+	AddTrigger SpecialAnim OnSpecial
+
+	Exit

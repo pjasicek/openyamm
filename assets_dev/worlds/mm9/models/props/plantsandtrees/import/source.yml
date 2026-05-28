@@ -1,0 +1,15 @@
+model: mm9/extracted/MODELS/MODELS/PROPS/PLANTSANDTREES/TREE06.abc
+textures:
+- materialIndex: 0
+  source: mm9/extracted/SKINS/SKINS/PROPS/PLANTSANDTREES/TREEBARK3.dtx
+  runtimeTexture: skins/props/plantsandtrees/treebark3.dtx
+  previewTexture: skins_preview/props/plantsandtrees/treebark3.png
+- materialIndex: 1
+  source: mm9/extracted/SKINS/SKINS/PROPS/PLANTSANDTREES/TREEBRANCH5.dtx
+  runtimeTexture: skins/props/plantsandtrees/treebranch5.dtx
+  previewTexture: skins_preview/props/plantsandtrees/treebranch5.png
+  hasTransparency: true
+converter: tools/mm9_import_discovery/convert_abc_model.py
+coordinateScale: 2.56
+coordinateTransform: LithTech ABC local axes preserved; scene placement converts Y-up
+  to OpenYAMM Z-up

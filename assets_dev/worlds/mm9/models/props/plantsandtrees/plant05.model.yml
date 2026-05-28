@@ -1,0 +1,89 @@
+schema: openyamm.model3d.v1
+id: plant05
+model: plant05.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/PLANTSANDTREES/PLANT05.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Plant05
+  materialIndex: 0
+  lods:
+  - faces: 88
+    vertices: 64
+  - faces: 70
+    vertices: 55
+materials:
+- index: 0
+  texture: skins_preview/props/plantsandtrees/plant05.png
+  runtime_texture: skins/props/plantsandtrees/plant05.dtx
+  preview_texture: skins_preview/props/plantsandtrees/plant05.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/PLANTSANDTREES/PLANT05.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 2
+    - 3
+  - index: 1
+    name: Spot01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 2
+    name: Spot01.Target
+    parent: 0
+    flags: 0
+    children: []
+  - index: 3
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 4
+    - 5
+  - index: 4
+    name: Bone02
+    parent: 3
+    flags: 0
+    children: []
+  - index: 5
+    name: Plant05
+    parent: 3
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 7.68
+  - 6.4
+  - 7.68
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/plantsandtrees/plant05.abc

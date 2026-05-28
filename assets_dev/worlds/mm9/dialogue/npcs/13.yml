@@ -1,0 +1,899 @@
+format_version: 1
+source_file: NPC13.rude
+rows:
+  - source:
+      file: NPC13.rude
+      row: 1
+    raw_columns:
+      - 13
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 13
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC13.rude
+      row: 2
+    raw_columns:
+      - 13
+      - 4
+      - 1
+      - Any more news?
+      - No, sorry.  Except that the bank is the safest place for your money.
+      - 13
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 13
+      node_id: 4
+      choice_slot: 1
+      prompt: Any more news?
+      response: No, sorry.  Except that the bank is the safest place for your money.
+      next: 13
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 13
+  - source:
+      file: NPC13.rude
+      row: 3
+    raw_columns:
+      - 13
+      - 3
+      - 1
+      - Who is Krohn?
+      - Krohn is the king of the gods.  He is the one who told Bori to build Hallenhalt in Arslegard.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 13
+      node_id: 3
+      choice_slot: 1
+      prompt: Who is Krohn?
+      response: Krohn is the king of the gods.  He is the one who told Bori to build Hallenhalt in Arslegard.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC13.rude
+      row: 4
+    raw_columns:
+      - 13
+      - 2
+      - 1
+      - Hallenhalt?  What is that?
+      - Hallenhalt is the place where people who have died in battle go.  I've heard that Krohn is building an army of dead soldiers to fight for him someday.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 13
+      node_id: 2
+      choice_slot: 1
+      prompt: Hallenhalt?  What is that?
+      response: Hallenhalt is the place where people who have died in battle go.  I've heard that Krohn is building an army of dead soldiers to fight for him someday.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC13.rude
+      row: 5
+    raw_columns:
+      - 13
+      - 13
+      - 1
+      - We would like to do some banking.
+      - Certainly!
+      - -6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 13
+      node_id: 13
+      choice_slot: 1
+      prompt: We would like to do some banking.
+      response: Certainly!
+      next: -6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5017
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -6
+        service: bank
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -6
+        service: bank
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5017
+        status: raw_value_preserved
+  - source:
+      file: NPC13.rude
+      row: 6
+    raw_columns:
+      - 13
+      - 13
+      - 2
+      - We would like to do some banking.
+      - We're closed.  Go away.
+      - 999
+      - 5017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 13
+      node_id: 13
+      choice_slot: 2
+      prompt: We would like to do some banking.
+      response: We're closed.  Go away.
+      next: 999
+      raw_fields:
+        c07: 5017
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5017
+            qbit_id: 14017
+            state_id: mm9.keys.5017
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5017
+          qbit_id: 14017
+          state_id: mm9.keys.5017
+  - source:
+      file: NPC13.rude
+      row: 7
+    raw_columns:
+      - 13
+      - 3
+      - 2
+      - You mean for the Great Reckoning?
+      - Yes, that's right.  The Great Reckoning.  The day when even the gods themselves have to atone for their lives.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 13
+      node_id: 3
+      choice_slot: 2
+      prompt: You mean for the Great Reckoning?
+      response: Yes, that's right.  The Great Reckoning.  The day when even the gods themselves have to atone for their lives.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC13.rude
+      row: 8
+    raw_columns:
+      - 13
+      - 13
+      - 3
+      - Why can't we use the safety deposit box?
+      - Well, we need an Orb of Linking.  If we had one of those, all the banks in Chedian could be linked up!
+      - 13
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 335
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 13
+      node_id: 13
+      choice_slot: 3
+      prompt: Why can't we use the safety deposit box?
+      response: Well, we need an Orb of Linking.  If we had one of those, all the banks in Chedian could be linked up!
+      next: 13
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 335
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 13
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 335
+        status: raw_value_preserved
+  - source:
+      file: NPC13.rude
+      row: 9
+    raw_columns:
+      - 13
+      - 3
+      - 4
+      - How is the Orb of Linking working?
+      - Wonderfully!  Thank you for installing it!
+      - 999
+      - 335
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 13
+      node_id: 3
+      choice_slot: 4
+      prompt: How is the Orb of Linking working?
+      response: Wonderfully!  Thank you for installing it!
+      next: 999
+      raw_fields:
+        c07: 335
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 335
+            qbit_id: 9335
+            state_id: mm9.keys.335
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 335
+          qbit_id: 9335
+          state_id: mm9.keys.335
+  - source:
+      file: NPC13.rude
+      row: 10
+    raw_columns:
+      - 13
+      - 13
+      - 5
+      - We're here to install an Orb of Linking into your bank.
+      - An Orb of Linking?!  I didn't know those things actually existed!  Please, go right ahead!
+      - 999
+      - 330
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 335
+      - 0
+      - 0
+      - 0
+      - 0
+      - 335
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 13
+      node_id: 13
+      choice_slot: 5
+      prompt: We're here to install an Orb of Linking into your bank.
+      response: An Orb of Linking?!  I didn't know those things actually existed!  Please, go right ahead!
+      next: 999
+      raw_fields:
+        c07: 330
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 335
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 335
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 330
+            qbit_id: 9330
+            state_id: mm9.keys.330
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 330
+          qbit_id: 9330
+          state_id: mm9.keys.330
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 335
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 335
+        status: raw_value_preserved
+  - source:
+      file: NPC13.rude
+      row: 11
+    raw_columns:
+      - 13
+      - 13
+      - 6
+      - Do you have any news?
+      - I hear the gods extract a heavy toll for those who are sent back from Hallenhalt.  If I were one of those people, I would put my money in a bank.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 13
+      node_id: 13
+      choice_slot: 6
+      prompt: Do you have any news?
+      response: I hear the gods extract a heavy toll for those who are sent back from Hallenhalt.  If I were one of those people, I would put my money in a bank.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC13.rude
+      row: 12
+    raw_columns:
+      - 13
+      - 13
+      - 8
+      - Sorry to bother you.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 13
+      node_id: 13
+      choice_slot: 8
+      prompt: Sorry to bother you.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

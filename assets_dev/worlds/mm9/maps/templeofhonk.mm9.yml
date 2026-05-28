@@ -1,0 +1,51 @@
+format_version: 1
+kind: "mm9_indoor_source_metadata"
+source:
+  source_kind: "mm9_dat"
+  source_dat: "mm9/extracted/WORLDS/WORLDS/TEMPLEOFHONK.dat"
+  coordinate_scale: 2.56
+target:
+  classification: "indoor_like"
+  strategy: "sectorized_blv_prototype"
+  geometry_file: "templeofhonk.blv"
+  scene_file: "templeofhonk.scene.yml"
+  source_glb: "templeofhonk.source.glb"
+  geometry_metadata: "templeofhonk.geometry.yml"
+  bsp_diagnostics: "templeofhonk.bsp.yml"
+  bitmap_alias_dir: "assets_dev/worlds/mm9/textures"
+source_world_models: 236
+source_objects: 606
+layout:
+  sector_mode: "leaf_grid"
+  grid_size: 4
+  visbsp_leaves: 827
+  visbsp_leaf_polygon_entries: 7479
+  valid_leaf_polygon_refs: 7479
+  matched_leaf_polygon_refs: 7479
+  invalid_leaf_model_refs: 0
+  invalid_leaf_poly_refs: 0
+  leaves_with_geometry: 827
+  unassigned_source_triangles: 6325
+  source_triangles: 22276
+  rooms: 9
+  portals: 20
+  synthetic_bridge_portals: 8
+  dat_user_portals: 13
+  dat_user_portals_emitted: 13
+  dat_user_portals_skipped: 0
+  dat_user_portal_duplicate_pairs: 0
+  synthetic_portals_replaced_by_dat_user_portals: 4
+stats:
+  source_models: 236
+  source_polies: 8382
+  emitted_faces: 22276
+  skipped_polies: 0
+  triangulated_polies: 7435
+  skipped_degenerate_triangles: 5305
+  source_plane_orientation_flips: 2889
+  clamped_plane_distances: 0
+  source_glb_vertices: 28443
+  source_glb_triangles: 22316
+  source_glb_materials: 34
+  source_glb_rooms: 9
+  source_glb_portals: 20

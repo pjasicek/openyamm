@@ -1,0 +1,74 @@
+;--------------------------------------------------
+;NPC141.scr
+; timmy
+; handles Akl'ai D'orka voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub takekeg
+
+
+exit
+
+
+
+
+
+;--------------------------------------------------
+:takeKeg
+;--------------------------------------------------
+;****************
+;takeKeg Quest
+;****************
+
+haskey 306 g_ntemp
+if (g_ntemp==0)
+	haskey 304 g_ntemp
+	if (g_ntemp==1)
+		givekey 306
+		takeitem 249
+		givegold 500
+		giveexp 5000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+exit
+
+
+;End takeKeg quest
+;******************
+exit
+
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_141.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+OnRudeExit OnRude
+exit
+

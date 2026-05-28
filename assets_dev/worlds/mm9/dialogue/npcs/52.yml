@@ -1,0 +1,963 @@
+format_version: 1
+source_file: NPC52.rude
+rows:
+  - source:
+      file: NPC52.rude
+      row: 1
+    raw_columns:
+      - 52
+      - 999
+      - 1
+      - Goodbye.
+      - MMMMM!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 52
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: MMMMM!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC52.rude
+      row: 2
+    raw_columns:
+      - 52
+      - 11
+      - 1
+      - Guess we'll leave you alone.  See you later.
+      - MMMMRRRRG!!!!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 52
+      node_id: 11
+      choice_slot: 1
+      prompt: Guess we'll leave you alone.  See you later.
+      response: MMMMRRRRG!!!!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC52.rude
+      row: 3
+    raw_columns:
+      - 52
+      - 10
+      - 1
+      - What's that?  It's hard to understand you without a tongue.
+      - MMMMFFF!
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 52
+      node_id: 10
+      choice_slot: 1
+      prompt: What's that?  It's hard to understand you without a tongue.
+      response: MMMMFFF!
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC52.rude
+      row: 4
+    raw_columns:
+      - 52
+      - 5
+      - 1
+      - Alright.  Should have kept your mouth shut.
+      - We'll see who's sorry!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 54
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 52
+      node_id: 5
+      choice_slot: 1
+      prompt: Alright.  Should have kept your mouth shut.
+      response: We'll see who's sorry!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 54
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 54
+        status: raw_value_preserved
+  - source:
+      file: NPC52.rude
+      row: 5
+    raw_columns:
+      - 52
+      - 4
+      - 1
+      - Not Bjarni.  Sigmund.
+      - The Jarl of Drangheim?  Uh,..What can he do?  Go ahead!
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 52
+      node_id: 4
+      choice_slot: 1
+      prompt: Not Bjarni.  Sigmund.
+      response: The Jarl of Drangheim?  Uh,..What can he do?  Go ahead!
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC52.rude
+      row: 6
+    raw_columns:
+      - 52
+      - 3
+      - 1
+      - Perhaps we will inform the Jarl.
+      - Bjarni?  Go ahead.  He'll give me a reward!
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 52
+      node_id: 3
+      choice_slot: 1
+      prompt: Perhaps we will inform the Jarl.
+      response: Bjarni?  Go ahead.  He'll give me a reward!
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC52.rude
+      row: 7
+    raw_columns:
+      - 52
+      - 2
+      - 1
+      - We've come to ask you to stop.
+      - There is nothing you can make me do.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 52
+      node_id: 2
+      choice_slot: 1
+      prompt: We've come to ask you to stop.
+      response: There is nothing you can make me do.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC52.rude
+      row: 8
+    raw_columns:
+      - 52
+      - 1
+      - 1
+      - We understand you've been spreading gossip to Drangheim.
+      - What would you know about that?  I have done nothing wrong.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 52
+      node_id: 1
+      choice_slot: 1
+      prompt: We understand you've been spreading gossip to Drangheim.
+      response: What would you know about that?  I have done nothing wrong.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC52.rude
+      row: 9
+    raw_columns:
+      - 52
+      - 52
+      - 1
+      - We'd like to ask you a few questions
+      - I can't be bothered with that.
+      - 52
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 55
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 52
+      node_id: 52
+      choice_slot: 1
+      prompt: We'd like to ask you a few questions
+      response: I can't be bothered with that.
+      next: 52
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 55
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 52
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 55
+        status: raw_value_preserved
+  - source:
+      file: NPC52.rude
+      row: 10
+    raw_columns:
+      - 52
+      - 52
+      - 2
+      - We'd like to talk to you about your news.
+      - What are you talking about?
+      - 1
+      - 53
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 54
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 52
+      node_id: 52
+      choice_slot: 2
+      prompt: We'd like to talk to you about your news.
+      response: What are you talking about?
+      next: 1
+      raw_fields:
+        c07: 53
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 54
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 53
+            qbit_id: 9053
+            state_id: mm9.keys.53
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 53
+          qbit_id: 9053
+          state_id: mm9.keys.53
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 54
+        status: raw_value_preserved
+  - source:
+      file: NPC52.rude
+      row: 11
+    raw_columns:
+      - 52
+      - 52
+      - 3
+      - Farewell.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 55
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 52
+      node_id: 52
+      choice_slot: 3
+      prompt: Farewell.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 55
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 55
+        status: raw_value_preserved
+  - source:
+      file: NPC52.rude
+      row: 12
+    raw_columns:
+      - 52
+      - 52
+      - 4
+      - You don't seem to be talkative anymore.
+      - Arrgh.  Mmmm.
+      - 10
+      - 55
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 52
+      node_id: 52
+      choice_slot: 4
+      prompt: You don't seem to be talkative anymore.
+      response: Arrgh.  Mmmm.
+      next: 10
+      raw_fields:
+        c07: 55
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 55
+            qbit_id: 9055
+            state_id: mm9.keys.55
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 55
+          qbit_id: 9055
+          state_id: mm9.keys.55
+  - source:
+      file: NPC52.rude
+      row: 13
+    raw_columns:
+      - 52
+      - 52
+      - 5
+      - Sorry to bother you.
+      - HRRRMPH!!!
+      - 999
+      - 55
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 52
+      node_id: 52
+      choice_slot: 5
+      prompt: Sorry to bother you.
+      response: HRRRMPH!!!
+      next: 999
+      raw_fields:
+        c07: 55
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 55
+            qbit_id: 9055
+            state_id: mm9.keys.55
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 55
+          qbit_id: 9055
+          state_id: mm9.keys.55

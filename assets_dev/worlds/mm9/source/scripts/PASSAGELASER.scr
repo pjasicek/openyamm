@@ -1,0 +1,58 @@
+;----------------------------------
+;	PassageLaser.scr
+;	by SJR
+;	11-06-01
+;	Purpose:puzzle reflector
+;			mirrors in desert
+;----------------------------------
+
+#hobject	hMirror = 0
+
+#hobject	hMe = 0
+#number		dx = 0
+#number		dy = 0
+#number		dz = 0
+
+;----------------------------------
+:Main
+;----------------------------------	
+;;	OnPostStartWorld InitPassageLaser
+Wait 0, 5, InitPassageLaser
+
+	Exit 1
+
+;----------------------------------
+:InitPassageLaser
+;----------------------------------
+	GetMyHandle hMe
+
+	AddTrigger rotate, Rotate
+
+	Exit 1
+
+;----------------------------------
+:Rotate
+;----------------------------------
+	GetParam 0, hMirror
+	GetFaceDir hMirror, dx,dy,dz
+	FaceDir dx,0,dz, 720, Shoot
+
+	Exit 1
+
+;----------------------------------
+:Shoot
+;----------------------------------
+	Trigger hMe, shoot
+
+	Wait 0, .5, Reset
+
+	Exit 1
+
+;----------------------------------
+:Reset
+;----------------------------------
+	;;have to do this or else the real
+	;;facedir wont happen if 0 deg.
+	FaceDir 0,-1,0, 720
+
+	Exit 1

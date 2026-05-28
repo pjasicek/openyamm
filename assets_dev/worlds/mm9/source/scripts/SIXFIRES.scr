@@ -1,0 +1,37 @@
+;----------------------------------------------
+;Anskrammainline.scr
+; By Timmy
+; checks to see if the player has killed everything in anskram keep
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+
+;-------------------------------------
+:Onuse
+;NOTE this script just completes the quest right now.
+; this is the routine where additional functionality should go
+;-------------------------------------
+
+haskey 102 g_ntemp
+if (g_ntemp==0, )
+;	haskey 101 g_ntemp
+;	if (g_ntemp==1, )
+; ^^don't forget to add that back in...checks to make sure you're on the quest
+		givekey 102
+		giveexp 5000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+;	endif
+endif
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Use, Onuse
+exit

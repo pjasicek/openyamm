@@ -1,0 +1,147 @@
+schema: openyamm.model3d.v1
+id: snowtree1
+model: snowtree1.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/PLANTSANDTREES/SNOWTREE1.abc
+  commandString: NoAnimation;FadeRangeMin 1500;FadeRangeMax 2048;FadeSpriteTex skins\props\plantsandtrees\snowtreespr1.dtx;FadeSpriteSize
+    100 100;VisRadius 256
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Trunk
+  materialIndex: 0
+  lods:
+  - faces: 35
+    vertices: 21
+  - faces: 27
+    vertices: 17
+- name: Box02
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 8
+  - faces: 4
+    vertices: 8
+- name: Box03
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 8
+  - faces: 4
+    vertices: 8
+- name: Box04
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 8
+  - faces: 4
+    vertices: 8
+- name: Box05
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 8
+  - faces: 4
+    vertices: 8
+- name: Box06
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 8
+  - faces: 4
+    vertices: 8
+- name: Box07
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 8
+  - faces: 4
+    vertices: 8
+- name: Box08
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 8
+  - faces: 4
+    vertices: 8
+- name: Box09
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 8
+  - faces: 4
+    vertices: 8
+- name: Box10
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 8
+  - faces: 4
+    vertices: 8
+- name: Box01
+  materialIndex: 1
+  lods:
+  - faces: 4
+    vertices: 8
+  - faces: 4
+    vertices: 8
+materials:
+- index: 0
+  texture: skins_preview/props/plantsandtrees/snowtree1.png
+  runtime_texture: skins/props/plantsandtrees/snowtree1.dtx
+  preview_texture: skins_preview/props/plantsandtrees/snowtree1.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/PLANTSANDTREES/SNOWTREE1.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+- index: 1
+  texture: skins_preview/props/plantsandtrees/treebranch_snow.png
+  runtime_texture: skins/props/plantsandtrees/treebranch_snow.dtx
+  preview_texture: skins_preview/props/plantsandtrees/treebranch_snow.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/PLANTSANDTREES/TREEBRANCH_SNOW.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 38.4
+  - 256.0
+  - 38.4
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+roles:
+- static_model
+source_model: models/props/plantsandtrees/snowtree1.abc

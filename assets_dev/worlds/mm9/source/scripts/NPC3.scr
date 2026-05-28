@@ -1,0 +1,246 @@
+;--------------------------------------------------
+;NPC3.scr
+; timmy
+; handles Sven Forkbeard voice and quest stuff
+;
+; edited by Bones 03/25/03, 05/15/03
+; Patch 1.3 -- delays Sven's return
+;		Moves him south
+;--------------------------------------------------
+
+#include globals.inc
+#include United.inc
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+
+#string			sLocation
+#number			bVanish
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+
+Gosub GoGetEm
+Gosub thjorad
+gosub Refinery
+gosub united
+gosub lifesaver
+exit
+
+
+;--------------------------------------------------
+:GoGetEm
+; just plays Bling after player gets key 104 to get the Battle
+;--------------------------------------------------
+
+haskey 104 g_ntemp
+if (g_ntemp==TRUE)
+
+	haskey 486 g_ntemp
+	if (g_ntemp==TRUE)
+		exit
+	endif
+
+	givekey 486
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+endif
+exit
+
+
+;--------------------------------------------------
+:Lifesaver
+;--------------------------------------------------
+
+haskey 235 g_ntemp
+if (g_ntemp==0, )
+	haskey 234 g_ntemp
+	if (g_ntemp==1, )
+		giveexp 5000
+		haskey 233 g_ntemp
+		if (g_ntemp==1, )
+			givegold 10000
+			Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+			givekey 235
+			exit
+		else
+			givegold 10000
+			Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+			givekey 235
+			exit
+		endif
+	endif
+endif
+exit
+
+;--------------------------------------------------
+:Thjorad
+;--------------------------------------------------
+;****************
+;Thjorad Quest
+;****************
+
+Haskey 163, keycheck
+if (keycheck==0, )
+; checks to see if they already have got the reward.
+	Haskey 32, g_ntemp
+	if (g_ntemp==1, )
+	; checks to see if they've got thjorad
+		GiveKey 163
+		GiveExp 12000
+		Givegold 6000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		takeitem 197
+		; gives reward
+
+		exit
+	endif
+endif
+
+exit
+
+
+;End thjorad quest
+;******************
+exit
+
+
+;--------------------------------------------------
+:Refinery
+;--------------------------------------------------
+;****************
+;Refinery Quest
+;****************
+
+
+Haskey 177, keycheck
+if (keycheck==0, )
+; checks to see if they already have got the reward.
+	Haskey 33, g_ntemp
+	if (g_ntemp==1, )
+	; checks to see if they've got the mines working
+		GiveKey 177
+		GiveExp 68004
+		Givegold 3000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		; gives reward
+
+		exit
+	endif
+endif
+
+exit
+
+
+;End Refinery Quest
+;******************
+exit
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+
+
+;Playsound voices\NPC\NPC_003.wav, Onexit, 100, 240, FALSE, 100
+Gosub Oncheck
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+if (sLocation==Arslegard)
+;	Cprint INArslegard
+
+
+	haskey 102 g_ntemp
+	if (g_ntemp==TRUE)
+		set bVanish, False
+		gosub Vanish
+	else
+		set bVanish, TRUE
+		gosub Vanish
+	endif
+
+
+	haskey 104 g_ntemp
+	if (g_ntemp==TRUE)
+		set bVanish TRUE
+		gosub Vanish
+		exit
+	endif
+	exit
+endif
+
+haskey 40 g_ntemp
+if (g_ntemp==TRUE)
+	set bVanish TRUE
+	gosub vanish
+endif
+
+MoveToPos 32 1438 8100
+
+haskey 108 g_ntemp
+if (g_ntemp==TRUE)
+	set bVanish False
+	gosub Vanish
+;	loopanim Sit 0 DoNothing
+endif
+exit
+
+
+	
+;-------------------------------------
+:Vanish
+;-------------------------------------
+
+getmyhandle g_hobject
+
+if (bVanish==TRUE)
+	clearflag g_hobject, visible
+	clearflag g_hobject, solid
+	clearflag g_hobject, gravity
+	exit
+else
+	setflag g_hobject, visible
+	setflag g_hobject, solid
+	setflag g_hobject, gravity
+	exit
+endif
+
+exit
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+getparam 0 sLocation
+Set Jarl, Sven
+Gosub UnitedInit
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

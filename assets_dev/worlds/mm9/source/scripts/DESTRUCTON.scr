@@ -1,0 +1,39 @@
+;----------------------------------------------
+;DestructOn.scr
+; By Timmy
+; set destructable brushes to On
+;
+; 1/2/02
+;----------------------------------------------
+
+#include globals.inc 
+
+
+
+
+
+;-------------------------------------
+:DestroyMe
+;-------------------------------------
+
+getmyhandle g_hmyobject
+trigger g_hmyobject destroy
+exit
+
+
+;-------------------------------------
+:OnDamageOn
+;-------------------------------------
+
+SetPropNumber CanDamage, TRUE
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger DamageOn OnDamageOn
+OnDamage DestroyMe
+exit

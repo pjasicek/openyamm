@@ -1,0 +1,119 @@
+;------------------------------------
+;	WizardSummoner.scr
+;	01-01-02
+;	by SJR
+;	Purpose:
+;------------------------------------
+#include baseMelee.inc
+#include range.inc
+
+#string		sShooterName = ""
+#hobject	hShooter = 0
+
+#string		sLocationName = ""
+#hobject	hLocation = 0
+
+#string		sNextName = ""
+#hobject	hNext = 0
+
+#string		SPELL_BLUEDOTS = "bluedots"
+
+;------------------------------------
+:Main
+;------------------------------------
+	GetParam 0, sShooterName
+	GetParam 1, sLocationName
+	GetParam 2, sNextName
+
+	OnPostStartWorld InitWizardSummoner
+
+	Exit TRUE
+
+;------------------------------------
+:InitWizardSummoner
+;------------------------------------
+	AddFriend Player
+
+	GetObjectHandle sShooterName, hShooter
+	GetObjectHandle sLocationName, hLocation
+	GetObjectHandle sNextName, hNext
+
+	FaceObject hLocation, 180, DoNothing
+
+	AddTrigger start, ConjureSpell
+
+	Exit TRUE
+
+;------------------------------------
+:ConjureSpell
+;------------------------------------
+	PlaySound "sounds\ambient\thunder\thunderlong.wav", DoNothing, 1, 500, FALSE, 100
+	PlayAnim fidget2, DoNothing
+	Trigger hShooter, play
+	Wait 0, 1.5, CastSpell
+
+	Exit TRUE
+
+;------------------------------------
+:CastSpell
+;------------------------------------
+	PlayAnim rattack1, DoNothing
+	Wait 0, 1, FinishSpell
+
+	Exit TRUE
+
+;------------------------------------
+:FinishSpell
+;------------------------------------
+	AddEnemy GreaterDemon
+	OnFoundTarget LinkToBaseRange
+	Trigger hShooter, shoot
+	Trigger hNext, start
+
+	Exit TRUE
+
+;------------------------------------
+:OnDamage
+;------------------------------------
+	GetParam 0, g_hObject
+	IsPlayer g_hObject, g_bTemp
+	if( g_bTemp==TRUE )
+		AddEnemy Player
+		SetConsoleNumVar PLAYER_FRIEND, FALSE
+	else
+		PlaySound "sounds\animsounds\evilsorcerer\die1.wav", DoNothing, 1, 5000, FALSE, 200
+
+		GetMyHandle hShooter
+		DoClientFX hShooter, SPELL_BLUEDOTS, FALSE, TRUE
+		GetObjectHandle SummoningGuy3, hShooter
+		Trigger hShooter, finish
+
+		Die
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:OnDeath
+;------------------------------------
+	GetParam 0, g_hObject
+	IsPlayer g_hObject, g_bTemp
+	if( g_bTemp==TRUE )
+		SetConsoleNumVar PLAYER_FRIEND, FALSE
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:LinkToBaseRange
+;------------------------------------
+	gosub BaseInit
+	gosub RangeInit
+	
+	g_rangeAttackType = RANGE_TYPE2
+	gosub SetupRangeAttackType
+	gosub StartRangeAttack
+
+	OnDamage OnDamage
+
+	Exit TRUE

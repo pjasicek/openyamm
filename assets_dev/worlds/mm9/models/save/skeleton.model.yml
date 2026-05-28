@@ -1,0 +1,836 @@
+schema: openyamm.model3d.v1
+id: skeleton
+model: skeleton.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/SAVE/SKELETON.abc
+  commandString: ShadowEnable; ShadowSizeX 20; ShadowSizeY 20; FadeRangeMax 2000;
+    FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Bip01 L Finger0
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger01
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger1
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger11
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: LHand1
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Bip01 R Finger0
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger01
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger1
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger11
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: RHand1
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: d_Forearm01
+  materialIndex: 0
+  lods:
+  - faces: 8
+    vertices: 8
+  - faces: 8
+    vertices: 8
+  - faces: 8
+    vertices: 8
+- name: d_jaw01
+  materialIndex: 0
+  lods:
+  - faces: 50
+    vertices: 27
+  - faces: 18
+    vertices: 11
+  - faces: 12
+    vertices: 8
+- name: d_skeleton lower half01
+  materialIndex: 0
+  lods:
+  - faces: 83
+    vertices: 44
+  - faces: 73
+    vertices: 39
+  - faces: 27
+    vertices: 15
+- name: d_LeftLeg01
+  materialIndex: 0
+  lods:
+  - faces: 13
+    vertices: 11
+  - faces: 13
+    vertices: 11
+  - faces: 7
+    vertices: 8
+- name: d_RightLeg01
+  materialIndex: 0
+  lods:
+  - faces: 18
+    vertices: 14
+  - faces: 18
+    vertices: 14
+  - faces: 8
+    vertices: 9
+- name: d_RightArm01
+  materialIndex: 0
+  lods:
+  - faces: 8
+    vertices: 8
+  - faces: 8
+    vertices: 8
+  - faces: 8
+    vertices: 8
+- name: d_LeftArm01
+  materialIndex: 0
+  lods:
+  - faces: 8
+    vertices: 8
+  - faces: 8
+    vertices: 8
+  - faces: 8
+    vertices: 8
+- name: d_Skull01
+  materialIndex: 0
+  lods:
+  - faces: 45
+    vertices: 27
+  - faces: 35
+    vertices: 22
+  - faces: 25
+    vertices: 16
+- name: d_skeleton02
+  materialIndex: 0
+  lods:
+  - faces: 69
+    vertices: 41
+  - faces: 67
+    vertices: 40
+  - faces: 45
+    vertices: 27
+- name: d_Leftforearm01
+  materialIndex: 0
+  lods:
+  - faces: 8
+    vertices: 8
+  - faces: 8
+    vertices: 8
+  - faces: 8
+    vertices: 8
+- name: d_LowerSpine01
+  materialIndex: 0
+  lods:
+  - faces: 18
+    vertices: 12
+  - faces: 16
+    vertices: 11
+  - faces: 8
+    vertices: 7
+- name: d_LeftFoot01
+  materialIndex: 0
+  lods:
+  - faces: 26
+    vertices: 16
+  - faces: 20
+    vertices: 13
+  - faces: 10
+    vertices: 8
+- name: d_Rightlowerleg01
+  materialIndex: 0
+  lods:
+  - faces: 10
+    vertices: 10
+  - faces: 8
+    vertices: 9
+  - faces: 8
+    vertices: 9
+- name: d_Righthand01
+  materialIndex: 0
+  lods:
+  - faces: 32
+    vertices: 19
+  - faces: 12
+    vertices: 9
+  - faces: 8
+    vertices: 7
+- name: d_LeftHand01
+  materialIndex: 0
+  lods:
+  - faces: 32
+    vertices: 19
+  - faces: 10
+    vertices: 8
+  - faces: 8
+    vertices: 7
+- name: d_LeftLowerLeg01
+  materialIndex: 0
+  lods:
+  - faces: 8
+    vertices: 8
+  - faces: 8
+    vertices: 8
+  - faces: 8
+    vertices: 8
+- name: d_RightFoot01
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 16
+  - faces: 22
+    vertices: 15
+  - faces: 8
+    vertices: 8
+materials:
+- index: 0
+  texture: skins_preview/props/skeleton.png
+  runtime_texture: skins/props/skeleton.dtx
+  preview_texture: skins_preview/props/skeleton.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SKELETON.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 26
+    - 34
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bip01 Spine3
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Bip01 Neck
+    parent: 5
+    flags: 1
+    children:
+    - 7
+    - 8
+    - 17
+  - index: 7
+    name: Bip01 Head
+    parent: 6
+    flags: 1
+    children: []
+  - index: 8
+    name: Bip01 L Clavicle
+    parent: 6
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bip01 L UpperArm
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bip01 L Forearm
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bip01 L Hand
+    parent: 10
+    flags: 1
+    children:
+    - 12
+    - 14
+    - 16
+  - index: 12
+    name: Bip01 L Finger0
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bip01 L Finger01
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Bip01 L Finger1
+    parent: 11
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 L Finger11
+    parent: 14
+    flags: 1
+    children: []
+  - index: 16
+    name: LHand1
+    parent: 11
+    flags: 1
+    children: []
+  - index: 17
+    name: Bip01 R Clavicle
+    parent: 6
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Bip01 R UpperArm
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bip01 R Forearm
+    parent: 18
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Bip01 R Hand
+    parent: 19
+    flags: 1
+    children:
+    - 21
+    - 23
+    - 25
+  - index: 21
+    name: Bip01 R Finger0
+    parent: 20
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Bip01 R Finger01
+    parent: 21
+    flags: 1
+    children: []
+  - index: 23
+    name: Bip01 R Finger1
+    parent: 20
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bip01 R Finger11
+    parent: 23
+    flags: 1
+    children: []
+  - index: 25
+    name: RHand1
+    parent: 20
+    flags: 1
+    children: []
+  - index: 26
+    name: Bip01 L Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Bip01 L Calf
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Bip01 L Foot
+    parent: 27
+    flags: 1
+    children:
+    - 29
+    - 32
+    - 33
+  - index: 29
+    name: Bip01 L Toe3
+    parent: 28
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Bip01 L Toe31
+    parent: 29
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: Bip01 L Toe32
+    parent: 30
+    flags: 1
+    children: []
+  - index: 32
+    name: Bip01 L Toe02
+    parent: 28
+    flags: 1
+    children: []
+  - index: 33
+    name: Bip01 L Toe42
+    parent: 28
+    flags: 1
+    children: []
+  - index: 34
+    name: Bip01 R Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 35
+  - index: 35
+    name: Bip01 R Calf
+    parent: 34
+    flags: 1
+    children:
+    - 36
+  - index: 36
+    name: Bip01 R Foot
+    parent: 35
+    flags: 1
+    children:
+    - 37
+    - 40
+    - 41
+  - index: 37
+    name: Bip01 R Toe3
+    parent: 36
+    flags: 1
+    children:
+    - 38
+  - index: 38
+    name: Bip01 R Toe31
+    parent: 37
+    flags: 1
+    children:
+    - 39
+  - index: 39
+    name: Bip01 R Toe32
+    parent: 38
+    flags: 1
+    children: []
+  - index: 40
+    name: Bip01 R Toe02
+    parent: 36
+    flags: 1
+    children: []
+  - index: 41
+    name: Bip01 R Toe42
+    parent: 36
+    flags: 1
+    children: []
+sockets:
+- name: LHand1
+  node: 16
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.3878810703754425
+  - -0.672438383102417
+  - 0.2598555088043213
+  - 0.5743256211280823
+- name: RHand1
+  node: 25
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.15485358238220215
+  - 0.9815677404403687
+  - -0.0977044627070427
+  - 0.054634205996990204
+- name: Arrow2
+  node: 35
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.05830640345811844
+  - 0.35436803102493286
+  - 0.15152254700660706
+  - 0.9209042191505432
+- name: Arrow3
+  node: 5
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.34850627183914185
+  - 0.6048906445503235
+  - 0.35743892192840576
+  - 0.6203933954238892
+- name: Arrow1
+  node: 9
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.11050114035606384
+  - 0.49126383662223816
+  - 0.47791221737861633
+  - 0.7197563052177429
+animations:
+- name: static model
+  durationMs: 66
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: search
+  durationMs: 3366
+  keyframes: 16
+  interpolationTimeMs: 200
+  events: []
+- name: aware
+  durationMs: 1700
+  keyframes: 14
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: taunt
+  durationMs: 1700
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: stand
+  durationMs: 1000
+  keyframes: 9
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 1333
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 100
+    event: footstep 1
+  - timeMs: 700
+    event: footstep 2
+- name: run
+  durationMs: 666
+  keyframes: 15
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 233
+    event: footstep 1
+  - timeMs: 566
+    event: footstep 2
+- name: Hattack1
+  durationMs: 1600
+  keyframes: 39
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+  - timeMs: 52
+    event: lunge
+  - timeMs: 209
+    event: lunge
+  - timeMs: 524
+    event: Rattack
+- name: Hattack2
+  durationMs: 2033
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+  - timeMs: 500
+    event: attacksound
+  - timeMs: 600
+    event: Rattack
+- name: Wattack1
+  durationMs: 1600
+  keyframes: 39
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 52
+    event: lunge
+  - timeMs: 209
+    event: lunge
+  - timeMs: 419
+    event: attacksound
+  - timeMs: 524
+    event: Rattack
+- name: Wattack2
+  durationMs: 2033
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+  - timeMs: 500
+    event: attacksound
+  - timeMs: 600
+    event: Rattack
+- name: fidget1
+  durationMs: 1700
+  keyframes: 7
+  interpolationTimeMs: 200
+  events: []
+- name: fidget2
+  durationMs: 1366
+  keyframes: 26
+  interpolationTimeMs: 200
+  events: []
+- name: wince1
+  durationMs: 1500
+  keyframes: 16
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: wince2
+  durationMs: 1138
+  keyframes: 26
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: static model
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 15.36
+  - 0.0
+- name: search
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 15.36
+  - 0.0
+- name: aware
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 15.36
+  - 0.0
+- name: taunt
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 15.36
+  - 0.0
+- name: stand
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 15.36
+  - 0.0
+- name: walk
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 15.36
+  - 0.0
+- name: run
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 15.36
+  - 0.0
+- name: Hattack1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Hattack2
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 15.36
+  - 0.0
+- name: Wattack1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 15.36
+  - 0.0
+- name: Wattack2
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 15.36
+  - 0.0
+- name: fidget1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 15.36
+  - 0.0
+- name: fidget2
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 15.36
+  - 0.0
+- name: wince1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 15.36
+  - 0.0
+- name: wince2
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 15.36
+  - 0.0
+roles:
+- static_model
+source_model: models/save/skeleton.abc

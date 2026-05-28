@@ -1,0 +1,27 @@
+;--------------------------------------------------
+;MonkBase.scr
+; timmy
+; 10/30
+; randomizes guard idle sounds.
+;--------------------------------------------------
+
+#include globals.inc
+#include Basemelee.scr
+#include monksounds.inc
+         
+#String		bHostile=0
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+
+getparam 0 bHostile
+
+gosub MS_Init
+if (bHotstile==True)
+	gosub BaseInit
+endif
+
+exit
+

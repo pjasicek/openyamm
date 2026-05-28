@@ -1,0 +1,57 @@
+;--------------------------------------------------------
+;	SceneTest.scr
+;
+;--------------------------------------------------------
+
+
+#include globals.inc
+
+#hobject			g_hTarget=0
+#hobject			g_hCamera=0
+
+
+;--------------------------------------------------------
+:On
+;
+;--------------------------------------------------------
+
+	GetObjectHandle PlayerActor0, g_hTarget
+	GetObjectHandle SceneCamera0, g_hCamera
+
+	if ( g_hTarget==NULL )
+		Exit TRUE
+	endif
+
+	if ( g_hCamera==NULL )
+		Exit TRUE
+	endif
+
+	Trigger g_hTarget, ON
+	Trigger g_hCamera, ON
+
+
+	Exit FALSE
+
+;--------------------------------------------------------
+:Off
+;--------------------------------------------------------
+	if ( g_hTarget!=NULL )
+		Trigger g_hTarget, OFF
+	endif
+
+	if ( g_hCamera!=NULL )
+		Trigger g_hCamera, OFF
+	endif
+
+	Exit FALSE
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+;	TraceON
+
+	AddTrigger ON, On
+	AddTrigger OFF, Off
+
+	Exit

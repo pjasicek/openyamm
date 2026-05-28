@@ -1,0 +1,190 @@
+schema: openyamm.model3d.v1
+id: dragonbreath
+model: dragonbreath.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/SPELLS/DRAGONBREATH.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: Dhead
+  materialIndex: 0
+  lods:
+  - faces: 246
+    vertices: 124
+- name: Djaw
+  materialIndex: 0
+  lods:
+  - faces: 316
+    vertices: 160
+- name: Cone01
+  materialIndex: 0
+  lods:
+  - faces: 56
+    vertices: 30
+- name: Cone02
+  materialIndex: 0
+  lods:
+  - faces: 56
+    vertices: 30
+- name: Cone03
+  materialIndex: 0
+  lods:
+  - faces: 84
+    vertices: 44
+- name: Cone04
+  materialIndex: 0
+  lods:
+  - faces: 84
+    vertices: 44
+- name: Line01
+  materialIndex: 0
+  lods:
+  - faces: 140
+    vertices: 78
+- name: Line02
+  materialIndex: 0
+  lods:
+  - faces: 140
+    vertices: 78
+- name: Sphere01
+  materialIndex: 0
+  lods:
+  - faces: 60
+    vertices: 32
+- name: Sphere02
+  materialIndex: 0
+  lods:
+  - faces: 60
+    vertices: 32
+- name: Sphere03
+  materialIndex: 0
+  lods:
+  - faces: 40
+    vertices: 22
+- name: Sphere04
+  materialIndex: 0
+  lods:
+  - faces: 40
+    vertices: 22
+- name: Sphere05
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 16
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+  - index: 1
+    name: Sphere05
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: XneckE
+    parent: 0
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: XneckF
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Xheadpiv
+    parent: 3
+    flags: 1
+    children:
+    - 5
+    - 6
+    - 7
+    - 8
+  - index: 5
+    name: Xhead
+    parent: 4
+    flags: 1
+    children: []
+  - index: 6
+    name: Xtopfinpiv
+    parent: 4
+    flags: 1
+    children: []
+  - index: 7
+    name: Xtopfinpiv01
+    parent: 4
+    flags: 1
+    children: []
+  - index: 8
+    name: Xjawbase
+    parent: 4
+    flags: 1
+    children:
+    - 9
+    - 11
+  - index: 9
+    name: Xjawpivot
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Xjaw
+    parent: 9
+    flags: 1
+    children: []
+  - index: 11
+    name: Xfinpiv01
+    parent: 8
+    flags: 1
+    children: []
+sockets:
+- name: jaw
+  node: 10
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.27244314551353455
+  - 0.9436584115028381
+  - 0.17817984521389008
+  - 0.05939294770359993
+animations:
+- name: ANIMATED_MODEL
+  durationMs: 900
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 100
+    event: castspell
+animationBindings:
+- name: ANIMATED_MODEL
+  extents:
+  - 15.36
+  - 51.2
+  - 102.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/spells/dragonbreath.abc

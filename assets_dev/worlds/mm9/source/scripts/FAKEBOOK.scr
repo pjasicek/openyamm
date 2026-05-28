@@ -1,0 +1,73 @@
+;----------------------------------------------
+;fakebook.scr
+; By Timmy
+; gives the player the fake Verhoffin book
+; and the related key
+; fake book is item 242
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+gosub haskey
+
+;haskey 4 g_ntemp
+;if (g_ntemp==1)
+;	gosub haskey
+;	exit
+;else
+;	gosub nokey
+;	exit
+;endif
+
+
+;-------------------------------------
+:haskey
+;-------------------------------------
+haskey 281 g_ntemp
+if (g_ntemp==0)
+	givekey 281
+	givekey 290
+	giveitem 242
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+exit
+
+
+;-------------------------------------
+:deletecheck
+;-------------------------------------
+
+haskey 282 g_ntemp
+if (g_ntemp==1)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+
+haskey 281 g_ntemp
+if (g_ntemp==1)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+exit
+	
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+gosub deletecheck
+
+exit

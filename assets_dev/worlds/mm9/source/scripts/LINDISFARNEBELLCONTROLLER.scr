@@ -1,0 +1,180 @@
+;--------------------------------------------------
+;LindisfarneBellController.scr
+; timmy
+; Controls Lindisfarne Bell Puzzle
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#Number			FirstBell
+#Number			SecondBell
+#Number			ThirdBell
+#Number			FourthBell
+#Number			FifthBell
+
+
+;--------------------------------------------------
+:Reset
+;--------------------------------------------------
+
+Set FirstBell, 0
+Set SecondBell, 0
+Set ThirdBell, 0
+Set FourthBell, 0
+Set FifthBell, 0
+exit
+
+;--------------------------------------------------
+:OnBell1
+;--------------------------------------------------
+
+Set FirstBell 1
+exit
+
+;--------------------------------------------------
+:OnBell2
+;--------------------------------------------------
+
+if (FirstBell==1)
+	Set SecondBell, 1
+	exit
+else
+	Gosub Reset
+	exit
+endif
+
+exit
+
+;--------------------------------------------------
+:OnBell3
+;--------------------------------------------------
+
+
+if (SecondBell==1)
+	Set ThirdBell, 1
+	exit
+else
+	Gosub Reset
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:OnBell4
+;--------------------------------------------------
+
+
+if (ThirdBell==1)
+	Set FourthBell, 1
+	exit
+else
+	Gosub Reset
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:OnBell5
+;--------------------------------------------------
+
+
+if (FourthBell==1)
+	Set FifthBell, 1
+	Gosub Finish
+	exit
+else
+	Gosub Reset
+	exit
+endif
+exit
+
+
+;--------------------------------------------------
+:Finish
+;--------------------------------------------------
+
+haskey 9507 g_ntemp
+if (g_ntemp==FALSE)
+	giveexp 2000
+endif
+
+GiveKey 9507
+getobjecthandle thjorad g_hobject
+trigger G_Hobject TurnOn
+
+getobjecthandle ThjoradMonk1 g_hobject
+Trigger g_hobject GoToPray
+getobjecthandle ThjoradMonk2 g_hobject
+Trigger g_hobject GoToPray
+getobjecthandle ThjoradMonk3 g_hobject
+Trigger g_hobject GoToPray
+getobjecthandle ThjoradMonk4 g_hobject
+Trigger g_hobject GoToPray
+
+
+getobjecthandle Bell1, g_hobject
+trigger g_hobject use
+wait 1 .5, 1
+exit
+
+;--------------------------------------------------
+:1
+;--------------------------------------------------
+
+getobjecthandle Bell2, g_hobject
+trigger g_hobject use
+wait 1 .5, 2
+
+exit
+
+;--------------------------------------------------
+:2
+;--------------------------------------------------
+
+getobjecthandle Bell3, g_hobject
+trigger g_hobject use
+wait 1 .25, 3
+
+exit
+
+
+
+;--------------------------------------------------
+:3
+;--------------------------------------------------
+
+getobjecthandle Bell4, g_hobject
+trigger g_hobject use
+wait 1 .25, 4
+
+exit
+
+;--------------------------------------------------
+:4
+;--------------------------------------------------
+
+getobjecthandle Bell5, g_hobject
+trigger g_hobject use
+wait 1 .5, DoNothing
+
+exit
+
+
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;TraceON
+
+AddTrigger Bell1 OnBell1
+AddTrigger Bell2 OnBell2
+AddTrigger Bell3 OnBell3
+AddTrigger Bell4 OnBell4
+AddTrigger Bell5 OnBell5
+
+Gosub Reset
+exit
+

@@ -1,0 +1,93 @@
+schema: openyamm.model3d.v1
+id: woodbin_debris
+model: woodbin_debris.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/DEBRIS/WOODBIN_DEBRIS.abc
+  commandString: NoAnimation
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: Log
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 20
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+  - index: 1
+    name: Spot01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 2
+    name: Spot01.Target
+    parent: 0
+    flags: 0
+    children: []
+  - index: 3
+    name: Omni01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 4
+    name: Omni02
+    parent: 0
+    flags: 0
+    children: []
+  - index: 5
+    name: Bone03
+    parent: 0
+    flags: 0
+    children:
+    - 6
+    - 7
+  - index: 6
+    name: Bone04
+    parent: 5
+    flags: 0
+    children: []
+  - index: 7
+    name: Log
+    parent: 5
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 5.12
+  - 33.28
+  - 5.12
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/debris/woodbin_debris.abc

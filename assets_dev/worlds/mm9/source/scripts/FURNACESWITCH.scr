@@ -1,0 +1,69 @@
+;-----------------------------------------------------
+;
+;	FurnaceSwitch.scr
+;
+;	Karl Drown 10-11-01
+;	Super simple "Move My World Object" script.
+;	
+;	
+;-----------------------------------------------------
+
+#include Globals.inc
+
+#hObject	hMCMarkerA
+#hObject	hMCMarkerB
+#hObject	hMessageA
+#hObject	hMessageB
+
+#number		bVarA
+#number		bVarB
+
+;-----------------------------------------------------
+:StopHere
+;-----------------------------------------------------
+
+	Exit TRUE
+
+;-----------------------------------------------------
+:SendTrigger
+;-----------------------------------------------------
+	
+	;;GetObjectHandle GasRelease0, hMessageA
+	;;GetStat hMessage, IsOpen, bVarA
+
+	;;GetObjectHandle PoolDamageBr0, hMCMarkerA
+	;;GetObjectHandle PoolDamageBr1, hMCMarkerB
+
+	GetStat hMessageB, IsOpen, bVarB
+
+	if (bVarB==TRUE)
+		Trigger hMCMarkerA, MoveMe
+		Trigger hMCMarkerB, MoveMe
+		
+	endif
+
+	Exit
+	
+;-----------------------------------------------------
+:Initiate
+;-----------------------------------------------------
+	GetMyHandle hMessageB
+	GetObjectHandle GasRelease0, hMessageA
+	
+	;;GetStat hMessageB, IsOpen, bVarB
+	;;GetStat hMessageA, IsOpen, bVarA
+
+	GetObjectHandle PoolDamageBr0, hMCMarkerA
+	GetObjectHandle PoolDamageBr1, hMCMarkerB
+
+	;;GoSub SendTrigger
+
+	Exit
+
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	
+	AddTrigger Use, 
+	Exit
+

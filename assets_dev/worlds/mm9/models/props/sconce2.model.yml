@@ -1,0 +1,157 @@
+schema: openyamm.model3d.v1
+id: sconce2
+model: sconce2.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/SCONCE2.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Cone02
+  materialIndex: 0
+  lods:
+  - faces: 76
+    vertices: 43
+  - faces: 56
+    vertices: 33
+  - faces: 20
+    vertices: 15
+- name: Cone03
+  materialIndex: 0
+  lods:
+  - faces: 76
+    vertices: 43
+  - faces: 56
+    vertices: 33
+  - faces: 20
+    vertices: 15
+- name: head 1
+  materialIndex: 0
+  lods:
+  - faces: 204
+    vertices: 125
+  - faces: 160
+    vertices: 103
+  - faces: 122
+    vertices: 84
+- name: head 04
+  materialIndex: 0
+  lods:
+  - faces: 218
+    vertices: 126
+  - faces: 158
+    vertices: 96
+  - faces: 124
+    vertices: 79
+- name: NGon01
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+materials:
+- index: 0
+  texture: skins_preview/props/sconce2.png
+  runtime_texture: skins/props/sconce2.dtx
+  preview_texture: skins_preview/props/sconce2.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SCONCE2.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 7
+  - index: 1
+    name: sconce head 1
+    parent: 0
+    flags: 0
+    children:
+    - 2
+    - 3
+    - 4
+    - 6
+  - index: 2
+    name: Cone02
+    parent: 1
+    flags: 0
+    children: []
+  - index: 3
+    name: Cone03
+    parent: 1
+    flags: 0
+    children: []
+  - index: 4
+    name: head 1
+    parent: 1
+    flags: 0
+    children:
+    - 5
+  - index: 5
+    name: head 04
+    parent: 4
+    flags: 0
+    children: []
+  - index: 6
+    name: NGon01
+    parent: 1
+    flags: 0
+    children: []
+  - index: 7
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 8
+  - index: 8
+    name: Bone02
+    parent: 7
+    flags: 0
+    children: []
+sockets:
+- name: FireNode
+  node: 6
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+animations:
+- name: static_object
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: static_object
+  extents:
+  - 20.48
+  - 20.48
+  - 17.92
+  origin:
+  - 0.0
+  - -10.24
+  - -2.56
+roles:
+- static_model
+source_model: models/props/sconce2.abc

@@ -1,0 +1,644 @@
+schema: openyamm.model3d.v1
+id: bigfoot
+model: bigfoot.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/BIGFOOT.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: bigfoot
+  materialIndex: 0
+  lods:
+  - faces: 764
+    vertices: 384
+  - faces: 572
+    vertices: 288
+  - faces: 382
+    vertices: 193
+  - faces: 190
+    vertices: 97
+materials:
+- index: 0
+  texture: skins_preview/bigfoot1.png
+  runtime_texture: skins/bigfoot1.dtx
+  preview_texture: skins_preview/bigfoot1.png
+  source: mm9/extracted/SKINS/SKINS/BIGFOOT1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 19
+    - 23
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bip01 Spine3
+    parent: 4
+    flags: 1
+    children:
+    - 6
+    - 7
+    - 13
+  - index: 6
+    name: Bip01 Head
+    parent: 5
+    flags: 1
+    children: []
+  - index: 7
+    name: Bip01 L Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Bip01 L UpperArm
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bip01 L Forearm
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bip01 L Hand
+    parent: 9
+    flags: 1
+    children:
+    - 11
+    - 12
+  - index: 11
+    name: Bip01 L Finger0
+    parent: 10
+    flags: 1
+    children: []
+  - index: 12
+    name: Bip01 L Finger1
+    parent: 10
+    flags: 1
+    children: []
+  - index: 13
+    name: Bip01 R Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: Bip01 R UpperArm
+    parent: 13
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 R Forearm
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bip01 R Hand
+    parent: 15
+    flags: 1
+    children:
+    - 17
+    - 18
+  - index: 17
+    name: Bip01 R Finger0
+    parent: 16
+    flags: 1
+    children: []
+  - index: 18
+    name: Bip01 R Finger1
+    parent: 16
+    flags: 1
+    children: []
+  - index: 19
+    name: Bip01 L Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Bip01 L Calf
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bip01 L Foot
+    parent: 20
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Bip01 L Toe0
+    parent: 21
+    flags: 1
+    children: []
+  - index: 23
+    name: Bip01 R Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bip01 R Calf
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bip01 R Foot
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: Bip01 R Toe0
+    parent: 25
+    flags: 1
+    children: []
+sockets:
+- name: LHand1
+  node: 12
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.5866532325744629
+  - 0.5418554544448853
+  - -0.4532681703567505
+  - 0.3959524631500244
+- name: RHand1
+  node: 18
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.5418554544448853
+  - 0.5866532921791077
+  - -0.3959527611732483
+  - 0.4532681703567505
+- name: RangeAttack
+  node: 18
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.5418554544448853
+  - 0.5866532921791077
+  - -0.3959527611732483
+  - 0.4532681703567505
+animations:
+- name: static_model
+  durationMs: 66
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: stand
+  durationMs: 2200
+  keyframes: 13
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 900
+  keyframes: 14
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 286
+    event: footstep
+  - timeMs: 725
+    event: footstep
+- name: walkfidget
+  durationMs: 1800
+  keyframes: 26
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: playanimsound
+  - timeMs: 517
+    event: footstep
+  - timeMs: 968
+    event: footstep
+  - timeMs: 1418
+    event: footstep
+  - timeMs: 1800
+    event: footstep
+- name: run
+  durationMs: 700
+  keyframes: 26
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 105
+    event: footstep
+  - timeMs: 385
+    event: footstep
+- name: fidget1
+  durationMs: 4866
+  keyframes: 31
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 500
+    event: speakanimsound
+- name: fidget2
+  durationMs: 2500
+  keyframes: 16
+  interpolationTimeMs: 200
+  events: []
+- name: Hattack1
+  durationMs: 966
+  keyframes: 25
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 53
+    event: lunge
+  - timeMs: 214
+    event: speakanimsound
+  - timeMs: 456
+    event: Lattack
+- name: Hattack2
+  durationMs: 1033
+  keyframes: 18
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 333
+    event: speakanimsound
+  - timeMs: 566
+    event: Rattack
+- name: Rattack1
+  durationMs: 1033
+  keyframes: 18
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 66
+    event: playanimsound
+  - timeMs: 566
+    event: RangeAttack
+- name: wince1
+  durationMs: 1000
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 66
+    event: speakanimsound
+- name: wince2
+  durationMs: 1000
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 100
+    event: speakanimsound
+- name: die1
+  durationMs: 1800
+  keyframes: 29
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0  62 -61
+  - timeMs: 147
+    event: Velocity  0  62 -61; speakanimsound
+  - timeMs: 295
+    event: Velocity  0  53 -53
+  - timeMs: 501
+    event: Velocity  0  4 -25
+  - timeMs: 590
+    event: playdeathsound
+  - timeMs: 678
+    event: Velocity  0  8 -10
+  - timeMs: 826
+    event: Velocity  0  6 -3
+  - timeMs: 974
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: die2
+  durationMs: 1100
+  keyframes: 18
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0  35 -47
+  - timeMs: 134
+    event: Velocity  0  16 -56; speakanimsound
+  - timeMs: 268
+    event: Velocity  0  66 -103
+  - timeMs: 403
+    event: Velocity  0  129 -70
+  - timeMs: 644
+    event: Velocity  0  2 -36; playdeathsound
+  - timeMs: 858
+    event: Velocity  0  45 -34
+  - timeMs: 966
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: Backpedal
+  durationMs: 1100
+  keyframes: 14
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 214
+    event: footstep
+  - timeMs: 751
+    event: footstep
+- name: BackpedalRun
+  durationMs: 800
+  keyframes: 14
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 156
+    event: footstep
+  - timeMs: 546
+    event: footstep
+- name: taunt
+  durationMs: 1200
+  keyframes: 23
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 400
+    event: playanimsound
+  - timeMs: 533
+    event: playsoundFX
+  - timeMs: 693
+    event: playanimsound
+  - timeMs: 880
+    event: playsoundFX
+- name: JumpingDown
+  durationMs: 1333
+  keyframes: 23
+  interpolationTimeMs: 200
+  events: []
+- name: LyingDown
+  durationMs: 2000
+  keyframes: 21
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: static_model
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - 23.04
+  - 0.0
+- name: stand
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: walk
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: walkfidget
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: run
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: fidget1
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: fidget2
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: Hattack1
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: Hattack2
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: Rattack1
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: wince1
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: wince2
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: die1
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: die2
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: Backpedal
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: BackpedalRun
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: taunt
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: JumpingDown
+  extents:
+  - 51.2
+  - 120.32000000000001
+  - 51.2
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+- name: LyingDown
+  extents:
+  - 51.2
+  - 30.72
+  - 120.32000000000001
+  origin:
+  - 0.0
+  - -120.32000000000001
+  - 0.0
+roles:
+- actor_model
+source_model: models/bigfoot.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: bigfoot_bigfoot1
+  source_skins:
+  - skins/bigfoot1.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 190
+    number: '198'
+    monster_name: Bigfoot
+    type_picture: Bigfoot A
+    base_name: Bigfoot
+  - table: MONSTERS
+    row: 190
+    number: '198'
+    monster_name: Bigfoot
+    type_picture: Bigfoot A
+    base_name: Bigfoot
+- id: bigfoot_bigfoot2
+  source_skins:
+  - skins/bigfoot2.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 191
+    number: '199'
+    monster_name: Sasquatch
+    type_picture: Bigfoot B
+    base_name: Bigfoot
+  - table: MONSTERS
+    row: 191
+    number: '199'
+    monster_name: Sasquatch
+    type_picture: Bigfoot B
+    base_name: Bigfoot
+- id: bigfoot_bigfoot3
+  source_skins:
+  - skins/bigfoot3.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 192
+    number: '200'
+    monster_name: Yeti
+    type_picture: Bigfoot C
+    base_name: Bigfoot
+  - table: MONSTERS
+    row: 192
+    number: '200'
+    monster_name: Yeti
+    type_picture: Bigfoot C
+    base_name: Bigfoot

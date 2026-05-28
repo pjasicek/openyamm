@@ -1,0 +1,51 @@
+;----------------------------------------------------------------
+;	Drunk.scr
+;	John Machin
+;
+;		Default script for wanderers
+;----------------------------------------------------------------
+#include globals.inc
+#include wander.inc
+#include aiglobals.inc
+
+#hobject	hAlertedBy 
+#string		sAlertName
+
+;Passed in Parameter to get Wander distance
+#number		g_nDistance
+
+;----------------------------------------------------------------
+:InitDrunk
+;----------------------------------------------------------------	
+	;Set wander distance
+	GetParam 1, g_nDistance
+	
+	if( g_nDistance != 0 )
+		Set MAX_DIST_FROM_STARTPOINT, g_nDistance
+	else
+		Set MAX_DIST_FROM_STARTPOINT, 350
+	endif
+
+	;Set how often we idle 1 equals 10% valid numbers are 1 to 10
+	Set g_IdleFrequency, 0
+
+	;Set max time in seconds before idle check
+	Set g_IdleCheckMin, 2
+	Set g_IdleCheckMax, 2
+
+	;Set turn degree min max for more erratic movement
+	Set g_TurnDegreeMin, 60
+	Set g_TurnDegreeMax, 90
+
+	;Set how often special anim is played valid numbers are 1 to 10
+	Set g_SpecialAnimFrequency, 0
+	
+	Exit 
+
+;----------------------------------------------------------------
+:Main
+;----------------------------------------------------------------	
+	;Init Wandering Behavior	
+	gosub WanderInit	
+
+	Exit

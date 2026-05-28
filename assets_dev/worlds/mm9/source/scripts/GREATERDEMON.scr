@@ -1,0 +1,78 @@
+;---------------------------------------------
+;	GreaterDemon.scr
+;	Jeff Leggett
+;
+;	p0 - pass a 1 if you want to spawn in from
+;		 the ground...
+;---------------------------------------------
+
+#include baseMelee.inc
+#include range.inc
+#include Flags.inc
+
+;---------------------------------------------
+:AwareDone
+;---------------------------------------------
+	gosub Begin
+
+	Exit
+
+;---------------------------------------------
+:SpawnDone
+;---------------------------------------------
+	Aware AwareDone
+
+	Exit
+
+;---------------------------------------------
+:DoSpawnAnim
+;---------------------------------------------
+
+	GetPlayerHandle g_hObject
+	FaceObject g_hObject
+
+	PlayAnim Spawn, SpawnDone
+	SetFlag g_hMyObject,FLAG_VISIBLE
+
+	Exit
+
+;---------------------------------------------
+:SpawnIn
+;
+;	Play our animation and do our special FX
+;
+;---------------------------------------------
+
+	DoClientFX g_hMyObject,GreaterDemon
+
+	Wait 29, 1, DoSpawnAnim
+
+
+	Exit
+	
+
+;---------------------------------------------
+:Begin
+;---------------------------------------------
+	
+	gosub BaseInit
+	gosub RangeInit
+	exit
+
+;---------------------------------------------
+:Main
+;---------------------------------------------
+
+	GetParam 0, g_bTemp
+
+	if ( g_bTemp==TRUE )
+		GetMyHandle g_hMyObject
+		ClearFlag g_hMyObject,FLAG_VISIBLE
+		Wait 0, 0.1, SpawnIn
+	else
+		gosub Begin
+	Endif
+
+
+	Exit
+

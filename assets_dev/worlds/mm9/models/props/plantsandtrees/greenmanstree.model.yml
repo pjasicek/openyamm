@@ -1,0 +1,486 @@
+schema: openyamm.model3d.v1
+id: greenmanstree
+model: greenmanstree.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/PLANTSANDTREES/GREENMANSTREE.abc
+  commandString: NoAnimation;FadeRangeMin 4500;FadeRangeMax 5000;VisRadius 256
+  internalRadius: 1920.0
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 7680.0
+  - 4.023306898564917e+25
+pieces:
+- name: treeMesh
+  materialIndex: 0
+  lods:
+  - faces: 1098
+    vertices: 551
+  - faces: 928
+    vertices: 466
+  - faces: 676
+    vertices: 340
+  - faces: 252
+    vertices: 128
+- name: Branch20
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch21
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch22
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch23
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch24
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch25
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch26
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch27
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch28
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch29
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch30
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch31
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch32
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch33
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch34
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch35
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch36
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch37
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch38
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch39
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch40
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch41
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch42
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch43
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch44
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch45
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch46
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch47
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch48
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch49
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch50
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch51
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch52
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch53
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch54
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch55
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Branch16
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+materials:
+- index: 0
+  texture: skins_preview/props/plantsandtrees/bark.png
+  runtime_texture: skins/props/plantsandtrees/bark.dtx
+  preview_texture: skins_preview/props/plantsandtrees/bark.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/PLANTSANDTREES/BARK.dtx
+- index: 1
+  texture: skins_preview/props/plantsandtrees/realbranch.png
+  runtime_texture: skins/props/plantsandtrees/realbranch.dtx
+  preview_texture: skins_preview/props/plantsandtrees/realbranch.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/PLANTSANDTREES/REALBRANCH.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 358.40000000000003
+  - 1472.0
+  - 358.40000000000003
+  origin:
+  - 166.4
+  - -2193.92
+  - 66.56
+roles:
+- static_model
+source_model: models/props/plantsandtrees/greenmanstree.abc

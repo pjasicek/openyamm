@@ -1,0 +1,1940 @@
+format_version: 1
+source_file: NPC283.rude
+rows:
+  - source:
+      file: NPC283.rude
+      row: 1
+    raw_columns:
+      - 283
+      - 17
+      - 1
+      - Thank you.
+      - You are most welcome, my children.  Was there anything else you needed?
+      - 283
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 17
+      choice_slot: 1
+      prompt: Thank you.
+      response: You are most welcome, my children.  Was there anything else you needed?
+      next: 283
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 283
+  - source:
+      file: NPC283.rude
+      row: 2
+    raw_columns:
+      - 283
+      - 283
+      - 1
+      - We're here to summon the dragon.
+      - Well, we seem to be having a problem, one that requires the utmost delicacy.  Could you handle that?
+      - 21
+      - 484
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 338
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 283
+      choice_slot: 1
+      prompt: We're here to summon the dragon.
+      response: Well, we seem to be having a problem, one that requires the utmost delicacy.  Could you handle that?
+      next: 21
+      raw_fields:
+        c07: 484
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 338
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 21
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 484
+            qbit_id: 9484
+            state_id: mm9.keys.484
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 484
+          qbit_id: 9484
+          state_id: mm9.keys.484
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 338
+        status: raw_value_preserved
+  - source:
+      file: NPC283.rude
+      row: 3
+    raw_columns:
+      - 283
+      - 5
+      - 1
+      - Who is he?
+      - He's a nutter that's what he is!  His name is Ramnivar and he was determined to prove that the relic was a phony!  And currently it IS a phony!  Will you help us?
+      - 6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 5
+      choice_slot: 1
+      prompt: Who is he?
+      response: He's a nutter that's what he is!  His name is Ramnivar and he was determined to prove that the relic was a phony!  And currently it IS a phony!  Will you help us?
+      next: 6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 6
+  - source:
+      file: NPC283.rude
+      row: 4
+    raw_columns:
+      - 283
+      - 21
+      - 1
+      - Whatever it takes to summon the dragon.
+      - The dragon?  He hasn't been around since....  Well you see, there's the problem.  You need the Saint's Relic to summon the dragon.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 21
+      choice_slot: 1
+      prompt: Whatever it takes to summon the dragon.
+      response: The dragon?  He hasn't been around since....  Well you see, there's the problem.  You need the Saint's Relic to summon the dragon.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC283.rude
+      row: 5
+    raw_columns:
+      - 283
+      - 4
+      - 1
+      - Where do you think the relic is?
+      - We think that a scholar stole it from us and took it back to his laboratory in Yorwick.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 4
+      choice_slot: 1
+      prompt: Where do you think the relic is?
+      response: We think that a scholar stole it from us and took it back to his laboratory in Yorwick.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC283.rude
+      row: 6
+    raw_columns:
+      - 283
+      - 6
+      - 1
+      - We will retrieve the real relic for you.  Where is this lab?
+      - Oh thank you!  His laboratory is somewhere in Yorwick.  Please hurry!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 338
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 6
+      choice_slot: 1
+      prompt: We will retrieve the real relic for you.  Where is this lab?
+      response: Oh thank you!  His laboratory is somewhere in Yorwick.  Please hurry!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 338
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 338
+        status: raw_value_preserved
+  - source:
+      file: NPC283.rude
+      row: 7
+    raw_columns:
+      - 283
+      - 16
+      - 1
+      - Sounds great!
+      - Come back tomorrow morning.  I will see to it that he is ready to go.
+      - 17
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 253
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 16
+      choice_slot: 1
+      prompt: Sounds great!
+      response: Come back tomorrow morning.  I will see to it that he is ready to go.
+      next: 17
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 253
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 17
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 253
+        status: raw_value_preserved
+  - source:
+      file: NPC283.rude
+      row: 8
+    raw_columns:
+      - 283
+      - 10
+      - 1
+      - Do you have any news?
+      - Do I?  We've lost our relic!  But keep it quiet.  We've replaced it with a sheep's ankle bone.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 10
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: Do I?  We've lost our relic!  But keep it quiet.  We've replaced it with a sheep's ankle bone.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC283.rude
+      row: 9
+    raw_columns:
+      - 283
+      - 3
+      - 1
+      - How long do you think you can fool these poor pilgrims!
+      - I don't think we can fool them much longer at all!  That's why we need your help!
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 339
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 3
+      choice_slot: 1
+      prompt: How long do you think you can fool these poor pilgrims!
+      response: I don't think we can fool them much longer at all!  That's why we need your help!
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 339
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 339
+        status: raw_value_preserved
+  - source:
+      file: NPC283.rude
+      row: 10
+    raw_columns:
+      - 283
+      - 20
+      - 1
+      - Thank you.
+      - asdf
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 20
+      choice_slot: 1
+      prompt: Thank you.
+      response: asdf
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC283.rude
+      row: 11
+    raw_columns:
+      - 283
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC283.rude
+      row: 12
+    raw_columns:
+      - 283
+      - 2
+      - 1
+      - So what's the problem?
+      - Well, a long time ago our Saint's relic went missing.  It was a very distressing time for us, but we were able to fool the pilgrim's by replacing it with a sheep's ankle bone.  No one gets close enough to be able to tell the difference anyway.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 2
+      choice_slot: 1
+      prompt: So what's the problem?
+      response: Well, a long time ago our Saint's relic went missing.  It was a very distressing time for us, but we were able to fool the pilgrim's by replacing it with a sheep's ankle bone.  No one gets close enough to be able to tell the difference anyway.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC283.rude
+      row: 13
+    raw_columns:
+      - 283
+      - 25
+      - 1
+      - Thank you.
+      - No, thank you!  Was there anything else you needed?
+      - 283
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 25
+      choice_slot: 1
+      prompt: Thank you.
+      response: No, thank you!  Was there anything else you needed?
+      next: 283
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 283
+  - source:
+      file: NPC283.rude
+      row: 14
+    raw_columns:
+      - 283
+      - 15
+      - 1
+      - We need to take a priest to Guberland.
+      - I see.  Gray Slemnir is finally going to retire, is he?  Well you may be in luck.  As I understand it, Robert Aefgil, though a pious soul, is not taking well to monastic life.  I will speak to him.  I believe he'll be returning from his penance tonight.
+      - 16
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 15
+      choice_slot: 1
+      prompt: We need to take a priest to Guberland.
+      response: I see.  Gray Slemnir is finally going to retire, is he?  Well you may be in luck.  As I understand it, Robert Aefgil, though a pious soul, is not taking well to monastic life.  I will speak to him.  I believe he'll be returning from his penance tonight.
+      next: 16
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 16
+  - source:
+      file: NPC283.rude
+      row: 15
+    raw_columns:
+      - 283
+      - 3
+      - 2
+      - Where do you think the relic is?
+      - We think that a scholar stole it from us and took it back to his laboratory in Yorwick.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 339
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 3
+      choice_slot: 2
+      prompt: Where do you think the relic is?
+      response: We think that a scholar stole it from us and took it back to his laboratory in Yorwick.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 339
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 339
+        status: raw_value_preserved
+  - source:
+      file: NPC283.rude
+      row: 16
+    raw_columns:
+      - 283
+      - 2
+      - 2
+      - No I don't think so.  Good luck!
+      - asdf
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 2
+      choice_slot: 2
+      prompt: No I don't think so.  Good luck!
+      response: asdf
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC283.rude
+      row: 17
+    raw_columns:
+      - 283
+      - 6
+      - 2
+      - No, we don't want to get involved in this crazy mix-up.
+      - Oh what shall I do?!
+      - 283
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 6
+      choice_slot: 2
+      prompt: No, we don't want to get involved in this crazy mix-up.
+      response: Oh what shall I do?!
+      next: 283
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 283
+  - source:
+      file: NPC283.rude
+      row: 18
+    raw_columns:
+      - 283
+      - 10
+      - 2
+      - What do you know about Ramnivar?
+      - He was one crazy old wizard!  He came down to study a few of the artifacts and relics we have in our possession here at the monastery.  It seems that he made off with one of our more important ones.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 10
+      choice_slot: 2
+      prompt: What do you know about Ramnivar?
+      response: He was one crazy old wizard!  He came down to study a few of the artifacts and relics we have in our possession here at the monastery.  It seems that he made off with one of our more important ones.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC283.rude
+      row: 19
+    raw_columns:
+      - 283
+      - 283
+      - 2
+      - We'd like to ask you some questions.
+      - Alright.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 283
+      choice_slot: 2
+      prompt: We'd like to ask you some questions.
+      response: Alright.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC283.rude
+      row: 20
+    raw_columns:
+      - 283
+      - 3
+      - 3
+      - What do you need a relic for anyway?
+      - Besides summoning the dragon?  All the great monasteries have a saint's relic.  That is how we attract pilgrims.  Donations from the pilgrims is how we make a living!  Otherwise we are destitute!  Will you help?
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 339
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 3
+      choice_slot: 3
+      prompt: What do you need a relic for anyway?
+      response: Besides summoning the dragon?  All the great monasteries have a saint's relic.  That is how we attract pilgrims.  Donations from the pilgrims is how we make a living!  Otherwise we are destitute!  Will you help?
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 339
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 339
+        status: raw_value_preserved
+  - source:
+      file: NPC283.rude
+      row: 21
+    raw_columns:
+      - 283
+      - 283
+      - 3
+      - Actually we're looking for a priest.
+      - Are you?  I'd say you found one.  Or are you looking for someone in particular?
+      - 15
+      - 250
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 253
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 283
+      choice_slot: 3
+      prompt: Actually we're looking for a priest.
+      response: Are you?  I'd say you found one.  Or are you looking for someone in particular?
+      next: 15
+      raw_fields:
+        c07: 250
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 253
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 250
+            qbit_id: 9250
+            state_id: mm9.keys.250
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 250
+          qbit_id: 9250
+          state_id: mm9.keys.250
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 253
+        status: raw_value_preserved
+  - source:
+      file: NPC283.rude
+      row: 22
+    raw_columns:
+      - 283
+      - 283
+      - 4
+      - We've returned for the priest.
+      - Yes of course.  He is waiting in the yard.
+      - 20
+      - 254
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 255
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 283
+      choice_slot: 4
+      prompt: We've returned for the priest.
+      response: Yes of course.  He is waiting in the yard.
+      next: 20
+      raw_fields:
+        c07: 254
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 255
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 20
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 254
+            qbit_id: 9254
+            state_id: mm9.keys.254
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 254
+          qbit_id: 9254
+          state_id: mm9.keys.254
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 255
+        status: raw_value_preserved
+  - source:
+      file: NPC283.rude
+      row: 23
+    raw_columns:
+      - 283
+      - 3
+      - 4
+      - We found a bone fragment in the Wizard's Lab.
+      - That's it!  How did you know we were looking for it?  Oh, thank you!  Here, I prepared a reward for whoever returned it!  Was there anything else you needed?
+      - 283
+      - 339
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 341
+      - 485
+      - 0
+      - 0
+      - 0
+      - 341
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 3
+      choice_slot: 4
+      prompt: We found a bone fragment in the Wizard's Lab.
+      response: That's it!  How did you know we were looking for it?  Oh, thank you!  Here, I prepared a reward for whoever returned it!  Was there anything else you needed?
+      next: 283
+      raw_fields:
+        c07: 339
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 341
+        c17: 485
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 341
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 283
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 339
+            qbit_id: 9339
+            state_id: mm9.keys.339
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 339
+          qbit_id: 9339
+          state_id: mm9.keys.339
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 341
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c17
+        value: 485
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 341
+        status: raw_value_preserved
+  - source:
+      file: NPC283.rude
+      row: 24
+    raw_columns:
+      - 283
+      - 283
+      - 5
+      - We've found your relic.
+      - You have!  Oh, well done!  We here at the monastery thank you!  Here.  I've prepared a reward for whoever returned it to us.
+      - 25
+      - 340
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 341
+      - 485
+      - 0
+      - 0
+      - 0
+      - 341
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 283
+      choice_slot: 5
+      prompt: We've found your relic.
+      response: You have!  Oh, well done!  We here at the monastery thank you!  Here.  I've prepared a reward for whoever returned it to us.
+      next: 25
+      raw_fields:
+        c07: 340
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 341
+        c17: 485
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 341
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 25
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 340
+            qbit_id: 9340
+            state_id: mm9.keys.340
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 340
+          qbit_id: 9340
+          state_id: mm9.keys.340
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 341
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c17
+        value: 485
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 341
+        status: raw_value_preserved
+  - source:
+      file: NPC283.rude
+      row: 25
+    raw_columns:
+      - 283
+      - 10
+      - 7
+      - Thanks for your time.
+      - Maybe you can help us?
+      - 283
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 10
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Maybe you can help us?
+      next: 283
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 283
+  - source:
+      file: NPC283.rude
+      row: 26
+    raw_columns:
+      - 283
+      - 283
+      - 7
+      - Not right now.
+      - Oh dear. Well, if you change your mind we could really use your help!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 283
+      node_id: 283
+      choice_slot: 7
+      prompt: Not right now.
+      response: Oh dear. Well, if you change your mind we could really use your help!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

@@ -1,0 +1,22 @@
+Coordinates for Pause menu Items:
+
+PauseMenuBG.pcx		  0x   0y	800x600 Background
+PauseMenuInactive.pcx	  0x   0y	250x600	
+PMSaveAnim.pcx		 36x  50y	209x100
+PMLoadAnim.pcx		 36x 186y	209x100
+PMOptionsAnim.pcx	 36x 300y	209x100
+PMMainAnim.pcx	 	 36x 426y	209x100
+PMResumeAnim.pcx	554x 454y	209x100
+
+Note: Highlighted areas should play their anim at ~15 FPS
+
+Note: All Animations are 10 frames long
+
+Note: Anims should "Fade" in and out when mouse over and leaves the button.
+	Fade in and out should be about 1/2 second. (If Possible)
+
+Note: The "Inactive" graphic should cover the entire left side menu when 
+	choosing Load Game or Save Game.
+
+Note: Some of these overlap, for mouse-hover purposes, make the 
+	smaller height (y) files take precedence, if possible.

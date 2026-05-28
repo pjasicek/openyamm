@@ -1,0 +1,105 @@
+;--------------------------------------------------
+;ArenaFightPlayer.scr
+; timmy
+; handles arena monsters fighting player stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+#number			nHitPoints
+
+#number			nMinHP
+#number			nMaxHP
+
+
+;-------------------------------------
+:GetOutThere
+;-------------------------------------
+	getobjecthandle marker2 g_hobject
+	runto g_hobject 128 OnArrive
+	OnFoundTarget OnFoundTarget
+
+	Exit
+
+;-------------------------------------
+:Startup
+;-------------------------------------
+
+	getstat g_hmyobject HitPoints g_ntemp
+	nMinHP = g_ntemp * .7
+	nMaxHP = g_ntemp * 1.5
+	getrandomint nMinHP, nMaxHP, nHitPoints
+	setstat g_hmyobject Hitpoints nHitPoints
+	setstat g_hmyobject GaveTreasure TRUE
+
+	GetObjectHandle RotatingDoor2,g_hObject
+	Trigger g_hObject,Use
+
+	GetObjectHandle RotatingDoor4,g_hObject
+	Trigger g_hObject,Use
+
+	Wait 24,0.2,GetOutThere
+
+	exit
+
+;-------------------------------------
+:OnArrive
+;-------------------------------------
+#string sScript
+
+	GetPlayerHandle g_hObject
+
+	Target g_hObject,TRUE
+
+	GetStatStr g_hMyObject,ScriptName,sScript
+	RunScript sScript
+	Exit
+
+;--------------------------------------------------
+:OnFoundTarget
+;--------------------------------------------------
+	goto OnArrive
+
+	Exit
+
+;--------------------------------------------------
+:WaitForSignal
+;--------------------------------------------------
+#number			bWaitingForPlayer
+
+	GetConsoleNumVar WaitingForPlayer,bWaitingForPlayer
+
+	if ( bWaitingForPlayer==FALSE )
+		goto Startup
+		Exit
+	Endif
+
+	Wait 24,1.5,WaitForSignal
+
+	Exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+GetMyHandle g_hMyObject
+
+Addfriend AIBase
+AddEnemy Player
+
+;traceon 
+;Don't Forget to Delete this!
+givekey 1011
+
+SetPropString DeathTriggerTarget,ArenaFight
+SetPropString DeathTriggerMessage,Dead
+
+GetStatStr g_hmyobject,ScriptName,g_sTemp
+CacheScript g_sTemp
+
+gosub WaitForSignal
+
+
+
+exit
+

@@ -1,0 +1,56 @@
+;--------------------------------------------------
+;NPC309.scr
+; timmy
+; handles mary sheepherder voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include followplayer.inc
+#include basewander.inc
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+getparam 0 g_htarget
+FaceObject g_htarget 200 DoNothing
+
+Gosub FollowInit
+Gosub FollowOnUse
+getobjecthandle CommonerChildHuman2ChildA0 g_hobject
+trigger g_hobject Target
+
+exit
+
+;--------------------------------------------------
+:OnRun
+;--------------------------------------------------
+
+getparam 0 g_htarget
+stop
+gosub followstop
+runto g_htarget 16 OnArrive
+exit
+
+;--------------------------------------------------
+:OnArrive
+;--------------------------------------------------
+
+runscript Cat.scr
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+AddTrigger RuntoMe OnRun
+Addtrigger Use, OnUse
+
+exit
+

@@ -1,0 +1,33 @@
+;--------------------------------------------------
+;TaSarStudent.scr
+;10/4
+; timmy + SJR
+; handles the students going to the combat arena
+;--------------------------------------------------
+
+#include globals.inc
+#include baseMelee.inc
+#include Range.inc
+
+
+#string		L_Enemy = 0
+
+;--------------------------------------------------
+:OnHate
+;--------------------------------------------------
+	AddEnemy L_Enemy
+
+	exit 1
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+	Addtrigger Hate, OnHate
+	Getparam 0 L_Enemy
+	AddFriend L_Enemy
+	gosub RangeInit
+	gosub BaseInit
+
+	exit 1
+

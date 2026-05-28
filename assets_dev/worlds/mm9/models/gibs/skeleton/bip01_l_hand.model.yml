@@ -1,0 +1,57 @@
+schema: openyamm.model3d.v1
+id: bip01_l_hand
+model: bip01_l_hand.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/GIBS/SKELETON/BIP01 L HAND.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: d_LeftHand01
+  materialIndex: 0
+  lods:
+  - faces: 32
+    vertices: 19
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: d_LeftHand01
+  durationMs: 66
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: d_LeftHand01
+  extents:
+  - 7.68
+  - 5.12
+  - 7.68
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/gibs/skeleton/bip01 l hand.abc

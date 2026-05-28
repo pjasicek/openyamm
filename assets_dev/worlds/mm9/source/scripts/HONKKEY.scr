@@ -1,0 +1,99 @@
+;----------------------------------
+;	HonkKey.scr
+;	by SJR
+;	10-09-01
+;	Purpose:take and remove
+;			accountant's key
+;			to the treasury
+;	Triggers:
+;		"GetKey" = will remove key
+;		"PutKey" = will replace key
+;		"Use"    = gives key to player
+;----------------------------------
+#include BaseGlobals.inc
+#include flags.inc
+
+#hobject	hMe = 0
+#hobject	hDoor = 0
+#string		sDoorName = ""
+#hobject	hAcct = 0
+#string		sAcctName = ""
+
+#number		KEY_HONKKEY = 7000
+#number		ITEM_HONKKEY = 445
+#number		bKeyGone = 1
+
+;----------------------------------
+:Main
+;----------------------------------
+	GetParam 0, sDoorName
+	GetParam 1, sAcctName
+
+	OnPostStartWorld InitHonkKey
+	OnPostMiniSaveLoad InitHonkKey
+
+	Exit TRUE
+
+;----------------------------------
+:InitHonkKey
+;----------------------------------
+	GetMyHandle hMe
+	GetObjectHandle sDoorName, hDoor
+	GetObjectHandle sAcctName, hAcct
+	if( hAcct!=0 )
+		CreateObjectLink hAcct
+		OnObjectLinkBroken OnObjectLinkBroken
+	endif
+
+	HasKey KEY_HONKKEY, bKeyGone
+	if( bKeyGone==TRUE )
+		RemoveObject hMe
+		Exit TRUE
+	endif
+
+	AddTrigger use, GivePlayerKey
+	AddTrigger getkey, RemoveKey
+	AddTrigger putkey, ReplaceKey
+
+	Exit TRUE
+
+;----------------------------------
+:OnObjectLinkBroken
+;----------------------------------
+	hAcct = NULL
+
+	Exit TRUE
+
+;----------------------------------
+:GivePlayerKey
+;----------------------------------
+	GiveKey KEY_HONKKEY
+	GiveItem ITEM_HONKKEY
+	Trigger hDoor, unlockbuttons
+
+	if( hAcct!=0 )
+		GetDistance hMe, hAcct, bKeyGone
+		if( bKeyGone<200 )
+			Trigger hAcct, stolen
+		endif
+	endif
+	
+	RemoveObject hMe
+
+	Exit TRUE
+
+;----------------------------------
+:RemoveKey
+;----------------------------------
+	ClearFlag hMe, FLAG_VISIBLE
+	RemoveTrigger use
+
+	Exit TRUE
+
+;----------------------------------
+:ReplaceKey
+;----------------------------------
+	SetFlag hMe, FLAG_VISIBLE
+	AddTrigger use, GivePlayerKey
+
+	Exit TRUE

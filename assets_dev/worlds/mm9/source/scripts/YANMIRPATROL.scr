@@ -1,0 +1,215 @@
+;==============================================================
+;	YanmirPatrol.scr
+;	kd 10-26-01
+;	Parameters
+;
+;	Specialized patrol script for Yanmir the giant.
+;	When triggered, Yanmir runs to a SquishVictim and kills it.
+;	Then he begins his routine patrol of the Fort.  He kicks
+;	any closed doors. (Added Sfx with FrostDust and DoorQuakes)
+;	Cool Factor = HIGH!!
+;
+;	0 - Marker Root name  (ie for Markers Mrk0, Mrk1, Mrk2  "Mrk" is the root name)
+;	1 - Number of Markers
+;
+;	2 - Second Root name for marker path. (Optional)
+;	3 - Number of Markers. (Optional)	
+;
+;	4 - FireObject Root Name (FrostDust in this instance)
+;	5 - EarthQuakeObject Root Name (DoorQuake in this instance)
+;	
+;==============================================================
+#include BaseMelee.inc
+#include BaseDoor.inc
+
+#hObject	hMarker
+#hObject	hSquishVictim
+#hObject	hDummy
+#hObject	hDoor
+#hObject	hDustObject
+#hObject	hDoorQuake
+
+#string		sPatrolPathA
+#string	 	sPatrolPathB
+#string		sMarker
+#string		sDusting
+#string		sDustString
+#string		sQuaking
+#string		sDoorString
+
+#number		nMarkersA
+#number 	nMarkersB
+#number		nMarker = 0
+#number		nForward = 0
+#number		nDoor = 0
+#number		counter = 0
+#number		nDusting = 0
+
+
+;--------------------------------------------------------
+:OnDeath
+;
+; just in case some freak figures out a way to kill me
+; give the completed quest key <--------TL
+;--------------------------------------------------------
+
+givekey 69
+gosub OnDeath, 1
+exit
+
+;--------------------------------------------------------------
+:dn
+;--------------------------------------------------------------
+exit 1
+;--------------------------------------------------------------
+:Defeated
+;--------------------------------------------------------------
+	;;Die
+	Exit TRUE
+;--------------------------------------------------------------
+:AlertCall
+;--------------------------------------------------------------
+	;;PlaySound sounds\VO\Charrrge.wav, dn, hDummy, 5000, FALSE, 100
+	Gosub BaseInit
+	Exit 1
+;--------------------------------------------------------------
+:KeepMoving
+;(Optional)
+;	Stop at the start and wait for @M (Mundane time event)
+;--------------------------------------------------------------
+	counter = counter + 1
+	Mod counter, 16
+	if( counter == 0 )
+		nMarker = 0
+		sMarker = sPatrolPathA + nMarker
+		Stop
+		Exit 1
+	else
+		Gosub GoToMarker
+	endif
+	Exit 1
+;--------------------------------------------------------------
+:GoToMarker
+;	Main Patrol routine (Recursive with string cancatenation)
+;	Barrowed from Brett Yagi's patrol routine.
+;--------------------------------------------------------------
+	if ( nMarker < nMarkersA)
+		nMarker = nMarker + 1
+		sMarker = sPatrolPathA + nMarker
+		GetObjectHandle sMarker hMarker
+		WalkTo hMarker, 1, GoToMarker
+	else
+		GoSub WalkToLastMarker
+	endif
+	Exit 1
+;--------------------------------------------------------------
+:WalkToLastMarker
+;--------------------------------------------------------------
+	nMarker = 0
+	nDusting = 0
+	GetObjectHandle YanmirSquishMarker0, hMarker
+	WalkTo hMarker, 0, Marker0
+	Exit 1
+;--------------------------------------------------------------
+:UnStuckMe
+;	Barrowed from Brett Yagi's patrol routine.
+;--------------------------------------------------------------
+	if ( nForward == 0 )
+		nMarker = nMarker - 1
+	endif
+	GoSub GoToMarker
+	Exit 1
+
+
+;==============================================================
+:KickTheDoor
+;	[Specialized grouped subroutines.]
+;	Yanmir encounters a Door Object, kicks it, opens it
+;	and we get to see stirred up FrostDust, shaking walls
+;	and door slammin' Sfx.
+;==============
+	GetParam 0 hDoor
+	PlaySound sounds\AnimSounds\YanmirAware.wav, dn, 1000, 2000, FALSE, 100
+	PlayAnim Hattack2, dn
+	Wait 1, .8, Kicking
+	Exit 1
+  :Kicking
+	sDusting = sDustString + nDusting
+	sQuaking = sDoorString + nDusting
+	GetObjectHandle sDusting, hDustObject
+	GetObjectHandle sQuaking, hDoorQuake
+	nDusting = nDusting + 1
+	PlaySound Sounds\Door\stonedoorslam.wav, dn, 1000, 3500, FALSE, 100
+	Trigger hDustObject, On
+	nMarker = nMarker - 1
+	Trigger hDoor use
+	Wait 0, .25, DustMe
+	Exit 1
+  :DustMe
+	Trigger hDustObject, Off
+	Trigger hDoorQuake, Trigger
+	PlaySound Sounds\Door\doorslammetal01.wav, dn, 1000, 3500, FALSE, 100
+	Wait 0, 1, GoToMarker
+	Exit 1
+;=============
+
+
+;==============================================================
+:PlayScene
+;	[Specialized grouped subroutines.]
+;	Triggered to play out the SquishVictim and PlayAnims
+;	associated with SquishVictim stuck to Yanmir's Boot.
+;=============
+	RunTo hMarker, 0, StepOn
+	Exit 1
+  :StepOn
+	PlaySound sounds\Squish.wav, dn, 100, 2000, FALSE, 100
+	PlayAnim StepOn, Wipe
+	Damage hSquishVictim, 3000, 4, FALSE
+	Exit 1
+  :Wipe
+	PlaySound sounds\Squish2.wav, dn, 100, 2000, FALSE, 100
+	;;PlaySound sounds\AnimSounds\YanmirWipe.wav, dn, 100, 1000, FALSE, 100
+	PlayAnim Wipe, Wince1
+	Exit 1
+  :Wince1
+	PlaySound sounds\AnimSounds\YanmirWipe.wav, dn, 100, 1000, FALSE, 100
+	PlayAnim Wince1, dn
+	Wait 0, 0.5, Marker0
+	Exit 1
+  :Marker0
+	GetObjectHandle YanmirPathA0, hMarker
+	WalkTo hMarker, 0, FirstMarker
+	Exit 1
+  :FirstMarker
+	PlaySound sounds\AnimSounds\YanmirWipe.wav, dn, 100, 1000, FALSE, 100
+	PlayAnim Wince1, GoToMarker
+	Exit 1
+;=============
+
+
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	AddTrigger Kick, KickTheDoor
+	AddTrigger Squish, PlayScene
+	AddTrigger Destroy, Defeated
+	GetObjectHandle YanmirSquishMarker0, hMarker
+	GetObjectHandle SquishVictim0, hSquishVictim
+	nMarkersA = nMarkersA - 1
+	Exit 1
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	GetParam 0 sPatrolPathA
+	GetParam 1 nMarkersA
+	GetParam 2 sPatrolPathB
+	GetParam 3 nMarkersB
+	GetParam 4 sDustString
+	GetParam 5 sDoorString
+	OnStuck UnStuckMe
+	OnDoor KickTheDoor
+	OnFoundTarget AlertCall
+	Wait 0 .1 main2
+	Exit 1
+;------------- E n d - O f - F i l e -------------------

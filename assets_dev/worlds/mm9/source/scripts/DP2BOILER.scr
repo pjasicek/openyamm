@@ -1,0 +1,98 @@
+;----------------------------------------------
+;DP2Boiler.scr
+; By Timmy
+; works the boiler room puzzle
+;----------------------------------------------
+
+#include globals.inc
+#include damageType.inc
+
+
+#number			Used
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+if (used!=true)
+
+	Playanim open
+
+	GetObjectHandle Deathwater1, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, DamageOn
+	endif
+
+	GetObjectHandle Deathwater2, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, DamageOn
+	endif
+
+	GetObjectHandle steam1, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, On
+	endif
+
+	GetObjectHandle steam2, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, On
+	endif
+
+	GetObjectHandle Fire0, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, FireOn
+	endif
+
+	GetObjectHandle Megahydra1, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, DamageOn
+	endif
+
+	GetObjectHandle Megahydra2, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, DamageOn
+	endif
+
+
+	Set used, True
+	exit
+endif
+
+
+
+Playanim close
+
+	GetObjectHandle Deathwater1, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, DamageOff
+	endif
+	GetObjectHandle Deathwater2, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, DamageOff
+	endif
+
+	
+	GetObjectHandle steam1, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, Off
+	endif
+
+	GetObjectHandle steam2, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, Off
+	endif
+
+	GetObjectHandle Fire0, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, FireOff
+	endif
+	Set used, False
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;Traceon
+AddTrigger use, OnUse
+exit

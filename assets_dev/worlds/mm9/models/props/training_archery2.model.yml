@@ -1,0 +1,156 @@
+schema: openyamm.model3d.v1
+id: training_archery2
+model: training_archery2.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/TRAINING_ARCHERY2.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Ring-Node
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Ring-Node01
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Ring-Node02
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Ring-Node03
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Training_Archery2
+  materialIndex: 0
+  lods:
+  - faces: 186
+    vertices: 141
+  - faces: 138
+    vertices: 117
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+  - index: 1
+    name: Ring-Node
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Ring-Node01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Ring-Node02
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Ring-Node03
+    parent: 0
+    flags: 1
+    children: []
+  - index: 5
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets:
+- name: bullseye
+  node: 1
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.015486729331314564
+  - 0.7847275137901306
+  - 0.6191409230232239
+  - 0.025048159062862396
+- name: ring1
+  node: 2
+  translation:
+  - -7.117079803720117e-07
+  - 8.798795752227307e-06
+  - -1.0467016545590014e-06
+  rotation:
+  - 0.05796888843178749
+  - -0.7241845726966858
+  - -0.6812102794647217
+  - 0.09023896604776382
+- name: ring2
+  node: 3
+  translation:
+  - 6.478990690084175e-07
+  - 9.998410241678357e-06
+  - 1.50871419464238e-06
+  rotation:
+  - 0.07127001136541367
+  - -0.7311079502105713
+  - -0.6756628155708313
+  - 0.06247949227690697
+- name: ring3
+  node: 4
+  translation:
+  - 3.104904608335346e-06
+  - -1.9215094653191046e-07
+  - -3.0853974749334156e-06
+  rotation:
+  - 0.08605702966451645
+  - 0.6557011604309082
+  - 0.7412755489349365
+  - 0.11470324546098709
+animations:
+- name: Static_Model
+  durationMs: 533
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 51.2
+  - 64.0
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/training_archery2.abc

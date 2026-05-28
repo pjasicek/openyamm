@@ -1,0 +1,29 @@
+#include CutScene.inc
+
+;---------------------
+:Main
+;---------------------
+	Exit 1
+	GetParam 0, sLocationName
+	GetParam 1, sTargetName
+	GetParam 2, sNotifyName
+	GetParam 3, LISTFIRST
+	GetParam 4, LISTLAST
+
+;;	OnPostStartWorld InitDooksCastleCamera
+Wait 0, 5, InitDooksCastleCamera
+
+	Exit 1
+
+;---------------------
+:InitDooksCastleCamera
+;---------------------
+	AddTrigger Next, StartNextScene
+	AddTrigger Zoom, ZoomToTarget
+
+	cutscene_nRate = 64
+	cutscene_nGap = 96
+
+	gosub InitCutScene
+
+	Exit 1

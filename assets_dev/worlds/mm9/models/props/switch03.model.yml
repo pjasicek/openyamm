@@ -1,0 +1,111 @@
+schema: openyamm.model3d.v1
+id: switch03
+model: switch03.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/SWITCH03.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Frame
+  materialIndex: 0
+  lods:
+  - faces: 170
+    vertices: 96
+  - faces: 146
+    vertices: 84
+  - faces: 102
+    vertices: 62
+- name: Wheel
+  materialIndex: 0
+  lods:
+  - faces: 168
+    vertices: 86
+  - faces: 108
+    vertices: 56
+  - faces: 66
+    vertices: 35
+materials:
+- index: 0
+  texture: skins_preview/props/switch03.png
+  runtime_texture: skins/props/switch03.dtx
+  preview_texture: skins_preview/props/switch03.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SWITCH03.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 500
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: Down
+  durationMs: 500
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: Up
+  durationMs: 500
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 35.84
+  - 69.12
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - -15.36
+- name: Down
+  extents:
+  - 35.84
+  - 69.12
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - -15.36
+- name: Up
+  extents:
+  - 35.84
+  - 69.12
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - -15.36
+roles:
+- static_model
+source_model: models/props/switch03.abc

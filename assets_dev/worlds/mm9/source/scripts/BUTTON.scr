@@ -1,0 +1,48 @@
+
+
+
+
+
+#hobject	hHandle
+#string		sButtonPad
+#string		sButtonName
+#number		nTrig = 0
+
+;-----------------------------------------------
+:TriggerMe
+;-----------------------------------------------
+
+	nTrig = 1
+	GetMyHandle hHandle
+	Trigger hHandle Use
+
+exit 1
+
+
+;-----------------------------------------------
+:UseMe
+;-----------------------------------------------
+
+	if ( nTrig == 0 )
+		GetObjectHandle sButtonPad hHandle
+		Trigger hHandle sButtonName
+	else
+		nTrig = 0
+	endif
+
+
+exit 1
+
+
+
+;-----------------------------------------------
+:main
+;-----------------------------------------------
+
+	GetParam 0 sButtonName
+	GetParam 1 sButtonPad
+	
+	AddTrigger TriggerMe TriggerMe
+	AddTrigger Use UseMe
+
+exit

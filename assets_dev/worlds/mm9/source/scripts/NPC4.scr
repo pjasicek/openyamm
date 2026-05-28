@@ -1,0 +1,154 @@
+;--------------------------------------------------
+;NPC4.scr
+; timmy
+; handles Johannes Bem voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;promo variables
+
+#number		Fighter = 0
+#number		Mercenary = 1
+#number		Crusader = 2
+#number		Assassin = 3
+#number		Gladiator = 4
+#number		Ranger = 5
+#number		Paladin = 6
+#number		Initiate = 7
+#number		Scholar = 8
+#number		Healer = 9
+#number		Mage = 10
+#number		Lich = 11
+#number		Priest = 12
+#number		Druid = 13
+#number		Char1 = 0
+#number		Char2 = 1
+#number		Char3 = 2
+#number		Char4 = 3
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+
+Gosub toMageOne
+Gosub reward
+exit
+
+
+;--------------------------------------------------
+:toMageOne
+;--------------------------------------------------
+
+haskey 288 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+
+haskey 293 g_ntemp
+if (g_ntemp==TRUE)
+	takeitem 242
+	giveitem 244
+	givekey 288
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+	exit
+endif
+exit
+
+
+;--------------------------------------------------
+:Reward
+;--------------------------------------------------
+
+
+
+
+
+haskey 294 g_ntemp
+if (g_ntemp==0)
+	haskey 493 g_ntemp
+	if (g_ntemp==1)
+		takeitem 243
+		givekey 294
+		givegold 5000
+		giveexp 63000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		Gosub PromoteMage
+		exit
+	endif
+endif
+exit
+
+
+;--------------------------------------------------
+:PromoteMage
+;
+; Player has already completed the quest
+; just check to see who gets promoted
+;--------------------------------------------------
+
+haskey 429 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Mage Char1
+	takekey 429
+endif
+
+haskey 430 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Mage Char2
+	takekey 430
+endif
+
+haskey 431 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Mage Char3
+	takekey 431
+endif
+
+haskey 432 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Mage Char4
+	takekey 432
+endif
+exit
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_004.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

@@ -1,0 +1,117 @@
+;--------------------------------------------------
+;NPC95.scr
+; timmy
+; handles Guaire A'velsi voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include Basemelee.inc
+#include Basewander.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;--------------------------------------------------
+:OnDeath
+;--------------------------------------------------
+
+haskey 225 g_ntemp
+if (g_ntemp==0, )
+		givekey 225
+endif
+
+Gosub OnDeath, 1
+
+
+exit
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub Basewanderstart
+exit
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+
+Stop
+Gosub BasewanderStop
+Getparam 0 g_hobject
+FaceObject g_hobject 200 DoNothing
+Playsound voices\NPC\NPC_095.wav, DoNothing, 100, 240, FALSE, 100
+DoRude 95
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+haskey 225 g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+
+getmyhandle g_hobject
+
+haskey 222 g_ntemp
+if (g_ntemp==TRUE)
+	setstat g_hobject Hitpoints 300
+	setstat g_hobject AC 50
+	setflag g_hobject, visible
+	setflag g_hobject, solid
+	setflag g_hobject, gravity
+	gosub basewanderinit
+	exit
+else
+	clearflag g_hobject, visible
+	clearflag g_hobject, solid
+	clearflag g_hobject, gravity
+	exit
+endif
+
+
+exit
+
+;--------------------------------------------------
+:OnDamage
+;--------------------------------------------------
+
+gosub BaseInit
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+;OnDeath Death
+ondamage OnDamage
+gosub basewanderinit
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

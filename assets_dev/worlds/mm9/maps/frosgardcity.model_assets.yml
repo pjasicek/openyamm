@@ -1,0 +1,704 @@
+format_version: 1
+kind: mm9_model_assets
+source_dat: mm9/extracted/WORLDS/WORLDS/FROSGARDCITY.dat
+unique_model_count: 78
+models:
+- source_model: models/TamurLeng.abc
+  model_asset: models/clansoldier.glb
+  instance_count: 1
+  source_object_indices:
+  - 69
+  source_classes:
+  - TamurLeng
+- source_model: models/dog.abc
+  model_asset: models/dog.glb
+  instance_count: 2
+  source_object_indices:
+  - 582
+  - 583
+  source_classes:
+  - Prop
+- source_model: models/TamurLeng.abc
+  model_asset: models/foraddarre.glb
+  instance_count: 1
+  source_object_indices:
+  - 48
+  source_classes:
+  - ForadDarre
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantf2.glb
+  instance_count: 3
+  source_object_indices:
+  - 563
+  - 564
+  - 567
+  source_classes:
+  - TownHuman2FemaleB
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantf3.glb
+  instance_count: 4
+  source_object_indices:
+  - 581
+  - 588
+  - 593
+  - 594
+  source_classes:
+  - ShopkeeperHuman2FemaleA
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantf6.glb
+  instance_count: 4
+  source_object_indices:
+  - 575
+  - 576
+  - 595
+  - 596
+  source_classes:
+  - TownElfFemaleA
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantf7.glb
+  instance_count: 2
+  source_object_indices:
+  - 577
+  - 578
+  source_classes:
+  - TownElfFemaleB
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantm1.glb
+  instance_count: 2
+  source_object_indices:
+  - 566
+  - 580
+  source_classes:
+  - CommonerHumanMaleA
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantm2.glb
+  instance_count: 5
+  source_object_indices:
+  - 556
+  - 557
+  - 571
+  - 572
+  - 589
+  source_classes:
+  - CommonerHuman2MaleA
+  - CommonerHumanMaleB
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantm2d.glb
+  instance_count: 6
+  source_object_indices:
+  - 553
+  - 561
+  - 562
+  - 565
+  - 573
+  - 574
+  source_classes:
+  - ShopkeeperElfMaleA
+  - TownElfMaleA
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantm3.glb
+  instance_count: 5
+  source_object_indices:
+  - 559
+  - 585
+  - 590
+  - 591
+  - 592
+  source_classes:
+  - TownHuman2MaleA
+  - TownHumanMaleA
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantm7.glb
+  instance_count: 4
+  source_object_indices:
+  - 568
+  - 569
+  - 579
+  - 584
+  source_classes:
+  - CommonerHuman2MaleB
+  - TownHuman2MaleB
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantm7d.glb
+  instance_count: 6
+  source_object_indices:
+  - 554
+  - 555
+  - 558
+  - 586
+  - 587
+  - 597
+  source_classes:
+  - ShopkeeperElfMaleB
+  - TownElfMaleB
+- source_model: models/PeasantMale.abc
+  model_asset: models/peasantm8.glb
+  instance_count: 6
+  source_object_indices:
+  - 71
+  - 72
+  - 73
+  - 552
+  - 560
+  - 570
+  source_classes:
+  - ShopkeeperHuman2MaleB
+- source_model: models/props/Anvil.abc
+  model_asset: models/props/anvil.glb
+  instance_count: 1
+  source_object_indices:
+  - 439
+  source_classes:
+  - Prop
+- source_model: models/Props/Bag-Herbs1.ABC
+  model_asset: models/props/bag_herbs1.glb
+  instance_count: 1
+  source_object_indices:
+  - 477
+  source_classes:
+  - Prop
+- source_model: models/props/Barrel.abc
+  model_asset: models/props/barrel.glb
+  instance_count: 2
+  source_object_indices:
+  - 45
+  - 607
+  source_classes:
+  - DestructableProp
+- source_model: models/Props/Barstool1.ABC
+  model_asset: models/props/barstool1.glb
+  instance_count: 5
+  source_object_indices:
+  - 340
+  - 341
+  - 342
+  - 343
+  - 344
+  source_classes:
+  - Prop
+- source_model: models/Props/Bed_Cot.ABC
+  model_asset: models/props/bed_cot.glb
+  instance_count: 4
+  source_object_indices:
+  - 345
+  - 346
+  - 347
+  - 348
+  source_classes:
+  - Prop
+- source_model: models/Props/BedMedium.ABC
+  model_asset: models/props/bedmedium.glb
+  instance_count: 7
+  source_object_indices:
+  - 365
+  - 427
+  - 443
+  - 445
+  - 447
+  - 449
+  - 457
+  source_classes:
+  - Prop
+- source_model: models/Props/Book.ABC
+  model_asset: models/props/book.glb
+  instance_count: 1
+  source_object_indices:
+  - 376
+  source_classes:
+  - Prop
+- source_model: models/Props/Bookcase02EW.ABC
+  model_asset: models/props/bookcase02ew.glb
+  instance_count: 2
+  source_object_indices:
+  - 389
+  - 390
+  source_classes:
+  - Prop
+- source_model: models/Props/BookStack01.abc
+  model_asset: models/props/bookstack01.glb
+  instance_count: 2
+  source_object_indices:
+  - 375
+  - 378
+  source_classes:
+  - Prop
+- source_model: models/props/Brazier.abc
+  model_asset: models/props/brazier.glb
+  instance_count: 4
+  source_object_indices:
+  - 484
+  - 487
+  - 490
+  - 493
+  source_classes:
+  - Brazier
+- source_model: models/props/burner.abc
+  model_asset: models/props/burner.glb
+  instance_count: 1
+  source_object_indices:
+  - 377
+  source_classes:
+  - Prop
+- source_model: models/Props/Chair_forDesk02.ABC
+  model_asset: models/props/chair_fordesk02.glb
+  instance_count: 9
+  source_object_indices:
+  - 368
+  - 369
+  - 431
+  - 451
+  - 452
+  - 453
+  - 454
+  - 460
+  - 461
+  source_classes:
+  - Prop
+- source_model: models/Props/Chandelier2.ABC
+  model_asset: models/props/chandelier2.glb
+  instance_count: 1
+  source_object_indices:
+  - 505
+  source_classes:
+  - CandleProp
+- source_model: models/Props/Chandelier3.ABC
+  model_asset: models/props/chandelier3.glb
+  instance_count: 4
+  source_object_indices:
+  - 496
+  - 499
+  - 502
+  - 508
+  source_classes:
+  - CandleProp
+- source_model: models/Props/ClawLamp.ABC
+  model_asset: models/props/clawlamp.glb
+  instance_count: 1
+  source_object_indices:
+  - 373
+  source_classes:
+  - Prop
+- source_model: models/Props/clover.ABC
+  model_asset: models/props/clover.glb
+  instance_count: 2
+  source_object_indices:
+  - 716
+  - 717
+  source_classes:
+  - Clover
+- source_model: models/Props/CoalBin.ABC
+  model_asset: models/props/coalbin.glb
+  instance_count: 1
+  source_object_indices:
+  - 436
+  source_classes:
+  - Prop
+- source_model: models/Props/CoatRack2.ABC
+  model_asset: models/props/coatrack2.glb
+  instance_count: 1
+  source_object_indices:
+  - 456
+  source_classes:
+  - Prop
+- source_model: models/Props/DresserNS.ABC
+  model_asset: models/props/dresserns.glb
+  instance_count: 5
+  source_object_indices:
+  - 366
+  - 428
+  - 444
+  - 448
+  - 458
+  source_classes:
+  - Prop
+- source_model: models/Props/forge.ABC
+  model_asset: models/props/forge.glb
+  instance_count: 1
+  source_object_indices:
+  - 437
+  source_classes:
+  - Prop
+- source_model: models/Props/HangingBrazierBowl.ABC
+  model_asset: models/props/hangingbrazierbowl.glb
+  instance_count: 2
+  source_object_indices:
+  - 512
+  - 515
+  source_classes:
+  - Brazier
+- source_model: models/Props/Herb-Rack1.ABC
+  model_asset: models/props/herb_rack1.glb
+  instance_count: 10
+  source_object_indices:
+  - 463
+  - 464
+  - 465
+  - 466
+  - 467
+  - 468
+  - 469
+  - 470
+  - 471
+  - 472
+  source_classes:
+  - Prop
+- source_model: models/Props/Herb-Rack2.ABC
+  model_asset: models/props/herb_rack2.glb
+  instance_count: 4
+  source_object_indices:
+  - 473
+  - 474
+  - 475
+  - 476
+  source_classes:
+  - Prop
+- source_model: models/Props/Iron-Ingots.ABC
+  model_asset: models/props/iron_ingots.glb
+  instance_count: 1
+  source_object_indices:
+  - 438
+  source_classes:
+  - Prop
+- source_model: models/Props/Keg_Beer.ABC
+  model_asset: models/props/keg_beer.glb
+  instance_count: 3
+  source_object_indices:
+  - 337
+  - 338
+  - 339
+  source_classes:
+  - Prop
+- source_model: models/Props/LogsBurning.ABC
+  model_asset: models/props/logsburning.glb
+  instance_count: 3
+  source_object_indices:
+  - 406
+  - 407
+  - 408
+  source_classes:
+  - Prop
+- source_model: models/Props/Maypole_old.ABC
+  model_asset: models/props/maypole_old.glb
+  instance_count: 1
+  source_object_indices:
+  - 54
+  source_classes:
+  - Prop
+- source_model: models/Props/Mug1.ABC
+  model_asset: models/props/mug1.glb
+  instance_count: 5
+  source_object_indices:
+  - 349
+  - 350
+  - 351
+  - 352
+  - 353
+  source_classes:
+  - Prop
+- source_model: models/Props/OilLamp.ABC
+  model_asset: models/props/oillamp.glb
+  instance_count: 1
+  source_object_indices:
+  - 481
+  source_classes:
+  - CandleProp
+- source_model: models/Props/pew3.abc
+  model_asset: models/props/pew3.glb
+  instance_count: 8
+  source_object_indices:
+  - 380
+  - 381
+  - 382
+  - 383
+  - 384
+  - 385
+  - 386
+  - 387
+  source_classes:
+  - Prop
+- source_model: models/Props/Pitcher01.ABC
+  model_asset: models/props/pitcher01.glb
+  instance_count: 3
+  source_object_indices:
+  - 354
+  - 355
+  - 356
+  source_classes:
+  - Prop
+- source_model: models/Props/Plate-Set2.ABC
+  model_asset: models/props/plate_set2.glb
+  instance_count: 2
+  source_object_indices:
+  - 357
+  - 358
+  source_classes:
+  - Prop
+- source_model: models/Props/Podium01.ABC
+  model_asset: models/props/podium01.glb
+  instance_count: 1
+  source_object_indices:
+  - 388
+  source_classes:
+  - Prop
+- source_model: models/Props/Portal-Whole.ABC
+  model_asset: models/props/portal_whole.glb
+  instance_count: 1
+  source_object_indices:
+  - 334
+  source_classes:
+  - Prop
+- source_model: models/props/RuneStone.ABC
+  model_asset: models/props/runestone.glb
+  instance_count: 1
+  source_object_indices:
+  - 55
+  source_classes:
+  - Prop
+- source_model: models/Props/scroll-open.ABC
+  model_asset: models/props/scroll_open.glb
+  instance_count: 4
+  source_object_indices:
+  - 657
+  - 658
+  - 659
+  - 660
+  source_classes:
+  - Prop
+- source_model: models/Props/ShelfItem01.ABC
+  model_asset: models/props/shelfitem01.glb
+  instance_count: 1
+  source_object_indices:
+  - 374
+  source_classes:
+  - Prop
+- source_model: models/Props/ShelfItem02.ABC
+  model_asset: models/props/shelfitem02.glb
+  instance_count: 2
+  source_object_indices:
+  - 371
+  - 478
+  source_classes:
+  - Prop
+- source_model: models/Props/ShelfItem03.ABC
+  model_asset: models/props/shelfitem03.glb
+  instance_count: 2
+  source_object_indices:
+  - 372
+  - 479
+  source_classes:
+  - Prop
+- source_model: models/Props/ShelfItem05.ABC
+  model_asset: models/props/shelfitem05.glb
+  instance_count: 1
+  source_object_indices:
+  - 480
+  source_classes:
+  - Prop
+- source_model: models/Props/Shield.ABC
+  model_asset: models/props/shield.glb
+  instance_count: 10
+  source_object_indices:
+  - 392
+  - 393
+  - 394
+  - 395
+  - 396
+  - 397
+  - 398
+  - 399
+  - 434
+  - 435
+  source_classes:
+  - Prop
+- source_model: models/props/smithhammer.abc
+  model_asset: models/props/smithhammer.glb
+  instance_count: 1
+  source_object_indices:
+  - 440
+  source_classes:
+  - Prop
+- source_model: models/props/SpikePit.abc
+  model_asset: models/props/spikepit.glb
+  instance_count: 1
+  source_object_indices:
+  - 719
+  source_classes:
+  - PropDamager
+- source_model: models/Props/Stove.ABC
+  model_asset: models/props/stove.glb
+  instance_count: 1
+  source_object_indices:
+  - 455
+  source_classes:
+  - Prop
+- source_model: models/Props/Suitofarmor01.ABC
+  model_asset: models/props/suitofarmor01.glb
+  instance_count: 2
+  source_object_indices:
+  - 432
+  - 433
+  source_classes:
+  - Prop
+- source_model: models/Props/Table_Bench.ABC
+  model_asset: models/props/table_bench.glb
+  instance_count: 10
+  source_object_indices:
+  - 359
+  - 360
+  - 361
+  - 362
+  - 363
+  - 364
+  - 400
+  - 401
+  - 402
+  - 403
+  source_classes:
+  - Prop
+- source_model: models/Props/TableRound2.ABC
+  model_asset: models/props/tableround2.glb
+  instance_count: 4
+  source_object_indices:
+  - 367
+  - 426
+  - 450
+  - 459
+  source_classes:
+  - Prop
+- source_model: models/Props/Tapestry-Old01.ABC
+  model_asset: models/props/tapestry_old01.glb
+  instance_count: 1
+  source_object_indices:
+  - 405
+  source_classes:
+  - Prop
+- source_model: models/Props/Throne.ABC
+  model_asset: models/props/throne.glb
+  instance_count: 1
+  source_object_indices:
+  - 404
+  source_classes:
+  - Prop
+- source_model: models/Props/Training_Archery1.ABC
+  model_asset: models/props/training_archery1.glb
+  instance_count: 3
+  source_object_indices:
+  - 420
+  - 421
+  - 422
+  source_classes:
+  - Prop
+- source_model: models/Props/Training_Mount.ABC
+  model_asset: models/props/training_mount.glb
+  instance_count: 2
+  source_object_indices:
+  - 415
+  - 416
+  source_classes:
+  - Prop
+- source_model: models/Props/Training_SpinDummy1.ABC
+  model_asset: models/props/training_spindummy1.glb
+  instance_count: 3
+  source_object_indices:
+  - 423
+  - 424
+  - 425
+  source_classes:
+  - Prop
+- source_model: models/Props/Training_StrawDummy2_C.ABC
+  model_asset: models/props/training_strawdummy2_c.glb
+  instance_count: 1
+  source_object_indices:
+  - 418
+  source_classes:
+  - Prop
+- source_model: models/Props/Training_StrawDummy2_L.ABC
+  model_asset: models/props/training_strawdummy2_l.glb
+  instance_count: 1
+  source_object_indices:
+  - 417
+  source_classes:
+  - Prop
+- source_model: models/Props/Training_StrawDummy2_R.ABC
+  model_asset: models/props/training_strawdummy2_r.glb
+  instance_count: 1
+  source_object_indices:
+  - 419
+  source_classes:
+  - Prop
+- source_model: models/props/vikingship.abc
+  model_asset: models/props/vikingship.glb
+  instance_count: 1
+  source_object_indices:
+  - 598
+  source_classes:
+  - Prop
+- source_model: MODELS/Props/WallCandle.ABC
+  model_asset: models/props/wallcandle.glb
+  instance_count: 9
+  source_object_indices:
+  - 521
+  - 524
+  - 527
+  - 530
+  - 533
+  - 536
+  - 539
+  - 542
+  - 545
+  source_classes:
+  - CandleProp
+- source_model: models/Props/WeaponRack.ABC
+  model_asset: models/props/weaponrack.glb
+  instance_count: 1
+  source_object_indices:
+  - 430
+  source_classes:
+  - Prop
+- source_model: models/Props/WeaponRackns.ABC
+  model_asset: models/props/weaponrackns.glb
+  instance_count: 2
+  source_object_indices:
+  - 441
+  - 442
+  source_classes:
+  - Prop
+- source_model: models/Props/WeaponsCabinet01.ABC
+  model_asset: models/props/weaponscabinet01.glb
+  instance_count: 3
+  source_object_indices:
+  - 412
+  - 413
+  - 429
+  source_classes:
+  - Prop
+- source_model: models/Props/WeaponsCabinet03.ABC
+  model_asset: models/props/weaponscabinet03.glb
+  instance_count: 3
+  source_object_indices:
+  - 370
+  - 446
+  - 462
+  source_classes:
+  - Prop
+- source_model: models/Props/Well.ABC
+  model_asset: models/props/well.glb
+  instance_count: 1
+  source_object_indices:
+  - 715
+  source_classes:
+  - WellMMIX
+- source_model: models/Props/WineBottle01.ABC
+  model_asset: models/props/winebottle01.glb
+  instance_count: 1
+  source_object_indices:
+  - 379
+  source_classes:
+  - Prop
+- source_model: models/Tryggva.abc
+  model_asset: models/tryggva.glb
+  instance_count: 1
+  source_object_indices:
+  - 75
+  source_classes:
+  - TryggvaRavenlocks

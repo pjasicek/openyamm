@@ -1,0 +1,78 @@
+;-------------------------------------------------------------
+;	Yanmir_EndOfWorld.Scr
+;	Jeff Leggett
+;	01/07/2002
+;
+;	- Determines who this is (yanmir, different AI or the player)
+;	  and does the appropriate action.
+;-------------------------------------------------------------
+#include globals.inc
+
+;-------------------------------------------------------------
+:HandlePlayer
+;
+;	Decide what to do with player here...
+;
+;	For now, goto the frosgardcity
+;
+;-------------------------------------------------------------
+
+	GetObjectHandle PlayerExit,g_hObject
+
+	Trigger g_hObject,On
+	Trigger g_hObject,Trigger
+
+	Exit
+
+;-------------------------------------------------------------
+:HandleYanmir
+;-------------------------------------------------------------
+
+	; Just remove him for now...
+
+	RemoveObject g_hObject
+
+
+	Exit
+
+;-------------------------------------------------------------
+:HandleOther
+;-------------------------------------------------------------
+
+	IsClass g_hObject,Actor,g_bTemp
+
+	if ( g_bTemp==TRUE )
+		RemoveObject g_hObject
+	endif
+
+	Exit
+
+;-------------------------------------------------------------
+:OnOutOfWorld
+;-------------------------------------------------------------
+
+	GetParam 0, g_hObject
+
+	IsPlayer g_hObject,g_bTemp
+
+	if ( g_bTemp==TRUE )
+		goto HandlePlayer
+	Endif
+
+	GetObjectName g_hObject,g_sTemp
+
+	if ( g_sTemp==Yanmir0 )
+		goto HandleYanmir
+	Endif
+
+	goto HandleOther
+
+	Exit
+
+;-------------------------------------------------------------
+:Main
+;-------------------------------------------------------------
+
+	AddTrigger OutOfWorld,OnOutOfWorld
+
+	Exit

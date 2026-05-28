@@ -1,0 +1,67 @@
+;---------------------------------------------------------------------
+:	EndCount.scr
+;	Timmy
+;
+;	This counts the spawners to spawn the last demon
+;	 in the Tomb of a Thousand Terrors
+;
+;	
+;
+;---------------------------------------------------------------------
+
+#include globals.inc
+
+
+#number			nSpawnCount = 0
+#number			nSpawnMax = 3
+
+
+#string			sSpawnMarker = EndDemonMarker
+
+#string			sDemon = GreaterDemon
+#hobject		hDemon
+
+#string							SCRIPT = " ScriptName EndDemon.scr"
+
+#number							XPos
+#number							YPos
+#number							ZPos
+
+;---------------------------------
+:OnSpawn
+;---------------------------------
+
+nSpawnCount = nSpawnCount + 1
+
+if (nSpawnCount==nSpawnMax)
+	Gosub SpawnDemon
+endif
+
+exit
+
+
+;---------------------------------
+:SpawnDemon
+;---------------------------------
+
+
+getobjecthandle sSpawnMarker g_hobject
+getpos g_hobject XPos YPos ZPos
+
+Spawn hDemon Xpos YPos ZPos sDemon
+
+exit
+
+;---------------------------------
+:Main
+;---------------------------------
+
+;TraceOn
+
+
+sDemon = sDemon + SCRIPT
+
+AddTrigger Spawned OnSpawn
+AddTrigger ForceSpawn SpawnDemon
+
+	Exit

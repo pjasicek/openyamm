@@ -1,0 +1,113 @@
+schema: openyamm.model3d.v1
+id: shelfitem07
+model: shelfitem07.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/SHELFITEM07.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Pie1
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 17
+  - faces: 24
+    vertices: 17
+  - faces: 24
+    vertices: 17
+- name: Bread1
+  materialIndex: 0
+  lods:
+  - faces: 34
+    vertices: 24
+  - faces: 30
+    vertices: 22
+  - faces: 30
+    vertices: 22
+- name: Corn1
+  materialIndex: 0
+  lods:
+  - faces: 114
+    vertices: 66
+  - faces: 62
+    vertices: 40
+  - faces: 22
+    vertices: 20
+- name: Fruit1
+  materialIndex: 0
+  lods:
+  - faces: 211
+    vertices: 134
+  - faces: 171
+    vertices: 113
+  - faces: 115
+    vertices: 85
+materials:
+- index: 0
+  texture: skins_preview/props/shelfitem07.png
+  runtime_texture: skins/props/shelfitem07.dtx
+  preview_texture: skins_preview/props/shelfitem07.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SHELFITEM07.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone05
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Bone07
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 46.08
+  - 7.68
+  - 15.36
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/shelfitem07.abc

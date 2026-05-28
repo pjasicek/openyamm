@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: arslegardcity
+display_name: Arslegard City
+source:
+  dat: ../source/worlds/ARSLEGARDCITY.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/ARSLEGARDCITY.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: ea922bd9fb245a1093b4833666932272285d15e601835da04eac9ed69a3ae3a2
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: arslegardcity.dat_world.yml
+  raw_objects: arslegardcity.raw_objects.yml
+  materials: arslegardcity.material_aliases.yml
+  events: arslegardcity.events.yml
+  scene_compat: arslegardcity.scene.yml
+  source_metadata_compat: arslegardcity.mm9.yml
+  bsp_compat: null
+  geometry_compat: null
+  model_assets_compat: arslegardcity.model_assets.yml
+  odm_compat: arslegardcity.odm
+  blv_compat: null
+scripts:
+  level: ../events/arslegardcity.lua
+  script_ir: ../events/arslegardcity.script_ir.yml
+compatibility:
+  legacy_target_format: odm
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

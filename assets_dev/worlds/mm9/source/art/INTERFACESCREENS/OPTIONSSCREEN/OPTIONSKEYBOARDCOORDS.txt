@@ -1,0 +1,64 @@
+Coordinates for Keyboard Options
+
+-----------------------------------------------------------------------------------
+Note: Coordinates are based on full-screen.  For coordinates relative to the
+	options background, subtract 250 from any given column number (except,
+	of course, the placement of the background itself)
+-----------------------------------------------------------------------------------
+
+OptionsKeyboardBG.pcx	250x   0y	550x600	Background
+
+ListScrollButton-Up	727x 132y	16x16	
+ListScrollButton-Down	727x 498y	16x16
+ListScrollHandle	727x 150y	16x16	Upper-most Position
+			727x 481y		Lower-Most Position 
+
+Note: There is a full-line highlight "OptionsKeyboardHighlight.pcx" and a seperate
+	brighter highlight for just the active cel being edited:
+	"OptionsKeyboardCommandHighlight.pcx"  Both of these files can be placed
+	using coordinates from the 21 text slot coords below.
+
+-----------------------------------------------------------------------------------
+
+Pure Text Items:
+
+"KEYBOARD SETUP"	285x  44y	260x20	Arial 16 Pixel Left
+
+"Command"		285x 108y	260x20	Arial 16 Pixel Left
+"PRIMARY"		487x 108y	117x20  Arial 16 Pixel Center
+"SECONDARY"		607x 108y	117x20	Arial 16 Pixel Center
+
+Note: There are 19 Lines For Keyboard Text Slots.  Each is 20 Rows Apart.
+	I am giving the coordinates for the first and last slots below.  These 
+	coordinates are also used for the highlighters (Green) for the line
+	and the entry highlight.  Simply count down 20 pixels from the topmost
+	slot to place the other lines.  The background is shaded to accomodate
+	these lines and so they must be placed accurately.
+
+First Slot Command Name	285x 134y	260x20	Arial 16 Pixel Left
+First Slot Primary	487x 134y	117x20	Arial 16 Pixel Center
+First Slot Secondary	607x 134y	117x20	Arial 16 Pixel Center
+
+Last Slot Command Name	285x 494y	260x20	Arial 16 Pixel Left
+Last Slot Primary	487x 494y	117x20	Arial 16 Pixel Center
+Last Slot Secondary	607x 494y	117x20	Arial 16 Pixel Center
+ 
+Note: All printed text should be Arial about 16 point (Full Basic capital letter
+	should be around 16 Pixels tall)  Color rgb(220,200,150) With a 1-pixel
+	outline of color rgb(53,27,4)  All printed text should be in "Small Caps"
+	format, with no descenders from lower-case letters such as g or p.
+
+-----------------------------------------------------------------------------------
+
+Text As Buttons:
+
+"Restore Default"	546x  44y	200x20	Arial 16 Pixel Right
+"Classic Controls"	546x  74y	200x20	Arial 16 Pixel Right
+"Cancel"		543x 533y	96x20	Arial 16 Pixel Center
+"Apply"			647x 533y	96x20	Arial 16 Pixel Center
+
+Note: Button Text should be the same color as above, but when mouse-overed should 
+	highlight in color rgb(250,240,220)  And when pressed should cause a sound
+	effect and flash dark color rgb(110,100,75)
+
+----------------------------------------------------------------------------------

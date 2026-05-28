@@ -1,0 +1,47 @@
+;--------------------------------------------------
+;ChangeModel.scr
+; timmy
+; sets a model's filename and skin if player has the key
+;--------------------------------------------------
+
+#include globals.inc
+#include pledge.inc
+
+#String Model_Name 
+#String Model_Skin 
+
+#number	nKey
+
+;parameters:
+; p0 The key to check for
+; p1 The file name of the ABC
+; p2 the filename of the DTX
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+haskey nKey g_ntemp
+if (g_ntemp==FALSE)
+	exit
+endif
+
+getobjecthandle Prop0 g_hobject
+SetModelFilenames model_name Model_skin
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+getparam 0 nKey
+getparam 1 Model_Name
+getparam 2 Model_Skin
+;; Addtrigger Use, OnUse
+wait 1 1 Init
+exit
+

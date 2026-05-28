@@ -1,0 +1,81 @@
+;--------------------------------
+;	StonesSquare.scr
+;	by SJR
+;	12-12-01
+;	Purpose:
+;--------------------------------
+#include flags.inc
+
+#string		sPieceName = ""
+#hobject	hPiece = 0
+#string		sMgrName = ""
+#hobject	hMgr = 0
+
+#number		bWhite = 1
+
+#number		nMyIndex = -1
+
+;--------------------------------
+:Main
+;--------------------------------
+	GetParam 0, sPieceName
+	GetParam 1, nMyIndex
+
+	OnPostStartWorld InitStonesSquare
+	OnPostMiniSaveLoad InitStonesSquare
+
+	Exit 1
+
+;--------------------------------
+:InitStonesSquare
+;--------------------------------
+	GetObjectHandle sPieceName, hPiece
+
+	GetConsoleStrVar STONES_GAME, sMgrName
+	GetObjectHandle sMgrName, hMgr
+
+	AddTrigger use,   RequestMove
+	AddTrigger white, TurnPieceWhite
+	AddTrigger black, TurnPieceBlack
+	AddTrigger clear, TurnPieceClear
+
+	Exit 1
+
+;--------------------------------
+:RequestMove
+;--------------------------------
+	if( hMgr!=0 )
+		SetConsoleNumVar STONES_INDEX, nMyIndex
+		Trigger hMgr, move
+	endif
+
+	Exit 1
+
+;--------------------------------
+:TurnPieceWhite
+;--------------------------------
+	if( hPiece!=0 )
+		SetFlag hPiece, FLAG_VISIBLE
+		Trigger hPiece, white
+	endif
+
+	Exit 1
+
+;--------------------------------
+:TurnPieceBlack
+;--------------------------------
+	if( hPiece!=0 )
+		SetFlag hPiece, FLAG_VISIBLE
+		Trigger hPiece, black
+	endif
+
+	Exit 1
+
+;--------------------------------
+:TurnPieceClear
+;--------------------------------
+	if( hPiece!=0 )
+		ClearFlag hPiece, FLAG_VISIBLE
+	endif
+
+	Exit 1

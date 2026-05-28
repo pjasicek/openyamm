@@ -1,0 +1,17 @@
+;---------------------------------
+;	TheIt.scr (stephen king's)
+;	by SJR
+;	11-04-01
+;	Purpose:turn into a weirdo lookin
+;			spiky skeleton mutant
+;			thing with big pointy teeth
+;---------------------------------
+#include TheIt.inc
+
+;---------------------------------
+:Main
+;---------------------------------
+;;	OnPostStartWorld InitTheIt
+Wait 0, 5, InitTheIt
+
+	Exit 1

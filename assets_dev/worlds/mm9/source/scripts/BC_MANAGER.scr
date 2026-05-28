@@ -1,0 +1,171 @@
+;-----------------------------------
+;	BC_MonsterFight.scr
+;	by SJR
+;	Purpose:two monsters duke it out
+;			to show the player a fight
+;-----------------------------------
+#include BaseGlobals.inc
+
+#string		SPAWN_PARAM_0 = "EvilGrandSorcerer ScriptName BC_MonsterFight.scr"
+#string		SPAWN_PARAM_1 = "Oculus ScriptName BC_MonsterFight.scr"
+#string		SPAWN_PARAM_2 = "ReverendMonk ScriptName BC_MonsterOpen.scr"
+
+#hobject	hSpawn0 = 0
+#hobject	hSpawn1 = 0
+#hobject	hLink = 0
+
+#hobject	hLocation = 0
+#number		x0 = 0
+#number		y0 = 0
+#number		z0 = 0
+#number		x1 = 0
+#number		y1 = 0
+#number		z1 = 0
+#number		x2 = 0
+#number		y2 = 0
+#number		z2 = 0
+
+#string		sSpawnLoc0 = ""
+#string		sSpawnLoc1 = ""
+#string		sSpawnLoc2 = ""
+
+#hobject	hOpener = 0
+
+#string		SPELL_MIST = "mist"
+
+;-----------------------------------
+:Main
+;-----------------------------------
+	GetParam 0, sSpawnLoc0
+	GetParam 1, sSpawnLoc1
+	GetParam 2, sSpawnLoc2
+
+	OnPostStartWorld InitMonsterFight
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;-----------------------------------
+:CacheFiles
+;-----------------------------------
+	CacheScript "BC_MonsterFight.scr"
+	CacheScript "BC_MonsterOpen.scr"
+	CacheScript "EvilSorcerer.scr"
+	CacheScript "flyrange.scr"
+
+	CacheClientFX SPELL_MIST
+
+	Exit TRUE
+
+;-----------------------------------
+:InitMonsterFight
+;-----------------------------------
+	AddTrigger fight, StartFight
+	AddTrigger open, StartOpen
+
+	OnObjectLinkBroken OnObjectLinkBroken
+
+	GetObjectHandle sSpawnLoc0, hLocation
+	GetPOS hLocation, x0,y0,z0
+	GetObjectHandle sSpawnLoc1, hLocation
+	GetPOS hLocation, x1,y1,z1
+	GetObjectHandle sSpawnLoc2, hLocation
+	GetPOS hLocation, x2,y2,z2
+
+	Exit TRUE
+
+;-----------------------------------
+:StartFight
+;-----------------------------------
+	RemoveTrigger fight
+
+	Spawn hSpawn0, x0,y0,z0, SPAWN_PARAM_0
+	if( hSpawn0!=0 )
+		DoClientFX hSpawn0, SPELL_MIST, FALSE, TRUE
+		CreateObjectLink hSpawn0
+	endif
+
+	Spawn hSpawn1, x1,y1,z1, SPAWN_PARAM_1
+	if( hSpawn1!=0 )
+		DoClientFX hSpawn1, SPELL_MIST, FALSE, TRUE
+		CreateObjectLink hSpawn1
+	endif
+
+	Wait 0, 120, ForceEndFight
+
+	Exit TRUE
+
+;-----------------------------------
+:StartOpen
+;-----------------------------------
+	RemoveTrigger open
+
+	Spawn hOpener, x2,y2,z2, SPAWN_PARAM_2
+	if( hOpener!=0 )
+		DoClientFX hOpener, SPELL_MIST, FALSE, TRUE
+		CreateObjectLink hOpener
+	endif
+
+	Exit TRUE
+
+;-----------------------------------
+:OnObjectLinkBroken
+;-----------------------------------
+	GetParam 0, hLink
+
+	if( hLink==hSpawn0 )
+		hSpawn0 = NULL
+		if( hSpawn1!=0 )
+			DoClientFX hSpawn1, SPELL_MIST, FALSE, TRUE
+			Wait 1, 2, RemoveCreature
+		endif
+	else
+		if( hLink==hSpawn1 )
+		hSpawn1 = NULL
+			if( hSpawn0!=0 )
+				DoClientFX hSpawn0, SPELL_MIST, FALSE, TRUE
+				Wait 2, 2, RemoveCreature
+			endif
+		else
+			if( hLink==hOpener )
+				hOpener = NULL
+				AddTrigger open, StartOpen
+			endif
+		endif
+	endif
+
+	Exit TRUE
+
+;-----------------------------------
+:RemoveCreature
+;-----------------------------------
+	if( hSpawn0!=0 )
+		RemoveObject hSpawn0
+		hSpawn0 = NULL
+	else
+		if( hSpawn1!=0 )
+			RemoveObject hSpawn1
+			hSpawn1 = NULL
+		endif
+	endif
+
+	AddTrigger fight, StartFight
+
+	Exit TRUE
+
+;-----------------------------------
+:ForceEndFight
+;-----------------------------------
+	if( hSpawn0!=0 )
+		RemoveObject hSpawn0
+		hSpawn0 = NULL
+	endif
+
+	if( hSpawn1!=0 )
+		RemoveObject hSpawn1
+		hSpawn1 = NULL
+	endif
+
+	AddTrigger fight, StartFight
+
+	Exit TRUE

@@ -1,0 +1,79 @@
+schema: openyamm.model3d.v1
+id: heroism
+model: heroism.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/SPELLS/HEROISM.abc
+  commandString: ''
+  internalRadius: 281.6
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: d_Sphere01
+  materialIndex: 0
+  lods:
+  - faces: 960
+    vertices: 482
+- name: d_Tube01
+  materialIndex: 0
+  lods:
+  - faces: 432
+    vertices: 216
+- name: d_Tube02
+  materialIndex: 0
+  lods:
+  - faces: 432
+    vertices: 216
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 2
+    - 3
+  - index: 1
+    name: d_Sphere01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 2
+    name: d_Tube01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 3
+    name: d_Tube02
+    parent: 0
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: baseAnim
+  durationMs: 2333
+  keyframes: 36
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: baseAnim
+  extents:
+  - 327.68
+  - 40.96
+  - 40.96
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/spells/heroism.abc

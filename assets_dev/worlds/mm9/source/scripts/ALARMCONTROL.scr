@@ -1,0 +1,42 @@
+;------------------------------------------------------------------
+;	AlarmControl.scr
+;	Timmy
+;
+;  triggers all the front room guards to go hostile.
+;
+;-----------------------------------------------------
+
+#include	Globals.inc
+
+
+;--------------------------------------------------------------
+:OnAlarm
+; player screwed up!
+; time to make the guards hostile
+;--------------------------------------------------------------
+
+haskey 5006 g_ntemp
+if (g_ntemp==FALSE)
+	givekey 5006
+endif
+
+getobjecthandle guard0 g_hobject
+trigger g_hobject Alarm
+
+getobjecthandle guard1 g_hobject
+trigger g_hobject Alarm
+
+getobjecthandle guard2 g_hobject
+trigger g_hobject Alarm
+exit
+
+
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+
+;traceon
+
+	AddTrigger Alarm OnAlarm
+
+Exit 1

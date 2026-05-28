@@ -1,0 +1,53 @@
+;--------------------------------------------------
+;giveElixir.scr
+;10/4
+; timmy
+; gives party Elixir of defedation and takes elixir fluid
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#number			Item_ID
+#number			nGiveOnce = FALSE
+
+
+
+
+
+; Parameters
+;P0 Item number of item to give
+
+
+;--------------------------------------------------
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+
+hasitem 358 g_ntemp
+if (g_ntemp==TRUE)
+	hasitem 561 g_ntemp
+	if (g_ntemp==TRUE)
+		takeitem 358
+		takeitem 561
+		giveitem 246
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+exit
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Use OnUse
+
+
+exit
+
+

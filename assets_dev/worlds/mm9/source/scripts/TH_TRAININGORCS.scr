@@ -1,0 +1,76 @@
+;-----------------------------------------------------
+;
+;	TH_TrainingOrcs.scr
+;
+;	Karl Drown 11-17-01
+;	
+;	Orcs practicing their attacks - KungFu style.
+;	
+;-----------------------------------------------------
+#include TrainingHostility.inc
+#include Globals.inc
+
+
+#number	bIsTraining = 0
+
+;-----------------------------------------------------
+:Start
+;-----------------------------------------------------
+	bIsTraining = TRUE
+	Gosub ParadiddleStart
+	Exit TRUE
+;-----------------------------------------------------
+:TurnOff
+;-----------------------------------------------------
+	Wait 1, 1, DoNothing
+	bIsTraining = FALSE
+	Exit TRUE
+
+;-----------------------------------------------------
+:ParadiddleStart
+;-----------------------------------------------------
+	if (bIsTraining==FALSE)
+		exit
+	endif
+	PlayAnim Taunt, RightA
+	Exit TRUE
+;--------------------------------
+:RightA
+	PlayAnim HAttack1, LeftA
+	Exit TRUE
+:LeftA
+	PlayAnim HAttack2, Right1
+	Exit TRUE
+:Right1
+	PlayAnim HAttack1, Right2
+	Exit TRUE
+:Right2
+	PlayAnim HAttack1, LeftB
+	Exit TRUE
+;---------------------------------
+:LeftB
+	PlayAnim HAttack2, RightB
+	Exit TRUE
+:RightB
+	PlayAnim HAttack1, Left1
+	Exit TRUE
+:Left1
+	PlayAnim HAttack2, Left2
+	Exit TRUE
+:Left2
+	PlayAnim HAttack2, ParadiddleStart
+	Exit TRUE
+
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+	AddTrigger Train, Start
+	AddTrigger Stop, TurnOff
+	gosub InitTrainingHostility
+	Exit TRUE
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	OnPostStartWorld Main2
+	Exit
+;------------- E n d - O f - F i l e -------------------

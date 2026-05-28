@@ -1,0 +1,214 @@
+schema: openyamm.model3d.v1
+id: deadtree4
+model: deadtree4.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/PLANTSANDTREES/DEADTREE4.abc
+  commandString: NoAnimation;FadeRangeMin 1500;FadeRangeMax 2048;FadeSpriteTex skins\props\plantsandtrees\deadtreespr4.dtx;FadeSpriteSize
+    200 200;VisRadius 256
+  internalRadius: 768.0
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Trunk
+  materialIndex: 0
+  lods:
+  - faces: 35
+    vertices: 21
+  - faces: 35
+    vertices: 21
+- name: Branch02
+  materialIndex: 0
+  lods:
+  - faces: 25
+    vertices: 16
+  - faces: 17
+    vertices: 12
+- name: Branch03
+  materialIndex: 0
+  lods:
+  - faces: 25
+    vertices: 16
+  - faces: 13
+    vertices: 10
+- name: Branch04
+  materialIndex: 0
+  lods:
+  - faces: 25
+    vertices: 16
+  - faces: 15
+    vertices: 11
+- name: Top-01
+  materialIndex: 1
+  lods:
+  - faces: 8
+    vertices: 16
+  - faces: 8
+    vertices: 16
+- name: Top-02
+  materialIndex: 1
+  lods:
+  - faces: 8
+    vertices: 16
+  - faces: 8
+    vertices: 16
+- name: Top-03
+  materialIndex: 1
+  lods:
+  - faces: 8
+    vertices: 16
+  - faces: 8
+    vertices: 16
+- name: Branch01
+  materialIndex: 0
+  lods:
+  - faces: 25
+    vertices: 16
+  - faces: 19
+    vertices: 13
+- name: Twigs01
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Twigs02
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Twigs03
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Twigs04
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Twigs05
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Twigs06
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Twigs07
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Twigs08
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Twigs09
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Twigs10
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Twigs11
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Twigs12
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+- name: Twigs13
+  materialIndex: 1
+  lods:
+  - faces: 16
+    vertices: 32
+  - faces: 16
+    vertices: 32
+materials:
+- index: 0
+  texture: skins_preview/props/plantsandtrees/deadbark.png
+  runtime_texture: skins/props/plantsandtrees/deadbark.dtx
+  preview_texture: skins_preview/props/plantsandtrees/deadbark.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/PLANTSANDTREES/DEADBARK.dtx
+- index: 1
+  texture: skins_preview/props/plantsandtrees/deadtree1.png
+  runtime_texture: skins/props/plantsandtrees/deadtree1.dtx
+  preview_texture: skins_preview/props/plantsandtrees/deadtree1.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/PLANTSANDTREES/DEADTREE1.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 64.0
+  - 512.0
+  - 64.0
+  origin:
+  - 0.0
+  - -343.04
+  - 0.0
+roles:
+- static_model
+source_model: models/props/plantsandtrees/deadtree4.abc

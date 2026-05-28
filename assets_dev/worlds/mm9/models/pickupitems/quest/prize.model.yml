@@ -1,0 +1,71 @@
+schema: openyamm.model3d.v1
+id: prize
+model: prize.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PICKUPITEMS/QUEST/PRIZE.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Prize
+  materialIndex: 0
+  lods:
+  - faces: 406
+    vertices: 240
+  - faces: 304
+    vertices: 189
+  - faces: 202
+    vertices: 138
+materials:
+- index: 0
+  texture: skins_preview/pickupitems/quest/prize.png
+  runtime_texture: skins/pickupitems/quest/prize.dtx
+  preview_texture: skins_preview/pickupitems/quest/prize.png
+  source: mm9/extracted/SKINS/SKINS/PICKUPITEMS/QUEST/PRIZE.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 200
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 23.04
+  - 28.16
+  - 23.04
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+roles:
+- static_model
+source_model: models/pickupitems/quest/prize.abc

@@ -1,0 +1,292 @@
+;----------------------------------------------
+;EboraBath.scr
+; By L. Dean Gibson II
+; Ebora's script in the bathhouse...
+;
+; modified by Bones 10/22/02
+; TELP Patch 1.3 -- will not freeze if last conc slain while TB
+;              corrected keys
+;----------------------------------------------
+#include globals.inc
+#include flags.inc
+#include baseMelee.inc
+
+#hobject	hCamera = 0
+#hobject	hMe = 0
+
+#number nDeadConcubines = 0
+#number nGossip = 2
+#number nTaunt
+
+#hobject hEboraMarker = 0
+
+#string		sEboraMarker1 = "EboraFly1"
+#string		sEboraMarker2 = "FlyToBlatt"
+
+#string		SPELL_COLUMNOFFIRE = "spell-column of fire"
+
+
+;-------------------------------------
+:OnGossip
+;-------------------------------------
+	RolloverText nGossip, 1, 3000, 2000
+	nGossip = nGossip + 1
+
+	if( nGossip>5 )
+		RemoveTrigger OnGossip
+	endif
+
+Exit TRUE
+
+;------------------------------------------
+:DeadConcubine
+;	when 3 concs are dead, trigger cinema
+;------------------------------------------
+	nDeadConcubines = nDeadConcubines + 1
+
+	if( nDeadConcubines>=3 )
+		Stop
+		g_hTarget = NULL
+		gosub AggressiveStop
+		OnFoundTarget DoNothing
+		RemoveTrigger DeadConcubine
+		gosub EscapeTheTub
+	else
+		nTaunt = 8 + nDeadConcubines
+		RolloverText nTaunt, 0
+	endif
+
+Exit TRUE
+
+;------------------------------------------
+:EscapeTheTub
+;------------------------------------------
+
+	gosub TurnCameraOn
+	
+	if g_nTemp == TRUE
+		Exit
+	endif
+	
+	RollOverText 11, 2, 7000, 3000, 100, 500
+
+	PlayAnim launch, CastSpell
+
+;	GetObjectHandle BigColWinPool2, g_hObject
+;	Trigger g_hObject, MoveIt
+
+
+Exit TRUE
+
+;-----------
+:OnLaunchDone0
+;-----------
+	gosub OnEboraArrive1
+
+	;LoopAnim fly 0
+
+	;GetObjectHandle EboraFly1 g_hObject 
+	;RunTo g_hObject, 0, OnEboraArrive1
+	;GetPos g_hObject g_posX g_posY g_posZ
+
+	;GetMyHandle g_hMyObject
+	;GetStat g_hMyObject FlyVel g_velX
+	;g_velX = g_velX / 2
+	; 2082, 102, -1677 
+	;MoveToPos g_posX, g_posY, g_posZ, g_velX, Land
+
+exit
+
+;----------------
+:OnEboraArrive1
+;----------------
+	GetObjectHandle FlyToBlatt, g_hObject
+	RunTo g_hObject, 8, Land
+
+Exit TRUE
+
+;-------------
+:Land
+;-------------
+	PlayAnim land, LandDone
+
+Exit TRUE
+
+;----------
+:LandDone
+;----------
+	;GetMyHandle g_hMyObject
+	;GetStat g_hMyObject FlyVel g_velX
+	;g_velX = g_velX / 2
+	; hard coded coords inserted since getobjecthandle is fucked for some reason here
+	; 1825 44 -1797
+
+	; tell FatBlatt we've arrived! he can move again
+	GetObjectHandle BigColWinPool2 g_hObject
+	Trigger g_hObject, EboraArrive
+
+	;RunTo g_hObject, 0, EboraDone
+
+	GetObjectHandle sEboraMarker1 hEboraMarker 
+	FaceObject hEboraMarker, 180
+	RollOverText 12, 0
+	Wait 1, 3 TurnCameraOff
+
+Exit
+
+;-------------------------------------
+:DeadPal
+;-------------------------------------
+	; Ebora's fat friend is dead! Time to ditch this joint!
+
+
+
+	RollOverText 12, 0
+
+;;	gosub TurnCameraOn
+
+	PlayAnim fidget2, CastSpell
+
+Exit TRUE
+
+;---------------
+:CastSpell
+;---------------
+	PlayAnim Castspell, DitchTheJoint
+
+Exit TRUE
+
+;-----------------------------------------
+:DitchTheJoint
+;-----------------------------------------
+	
+	DoClientFX hMe, SPELL_COLUMNOFFIRE, FALSE, TRUE
+	PlaySound sounds\spells\column03.wav, DoNothing, 1, 1000, FALSE, 100
+	wait 1 1 ClearMe
+
+
+	HasKey 348 g_ntemp
+	if g_ntemp == TRUE
+		haskey 349 g_ntemp
+		if g_ntemp == 0
+			givekey 349
+			GiveExp 80000
+			PlaySound "sounds\events\quest.wav", DoNothing, 100, 5000, FALSE, 100
+		endif
+	else
+		givekey 350
+	endif
+
+
+	wait 27 1.5 TurnCameraOff
+
+Exit TRUE
+
+;-------------------------------------
+:ClearMe
+;-------------------------------------
+
+ClearFlag hMe, FLAG_VISIBLE
+
+
+exit
+
+;-------------------------------------
+:CacheFiles
+;-------------------------------------
+	CacheClientFX SPELL_COLUMNOFFIRE
+
+Exit TRUE
+
+;-------------------------------------
+:InitEboraBath
+;-------------------------------------
+	GetObjectHandle EboraCam1, hCamera
+	GetMyHandle hMe
+
+	SetPropNumber CanDamage, FALSE
+
+	AddTrigger OnGossip OnGossip
+	AddTrigger DeadConcubine DeadConcubine
+	AddTrigger DeadPal DeadPal
+
+	OnFoundPlayer OnFoundPlayer
+
+	SetModelFilenames "models\ebora.abc", "skins\succubusredgstrng.dtx"
+
+	SetIdle
+
+Exit TRUE
+
+;-------------------------------------
+:OnFoundPlayer
+;-------------------------------------
+	OnFoundPlayer DoNothing
+
+	GetParam 0, g_hTarget
+
+	PlayAnim launch, OnLaunchDone
+
+	RollOverText 14, 0
+
+Exit TRUE
+
+;-------------------------------------
+:OnLaunchDone
+;-------------------------------------
+;	gosub SetupTarget
+;	gosub AggressiveStart
+
+Exit TRUE
+
+;-----------------------------------------
+:TurnCameraOn
+;-----------------------------------------
+
+	LetterBox TRUE
+	Trigger hCamera, on
+
+Exit TRUE
+
+;-----------------------------------------
+:TurnCameraOff
+;-----------------------------------------
+	LetterBox FALSE
+	Trigger hCamera, off
+
+haskey 498 g_ntemp
+if (g_ntemp==TRUE)
+	removeobject hMe
+endif
+
+Exit TRUE
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;traceon
+
+	OnPostStartWorld InitEboraBath
+	OnPostMiniSaveLoad InitEboraBath
+	OnCacheFiles CacheFiles
+	
+Exit TRUE
+
+;-----------------------------------------
+:TurnCameraOn
+;	Bones
+;	overloaded
+;-----------------------------------------
+
+	IsTurnBased g_nTemp
+	if g_nTemp == TRUE
+		ScreenFadeOut 1
+		RollOverText 18 0
+		wait 0 1 EscapeTheTub
+		Exit
+	endif
+
+	ScreenFadeIn 1
+	goto TurnCameraOn, 1

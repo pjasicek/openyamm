@@ -1,0 +1,47 @@
+#	Name	File name	Music Track	Battle Track	Perception0-20	Respawn (days)	Travel (days)	Lock (0-20)	Trap (0-10)	Treas. (0-6)	Enc %	M1 %	M2 %	M3 %	Mon 1	Dif 1-5	Appear #	Mon 2	Dif 1-5	Appear #	Mon 3	Dif 1-5	Appear #	Mon 4	Dif 1-5	Appear #	Redbook Track	EAX Environments	Map Designer	Notes	in area	TownPortal	InTown
+1	Thjorgard City	ThjorgardCity	8	3	2	600	0	2	3	1	0	0	0	0													7				A2	0	1
+2	Thjorgard	Thjorgard	8	3	3	600	0	3	4	2	10	50	35	15	AstralIcky			Burgler			Gezzamptling						7				A2	1	0
+3	Sturmford City	SturmfordCity	7	3	2	600	0	2	1	0	0	0	0	0													8				A3	0	1
+4	Sturmford	Sturmford	7	3	3	600	0	3	1	0	10	25	75	0	FieldThrall			DragonFly									8				A3	3	0
+5	Drangheim City	DrangheimCity	12	3	2	600	0	2	1	0	0	0	0	0													8				A4	0	1
+6	Drangheim	Drangheim	12	3	3	600	0	3	2	1	10	35	50	15	Thrall			FireDragonFly			Cutpurse						8				A4	5	0
+7	Guberland City	GuberlandCity	7	3	2	600	0	2	3	1	0	0	0	0													6				A5	0	1
+8	Guberland	Guberland	7	3	4	600	0	4	2	1	10	60	40	0	FireDragonFly			Cutpurse									6				A5	7	0
+10	Frosgard City	FrosgardCity	9	3	8	600	0	8	6	2	0	0	0	0													9				A6	0	1
+11	Frosgard	Frosgard	9	3	8	600	0	8	6	3	15	35	30	35	RedWolf			Bigfoot			Gezzampt						9				A6	10	0
+14	Thronheim City	ThronheimCity	14	3	5	600	0	5	3	1	0	0	0	0													7				A7	0	1
+15	Thronheim	Thronheim	14	3	9	600	0	9	5	2	10	48	48	4	Basilisk			Gezzamptling			Bloodsucker						7				A7	14	0
+17	Lindisfarne	Lindisfarne	6	3	8	600	0	8	4	1	10	45	10	45	Magreeb			EvilApprentice			ThrallMaster						6				A8	14	0
+18	Yorwick	Yorwick	6	3	8	600	0	8	12	3	15	50	25	25	Apparition			Vampir			Evil Sorcerer						6				A9	14	0
+20	Arslegard City	ArslegardCity	8	3	9	600	0	9	16	4	0	0	0	0		0	0		0	0			0		0		7				A10	1	1
+21	Isle of Ashes	IsleofAshes	13	3	0	600	0	0	0	0	0	0	0	0	Skeletoid	0	0	DragonFlyMite	0	0		0	0		0	0	3				A1	1	0
+22	Verhoffin Ruins	VerhoffinRuins	10	3	0	600	0	0	16	4	30	35	35	30	Dread			Embalmed Mummy			Lich						10				A1	1	2
+23	Connecting Tunnel	ConnectingTunnels	16	3	3	600	0	3	12	4	25	25	25	50	Annelid			Dagrell			SkeltonMaster						11				A2	14	2
+24	Mountain Pass	MountainPass	16	3	5	600	1	5	10	3	20	15	70	15	GreyWolf			ImpElder			WingedOddity			Gezzampt			10				A2-A7	14	0
+27	Bembridge Unversity	BembridgeU		3	17	150	0	17	0	0	0	0	0	0		0	0		0	0		0	0		0						A2	1	0
+28	Thjorad Mine	ThjoradMine	17	3	8	600	0	8	6	2	20	100	0	0	TroglodyteWren			ImpElder									5				A2	1	0
+31	Training Hall	TrainingHall	15	3	12	30	0	12	16	4	20	25	50	25	Ghoul			LizardOrc			Trellborg						4				A2	1	2
+33	The Arena	TheArena	4	3	15	1	0	15	0	0	0	0	0	0																	A2	0	1
+35	Ruined Temple	RuinedTemple	2	3	17	150	0	17	8	3	20	50	50	34	SkeletonWarrior			Dagrell									2				A3	10	2
+36	Anskram Keep	AnskramKeep	3	3	12	300	0	12	2	0	20	30	70	0	Nagate			Imp									4				A3	3	2
+38	Beet Hoven	BeetHoven	10	3	10	300	0	10	1	0	20	90	10	0	BoneThrasher			Rotter									12				A3	3	2
+42	Kluso's House	KlusosHouse	13	3	17	150	0	17	10	1	20	100	0	0	GuardCaptain																A4	5	0
+43	Drangheim Prison	DrangheimPrison	16	3	12	300	0	12	2	1	20	60	40	0	Guard			Nagate									10				A4	5	2
+44	Chasm of the Dead	ChasmoftheDead	5	3	15	300	0	15	8	3	20	30	35	35	ImpElder			Dripper			SkeletonWarrior			CanopicMummy			5				A4	5	2
+49	Temple of Honk	TempleOfHonk		3	8	600	0	8	20	5	20	100	0	0	ElderHonk	0	0		0	0		0	0		0	0					A5	7	0
+50	Dook's Castle	DooksCastle	10	3	8	600	0	8	7	2	20	90	5	5	HalfOrcSoldier			FibraseBasilisk			KinTrellborg						12				A5	7	0
+57	Yanmir's Fort	YanmirsFort	9	3	10	300	0	10	12	3	20	50	50	0	KinTrellborg			Sasquatch									4				A6	10	2
+58	Dungeon of Secrets	DungeonofSecrets	13	3	17	150	0	17	10	2	0	0	0	0													6				A6	10	2
+61	Temple of Ratatosk	TempleRatatosk		3	6	600	0	6	0	0	0	0	0	0													2				A7	14	2
+62	Inventa Storca	InventaStorca	14	3	7	600	0	7	9	3	20	35	35	30	Cutpurse			Skelton			Dripper						2				A7	14	2
+63	Lindisfarne Monastery	LindisfarneMonastery	3	3	7	600	0	7	7	2	20	100	0	0	ReverendMonk																A8	14	0
+64	Ta'Sar Academy	TaSarAcademy	15	3	10	300	0	10	7	2	20	50	50	0	HalfOrcSoldier			GuardSegeant									12				A8	14	2
+69	Lich Lab	LichLab	11	3	17	150	0	17	16	4	25	50	10	40	PowerLich			Eye			SkeletonMaster			VenemousDagrell			11				A9	14	2
+71	Wizard's Lab	WizardsLab	11	3	8	600	0	8	16	4	20	35	30	35	EvilGrandSorcerer			Eye			WingedMutant						5				A9	14	2
+72	The Afterworld	Afterworld	5	3	12	300	0	12	16	4	25	40	30	30	HordeWarrior			Terror			PetrifiedMummy						9				A10	-1	0
+73	Thousand Terrors	1000Terrors	18	3	20	600	0	20	20	6	70	65	10	25	ReptilianTerror			LesserDemon			Oculus						9				A10	-1	2
+74	Dark Passageway	DarkPassageway	17	3	20	150	0	20	18	5	30	10	10	80	ColloidalSoldier			DesertTerror			Specter	 					12				A10	-1	2
+76	The Bathhouse	Bathhouse	5	3	15	300	0	15	18	5	25	100	0	0	ColloidalWarrior												9				A10	1	0
+77	Hall of the Gods	HallOfTheGods	8	3	18	150	0	18	18	4	0	0	0	0		0	0		0	0		0	0		0	0	7				A10	14	0
+79	Dragon's Lair	DragonStadium	11	3	20	600	0	20	20	6	0	0	0	0													2						2
+80	Ravensford	BootCamp	7	3	0	600	0	0	0	0	0	0	0	0													6						

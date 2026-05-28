@@ -1,0 +1,290 @@
+;--------------------------------------------------
+;NPC378.scr
+; timmy
+; handles Thorolf Ratatoskssen voice and quest stuff
+;
+; edited by Bones 5/28/03
+; TELP Patch 1.3 -- Makes dialog with messenger unavoidable.
+;		Vanishes after ThronheimCity message given.
+;		Moves TC's Thorolf1 to a better position.
+;--------------------------------------------------
+
+#include globals.inc
+#include basedoor.inc
+
+#string							sWhoAmI
+
+#number							bTalking = FALSE
+#string							Ceffect = "spell-town portal"
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+#number							XPos
+#number							YPos
+#number							ZPos
+
+#number							MyX
+#number							MyY
+#number							MyZ
+
+
+#number							nLinked
+;parameters
+; p0 My object name
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Target Null
+set bTalking FALSE
+haskey 107 g_ntemp
+if (g_ntemp==TRUE)
+	Wait 1 2 Vanish
+	exit
+endif
+haskey 106 g_ntemp
+if (g_ntemp==TRUE)
+	DoRude 378
+	exit
+endif
+haskey 84 g_ntemp
+if (g_ntemp==TRUE)
+	Wait 1 2 Vanish
+	exit
+endif
+haskey 83 g_ntemp
+if (g_ntemp==TRUE)
+	DoRude 378
+endif
+exit
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+stop
+target Null
+
+if (sWhoAmI==Thorolf0)
+	getobjecthandle thorolf1 g_hobject
+	removeobject g_hobject
+else
+	getobjecthandle thorolf0 g_hobject
+	removeobject g_hobject
+endif
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+
+
+getmyhandle g_hobject
+clearflag g_hobject, visible
+clearflag g_hobject, solid
+clearflag g_hobject, gravity
+CPRINT DELETED ME FIRST...
+
+if (sWhoamI==Frosgard)
+	exit
+endif
+
+haskey 83 g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hobject
+	setflag g_hobject, visible
+	setflag g_hobject, solid
+	setflag g_hobject, gravity
+	CPRINT MADE ME VISIBLE TO GIVE STURM AND DRANG MESSAGE
+
+	GetPos g_hobject g_nPad2 g_nPad3 g_nPad4
+	if g_nPad4 == 3712
+		setpos g_hobject -2806 1240 5040
+	endif
+
+endif
+
+haskey 84 g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hobject
+	clearflag g_hobject, visible
+	clearflag g_hobject, solid
+	clearflag g_hobject, gravity
+	CPRINT DELETED ME BECAUSE WAR IS FIXED.
+endif
+
+GetPlayerHandle g_hPlayer
+FaceObject g_hPlayer
+OnFoundPlayer OnFound
+exit
+
+
+
+;--------------------------------------------------
+:OnAppear2
+;--------------------------------------------------
+
+
+getplayerhandle g_hPlayer
+getmyhandle g_hmyobject
+getpos g_hplayer XPos YPos ZPos
+MyX = XPos + 256
+MyY = YPos + 20
+MyZ = ZPos + 256
+
+
+ClearFlag g_hmyobject Solid
+ClearFlag g_hmyobject gravity
+setpos g_hmyobject MyX MyY MyZ
+wait 1 2 OnTeleport
+exit
+
+;--------------------------------------------------
+:OnAppear
+;--------------------------------------------------
+
+getparam 0 g_hplayer
+
+haskey 106 g_ntemp
+if (g_ntemp==FALSE)
+	exit
+endif
+
+; set my pos near the player...
+
+
+getpos g_hplayer XPos YPos ZPos
+
+getmyhandle g_hmyobject
+setpos g_hmyobject XPos YPos ZPos
+wait 1 2 OnTeleport
+exit
+
+;--------------------------------------------------
+:OnTeleport
+;--------------------------------------------------
+
+; teleport in...
+
+
+; play vanish effect here
+DoClientFX g_hmyObject,Ceffect
+Playsound \Sounds\magic\Windup10.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 Appear2b
+exit
+
+;-------------------------------------
+:Appear2b
+;-------------------------------------
+
+setflag g_hmyobject visible
+Playsound \Sounds\spells\townportal.wav, DoNothing, 100, 24000, FALSE, 100
+
+
+;no exit here on purpose...
+;--------------------------------------------------
+:OnFound
+;--------------------------------------------------
+
+if (bTalking==TRUE)
+	exit
+endif
+
+haskey 107 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+haskey 84 g_ntemp
+if (g_ntemp==TRUE)
+	haskey 106 g_ntemp
+	if (g_ntemp==FALSE)
+		exit
+	endif
+endif
+
+getplayerhandle g_htarget
+runto g_htarget 16 Talk
+;target g_hobject
+;OnTargetWithinDist 8 Talk
+;OnLostTarget OnLost
+exit
+
+;--------------------------------------------------
+:Talk
+;--------------------------------------------------
+
+stop
+set bTalking, TRUE
+DoRude 378
+Playsound voices\NPC\NPC_378.wav, DoNothing, 100, 240, FALSE, 100
+if (sWhoAmI==Thorolf0)
+	getobjecthandle thorolf1 g_hobject
+	removeobject g_hobject
+else
+	getobjecthandle Thorolf0 g_hobject
+	removeobject g_hobject
+endif
+exit
+
+
+;--------------------------------------------------
+:OnLost
+;--------------------------------------------------
+
+gosub OnFound
+exit
+
+;-------------------------------------
+:Vanish
+;-------------------------------------
+getmyhandle g_hmyobject
+
+; play vanish effect here
+DoClientFX g_hmyObject,Ceffect
+Playsound \Sounds\magic\Windup10.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 Vanish2b
+exit
+
+;-------------------------------------
+:Vanish2b
+;-------------------------------------
+
+clearflag g_hmyobject visible
+Playsound \Sounds\spells\townportal.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 Vanish2c
+exit
+
+
+;-------------------------------------
+:Vanish2c
+;-------------------------------------
+removeobject g_hmyobject
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+getparam 0 sWhoAmI
+Addtrigger Use, OnUse
+AddTrigger Appear OnAppear
+AddTrigger Appear2 OnAppear2
+gosub basedoorinit
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

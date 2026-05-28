@@ -1,0 +1,1181 @@
+;---------------------------------------------------------
+;	Dragon.scr
+;	Jeff Leggett
+;	11/14/2001
+;
+;	Implementation of the Dragon King
+;
+;	Optionally, the dragon can start out hidden.  When
+;	Triggered, he will fly in from above and land.
+;
+;	We have 4 attacks:
+;
+;		1.  Fireball attack
+;			- This attack is a simple fireball projectile that
+;			does radius damage on impact.
+;
+;		2.	FlameThrower attack
+;			- This attack sends continuous bursts of fire 
+;			in the direction that we're pointing...
+;
+;		3.	Wing attack
+;			- This does no damage, but can be used to push
+;			players away from us...
+;
+;		4.	Hand Attack
+;			- We do this instead of a wing attack sometimes.
+;			
+;
+;	After each attack, if we've attacked the current 
+;	target long enough, we decide whether we should
+;	switch to another target.  Targets that are out
+;	of range are ignored.  Targets that we don't have
+;	a clear shot at are randomly ignored.  The last 
+;	target to do damage to us gets a higher priority.
+;	This higher priority is proportional to his distance
+;	away from us...  (ie: if someone along way off is 
+;	hitting us, while we have many more targets near us,
+;	we have a less chance of switching to that target than
+;	if they're close to us...
+;
+;	After each attack, we also check to see if there are
+;	a lot of targets within our wing attack distance.
+;	if so, we'll switch to one of them and do our wing attack...
+;	
+;---------------------------------------------------------
+
+#include aiglobals.inc
+#include flags.inc
+
+#number			BREATHING_WAIT = 27
+
+#number			FOLLOW_TARGET = 0
+#number			MIN_ATTACK_WAIT = 0.2
+#number			MAX_ATTACK_WAIT = 0.6
+
+#number			MAX_SAME_TARGET_TIME = 6.0
+#number			MIN_SAME_TARGET_TIME = 3.0
+
+#number			MIN_WING_ATTACK_WAIT = 0.3
+#number			MAX_WING_ATTACK_WAIT = 0.6
+
+#number			MIN_POST_WING_ATTACK_WAIT = 0.2
+#number			MAX_POST_WING_ATTACK_WAIT = 0.4
+
+
+;
+; 75% of the time, ignore a target that you don't have a clear shot at...
+;
+#number			NO_CLEAR_SHOT_IGNORE_CHANCE 75
+
+#number			WING_ATTACK_DIST = 200
+#number			BREATH_ATTACK_DIST = 230
+#number			MAX_ATTACK_DIST	= 1800
+#number			MAX_HAND_ATTACK_DIST = 150
+
+#number			WING_ATTACK_CHANCE = 20
+
+;
+; Chance that if the target is close enough, that we'll do a hand attack
+; instead of a wing attack...
+;
+#number			HAND_ATTACK_CHANCE = 40
+
+#hobject		hWakeUpTarget = 0
+#hobject		hLastAttacker = 0
+#hobject		hObject
+#hobject		hFoundTarget = 0
+
+#number			random
+
+#number			bAttacking = 0
+
+#number			MAX_TARGETS = 20
+#number			nTargetsFound = 0
+#numberArray	hTargetArray[20]
+
+#number			switchChance
+#number			currTargetDist
+#number			foundTargetDist
+
+#number			lastTargetSwitch = 0
+
+
+; Array Find Routine variables..
+#number			nArrayFindIndex
+#hobject		hArrayFind
+
+
+#number			switchHurryTime = 0
+
+#number			bClearShot
+
+#number			dimsX
+#number			dimsY
+#number			dimsZ
+
+#number			ATTACK_WAIT_NBR	= 7
+
+#number			targetHeight
+#number			g_targetDirX
+#number			g_targetDirY
+#number			g_targetDirZ
+
+#string			SpawnCmd="WingedMutant MoveToFloor 0"
+#number			SPAWN_INTERVAL=45
+#string			sDragonSmoke="dragon smoke"
+
+;------------------------------------------
+:ClearAttackTimer
+;------------------------------------------
+	Wait ATTACK_WAIT_NBR, 0, DoNothing
+
+	Exit
+
+;------------------------------------------
+:OnLostTarget
+;
+;	Lost Target, go back to idle...
+;------------------------------------------
+
+	Set g_hTarget, NULL
+	Target NULL
+
+	gosub ClearAttackTimer
+
+	Exit
+
+;------------------------------------------
+:AttackDone
+;------------------------------------------
+
+	Set bAttacking, FALSE
+
+	Target g_hTarget, TRUE
+
+	gosub MaybeSwitchTarget
+
+	if ( g_hTarget!=NULL )
+		gosub SetupAttack
+	else
+		SetIdle		
+	endif
+
+	Exit
+
+;------------------------------------------
+:AttackFaceTargetDone
+;------------------------------------------
+	
+	if ( bAttacking==TRUE )
+		Target g_hTarget, TRUE
+	endif
+
+	Exit
+
+
+;------------------------------------------
+:GetTargetHeight
+;	input: g_hTarget
+;	output: targetHeight	(compared to where our feet are)
+;------------------------------------------
+	Set targetHeight, 0
+
+	if ( g_hTarget==NULL )
+		Exit
+	endif
+
+	GetPos g_hMyObject, g_posX, g_posY, g_posZ
+	Sub g_posY, dimsY
+
+	GetPos g_hTarget, g_posX, targetHeight, g_posZ
+	Sub targetHeight, g_posY
+
+	Exit
+
+;------------------------------------------
+:DoBreathAttack
+;
+;	if the target is above a certain
+;	distance, we'll play the higher
+;	breath attack
+;	
+;------------------------------------------
+
+	if ( g_hTarget!=NULL )
+
+		gosub GetTargetHeight
+
+		if ( targetHeight > dimsZ )
+			PlayAnim rAttack1, AttackDone
+		else
+			PlayAnim rAttack3, AttackDone
+		endif
+	else
+		PlayAnim rAttack3, AttackDone
+	endif
+
+	Exit
+
+;------------------------------------------
+:DoWingAttack
+;------------------------------------------
+
+	PlayAnim WingAttack, WingAttackDone
+
+	Exit
+
+;------------------------------------------
+:DoFireBoltAttack
+;------------------------------------------
+
+	PlayAnim rAttack1, AttackDone
+
+	Exit
+
+;------------------------------------------
+:CantAttackRightNow
+;------------------------------------------
+	bAttacking = FALSE
+
+;;	CPRINT Dragon can't attack yet!!
+	Wait ATTACK_WAIT_NBR, 0.2, DoAttack
+	Exit
+
+;------------------------------------------
+:GetTargetDir
+;------------------------------------------
+
+	GetPos g_hMyObject, g_posX, g_posY, g_posZ
+	GetPos g_hTarget, g_targetDirX, g_targetdirY, g_targetDirZ
+
+	VecSub g_targetDirX, g_targetDirY, g_targetDirZ, g_posX, g_posY, g_posZ
+	VecNorm g_targetDirX, g_targetDirY, g_targetDirZ
+
+	Exit
+
+
+;------------------------------------------
+:DoAttack
+;------------------------------------------
+
+	if ( g_hTarget==NULL )
+		SetIdle
+		Exit
+	endif
+
+	AIGetDistance g_hTarget, g_nTemp
+
+	FaceObject g_hTarget, 180, AttackFaceTargetDone
+
+	bAttacking = TRUE
+
+	if ( g_nTemp < WING_ATTACK_DIST )
+		gosub DoCloseAttack
+	else
+		CanRangeAttack g_bTemp
+		if ( g_bTemp==FALSE )
+			goto CantAttackRightNow
+		Endif
+
+;;		g_sTemp = CurrTargetDist= + g_nTemp
+;;		Cprint g_sTemp
+
+		if ( g_nTemp < BREATH_ATTACK_DIST )
+			gosub DoBreathAttack
+		else
+			if ( g_nTemp < MAX_ATTACK_DIST )
+				gosub DoFireBoltAttack
+			else
+				; Just re-setup our attack...
+				SetIdle
+				bAttacking = FALSE
+				gosub SetupAttack
+			endif
+		endif
+	endif
+
+	Exit
+
+;------------------------------------------
+:WingAttackDone
+;------------------------------------------
+
+	Target g_hTarget, TRUE
+	gosub SetupPostWingAttack
+
+	Exit
+
+
+;------------------------------------------
+:DoHandAttack
+;------------------------------------------
+
+	PlayAnim hAttack1, AttackDone
+
+	Exit
+
+;------------------------------------------
+:DoCloseAttack
+;
+;	Randomly pick between using hand
+; attack and wing attack
+;------------------------------------------
+
+	if ( g_hTarget==NULL )
+		gosub SetupAttack
+	endif
+
+	Set g_nTemp, 0
+
+	AIGetDistance g_hTarget, currTargetDist
+
+	if ( currTargetDist < MAX_HAND_ATTACK_DIST )
+		Add g_nTemp, HAND_ATTACK_CHANCE
+	endif
+
+	gosub GetTargetHeight
+	if ( targetHeight > 100 )
+		Set g_nTemp, 0
+	endif
+
+	GetRandomInt 0,100,g_nRandom
+
+;
+; jsl-->Don't have a hand attack just yet....
+;
+;	if ( g_nRandom < g_nTemp )
+;		CanAttack g_bTemp
+;		if ( g_bTemp==FALSE )
+;			gosub DoHandAttack
+;			Exit
+;		endif
+;	endif
+	
+	GetRandomInt 0, 100, g_nRandom
+
+	g_nTemp = WING_ATTACK_CHANCE
+
+;	if ( currTargetDist < 100 )
+;		Set g_nTemp, 5
+;	endif
+
+	; TEST ->Force it to do breath attack...
+	if ( g_nRandom > g_nTemp )
+		CanAttack g_bTemp
+		if ( g_bTemp==FALSE )
+			goto CantAttackRightNow
+		Endif
+		gosub DoBreathAttack
+		exit
+	else
+		CanAttack g_bTemp
+		if ( g_bTemp==FALSE )
+			goto CantAttackRightNow
+		Endif
+		gosub DoWingAttack
+		Exit
+	endif
+
+	Exit
+
+
+;------------------------------------------
+:TargetDead
+;------------------------------------------
+	Target NULL
+	Set g_hTarget, NULL
+
+	gosub FindTarget
+
+	if ( hFoundTarget==NULL )
+		Exit
+	endif
+
+	Set g_hTarget, hFoundTarget
+
+	gosub ClearAttackTimer
+	gosub SetupNewTarget
+	gosub SetupAttack
+
+	Exit
+
+;------------------------------------------
+:SetupAttack
+;------------------------------------------
+
+	GetRandomFloat MIN_ATTACK_WAIT, MAX_ATTACK_WAIT, random
+
+	OnTargetDead	TargetDead
+
+	Wait ATTACK_WAIT_NBR, random, DoAttack
+
+;
+;	See if we want to switch targets
+;
+
+
+	Exit
+
+;------------------------------------------
+:TargetWithinWindDist
+;------------------------------------------
+
+;;	gosub SetupWingAttack
+
+	exit
+
+;------------------------------------------
+:SetupWingAttack
+;------------------------------------------
+
+	GetRandomFloat MIN_WING_ATTACK_WAIT, MAX_WING_ATTACK_WAIT, random
+	OnTargetDead TargetDead
+	Wait ATTACK_WAIT_NBR, random, DoCloseAttack
+	
+	Exit
+
+;------------------------------------------
+:SetupPostWingAttack
+;------------------------------------------
+
+	OnTargetDead TargetDead
+
+	gosub DoAttack
+
+;	GetRandomFloat MIN_POST_WING_ATTACK_WAIT, MAX_POST_WING_ATTACK_WAIT, random
+;	Wait ATTACK_WAIT_NBR, random, DoAttack
+
+	Exit
+
+;------------------------------------------
+:WakingUpDamage
+;
+;	p0 = hAttacker
+;	p1 = HitPoints
+;	p2 = DamageType
+;------------------------------------------
+
+	GetParam 0, hObject
+
+	if ( hWakeUpTarget!=hObject )
+		BreakObjectLink hWakeUpTarget
+		CreateObjectLink hObject
+	Endif
+
+	Exit TRUE
+
+;------------------------------------------
+:OnDamage
+;
+;	p1	= hAttacker
+;	p2	= HitPoints
+;	p3  = DamageType
+;------------------------------------------
+
+	GetParam 0, hObject
+
+	if ( hLastAttacker!=hObject )
+		Set hLastAttacker, hObject
+		CreateObjectLink hLastAttacker
+	endif
+
+	; See if we want to switch targets..
+	; For now, always switch target...
+
+	if ( g_hTarget==NULL )
+		Set g_hTarget, hObject
+		gosub SetupNewTarget
+		gosub SetupAttack
+	else
+		if ( hObject!=g_hTarget )
+			; Hurry up on switching maybe... 20% chance
+			GetRandomInt 0, 100, g_nRandom
+			if ( g_nRandom > 80 )
+				Add switchHurryTime, 0.5
+			endif
+		endif
+	endif
+
+
+	exit TRUE
+
+
+;------------------------------------------
+:OnFoundTarget
+;------------------------------------------
+
+	GetParam 0, g_hTarget
+
+	gosub SetupNewTarget
+	gosub SetupAttack
+
+	Exit
+
+
+;------------------------------------------
+:ArrayFind
+;
+;	Attempts to find hArrayFind in hTargetArray
+;	returns index in nArrayFindIndex
+;		( -1 if not found )
+;
+;	input:	hArrayFind
+;			hTargetArray
+;			nTargetsFound
+;
+;	output: nArrayFindIndex
+;------------------------------------------
+
+	if ( hArrayFind==NULL )
+		Exit
+	endif
+
+	Set g_nCounter, 0
+	Set	nArrayFindIndex, -1
+
+	while ( g_nCounter < nTargetsFound )
+		ArrayGet hTargetArray, g_nCounter, g_hObject
+
+		if ( g_hObject==hArrayFind )
+			Set nArrayFindIndex, g_nCounter
+			Exit
+		endif
+
+		Add g_nCounter, 1
+	endwhile
+
+	Exit
+
+;------------------------------------------
+:CheckClearShot
+;
+;	See if we have a clear shot.  If not,
+;	decide if we should go ahead and use
+;	the target anyway...
+;
+;	input:	hFoundTarget
+;	output: bClearShot
+;
+;------------------------------------------
+
+	Set bClearShot, FALSE
+
+	IsClearShot hFoundTarget, bClearShot
+
+	if ( bClearShot==FALSE )
+		; Randomly decide if we should target them
+		; anyway...
+		GetRandomInt 0,100,g_nRandom
+		if ( g_nRandom < NO_CLEAR_SHOT_IGNORE_CHANCE )
+			Set bClearShot, FALSE
+			;;DebugOut Using Target WITHOUT clear shot!
+		else
+			;;DebugOut NOT USING TARGET without clear shot
+		endif
+	endif
+
+	Exit
+
+;------------------------------------------
+:FindTarget
+;
+;	Sets hFoundTarget to NULL if none found
+;
+;	input: none
+;	output: hFoundTarget
+;
+;------------------------------------------
+
+	;;DebugOut XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	;;DebugOut FindTarget IN
+	;;DebugOut XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+	Set hFoundTarget, NULL
+
+;-----------------------------------
+; Most every time thru here, we 
+; check to see if there are many
+; targets within our wind distance
+; If so, we'll target them because
+; they have the potential to do the
+; most damage...
+;-----------------------------------
+
+	GetRandomInt 0, 100, g_nRandom
+	Set nTargetsFound, 0
+
+	Set g_nTemp, 50
+
+	if ( g_hTarget!=hLastAttacker )
+		; If we're not attacking the last attacker, then reduce
+		; chances that we'll only look at the closer guys...
+		Set g_nTemp, 20
+	endif
+
+	if ( g_nRandom < 50 )
+		FindTargets hTargetArray,MAX_TARGETS,nTargetsFound,WING_ATTACK_DIST,0
+	endif
+
+	if ( nTargetsFound==0 )
+		FindTargets hTargetArray,MAX_TARGETS,nTargetsFound,0,0
+	else
+		;;DebugOut Found local targets!
+	endif
+
+	if ( nTargetsFound==0 )
+		Exit
+	endif
+
+;-----------------------------------
+;
+; Give the last attacker higher
+; priority....
+;
+;-----------------------------------
+
+	Set hArrayFind, hLastAttacker
+	gosub ArrayFind
+
+	if ( nArrayFindIndex!=-1 )
+		;;DebugOut Last attacker is in our target array!
+		Set g_nTemp, nArrayFindIndex
+		Div g_nTemp, nTargetsFound
+		Mul g_nTemp, 100
+
+		Add g_nTemp, 15
+
+		GetRandomInt 0, 100, g_nRandom
+
+		if ( g_nRandom > g_nTemp )
+			; Use last attacker...
+			Set hFoundTarget, hLastAttacker
+
+			AIGetDistance hFoundTarget, g_nTemp
+
+			if ( g_nTemp >= BREATH_ATTACK_DIST )
+				gosub CheckClearShot
+				if ( bClearShot==FALSE )
+					Set hFoundTarget, NULL
+				endif
+			endif
+
+			if (hFoundTarget!=NULL)
+				;;DebugOut using LAST ATTACKER
+				goto FindTargetDone
+			endif
+		endif
+
+		;;DebugOut NOT using last attacker!
+	else
+		;;DebugOut Last attacker is NOT in our target array!!
+	endif
+
+;-----------------------------------
+; Okay, just go thru the list of targets and pick
+; one that we've got a good shot at...
+;
+;-----------------------------------
+
+	Set g_nCounter, 0
+
+
+while (g_nCounter < nTargetsFound)
+
+	ArrayGet hTargetArray, g_nCounter, hFoundTarget
+
+	if ( hFoundTarget==g_hTarget )
+		; Don't allow current target to be a potential "new" target...
+		Set hFoundTarget, NULL
+		goto FindTargetNext
+	endif
+
+;------------------------------------------
+;
+; If we're going to use the fireball 
+; attack, see if we have a clear shot at him
+;
+;------------------------------------------
+
+	AIGetDistance hFoundTarget, g_nTemp
+	if ( g_nTemp >= BREATH_ATTACK_DIST )
+
+		gosub CheckClearShot
+
+		if ( bClearShot==FALSE )
+			goto FindTargetNext
+		endif
+	endif
+
+;------------------------------------------
+
+;
+;	If they're too far away, don't consider 
+;	them a target
+;
+	if ( g_nTemp > MAX_ATTACK_DIST )
+		;;DebugOut TARGET TOO FAR!
+		goto FindTargetNext
+	endif
+
+	if ( hFoundTarget!=NULL )
+		goto FindTargetDone
+	endif
+
+:FindTargetNext
+
+	Add g_nCounter, 1
+
+endwhile
+
+:FindTargetDone
+
+	;;DebugOut XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	;;DebugOut FindTarget OUT
+	;;DebugOut XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+	Exit
+
+;------------------------------------------
+:MaybeSwitchTarget
+;
+;	Figure out if we want to switch target
+;	or not..  
+;
+;------------------------------------------
+
+	GetTime g_nTemp
+
+	; See if it's too soon to switch targets....
+	Sub g_nTemp, MIN_SAME_TARGET_TIME
+	Add g_nTemp, switchHurryTime
+	if ( g_nTemp < lastTargetSwitch )
+		Exit
+	endif
+
+	gosub FindTarget
+
+	if ( hFoundTarget==NULL )
+		Exit
+	endif
+
+	if ( g_hTarget==NULL )
+		goto NewTarget
+	endif
+
+	if ( hFoundTarget==g_hTarget )
+		Exit
+	endif
+
+	Set switchChance, 20
+
+	AIGetDistance g_hTarget, currTargetDist
+	AIGetDistance hFoundTarget, foundTargetDist
+
+	if ( currTargetDist > foundTargetDist )
+		Set switchChance, 80
+	endif
+
+	if ( hFoundTarget==hLastAttacker )
+		Add switchChance, 45
+	endif
+
+	GetTime g_nTemp
+
+	Sub g_nTemp, MAX_SAME_TARGET_TIME
+	Add g_nTemp, switchHurryTime
+
+	if ( g_nTemp > lastTargetSwitch )
+		goto NewTarget
+	endif
+
+	GetRandomInt 0, 100, random
+
+	if ( random > switchChance )
+		Exit
+	endif
+
+;---------
+:NewTarget
+;---------
+
+	Set g_hTarget, hFoundTarget
+
+	gosub SetupNewTarget
+
+	Exit
+
+;------------------------------------------
+:SetupNewTarget
+;------------------------------------------
+
+	GetTime lastTargetSwitch
+	Set switchHurryTime, 0
+	Target g_hTarget, TRUE
+
+	Exit
+
+;------------------------------------------
+:DragonAwake
+;	
+;	Now we're awake, go get him...
+;------------------------------------------
+
+	if ( hWakeUpTarget!=NULL )
+		Set g_hTarget, hWakeUpTarget
+	endif
+
+	OnDamage OnDamage
+	OnLostTarget OnLostTarget
+	OnFoundTarget OnFoundTarget, MAX_ATTACK_DIST
+
+;
+; jsl--> I think we just want to find a target normal, ie: doesn't HAVE to
+; be the guy that just shot us...
+;
+	Set g_hTarget, NULL
+
+	if ( g_hTarget==NULL )
+		; Try to find one...
+
+		gosub FindTarget
+		if ( hFoundTarget==NULL )
+			SetIdle
+			Exit
+		EndIf
+
+		Set g_hTarget, hFoundTarget
+	endif
+
+	gosub SetupNewTarget
+	gosub SetupAttack
+
+	Exit
+
+;------------------------------------------
+:DamageWakeUp
+;------------------------------------------
+	GetParam 0, hWakeUpTarget
+
+	if ( hWakeUpTarget!=0 )
+		CreateObjectLink hWakeUpTarget
+	endif
+
+	gosub WakeUp
+
+	Exit
+
+;------------------------------------------
+:WakeUpTrigger
+;------------------------------------------
+	GetParam 0, hWakeUpTarget
+
+	if ( hWakeUpTarget!=0 )
+		CreateObjectLink hWakeUpTarget
+	endif
+
+	gosub WakeUp
+
+	Exit
+
+;------------------------------------------
+:WakeUp
+;
+;	Wake up and go get 'em boy!
+;
+;------------------------------------------
+
+	OnFoundPlayer				
+	OnAttackReady				
+	OnDamage WakingUpDamage
+
+	PlayAnim WakeUp, DragonAwake
+
+	Exit TRUE
+
+;------------------------------------------
+:SetupSleeping
+;
+;	Setup the dragon as asleep....
+;------------------------------------------
+
+	; Loop our sleeping animation
+
+	LoopAnim Sleep,0
+
+	; When we find the player, we'll need to wake up...
+	OnDamage					DamageWakeUp
+
+	Exit
+
+;------------------------------------------
+:OnCongestion
+;
+;	Don't do anything here...
+;	
+;------------------------------------------
+
+	Exit FALSE
+
+;------------------------------------------
+:OnObjectLinkBroken
+;------------------------------------------
+
+	GetParam 0, hObject
+
+	if ( hObject==hWakeUpTarget )
+		Set hWakeUpTarget, NULL
+	endif
+
+	if ( hObject==hLastAttacker )
+		Set hLastAttacker, NULL
+	endif
+
+	if ( hObject==g_hTarget )
+		Target NULL
+		Set g_hTarget, NULL
+	endif
+
+	Exit
+
+;------------------------------------------
+:OnTest
+;------------------------------------------
+
+	PlayAnim rAttack2, AttackDone
+
+
+	Exit
+
+;------------------------------------------
+:TargetTooFar
+;------------------------------------------
+	
+	Target NULL
+	Set g_hTarget, NULL
+	gosub ClearAttackTimer
+	SetIdle
+	OnTargetBeyondDist MAX_ATTACK_DIST, TargetTooFar
+
+	Exit
+
+;------------------------------------------
+:OnWinceDone
+;
+;	Called when the Dragon's wince animation
+; is finished...
+;
+;	Just setup our next attack...
+;------------------------------------------
+
+	gosub SetupAttack
+
+	Exit TRUE
+
+;---------------------------------------------
+:SpawnMutants
+;---------------------------------------------
+#number			x
+#number			y
+#number			z
+
+	SPAWN_INTERVAL	= SPAWN_INTERVAL * 2
+
+	Wait 22,SPAWN_INTERVAL,SpawnMutants
+
+	GetObjectHandle MutantMarker0,g_hObject
+
+	if ( g_hObject!=NULL )
+		GetPos g_hObject,x,y,z
+		Spawn g_hObject,x,y,z,SpawnCmd
+		if (g_hObject!=NULL)
+			Trigger g_hObject,GetMe
+		Endif
+	Endif
+
+	GetObjectHandle MutantMarker1,g_hObject
+
+	if ( g_hObject!=NULL )
+		GetPos g_hObject,x,y,z
+		Spawn g_hObject,x,y,z,SpawnCmd
+		if (g_hObject!=NULL)
+			Trigger g_hObject,GetMe
+		Endif
+	Endif
+
+	Exit
+
+;------------------------------------------
+:NormalSetup
+;------------------------------------------
+	GetStat g_hMyObject, VisibleRange, g_nTemp
+
+	gosub DoBreathing
+
+	if ( g_nTemp > MAX_ATTACK_DIST )
+		; Don't go less than our default...
+		Set MAX_ATTACK_DIST, g_nTemp
+	endif
+
+	OnCongestion		OnCongestion
+	OnObjectLinkBroken	OnObjectLinkBroken
+	OnTargetWithinDist WING_ATTACK_DIST, TargetWithinWindDist
+	OnTargetBeyondDist MAX_ATTACK_DIST, TargetTooFar
+
+
+	AddTrigger WakeUp, WakeUpTrigger
+	AddTrigger Test, OnTest
+	AddTrigger DragonWinceDone, OnWinceDone
+
+	GetDims g_hMyObject, dimsX, dimsY, dimsZ
+
+	OnDamage OnDamage
+	OnLostTarget OnLostTarget
+	OnFoundTarget OnFoundTarget, MAX_ATTACK_DIST
+
+	Wait 22,SPAWN_INTERVAL,SpawnMutants
+
+	Exit
+
+
+;---------------------------------------------
+:TauntDone
+;---------------------------------------------
+	Stop
+	SetIdle
+	gosub NormalSetup
+
+	GetPlayerHandle g_hTarget
+
+	gosub SetupNewTarget
+	gosub SetupAttack
+
+
+	Exit
+
+;---------------------------------------------
+:OnLanded
+;---------------------------------------------
+	PlayAnim Taunt, TauntDone
+
+	Exit
+
+;---------------------------------------------
+:OnTrigger
+;---------------------------------------------
+	RemoveTrigger Trigger
+
+	SetFlag g_hMyObject, FLAG_VISIBLE
+	SetFlag g_hMyObject, FLAG_SOLID
+
+	PlayAnim Land, OnLanded
+
+	gosub DoBreathing
+
+	Exit
+
+;---------------------------------------------
+:HideSetup
+;---------------------------------------------
+
+	ClearFlag g_hMyObject,FLAG_VISIBLE
+	ClearFlag g_hMyObject,FLAG_SOLID
+	AddTrigger Trigger,OnTrigger
+
+	Exit
+
+;------------------------------------------
+:DoBreathing
+;------------------------------------------
+	gosub DoBreath
+	Exit
+
+;------------------------------------------
+:DoBreath
+;------------------------------------------
+	Wait BREATHING_WAIT,2.5,DoBreath
+
+	DoClientFX g_hMyObject,sDragonSmoke,FALSE,FALSE
+
+	Exit
+
+
+;------------------------------------------
+:CacheFiles
+;------------------------------------------
+	
+	CacheClientFX sDragonSmoke
+
+	Exit
+
+;------------------------------------------
+:OnDeath
+;------------------------------------------
+	GetParam 0, g_hObject
+
+	IsPlayer g_hObject,g_bTemp
+	if ( g_bTemp==TRUE )
+		GiveKey 472
+		GiveItem 577
+	endif
+
+	exit FALSE
+
+;------------------------------------------
+:OnGrowl1
+;------------------------------------------
+	PlaySound sounds\animsounds\dragon\wince1.wav,DoNothing,2000,4000
+
+	Exit
+
+;------------------------------------------
+:OnGrowl2
+;------------------------------------------
+	PlaySound sounds\animsounds\dragon\wince2.wav,DoNothing,2000,4000
+
+	Exit
+
+;------------------------------------------
+:OnHitFloor
+;------------------------------------------
+	PlaySound sounds\animsounds\dragon\land.wav,DoNothing,2000,4000
+
+
+	Exit
+
+;------------------------------------------
+:Main
+;
+;	Parameters:
+;
+;		p0 ==> bFlyInOnTrigger
+;
+;------------------------------------------
+
+;
+;	Dragons hate everyone....
+;
+	AddEnemy AIBase
+
+	GetMyHandle g_hMyObject
+
+	GetParam 0, g_bTemp
+
+	if ( g_bTemp==FALSE )
+		gosub NormalSetup
+	else
+		gosub HideSetup
+	endif
+
+	AddTrigger SpawnMutants,SpawnMutants
+	AddModelKey Growl1,OnGrowl1
+	AddModelKey Growl2,OnGrowl2
+	AddModelKey HitFloor,OnHitFloor
+	OnCacheFiles CacheFiles
+
+	gosub CacheFiles
+
+	OnDeath OnDeath
+
+	Exit		
+

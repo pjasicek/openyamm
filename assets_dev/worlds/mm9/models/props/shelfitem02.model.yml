@@ -1,0 +1,120 @@
+schema: openyamm.model3d.v1
+id: shelfitem02
+model: shelfitem02.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/SHELFITEM02.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Amulets1
+  materialIndex: 0
+  lods:
+  - faces: 8
+    vertices: 8
+  - faces: 8
+    vertices: 8
+- name: SkelBones1
+  materialIndex: 0
+  lods:
+  - faces: 64
+    vertices: 36
+  - faces: 64
+    vertices: 36
+- name: Mortar-Pestle
+  materialIndex: 0
+  lods:
+  - faces: 60
+    vertices: 39
+  - faces: 40
+    vertices: 29
+- name: Pouches1
+  materialIndex: 0
+  lods:
+  - faces: 224
+    vertices: 132
+  - faces: 140
+    vertices: 89
+- name: Skull1
+  materialIndex: 0
+  lods:
+  - faces: 166
+    vertices: 94
+  - faces: 140
+    vertices: 81
+materials:
+- index: 0
+  texture: skins_preview/props/shelfitem02.png
+  runtime_texture: skins/props/shelfitem02.dtx
+  preview_texture: skins_preview/props/shelfitem02.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SHELFITEM02.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone05
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Bone07
+    parent: 0
+    flags: 1
+    children: []
+  - index: 5
+    name: Bone09
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 46.08
+  - 15.36
+  - 20.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/shelfitem02.abc

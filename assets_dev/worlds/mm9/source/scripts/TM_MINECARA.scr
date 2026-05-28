@@ -1,0 +1,61 @@
+;-----------------------------------------------------
+;
+;	TM_MineCarA.scr
+;
+;	Karl Drown 10-4-01
+;	Super simple "Move My World Object" script.
+;	
+;	
+;-----------------------------------------------------
+
+#include Globals.inc
+#include Flags.inc
+
+#hObject	hMCMarker
+#hObject	hBlocker
+#hObject	hDummy
+#hObject	hTempA
+#hObject	hMe
+
+#number		nVarX
+#number		nVarY
+#number		nVarZ
+
+;-----------------------------------------------------
+:KillScript
+;-----------------------------------------------------
+	ExitScript
+	Exit TRUE
+;-----------------------------------------------------
+:StopHere
+;-----------------------------------------------------
+	KillSound hDummy
+	playsound Sounds\Door\doorslammetal01.wav DoNothing hDummy 800 FALSE 100
+	hBlocker = NULL
+	GetObjectHandle ABMineBoards0, hBlocker
+	Trigger hBlocker, Destroy
+
+	Wait 1, .5, KillScript
+
+	Exit TRUE
+;-----------------------------------------------------
+:MoveToMarker
+;-----------------------------------------------------
+
+	GetMyHandle hMe
+	;;SetFlag hMe, FLAG_GOTHRUWORLD
+	PlaySoundHandle Sounds\Events\Gears02.wav hDummy 2500 TRUE 70
+	GetObjectHandle MCarBlocker1, hBlocker
+
+	Trigger hBlocker, Destroy
+	GetObjectHandle MCarAMarker0, hMCMarker
+
+	GetPos hMCMarker, nVarX, nVarY, nVarZ
+	MoveToPos nVarX, nVarY, nVarZ, 100, StopHere
+	Exit
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	OnDamage MoveToMarker
+	Exit
+;------------- E n d - O f - F i l e -------------------

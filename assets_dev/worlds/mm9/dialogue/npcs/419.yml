@@ -1,0 +1,1058 @@
+format_version: 1
+source_file: NPC419.rude
+rows:
+  - source:
+      file: NPC419.rude
+      row: 1
+    raw_columns:
+      - 419
+      - 999
+      - 1
+      - Goodbye.
+      - blank
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 419
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: blank
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC419.rude
+      row: 2
+    raw_columns:
+      - 419
+      - 5
+      - 1
+      - Sounds like a deal!
+      - Alright.  Inside the cow's cage is a secret door that I made, and haven't the nerve to use.  That will take you all the way to the top.  Here, let me unlock it for you.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5004
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 419
+      node_id: 5
+      choice_slot: 1
+      prompt: Sounds like a deal!
+      response: Alright.  Inside the cow's cage is a secret door that I made, and haven't the nerve to use.  That will take you all the way to the top.  Here, let me unlock it for you.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 5004
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 5004
+        status: raw_value_preserved
+  - source:
+      file: NPC419.rude
+      row: 3
+    raw_columns:
+      - 419
+      - 4
+      - 1
+      - And what will you do for us?
+      - I will show you a way to get to the top level where the most prominent criminals, including your general are being held.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 419
+      node_id: 4
+      choice_slot: 1
+      prompt: And what will you do for us?
+      response: I will show you a way to get to the top level where the most prominent criminals, including your general are being held.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC419.rude
+      row: 4
+    raw_columns:
+      - 419
+      - 3
+      - 1
+      - Of course!  What sort of help did you need?
+      - My brother Aontoni is being held in the same block as your famous general.  All I want you to do is to find him and open his cell.  I'm certain he would find his way down here.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 419
+      node_id: 3
+      choice_slot: 1
+      prompt: Of course!  What sort of help did you need?
+      response: My brother Aontoni is being held in the same block as your famous general.  All I want you to do is to find him and open his cell.  I'm certain he would find his way down here.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC419.rude
+      row: 5
+    raw_columns:
+      - 419
+      - 2
+      - 1
+      - Why not?
+      - This place is crawling with guards, that's why not!  They'll be on you faster than your head can spin!  Of course, I guess I could help you, but you would have to help me.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 419
+      node_id: 2
+      choice_slot: 1
+      prompt: Why not?
+      response: This place is crawling with guards, that's why not!  They'll be on you faster than your head can spin!  Of course, I guess I could help you, but you would have to help me.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC419.rude
+      row: 6
+    raw_columns:
+      - 419
+      - 1
+      - 1
+      - We've come to rescue Ivsar Forktooth.
+      - You've broken into Drangheim's most notorious prison, and you think you're going to walk out with its most prominent prisoner?
+      - 2
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5005
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 419
+      node_id: 1
+      choice_slot: 1
+      prompt: We've come to rescue Ivsar Forktooth.
+      response: You've broken into Drangheim's most notorious prison, and you think you're going to walk out with its most prominent prisoner?
+      next: 2
+      raw_fields:
+        c07: 12
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5005
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 12
+            qbit_id: 9012
+            state_id: mm9.keys.12
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 12
+          qbit_id: 9012
+          state_id: mm9.keys.12
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5005
+        status: raw_value_preserved
+  - source:
+      file: NPC419.rude
+      row: 7
+    raw_columns:
+      - 419
+      - 419
+      - 1
+      - We're just passing through.
+      - Like eggplant you are!  You'd better explain to me why I am not calling the guards on you right now!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5004
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 419
+      node_id: 419
+      choice_slot: 1
+      prompt: We're just passing through.
+      response: Like eggplant you are!  You'd better explain to me why I am not calling the guards on you right now!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5004
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5004
+        status: raw_value_preserved
+  - source:
+      file: NPC419.rude
+      row: 8
+    raw_columns:
+      - 419
+      - 419
+      - 2
+      - We've got a Visitor's Pass
+      - I don't care what you have!  Now tell me, exactly what it is that you are doing here!  The guards are just on the other side of this door, and will be more than happy to cave your skull in!
+      - 1
+      - 5007
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5004
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 419
+      node_id: 419
+      choice_slot: 2
+      prompt: We've got a Visitor's Pass
+      response: I don't care what you have!  Now tell me, exactly what it is that you are doing here!  The guards are just on the other side of this door, and will be more than happy to cave your skull in!
+      next: 1
+      raw_fields:
+        c07: 5007
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5004
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5007
+            qbit_id: 14007
+            state_id: mm9.keys.5007
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5007
+          qbit_id: 14007
+          state_id: mm9.keys.5007
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5004
+        status: raw_value_preserved
+  - source:
+      file: NPC419.rude
+      row: 9
+    raw_columns:
+      - 419
+      - 5
+      - 2
+      - Sounds too dangerous.
+      - Alright then.  I'm afraid I'll have to call the guards on you.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 419
+      node_id: 5
+      choice_slot: 2
+      prompt: Sounds too dangerous.
+      response: Alright then.  I'm afraid I'll have to call the guards on you.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC419.rude
+      row: 10
+    raw_columns:
+      - 419
+      - 3
+      - 2
+      - Sorry.
+      - busted!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 419
+      node_id: 3
+      choice_slot: 2
+      prompt: Sorry.
+      response: busted!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC419.rude
+      row: 11
+    raw_columns:
+      - 419
+      - 1
+      - 2
+      - None of your business.  Farewell.
+      - busted!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5005
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 419
+      node_id: 1
+      choice_slot: 2
+      prompt: None of your business.  Farewell.
+      response: busted!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5005
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5005
+        status: raw_value_preserved
+  - source:
+      file: NPC419.rude
+      row: 12
+    raw_columns:
+      - 419
+      - 419
+      - 3
+      - We've freed your brother.
+      - Thank you!  Don't worry about me, I'll be alright, and I won't blow your cover.
+      - 999
+      - 369
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 419
+      node_id: 419
+      choice_slot: 3
+      prompt: We've freed your brother.
+      response: Thank you!  Don't worry about me, I'll be alright, and I won't blow your cover.
+      next: 999
+      raw_fields:
+        c07: 369
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 369
+            qbit_id: 9369
+            state_id: mm9.keys.369
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 369
+          qbit_id: 9369
+          state_id: mm9.keys.369
+  - source:
+      file: NPC419.rude
+      row: 13
+    raw_columns:
+      - 419
+      - 1
+      - 3
+      - Sorry to bother you.
+      - blank
+      - -1
+      - 5005
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 419
+      node_id: 1
+      choice_slot: 3
+      prompt: Sorry to bother you.
+      response: blank
+      next: -1
+      raw_fields:
+        c07: 5005
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5005
+            qbit_id: 14005
+            state_id: mm9.keys.5005
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5005
+          qbit_id: 14005
+          state_id: mm9.keys.5005
+  - source:
+      file: NPC419.rude
+      row: 14
+    raw_columns:
+      - 419
+      - 419
+      - 4
+      - Goodbye
+      - blank
+      - -1
+      - 5004
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 419
+      node_id: 419
+      choice_slot: 4
+      prompt: Goodbye
+      response: blank
+      next: -1
+      raw_fields:
+        c07: 5004
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5004
+            qbit_id: 14004
+            state_id: mm9.keys.5004
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5004
+          qbit_id: 14004
+          state_id: mm9.keys.5004

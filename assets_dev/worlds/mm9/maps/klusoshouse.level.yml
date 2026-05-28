@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: klusoshouse
+display_name: Kluso's House
+source:
+  dat: ../source/worlds/KLUSOSHOUSE.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/KLUSOSHOUSE.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: b6672b9b38cb04ca67da4cac7ec84780d3440869ab96b5d37c00993c9bb46a72
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: klusoshouse.dat_world.yml
+  raw_objects: klusoshouse.raw_objects.yml
+  materials: klusoshouse.material_aliases.yml
+  events: klusoshouse.events.yml
+  scene_compat: klusoshouse.scene.yml
+  source_metadata_compat: klusoshouse.mm9.yml
+  bsp_compat: klusoshouse.bsp.yml
+  geometry_compat: klusoshouse.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: klusoshouse.blv
+scripts:
+  level: ../events/klusoshouse.lua
+  script_ir: ../events/klusoshouse.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

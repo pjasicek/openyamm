@@ -1,0 +1,158 @@
+;--------------------------------------------------
+;ILSskeletonstop.scr
+; timmy
+;turns skeletons into monsters
+;--------------------------------------------------
+
+#include globals.inc 
+
+       
+#Number					open        
+#Number					On
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+
+if (On==true)
+
+	GetObjectHandle skeletonlight, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, On
+	endif
+
+
+	GetObjectHandle steam1, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, On
+	endif
+
+
+	GetObjectHandle steam2, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, On
+	endif
+
+	GetObjectHandle steam3, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, On
+	endif
+
+	GetObjecthandle skeletona, g_hobject
+	
+	if g_hobject (!=NULL)
+		RemoveObject g_hobject
+	
+
+		GetObjecthandle skeletonb, g_hobject
+	
+		if g_hobject (!=NULL)
+			RemoveObject g_hobject
+
+
+			GetObjecthandle skeletonc, g_hobject
+	
+			if g_hobject (!=NULL)
+				RemoveObject g_hobject
+
+				GetObjecthandle skeletond, g_hobject
+				if g_hobject (!=NULL)
+					RemoveObject g_hobject
+				
+
+					GetObjecthandle skeletonlever1, g_hobject
+					if g_hobject (!=NULL)
+						Trigger G_hobject, TurnOn
+						Set On, False
+						Gosub Spawn
+						wait 4, OnDone
+
+					endif
+
+				endif
+			endif
+		endif
+	endif
+	exit
+
+endif
+
+exit
+
+;--------------------------------------------------
+:Spawn
+;--------------------------------------------------
+
+
+;------------------Replace Nobleman with Skeleton!!!!!!!!!!________________________
+
+GetObjecthandle spawnskeleton, g_hobject
+	
+	if g_hobject (!=NULL)
+		Trigger g_hobject, Nobleman
+
+		GetObjecthandle spawnskeleton1, g_hobject
+		if g_hobject (!=NULL)
+			Trigger g_hobject, Nobleman
+
+			GetObjecthandle spawnskeleton2, g_hobject
+			if g_hobject (!=NULL)
+				Trigger g_hobject, Nobleman
+
+				GetObjecthandle spawnskeleton3, g_hobject
+				if g_hobject (!=NULL)
+					Trigger g_hobject, Nobleman
+				endif	
+			endif
+		endif
+	endif
+
+exit
+;--------------------------------------------------
+:OnDone
+;--------------------------------------------------
+
+
+GetObjectHandle skeletondoora, g_hobject
+Trigger g_hobject, Use
+
+;GetObjecthandle steam1, g_hobject
+;trigger g_hobject, Off
+
+;GetObjecthandle steam2, g_hobject
+;trigger g_hobject, Off
+
+;GetObjecthandle steam3, g_hobject
+;trigger g_hobject, Off	
+
+
+	GetObjectHandle skeletonlight, g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject, Off
+	endif
+
+exit
+;--------------------------------------------------
+:OnTurnOn
+;--------------------------------------------------
+
+Set On, True
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+
+;traceon
+; don't ferget to delete me
+
+
+AddTrigger Use, OnUse
+AddTrigger TurnOn, OnTurnOn
+Set On, False
+
+exit
+

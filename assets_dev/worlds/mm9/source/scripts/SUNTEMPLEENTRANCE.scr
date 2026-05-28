@@ -1,0 +1,76 @@
+;--------------------------------------------------------
+;	SunTemplePrison.scr
+;	Tony Evans
+;
+;	This script controls the Altar Doors in the
+;	Grand Temple of the Sun
+;
+;	Parameters: none
+;
+;--------------------------------------------------------
+#include globals.inc
+
+#number					MoonBut=0
+#number					StarBut=0
+
+;--------------------------------------------------------
+:HandleMoon
+;--------------------------------------------------------
+
+	if (MoonBut==TRUE)
+		set MoonBut, FALSE
+	else 
+		set MoonBut, TRUE
+	endif
+
+	if (MoonBut==TRUE)
+		if (StarBut==TRUE)
+			gosub HandleDoorsOpen
+			set MoonBut, FALSE
+			set StarBut, FALSE
+		endif
+	endif
+
+exit
+
+;--------------------------------------------------------
+:HandleStar
+;--------------------------------------------------------
+
+	if (StarBut==TRUE)
+		set StarBut, FALSE
+	else 
+		set StarBut, TRUE
+	endif
+
+	if (StarBut==TRUE)
+		if (MoonBut==TRUE)
+			gosub HandleDoorsOpen
+			set MoonBut, FALSE
+			set StarBut, FALSE
+		endif
+	endif
+
+exit
+
+
+;--------------------------------------------------------
+:HandleDoorsOpen
+;--------------------------------------------------------
+
+	; make Doors open
+	GetObjectHandle AltarDoorLeft, g_hobject
+	Trigger g_hobject unlock
+	GetObjectHandle AltarDoorRight, g_hobject
+	Trigger g_hobject unlock
+exit
+
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+Addtrigger Moon, HandleMoon
+Addtrigger Star, HandleStar
+
+exit

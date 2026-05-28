@@ -1,0 +1,65 @@
+schema: openyamm.model3d.v1
+id: desk02ns
+model: desk02ns.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/DESK02NS.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 4.023306898564917e+25
+pieces:
+- name: Desk02
+  materialIndex: 0
+  lods:
+  - faces: 36
+    vertices: 38
+  - faces: 28
+    vertices: 34
+materials:
+- index: 0
+  texture: skins_preview/props/desk02.png
+  runtime_texture: skins/props/desk02.dtx
+  preview_texture: skins_preview/props/desk02.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/DESK02.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 43.52
+  - 46.08
+  - 87.04
+  origin:
+  - 0.0
+  - 0.0
+  - -12.8
+roles:
+- static_model
+source_model: models/props/desk02ns.abc

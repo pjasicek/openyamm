@@ -1,0 +1,32 @@
+
+#hobject g_hMyObject
+#number g_posX
+#number g_posY
+#number g_posZ
+#number	g_temp = 240
+
+
+:Callback
+	Wait 0, 2, Tick
+	exit
+
+:Tick
+
+	GetPos g_hMyObject,g_posX,g_posY,g_posZ
+
+	Add g_posZ, g_temp
+
+	Mul g_temp, -1
+
+	MoveToPos g_posX, g_posY, g_posZ, 100, Callback
+
+
+	Exit
+
+
+:Main
+	GetMyHandle g_hMyObject
+
+	gosub Tick
+
+	Exit

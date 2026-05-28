@@ -1,0 +1,128 @@
+;--------------------------------------------------
+;Arg_Unhide.scr
+; timmy
+; Hides or Unhides model based on player key
+;--------------------------------------------------
+
+#include globals.inc
+#include pledge.inc
+
+
+
+#number			nKey
+#string			sHideStatus
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;parameters:
+; p0 The key to check for
+; p1 Hide or Unhide
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+set g_ncounter, 0
+
+haskey 94 g_ntemp
+if (g_ntemp==TRUE)
+	gosub hide
+	exit
+endif
+
+haskey 90 g_ntemp
+if (g_ntemp==TRUE)
+	add g_ncounter, 1
+endif
+
+haskey 91 g_ntemp
+if (g_ntemp==TRUE)
+	add g_nCounter, 1
+endif
+
+if (g_nCounter==2)
+	gosub Unhide
+endif
+exit
+
+
+
+;-------------------------------------
+:Unhide
+;-------------------------------------
+
+getobjecthandle SvenProp g_hobject
+setflag g_hobject, visible
+
+getobjecthandle TryygvaProp g_hobject
+setflag g_hobject, visible
+
+getobjecthandle MarkeProp g_hobject
+setflag g_hobject, visible
+
+getobjecthandle BookProp g_hobject
+setflag g_hobject, visible
+
+getobjecthandle ForadProp g_hobject
+setflag g_hobject, visible
+
+getobjecthandle SigmundProp g_hobject
+setflag g_hobject, visible
+
+getobjecthandle TreatyProp g_hobject
+setflag g_hobject, visible
+
+getobjecthandle BjarniProp g_hobject
+setflag g_hobject, visible
+
+exit
+
+
+
+;-------------------------------------
+:Hide
+;-------------------------------------
+
+getobjecthandle SvenProp g_hobject
+clearflag g_hobject, visible
+
+getobjecthandle TryygvaProp g_hobject
+clearflag g_hobject, visible
+
+getobjecthandle MarkeProp g_hobject
+clearflag g_hobject, visible
+
+getobjecthandle BookProp g_hobject
+clearflag g_hobject, visible
+
+getobjecthandle ForadProp g_hobject
+clearflag g_hobject, visible
+
+getobjecthandle SigmundProp g_hobject
+clearflag g_hobject, visible
+
+getobjecthandle TreatyProp g_hobject
+clearflag g_hobject, visible
+
+getobjecthandle BjarniProp g_hobject
+clearflag g_hobject, visible
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 1 Init
+exit
+

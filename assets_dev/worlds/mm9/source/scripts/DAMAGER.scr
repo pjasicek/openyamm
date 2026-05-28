@@ -1,0 +1,93 @@
+#number c = 0
+#hobject t
+
+
+
+
+
+:d
+
+	RollOverText  1	1 3000 3500
+
+
+	if c == 0
+		GetObjectHandle db0 t
+		Damage  t 2 4 0			
+	else
+	if c == 1
+		GetObjectHandle db1 t
+		Damage  t 2 4 0
+	else
+	if c == 2
+		GetObjectHandle db2 t
+		Damage  t 2 4 0
+	else
+	if c == 3
+		GetObjectHandle db3 t
+		Damage  t 2 4 0
+	else
+	if c == 4
+		GetObjectHandle db4 t
+		Damage  t 2 4 0
+	else
+	if c == 5
+		GetObjectHandle db5 t
+		Damage  t 2 4 0
+	else
+	if c == 6
+		GetObjectHandle db6 t
+		Damage  t 2 4 0
+	else
+	if c == 7
+		GetObjectHandle db7 t
+		Damage  t 2 4 0
+	else
+	if c == 8
+		GetObjectHandle db8 t
+		Damage  t 2 4 0
+	else
+	if c == 9
+		GetObjectHandle db9 t
+		Damage  t 2 4 0
+	else
+	if c == 10
+		GetObjectHandle db10 t
+		Damage  t 2 4 0
+	else
+	if c == 11
+		GetObjectHandle db11 t
+		Damage  t 2 4 0
+	else
+		Die
+
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	c = c + 1
+
+exit 1
+
+:main2
+	OnDamage d
+
+
+
+exit 1
+
+
+
+:main
+	
+	wait 0 .1 main2
+
+
+exit

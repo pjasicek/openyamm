@@ -1,0 +1,162 @@
+;-------------------
+;	DungeonJukebox.scr
+;	by SJR
+;	10-15-01
+;	Purpose:play spooky sound
+;			effects behind
+;			the player
+;
+;	Triggers:
+;		"Play"	= play random sound effect behind player
+;		"Off"	= turn all sfx off
+;		"On"	= turn back on (default)
+;		"RandomOff"	= turn off randomly timed sounds
+;		"RandomOn"	= allow randomly timed sounds (default)
+;-------------------
+
+#include BaseGlobals.inc
+
+#hobject	hMe = 0
+#hobject	hPlayer = 0
+
+#number		bActive = 1
+#number		bRandom = 1
+
+#number		nRandom = 1
+#number		nCounter = 10
+
+#number		x = 0
+#number		y = 0
+#number		z = 0
+
+#number		dx = 0
+#number		dy = 0
+#number		dz = 0
+
+#number		dt = 0
+
+#number		NUMSOUNDS = 10
+#string		sFileName
+#stringarray spSoundArray[10]
+
+;------------
+:Main
+;------------
+	Wait 0, 5, InitDungeonJukebox
+
+	gosub InitStrings
+	gosub CacheAllSounds
+
+	Exit TRUE
+
+;------------
+:InitDungeonJukebox
+;------------
+	bActive = TRUE
+	bRandom = TRUE
+
+	GetMyHandle hMe
+	GetPlayerHandle hPlayer
+
+	AddTrigger Play, PlaySound
+	AddTrigger RandomOff, TurnRandomOff
+	AddTrigger RandomOn, TurnRandomOn
+	AddTrigger On, TurnOn
+	AddTrigger Off, TurnOff
+
+	gosub StartPlayLoop
+
+	Exit TRUE
+
+;------------
+:StartPlayLoop
+;------------
+	GetRandomInt 2, 8, dt
+	dt = dt * 60
+	Wait 0, dt, PlayLoop
+	Exit TRUE
+
+;------------
+:PlayLoop
+;------------
+	if( bRandom==FALSE )
+		Exit TRUE
+	endif
+	gosub PlaySound
+	gosub StartPlayLoop
+	Exit TRUE
+
+;------------
+:PlaySound
+;------------
+	if( bActive==FALSE )
+		Exit TRUE
+	endif
+	gosub UpdatePOS
+	GetRandomInt 0, nCounter, nRandom
+	ArrayGet spSoundArray, nRandom, sFilename
+	PlaySound sFileName, DoNothing, 1, 500, FALSE, 100
+	Exit TRUE
+
+;------------
+:UpdatePOS
+;------------
+	GetFaceDir hPlayer, dx,dy,dz
+	NormalizeVector dx,dy,dz
+	GetPOS hPlayer, x,y,z
+	x = x - dx
+	y = y - dy
+	z = z - dz
+	SetPOS hMe, x,y,z
+	Exit TRUE
+
+;------------
+:TurnOn
+;------------
+	bActive = TRUE
+	Exit TRUE
+
+;------------
+:TurnOff
+;------------
+	bActive = FALSE
+	Exit TRUE
+
+;------------
+:TurnRandomOn
+;------------
+	bRandom = TRUE
+	Exit TRUE
+
+;------------
+:TurnRandomOff
+;------------
+	bRandom = FALSE
+	Exit TRUE
+
+;------------
+:InitStrings
+;------------
+	ArrayPut spSoundArray, 0, sounds\Door\Doorcreak02.wav
+	ArrayPut spSoundArray, 1, sounds\Ambient\Owl02.wav
+	ArrayPut spSoundArray, 2, sounds\Ambient\Thunderdistant02.wav
+	ArrayPut spSoundArray, 3, sounds\Events\rockscrumblingloop.wav
+	ArrayPut spSoundArray, 4, sounds\Events\WoodCreak1.wav
+	ArrayPut spSoundArray, 5, sounds\AnimSounds\lichkingTaunt.wav
+	ArrayPut spSoundArray, 6, sounds\Ambient\cricket.wav
+	ArrayPut spSoundArray, 7, sounds\AnimSounds\gopherwince.wav
+	ArrayPut spSoundArray, 8, sounds\PickupItems\Shield\Metal01.wav
+	ArrayPut spSoundArray, 9, sounds\Events\WoodCreak1.wav
+	Exit TRUE
+
+;------------
+:CacheAllSounds
+;------------
+	nCounter = 0
+	while( nCounter<NUMSOUNDS )
+		ArrayGet spSoundArray, nCounter, sFileName
+		CacheSound sFileName
+		nCounter = nCounter + 1
+	endwhile
+	nCounter = nCounter - 1
+	Exit TRUE

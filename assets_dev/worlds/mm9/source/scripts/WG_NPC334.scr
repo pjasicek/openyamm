@@ -1,0 +1,285 @@
+;--------------------------------------------------
+;WG_NPC336.scr
+; timmy
+; handles Hanndl acting for cutscene
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+#number  HanndlCounter
+
+;--------------------------------------------------
+:Loop
+;--------------------------------------------------
+
+
+getmyhandle g_hobject
+clearflag g_hobject, visible
+clearflag g_hobject, solid
+clearflag g_hobject, gravity
+
+getobjecthandle WyrdeoftheKnown0 g_hobject
+clearflag g_hobject, visible
+clearflag g_hobject, solid
+clearflag g_hobject, gravity
+
+getobjecthandle WyrdeoftheKnown1 g_hobject
+clearflag g_hobject, visible
+clearflag g_hobject, solid
+clearflag g_hobject, gravity
+
+getobjecthandle WyrdeoftheKnowing0 g_hobject
+clearflag g_hobject, visible
+clearflag g_hobject, solid
+clearflag g_hobject, gravity
+exit
+
+;--------------------------------------------------
+:OnStart
+;--------------------------------------------------
+
+getmyhandle g_hobject
+setflag g_hobject, visible
+setflag g_hobject, solid
+setflag g_hobject, gravity
+
+getobjecthandle WyrdeoftheKnown0 g_hobject
+setflag g_hobject, visible
+setflag g_hobject, solid
+setflag g_hobject, gravity
+
+getobjecthandle WyrdeoftheKnown1 g_hobject
+setflag g_hobject, visible
+setflag g_hobject, solid
+setflag g_hobject, gravity
+
+getobjecthandle WyrdeoftheKnowing0 g_hobject
+setflag g_hobject, visible
+setflag g_hobject, solid
+setflag g_hobject, gravity
+exit
+
+;--------------------------------------------------
+:OnAction
+;--------------------------------------------------
+
+getobjecthandle HanndlMarker g_hobject
+Walkto g_hobject 0 OnKrohn 
+exit
+
+;--------------------------------------------------
+:OnKrohn
+;--------------------------------------------------
+
+getobjecthandle krohn g_hobject
+trigger g_hobject Arrive
+exit
+
+;--------------------------------------------------
+:OnHanndl1
+;--------------------------------------------------
+
+PlayAnim Hanndl01 DoNothing
+; "They were successful"
+wait 1 5 Krohn1
+exit
+
+
+
+;--------------------------------------------------
+:OnVoice1
+;--------------------------------------------------
+
+Playsound voices\cinema\wingame\Hanndl01.wav, DoNothing, 100, 240000, FALSE, 100
+; "They were successful"
+exit
+
+
+;--------------------------------------------------
+:OnHanndl2
+;--------------------------------------------------
+
+	wait 1 1 Speak02
+	exit
+
+;--------------------------------------------------
+:Speak02
+;--------------------------------------------------
+
+PlayAnim Hanndl02 DoNothing
+;"I wanted to talk to you about that"
+wait 1 2.5 Krohn2
+exit
+
+;--------------------------------------------------
+:OnVoice2
+;--------------------------------------------------
+
+Playsound voices\cinema\wingame\Hanndl02.wav, DoNothing, 100, 240000, FALSE, 100
+;"I wanted to talk to you about that"
+exit
+
+
+;--------------------------------------------------
+:OnHanndl3
+;--------------------------------------------------
+
+PlayAnim Hanndl03 DoNothing
+;".You played them..."
+wait 1 6 Krohn3
+exit
+
+;--------------------------------------------------
+:OnVoice3
+;--------------------------------------------------
+
+Playsound voices\cinema\wingame\Hanndl03.wav, DoNothing, 100, 240000, FALSE, 100
+;".You played them..."
+exit
+
+;--------------------------------------------------
+:OnHanndl4
+;--------------------------------------------------
+
+PlayAnim Hanndl04 DoNothing
+;"They gave up everything to serve you..."
+wait 1 19 Krohn4
+exit
+
+;--------------------------------------------------
+:OnVoice4
+;--------------------------------------------------
+
+Playsound voices\cinema\wingame\Hanndl04.wav, DoNothing, 100, 240000, FALSE, 100
+;"They gave up everything to serve you..."
+exit
+
+
+;--------------------------------------------------
+:OnHanndl5
+;--------------------------------------------------
+
+PlayAnim Hanndl05 Krohn5
+;"I think that will suffice..."
+;wait 1 3 Krohn5
+exit
+
+;--------------------------------------------------
+:OnVoice5
+;--------------------------------------------------
+
+Playsound voices\cinema\wingame\Hanndl05.wav, DoNothing, 100, 240000, FALSE, 100
+;"I think that will suffice..."
+exit
+
+;--------------------------------------------------
+:OnHanndl6
+;--------------------------------------------------
+
+Playsound voices\cinema\wingame\Hanndl06.wav, DoNothing, 100, 240000, FALSE, 100
+;PlayAnim Hanndl06 DoNothing
+;"What is this?"
+wait 1 2 Krohn6
+exit
+
+;--------------------------------------------------
+:OnVoice6
+;--------------------------------------------------
+
+Playsound voices\cinema\wingame\Hanndl06.wav, DoNothing, 100, 240000, FALSE, 100
+;"What is this?"
+exit
+
+;--------------------------------------------------
+:Krohn1
+;--------------------------------------------------
+
+getobjecthandle winman g_hobject
+trigger g_hobject Krohn1
+exit
+
+
+;--------------------------------------------------
+:Krohn2
+;--------------------------------------------------
+
+	getobjecthandle winman g_hobject
+	trigger g_hobject Krohn2
+	exit
+
+;--------------------------------------------------
+:Krohn3
+;--------------------------------------------------
+
+	getobjecthandle winman g_hobject
+	trigger g_hobject Krohn3
+	exit
+;--------------------------------------------------
+:Krohn4
+;--------------------------------------------------
+
+	getobjecthandle winman g_hobject
+	trigger g_hobject Krohn4
+	exit
+
+;--------------------------------------------------
+:Krohn5
+;--------------------------------------------------
+	getobjecthandle krohn g_hobject
+	walkto g_hobject 16 ReachOut
+	getobjecthandle winman g_hobject
+	trigger g_hobject Krohn5
+	exit
+
+;--------------------------------------------------
+:ReachOut
+;--------------------------------------------------
+Playanim Hanndl06 DoNothing
+exit
+;--------------------------------------------------
+:Krohn6
+;--------------------------------------------------
+
+	getobjecthandle winman g_hobject
+	trigger g_hobject Krohn6
+	exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddTrigger Start OnStart
+AddTrigger Stop Loop
+Addtrigger Action OnAction
+Addtrigger Hanndl1 OnHanndl1
+Addtrigger Hanndl2 OnHanndl2
+Addtrigger Hanndl3 OnHanndl3
+Addtrigger Hanndl4 OnHanndl4
+Addtrigger Hanndl5 OnHanndl5
+Addtrigger Hanndl6 OnHanndl6
+
+AddModelKey Voice1 OnVoice1
+AddModelKey Voice2 OnVoice2
+AddModelKey Voice3 OnVoice3
+AddModelKey Voice4 OnVoice4
+AddModelKey Voice5 OnVoice5
+;AddModelKey Voice6 OnVoice6
+wait 1 .1 Loop
+exit
+

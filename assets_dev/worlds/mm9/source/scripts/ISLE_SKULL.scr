@@ -1,0 +1,25 @@
+;----------------------------------------------------------
+;	Isle_Skull.scr
+;	Jeff Leggett
+;	12/06/2001
+;	
+;
+;	Skulls that are thrown at the player at the beginning
+;	of IsleOfAshes...
+;
+;----------------------------------------------------------
+
+#include PropLauncher.inc
+
+;----------------------------------------------------------
+:Main
+;
+;
+;	Just use all the defaults...
+;
+;----------------------------------------------------------
+
+	gosub PropLauncherInit
+
+	Exit
+

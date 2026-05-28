@@ -1,0 +1,628 @@
+schema: openyamm.model3d.v1
+id: cow
+model: cow.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/COW.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: d_ear
+  materialIndex: 0
+  lods:
+  - faces: 9
+    vertices: 7
+  - faces: 9
+    vertices: 7
+  - faces: 7
+    vertices: 6
+  - faces: 7
+    vertices: 6
+- name: d_ear01
+  materialIndex: 0
+  lods:
+  - faces: 9
+    vertices: 7
+  - faces: 9
+    vertices: 7
+  - faces: 7
+    vertices: 6
+  - faces: 7
+    vertices: 6
+- name: d_cow
+  materialIndex: 0
+  lods:
+  - faces: 390
+    vertices: 193
+  - faces: 288
+    vertices: 142
+  - faces: 186
+    vertices: 91
+  - faces: 92
+    vertices: 44
+- name: d_tail
+  materialIndex: 0
+  lods:
+  - faces: 45
+    vertices: 25
+  - faces: 33
+    vertices: 19
+  - faces: 27
+    vertices: 16
+  - faces: 7
+    vertices: 6
+materials:
+- index: 0
+  texture: skins_preview/cow.png
+  runtime_texture: skins/cow.dtx
+  preview_texture: skins_preview/cow.png
+  source: mm9/extracted/SKINS/SKINS/COW.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: XCENTER
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 19
+  - index: 2
+    name: XbackA
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Xback
+    parent: 2
+    flags: 1
+    children:
+    - 4
+    - 11
+    - 15
+  - index: 4
+    name: Xneckbase
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Xneckpiv
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Xheadpiv
+    parent: 5
+    flags: 1
+    children:
+    - 7
+    - 9
+    - 10
+  - index: 7
+    name: Xhead
+    parent: 6
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Xjawpiv
+    parent: 7
+    flags: 1
+    children: []
+  - index: 9
+    name: Xearpiv
+    parent: 6
+    flags: 1
+    children: []
+  - index: 10
+    name: Xearpiv01
+    parent: 6
+    flags: 1
+    children: []
+  - index: 11
+    name: Xflegpiv
+    parent: 3
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Xfleg
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Xfankle
+    parent: 12
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: Xffoot
+    parent: 13
+    flags: 1
+    children: []
+  - index: 15
+    name: Xflegpiv01
+    parent: 3
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Xfleg01
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Xfankle01
+    parent: 16
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Xffoot01
+    parent: 17
+    flags: 1
+    children: []
+  - index: 19
+    name: XbackB
+    parent: 1
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: XbackC
+    parent: 19
+    flags: 1
+    children:
+    - 21
+    - 28
+    - 33
+  - index: 21
+    name: Xtailbase
+    parent: 20
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Xtailpiv
+    parent: 21
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: XtailA
+    parent: 22
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: XtailC
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: XtailD
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: XtailE
+    parent: 25
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Xtail
+    parent: 26
+    flags: 1
+    children: []
+  - index: 28
+    name: Xblegpiv
+    parent: 20
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Xbleg
+    parent: 28
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Xblegmid
+    parent: 29
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: Xbankle
+    parent: 30
+    flags: 1
+    children:
+    - 32
+  - index: 32
+    name: Xbfoot
+    parent: 31
+    flags: 1
+    children: []
+  - index: 33
+    name: Xblegpiv01
+    parent: 20
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: Xbleg01
+    parent: 33
+    flags: 1
+    children:
+    - 35
+  - index: 35
+    name: Xblegmid01
+    parent: 34
+    flags: 1
+    children:
+    - 36
+  - index: 36
+    name: Xbankle01
+    parent: 35
+    flags: 1
+    children:
+    - 37
+  - index: 37
+    name: Xbfoot01
+    parent: 36
+    flags: 1
+    children: []
+sockets:
+- name: arrow1
+  node: 12
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.013672275468707085
+  - -0.7232869267463684
+  - 0.690191388130188
+  - 0.017797766253352165
+- name: arrow2
+  node: 16
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.02074274979531765
+  - 0.6901038885116577
+  - 0.7233331799507141
+  - 0.010586037300527096
+animations:
+- name: static_model
+  durationMs: 0
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Stand
+  durationMs: 2000
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: Fidget1
+  durationMs: 2500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 277
+    event: speakanimsound
+- name: Fidget2
+  durationMs: 2500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: Fidget3
+  durationMs: 2800
+  keyframes: 12
+  interpolationTimeMs: 200
+  events: []
+- name: Walk
+  durationMs: 1200
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 300
+    event: footstep 2
+  - timeMs: 450
+    event: footstep 1
+  - timeMs: 750
+    event: footstep 3
+  - timeMs: 1050
+    event: footstep 4
+- name: Run
+  durationMs: 400
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: footstep 1
+  - timeMs: 100
+    event: footstep 2
+- name: Tipover1
+  durationMs: 2700
+  keyframes: 19
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Standup1
+  durationMs: 2700
+  keyframes: 12
+  interpolationTimeMs: 200
+  events: []
+- name: Tipover2
+  durationMs: 2700
+  keyframes: 19
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Standup2
+  durationMs: 2700
+  keyframes: 12
+  interpolationTimeMs: 200
+  events: []
+- name: Wince1
+  durationMs: 1300
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Wince2
+  durationMs: 1400
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: Die1
+  durationMs: 2400
+  keyframes: 14
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0 0  0
+  - timeMs: 217
+    event: Velocity -17 0 -47
+  - timeMs: 305
+    event: Velocity  74 0 -36
+  - timeMs: 436
+    event: Velocity  69 0 -12; playanimsound
+  - timeMs: 655
+    event: Velocity  78 0 -35
+  - timeMs: 872
+    event: Velocity  48 0 -52
+  - timeMs: 1091
+    event: 'Velocity -12 0  0; '
+  - timeMs: 1309
+    event: Velocity  0 0  0; playdeathsound
+  - timeMs: 1527
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: Die2
+  durationMs: 2500
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  6 0  0
+  - timeMs: 226
+    event: Velocity -68 0 -70
+  - timeMs: 454
+    event: Velocity -78 0 -34; playanimsound
+  - timeMs: 682
+    event: Velocity -75 0 -13
+  - timeMs: 1136
+    event: Velocity -6 0 -4; playdeathsound
+  - timeMs: 1364
+    event: Velocity -1 0 -10
+  - timeMs: 1590
+    event: Velocity -3 0 -4
+  - timeMs: 1818
+    event: Velocity 0 0 0; DeadDims 1 0 1
+animationBindings:
+- name: static_model
+  extents:
+  - 38.4
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: Stand
+  extents:
+  - 89.60000000000001
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: Fidget1
+  extents:
+  - 89.60000000000001
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: Fidget2
+  extents:
+  - 89.60000000000001
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: Fidget3
+  extents:
+  - 89.60000000000001
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: Walk
+  extents:
+  - 89.60000000000001
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: Run
+  extents:
+  - 89.60000000000001
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: Tipover1
+  extents:
+  - 89.60000000000001
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: Standup1
+  extents:
+  - 89.60000000000001
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: Tipover2
+  extents:
+  - 89.60000000000001
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: Standup2
+  extents:
+  - 89.60000000000001
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: Wince1
+  extents:
+  - 89.60000000000001
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: Wince2
+  extents:
+  - 89.60000000000001
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: Die1
+  extents:
+  - 89.60000000000001
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: Die2
+  extents:
+  - 89.60000000000001
+  - 66.56
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+roles:
+- actor_model
+source_model: models/cow.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: cow_cow
+  source_skins:
+  - skins/cow.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 248
+    number: '267'
+    monster_name: Cow
+    type_picture: Cow
+    base_name: cow
+  - table: MONSTERS
+    row: 248
+    number: '267'
+    monster_name: Cow
+    type_picture: Cow
+    base_name: cow
+- id: cow_cowbrown
+  source_skins:
+  - skins/cowbrown.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 278
+    number: '297'
+    monster_name: Brown Cow
+    type_picture: Brown Cow
+    base_name: cow
+  - table: MONSTERS
+    row: 278
+    number: '297'
+    monster_name: Brown Cow
+    type_picture: Brown Cow
+    base_name: cow

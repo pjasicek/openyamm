@@ -1,0 +1,156 @@
+;-------------------
+;	GuardToNegate.scr
+;	Karl
+;	10-17-01
+;	
+;	Guards move to Marker in hallway
+;	to attack the Nagates
+;	
+;	P0 = Guard that other Guards face
+;	P1 = Starting Position Marker
+;		
+;-------------------
+
+#include BaseMelee.inc
+
+#hObject	hGuardMarker = NULL
+#hObject	hGuard=NULL
+#hObject	hGuardStart = NULL
+#hObject	hDummy
+#hObject	hParam = FALSE
+
+#number		bHasHostileKey = FALSE
+#number		bHasFriendlyKey = FALSE
+#number		bIsPlayer = FALSE
+#number		bResult = FALSE
+#number		nKeyValue = 5007
+
+#string		sGuard=""
+#string		sStartingPos=""
+#string		sWhoAmI=""
+
+
+;--------------------------------------------------------------
+:WalkBack
+;--------------------------------------------------------------
+
+	hGuardMarker = NULL
+	GetObjectHandle sStartingPos, hGuardMarker
+	WalkTo hGuardMarker, 0, DoNothing
+	Exit TRUE
+
+;--------------------------------------------------------------
+:BackToStart
+;--------------------------------------------------------------
+	Gosub ontargetdead
+	wait 0 2 WalkBack
+	Exit TRUE
+;--------------------------------------------------------------
+:WereHere2
+;--------------------------------------------------------------
+	Stop
+	Wait 0, 2, DoNothing
+	Exit TRUE
+;--------------------------------------------------------------
+:NagateMarker
+;--------------------------------------------------------------
+	hGuardMarker = NULL
+	GetObjectHandle NagateMarker3, hGuardMarker
+	RunTo hGuardMarker, 0, DoNothing
+	Exit TRUE
+;--------------------------------------------------------------
+:FaceEachOther
+;--------------------------------------------------------------
+	If ( sWhoAmI==BarracksGuard2)
+		PlaySound sounds\VO\IRequireAssistance.WAV, DoNothing, hDummy, 5000, FALSE, 100
+	endif
+	FaceObject hGuard, 180, NagateMarker
+	Exit TRUE
+;--------------------------------------------------------------
+:WereHere
+;--------------------------------------------------------------
+	Stop
+	Wait 0, 2, FaceEachOther
+	Exit TRUE
+;--------------------------------------------------------------
+:PlayerIsHere
+;--------------------------------------------------------------
+	GetObjectHandle NagateMarker2, hGuardMarker
+	RunTo hGuardMarker, 2, WereHere
+	Exit TRUE
+;--------------------------------------------------------------
+:CheckPlayer
+;--------------------------------------------------------------
+	GetParam 0, hParam
+	IsPlayer hParam, bIsPlayer
+
+	if (bIsPlayer==TRUE)
+		HasKey 5007, bHasFriendlyKey
+		HasKey 5006, bHasHostileKey
+		bHasHostileKey = 1 - bHasHostileKey
+		bResult = bHasFriendlyKey * bHasHostileKey * bIsPlayer
+		if (bResult == FALSE)
+			GiveKey 5006
+			Gosub AlertCall
+		else
+			AddFriend Player
+		endif
+	else
+		Gosub baseinit
+		OnTargetDead BackToStart
+		
+	endif
+
+	Exit TRUE
+;--------------------------------------------------------------
+:SetKeyValue
+;--------------------------------------------------------------
+	GetParam 0, hParam
+	IsPlayer hParam, bIsPlayer
+	if (bIsPlayer==TRUE)
+		GiveKey 5006
+		RemoveFriend Player
+		Gosub AlertCall
+	else
+		AddFriend Player
+		Gosub baseinit
+		OnTargetDead BackToStart
+	endif
+	Exit TRUE
+;--------------------------------------------------------------
+:AlertCall
+;--------------------------------------------------------------
+	If ( sWhoAmI!=BarracksGuard2)
+		PlaySound sounds\VO\Charrrge.wav, DoNothing, hDummy, 5000, FALSE, 100
+	Else
+		PlaySound sounds\VO\TheyAreHere.wav, DoNothing, hDummy, 5000, FALSE, 100
+	endif
+	RunTo hParam, 25, BaseInit
+	Exit TRUE
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	AddTrigger Hello, PlayerIsHere
+	AddEnemy Nagate
+	AddFriend PrisonerHumanMaleA
+	OnFoundTarget CheckPlayer
+	OnDamage SetKeyValue
+	OnTargetDead BackToStart
+	GetObjectHandle sGuard, hGuard
+	GetObjectHandle sStartingPos, hGuardStart
+
+	Exit
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	Getparam 0, sGuard
+	Getparam 1, sStartingPos
+	Getparam 2, sWhoAmI
+	CacheSound sounds\VO\IRequireAssistance.WAV
+	CacheSound sounds\VO\TheyAreHere.wav
+	CacheSound sounds\VO\Charrrge.wav
+
+
+	Wait 1, 0.5, Main2
+	Exit
+;------------- E n d - O f - F i l e -------------------

@@ -1,0 +1,31 @@
+;---------------------------------------------------------------------
+;	junk2.scr
+;	Jeff Leggett
+;
+;	Parameters:
+;		none
+;
+;---------------------------------------------------------------------
+
+#include aiglobals.inc
+
+:AttackDone
+:AttackReady
+
+	Attack AttackDone
+	Exit
+		
+
+:FoundPlayer
+	GetParam 0, g_hTarget
+	FaceObject g_hTarget
+	OnFoundPlayer
+
+	Attack AttackDone
+	Exit	
+
+:Main
+	OnFoundPlayer FoundPlayer
+	OnAttackReady AttackReady
+
+	Exit

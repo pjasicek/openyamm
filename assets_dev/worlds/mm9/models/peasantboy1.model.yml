@@ -1,0 +1,281 @@
+schema: openyamm.model3d.v1
+id: peasantboy1
+model: peasantboy1.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PEASANTBOY1.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: ngon
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Boy_1
+  materialIndex: 0
+  lods:
+  - faces: 530
+    vertices: 265
+  - faces: 398
+    vertices: 199
+  - faces: 264
+    vertices: 132
+  - faces: 132
+    vertices: 66
+materials:
+- index: 0
+  texture: skins_preview/peasantboy1.png
+  runtime_texture: skins/peasantboy1.dtx
+  preview_texture: skins_preview/peasantboy1.png
+  source: mm9/extracted/SKINS/SKINS/PEASANTBOY1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 22
+    - 26
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bip01 Neck
+    parent: 4
+    flags: 1
+    children:
+    - 6
+    - 7
+    - 14
+  - index: 6
+    name: Bip01 Head
+    parent: 5
+    flags: 1
+    children: []
+  - index: 7
+    name: Bip01 L Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Bip01 L UpperArm
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bip01 L Forearm
+    parent: 8
+    flags: 1
+    children:
+    - 10
+    - 12
+  - index: 10
+    name: Bip01 L Finger0
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bip01 L Finger01
+    parent: 10
+    flags: 1
+    children: []
+  - index: 12
+    name: Bip01 L Finger1
+    parent: 9
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bip01 L Finger11
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Bip01 R Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 R UpperArm
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bip01 R Forearm
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bip01 R Hand
+    parent: 16
+    flags: 1
+    children:
+    - 18
+    - 20
+  - index: 18
+    name: Bip01 R Finger0
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bip01 R Finger01
+    parent: 18
+    flags: 1
+    children: []
+  - index: 20
+    name: Bip01 R Finger1
+    parent: 17
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bip01 R Finger11
+    parent: 20
+    flags: 1
+    children: []
+  - index: 22
+    name: Bip01 L Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bip01 L Calf
+    parent: 22
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bip01 L Foot
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bip01 L Toe0
+    parent: 24
+    flags: 1
+    children: []
+  - index: 26
+    name: Bip01 R Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Bip01 R Calf
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Bip01 R Foot
+    parent: 27
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Bip01 R Toe0
+    parent: 28
+    flags: 1
+    children: []
+sockets:
+- name: RHand1
+  node: 21
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.4633096158504486
+  - 0.5341765880584717
+  - -0.46330925822257996
+  - 0.5341760516166687
+animations:
+- name: boy1
+  durationMs: 1400
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: boy1
+  extents:
+  - 327.68
+  - 40.96
+  - 40.96
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- actor_model
+source_model: models/peasantboy1.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: peasantboy1_peasantboy1
+  source_skins:
+  - skins/peasantboy1.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 70
+    number: '69'
+    monster_name: Commoner Child
+    type_picture: Peasant Human Child A
+    base_name: ''
+  - table: MONSTERS
+    row: 70
+    number: '69'
+    monster_name: Commoner Child
+    type_picture: Peasant Human Child A
+    base_name: PeasantBoy

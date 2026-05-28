@@ -1,0 +1,77 @@
+schema: openyamm.model3d.v1
+id: hatchet
+model: hatchet.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/WEAPONS/HATCHET.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 4.023306898564917e+25
+pieces:
+- name: HandAxe
+  materialIndex: 0
+  lods:
+  - faces: 110
+    vertices: 57
+  - faces: 82
+    vertices: 43
+materials:
+- index: 0
+  texture: skins_preview/weapons/hatchet.png
+  runtime_texture: skins/weapons/hatchet.dtx
+  preview_texture: skins_preview/weapons/hatchet.png
+  source: mm9/extracted/SKINS/SKINS/WEAPONS/HATCHET.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 2
+    - 3
+  - index: 2
+    name: Bone02
+    parent: 1
+    flags: 0
+    children: []
+  - index: 3
+    name: HandAxe
+    parent: 1
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 2.56
+  - 43.52
+  - 12.8
+  origin:
+  - 0.0
+  - -7.68
+  - 0.0
+roles:
+- static_model
+source_model: models/weapons/hatchet.abc

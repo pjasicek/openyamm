@@ -1,0 +1,105 @@
+;------------------------------------------------------------------
+;	DC_sleepyguard.scr
+;	Brett Yagi
+;
+;
+;	Parameters
+;
+;
+;
+;-----------------------------------------------------
+
+;;;SJR( added all hostility stuff)
+#include DookHostility.inc
+;;;endSJR
+
+#hobject	hMe
+#number		nVisRange
+#number		nHearRange
+
+:dn
+
+exit 1
+
+
+;--------------------------------------------------------------
+:Sleep
+;--------------------------------------------------------------
+	SetStat hMe VisibleRange 1
+	SetStat hMe HearingRange 1
+	Loopanim	sleep 0 dn
+
+Exit 1
+
+
+
+;--------------------------------------------------------------
+:WakeUp4
+;--------------------------------------------------------------
+	wait 1 5 sleep
+
+Exit 1
+
+;--------------------------------------------------------------
+:WakeUp3
+;--------------------------------------------------------------
+	playanim fidget2 wakeup4
+
+Exit 1
+
+;--------------------------------------------------------------
+:WakeUp2
+;--------------------------------------------------------------
+	playanim fidget1 wakeup3
+
+Exit 1
+
+
+
+;--------------------------------------------------------------
+:WakeUp
+;--------------------------------------------------------------
+	playanim stand wakeup2
+
+	SetStat hMe VisibleRange 151
+	SetStat hMe HearingRange 151
+
+	GetStat hMe VisibleRange nVisRange
+
+Exit 1
+
+
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	gosub InitDookHostility
+
+	GetMyHandle	hMe
+	GetStat hMe VisibleRange nVisRange
+	GetStat hMe HearingRange nHearRange
+
+nVisRange = 200
+nHearRange = 200
+
+	gosub sleep
+
+Exit 1
+
+
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	AddTrigger WakeUp WakeUp
+
+	OnPostStartWorld main2
+
+Exit 1
+
+
+
+
+
+
+
+
+

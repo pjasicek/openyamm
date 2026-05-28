@@ -1,0 +1,78 @@
+;--------------------------------------------------
+;NPC427.scr
+; timmy
+; 10/30
+; handles rescuing from prison
+;--------------------------------------------------
+
+#include globals.inc
+#include BaseDoor.inc
+         
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+haskey 369 g_ntemp
+if (g_ntemp==TRUE)
+
+	haskey 370 g_ntemp
+	if (g_ntemp==FALSE)
+		givekey 370
+		giveexp 4000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+
+	endif
+	wait 1 1 OnRunAway	
+endif
+	
+exit
+
+;--------------------------------------------------
+:OnRunAway
+;--------------------------------------------------
+
+getobjecthandle AntoniMarker g_hobject
+Runto g_hobject 8 OnVanish
+exit
+
+;--------------------------------------------------
+:OnVanish
+;--------------------------------------------------
+
+getmyhandle g_hmyobject
+removeobject g_hmyobject
+exit
+
+;--------------------------------------------------
+:DeleteCheck
+;--------------------------------------------------
+
+Haskey 370 g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+;Playsound voices\NPC\NPC_090.wav, DoNothing, 100, 240, FALSE, 100
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon
+
+
+AddTrigger Use, ONUse
+OnRudeExit OnRude
+gosub DeleteCheck
+gosub BaseDoorInit
+exit
+

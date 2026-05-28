@@ -1,0 +1,72 @@
+;--------------------------------------------------
+;Wg_Shot7Cam.scr
+; timmy
+; tells a prop to run it's animation
+;
+;Note: if the first parameter is the word
+; OnUse, the second parameter becomes
+; the animation name and the script will wait until being used
+; to play the animation.  Otherwise it will just
+; loop an anim for time specified
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#number		Xpos
+#number		Ypos
+#number		Zpos
+
+#number		MyX
+#number		MyY
+#Number		MyZ
+
+#String		sMarker
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;--------------------------------------------------
+:OnPlay
+;--------------------------------------------------
+
+
+getobjecthandle Krohn g_hobject
+target g_hobject
+;	wait 1 .2 OnPan
+exit
+
+;--------------------------------------------------
+:OnPan
+;--------------------------------------------------
+
+Getobjecthandle cam3marker g_hobject
+getpos g_hobject Xpos Ypos Zpos
+MoveToPos xpos Ypos Zpos 150 OnArrive
+exit
+
+
+
+;--------------------------------------------------
+:OnArrive
+;--------------------------------------------------
+
+getobjecthandle Winman g_hobject
+;Trigger g_hobject CutToKrohn
+exit
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+AddTrigger Play OnPlay
+
+
+
+exit
+

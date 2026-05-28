@@ -1,0 +1,142 @@
+;----------------------------------------------------------------
+;	Nobleman.scr
+;	John Machin
+;
+;		Default script for wanderers
+;----------------------------------------------------------------
+#include globals.inc
+#include aiglobals.inc
+#include wander.inc
+#include base.inc
+
+
+#hobject	hAlertedBy 
+#string		sAlertName
+
+;Passed in Parameter to get Wander distance
+#number		g_nDistance
+
+;Creature type ok to attack bool
+#number		g_bOkAttackType			= 0
+
+;----------------------------------------------------------------
+:NoblemanAlert
+;----------------------------------------------------------------
+		
+	GetParam 0, hAlertedBy
+	GetClassName hAlertedBy, sAlertName	
+	
+	if( g_hTarget == NULL )		
+		;Check to see if the alert came from a NPC
+		if( sAlertName == TownsFolkFemale )			
+			Set g_bOkAttackType, 1
+		endif
+		
+		if( sAlertName == Nobleman )			
+			Set g_bOkAttackType, 1
+		endif		
+
+		if( sAlertName == TownsFolkGirl )			
+			Set g_bOkAttackType, 1
+		endif
+		
+		if( sAlertName == TownsFolkMale )			
+			Set g_bOkAttackType, 1
+		endif		
+
+	endif	
+	
+	if( g_bOkAttackType == TRUE )
+		GetParam 1, g_hTarget
+		Target g_hTarget
+		gosub BaseGoGetHim
+	endif	 
+																	
+	Exit
+
+;------------------------------------------
+:NoblemanAttackReady
+;
+;	We are now in attack range (for our
+;	currently selected weapon) and ready
+;	to attack.  So let's do it!
+;------------------------------------------			
+	GetClassName g_hTarget, sAlertName
+	if( sAlertName == TownsFolkBoy )
+		Set g_bOkAttackType, 1		
+	endif
+
+	if( sAlertName == TownsFolkGirl )
+		Set g_bOkAttackType, 1
+	endif
+
+	if( sAlertName == TownsFolkMale )
+		Set g_bOkAttackType, 1
+	endif
+
+	if( sAlertName == TownsFolkFemale )
+		Set g_bOkAttackType, 1
+	endif
+
+	if( sAlertName == TownsFolkFemale )
+		Set g_bOkAttackType, 1
+	endif
+
+	if( sAlertName == Nobleman )
+		Set g_bOkAttackType, 1
+	endif
+	
+	Set g_bFighting, TRUE
+
+	GetTime g_nLastAttackTime
+
+	Attack
+
+	Exit
+
+
+;----------------------------------------------------------------
+:InitNobleman
+;----------------------------------------------------------------
+	;Set NPC wander distance
+	GetParam 1, g_nDistance
+	
+	if( g_nDistance != 0 )
+		Set MAX_DIST_FROM_STARTPOINT, g_nDistance
+	else
+		Set MAX_DIST_FROM_STARTPOINT, 700
+	endif
+
+	;Set how often hen is idle 1 equals 10% valid numbers are 1 to 10
+	Set g_IdleFrequency, 4
+
+	;Set max time in seconds before idle check
+	Set g_IdleCheckMin, 7
+	Set g_IdleCheckMax, 7
+
+	;Set how often special anim is played valid numbers are 1 to 10
+	Set g_SpecialAnimFrequency, 0
+
+	Exit
+
+
+;----------------------------------------------------------------
+:Main
+;----------------------------------------------------------------
+	;Initialize boys behavior
+	gosub InitNobleman	
+	
+	;Initialize attack behavior
+	gosub InitBase
+	
+	;Initialize wandering behavior	
+	gosub WanderInit
+
+	;Override these Base Calls
+	OnAlert			NoblemanAlert
+	OnAttackReady	NoblemanAttackReady
+	
+	;Monitoring this with no function will keep the AI from looking for players
+	OnFoundPlayer	
+
+	Exit

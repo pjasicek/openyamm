@@ -1,0 +1,122 @@
+;----------------------------------------------
+;Huckster.scr
+; By Timmy
+; handles the strength game the the thing and the gathering.
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+
+#string  sGame
+#string  sLocation
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+if (sGame==ArmWrestle)
+	Givekey 1004
+	exit
+endif
+
+exit
+
+
+
+;-------------------------------------
+:OnRude
+;looks to see if they want to play a game (key 1001)
+; and takes their gold and gives them the ticket (key 1002)
+;
+;-------------------------------------
+takekey 1004
+
+
+gosub gamecheck
+gosub prizecheck
+exit
+
+;-------------------------------------
+:PrizeCheck
+;-------------------------------------
+
+haskey 1003 g_ntemp
+if (g_ntemp==TRUE)
+	if (sLocation==Guberland)
+		Gosub Guberland
+		exit
+	else
+		giveitem 253
+		takekey 1003
+		exit
+	endif
+endif
+exit
+
+;-------------------------------------
+:Guberland
+; gives guberland prizes
+;-------------------------------------
+
+getrandomint 1, 6 g_ntemp
+takekey 1003
+
+if (g_ntemp==1)
+	giveitem 362
+	exit
+endif
+
+if (g_ntemp==2)
+	giveitem 363
+	exit
+endif
+
+if (g_ntemp==3)
+	giveitem 364
+	exit
+endif
+
+if (g_ntemp==4)
+	giveitem 365
+	exit
+endif
+
+if (g_ntemp==5)
+	giveitem 366
+	exit
+endif
+if (g_ntemp==6)
+	giveitem 367
+	exit
+endif
+
+exit
+
+;-------------------------------------
+:Gamecheck
+;-------------------------------------
+
+haskey 1001 g_ntemp
+if (g_ntemp==TRUE)
+	hasgold 5 g_ntemp
+	if (g_ntemp==TRUE)
+		Takekey 1001
+		takegold 5
+		givekey 1002
+		giveitem 557
+		exit
+	endif
+endif
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Use, OnUse
+OnRudeExit OnRude
+getparam 0 sLocation
+getparam 1 sGame
+exit

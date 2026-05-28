@@ -1,0 +1,164 @@
+;----------------------------------------------
+;Capstone.scr
+; By Timmy
+; gives the player the Capstone of Order
+; and the related key
+; Igrid's RudeID is 338
+; capstone is item 396
+;
+;NOTE:  The final quest has changed, so you don't need to get
+;		the capstone a second time to lure Njam into tomb
+;
+; edited by Bones 6/12/02, 5/1/03
+; Patch 1.3 -- Capstone won't disappear if not picked up in Guberland.
+;		Pentagram Door perception brush removed if bolt broken.
+;
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number				Keydata
+
+; flag variables
+#number				Visible = 1
+#number				Solid   = 8192
+#number				Gravity = 131072
+
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+gosub firsttime
+
+exit
+;-------------------------------------
+:firsttime
+;-------------------------------------
+
+haskey 98 g_ntemp
+if (g_ntemp==FALSE)
+	giveitem 396
+	getmyhandle g_hobject
+	removeobject g_hobject
+	exit
+endif
+
+Haskey 188 keycheck ;checks to see if player has picked up the capstone already
+	if ( keycheck==0,  )
+
+		givekey, 188 ;gives player finished quest key
+
+		;------------------
+		; this is where the capstone should be removed and added to inventory
+		;------------------
+		GiveItem 396
+		GiveExp 146000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		getmyhandle g_hobject
+		removeobject g_hobject 
+		exit
+endif
+exit
+
+
+
+;-------------------------------------
+:OnPlace
+;-------------------------------------
+
+haskey 99 g_ntemp
+if (g_ntemp==0, )
+	givekey 99
+	giveEXP 154000
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+	setflag g_hobject, visible
+;	setflag g_hobject, solid
+;	setflag g_hobject, gravity
+	getobjecthandle writ g_hobject
+	trigger g_hobject init
+	takeitem 396
+	exit
+endif
+exit
+
+
+
+;-------------------------------------
+:placed
+;-------------------------------------
+
+Haskey 99 g_ntemp
+	if (g_ntemp==1, )
+		getmyhandle g_hobject
+		setflag g_hobject, visible
+;		setflag g_hobject, solid
+;		setflag g_hobject, gravity
+		exit
+	else
+		getmyhandle g_hobject
+		clearflag g_hobject, visible
+;		clearflag g_hobject, solid
+;		clearflag g_hobject, gravity
+		exit
+	endif
+
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+if (g_stemp==guberland, )
+	Haskey 188 keycheck
+	if ( keycheck==1, )
+		getmyhandle g_hobject
+		removeobject g_hobject 
+		exitscript	
+	endif
+	exit
+endif
+
+if (g_stemp==verhoffin, )
+	gosub placed
+
+	exit	
+endif
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+
+;TraceOn ;DELETE ME!!
+;AddTrigger Use, Onuse
+Addtrigger place, OnPlace
+GetParam 0, g_stemp
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 1 Init
+
+
+exit
+
+
+;-------------------------------------
+:placed
+;	overloaded -- Bones
+;-------------------------------------
+
+GetObjectHandle DestructableBrush12 g_hobject
+if g_hobject == NULL
+	GetObjectHandle PerceptionBrush0 g_hobject
+	if g_hobject != NULL
+		removeobject g_hobject
+	endif
+
+	GetObjectHandle PrisonDoor2 g_hobject2
+	SetStat g_hobject2 Locked FALSE
+
+
+endif
+
+goto placed 1

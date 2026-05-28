@@ -1,0 +1,568 @@
+;----------------------------------------------
+;Arena.scr
+; By Timmy
+; gives the player the key for killing 5 monsters in arena
+; 11/29/01
+;----------------------------------------------
+
+#include globals.inc
+#include Pickmon.inc
+
+#number							nMonsterA_Level
+#number							nMonsterB_Level
+
+#number							nPlayerLevel
+#number							nNumberMonsters
+#number							nMonstersDead = 0
+#number							nArenaReward
+
+
+#string							sMonsterA
+#string							SMiniMonsterA
+#string							sMonsterB
+#string							SMiniMonsterB
+
+
+
+#hobject						hMonsterA
+#hobject						hMonsterB
+
+#number							XPos
+#number							YPos
+#number							ZPos
+
+#number							nMinLevel = 1
+#number							nMaxLevel = 89
+
+#string							SCRIPT = " ScriptName ArenaFightPlayer.scr"
+
+
+#number							bWaitingForPlayer
+
+;-------------------------------------
+:OnPage
+;-------------------------------------
+
+SetConsoleNumVar WaitingForPlayer,TRUE
+
+nMinLevel = nPlayerLevel * .8
+nMaxLevel = nPlayerLevel * 1.3
+if (nPlayerLevel>89)
+	set nMaxLevel 89
+endif
+
+if (nPlayerlevel<4)
+	nMaxLevel = 4
+endif
+
+gosub Clearmon
+
+getrandomInt 1, 2 nNumberMonsters
+nArenaReward = nNumberMonsters * nPlayerLevel
+nArenaReward = nArenaReward * 20
+
+
+getrandomint nMinLevel, nMaxLevel g_ntemp
+gosub pickmonster
+
+if (nMonster_Level<nMinLevel)
+	Goto OnPage
+	exit
+endif
+
+if (nMonster_Level>nMaxLevel)
+	Goto OnPage
+	exit
+endif
+
+sMonsterA = sMonster_Temp + Script
+getobjecthandle marker0 g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn g_hobject Xpos YPos ZPos sMonsterA
+
+
+if (nMonsterNumber>1)
+	getrandomint nMinLevel, nMaxLevel g_ntemp
+	gosub pickmonster
+
+	if (nMonster_Level<nMinLevel)
+		Goto OnPage
+		exit
+	endif
+
+	if (nMonster_Level>nMaxLevel)
+		Goto OnPage
+		exit
+	endif
+
+	sMonsterB = sMonster_Temp + Script
+	getobjecthandle marker1 g_hobject
+	getpos g_hobject XPos YPos ZPos
+	Spawn g_hobject Xpos YPos ZPos sMonsterB
+endif
+
+getobjecthandle RotatingDoor3 g_hobject
+trigger g_hobject use
+
+getobjecthandle RotatingDoor4 g_hobject
+trigger g_hobject use
+
+exit
+
+;-------------------------------------
+:OnSquire
+;-------------------------------------
+
+SetConsoleNumVar WaitingForPlayer,TRUE
+
+nMinLevel = nPlayerLevel * .8
+nMaxLevel = nPlayerLevel * 1.5
+if (nPlayerLevel>89)
+	set nMaxLevel 89
+endif
+
+if (nPlayerlevel<4)
+	nMaxLevel = 4
+endif
+
+gosub Clearmon
+
+getrandomInt 1, 3 nNumberMonsters
+nArenaReward = nNumberMonsters * nPlayerLevel
+nArenaReward = nArenaReward * 30
+
+
+getrandomint nMinLevel, nMaxLevel g_ntemp
+gosub pickmonster
+
+if (nMonster_Level<nMinLevel)
+	Goto OnSquire
+	exit
+endif
+
+if (nMonster_Level>nMaxLevel)
+	Goto OnSquire
+	exit
+endif
+
+sMonsterA = sMonster_Temp + Script
+getobjecthandle marker0 g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn g_hobject Xpos YPos ZPos sMonsterA
+
+
+if (nMonsterNumber>1)
+	getrandomint nMinLevel, nMaxLevel g_ntemp
+	gosub pickmonster
+
+	if (nMonster_Level<nMinLevel)
+		Goto OnSquire
+		exit
+	endif
+
+	if (nMonster_Level>nMaxLevel)
+		Goto OnSquire
+		exit
+	endif
+
+	sMonsterB = sMonster_Temp + Script
+	getobjecthandle marker1 g_hobject
+	getpos g_hobject XPos YPos ZPos
+	Spawn g_hobject Xpos YPos ZPos sMonsterB
+endif
+
+if (nMonsterNumber>2)
+	getrandomint nMinLevel, nMaxLevel g_ntemp
+	gosub pickmonster
+
+	if (nMonster_Level<nMinLevel)
+		Goto OnSquire
+		exit
+	endif
+
+	if (nMonster_Level>nMaxLevel)
+		Goto OnSquire
+		exit
+	endif
+
+	sMonsterB = sMonster_Temp + Script
+	getobjecthandle marker1 g_hobject
+	getpos g_hobject XPos YPos ZPos
+	Spawn g_hobject Xpos YPos ZPos sMonsterB
+endif
+
+getobjecthandle RotatingDoor3 g_hobject
+trigger g_hobject use
+
+getobjecthandle RotatingDoor4 g_hobject
+trigger g_hobject use
+
+exit
+
+;-------------------------------------
+:OnKnight
+;-------------------------------------
+
+SetConsoleNumVar WaitingForPlayer,TRUE
+
+nMinLevel = nPlayerLevel
+nMaxLevel = nPlayerLevel * 1.7
+if (nPlayerLevel>89)
+	set nMaxLevel 89
+endif
+
+if (nPlayerlevel<4)
+	nMaxLevel = 4
+endif
+
+gosub Clearmon
+
+getrandomInt 1, 4 nNumberMonsters
+nArenaReward = nNumberMonsters * nPlayerLevel
+nArenaReward = nArenaReward * 50
+
+
+getrandomint nMinLevel, nMaxLevel g_ntemp
+gosub pickmonster
+
+if (nMonster_Level<nMinLevel)
+	Goto OnKnight
+	exit
+endif
+
+if (nMonster_Level>nMaxLevel)
+	Goto OnKnight
+	exit
+endif
+
+sMonsterA = sMonster_Temp + Script
+getobjecthandle marker0 g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn g_hobject Xpos YPos ZPos sMonsterA
+
+
+if (nMonsterNumber>1)
+	getrandomint nMinLevel, nMaxLevel g_ntemp
+	gosub pickmonster
+
+	if (nMonster_Level<nMinLevel)
+		Goto OnKnight
+		exit
+	endif
+
+	if (nMonster_Level>nMaxLevel)
+		Goto OnKnight
+		exit
+	endif
+
+	sMonsterB = sMonster_Temp + Script
+	getobjecthandle marker1 g_hobject
+	getpos g_hobject XPos YPos ZPos
+	Spawn g_hobject Xpos YPos ZPos sMonsterB
+endif
+
+if (nMonsterNumber>2)
+	getrandomint nMinLevel, nMaxLevel g_ntemp
+	gosub pickmonster
+
+	if (nMonster_Level<nMinLevel)
+		Goto OnKnight
+		exit
+	endif
+
+	if (nMonster_Level>nMaxLevel)
+		Goto OnKnight
+		exit
+	endif
+
+	sMonsterB = sMonster_Temp + Script
+	getobjecthandle marker1 g_hobject
+	getpos g_hobject XPos YPos ZPos
+	Spawn g_hobject Xpos YPos ZPos sMonsterB
+endif
+
+if (nMonsterNumber>3)
+	getrandomint nMinLevel, nMaxLevel g_ntemp
+	gosub pickmonster
+
+	if (nMonster_Level<nMinLevel)
+		Goto OnKnight
+		exit
+	endif
+
+	if (nMonster_Level>nMaxLevel)
+		Goto OnKnight
+		exit
+	endif
+
+	sMonsterA = sMonster_Temp + Script
+	getobjecthandle marker1 g_hobject
+	getpos g_hobject XPos YPos ZPos
+	Spawn g_hobject Xpos YPos ZPos sMonsterA
+endif
+
+getobjecthandle RotatingDoor3 g_hobject
+trigger g_hobject use
+
+getobjecthandle RotatingDoor4 g_hobject
+trigger g_hobject use
+
+exit
+;-------------------------------------
+:OnLord
+;-------------------------------------
+
+SetConsoleNumVar WaitingForPlayer,TRUE
+
+getobjecthandle ShopkeeperElfMaleB0 g_hobject
+trigger g_hobject Lord
+
+nMinLevel = nPlayerLevel
+
+
+nMaxLevel = nPlayerLevel * 2.5
+if (nPlayerLevel>89)
+	set nMaxLevel 89
+endif
+
+if (nPlayerlevel<4)
+	nMaxLevel = 4
+endif
+
+gosub Clearmon
+
+getrandomInt 1, 5 nNumberMonsters
+nArenaReward = nNumberMonsters * nPlayerLevel
+nArenaReward = nArenaReward * 100
+
+
+getrandomint nMinLevel, nMaxLevel g_ntemp
+gosub pickmonster
+
+
+if (nMonster_Level<nMinLevel)
+	Goto OnLord
+	exit
+endif
+
+if (nMonster_Level>nMaxLevel)
+	Goto OnLord
+	exit
+endif
+
+sMonsterA = sMonster_Temp + Script
+getobjecthandle marker0 g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn g_hobject Xpos YPos ZPos sMonsterA
+
+
+if (nMonsterNumber>1)
+	getrandomint nMinLevel, nMaxLevel g_ntemp
+	gosub pickmonster
+
+	if (nMonster_Level<nMinLevel)
+		Goto OnLord
+		exit
+	endif
+
+	if (nMonster_Level>nMaxLevel)
+		Goto OnLord
+		exit
+	endif
+
+	sMonsterB = sMonster_Temp + Script
+	getobjecthandle marker1 g_hobject
+	getpos g_hobject XPos YPos ZPos
+	Spawn g_hobject Xpos YPos ZPos sMonsterB
+endif
+
+if (nMonsterNumber>2)
+	getrandomint nMinLevel, nMaxLevel g_ntemp
+	gosub pickmonster
+
+	if (nMonster_Level<nMinLevel)
+		Goto OnLord
+		exit
+	endif
+
+	if (nMonster_Level>nMaxLevel)
+		Goto OnLord
+		exit
+	endif
+
+	sMonsterB = sMonster_Temp + Script
+	getobjecthandle marker1 g_hobject
+	getpos g_hobject XPos YPos ZPos
+	Spawn g_hobject Xpos YPos ZPos sMonsterB
+endif
+
+if (nMonsterNumber>3)
+	getrandomint nMinLevel, nMaxLevel g_ntemp
+	gosub pickmonster
+	if (nMonster_Level<nMinLevel)
+		Goto OnLord
+		exit
+	endif
+
+	if (nMonster_Level>nMaxLevel)
+		Goto OnLord
+		exit
+	endif
+
+	sMonsterA = sMonster_Temp + Script
+	getobjecthandle marker1 g_hobject
+	getpos g_hobject XPos YPos ZPos
+	Spawn g_hobject Xpos YPos ZPos sMonsterA
+endif
+
+
+if (nMonsterNumber>4)
+	getrandomint nMinLevel, nMaxLevel g_ntemp
+	gosub pickmonster
+
+	if (nMonster_Level<nMinLevel)
+		Goto OnLord
+		exit
+	endif
+
+	if (nMonster_Level>nMaxLevel)
+		Goto OnLord
+		exit
+	endif
+
+	sMonsterA = sMonster_Temp + Script
+	getobjecthandle marker1 g_hobject
+	getpos g_hobject XPos YPos ZPos
+	Spawn g_hobject Xpos YPos ZPos sMonsterA
+endif
+
+getobjecthandle RotatingDoor3 g_hobject
+trigger g_hobject use
+
+getobjecthandle RotatingDoor4 g_hobject
+trigger g_hobject use
+
+exit
+
+;-------------------------------------
+:ClearMon
+;-------------------------------------
+
+set nMonstersDead 0
+removeobject hMonsterA
+removeobject hMonsterB
+exit
+
+;-------------------------------------
+:OnHello
+;-------------------------------------
+
+if (g_nCounter==1)
+	getparam 0 hMonsterB
+	set g_ncounter, 0
+	exit
+else
+	getparam 0 hMonsterA
+	add g_nCounter 1
+	exit
+endif
+exit
+
+;-------------------------------------
+:Reset
+;-------------------------------------
+
+set nMonstersDead 0
+takekey 1004
+takekey 1005
+takekey 1006
+takekey 1007
+takekey 1008
+takekey 1010
+takekey 1011
+takekey 1012
+takekey 1013
+takekey 1014
+takekey 1015
+takekey 1016
+takekey 1017
+takekey 1018
+takekey 1019
+
+exit
+
+;-------------------------------------
+:GetCharLevel
+;-------------------------------------
+
+GetPCLevel 0 g_ntemp
+
+nPlayerLevel = NPlayerLevel + g_ntemp
+
+
+GetPCLevel 1 g_ntemp
+nPlayerLevel = NPlayerLevel + g_ntemp
+
+GetPCLevel 2 g_ntemp
+nPlayerLevel = NPlayerLevel + g_ntemp
+
+GetPCLevel 3 g_ntemp
+nPlayerLevel = NPlayerLevel + g_ntemp
+
+
+nPlayerLevel = nPlayerLevel / 4
+
+debugout nPlayerLevel
+
+exit
+
+;-------------------------------------
+:OnDead
+;-------------------------------------
+
+add nMonstersDead 1
+if (nMonstersDead==nNumberMonsters)
+	Givekey 1020
+	SetConsoleNumVar nWinAmount nArenaReward
+	getobjecthandle RotatingDoor0 g_hobject
+	trigger g_hobject UnLock
+	exit
+endif
+exit 
+
+;-------------------------------------
+:OnPlayerInTheHouse
+;-------------------------------------
+	GetConsoleNumVar WaitingForPlayer,bWaitingForPlayer
+
+	if ( bWaitingForPlayer==FALSE )
+		Exit
+	Endif
+
+	SetConsoleNumVar WaitingForPlayer,FALSE
+	
+	GetObjectHandle RotatingDoor1,g_hObject
+	Trigger g_hObject,close
+	Trigger g_hObject,Lock
+
+	Exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+
+AddTrigger Dead, OnDead
+AddTrigger Hello OnHello
+Addtrigger Page, OnPage
+Addtrigger Squire, OnSquire
+Addtrigger Knight, OnKnight
+Addtrigger Lord, OnLord
+AddTrigger PlayerInTheHouse,OnPlayerInTheHouse
+
+SetConsoleNumVar WaitingForPlayer,FALSE
+
+wait 1 1 GetCharLevel
+
+exit

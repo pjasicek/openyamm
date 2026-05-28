@@ -1,0 +1,145 @@
+********************************************************************************
+                      Character Skills Coordinates
+********************************************************************************
+
+Graphic Elements:
+
+CharacterStatsBG.pcx	  0x   0y	800x600	Background
+
+Stats Page Tab		586x   4y	85x148
+Skills Page Tab		586x 154y	85x143
+Inventory Page Tab	586x 299y	85x143
+Spells Page Button	586x 444y	85x148
+
+Character 1 Portrait	723x  13y	60x80
+Character 2 Portrait	723x 113x	60x80
+Character 3 Portrait	723x 213y	60x80
+Character 4 Portrait	723x 313y	60x80
+
+Character 1 Marker	720x  10y	66x86
+Character 2 Marker	720x 110x	66x86
+Character 3 Marker	720x 210y	66x86
+Character 4 Marker	720x 310y	66x86
+
+Map/Note Toggle Button	690x 436y	110x105
+Exit Button		690x 548y	110x52
+
+********************************************************************************
+
+Text:
+
+Character Name		 	44x  19y	350x96	Name Font
+###TH Level Class		102x  12y	308x18	Main Font Center
+### Experience / +### Level Up	102x  31y	308x15	Tiny Font Center
+Note: The previous two lines overlap with the Character Name Space
+
+(HP) ###/###			459x  32y	103x18	Main Font Center
+(SP) ###/###			459x  61y	103x18	Main Font Center
+
+(Gold) #,###,####		352x 548y	140x18	Main Font Left
+
+(Armor Class) ##		309x 315y	56x18	Main Font Center
+
+Rollover Text		 	47x 572y	530x18	Main Font Center
+
+********************************************************************************
+
+Skills-Page-Exclusive Text:
+
+
+"ARMOR"		 	 70x 140y	125x18	Main Font Left
+"SHIELD"	 	 70x 158y	125x18	Main Font Left
+"DODGE"		 	 70x 176y	125x18	Main Font Left
+
+"ELEMENTAL"	 	 70x 238y	125x18	Main Font Left
+"LIGHT"		 	 70x 256y	125x18	Main Font Left
+"DARK"		 	 70x 274y	125x18	Main Font Left
+"SPIRIT"	 	 70x 292y	125x18	Main Font Left
+
+"ARMSMASTER"	 	 70x 354y	125x18	Main Font Left
+"DISARM TRAP"	 	 70x 372y	125x18	Main Font Left
+"MERCHANT"	 	 70x 390y	125x18	Main Font Left
+"PERCEPTION"	 	 70x 408y	125x18	Main Font Left
+"REPAIR ITEM"	 	 70x 426y	125x18	Main Font Left
+"IDENTIFY ITEM"	 	 70x 444y	125x18	Main Font Left
+"IDENTIFY MONSTER"	 70x 462y	125x18	Main Font Left
+"BODY BUILDING"		 70x 480y	125x18	Main Font Left
+"LEARNING"		 70x 498y	125x18	Main Font Left
+"MEDITATION"		 70x 516y	125x18	Main Font Left
+"STEALTH"		 70x 534y	125x18	Main Font Left
+
+"BLADE"			336x 140y	148x18	Main Font Left
+"CUDGEL"		336x 158y	148x18	Main Font Left
+"SPEAR"			336x 176y	148x18	Main Font Left
+"BOW"			336x 194y	148x18	Main Font Left
+"THROWN"		336x 212y	148x18	Main Font Left
+"UNARMED"		336x 230y	148x18	Main Font Left
+
+-------------------------------------------------------------------------------
+
+Skill Expertise Markers:
+
+"ARMOR"		 	 61x 140y	9x18
+"SHIELD"	 	 61x 158y	9x18
+"DODGE"		 	 61x 176y	9x18
+
+"ELEMENTAL"	 	 61x 238y	9x18
+"LIGHT"		 	 61x 256y	9x18
+"DARK"		 	 61x 274y	9x18
+"SPIRIT"	 	 61x 292y	9x18
+
+"ARMSMASTER"	 	 61x 354y	9x18
+"DISARM TRAP"	 	 61x 372y	9x18
+"MERCHANT"	 	 61x 390y	9x18
+"PERCEPTION"	 	 61x 408y	9x18
+"REPAIR ITEM"	 	 61x 426y	9x18
+"IDENTIFY ITEM"	 	 61x 444y	9x18
+"IDENTIFY MONSTER"	 61x 462y	9x18
+"BODY BUILDING"		 61x 480y	9x18
+"LEARNING"		 61x 498y	9x18
+"MEDITATION"		 61x 516y	9x18
+"STEALTH"		 61x 534y	9x18
+
+"BLADE"			327x 140y	9x18
+"CUDGEL"		327x 158y	9x18
+"SPEAR"			327x 176y	9x18
+"BOW"			327x 194y	9x18
+"THROWN"		327x 212y	9x18
+"UNARMED"		327x 230y	9x18
+
+-------------------------------------------------------------------------------
+
+"SKILL POINTS"		380x 253y	104x15	Tiny Font Left
+
+Armor ###		197x 140y	61x18	Main Font Center
+Shield ###		197x 158y	61x18	Main Font Center
+Dodge ###		197x 176y	61x18	Main Font Center
+
+Elemental ###		197x 238y	61x18	Main Font Center
+Light ###		197x 256y	61x18	Main Font Center
+Dark ###		197x 274y	61x18	Main Font Center
+Spirit ###		197x 292y	61x18	Main Font Center
+
+Armsmaster ###		197x 354y	61x18	Main Font Center
+Disarm Trap ###		197x 372y	61x18	Main Font Center
+Merchant ###		197x 390y	61x18	Main Font Center
+Perception ###		197x 408y	61x18	Main Font Center
+Repair Item ###		197x 426y	61x18	Main Font Center
+Identify Item ###	197x 444y	61x18	Main Font Center
+Identify Monster ###	197x 462y	61x18	Main Font Center
+Body Building ###	197x 480y	61x18	Main Font Center
+Learning ###		197x 498y	61x18	Main Font Center
+Meditation ###		197x 516y	61x18	Main Font Center
+Stealth ###		197x 534y	61x18	Main Font Center
+
+Blade ###		486x 140y	56x18	Main Font Center
+Cudgel ###		486x 158y	56x18	Main Font Center
+Spear ###		486x 176y	56x18	Main Font Center
+Bow ###			486x 194y	56x18	Main Font Center
+Thrown ###		486x 212y	56x18	Main Font Center
+Unarmed ###		486x 230y	56x18	Main Font Center
+
+Skill Points ###	486x 253y	56x18	Tiny Font Center
+
+------------------------------------------------------------------------------------
+

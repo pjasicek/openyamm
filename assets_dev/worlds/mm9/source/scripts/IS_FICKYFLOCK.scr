@@ -1,0 +1,126 @@
+;------------------------------------------------------------------
+;	IS_fickyflock.scr
+;	Brett Yagi
+;
+;	Birds will be inactive till triggered.  When triggered they will
+;	fly to the Marker specificed by p0 + p1 (ie p0 = "Mrk" p1="4" 
+;	then the marker moved to is "Mrk4").  It will then pick a random
+;	marker out of markers provide and move there and then die
+;
+;	Parameters
+;
+;	0 - Marker Root name  (ie for Markers Mrk0,Mrk1,Mrk2  "Mrk" is the root name)
+;	1 - Number of Markers
+;
+;
+;-----------------------------------------------------
+#hobject	hMe
+#number		nSpeed
+
+#number		nNumMarkers
+#number		nMarker = 0
+#string		sMarkerRoot
+#string		sMarker
+#hobject	hMarker
+
+#hobject	NULL = 0
+#hobject	hBigBird
+#number		nPlaySound = 0
+
+;--------------------------------------------------------------
+:DN
+;--------------------------------------------------------------
+	
+
+Exit 1
+
+
+;--------------------------------------------------------------
+:TriggerScatter
+;--------------------------------------------------------------
+	
+	GetObjectHandle BirdIntheSky0 hBigBird
+	Trigger hBigBird scatter
+
+Exit 1
+
+
+;--------------------------------------------------------------
+:Disappear
+;--------------------------------------------------------------
+	Die
+
+Exit 1
+
+
+;--------------------------------------------------------------
+:GoAway
+;--------------------------------------------------------------
+
+	GetRandomInt 0, nNumMarkers, nMarker
+	sMarker = sMarkerRoot
+	Add sMarker nMarker
+	GetObjectHandle sMarker hMarker
+	nPlaySound = 1
+	walkto hMarker 50 Disappear
+
+Exit 1
+
+;--------------------------------------------------------------
+:Replay
+;--------------------------------------------------------------
+
+
+	if nPlaySound == 0
+
+		playsound Sounds\AnimSounds\harpyflap.wav Replay 0 1000 0 50
+
+	endif
+
+
+Exit 1
+
+
+;--------------------------------------------------------------
+:Go
+;--------------------------------------------------------------
+
+
+	playsound Sounds\AnimSounds\harpyflap.wav replay 0 1000 0 50
+	RemoveTrigger Go
+	nMarker = nNumMarkers + 1
+	sMarker = sMarkerRoot
+	Add sMarker nMarker
+
+
+
+	GetObjectHandle sMarker hMarker
+	walkto hMarker 30 GoAway
+
+Exit 1
+
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+
+	GetMyHandle hMe
+	GetStat hMe flyvel nSpeed
+	nSpeed = nSpeed / 4
+	SetStat hMe flyvel nSpeed
+
+Exit 1
+
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+
+	GetParam 0 sMarkerRoot
+	GetParam 1 nNumMarkers
+	nNumMarkers = nNumMarkers - 1
+	AddTrigger Go Go
+	OnDamage TriggerScatter TriggerScatter
+	OnStuck Go
+	Wait 0 .1 main2
+	
+
+Exit 1

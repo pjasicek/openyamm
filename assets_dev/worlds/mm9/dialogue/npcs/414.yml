@@ -1,0 +1,1670 @@
+format_version: 1
+source_file: NPC414.rude
+rows:
+  - source:
+      file: NPC414.rude
+      row: 1
+    raw_columns:
+      - 414
+      - 11
+      - 1
+      - You're not our king.  This isn't..where'd you say you're from?
+      - I am King of Enroth!  And the devils will be descending upon us at any minute!  As king, it's my duty to stop them!!
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 11
+      choice_slot: 1
+      prompt: You're not our king.  This isn't..where'd you say you're from?
+      response: I am King of Enroth!  And the devils will be descending upon us at any minute!  As king, it's my duty to stop them!!
+      next: 12
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12
+  - source:
+      file: NPC414.rude
+      row: 2
+    raw_columns:
+      - 414
+      - 5
+      - 1
+      - What happened to duty?
+      - It's hard being king when you have no money.  If I worked at the circus, I could raise money for an army!  Then we could send the devils back to where they came from!
+      - 6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 5
+      choice_slot: 1
+      prompt: What happened to duty?
+      response: It's hard being king when you have no money.  If I worked at the circus, I could raise money for an army!  Then we could send the devils back to where they came from!
+      next: 6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 6
+  - source:
+      file: NPC414.rude
+      row: 3
+    raw_columns:
+      - 414
+      - 6
+      - 1
+      - Alright.  We'll find you a job.
+      - Great!  No, really!  Thanks!
+      - 414
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 118
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 6
+      choice_slot: 1
+      prompt: Alright.  We'll find you a job.
+      response: Great!  No, really!  Thanks!
+      next: 414
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 118
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 414
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 118
+        status: raw_value_preserved
+  - source:
+      file: NPC414.rude
+      row: 4
+    raw_columns:
+      - 414
+      - 7
+      - 1
+      - At the Gathering in Guberland.
+      - Super!  Thank you very much!  We've just taken our first step in ridding the world of the devils!
+      - 414
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 120
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 7
+      choice_slot: 1
+      prompt: At the Gathering in Guberland.
+      response: Super!  Thank you very much!  We've just taken our first step in ridding the world of the devils!
+      next: 414
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 120
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 414
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 120
+        status: raw_value_preserved
+  - source:
+      file: NPC414.rude
+      row: 5
+    raw_columns:
+      - 414
+      - 414
+      - 1
+      - Who are you?
+      - I am King Nicolai I, Defender of the Land, Bringer of Hope, King of Enroth!
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 414
+      choice_slot: 1
+      prompt: Who are you?
+      response: I am King Nicolai I, Defender of the Land, Bringer of Hope, King of Enroth!
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC414.rude
+      row: 6
+    raw_columns:
+      - 414
+      - 10
+      - 1
+      - If you're a king, what are you doing here?
+      - What do you mean?  I am your king!  Now if you'd let me be, I'm busy trying to stop the devils from taking over our world!
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 10
+      choice_slot: 1
+      prompt: If you're a king, what are you doing here?
+      response: What do you mean?  I am your king!  Now if you'd let me be, I'm busy trying to stop the devils from taking over our world!
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC414.rude
+      row: 7
+    raw_columns:
+      - 414
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC414.rude
+      row: 8
+    raw_columns:
+      - 414
+      - 12
+      - 1
+      - What devils?  What are you talking about?
+      - The Kr..  Never mind.  You don't seem to understand anyway.
+      - 13
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 12
+      choice_slot: 1
+      prompt: What devils?  What are you talking about?
+      response: The Kr..  Never mind.  You don't seem to understand anyway.
+      next: 13
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 13
+  - source:
+      file: NPC414.rude
+      row: 9
+    raw_columns:
+      - 414
+      - 13
+      - 1
+      - Maybe we can ask you some questions?
+      - Okay!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 13
+      choice_slot: 1
+      prompt: Maybe we can ask you some questions?
+      response: Okay!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC414.rude
+      row: 10
+    raw_columns:
+      - 414
+      - 1
+      - 1
+      - How did you get here?
+      - Well, I was in the courtyard of Castle Ironfist, talking with my general about how best to handle the devil problem, when the ground started shaking.  This wasn't a normal earthquake, either.  Something felt..wrong.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 1
+      choice_slot: 1
+      prompt: How did you get here?
+      response: Well, I was in the courtyard of Castle Ironfist, talking with my general about how best to handle the devil problem, when the ground started shaking.  This wasn't a normal earthquake, either.  Something felt..wrong.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC414.rude
+      row: 11
+    raw_columns:
+      - 414
+      - 2
+      - 1
+      - What happened?
+      - The shaking got more violent, and the walls to the castle started falling down.  I was buried under a mountain of rubble.  I got hit in the head with something, and when I woke up, I was here.  I can only assume that the devils took the capital city.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 2
+      choice_slot: 1
+      prompt: What happened?
+      response: The shaking got more violent, and the walls to the castle started falling down.  I was buried under a mountain of rubble.  I got hit in the head with something, and when I woke up, I was here.  I can only assume that the devils took the capital city.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC414.rude
+      row: 12
+    raw_columns:
+      - 414
+      - 3
+      - 1
+      - Your duty?
+      - Yes.  My father Roland always told me it's my duty to put my wishes aside, and lookout for the welfare of the people!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 3
+      choice_slot: 1
+      prompt: Your duty?
+      response: Yes.  My father Roland always told me it's my duty to put my wishes aside, and lookout for the welfare of the people!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC414.rude
+      row: 13
+    raw_columns:
+      - 414
+      - 1
+      - 2
+      - Do you have any news?
+      - When I was little, a group of adventurers just like you helped me sneak out of Castle Ironfist.  While they weren't looking, I got away from them and joined the circus!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 1
+      choice_slot: 2
+      prompt: Do you have any news?
+      response: When I was little, a group of adventurers just like you helped me sneak out of Castle Ironfist.  While they weren't looking, I got away from them and joined the circus!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC414.rude
+      row: 14
+    raw_columns:
+      - 414
+      - 414
+      - 2
+      - We'd like to ask you a few questions.
+      - Okay!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 414
+      choice_slot: 2
+      prompt: We'd like to ask you a few questions.
+      response: Okay!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC414.rude
+      row: 15
+    raw_columns:
+      - 414
+      - 6
+      - 2
+      - Sorry, Nicolai.  We don't have time for that.
+      - Well, alright.  Keep an eye out for the devils!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 6
+      choice_slot: 2
+      prompt: Sorry, Nicolai.  We don't have time for that.
+      response: Well, alright.  Keep an eye out for the devils!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC414.rude
+      row: 16
+    raw_columns:
+      - 414
+      - 1
+      - 3
+      - What do you know about duty?
+      - My father always said it was my job to do my duty and put the well being of the people ahead of my own.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 118
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 1
+      choice_slot: 3
+      prompt: What do you know about duty?
+      response: My father always said it was my job to do my duty and put the well being of the people ahead of my own.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 118
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 118
+        status: raw_value_preserved
+  - source:
+      file: NPC414.rude
+      row: 17
+    raw_columns:
+      - 414
+      - 414
+      - 3
+      - We're still trying to find you a job.
+      - Okay!  I appreciate you helping out your king!
+      - 414
+      - 118
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 119
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 414
+      choice_slot: 3
+      prompt: We're still trying to find you a job.
+      response: Okay!  I appreciate you helping out your king!
+      next: 414
+      raw_fields:
+        c07: 118
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 119
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 414
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 118
+            qbit_id: 9118
+            state_id: mm9.keys.118
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 118
+          qbit_id: 9118
+          state_id: mm9.keys.118
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 119
+        status: raw_value_preserved
+  - source:
+      file: NPC414.rude
+      row: 18
+    raw_columns:
+      - 414
+      - 4
+      - 4
+      - You don't sound especially fond of your duty.
+      - It's boring being king.  I really want to join the circus!  I could be a trapeze artist!  Or the strong man!  Or I could run a game booth!  Hey!  I bet you could find me a job at a circus!  What do you say?
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 4
+      choice_slot: 4
+      prompt: You don't sound especially fond of your duty.
+      response: It's boring being king.  I really want to join the circus!  I could be a trapeze artist!  Or the strong man!  Or I could run a game booth!  Hey!  I bet you could find me a job at a circus!  What do you say?
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC414.rude
+      row: 19
+    raw_columns:
+      - 414
+      - 1
+      - 4
+      - What are you doing here?
+      - I have to stop the devils before they take over the world!  As King, it's my duty!
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 1
+      choice_slot: 4
+      prompt: What are you doing here?
+      response: I have to stop the devils before they take over the world!  As King, it's my duty!
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC414.rude
+      row: 20
+    raw_columns:
+      - 414
+      - 414
+      - 4
+      - We've found you a job.
+      - You have?  Where?
+      - 7
+      - 119
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 120
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 414
+      choice_slot: 4
+      prompt: We've found you a job.
+      response: You have?  Where?
+      next: 7
+      raw_fields:
+        c07: 119
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 120
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 119
+            qbit_id: 9119
+            state_id: mm9.keys.119
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 119
+          qbit_id: 9119
+          state_id: mm9.keys.119
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 120
+        status: raw_value_preserved
+  - source:
+      file: NPC414.rude
+      row: 21
+    raw_columns:
+      - 414
+      - 414
+      - 5
+      - How's the job?
+      - Great!  I love it!  Thanks for all your help.
+      - 414
+      - 121
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 414
+      choice_slot: 5
+      prompt: How's the job?
+      response: Great!  I love it!  Thanks for all your help.
+      next: 414
+      raw_fields:
+        c07: 121
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 414
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 121
+            qbit_id: 9121
+            state_id: mm9.keys.121
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 121
+          qbit_id: 9121
+          state_id: mm9.keys.121
+  - source:
+      file: NPC414.rude
+      row: 22
+    raw_columns:
+      - 414
+      - 1
+      - 7
+      - Thanks for your time.
+      - Bye!  Come back soon!  Thanks for visiting your king!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Bye!  Come back soon!  Thanks for visiting your king!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC414.rude
+      row: 23
+    raw_columns:
+      - 414
+      - 414
+      - 7
+      - Thanks for your time.
+      - See you later!  Thanks for visiting your king!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 414
+      node_id: 414
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: See you later!  Thanks for visiting your king!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999

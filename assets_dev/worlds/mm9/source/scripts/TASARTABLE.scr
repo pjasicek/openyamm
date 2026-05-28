@@ -1,0 +1,168 @@
+;--------------------------------------------------
+;TaSarTable.scr
+;10/5
+; timmy
+; handles Books and scrolls doing Letter interface
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String							 Item_Name
+#String							Location
+#number							Counter
+#number							Book_Key 
+#number							Item_ID = 435
+#Number							Book
+#NumberArray					KeyArray[4]
+
+#number							nPlacedKey
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:OnUse
+; This adds the item to inventory
+;--------------------------------------------------
+
+
+HasItem Book g_ntemp
+if (g_ntemp==1)
+	Givekey Book_key
+	givekey nPlacedKey
+endif
+
+
+Set Counter 0
+While (Counter<4)
+
+	hasitem Item_ID g_ntemp
+	debugout Item_ID
+	(if G_ntemp==1)
+
+		Getobjecthandle Item_name g_hobject
+		TakeItem Item_ID
+;		Setflag g_hobject, visible
+;		Setflag g_hobject, solid
+;		Setflag g_hobject, gravity
+		Trigger g_hobject Visible1
+	endif
+
+Add Item_Id 1
+Item_Name = Location + Item_ID
+Add Counter 1
+endwhile
+
+set Item_Id 435
+Gosub CompleteCheck
+exit
+
+
+
+;--------------------------------------------------
+:CompleteCheck
+; This puts the keys into an array
+;--------------------------------------------------
+
+Haskey 9501 g_ntemp
+if (g_ntemp==1)
+	Arrayput KeyArray 0, 1
+endif
+
+Haskey 9502 g_ntemp
+if (g_ntemp==1)
+	Arrayput KeyArray 1, 1
+endif
+
+Haskey 9503 g_ntemp
+if (g_ntemp==1)
+	Arrayput KeyArray 2, 1
+endif
+
+Haskey 9504 g_ntemp
+if (g_ntemp==1)
+	Arrayput KeyArray 3, 1
+endif
+
+Gosub CheckAllKeys
+exit
+
+;--------------------------------------------------
+:CheckAllKeys
+; This checks the keys in the array
+;--------------------------------------------------
+
+Set Counter, 0
+
+While (counter!=4)
+	ArrayGet KeyArray, Counter, g_ntemp
+	if (g_ntemp==0)
+		exit
+	endif
+
+	add Counter 1
+
+EndWhile
+
+;........success.........
+
+givekey 9516
+getobjecthandle LibraryDoor g_hobject
+trigger g_hobject unlock
+trigger g_hobject use
+trigger g_hobject lock
+exit
+
+;--------------------------------------------------
+:ItemInit
+; This inits the variables
+;--------------------------------------------------
+
+Item_Name = Location + Item_ID
+
+if (Location==Offense)
+	Set Book_Key 9501
+	Set Book 435
+	nPlacedKey = 9517
+	exit
+endif
+
+if (Location==Strategy)
+	Set Book_Key 9502
+	Set Book 436
+	nPlacedKey = 9518
+	exit
+endif
+
+if (Location==Defense)
+	Set Book_Key 9503
+	set Book 437
+	nPlacedKey = 9519
+	exit
+endif
+
+if (Location==Intelligence)
+	Set Book_Key 9504
+	set Book 438
+	nPlacedKey = 9520
+	exit
+endif
+
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Getparam 0 Location
+Addtrigger Use, OnUse
+Gosub ItemInit
+
+exit
+

@@ -1,0 +1,28 @@
+;--------------------------------
+;	StonesPiece.scr
+;	by SJR
+;	12-12-01
+;	Purpose:
+;--------------------------------
+
+;--------------------------------
+:Main
+;--------------------------------
+	AddTrigger white, TurnWhite
+	AddTrigger black, TurnBlack
+
+	Exit 1
+
+;--------------------------------
+:TurnWhite
+;--------------------------------
+	SetModelFilenames "models\gibs\stone.abc", "skins\gibs\yellow.dtx"
+
+	Exit 1
+
+;--------------------------------
+:TurnBlack
+;--------------------------------
+	SetModelFilenames "models\gibs\stone.abc", "skins\gibs\blue.dtx"
+
+	Exit 1

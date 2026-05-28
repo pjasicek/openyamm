@@ -1,0 +1,1246 @@
+format_version: 1
+source_file: NPC46.rude
+rows:
+  - source:
+      file: NPC46.rude
+      row: 1
+    raw_columns:
+      - 46
+      - 5
+      - 1
+      - We will try to sniff out the spies for you.
+      - Be careful.  They may be spies just like us.  If you are discovered, you may jeopardize your lives.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 13
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 5
+      choice_slot: 1
+      prompt: We will try to sniff out the spies for you.
+      response: Be careful.  They may be spies just like us.  If you are discovered, you may jeopardize your lives.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 13
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 13
+        status: raw_value_preserved
+  - source:
+      file: NPC46.rude
+      row: 2
+    raw_columns:
+      - 46
+      - 1
+      - 1
+      - What's your trouble?
+      - Either you're very perceptive, or I've not been as discrete as I need to be.  Either way, perhaps you could help me.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 13
+      - 18
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 1
+      choice_slot: 1
+      prompt: What's your trouble?
+      response: Either you're very perceptive, or I've not been as discrete as I need to be.  Either way, perhaps you could help me.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 13
+        c22: 18
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 13
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 18
+        status: raw_value_preserved
+  - source:
+      file: NPC46.rude
+      row: 3
+    raw_columns:
+      - 46
+      - 2
+      - 1
+      - We'd be happy to help.
+      - There have been..things going wrong lately.  Things that should be working have been breaking.  Walls that should be in working order are found broken.  Defensive structures left wide open!
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 2
+      choice_slot: 1
+      prompt: We'd be happy to help.
+      response: There have been..things going wrong lately.  Things that should be working have been breaking.  Walls that should be in working order are found broken.  Defensive structures left wide open!
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC46.rude
+      row: 4
+    raw_columns:
+      - 46
+      - 46
+      - 1
+      - We'd like to ask you a few questions.
+      - I'm not a tour guide.
+      - 46
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 46
+      choice_slot: 1
+      prompt: We'd like to ask you a few questions.
+      response: I'm not a tour guide.
+      next: 46
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 46
+  - source:
+      file: NPC46.rude
+      row: 5
+    raw_columns:
+      - 46
+      - 4
+      - 1
+      - You can't do anything about it?
+      - My cover has been blown.  Too many people know I work for Sturmford.  Perhaps you could poke your nose about and try to dig up some dirt.  It may prove to be lucrative.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 4
+      choice_slot: 1
+      prompt: You can't do anything about it?
+      response: My cover has been blown.  Too many people know I work for Sturmford.  Perhaps you could poke your nose about and try to dig up some dirt.  It may prove to be lucrative.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC46.rude
+      row: 6
+    raw_columns:
+      - 46
+      - 12
+      - 1
+      - He disappeared.
+      - Disappeared you say?  He must have had a Scroll of Town Portal.  Good thinking on his part.  Don't worry, I'll make certain he pays for this!  Here's your reward.
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 12
+      choice_slot: 1
+      prompt: He disappeared.
+      response: Disappeared you say?  He must have had a Scroll of Town Portal.  Good thinking on his part.  Don't worry, I'll make certain he pays for this!  Here's your reward.
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC46.rude
+      row: 7
+    raw_columns:
+      - 46
+      - 10
+      - 1
+      - A man named Randver the Storm.
+      - Randver?!  He's one of the Jarl's scribes!  Why, I've trusted him with some very important information!  What happened to him?
+      - 12
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 18
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 10
+      choice_slot: 1
+      prompt: A man named Randver the Storm.
+      response: Randver?!  He's one of the Jarl's scribes!  Why, I've trusted him with some very important information!  What happened to him?
+      next: 12
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 18
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 18
+        status: raw_value_preserved
+  - source:
+      file: NPC46.rude
+      row: 8
+    raw_columns:
+      - 46
+      - 11
+      - 1
+      - Good luck.
+      - Thanks, but I won't need it.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 11
+      choice_slot: 1
+      prompt: Good luck.
+      response: Thanks, but I won't need it.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC46.rude
+      row: 9
+    raw_columns:
+      - 46
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC46.rude
+      row: 10
+    raw_columns:
+      - 46
+      - 3
+      - 1
+      - You think someone's been deliberately breaking these things?
+      - I would hate to use such a strong word as sabotage, but I think it is the word that fits.  I believe Drangheim agents have infiltrated our defenses and are planning an attack.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 3
+      choice_slot: 1
+      prompt: You think someone's been deliberately breaking these things?
+      response: I would hate to use such a strong word as sabotage, but I think it is the word that fits.  I believe Drangheim agents have infiltrated our defenses and are planning an attack.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC46.rude
+      row: 11
+    raw_columns:
+      - 46
+      - 5
+      - 2
+      - We're not spy catchers.
+      - Very well.  I will trust you to keep your lips closed about this.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 5
+      choice_slot: 2
+      prompt: We're not spy catchers.
+      response: Very well.  I will trust you to keep your lips closed about this.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC46.rude
+      row: 12
+    raw_columns:
+      - 46
+      - 2
+      - 2
+      - Sorry.  We've got too much to do already.
+      - I understand.  Perhaps if you're not busy later.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 2
+      choice_slot: 2
+      prompt: Sorry.  We've got too much to do already.
+      response: I understand.  Perhaps if you're not busy later.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC46.rude
+      row: 13
+    raw_columns:
+      - 46
+      - 1
+      - 2
+      - Still no luck on the saboteur.
+      - Keep your eyes open.  And be careful!
+      - 999
+      - 13
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 18
+      - 15
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 1
+      choice_slot: 2
+      prompt: Still no luck on the saboteur.
+      response: Keep your eyes open.  And be careful!
+      next: 999
+      raw_fields:
+        c07: 13
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 18
+        c22: 15
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 13
+            qbit_id: 9013
+            state_id: mm9.keys.13
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 13
+          qbit_id: 9013
+          state_id: mm9.keys.13
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 18
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 15
+        status: raw_value_preserved
+  - source:
+      file: NPC46.rude
+      row: 14
+    raw_columns:
+      - 46
+      - 46
+      - 2
+      - Perhaps we can buy you a drink?
+      - I appreciate your generosity.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 46
+      choice_slot: 2
+      prompt: Perhaps we can buy you a drink?
+      response: I appreciate your generosity.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC46.rude
+      row: 15
+    raw_columns:
+      - 46
+      - 46
+      - 3
+      - We've discovered who the saboteur is.
+      - You have?!  Who is he?
+      - 10
+      - 15
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 18
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 46
+      choice_slot: 3
+      prompt: We've discovered who the saboteur is.
+      response: You have?!  Who is he?
+      next: 10
+      raw_fields:
+        c07: 15
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 18
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 15
+            qbit_id: 9015
+            state_id: mm9.keys.15
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 15
+          qbit_id: 9015
+          state_id: mm9.keys.15
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 18
+        status: raw_value_preserved
+  - source:
+      file: NPC46.rude
+      row: 16
+    raw_columns:
+      - 46
+      - 1
+      - 4
+      - You're welcome.
+      - See you around.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 1
+      choice_slot: 4
+      prompt: You're welcome.
+      response: See you around.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC46.rude
+      row: 17
+    raw_columns:
+      - 46
+      - 46
+      - 4
+      - No.  Sorry to bother you.
+      - Yeah, whatever.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 46
+      node_id: 46
+      choice_slot: 4
+      prompt: No.  Sorry to bother you.
+      response: Yeah, whatever.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

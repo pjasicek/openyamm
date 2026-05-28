@@ -1,0 +1,110 @@
+schema: openyamm.model3d.v1
+id: minelantern
+model: minelantern.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/MINELANTERN.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Lantern
+  materialIndex: 0
+  lods:
+  - faces: 56
+    vertices: 39
+  - faces: 40
+    vertices: 31
+  - faces: 28
+    vertices: 25
+- name: Hook
+  materialIndex: 0
+  lods:
+  - faces: 34
+    vertices: 23
+  - faces: 28
+    vertices: 20
+  - faces: 16
+    vertices: 14
+materials:
+- index: 0
+  texture: skins_preview/props/minelantern.png
+  runtime_texture: skins/props/minelantern.dtx
+  preview_texture: skins_preview/props/minelantern.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/MINELANTERN.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 4
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 2
+    - 3
+  - index: 2
+    name: Bone02
+    parent: 1
+    flags: 0
+    children: []
+  - index: 3
+    name: Lantern
+    parent: 1
+    flags: 0
+    children: []
+  - index: 4
+    name: Bone03
+    parent: 0
+    flags: 0
+    children:
+    - 5
+    - 6
+  - index: 5
+    name: Bone04
+    parent: 4
+    flags: 0
+    children: []
+  - index: 6
+    name: Hook
+    parent: 4
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: MineLantern
+  durationMs: 1966
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: MineLantern
+  extents:
+  - 12.8
+  - 35.84
+  - 12.8
+  origin:
+  - 0.0
+  - 0.0
+  - -12.8
+roles:
+- static_model
+source_model: models/props/minelantern.abc

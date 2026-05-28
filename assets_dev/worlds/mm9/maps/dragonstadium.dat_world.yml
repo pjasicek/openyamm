@@ -1,0 +1,2056 @@
+format_version: 1
+kind: mm9_dat_world
+map_id: dragonstadium
+source_dat: ../source/worlds/DRAGONSTADIUM.dat
+original_source_dat: mm9/extracted/WORLDS/WORLDS/DRAGONSTADIUM.dat
+source_hash: 88f4065f8069ca6d460d7ba5ca6297236154e57762eec872f6c0c4f52109ac4f
+dat_version: 66
+coordinate_system:
+  source: lithtech_mm9
+  openyamm_mapping:
+  - x
+  - z
+  - y
+  scale: 2.56
+world_info:
+  property_string: AmbientLight 45 45 45
+  light_map_grid_size: 20.0
+  extents_min_lt:
+  - -1536.00048828125
+  - -112.00004577636719
+  - -3200.0
+  extents_max_lt:
+  - 3392.00048828125
+  - 2432.0
+  - 2464.000732421875
+classification:
+  recommendation: indoor_like
+  confidence: medium
+  reason: not terrain-dominated and already imported through the BLV/BSP path
+totals:
+  world_model_count: 26
+  object_count: 48
+  source_poly_count: 2081
+  surface_count: 1795
+  user_portal_count: 0
+  leaf_count: 418
+  leaf_reference_count: 1941
+  invalid_leaf_reference_count: 0
+world_models:
+- source_model_index: 0
+  source_name: p1 level 1
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 19
+  plane_count: 18
+  surface_count: 28
+  poly_count: 28
+  leaf_count: 0
+  node_count: 30
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 84
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 10
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 28
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 2
+    - 1
+    - 2
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -128.00006103515625
+      - -64.00005340576172
+      - -992.0
+    record_count: 4
+  bounds_lt:
+    min:
+    - -128.00006103515625
+    - -64.00005340576172
+    - -992.0
+    max:
+    - 512.0
+    - 128.00001525878906
+    - -127.99996185302734
+  world_translation_lt:
+  - 191.99996948242188
+  - 31.999977111816406
+  - -560.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 28
+  texture_user_flag_histogram:
+    12: 28
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 1
+  source_name: p1 level 2
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 28
+  plane_count: 22
+  surface_count: 32
+  poly_count: 32
+  leaf_count: 0
+  node_count: 34
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 96
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 11
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 32
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - 63.99996566772461
+      - 127.99978637695312
+      - -736.0000610351562
+    record_count: 1
+  bounds_lt:
+    min:
+    - 63.99996566772461
+    - 127.99978637695312
+    - -736.0000610351562
+    max:
+    - 384.0
+    - 448.0001220703125
+    - -384.0
+  world_translation_lt:
+  - 223.99998474121094
+  - 287.99993896484375
+  - -560.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 32
+  texture_user_flag_histogram:
+    12: 32
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 2
+  source_name: p1 level 3
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 16
+  plane_count: 14
+  surface_count: 24
+  poly_count: 24
+  leaf_count: 0
+  node_count: 24
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 72
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 9
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 24
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - 95.99992370605469
+      - 447.9999084472656
+      - -672.0000610351562
+    record_count: 1
+  bounds_lt:
+    min:
+    - 95.99992370605469
+    - 447.9999084472656
+    - -672.0000610351562
+    max:
+    - 320.0000305175781
+    - 640.0000610351562
+    - -416.0
+  world_translation_lt:
+  - 207.99996948242188
+  - 544.0
+  - -544.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 24
+  texture_user_flag_histogram:
+    12: 24
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 3
+  source_name: p1 level 4
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 18
+  plane_count: 13
+  surface_count: 24
+  poly_count: 24
+  leaf_count: 0
+  node_count: 24
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 72
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 10
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 24
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - 95.99993896484375
+      - 639.9999389648438
+      - -704.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - 95.99993896484375
+    - 639.9999389648438
+    - -704.0
+    max:
+    - 320.0000305175781
+    - 768.0000610351562
+    - -415.9999694824219
+  world_translation_lt:
+  - 207.99998474121094
+  - 704.0
+  - -560.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 24
+  texture_user_flag_histogram:
+    12: 24
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 4
+  source_name: p1 level 5
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 28
+  plane_count: 21
+  surface_count: 32
+  poly_count: 32
+  leaf_count: 0
+  node_count: 34
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 96
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 13
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 32
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - 31.999908447265625
+      - 767.9999389648438
+      - -704.0000610351562
+    record_count: 1
+  bounds_lt:
+    min:
+    - 31.999908447265625
+    - 767.9999389648438
+    - -704.0000610351562
+    max:
+    - 352.00006103515625
+    - 896.0000610351562
+    - -447.9999694824219
+  world_translation_lt:
+  - 191.99998474121094
+  - 832.0
+  - -576.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 32
+  texture_user_flag_histogram:
+    12: 32
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 5
+  source_name: p1 level 6
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 36
+  plane_count: 18
+  surface_count: 28
+  poly_count: 28
+  leaf_count: 0
+  node_count: 28
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 84
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 9
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 28
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 2
+    - 1
+    - 2
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -96.0001220703125
+      - 896.0
+      - -800.0
+    record_count: 4
+  bounds_lt:
+    min:
+    - -96.0001220703125
+    - 896.0
+    - -800.0
+    max:
+    - 448.00006103515625
+    - 1024.0001220703125
+    - -191.99990844726562
+  world_translation_lt:
+  - 175.99996948242188
+  - 960.0000610351562
+  - -495.99993896484375
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 28
+  texture_user_flag_histogram:
+    12: 28
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 6
+  source_name: p1 level 7
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 45
+  plane_count: 13
+  surface_count: 15
+  poly_count: 19
+  leaf_count: 0
+  node_count: 20
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 86
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 12
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 9
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 19
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 2
+    - 1
+    - 2
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -96.00000762939453
+      - 1088.0
+      - -864.0000610351562
+    record_count: 4
+  bounds_lt:
+    min:
+    - -96.00000762939453
+    - 1088.0
+    - -864.0000610351562
+    max:
+    - 768.0
+    - 1152.0
+    - 32.000003814697266
+  world_translation_lt:
+  - 336.0
+  - 1120.0
+  - -416.0000305175781
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 15
+  texture_user_flag_histogram:
+    12: 15
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 7
+  source_name: p2 level 1
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 32
+  plane_count: 19
+  surface_count: 28
+  poly_count: 28
+  leaf_count: 0
+  node_count: 36
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 84
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 9
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 28
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 2
+    - 1
+    - 2
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -384.00079345703125
+      - -64.0003662109375
+      - 895.9999389648438
+    record_count: 4
+  bounds_lt:
+    min:
+    - -384.00079345703125
+    - -64.0003662109375
+    - 895.9999389648438
+    max:
+    - 512.0000610351562
+    - 128.00010681152344
+    - 1760.000732421875
+  world_translation_lt:
+  - 63.9996337890625
+  - 31.99987030029297
+  - 1328.0003662109375
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 28
+  texture_user_flag_histogram:
+    12: 28
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 8
+  source_name: p2 level 2
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 36
+  plane_count: 14
+  surface_count: 24
+  poly_count: 24
+  leaf_count: 0
+  node_count: 24
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 72
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 12
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 24
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -96.00003051757812
+      - 127.99954223632812
+      - 1184.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -96.00003051757812
+    - 127.99954223632812
+    - 1184.0
+    max:
+    - 256.0001220703125
+    - 448.0003356933594
+    - 1504.0001220703125
+  world_translation_lt:
+  - 80.00004577636719
+  - 287.99993896484375
+  - 1344.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 24
+  texture_user_flag_histogram:
+    12: 24
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 9
+  source_name: p2 level 3
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 25
+  plane_count: 12
+  surface_count: 24
+  poly_count: 24
+  leaf_count: 0
+  node_count: 25
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 72
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 9
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 24
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -96.00005340576172
+      - 447.9999084472656
+      - 1184.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -96.00005340576172
+    - 447.9999084472656
+    - 1184.0
+    max:
+    - 192.00006103515625
+    - 640.0000610351562
+    - 1472.0
+  world_translation_lt:
+  - 48.00000762939453
+  - 544.0
+  - 1328.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 24
+  texture_user_flag_histogram:
+    12: 24
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 10
+  source_name: p2 level 4
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 39
+  plane_count: 17
+  surface_count: 28
+  poly_count: 28
+  leaf_count: 0
+  node_count: 35
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 84
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 12
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 28
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -128.00009155273438
+      - 639.9998779296875
+      - 1215.9998779296875
+    record_count: 1
+  bounds_lt:
+    min:
+    - -128.00009155273438
+    - 639.9998779296875
+    - 1215.9998779296875
+    max:
+    - 160.00006103515625
+    - 768.0001220703125
+    - 1472.000244140625
+  world_translation_lt:
+  - 15.999984741210938
+  - 704.0
+  - 1344.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 28
+  texture_user_flag_histogram:
+    12: 28
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 11
+  source_name: p2 level 5
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 25
+  plane_count: 17
+  surface_count: 28
+  poly_count: 28
+  leaf_count: 0
+  node_count: 29
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 84
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 9
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 28
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -128.00006103515625
+      - 767.9999389648438
+      - 1151.9998779296875
+    record_count: 1
+  bounds_lt:
+    min:
+    - -128.00006103515625
+    - 767.9999389648438
+    - 1151.9998779296875
+    max:
+    - 160.00001525878906
+    - 896.0001220703125
+    - 1472.0001220703125
+  world_translation_lt:
+  - 15.999969482421875
+  - 832.0
+  - 1312.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 28
+  texture_user_flag_histogram:
+    12: 28
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 12
+  source_name: p2 level 6
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 34
+  plane_count: 15
+  surface_count: 24
+  poly_count: 24
+  leaf_count: 0
+  node_count: 29
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 72
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 14
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 24
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 2
+    - 1
+    - 2
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -320.00006103515625
+      - 895.9999389648438
+      - 1023.9998168945312
+    record_count: 4
+  bounds_lt:
+    min:
+    - -320.00006103515625
+    - 895.9999389648438
+    - 1023.9998168945312
+    max:
+    - 384.0000915527344
+    - 1024.0001220703125
+    - 1664.0
+  world_translation_lt:
+  - 32.0
+  - 960.0
+  - 1343.9998779296875
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 24
+  texture_user_flag_histogram:
+    12: 24
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 13
+  source_name: p2 level 7
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 26
+  plane_count: 11
+  surface_count: 13
+  poly_count: 14
+  leaf_count: 0
+  node_count: 15
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 62
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 8
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 14
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 2
+    - 1
+    - 2
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -32.000003814697266
+      - 1088.0
+      - 704.0
+    record_count: 4
+  bounds_lt:
+    min:
+    - -32.000003814697266
+    - 1088.0
+    - 704.0
+    max:
+    - 736.0000610351562
+    - 1152.0
+    - 1376.0
+  world_translation_lt:
+  - 352.0000305175781
+  - 1120.0
+  - 1040.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 13
+  texture_user_flag_histogram:
+    12: 13
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 14
+  source_name: p3 level 1
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 32
+  plane_count: 20
+  surface_count: 28
+  poly_count: 28
+  leaf_count: 0
+  node_count: 35
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 84
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 10
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 28
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 2
+    - 1
+    - 2
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - 1471.9998779296875
+      - -64.00028228759766
+      - -0.00015485509356949478
+    record_count: 4
+  bounds_lt:
+    min:
+    - 1471.9998779296875
+    - -64.00028228759766
+    - -0.00015485509356949478
+    max:
+    - 2400.000244140625
+    - 128.00006103515625
+    - 864.0000610351562
+  world_translation_lt:
+  - 1936.0
+  - 31.99988555908203
+  - 431.9999694824219
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 28
+  texture_user_flag_histogram:
+    12: 28
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 15
+  source_name: p3 level 2
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 32
+  plane_count: 19
+  surface_count: 28
+  poly_count: 28
+  leaf_count: 0
+  node_count: 34
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 84
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 9
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 28
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - 1728.0
+      - 127.99982452392578
+      - 223.9999237060547
+    record_count: 1
+  bounds_lt:
+    min:
+    - 1728.0
+    - 127.99982452392578
+    - 223.9999237060547
+    max:
+    - 2080.0
+    - 448.0001525878906
+    - 640.0
+  world_translation_lt:
+  - 1904.0
+  - 288.0
+  - 431.99993896484375
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 28
+  texture_user_flag_histogram:
+    12: 28
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 16
+  source_name: p3 level 3
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 27
+  plane_count: 14
+  surface_count: 24
+  poly_count: 24
+  leaf_count: 0
+  node_count: 25
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 72
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 11
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 24
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - 1792.0
+      - 447.9999084472656
+      - 319.99993896484375
+    record_count: 1
+  bounds_lt:
+    min:
+    - 1792.0
+    - 447.9999084472656
+    - 319.99993896484375
+    max:
+    - 2080.0
+    - 640.0000610351562
+    - 608.0000610351562
+  world_translation_lt:
+  - 1936.0
+  - 544.0
+  - 464.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 24
+  texture_user_flag_histogram:
+    12: 24
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 17
+  source_name: p3 level 4
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 32
+  plane_count: 17
+  surface_count: 28
+  poly_count: 28
+  leaf_count: 0
+  node_count: 38
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 84
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 10
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 28
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - 1823.9998779296875
+      - 639.9998779296875
+      - 351.9997253417969
+    record_count: 1
+  bounds_lt:
+    min:
+    - 1823.9998779296875
+    - 639.9998779296875
+    - 351.9997253417969
+    max:
+    - 2112.0
+    - 768.000244140625
+    - 640.0
+  world_translation_lt:
+  - 1968.0
+  - 704.0000610351562
+  - 495.9998779296875
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 28
+  texture_user_flag_histogram:
+    12: 28
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 18
+  source_name: p3 level 6
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 43
+  plane_count: 19
+  surface_count: 28
+  poly_count: 28
+  leaf_count: 0
+  node_count: 45
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 84
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 15
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 28
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 2
+    - 1
+    - 2
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - 1599.9998779296875
+      - 895.9999389648438
+      - 63.999637603759766
+    record_count: 4
+  bounds_lt:
+    min:
+    - 1599.9998779296875
+    - 895.9999389648438
+    - 63.999637603759766
+    max:
+    - 2336.000244140625
+    - 1024.0001220703125
+    - 736.0001831054688
+  world_translation_lt:
+  - 1968.0
+  - 960.0
+  - 399.9999084472656
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 28
+  texture_user_flag_histogram:
+    12: 28
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 19
+  source_name: p3 level 5
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 32
+  plane_count: 14
+  surface_count: 24
+  poly_count: 24
+  leaf_count: 0
+  node_count: 28
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 72
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 10
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 24
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - 1792.0
+      - 767.9999389648438
+      - 287.99993896484375
+    record_count: 1
+  bounds_lt:
+    min:
+    - 1792.0
+    - 767.9999389648438
+    - 287.99993896484375
+    max:
+    - 2112.0
+    - 896.000244140625
+    - 640.0000610351562
+  world_translation_lt:
+  - 1952.0
+  - 832.0001220703125
+  - 464.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 24
+  texture_user_flag_histogram:
+    12: 24
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 20
+  source_name: p3 level 7
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 39
+  plane_count: 11
+  surface_count: 13
+  poly_count: 16
+  leaf_count: 0
+  node_count: 18
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 70
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 49
+    texture_count: 1
+  root_node_index: 12
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 8
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 16
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 3
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - 1344.0
+      - 1088.0
+      - -128.00003051757812
+    record_count: 3
+  bounds_lt:
+    min:
+    - 1344.0
+    - 1088.0
+    - -128.00003051757812
+    max:
+    - 1728.0
+    - 1152.0
+    - 1024.0
+  world_translation_lt:
+  - 1536.0
+  - 1120.0
+  - 447.9999694824219
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  surface_flag_histogram:
+    4225: 13
+  texture_user_flag_histogram:
+    12: 13
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 21
+  source_name: TOD_Sky0
+  world_info_flags: 2
+  kind: sky
+  point_count: 39
+  plane_count: 12
+  surface_count: 12
+  poly_count: 12
+  leaf_count: 0
+  node_count: 16
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 48
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 72
+    texture_count: 2
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 11
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -3826.000244140625
+      - -306.0001525878906
+      - -194.0001678466797
+    record_count: 1
+  bounds_lt:
+    min:
+    - -3826.000244140625
+    - -306.0001525878906
+    - -194.0001678466797
+    max:
+    - -3597.999755859375
+    - -77.99994659423828
+    - 34.0000114440918
+  world_translation_lt:
+  - -3712.0
+  - -192.0000457763672
+  - -80.00007629394531
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\Skybox\starfield.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Misc\Invisible.dtx
+  surface_flag_histogram:
+    4265: 6
+    4269: 6
+  texture_user_flag_histogram:
+    0: 6
+    202: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: true
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 22
+  source_name: SkyBox0
+  world_info_flags: 2
+  kind: sky
+  point_count: 39
+  plane_count: 12
+  surface_count: 12
+  poly_count: 12
+  leaf_count: 0
+  node_count: 20
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 48
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 277
+    texture_count: 8
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 10
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 0
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -3840.000244140625
+      - -320.0001220703125
+      - -208.0001678466797
+    record_count: 1
+  bounds_lt:
+    min:
+    - -3840.000244140625
+    - -320.0001220703125
+    - -208.0001678466797
+    max:
+    - -3583.999755859375
+    - -63.99993896484375
+    - 48.0000114440918
+  world_translation_lt:
+  - -3712.0
+  - -192.00003051757812
+  - -80.00007629394531
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\Skybox\SnowMtns_N.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Invisible.dtx
+  - texture_index: 2
+    source_texture: TEXTURES\Skybox\SnowMtns_Up.dtx
+  - texture_index: 3
+    source_texture: TEXTURES\Skybox\SnowMtns_Down.dtx
+  - texture_index: 4
+    source_texture: TEXTURES\ENVIRONMENTMAPS\MountainSky\MTN_Down.dtx
+  - texture_index: 5
+    source_texture: TEXTURES\Skybox\SnowMtns_S.dtx
+  - texture_index: 6
+    source_texture: TEXTURES\Skybox\SnowMtns_E.dtx
+  - texture_index: 7
+    source_texture: TEXTURES\Skybox\SnowMtns_W.dtx
+  surface_flag_histogram:
+    289: 7
+    293: 5
+  texture_user_flag_histogram:
+    0: 6
+    17: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: true
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 23
+  source_name: InvisibleBrush0
+  world_info_flags: 2
+  kind: volume
+  point_count: 16
+  plane_count: 10
+  surface_count: 10
+  poly_count: 10
+  leaf_count: 0
+  node_count: 10
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 48
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 44
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 10
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 0
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - 840.0
+      - -80.0
+      - -2668.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - 840.0
+    - -80.0
+    - -2668.0
+    max:
+    - 992.0
+    - 80.0
+    - -2516.0
+  world_translation_lt:
+  - 916.0
+  - 0.0
+  - -2592.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\Firethrough.dtx
+  surface_flag_histogram:
+    4229: 10
+  texture_user_flag_histogram:
+    18: 10
+  roles:
+    visible: false
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: true
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 24
+  source_name: PhysicsBSP
+  world_info_flags: 20
+  kind: physics_bsp
+  point_count: 1428
+  plane_count: 541
+  surface_count: 618
+  poly_count: 757
+  leaf_count: 0
+  node_count: 3841
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 2545
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 129
+    texture_count: 3
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 288
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 722
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 10
+    - 6
+    - 12
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -1536.00048828125
+      - -112.00004577636719
+      - -3200.0
+    record_count: 720
+  bounds_lt:
+    min:
+    - -1536.00048828125
+    - -112.00004577636719
+    - -3200.0
+    max:
+    - 3392.00048828125
+    - 2432.0
+    - 2464.000732421875
+  world_translation_lt:
+  - 928.0
+  - 1160.0
+  - -367.99951171875
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Terrain\cave_wall_lava.dtx
+  - texture_index: 2
+    source_texture: TEXTURES\Skybox\SkyMarker.dtx
+  surface_flag_histogram:
+    4225: 583
+    4241: 35
+  texture_user_flag_histogram:
+    12: 583
+    17: 35
+  roles:
+    visible: false
+    terrain: false
+    physics_bsp: true
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: false
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 25
+  source_name: VisBSP
+  world_info_flags: 32
+  kind: vis_bsp
+  point_count: 1432
+  plane_count: 541
+  surface_count: 618
+  poly_count: 757
+  leaf_count: 418
+  node_count: 3841
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 2545
+    total_vis_list_size: 88342
+    leaf_list_count: 333
+    texture_name_length: 129
+    texture_count: 3
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 288
+    world_bsp_unknown_value_2: 1941
+    world_bsp_unknown_value_3: 0
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 0
+    - 0
+    - 0
+    bounds_lt:
+      min:
+      - 0.0
+      - 0.0
+      - 0.0
+      max:
+      - 0.0
+      - 0.0
+      - 0.0
+    record_count: 0
+  bounds_lt:
+    min:
+    - -1536.00048828125
+    - -112.00004577636719
+    - -3200.0
+    max:
+    - 3392.00048828125
+    - 2432.0
+    - 2464.000732421875
+  world_translation_lt:
+  - 0.0
+  - 0.0
+  - 0.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Terrain\rough_cliff_t.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Terrain\cave_wall_lava.dtx
+  - texture_index: 2
+    source_texture: TEXTURES\Skybox\SkyMarker.dtx
+  surface_flag_histogram:
+    4225: 583
+    4241: 35
+  texture_user_flag_histogram:
+    12: 583
+    17: 35
+  roles:
+    visible: false
+    terrain: false
+    physics_bsp: false
+    vis_bsp: true
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: false
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+user_portals: []
+leaf_references:
+  decode: world_model_index_low16_poly_index_high16
+  total_refs: 1941
+  invalid_refs: 0
+validation:
+  parse_status: ok
+  unknown_field_policy: preserved_in_source_dat
+  pblock_summary_status: summary_decoded_records_preserved_in_source_dat

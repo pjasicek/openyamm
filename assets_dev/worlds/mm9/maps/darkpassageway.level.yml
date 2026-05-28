@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: darkpassageway
+display_name: Dark Passageway
+source:
+  dat: ../source/worlds/DARKPASSAGEWAY.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/DARKPASSAGEWAY.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 7661fec2c96fab5c38ac577cc9feaa23d714350540446e4e9aac97f5ac7d0fd3
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_like
+  classification_confidence: medium
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: darkpassageway.dat_world.yml
+  raw_objects: darkpassageway.raw_objects.yml
+  materials: darkpassageway.material_aliases.yml
+  events: darkpassageway.events.yml
+  scene_compat: darkpassageway.scene.yml
+  source_metadata_compat: darkpassageway.mm9.yml
+  bsp_compat: darkpassageway.bsp.yml
+  geometry_compat: darkpassageway.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: darkpassageway.blv
+scripts:
+  level: ../events/darkpassageway.lua
+  script_ir: ../events/darkpassageway.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

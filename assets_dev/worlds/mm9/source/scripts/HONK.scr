@@ -1,0 +1,99 @@
+;----------------------------------------------
+;Honk.scr
+; By Timmy
+; gives the player the Golden Honk
+; item 369
+;----------------------------------------------
+
+#include globals.inc 
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+Haskey 343 g_ntemp
+if (g_ntemp==1)
+	haskey 344 g_ntemp
+	if (g_ntemp==0)
+		;;;SJR
+		gosub TurnHostilityOn
+		;;;SJR
+		giveitem 369
+		givekey 344
+		getmyhandle g_hmyobject
+		removeobject g_hmyobject
+		exit
+	endif
+else
+	haskey 345 g_ntemp
+	if (g_ntemp==0)
+		;;;SJR
+		gosub TurnHostilityOn
+		;;;SJR
+		giveitem 369
+		givekey 345
+		getmyhandle g_hmyobject
+		removeobject g_hmyobject
+		exit
+	endif
+endif
+
+exit
+
+;;;SJR
+;-------------------------------------
+:TurnHostilityOn
+;-------------------------------------
+	GetObjectHandle HONK_FRIENDLY, g_hObject
+	RemoveObject g_hObject
+
+	Exit 1
+;;;SJR
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+; unlock the door if you're on the quest
+haskey 343 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle DoubleDoorL13 g_hobject
+	trigger g_hobject Unlock
+	getobjecthandle DoubleDoorR13 g_hobject
+	trigger g_hobject Unlock
+else
+	getobjecthandle DoubleDoorL13 g_hobject
+	trigger g_hobject lock
+	getobjecthandle DoubleDoorR13 g_hobject
+	trigger g_hobject lock
+endif
+
+
+Haskey 344 g_ntemp
+if (g_ntemp==1)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+
+haskey 345 g_ntemp
+if (g_ntemp==1)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit	
+endif
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit

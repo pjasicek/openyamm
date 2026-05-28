@@ -1,0 +1,102 @@
+;------------------------------------------
+;	KingKong.scr
+;	by SJR
+;	09-08-01
+;	Purpose: Creature busting
+;		out of his cage etc
+;
+;	ScriptParams are:
+;		p0 = Name of Destructable brush
+;
+;	Triggers:
+;		"ForceBreak" = smash through brush and attack
+;		"ForceFall"  = fall through brush and initbase
+;		"ForceAttack"= runs to player and starts attack
+;
+;	edited by Bones -- 6/10/03
+;	TELP Patch 1.3 -- will work reliably with saves and minisaves
+;------------------------------------------
+#include baseMelee.inc
+
+#string		sCageName = ""
+#hobject	hCage = 0
+
+#string		ANIM_NAME = ""
+
+;------------------------------------------
+:Main
+;------------------------------------------
+	GetParam 0, sCageName
+	GetParam 1, ANIM_NAME
+
+	OnPostStartWorld InitKingKong
+
+	Exit TRUE
+
+;------------------------------------------
+:InitKingKong
+;------------------------------------------
+	GetObjectHandle sCageName, hCage
+
+	AddTrigger ForceBreak, RushCage
+	AddTrigger ForceFall, FallThrough
+	AddTrigger ForceAttack, TurnOff
+
+	if( ANIM_NAME!="" )
+		LoopAnim ANIM_NAME, 0
+	endif
+
+	Exit TRUE
+
+;------------------------------------------
+:RushCage
+;	play angry sound, break through wall
+;------------------------------------------
+	PlaySound "sounds\animsounds\dragonredrattack3.wav", DoNothing, 1, 500, FALSE, 100
+
+	gosub BreakCage
+
+	Exit TRUE
+
+;------------------------------------------
+:BreakCage
+;	trigger-destroy the wall
+;------------------------------------------
+	GetObjectHandle sCageName, hCage
+	if( hCage!=NULL )
+		Trigger hCage, destroy
+	endif
+
+	PlayAnim hattack1, turnoff
+
+	gosub TurnOff
+
+	Exit TRUE
+
+;------------------------------------------
+:FallThrough
+;	trigger-destroy the floor
+;------------------------------------------
+	GetObjectHandle sCageName, hCage
+	if( hCage!=NULL )
+		Trigger hCage, destroy
+	endif
+
+	gosub TurnOff
+
+	Exit TRUE
+
+;------------------------------------------
+:TurnOff
+;	remove trigs, hunt player
+;------------------------------------------
+	RemoveTrigger ForceBreak
+	RemoveTrigger ForceFall
+	RemoveTrigger ForceAttack
+
+	gosub BaseInit
+	GetPlayerHandle g_hTarget
+	gosub SetupTarget
+	gosub AggressiveStart
+
+	Exit TRUE

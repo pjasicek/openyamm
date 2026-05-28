@@ -1,0 +1,40 @@
+;-------------------------------
+;	YanmirHidden.scr
+;	by SJR
+;	Purpose:
+;-------------------------------
+#include BaseGlobals.inc
+#include flags.inc
+
+#hobject	hMe = 0
+
+#string		sYanmirName = ""
+#hobject	hYanmir = 0
+
+;-------------------------------
+:Main
+;-------------------------------
+	GetParam 0, sYanmirName
+
+	OnPostStartWorld InitYanmirHidden
+	OnPostMiniSaveLoad InitYanmirHidden
+
+	Exit TRUE
+
+;-------------------------------
+:InitYanmirHidden
+;-------------------------------
+	GetMyHandle hMe
+
+	GetObjectHandle sYanmirName, hYanmir
+	if( hYanmir==0 )
+		SetFlag hMe, FLAG_VISIBLE
+		SetFlag hMe, FLAG_SOLID
+
+		RunScript "titan.scr"
+	else
+		ClearFlag hMe, FLAG_VISIBLE
+		ClearFlag hMe, FLAG_SOLID
+	endif
+
+	Exit TRUE

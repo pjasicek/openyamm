@@ -1,0 +1,189 @@
+;-----------------------------------------------------
+;	ButtonPuzzle.scr
+;	Brett Yagi/Ed Campos/Karl Drown
+;	11/16/2001
+;
+;	Script controls the triggering of each individual 
+;	Button that is apart of a 16 piece Puzzle it also
+;	insures only certain Buttons Are Triggered
+;
+;	edited by Bones 03/27/03
+;	TELP Patch 1.3 -- added warning for turn-based mode
+;-----------------------------------------------------
+
+;-----------------------------------------------------
+;	-DEDIT NOTES-
+;	ScriptParams are:
+;		p0 = The Base Rootname of all the Puzzle Doors
+;		p1 = The Name of the ButtonPad Trigger Object
+;		p2 = The Variable that sets the direction of which the  
+:			 puzzle is setup and of the position of puzzle's
+;			 completions (Is set only for vertical use)
+;		p3 = Movement for initial Puzzle Door setup
+;		p4 = Movement for Puzzle Door movement at puzzle completion
+;		p5 = Speed of which Puzzle door will move on completion 
+;			 To match corresponding sound effect 
+;
+;-----------------------------------------------------
+
+#include	Flags.inc
+
+#hobject	hMe
+#hobject	hHandle
+
+
+#string		sButtonPad
+#string		sButtonName
+
+
+#number		nTrig = 1
+#number		nLockButtons
+#number		nMoveDir 
+#number		nMoveDir2
+#number		nMoveDistA
+#number		nMoveDistB
+#number		nMoveSpeed
+
+;-----------------------------------------------
+:DoNothing
+;-----------------------------------------------
+
+exit 1
+
+;-----------------------------------------------
+:TriggerTrap
+;-----------------------------------------------
+
+	MoveDir 0, nMoveDir2, 0, nMoveDistA, 300, DoNothing
+
+Exit 1
+
+;-----------------------------------------------
+:TriggerMe
+;-----------------------------------------------
+
+	nTrig = 1
+	GetMyHandle hHandle
+	Trigger hHandle Use
+	Trigger hHandle lock
+
+Exit 1
+
+;-----------------------------------------------
+:UseMe
+;-----------------------------------------------
+
+	if ( nTrig == 0 )
+		GetConsoleNumVar LockButtons nLockButtons
+		if ( nLockButtons == 0 )		
+			GetObjectHandle sButtonPad, hHandle
+			Trigger hHandle, sButtonName
+		endif
+	else
+		nTrig = 0
+	endif
+
+Exit 0
+
+;-----------------------------------------------
+:UseStart
+;-----------------------------------------------
+
+	AddTrigger Use UseMe
+	GetMyHandle hHandle
+	Trigger hHandle Unlock
+	Trigger hHandle Use
+	Trigger hHandle lock
+
+Exit 1
+;-----------------------------------------------
+:MoveDoor
+;-----------------------------------------------
+
+	Stop
+	RemoveTrigger Use
+	Trigger hMe, Lock
+
+	PlaySound sounds\Door\doorlatch02.wav, DoNothing, 0, 1000, 0, 70
+	Wait 0, .8, EndDoor
+
+Exit 1
+
+;-----------------------------------------------
+:EndDoor
+;-----------------------------------------------
+
+	PlaySound sounds\Door\stonedoorslide02.wav, DoNothing, 0, 1000, 0, 70
+	MoveDir 0, nMoveDir, 0, nMoveDistB, nMoveSpeed, EndScript
+
+Exit 1
+
+;-----------------------------------------------
+:EndScript
+;-----------------------------------------------
+
+Exit 1
+
+;-----------------------------------------------
+:Main2
+;-----------------------------------------------
+	
+	nMoveDir2 = nMoveDir - 2
+	GetMyHandle hMe
+	SetFlag hMe FLAG_GOTHRUWORLD
+	MoveDir 0, nMoveDir, 0, nMoveDistA, 0, DoNothing
+
+Exit 1
+
+;-----------------------------------------------
+:Main
+;-----------------------------------------------
+
+;TraceOn
+
+	GetParam 0 sButtonName
+	GetParam 1 sButtonPad
+	GetParam 2 nMoveDir
+	GetParam 3 nMoveDistA
+	GetParam 4 nMoveDistB
+	GetParam 5 nMoveSpeed
+
+	
+	AddTrigger TriggerMe TriggerMe
+	AddTrigger MoveDoor MoveDoor
+	AddTrigger TriggerTrap TriggerTrap
+	AddTrigger UseStart UseStart
+	Gosub Main2
+
+exit 1
+
+;-----------------------------------------------
+:UseMe
+;	Bones
+;	overloaded
+;-----------------------------------------
+
+	if nTrig == 0
+		IsTurnBased nTrig
+		if nTrig == 1
+			nTrig = 0
+			RollOverText 19 0
+			wait 30 1 UseMe
+			Exit
+		else
+			nTrig = 0
+		endif
+
+	else
+		IsTurnBased nTrig
+		if nTrig == 1
+			nTrig = 1
+			RollOverText 19 0
+			wait 30 1 UseMe
+			Exit
+		else
+			nTrig = 1
+		endif
+	endif
+	
+	goto UseMe, 1

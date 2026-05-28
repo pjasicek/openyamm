@@ -1,0 +1,101 @@
+;----------------------------------------------
+;writ.scr
+; By Timmy
+; gives the player the writ of Fate (false)
+; and the related key
+; Writ of Fate (false) is item 392
+;
+; edited by Bones 6/12/02, 5/12/03
+; TELP Patch 1.3 -- Writ won't disappear if not picked up.
+; 		Hijacked to fix teleporter doors in Yanmir's Fortress.
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number				Keydata
+
+; flag variables
+#number				Visible = 1
+#number				Solid   = 8192
+#number				Gravity = 131072
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+haskey 100 g_ntemp
+if (g_ntemp==0, )
+	haskey 99 g_ntemp
+	if (g_ntemp==1, )
+		giveitem 392
+		giveexp 162000
+		givekey 100
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		getmyhandle g_hobject
+		removeobject g_hobject 
+		exit
+	endif
+endif
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+Haskey 100 keycheck
+if ( keycheck==1, )
+	getmyhandle g_hobject
+	removeobject g_hobject 
+	exitscript	
+	exit
+endif
+
+getmyhandle g_hobject
+
+Haskey 99 keycheck
+if keycheck==0
+
+clearflag g_hobject, visible
+clearflag g_hobject, solid
+clearflag g_hobject, gravity
+exit
+
+endif
+;-------------------------------------
+:OnInit
+;-------------------------------------
+getmyhandle g_hobject
+setflag g_hobject, visible
+setflag g_hobject, solid
+setflag g_hobject, gravity
+AddTrigger Use, Onuse
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+
+addtrigger init, OnInit
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+
+
+;-------------------------------------
+:Init
+;	overloaded -- Bones
+;-------------------------------------
+
+GetMyHandle g_hMyObject
+GetObjectName g_hMyObject g_sTemp
+if g_sTemp == DoorTeleportLeft
+	SetPropString DoubleDoorName DoorTeleportRight
+	exit
+endif
+
+goto Init 1

@@ -1,0 +1,54 @@
+;----------------------------------------------
+;Integris.scr
+; By Timmy
+; gives the player integris (item 181) for assassin promo
+; Ludwig's RudeID is 47
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+
+Haskey 222 g_ntemp
+if ( g_ntemp==1, )
+
+	Haskey 223 keycheck 
+		if ( keycheck==0,  )
+	
+			givekey, 223 ;gives player finished quest key
+			GiveItem 181
+			GetMyhandle g_hmyobject
+			removeobject g_hmyobject 
+			exit
+
+		endif
+endif
+
+
+
+exit
+
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+Haskey 223 keycheck
+if ( g_ntemp==1, )
+	GetMyhandle g_hmyobject
+	removeobject g_hmyobject 
+	exitscript	
+	exit
+endif
+
+exit

@@ -1,0 +1,761 @@
+format_version: 1
+kind: "mm9_material_aliases"
+source_dat: "mm9/extracted/WORLDS/WORLDS/BEETHOVEN.dat"
+notes:
+  - "ODM face texture names are limited to 10 bytes; aliases preserve editor compatibility."
+stats:
+  source_models: 609
+  source_polies: 15370
+  emitted_faces: 37250
+  skipped_polies: 0
+  triangulated_polies: 13844
+  skipped_degenerate_triangles: 6742
+  source_plane_orientation_flips: 6001
+  clamped_plane_distances: 2
+textures:
+  - alias: "ABNDFOR000"
+    source_texture: "TEXTURES\\LevelTextures\\Doors\\abndfortdoor.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/DOORS/ABNDFORTDOOR.dtx"
+    emitted_bitmap: "ABNDFOR000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 11
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_03.dtx"
+  - alias: "ABNDFOR001"
+    source_texture: "TEXTURES\\LevelTextures\\FloorsWood\\abndfortwoodfloor.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/FLOORSWOOD/ABNDFORTWOODFLOOR.dtx"
+    emitted_bitmap: "ABNDFOR001.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 11
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 90
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_05.dtx"
+  - alias: "BEAMCEI000"
+    source_texture: "TEXTURES\\A1IsleofAshes\\ceilings\\Beamceilng02.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/CEILINGS/BEAMCEILNG02.dtx"
+    emitted_bitmap: "BEAMCEI000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "BLACK"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\black.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/BLACK.dtx"
+    emitted_bitmap: "BLACK.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 19
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "BROWNTRIM"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\brown_trim.dtx"
+    width: 128
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/BROWN_TRIM.dtx"
+    emitted_bitmap: "BROWNTRIM.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "CHAINLI000"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\ChainLink_Copper.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/CHAINLINK_COPPER.dtx"
+    emitted_bitmap: "CHAINLI000.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 8
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 136
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "CLIFF3"
+    source_texture: "TEXTURES\\A1IsleofAshes\\walls\\Cliff 3.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A1ISLEOFASHES/WALLS/CLIFF 3.dtx"
+    emitted_bitmap: "CLIFF3.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DARKCEI000"
+    source_texture: "TEXTURES\\A10Arslegaard\\ceilings\\darkceiling.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A10ARSLEGAARD/CEILINGS/DARKCEILING.dtx"
+    emitted_bitmap: "DARKCEI000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DEFAULT"
+    source_texture: "Default"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "DEFAULT.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "DOOR13"
+    source_texture: "TEXTURES\\LevelTextures\\Doors\\door13.dtx"
+    width: 64
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/DOORS/DOOR13.dtx"
+    emitted_bitmap: "DOOR13.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 10
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_03.dtx"
+  - alias: "DOOR2A"
+    source_texture: "TEXTURES\\LevelTextures\\Doors\\Door 2a.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/DOORS/DOOR 2A.dtx"
+    emitted_bitmap: "DOOR2A.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 11
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_03.dtx"
+  - alias: "DRAGDUN000"
+    source_texture: "TEXTURES\\LevelTextures\\WallsStone\\drag_dung_wall_01.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/WALLSSTONE/DRAG_DUNG_WALL_01.dtx"
+    emitted_bitmap: "DRAGDUN000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_10.dtx"
+  - alias: "FIRETHR000"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\Firethrough.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/FIRETHROUGH.dtx"
+    emitted_bitmap: "FIRETHR000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 18
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "FLOORBR000"
+    source_texture: "TEXTURES\\LevelTextures\\Area1\\Dungeons2\\FloorBricks.dtx"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "FLOORBR000.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "FLOORBR001"
+    source_texture: "TEXTURES\\LevelTextures\\FloorsStone\\FloorBricks3.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/FLOORSSTONE/FLOORBRICKS3.dtx"
+    emitted_bitmap: "FLOORBR001.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_07.dtx"
+  - alias: "FLOORTILEM"
+    source_texture: "TEXTURES\\LevelTextures\\FloorsStone\\floor_tile_m.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/FLOORSSTONE/FLOOR_TILE_M.dtx"
+    emitted_bitmap: "FLOORTILEM.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_07.dtx"
+  - alias: "GRANITE"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\Granite.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/GRANITE.dtx"
+    emitted_bitmap: "GRANITE.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "GRBRPLNKS1"
+    source_texture: "TEXTURES\\LevelTextures\\WallsWood\\GrBrPlnks1.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/WALLSWOOD/GRBRPLNKS1.dtx"
+    emitted_bitmap: "GRBRPLNKS1.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 10
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 90
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_05.dtx"
+  - alias: "GREENSC000"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\greenscreen.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/GREENSCREEN.dtx"
+    emitted_bitmap: "GREENSC000.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "GRILL2"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\Grill2.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/GRILL2.dtx"
+    emitted_bitmap: "GRILL2.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 10
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 136
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "GRILL3"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\Grill3.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/GRILL3.dtx"
+    emitted_bitmap: "GRILL3.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 10
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 136
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "HONKFLOOR4"
+    source_texture: "TEXTURES\\A5Guberland\\floors\\honkfloor4.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A5GUBERLAND/FLOORS/HONKFLOOR4.dtx"
+    emitted_bitmap: "HONKFLOOR4.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "INVISIBLE"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\Invisible.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/INVISIBLE.dtx"
+    emitted_bitmap: "INVISIBLE.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 202
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 1
+    dtx_flags: 265
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "IRON"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\Iron.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/IRON.dtx"
+    emitted_bitmap: "IRON.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 9
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "KEEPSTO000"
+    source_texture: "TEXTURES\\A3Sturmgaard\\floors\\keepstonefloor128a.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A3STURMGAARD/FLOORS/KEEPSTONEFLOOR128A.dtx"
+    emitted_bitmap: "KEEPSTO000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "MARBLES000"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\marblesolid1.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/MARBLESOLID1.dtx"
+    emitted_bitmap: "MARBLES000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_03.dtx"
+  - alias: "METALPL000"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\MetalPlate64.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/METALPLATE64.dtx"
+    emitted_bitmap: "METALPL000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 8
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "PLASTER02A"
+    source_texture: "TEXTURES\\LevelTextures\\WallsPlaster\\Plaster02a.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/WALLSPLASTER/PLASTER02A.dtx"
+    emitted_bitmap: "PLASTER02A.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_10.dtx"
+  - alias: "PRISONW000"
+    source_texture: "TEXTURES\\A4Drangheim\\walls\\prison_wall_01.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A4DRANGHEIM/WALLS/PRISON_WALL_01.dtx"
+    emitted_bitmap: "PRISONW000.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "RAIL"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\rail.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/RAIL.dtx"
+    emitted_bitmap: "RAIL.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "REFINER000"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\refinerysolidrusta.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/REFINERYSOLIDRUSTA.dtx"
+    emitted_bitmap: "REFINER000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 8
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "RUNETRIM"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\runetrim.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/RUNETRIM.dtx"
+    emitted_bitmap: "RUNETRIM.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "SEWERTR000"
+    source_texture: "TEXTURES\\LevelTextures\\WallsCombo\\sewer_trans1.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/WALLSCOMBO/SEWER_TRANS1.dtx"
+    emitted_bitmap: "SEWERTR000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SEWERWA000"
+    source_texture: "TEXTURES\\LevelTextures\\WallsStone\\sewer_wall.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/WALLSSTONE/SEWER_WALL.dtx"
+    emitted_bitmap: "SEWERWA000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_10.dtx"
+  - alias: "SEWERWALL"
+    source_texture: "TEXTURES\\LevelTextures\\WallsPlaster\\sewerwall.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/WALLSPLASTER/SEWERWALL.dtx"
+    emitted_bitmap: "SEWERWALL.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_10.dtx"
+  - alias: "SKULLS"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\skulls.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/SKULLS.dtx"
+    emitted_bitmap: "SKULLS.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SLIME"
+    source_texture: "Sprites\\Water\\slime.spr"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "SLIME.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "SLIME0000"
+    source_texture: "SpriteTextures\\Water\\slime\\slime_0000.dtx"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "SLIME0000.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "STEELLA000"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\steel_ladder_rungs.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/STEEL_LADDER_RUNGS.dtx"
+    emitted_bitmap: "STEELLA000.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 9
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 136
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "STONEOEVIL"
+    source_texture: "TEXTURES\\LevelTextures\\Terrain\\StoneOevil.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TERRAIN/STONEOEVIL.dtx"
+    emitted_bitmap: "STONEOEVIL.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_04.dtx"
+  - alias: "STURMCH000"
+    source_texture: "TEXTURES\\A3Sturmgaard\\misc\\sturmchurchtile128.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A3STURMGAARD/MISC/STURMCHURCHTILE128.dtx"
+    emitted_bitmap: "STURMCH000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "STURMCH001"
+    source_texture: "TEXTURES\\A3Sturmgaard\\misc\\sturmchurchtriangle.dtx"
+    width: 256
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A3STURMGAARD/MISC/STURMCHURCHTRIANGLE.dtx"
+    emitted_bitmap: "STURMCH001.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "STURMCO000"
+    source_texture: "TEXTURES\\A3Sturmgaard\\misc\\sturmcobbles128.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A3STURMGAARD/MISC/STURMCOBBLES128.dtx"
+    emitted_bitmap: "STURMCO000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "STURMPL000"
+    source_texture: "TEXTURES\\A3Sturmgaard\\walls\\sturmplainishwall128.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A3STURMGAARD/WALLS/STURMPLAINISHWALL128.dtx"
+    emitted_bitmap: "STURMPL000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "STURMSE000"
+    source_texture: "TEXTURES\\A3Sturmgaard\\walls\\sturmsewerbricks128.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A3STURMGAARD/WALLS/STURMSEWERBRICKS128.dtx"
+    emitted_bitmap: "STURMSE000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "WATER12000"
+    source_texture: "SpriteTextures\\Water\\water125\\water125_0000.dtx"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "WATER12000.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "WATER125"
+    source_texture: "Sprites\\Water\\water125.spr"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "WATER125.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "WATERMA000"
+    source_texture: "TEXTURES\\LevelTextures\\Terrain\\WaterMarker.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TERRAIN/WATERMARKER.dtx"
+    emitted_bitmap: "WATERMA000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 16
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_04.dtx"
+  - alias: "WEB3"
+    source_texture: "TEXTURES\\A6Frosgaard\\misc\\web3.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A6FROSGAARD/MISC/WEB3.dtx"
+    emitted_bitmap: "WEB3.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 136
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "XEENSTAIRS"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\xeenstairs.dtx"
+    width: 128
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/XEENSTAIRS.dtx"
+    emitted_bitmap: "XEENSTAIRS.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 10
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 136
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""

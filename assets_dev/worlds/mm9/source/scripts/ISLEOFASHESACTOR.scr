@@ -1,0 +1,342 @@
+;------------------------------------------------
+;	IsleOfAshesActor.scr
+;	Jeff Leggett
+;	
+;	Used by scripted actors in IsleOfAshes...
+;
+;------------------------------------------------
+
+#include AIGlobals.inc
+#include BaseTimers.inc
+#include BaseWander.inc
+
+#number			MIN_THROW_TIME = 1.0
+#number			MAX_THROW_DIST = 360
+
+#string			sMyName
+#hobject		hPlayer
+#hobject		hMarker
+
+#number			g_lastThrowTime = 0
+#number			g_bThrowing = 0
+
+
+
+;------------------------------------------------
+:FacingJeff
+;------------------------------------------------
+	GetObjectHandle Jeff,g_hObject
+	Trigger g_hObject,GoThrowBones
+
+	GetPlayerHandle g_hTarget
+	Target g_hTarget, TRUE
+
+	; now we wait for the signal...
+
+	Exit
+
+;------------------------------------------------
+:DoBoneThrow
+;
+;	Throw the bone object here...
+;
+;------------------------------------------------
+#string		sSkull
+#number		boneNbr = 0
+#number		lastBoneThrow = 0
+
+	GetTime g_nTemp
+
+	Sub g_nTemp,lastBoneThrow
+
+	if ( g_nTemp < 0.35 )
+		exit
+	endif
+
+	GetTime lastBoneThrow
+
+	sSkull = TheBone + boneNbr
+
+	if ( boneNbr==0 )
+		boneNbr = 1
+	else
+		boneNbr = 0
+	endif
+
+	GetObjectHandle sSkull,g_hObject
+	
+	if ( g_hObject==NULL )
+		Exit
+	Endif
+	
+	GetSocketPos RHand1,g_posX,g_posY,g_posZ
+	SetPos g_hObject,g_posX,g_posY,g_posZ
+	
+	Trigger g_hObject,ThrowAtPlayer	
+
+	Wait ATTACK_CHECK_WAIT,MIN_THROW_TIME,ThrowBoneCheck
+
+	Exit TRUE
+
+
+;------------------------------------------------
+:OnPropLauncherDone
+;------------------------------------------------
+	g_bThrowing = false
+
+	Exit
+
+:ThrowBoneCheck
+;	traceON
+	gosub ThrowBoneCheck2
+	traceOFF
+	exit
+
+;------------------------------------------------
+:ThrowBoneCheck2
+;------------------------------------------------
+
+
+	Wait ATTACK_CHECK_WAIT,0.4,ThrowBoneCheck
+
+	if ( g_bThrowing==TRUE )
+		Exit
+	Endif
+
+	AIGetDistance g_hMyObject,hPlayer,g_nDist1
+
+	if ( g_nDist1 > MAX_THROW_DIST )
+		Exit
+	Endif
+
+	GetPlayerHandle hPlayer
+	IsClearShot hPlayer, g_bTemp, g_hObject
+
+	if ( g_bTemp==FALSE )
+		Exit
+	Endif
+
+;;	g_bThrowing = TRUE
+
+	RangeAttack
+
+;;	Wait 28,0.4,OnPropLauncherDone
+
+	Exit
+
+
+;------------------------------------------------
+:AtBoneThrowMarker
+;
+;	Trigger the other 2 skeletoids to go after
+;	player.
+;
+;------------------------------------------------
+
+	Stop
+
+	GetPlayerHandle hPlayer
+	Target hPlayer,TRUE
+
+;
+;	JSL--> Now that we are the new SkullThrower
+;		   Object, we no longer need to use the
+;			PropLauncher stuff.  Just run the
+;			BaseRange script..
+;
+	SetPropNumber RangeAttackType,2
+	RunScript BaseRange.Scr
+
+	Exit
+
+	AddModelKey Rattack,DoBoneThrow
+
+	Wait ATTACK_CHECK_WAIT,0.25,ThrowBoneCheck
+
+	Exit
+
+;------------------------------------------------
+:TemporaryHack
+;------------------------------------------------
+
+	GetObjectHandle BoneThrowMarker,g_hObject
+
+	Stop
+	GetPos g_hObject,g_posX,g_posY,g_posZ
+	SetPos g_hMyObject,g_posX,g_posY,g_posZ
+
+	gosub AtBoneThrowMarker
+
+	Exit
+
+;------------------------------------------------
+:GoThrowBones
+;------------------------------------------------
+	
+	RemoveTrigger GoThrowBones
+
+	GetObjectHandle BoneThrowMarker,g_hObject
+	if ( g_hObject==NULL )
+		exit
+	endif
+
+	RunTo g_hObject,0,AtBoneThrowMarker
+
+	; remove when ramp has been smoothed out..
+;;;;	Wait 25,2,TemporaryHack
+
+	Exit
+
+;------------------------------------------------
+:GoAfterPlayer
+;------------------------------------------------
+	GetPlayerHandle g_hTarget
+	Target g_hTarget,TRUE
+	gosub RunNormalScript
+	Exit	
+
+;------------------------------------------------
+:RunNormalScript
+;------------------------------------------------
+;	GetPlayerHandle g_hTarget
+;	Target g_hTarget,TRUE
+
+	Stop
+
+	SetStat g_hMyObject,WalkRunMode,WALKRUNMODE_FORWARD
+	GetStatStr g_hMyObject,ScriptName,g_sTemp
+
+	RunScript g_sTemp
+
+	Exit
+
+;------------------------------------------------
+:OnLostTarget
+;------------------------------------------------
+	exit TRUE
+
+;------------------------------------------------
+:MacAtRunAwaySpot
+;------------------------------------------------
+	Stop
+
+	; Don't need this callback now...
+	OnDeath
+
+	gosub DoMacTriggers
+
+	GetFaceDir hMarker, g_dirX,g_dirY,g_dirZ
+	FaceDir g_dirX, 0, g_dirZ, 360, RunNormalScript
+	
+	Exit TRUE
+
+;------------------------------------------------
+:DoMacTriggers
+;------------------------------------------------
+	GetObjectHandle Jeff,g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject,GoThrowBones
+	Endif
+
+	GetObjectHandle JK,g_hObject
+	if ( g_hObject!=NULL )
+		Trigger g_hObject,GetPlayer
+	endif
+
+	exit
+
+;------------------------------------------------
+:OnMacDeath
+;------------------------------------------------
+	gosub DoMacTriggers
+	
+	Exit
+	
+
+;------------------------------------------------
+:MacTauntDone
+;------------------------------------------------
+	SetStat g_hMyObject,WalkRunMode,WALKRUNMODE_FORWARD
+
+	Stop
+
+	GetObjectHandle MacRunAwaySpot,hMarker
+	RunTo hMarker,50,MacAtRunAwaySpot
+	Exit
+
+;------------------------------------------------
+:OnMacFoundPlayer
+;------------------------------------------------
+	OnFoundPlayer
+	OnDamage
+	RemoveTrigger MacRunAway
+
+	GetObjectHandle MacRunAwaySpot,hMarker
+
+	GetPlayerHandle hPlayer
+
+	Target hPlayer, TRUE
+
+	SetStat g_hMyObject,WalkRunMode,WALKRUNMODE_TARGET
+
+	gosub BaseWanderStop
+	bWanderDisabled	= TRUE
+
+	Stop
+
+	WalkTo hMarker,50,MacAtRunAwaySpot
+	BlendAnim Taunt
+
+
+	Wait 29,1,MacTauntDone
+
+	exit TRUE
+
+;------------------------------------------------
+:JeffFoundPlayer
+;------------------------------------------------
+	OnFoundPlayer
+	OnAlert
+	OnDamage
+
+	gosub GoThrowBones
+	exit TRUE
+
+;------------------------------------------------
+:CacheFiles
+;------------------------------------------------
+	CacheScript BaseRange.Scr
+	Exit
+
+;------------------------------------------------
+:Main
+;------------------------------------------------
+	GetMyHandle g_hMyObject
+	GetObjectName g_hMyObject,sMyName
+
+	AddTrigger RunNormalScript,RunNormalScript
+
+	OnLostTarget OnLostTarget
+
+	if ( sMyName==Mac )
+		OnDamage OnMacFoundPlayer
+		OnFoundPlayer OnMacFoundPlayer
+		OnDeath OnMacDeath
+		AddTrigger MacRunAway,OnMacFoundPlayer
+		AddTrigger GoAfterPlayer,GoAfterPlayer
+		gosub BaseWanderInit
+	Endif
+
+	if ( sMyName==Jeff )
+		AddTrigger GoThrowBones,GoThrowBones
+;;		AddTrigger PropLauncherDone,OnPropLauncherDone
+		HidePiece DaggerMagic
+		OnFoundPlayer JeffFoundPlayer
+		OnAlert JeffFoundPlayer
+		OnDamage JeffFoundPlayer
+		OnCacheFiles CacheFiles
+		GetStat g_hMyObject,SightDistance,g_nTemp
+		SetPropNumber HearingRange,g_nTemp
+	Endif
+
+	Exit

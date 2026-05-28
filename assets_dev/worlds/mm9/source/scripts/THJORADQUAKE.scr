@@ -1,0 +1,71 @@
+;---------------------------------
+;	ThjoradQuake.scr
+;	by SJR
+;	Purpose:quakes
+;---------------------------------
+#include BaseGlobals.inc
+
+#hobject	hPlayer = 0
+#number		nTemp = 0
+
+#hobject	hMe = 0
+#number		xMe = 0
+#number		yMe = 0
+#number		zMe = 0
+
+;---------------------------------
+:Main
+;---------------------------------
+	GetMyHandle hMe
+
+	SetPropNumber InnerRadius,		0
+	SetPropNumber OuterRadius,		1000
+	SetPropNumber InnerDamage,		0
+	SetPropNumber DecayRate,		1
+
+	SetPropNumber QuakeDuration,	0
+	SetPropNumber ShakeAmount,		0
+
+	SetPropNumber NeedsTick,		1
+
+	gosub ExecuteQuakeLoop
+
+	Exit TRUE
+
+;---------------------------------
+:RandomizeValues
+;---------------------------------
+	GetRandomInt 3, 8, nTemp
+	SetPropNumber QuakeDuration,	nTemp
+	GetRandomInt 2, 5, nTemp
+	SetPropNumber ShakeAmount,		nTemp
+
+	Exit TRUE
+
+;---------------------------------
+:ExecuteQuakeLoop
+;---------------------------------
+	gosub RandomizeValues
+	gosub ExecuteQuake
+
+	GetRandomInt 300, 600, nTemp
+
+	Wait 0, nTemp, ExecuteQuakeLoop
+
+	Exit TRUE
+
+;---------------------------------
+:ExecuteQuake
+;---------------------------------
+	if( hPlayer==0 )
+		GetPlayerHandle hPlayer
+	endif
+
+	if( hPlayer!=0 )
+		GetPOS hPlayer, xMe, yMe, zMe
+		SetPOS hMe, xMe, yMe, zMe
+	endif
+
+	Trigger hMe, trigger
+
+	Exit TRUE

@@ -1,0 +1,249 @@
+;----------------------------------------------
+;Bjarni.scr
+; By Timmy
+; gives the player reward for all of Bjarni's quest madness.
+; and the related key
+; Bjarni's RudeID is 45
+; Love Letter is item 247
+;
+; edited by Bones 03/25/03
+; TELP Patch 1.3 -- delays Bjarni's return 
+;----------------------------------------------
+
+#include globals.inc 
+#include United.inc
+
+#number                         KeyCheck
+#number							Keydata
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+;promo variables
+
+
+#number			bVanish
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+loopanim Sit 0 DoNothing
+haskey 40 g_ntemp
+if (g_ntemp==TRUE)
+	set bVanish TRUE
+	gosub vanish
+endif
+
+haskey 108 g_ntemp
+if (g_ntemp==TRUE)
+	set bVanish False
+	gosub Vanish
+endif
+exit
+
+
+	
+;-------------------------------------
+:Vanish
+;-------------------------------------
+
+getmyhandle g_hobject
+
+if (bVanish==TRUE)
+	clearflag g_hobject, visible
+	clearflag g_hobject, solid
+	clearflag g_hobject, gravity
+	exit
+else
+	setflag g_hobject, visible
+	setflag g_hobject, solid
+	setflag g_hobject, gravity
+	exit
+endif
+
+exit
+
+;-------------------------------------
+:OnRude
+;-------------------------------------
+
+gosub ivsar
+gosub loveletter
+gosub loveletter2
+gosub anskram
+gosub united
+
+exit
+
+
+
+
+;-------------------------------------
+:Ivsar
+;-------------------------------------
+;*************
+; Ivsar quest
+;*************
+Haskey 117, keycheck
+if (keycheck==0, )
+; checks to see if they already have got the reward.
+	Haskey 21, g_ntemp
+	if (g_ntemp==1, )
+	; checks to see if they've rescued Ivsar
+		GiveKey 117
+		GiveExp 42000
+		Givegold 3500
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		; gives reward
+		getobjecthandle Ivsar g_hobject
+		trigger g_hobject stop
+
+		exit
+	endif
+endif
+
+exit
+
+;End Ivsar quest
+;***************
+
+;-------------------------------------
+:Loveletter
+;-------------------------------------
+;************
+; Love Letter quest
+;*************
+
+;................
+;Gives love letter
+
+Haskey 22 Keycheck
+If (Keycheck==1, )
+	Haskey 150 Keycheck
+	If (keycheck==0, )
+		GiveItem 247 
+		Givekey 150
+		Exit
+	Endif 
+Endif
+
+
+;-------------------------------------
+:loveletter2
+;-------------------------------------
+
+;...........
+;give reward for love letter
+
+Haskey 24 keycheck
+if (keycheck==1, )
+	Haskey 151 keycheck
+	if (keycheck==0, )
+		GiveExp 15200
+		givegold 2000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		givekey 151
+		exit
+	endif
+endif
+
+Haskey 25 keycheck
+if (keycheck==1, )
+	Haskey 151 keycheck
+	if (keycheck==0, )
+		GiveExp 15200
+		givegold 2000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		givekey 151
+		exit
+	endif
+endif
+	
+
+exit
+;End Loveletter Quest
+;*******************
+
+
+;-------------------------------------
+:Anskram
+;-------------------------------------
+
+;************
+; Anskram Keep quest
+;*************
+
+Haskey 149, keycheck
+if (keycheck==TRUE, )
+	exit
+endif
+
+
+; checks to see if they already have got the reward.
+	Haskey 41, g_ntemp
+	if (g_ntemp==TRUE, )
+	; checks to see if they've cleared Anskram
+		GiveKey 149
+		GiveExp 20000
+		Givegold 3000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		; gives reward
+		exit
+	endif
+
+
+; End Anskram Keep Quest
+;**********************
+
+exit
+
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+hasitem 380 g_ntemp
+if (g_ntemp==TRUE)
+	haskey 214 g_ntemp
+	if (g_ntemp==TRUE)
+		givekey 215
+	endif
+endif
+ 
+
+hasitem 591 g_ntemp
+if (g_ntemp==TRUE)
+	haskey 214 g_ntemp
+	if (g_ntemp==TRUE)
+		givekey 215
+	endif
+endif
+
+Playsound voices\NPC\NPC_045.wav, Onexit, 100, 240, FALSE, 100
+Gosub OnCheck
+
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+LoopAnim listen, 0 Onexit
+Set Jarl, Bjarni
+Gosub UnitedInit
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit

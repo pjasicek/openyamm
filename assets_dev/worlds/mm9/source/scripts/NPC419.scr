@@ -1,0 +1,131 @@
+;--------------------------------------------------
+;NPC419.scr
+; timmy
+; handles Aymril Banito voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#number		nKeycheck
+
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+;traceon
+
+haskey 5004 g_ntemp
+if (g_ntemp==1)
+	givekey 5005
+	wait 1 1 StartUnlock
+;	goto unlock
+	exit
+else
+	;CALL GUARDS
+	Gosub Call
+	traceoff
+	exit
+endif
+
+exit
+
+;-------------------------------------
+:StartUnlock
+;-------------------------------------
+
+	getobjecthandle CookMarker g_hobject
+	walkto g_hobject 32 Unlock
+	exit
+
+;-------------------------------------
+:Unlock
+;-------------------------------------
+
+
+getobjecthandle Celldoor29 g_hobject
+trigger g_hobject unlock
+wait 1 1 walkaway
+
+;-------------------------------------
+:WalkAway
+;-------------------------------------
+
+getobjecthandle CookMarker0 g_hobject
+walkto g_hobject 32 DoNothing
+exit
+
+;-------------------------------------
+:Call
+;-------------------------------------
+
+givekey 5006
+
+
+	Getobjecthandle Help1 g_hobject
+	trigger g_hobject help
+
+	Getobjecthandle Help2 g_hobject
+	trigger g_hobject help
+
+	Getobjecthandle Help3 g_hobject
+	trigger g_hobject help
+exit
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:DoRude
+;-------------------------------------
+
+STOP
+DoRude 419
+exit
+
+;-------------------------------------
+:OnTarget
+;-------------------------------------
+
+getparam 0 g_hplayer
+target g_hplayer
+OnTargetWithinDist 16 DoRude
+haskey 5004 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+haskey 5006 g_btemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+Walkto g_hplayer 8 DoNothing
+exit
+
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+OnFoundPlayer OnTarget 256
+haskey 5005 g_ntemp
+if (g_ntemp==1)
+	getobjecthandle Celldoor29 g_hobject
+	trigger g_hobject unlock
+else
+	getobjecthandle Celldoor29 g_hobject
+	trigger g_hobject lock
+	exit
+endif
+
+exit
+

@@ -1,0 +1,65 @@
+;----------------------------------------------
+;Capstone.scr
+; By Timmy
+; gives the player the Capstone of Order
+; and the related key
+; Igrid's RudeID is 338
+; capstone is item 396
+;
+;
+;NOTE:  The final quest has changed, so you don't need to get
+;		the capstone a second time to lure Njam into tomb
+;
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+#number		Xpos
+#number		Ypos
+#number		Zpos
+
+#number		MyX
+#number		MyY
+#Number		MyZ
+
+;-------------------------------------
+:OnMove
+;-------------------------------------
+
+GetmyHandle g_hMyobject
+setflag g_hmyobject, visible
+getpos g_hMyobject MyX MyY MyZ
+Getobjecthandle BoatMarker g_hobject
+getpos g_hobject Xpos Ypos Zpos
+MoveToPos xpos MyY Zpos 100 DoNothing
+
+exit
+;-------------------------------------
+:placed2
+;-------------------------------------
+
+getmyHandle g_hmyobject
+clearflag g_hmyobject, visible
+exit
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+
+
+;TraceOn ;DELETE ME!!
+Addtrigger Move, OnMove
+
+gosub placed2
+exit

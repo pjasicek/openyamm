@@ -1,0 +1,101 @@
+;------------------------------------------------
+;	ThronHeimCity_Guard.scr
+;	Jeff Leggett
+;	12/19/2001
+;
+;
+;	These guards in ThronHeimCity are setup to 
+;	respawn after their deaths so they can
+;	eventually go kill "BadAss"...
+;
+;------------------------------------------------
+
+#include PoliceMan.inc
+
+#hobject			hBadAss = 0
+
+
+;------------------------------------------------
+:GetBadAss
+;------------------------------------------------
+
+	GetObjectHandle BadAss,hBadAss
+
+	if ( hBadAss==NULL )
+		exit
+	endif
+
+	g_hTarget	= hBadAss
+
+	gosub SetupTarget
+	gosub AggressiveStart
+
+	Exit
+
+;------------------------------------------------
+:OnDeath
+;------------------------------------------------
+	GetObjectHandle GuardSpawn0,g_hObject
+	Trigger g_hObject,Default
+	Exit	
+
+;------------------------------------------------
+:GotoSleep
+;------------------------------------------------
+	LoopAnim Sleep,0
+	OnFoundTarget
+	Exit
+
+;------------------------------------------------
+:OpenEyes
+;------------------------------------------------
+	OnFoundTarget OnFoundTarget
+	Exit
+
+;------------------------------------------------
+:OnDamage
+;
+;	Don't take our minds off our target...
+;
+;------------------------------------------------
+
+	GetTarget g_hObject
+
+	if ( g_hObject==NULL )
+		goto OnDamage,2
+	else
+		goto OnDamage,1
+	endif
+
+
+	Exit
+
+;------------------------------------------------
+:Main
+;------------------------------------------------
+
+	gosub PoliceManInit
+	AddTrigger ComeGetMe,GetBadAss
+	AddTrigger OpenEyes,OpenEyes
+
+	AddFriend Honk
+	
+	SetStat g_hMyObject,GaveTreasure,TRUE
+
+	GetParam 0,g_sTemp
+
+	if ( g_sTemp==GetBadAss )
+		Wait 1,0.1,GetBadAss
+	else
+		gosub DisableWandering
+		Wait 1,0.1,GotoSleep
+	Endif
+
+	OnDeath OnDeath
+
+	GetObjectName g_hMyObject,g_sTemp
+	if ( g_sTemp==Guard2 )
+		debugout g_sTemp
+	endif
+
+	Exit

@@ -1,0 +1,51 @@
+schema: openyamm.model3d.v1
+id: transfusion
+model: transfusion.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/SPELLS/TRANSFUSION.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: d_waterwalk
+  materialIndex: 0
+  lods:
+  - faces: 180
+    vertices: 97
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: d_waterwalk
+    parent: null
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: baseAnim
+  durationMs: 800
+  keyframes: 13
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: baseAnim
+  extents:
+  - 227.84
+  - 227.84
+  - 7.68
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/spells/transfusion.abc

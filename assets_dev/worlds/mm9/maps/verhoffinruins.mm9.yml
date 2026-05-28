@@ -1,0 +1,51 @@
+format_version: 1
+kind: "mm9_indoor_source_metadata"
+source:
+  source_kind: "mm9_dat"
+  source_dat: "mm9/extracted/WORLDS/WORLDS/VERHOFFINRUINS.dat"
+  coordinate_scale: 2.56
+target:
+  classification: "indoor_like"
+  strategy: "sectorized_blv_prototype"
+  geometry_file: "verhoffinruins.blv"
+  scene_file: "verhoffinruins.scene.yml"
+  source_glb: "verhoffinruins.source.glb"
+  geometry_metadata: "verhoffinruins.geometry.yml"
+  bsp_diagnostics: "verhoffinruins.bsp.yml"
+  bitmap_alias_dir: "assets_dev/worlds/mm9/textures"
+source_world_models: 379
+source_objects: 661
+layout:
+  sector_mode: "leaf_grid"
+  grid_size: 4
+  visbsp_leaves: 971
+  visbsp_leaf_polygon_entries: 6394
+  valid_leaf_polygon_refs: 6394
+  matched_leaf_polygon_refs: 6388
+  invalid_leaf_model_refs: 0
+  invalid_leaf_poly_refs: 0
+  leaves_with_geometry: 971
+  unassigned_source_triangles: 12996
+  source_triangles: 26789
+  rooms: 15
+  portals: 33
+  synthetic_bridge_portals: 14
+  dat_user_portals: 17
+  dat_user_portals_emitted: 17
+  dat_user_portals_skipped: 0
+  dat_user_portal_duplicate_pairs: 0
+  synthetic_portals_replaced_by_dat_user_portals: 5
+stats:
+  source_models: 379
+  source_polies: 10275
+  emitted_faces: 26789
+  skipped_polies: 0
+  triangulated_polies: 9633
+  skipped_degenerate_triangles: 6266
+  source_plane_orientation_flips: 4784
+  clamped_plane_distances: 0
+  source_glb_vertices: 30231
+  source_glb_triangles: 26855
+  source_glb_materials: 56
+  source_glb_rooms: 15
+  source_glb_portals: 33

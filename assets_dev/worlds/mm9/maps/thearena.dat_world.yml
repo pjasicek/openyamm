@@ -1,0 +1,2224 @@
+format_version: 1
+kind: mm9_dat_world
+map_id: thearena
+source_dat: ../source/worlds/THEARENA.dat
+original_source_dat: mm9/extracted/WORLDS/WORLDS/THEARENA.dat
+source_hash: f876571468d0e00c721e9d2c423b5e315449eb691e0e06947ce70948616af380
+dat_version: 66
+coordinate_system:
+  source: lithtech_mm9
+  openyamm_mapping:
+  - x
+  - z
+  - y
+  scale: 2.56
+world_info:
+  property_string: PBlockSize 2048 ; LMGridSize 32; MaxLMSize 32; Ambientlight 60 60 60
+  light_map_grid_size: 32.0
+  extents_min_lt:
+  - -1152.0
+  - -64.0
+  - -1536.0
+  extents_max_lt:
+  - 1152.0
+  - 656.0
+  - 1152.0
+classification:
+  recommendation: indoor_like
+  confidence: medium
+  reason: not terrain-dominated and already imported through the BLV/BSP path
+totals:
+  world_model_count: 27
+  object_count: 132
+  source_poly_count: 1935
+  surface_count: 1845
+  user_portal_count: 0
+  leaf_count: 132
+  leaf_reference_count: 1653
+  invalid_leaf_reference_count: 0
+world_models:
+- source_model_index: 0
+  source_name: RotatingDoor0
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 81
+    texture_count: 2
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -64.0
+      - 0.0
+      - -604.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -64.0
+    - 0.0
+    - -604.0
+    max:
+    - 0.0
+    - 128.0
+    - -596.0
+  world_translation_lt:
+  - -32.0
+  - 64.0
+  - -600.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\A2Thjorgaard\doors\arenadoor.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Doors\Door1.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    8: 4
+    10: 2
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 1
+  source_name: RotatingDoor1
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 81
+    texture_count: 2
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -0.0
+      - 0.0
+      - -604.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -0.0
+    - 0.0
+    - -604.0
+    max:
+    - 64.0
+    - 128.0
+    - -596.0
+  world_translation_lt:
+  - 32.0
+  - 64.0
+  - -600.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\A2Thjorgaard\doors\arenadoor.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Doors\Door1.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    8: 4
+    10: 2
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 2
+  source_name: RotatingDoor2
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 81
+    texture_count: 2
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -608.0
+      - 0.0
+      - -80.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -608.0
+    - 0.0
+    - -80.0
+    max:
+    - -600.0
+    - 160.0
+    - 0.0
+  world_translation_lt:
+  - -604.0
+  - 80.0
+  - -40.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\A2Thjorgaard\doors\arenadoor.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Doors\Door1.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    8: 4
+    10: 2
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 3
+  source_name: RotatingDoor3
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 81
+    texture_count: 2
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -608.0
+      - 0.0
+      - -0.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -608.0
+    - 0.0
+    - -0.0
+    max:
+    - -600.0
+    - 160.0
+    - 80.0
+  world_translation_lt:
+  - -604.0
+  - 80.0
+  - 40.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\A2Thjorgaard\doors\arenadoor.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Doors\Door1.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    8: 4
+    10: 2
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 4
+  source_name: RotatingDoor4
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 81
+    texture_count: 2
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - 600.0
+      - 0.0
+      - -0.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - 600.0
+    - 0.0
+    - -0.0
+    max:
+    - 608.0
+    - 160.0
+    - 80.0
+  world_translation_lt:
+  - 604.0
+  - 80.0
+  - 40.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\A2Thjorgaard\doors\arenadoor.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Doors\Door1.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    8: 4
+    10: 2
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 5
+  source_name: RotatingDoor5
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 81
+    texture_count: 2
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - 600.0
+      - 0.0
+      - -80.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - 600.0
+    - 0.0
+    - -80.0
+    max:
+    - 608.0
+    - 160.0
+    - 0.0
+  world_translation_lt:
+  - 604.0
+  - 80.0
+  - -40.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\A2Thjorgaard\doors\arenadoor.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Doors\Door1.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    8: 4
+    10: 2
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 6
+  source_name: WorldObject1
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 86
+    texture_count: 2
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 5
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -253.00003051757812
+      - 384.0
+      - 591.0000610351562
+    record_count: 1
+  bounds_lt:
+    min:
+    - -253.00003051757812
+    - 384.0
+    - 591.0000610351562
+    max:
+    - 253.00003051757812
+    - 385.0
+    - 848.0
+  world_translation_lt:
+  - 0.0
+  - 384.5
+  - 719.5
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\A2Thjorgaard\misc\arenafabric1.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Misc\Invisible.dtx
+  surface_flag_histogram:
+    4233: 5
+    4237: 1
+  texture_user_flag_histogram:
+    19: 5
+    202: 1
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 7
+  source_name: WorldObject0
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 64
+  plane_count: 20
+  surface_count: 32
+  poly_count: 40
+  leaf_count: 0
+  node_count: 48
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 160
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 83
+    texture_count: 2
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 19
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 12
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 2
+    - 1
+    - 2
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -1120.0
+      - 528.0
+      - -1120.0
+    record_count: 4
+  bounds_lt:
+    min:
+    - -1120.0
+    - 528.0
+    - -1120.0
+    max:
+    - 1120.0
+    - 656.0
+    - 1120.0
+  world_translation_lt:
+  - 0.0
+  - 592.0
+  - 0.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\Invisible.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\A2Thjorgaard\walls\arenatop.dtx
+  surface_flag_histogram:
+    4225: 8
+    4229: 24
+  texture_user_flag_histogram:
+    12: 8
+    202: 24
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 8
+  source_name: WorldObject2
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 20
+  plane_count: 9
+  surface_count: 16
+  poly_count: 16
+  leaf_count: 0
+  node_count: 16
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 64
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 87
+    texture_count: 2
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 7
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 3
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -112.0
+      - 52.0
+      - -1404.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -112.0
+    - 52.0
+    - -1404.0
+    max:
+    - -110.0
+    - 124.0
+    - -1284.0
+  world_translation_lt:
+  - -111.0
+  - 88.0
+  - -1344.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\Invisible.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Misc\MetalBarGrey.dtx
+  surface_flag_histogram:
+    4233: 3
+    4237: 13
+  texture_user_flag_histogram:
+    9: 3
+    202: 13
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 9
+  source_name: InvisibleBrush0
+  world_info_flags: 2
+  kind: volume
+  point_count: 48
+  plane_count: 25
+  surface_count: 36
+  poly_count: 36
+  leaf_count: 0
+  node_count: 42
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 144
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 42
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 10
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 0
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -848.0
+      - 320.0
+      - -848.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -848.0
+    - 320.0
+    - -848.0
+    max:
+    - 848.0
+    - 656.0
+    - 864.0
+  world_translation_lt:
+  - 0.0
+  - 488.0
+  - 8.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\Invisible.dtx
+  surface_flag_histogram:
+    4229: 36
+  texture_user_flag_histogram:
+    202: 36
+  roles:
+    visible: false
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: true
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 10
+  source_name: InvisibleBrush1
+  world_info_flags: 2
+  kind: volume
+  point_count: 16
+  plane_count: 10
+  surface_count: 12
+  poly_count: 12
+  leaf_count: 0
+  node_count: 12
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 48
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 42
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 7
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 0
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -253.0
+      - 224.0
+      - 590.9999389648438
+    record_count: 1
+  bounds_lt:
+    min:
+    - -253.0
+    - 224.0
+    - 590.9999389648438
+    max:
+    - 253.0
+    - 336.0
+    - 848.0
+  world_translation_lt:
+  - 0.0
+  - 280.0
+  - 719.5
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\Invisible.dtx
+  surface_flag_histogram:
+    4229: 12
+  texture_user_flag_histogram:
+    202: 12
+  roles:
+    visible: false
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: true
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 11
+  source_name: WorldObject3
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 256
+  plane_count: 58
+  surface_count: 168
+  poly_count: 192
+  leaf_count: 0
+  node_count: 384
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 768
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 174
+    texture_count: 4
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 22
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 48
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 2
+    - 1
+    - 2
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -1104.0
+      - 360.0
+      - -1104.0
+    record_count: 4
+  bounds_lt:
+    min:
+    - -1104.0
+    - 360.0
+    - -1104.0
+    max:
+    - 1104.0
+    - 488.0
+    - 1104.0
+  world_translation_lt:
+  - 0.0
+  - 424.0
+  - 0.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\Invisible.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\A2Thjorgaard\misc\arenapeople3.dtx
+  - texture_index: 2
+    source_texture: TEXTURES\A2Thjorgaard\misc\arenapeople1.dtx
+  - texture_index: 3
+    source_texture: TEXTURES\A2Thjorgaard\misc\arenapeople2.dtx
+  surface_flag_histogram:
+    4265: 36
+    4269: 132
+  texture_user_flag_histogram:
+    0: 36
+    202: 132
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 12
+  source_name: AIRail0
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 26
+  plane_count: 10
+  surface_count: 10
+  poly_count: 14
+  leaf_count: 0
+  node_count: 14
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 64
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 37
+    texture_count: 1
+  root_node_index: 10
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 10
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 14
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -592.0
+      - -0.0
+      - -592.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -592.0
+    - -0.0
+    - -592.0
+    max:
+    - 592.0
+    - 16.0
+    - 592.0
+  world_translation_lt:
+  - 0.0
+  - 8.0
+  - 0.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\rail.dtx
+  surface_flag_histogram:
+    4225: 10
+  texture_user_flag_histogram:
+    0: 10
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 13
+  source_name: AIRail1
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 37
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -768.0
+      - -0.0
+      - -80.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -768.0
+    - -0.0
+    - -80.0
+    max:
+    - -592.0
+    - 16.0
+    - 80.0
+  world_translation_lt:
+  - -680.0
+  - 8.0
+  - 0.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\rail.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    0: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 14
+  source_name: AIRail2
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 37
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - 592.0
+      - -0.0
+      - -80.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - 592.0
+    - -0.0
+    - -80.0
+    max:
+    - 768.0
+    - 16.0
+    - 80.0
+  world_translation_lt:
+  - 680.0
+  - 8.0
+  - 0.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\rail.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    0: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 15
+  source_name: AITrk3
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 37
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -256.0
+      - 192.0
+      - 864.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -256.0
+    - 192.0
+    - 864.0
+    max:
+    - -48.0
+    - 208.0
+    - 1024.0
+  world_translation_lt:
+  - -152.0
+  - 200.0
+  - 944.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\rail.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    0: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 16
+  source_name: AITrk4
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 37
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -48.0
+      - 192.0
+      - 896.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -48.0
+    - 192.0
+    - 896.0
+    max:
+    - 48.0
+    - 208.0
+    - 1024.0
+  world_translation_lt:
+  - 0.0
+  - 200.0
+  - 960.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\rail.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    0: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 17
+  source_name: AITrk5
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 37
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - 48.0
+      - 192.0
+      - 864.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - 48.0
+    - 192.0
+    - 864.0
+    max:
+    - 256.0
+    - 208.0
+    - 1024.0
+  world_translation_lt:
+  - 152.0
+  - 200.0
+  - 944.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\rail.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    0: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 18
+  source_name: AITrk6
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 37
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -48.0
+      - 192.0
+      - 832.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -48.0
+    - 192.0
+    - 832.0
+    max:
+    - 48.0
+    - 208.0
+    - 896.0
+  world_translation_lt:
+  - 0.0
+  - 200.0
+  - 864.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\rail.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    0: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 19
+  source_name: AITrk7
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 37
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -48.0
+      - 192.0
+      - 752.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -48.0
+    - 192.0
+    - 752.0
+    max:
+    - 48.0
+    - 208.0
+    - 832.0
+  world_translation_lt:
+  - 0.0
+  - 200.0
+  - 792.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\rail.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    0: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 20
+  source_name: AITrk8
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 37
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - 48.0
+      - 192.0
+      - 752.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - 48.0
+    - 192.0
+    - 752.0
+    max:
+    - 240.0
+    - 208.0
+    - 848.0
+  world_translation_lt:
+  - 144.0
+  - 200.0
+  - 800.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\rail.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    0: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 21
+  source_name: AITrk11
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 37
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -240.0
+      - 192.0
+      - 608.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -240.0
+    - 192.0
+    - 608.0
+    max:
+    - 240.0
+    - 208.0
+    - 752.0
+  world_translation_lt:
+  - 0.0
+  - 200.0
+  - 680.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\rail.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    0: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 22
+  source_name: AITrk12
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 37
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -240.0
+      - 192.0
+      - 752.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - -240.0
+    - 192.0
+    - 752.0
+    max:
+    - -48.0
+    - 208.0
+    - 848.0
+  world_translation_lt:
+  - -144.0
+  - 200.0
+  - 800.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Misc\rail.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    0: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 23
+  source_name: SkyBox0
+  world_info_flags: 2
+  kind: sky
+  point_count: 43
+  plane_count: 12
+  surface_count: 12
+  poly_count: 12
+  leaf_count: 0
+  node_count: 19
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 48
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 277
+    texture_count: 8
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 10
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 0
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - 4224.0
+      - -896.0001220703125
+      - -4224.00048828125
+    record_count: 1
+  bounds_lt:
+    min:
+    - 4224.0
+    - -896.0001220703125
+    - -4224.00048828125
+    max:
+    - 4480.00048828125
+    - -639.9998779296875
+    - -3967.999755859375
+  world_translation_lt:
+  - 4352.0
+  - -768.0
+  - -4096.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\Skybox\SnowMtns_Up.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Invisible.dtx
+  - texture_index: 2
+    source_texture: TEXTURES\Skybox\SnowMtns_E.dtx
+  - texture_index: 3
+    source_texture: TEXTURES\Skybox\SnowMtns_S.dtx
+  - texture_index: 4
+    source_texture: TEXTURES\Skybox\SnowMtns_W.dtx
+  - texture_index: 5
+    source_texture: TEXTURES\Skybox\SnowMtns_Down.dtx
+  - texture_index: 6
+    source_texture: TEXTURES\ENVIRONMENTMAPS\MountainSky\MTN_Down.dtx
+  - texture_index: 7
+    source_texture: TEXTURES\Skybox\SnowMtns_N.dtx
+  surface_flag_histogram:
+    289: 7
+    293: 5
+  texture_user_flag_histogram:
+    0: 6
+    17: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: true
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 24
+  source_name: TOD_Sky0
+  world_info_flags: 2
+  kind: sky
+  point_count: 44
+  plane_count: 12
+  surface_count: 12
+  poly_count: 12
+  leaf_count: 0
+  node_count: 12
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 48
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 72
+    texture_count: 2
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 11
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - 4238.0
+      - -882.0001220703125
+      - -4210.00048828125
+    record_count: 1
+  bounds_lt:
+    min:
+    - 4238.0
+    - -882.0001220703125
+    - -4210.00048828125
+    max:
+    - 4466.00048828125
+    - -653.9998779296875
+    - -3982.0
+  world_translation_lt:
+  - 4352.0
+  - -768.0
+  - -4096.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\Skybox\starfield.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Misc\Invisible.dtx
+  surface_flag_histogram:
+    4265: 6
+    4269: 6
+  texture_user_flag_histogram:
+    0: 6
+    202: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: true
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 25
+  source_name: PhysicsBSP
+  world_info_flags: 20
+  kind: physics_bsp
+  point_count: 1771
+  plane_count: 356
+  surface_count: 1061
+  poly_count: 1100
+  leaf_count: 0
+  node_count: 2431
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 4376
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 673
+    texture_count: 16
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 46
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 1039
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 2
+    - 1
+    - 2
+    bounds_lt:
+      min:
+      - 2048.0
+      - 2048.0
+      - 2048.0
+      max:
+      - -1152.0
+      - -64.0
+      - -1536.0
+    record_count: 4
+  bounds_lt:
+    min:
+    - -1152.0
+    - -64.0
+    - -1536.0
+    max:
+    - 1152.0
+    - 656.0
+    - 1152.0
+  world_translation_lt:
+  - 0.0
+  - 296.0
+  - -192.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\A2Thjorgaard\floors\arenafloor.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\A2Thjorgaard\misc\arenastair.dtx
+  - texture_index: 2
+    source_texture: TEXTURES\A2Thjorgaard\walls\arenahall.dtx
+  - texture_index: 3
+    source_texture: TEXTURES\LevelTextures\Terrain\DIRT2.dtx
+  - texture_index: 4
+    source_texture: TEXTURES\A2Thjorgaard\walls\arenatop.dtx
+  - texture_index: 5
+    source_texture: TEXTURES\A2Thjorgaard\walls\arenawall.dtx
+  - texture_index: 6
+    source_texture: TEXTURES\A2Thjorgaard\misc\arenabox.dtx
+  - texture_index: 7
+    source_texture: TEXTURES\A2Thjorgaard\doors\arenadoor2.dtx
+  - texture_index: 8
+    source_texture: TEXTURES\LevelTextures\WallsPlaster\brown_wall.dtx
+  - texture_index: 9
+    source_texture: TEXTURES\A2Thjorgaard\doors\arenadoor.dtx
+  - texture_index: 10
+    source_texture: TEXTURES\A2Thjorgaard\walls\arenadark.dtx
+  - texture_index: 11
+    source_texture: TEXTURES\LevelTextures\Misc\benchwood.dtx
+  - texture_index: 12
+    source_texture: TEXTURES\Skybox\SkyMarker.dtx
+  - texture_index: 13
+    source_texture: TEXTURES\A2Thjorgaard\misc\arenafabric1.dtx
+  - texture_index: 14
+    source_texture: TEXTURES\LevelTextures\Misc\marblesolid1.dtx
+  - texture_index: 15
+    source_texture: TEXTURES\LevelTextures\Misc\soundonly.dtx
+  surface_flag_histogram:
+    261: 46
+    273: 9
+    4225: 1000
+    4229: 6
+  texture_user_flag_histogram:
+    0: 128
+    10: 23
+    12: 840
+    13: 1
+    17: 9
+    19: 8
+    20: 52
+  roles:
+    visible: false
+    terrain: false
+    physics_bsp: true
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: false
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 26
+  source_name: VisBSP
+  world_info_flags: 32
+  kind: vis_bsp
+  point_count: 669
+  plane_count: 140
+  surface_count: 384
+  poly_count: 399
+  leaf_count: 132
+  node_count: 638
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 1567
+    total_vis_list_size: 6512
+    leaf_list_count: 111
+    texture_name_length: 503
+    texture_count: 12
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 36
+    world_bsp_unknown_value_2: 1653
+    world_bsp_unknown_value_3: 0
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 0
+    - 0
+    - 0
+    bounds_lt:
+      min:
+      - 0.0
+      - 0.0
+      - 0.0
+      max:
+      - 0.0
+      - 0.0
+      - 0.0
+    record_count: 0
+  bounds_lt:
+    min:
+    - -1152.0
+    - -64.0
+    - -1536.0
+    max:
+    - 1152.0
+    - 656.0
+    - 1152.0
+  world_translation_lt:
+  - 0.0
+  - 0.0
+  - 0.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\A2Thjorgaard\floors\arenafloor.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\A2Thjorgaard\misc\arenastair.dtx
+  - texture_index: 2
+    source_texture: TEXTURES\A2Thjorgaard\walls\arenahall.dtx
+  - texture_index: 3
+    source_texture: TEXTURES\LevelTextures\Terrain\DIRT2.dtx
+  - texture_index: 4
+    source_texture: TEXTURES\A2Thjorgaard\walls\arenatop.dtx
+  - texture_index: 5
+    source_texture: TEXTURES\A2Thjorgaard\walls\arenawall.dtx
+  - texture_index: 6
+    source_texture: TEXTURES\LevelTextures\WallsPlaster\brown_wall.dtx
+  - texture_index: 7
+    source_texture: TEXTURES\A2Thjorgaard\misc\arenabox.dtx
+  - texture_index: 8
+    source_texture: TEXTURES\A2Thjorgaard\doors\arenadoor2.dtx
+  - texture_index: 9
+    source_texture: TEXTURES\A2Thjorgaard\doors\arenadoor.dtx
+  - texture_index: 10
+    source_texture: TEXTURES\Skybox\SkyMarker.dtx
+  - texture_index: 11
+    source_texture: TEXTURES\LevelTextures\Misc\marblesolid1.dtx
+  surface_flag_histogram:
+    273: 9
+    4225: 375
+  texture_user_flag_histogram:
+    0: 20
+    10: 2
+    12: 352
+    13: 1
+    17: 9
+  roles:
+    visible: false
+    terrain: false
+    physics_bsp: false
+    vis_bsp: true
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: false
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+user_portals: []
+leaf_references:
+  decode: world_model_index_low16_poly_index_high16
+  total_refs: 1653
+  invalid_refs: 0
+validation:
+  parse_status: ok
+  unknown_field_policy: preserved_in_source_dat
+  pblock_summary_status: summary_decoded_records_preserved_in_source_dat

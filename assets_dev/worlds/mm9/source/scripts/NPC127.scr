@@ -1,0 +1,227 @@
+;--------------------------------------------------
+;NPC127.scr
+; timmy
+; handles Markel the Great voice and quest stuff
+;
+; edited by Bones 03/25/03
+; TELP Patch 1.3 -- delays Markel's return 
+;--------------------------------------------------
+
+#include globals.inc
+#include United.inc
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+#number			bVanish
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+loopanim Sit 0 DoNothing
+haskey 40 g_ntemp
+if (g_ntemp==TRUE)
+	set bVanish TRUE
+	gosub vanish
+endif
+
+haskey 108 g_ntemp
+if (g_ntemp==TRUE)
+	set bVanish False
+	gosub Vanish
+endif
+exit
+
+
+	
+;-------------------------------------
+:Vanish
+;-------------------------------------
+
+getmyhandle g_hobject
+
+if (bVanish==TRUE)
+	clearflag g_hobject, visible
+	clearflag g_hobject, solid
+	clearflag g_hobject, gravity
+	exit
+else
+	setflag g_hobject, visible
+	setflag g_hobject, solid
+	setflag g_hobject, gravity
+	exit
+endif
+
+exit
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub BookofRules
+gosub Ivan
+gosub dook
+gosub united
+exit
+
+
+;--------------------------------------------------
+:Bookofrules
+;--------------------------------------------------
+;****************
+;book of Rules Quest
+;****************
+
+
+Haskey 167, keycheck
+if (keycheck==0, )
+; checks to see if they already have got the reward.
+	Haskey 61, g_ntemp
+	if (g_ntemp==1, )
+	; checks to see if they've Beat Ivan the Smart
+		GiveKey 167
+		GiveExp 10000
+		GiveGold 3000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		TakeItem 391
+		; gives reward
+
+		exit
+	endif
+endif
+
+exit
+
+
+;End Book of rules quest
+;******************
+exit
+
+
+;--------------------------------------------------
+:Ivan
+;--------------------------------------------------
+;****************
+;Ivan the smart Quest
+;****************
+
+Haskey 165, keycheck
+if (keycheck==0, )
+; checks to see if they already have got the reward.
+	Haskey 62, g_ntemp
+	if (g_ntemp==1, )
+	; checks to see if they've Beat Ivan the Smart
+		GiveKey 165
+		GiveExp 26000
+		GiveGold 3000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		TakeItem 400
+		; gives reward
+
+		exit
+	endif
+endif
+
+exit
+
+
+;End Ivan the smart Quest
+;******************
+exit
+
+
+;--------------------------------------------------
+:Dook
+;--------------------------------------------------
+;****************
+;Dook Quest
+;****************
+
+Haskey 168, keycheck
+if (keycheck==0, )
+; checks to see if they already have got the reward.
+	Haskey 66, g_ntemp
+	if (g_ntemp==1, )
+	; checks to see if they've Beat the Dook
+		GiveKey 168
+		GiveExp 40000
+		GiveGold 3000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		; gives reward
+
+		exit
+	endif
+endif
+
+exit
+
+
+;End Dook Quest
+;******************
+exit
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Gosub Oncheck
+GetRandomInt 1, 4, g_ntemp
+
+if (g_ntemp==1, )
+	Playsound voices\NPC\NPC_127.wav, Onexit, 100, 240, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==2, )
+	Playsound voices\NPC\NPC_127.wav, Onexit, 100, 240, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==3, )
+	Playsound voices\NPC\NPC_127.wav, Onexit, 100, 240, FALSE, 100
+	exit
+endif
+
+if (g_ntemp==4, )
+	Playsound voices\NPC\NPC_127b.wav, Onexit, 100, 240, FALSE, 100
+	exit
+endif
+
+
+
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+Set Jarl, Markel
+Gosub UnitedInit
+gosub Init
+exit
+

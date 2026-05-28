@@ -1,0 +1,121 @@
+;----------------------------------------------
+;arg_Yrsa.inc
+; By Timmy
+; 11/16
+; spawns Yrsa when she's supposed to appear
+;
+; edited by Bones 7/16/02
+; TELP Patch 1.3 -- Makes dialog with Yrsa unavoidable.
+;----------------------------------------------
+
+#include globals.inc 
+#include basemelee.inc
+
+
+#number							nHPRange
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;-------------------------------------
+:OnAppear
+;-------------------------------------
+
+wait 1 5 Appear2
+exit
+
+;-------------------------------------
+:Appear2
+;-------------------------------------
+Getmyhandle g_hmyobject
+DoClientFX g_hMyObject,GreaterDemon
+Playsound \Sounds\magic\Windup10.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 2 Appear2b
+exit
+
+;--------------------------------------------------
+:Appear2b
+;--------------------------------------------------
+
+; play appear effect here
+Playsound \Sounds\spells\TownPortal.wav, DoNothing, 100, 24000, FALSE, 100
+setflag g_hmyobject visible
+playanim fidget1 DoRude
+exit
+
+;--------------------------------------------------
+:DoRude
+;--------------------------------------------------
+
+;shouldn't be needed
+givekey 93	
+
+getplayerhandle g_hplayer
+target g_hplayer
+Playsound voices\NPC\NPC_001.wav, DoNothing, 100, 24000, FALSE, 100
+DoRude 1
+exit
+
+;-------------------------------------
+:OnRude
+; this is for Yrsa after the arguement
+;-------------------------------------
+
+Haskey 185 g_ntemp
+if (G_ntemp==0, )
+	Haskey 93 g_ntemp
+	if (g_ntemp==1, )
+		;this is where Forad is removed from the party
+;		GiveExp 16000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		givekey 185
+		wait 1 1 Vanish
+		exit
+	endif
+endif
+
+DoRude 1
+
+exit
+
+
+;-------------------------------------
+:Vanish
+;-------------------------------------
+getmyhandle g_hmyobject
+
+; play vanish effect here
+DoClientFX g_hmyObject,GreaterDemon
+Playsound \Sounds\magic\Windup10.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 Vanish2b
+exit
+
+;-------------------------------------
+:Vanish2b
+;-------------------------------------
+
+clearflag g_hmyobject visible
+Playsound \Sounds\magic\teleport.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 Vanish2c
+exit
+
+
+;-------------------------------------
+:Vanish2c
+;-------------------------------------
+removeobject g_hmyobject
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;traceon
+addtrigger Appear OnAppear
+OnRudeExit OnRude
+exit

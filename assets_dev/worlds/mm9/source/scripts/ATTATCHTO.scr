@@ -1,0 +1,28 @@
+;---------------------------------------------
+;	AttatchTo.scr
+;	
+;	Handles attatching props to Monsters
+;---------------------------------------------
+
+#include baseMelee.inc
+#include range.inc
+
+
+;---------------------------------------------
+:Target
+;---------------------------------------------
+
+getplayerhandle g_hplayer
+target g_hplayer
+exit
+
+;---------------------------------------------
+:Main
+;---------------------------------------------
+
+	Gosub Target
+	gosub baseinit
+;	gosub RangeInit
+
+	Exit
+

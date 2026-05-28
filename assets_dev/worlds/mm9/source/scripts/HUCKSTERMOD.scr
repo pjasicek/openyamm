@@ -1,0 +1,60 @@
+;----------------------------------------------
+;	HucksterMod.scr
+;	by SJR
+;	Purpose:sells tickets, explains games
+;----------------------------------------------
+#include ThjorgardGamesCommon.inc
+
+#number		nTemp = 0
+
+#number		bGuberland = 0
+
+;-------------------------------------
+:OnRudeExit
+;looks to see if they want to play a game (key 1001)
+; and takes their gold and gives them the ticket
+;-------------------------------------
+	HasKey 1001, nTemp
+	if( nTemp==1 )
+		TakeKey 1001
+		gosub SellGameTicket
+	else
+		HasKey 1010, nTemp
+		if( nTemp==1 )
+			TakeKey 1010
+			gosub SellBatchTickets
+		endif
+	endif
+
+	Exit 0
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	OnCacheFiles CacheFiles
+
+	;;register map win type
+	GetParam 0, bGuberland
+	if( bGuberland==1 )
+		SetConsoleNumVar GUBERLAND_WIN_TYPE, 1
+	else
+		SetConsoleNumVar GUBERLAND_WIN_TYPE, 0
+	endif
+
+	gosub VoiceInit
+
+	OnRudeExit OnRudeExit
+
+	Exit 1
+
+;-------------------------------------
+:CacheFiles
+;-------------------------------------
+	CacheSound "sounds\events\dingbell.wav"
+	CacheSound "sounds\events\gold01.wav"
+	CacheSound "sounds\events\quest.wav"
+	CacheSound "sounds\door\doorlock01.wav"
+	CacheSound "sounds\events\trumpets02.wav"
+	CacheSound "sounds\spells\bless.wav"
+
+	Exit 1

@@ -1,0 +1,1218 @@
+schema: openyamm.model3d.v1
+id: nosferatu
+model: nosferatu.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/NOSFERATU.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 4.023306898564917e+25
+pieces:
+- name: vampiresB
+  materialIndex: 0
+  lods:
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB Footsteps
+  materialIndex: 0
+  lods:
+  - faces: 8
+    vertices: 9
+  - faces: 8
+    vertices: 9
+  - faces: 8
+    vertices: 9
+- name: vampiresB Pelvis
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 12
+    vertices: 8
+  - faces: 12
+    vertices: 8
+- name: vampiresB Spine
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 16
+  - faces: 24
+    vertices: 16
+  - faces: 12
+    vertices: 10
+- name: vampiresB Spine1
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 16
+  - faces: 24
+    vertices: 16
+  - faces: 8
+    vertices: 8
+- name: vampiresB Spine2
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 16
+  - faces: 22
+    vertices: 15
+  - faces: 8
+    vertices: 8
+- name: vampiresB Neck
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+- name: vampiresB Head
+  materialIndex: 0
+  lods:
+  - faces: 70
+    vertices: 37
+  - faces: 42
+    vertices: 23
+  - faces: 16
+    vertices: 10
+- name: vampiresB L Clavicle
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB L UpperArm
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 16
+  - faces: 24
+    vertices: 14
+  - faces: 14
+    vertices: 9
+- name: vampiresB L Forearm
+  materialIndex: 0
+  lods:
+  - faces: 20
+    vertices: 12
+  - faces: 20
+    vertices: 12
+  - faces: 12
+    vertices: 8
+- name: vampiresB L Hand
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB L Finger0
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB L Finger01
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB L Finger1
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB L Finger11
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB L Finger2
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB L Finger21
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB L Finger3
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB L Finger31
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB L Finger4
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB L Finger41
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB R Clavicle
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB R UpperArm
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 16
+  - faces: 24
+    vertices: 14
+  - faces: 14
+    vertices: 9
+- name: vampiresB R Forearm
+  materialIndex: 0
+  lods:
+  - faces: 20
+    vertices: 12
+  - faces: 20
+    vertices: 12
+  - faces: 12
+    vertices: 8
+- name: vampiresB R Hand
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB R Finger0
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB R Finger01
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB R Finger1
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB R Finger11
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB R Finger2
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB R Finger21
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB R Finger3
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB R Finger31
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB R Finger4
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB R Finger41
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB L Thigh
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 16
+  - faces: 28
+    vertices: 16
+  - faces: 28
+    vertices: 16
+- name: vampiresB L Calf
+  materialIndex: 0
+  lods:
+  - faces: 20
+    vertices: 12
+  - faces: 20
+    vertices: 12
+  - faces: 20
+    vertices: 12
+- name: vampiresB L Foot
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+- name: vampiresB L Toe0
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB R Thigh
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 16
+  - faces: 28
+    vertices: 16
+  - faces: 28
+    vertices: 16
+- name: vampiresB R Calf
+  materialIndex: 0
+  lods:
+  - faces: 20
+    vertices: 12
+  - faces: 20
+    vertices: 12
+  - faces: 20
+    vertices: 12
+- name: vampiresB R Foot
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+- name: vampiresB R Toe0
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: vampiresB Tail
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 12
+    vertices: 8
+  - faces: 12
+    vertices: 8
+- name: vampiresB Tail1
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 12
+    vertices: 8
+  - faces: 12
+    vertices: 8
+- name: Sphere05b
+  materialIndex: 0
+  lods:
+  - faces: 570
+    vertices: 293
+  - faces: 386
+    vertices: 201
+  - faces: 176
+    vertices: 96
+materials:
+- index: 0
+  texture: skins_preview/nosferatu1.png
+  runtime_texture: skins/nosferatu1.dtx
+  preview_texture: skins_preview/nosferatu1.png
+  source: mm9/extracted/SKINS/SKINS/NOSFERATU1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: vampiresB
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 3
+  - index: 2
+    name: vampiresB Footsteps
+    parent: 1
+    flags: 3
+    children: []
+  - index: 3
+    name: vampiresB Pelvis
+    parent: 1
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: vampiresB Spine
+    parent: 3
+    flags: 1
+    children:
+    - 5
+    - 37
+    - 41
+    - 45
+  - index: 5
+    name: vampiresB Spine1
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: vampiresB Spine2
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: vampiresB Neck
+    parent: 6
+    flags: 1
+    children:
+    - 8
+    - 9
+    - 23
+  - index: 8
+    name: vampiresB Head
+    parent: 7
+    flags: 1
+    children: []
+  - index: 9
+    name: vampiresB L Clavicle
+    parent: 7
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: vampiresB L UpperArm
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: vampiresB L Forearm
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: vampiresB L Hand
+    parent: 11
+    flags: 1
+    children:
+    - 13
+    - 15
+    - 17
+    - 19
+    - 21
+  - index: 13
+    name: vampiresB L Finger0
+    parent: 12
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: vampiresB L Finger01
+    parent: 13
+    flags: 1
+    children: []
+  - index: 15
+    name: vampiresB L Finger1
+    parent: 12
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: vampiresB L Finger11
+    parent: 15
+    flags: 1
+    children: []
+  - index: 17
+    name: vampiresB L Finger2
+    parent: 12
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: vampiresB L Finger21
+    parent: 17
+    flags: 1
+    children: []
+  - index: 19
+    name: vampiresB L Finger3
+    parent: 12
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: vampiresB L Finger31
+    parent: 19
+    flags: 1
+    children: []
+  - index: 21
+    name: vampiresB L Finger4
+    parent: 12
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: vampiresB L Finger41
+    parent: 21
+    flags: 1
+    children: []
+  - index: 23
+    name: vampiresB R Clavicle
+    parent: 7
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: vampiresB R UpperArm
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: vampiresB R Forearm
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: vampiresB R Hand
+    parent: 25
+    flags: 1
+    children:
+    - 27
+    - 29
+    - 31
+    - 33
+    - 35
+  - index: 27
+    name: vampiresB R Finger0
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: vampiresB R Finger01
+    parent: 27
+    flags: 1
+    children: []
+  - index: 29
+    name: vampiresB R Finger1
+    parent: 26
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: vampiresB R Finger11
+    parent: 29
+    flags: 1
+    children: []
+  - index: 31
+    name: vampiresB R Finger2
+    parent: 26
+    flags: 1
+    children:
+    - 32
+  - index: 32
+    name: vampiresB R Finger21
+    parent: 31
+    flags: 1
+    children: []
+  - index: 33
+    name: vampiresB R Finger3
+    parent: 26
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: vampiresB R Finger31
+    parent: 33
+    flags: 1
+    children: []
+  - index: 35
+    name: vampiresB R Finger4
+    parent: 26
+    flags: 1
+    children:
+    - 36
+  - index: 36
+    name: vampiresB R Finger41
+    parent: 35
+    flags: 1
+    children: []
+  - index: 37
+    name: vampiresB L Thigh
+    parent: 4
+    flags: 1
+    children:
+    - 38
+  - index: 38
+    name: vampiresB L Calf
+    parent: 37
+    flags: 1
+    children:
+    - 39
+  - index: 39
+    name: vampiresB L Foot
+    parent: 38
+    flags: 1
+    children:
+    - 40
+  - index: 40
+    name: vampiresB L Toe0
+    parent: 39
+    flags: 1
+    children: []
+  - index: 41
+    name: vampiresB R Thigh
+    parent: 4
+    flags: 1
+    children:
+    - 42
+  - index: 42
+    name: vampiresB R Calf
+    parent: 41
+    flags: 1
+    children:
+    - 43
+  - index: 43
+    name: vampiresB R Foot
+    parent: 42
+    flags: 1
+    children:
+    - 44
+  - index: 44
+    name: vampiresB R Toe0
+    parent: 43
+    flags: 1
+    children: []
+  - index: 45
+    name: vampiresB Tail
+    parent: 4
+    flags: 1
+    children:
+    - 46
+  - index: 46
+    name: vampiresB Tail1
+    parent: 45
+    flags: 1
+    children: []
+sockets:
+- name: RangeAttack
+  node: 12
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.40372714400291443
+  - 0.40236908197402954
+  - -0.5821417570114136
+  - 0.5798400640487671
+- name: LHand1
+  node: 12
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.40372714400291443
+  - 0.40236908197402954
+  - -0.5821417570114136
+  - 0.5798400640487671
+- name: RHand1
+  node: 26
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.4023694097995758
+  - 0.40372636914253235
+  - -0.5798394083976746
+  - 0.5821425914764404
+- name: RightHand
+  node: 26
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.4023694097995758
+  - 0.40372636914253235
+  - -0.5798394083976746
+  - 0.5821425914764404
+- name: LeftHand
+  node: 12
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.40372714400291443
+  - 0.40236908197402954
+  - -0.5821417570114136
+  - 0.5798400640487671
+animations:
+- name: static_model
+  durationMs: 1
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand
+  durationMs: 1333
+  keyframes: 6
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 1333
+  keyframes: 17
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 100
+    event: footstep
+  - timeMs: 683
+    event: footstep
+- name: fidget1
+  durationMs: 1500
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 87
+    event: playanimsound
+  - timeMs: 441
+    event: speakanimsound
+- name: fidget2
+  durationMs: 2516
+  keyframes: 50
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 200
+    event: speakanimsound
+- name: Hattack1
+  durationMs: 1050
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 100
+    event: speakanimsound; lunge
+  - timeMs: 300
+    event: playsoundFX
+  - timeMs: 333
+    event: Rattack
+  - timeMs: 766
+    event: Lattack
+- name: RAttack1
+  durationMs: 2016
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 266
+    event: DoFX 1 1
+  - timeMs: 666
+    event: RangeAttack; speakanimsound
+  - timeMs: 1333
+    event: EndFX
+- name: wince1
+  durationMs: 867
+  keyframes: 17
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: EndFX
+  - timeMs: 144
+    event: speakanimsound
+- name: wince2
+  durationMs: 1133
+  keyframes: 23
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: EndFX
+  - timeMs: 133
+    event: speakanimsound
+- name: die1
+  durationMs: 2016
+  keyframes: 23
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound; Velocity -2  4 -4; EndFX
+  - timeMs: 133
+    event: speakanimsound; Velocity -2  4 -4
+  - timeMs: 266
+    event: Velocity -2  3 -4
+  - timeMs: 333
+    event: Velocity -1  2 -3
+  - timeMs: 400
+    event: Velocity  1  6 -2
+  - timeMs: 533
+    event: Velocity  1  6  0
+  - timeMs: 666
+    event: Velocity -1  4 -6
+  - timeMs: 800
+    event: Velocity -2  7 -8
+  - timeMs: 833
+    event: Velocity -2  6 -10
+  - timeMs: 933
+    event: Velocity -1  1 -12
+  - timeMs: 1000
+    event: Velocity -3  8 -18
+  - timeMs: 1066
+    event: Velocity  2  15 -21
+  - timeMs: 1166
+    event: Velocity -4  26 -18
+  - timeMs: 1200
+    event: Velocity -6  26 -14
+  - timeMs: 1333
+    event: Velocity -4  15 -6; playdeathsound
+  - timeMs: 1466
+    event: Velocity -3  8 -2
+  - timeMs: 1500
+    event: Velocity -3  2 -2
+  - timeMs: 1600
+    event: Velocity -2  2 -2
+  - timeMs: 1666
+    event: Velocity -2  6 -2
+  - timeMs: 1733
+    event: Velocity -2  5 -4
+  - timeMs: 1833
+    event: Velocity -2  6 -10
+  - timeMs: 2016
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: die2
+  durationMs: 1500
+  keyframes: 32
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0  9 -12; EndFX
+  - timeMs: 49
+    event: speakanimsound
+  - timeMs: 99
+    event: Velocity  0  9 -13
+  - timeMs: 198
+    event: Velocity  0  9 -11
+  - timeMs: 248
+    event: Velocity  0  10 -8
+  - timeMs: 298
+    event: Velocity  0  11 -6
+  - timeMs: 421
+    event: Velocity  0  11 -4
+  - timeMs: 496
+    event: Velocity  0  10 -4
+  - timeMs: 595
+    event: Velocity  0  8 -4; playdeathsound
+  - timeMs: 670
+    event: Velocity  0  1 -4
+  - timeMs: 744
+    event: Velocity  0  4 -4
+  - timeMs: 843
+    event: Velocity  0  5 -4
+  - timeMs: 917
+    event: Velocity  0  3 -3
+  - timeMs: 992
+    event: Velocity  0  0 -1
+  - timeMs: 1091
+    event: Velocity  0  0 -1
+  - timeMs: 1141
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: Backpedal
+  durationMs: 1333
+  keyframes: 17
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 650
+    event: footstep
+  - timeMs: 1233
+    event: footstep
+- name: Run
+  durationMs: 700
+  keyframes: 17
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 53
+    event: footstep
+  - timeMs: 359
+    event: footstep
+- name: BackpedalRun
+  durationMs: 700
+  keyframes: 17
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 341
+    event: footstep
+  - timeMs: 647
+    event: footstep
+- name: Taunt
+  durationMs: 1000
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 294
+    event: speakanimsound
+- name: ResurrectSpell
+  durationMs: 2016
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 200
+    event: DoFX 2 1
+  - timeMs: 533
+    event: speakanimsound
+  - timeMs: 666
+    event: DoResurrection
+  - timeMs: 1366
+    event: EndFX
+- name: resurrect
+  durationMs: 1600
+  keyframes: 34
+  interpolationTimeMs: 0
+  events:
+  - timeMs: 90
+    event: speakanimsound
+animationBindings:
+- name: static_model
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - -5.12
+  - -87.04
+  - 0.0
+- name: stand
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - -5.12
+  - -87.04
+  - 0.0
+- name: walk
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: fidget1
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - -5.12
+  - -87.04
+  - 0.0
+- name: fidget2
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - -5.12
+  - -87.04
+  - 0.0
+- name: Hattack1
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - -5.12
+  - -87.04
+  - 0.0
+- name: RAttack1
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - -5.12
+  - -87.04
+  - -2.56
+- name: wince1
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - -5.12
+  - -87.04
+  - 0.0
+- name: wince2
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - -5.12
+  - -87.04
+  - 0.0
+- name: die1
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - 0.0
+  - -87.04
+  - 0.0
+- name: die2
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - 0.0
+  - -87.04
+  - 0.0
+- name: Backpedal
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: Run
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: BackpedalRun
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - 0.0
+  - -87.04
+  - -10.24
+- name: Taunt
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - -5.12
+  - -87.04
+  - 0.0
+- name: ResurrectSpell
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - 0.0
+  - -87.04
+  - 0.0
+- name: resurrect
+  extents:
+  - 30.72
+  - 84.48
+  - 30.72
+  origin:
+  - 0.0
+  - -84.48
+  - 0.0
+roles:
+- actor_model
+source_model: models/nosferatu.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: nosferatu_nosferatu
+  source_skins: []
+  actor_rows:
+  - table: ACTOR
+    row: 187
+    number: '195'
+    monster_name: Bloodsucker
+    type_picture: Vampire A
+    base_name: Nosferatu
+  - table: ACTOR
+    row: 188
+    number: '196'
+    monster_name: Annelid
+    type_picture: Vampire B
+    base_name: Nosferatu
+  - table: ACTOR
+    row: 189
+    number: '197'
+    monster_name: Vampir
+    type_picture: Vampire C
+    base_name: Nosferatu
+- id: nosferatu_nosferatu1
+  source_skins:
+  - skins/nosferatu1.dtx
+  actor_rows:
+  - table: MONSTERS
+    row: 187
+    number: '195'
+    monster_name: Bloodsucker
+    type_picture: Vampire A
+    base_name: Nosferatu
+- id: nosferatu_nosferatu2
+  source_skins:
+  - skins/nosferatu2.dtx
+  actor_rows:
+  - table: MONSTERS
+    row: 188
+    number: '196'
+    monster_name: Annelid
+    type_picture: Vampire B
+    base_name: Nosferatu
+- id: nosferatu_nosferatu3
+  source_skins:
+  - skins/nosferatu3.dtx
+  actor_rows:
+  - table: MONSTERS
+    row: 189
+    number: '197'
+    monster_name: Vampir
+    type_picture: Vampire C
+    base_name: Nosferatu

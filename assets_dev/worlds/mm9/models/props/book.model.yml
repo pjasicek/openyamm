@@ -1,0 +1,310 @@
+schema: openyamm.model3d.v1
+id: book
+model: book.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/BOOK.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: RigthCover
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: d_RightPages
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 16
+  - faces: 28
+    vertices: 16
+  - faces: 16
+    vertices: 10
+- name: d_RightPage
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 16
+  - faces: 16
+    vertices: 10
+  - faces: 14
+    vertices: 9
+- name: LeftCover
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: d_LeftPages
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 16
+  - faces: 28
+    vertices: 16
+  - faces: 16
+    vertices: 10
+- name: d_LeftPage
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 16
+  - faces: 16
+    vertices: 10
+  - faces: 16
+    vertices: 10
+- name: Spine
+  materialIndex: 0
+  lods:
+  - faces: 36
+    vertices: 20
+  - faces: 26
+    vertices: 15
+  - faces: 8
+    vertices: 6
+materials:
+- index: 0
+  texture: skins_preview/props/book.png
+  runtime_texture: skins/props/book.dtx
+  preview_texture: skins_preview/props/book.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/BOOK.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 12
+  - index: 1
+    name: Bone21
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 7
+  - index: 2
+    name: Dummy05
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Bone11
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bone13
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bone14
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Bone15
+    parent: 5
+    flags: 1
+    children: []
+  - index: 7
+    name: Bone06
+    parent: 1
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Bone07
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bone08
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bone09
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bone10
+    parent: 10
+    flags: 1
+    children: []
+  - index: 12
+    name: Bone23
+    parent: 0
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bone25
+    parent: 12
+    flags: 1
+    children:
+    - 14
+    - 19
+  - index: 14
+    name: Dummy07
+    parent: 13
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bone16
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bone17
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bone18
+    parent: 16
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Bone19
+    parent: 17
+    flags: 1
+    children: []
+  - index: 19
+    name: Bone01
+    parent: 13
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Bone02
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bone03
+    parent: 20
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Bone04
+    parent: 21
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bone05
+    parent: 22
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: STATIC_MODEL
+  durationMs: 66
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: OpenBook
+  durationMs: 1033
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: TurnPage
+  durationMs: 1033
+  keyframes: 5
+  interpolationTimeMs: 200
+  events: []
+- name: TurnBack
+  durationMs: 1033
+  keyframes: 5
+  interpolationTimeMs: 200
+  events: []
+- name: CloseBook
+  durationMs: 1033
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: STATIC_MODEL
+  extents:
+  - 33.28
+  - 3.84
+  - 23.04
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: OpenBook
+  extents:
+  - 33.28
+  - 3.84
+  - 23.04
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: TurnPage
+  extents:
+  - 33.28
+  - 3.84
+  - 23.04
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: TurnBack
+  extents:
+  - 33.28
+  - 3.84
+  - 23.04
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: CloseBook
+  extents:
+  - 33.28
+  - 3.84
+  - 23.04
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/book.abc

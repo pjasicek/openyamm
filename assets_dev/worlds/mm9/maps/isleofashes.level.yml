@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: isleofashes
+display_name: Isle of Ashes
+source:
+  dat: ../source/worlds/ISLEOFASHES.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/ISLEOFASHES.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 29c5202c43e4d1d29bb992535491e92751c34f67fabd481cecd5c7c92e7ddbbe
+runtime:
+  world_backend: dat_world
+  classification: outdoor_like
+  classification_confidence: high
+  visibility: dat_spatial
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: isleofashes.dat_world.yml
+  raw_objects: isleofashes.raw_objects.yml
+  materials: isleofashes.material_aliases.yml
+  events: isleofashes.events.yml
+  scene_compat: isleofashes.scene.yml
+  source_metadata_compat: isleofashes.mm9.yml
+  bsp_compat: null
+  geometry_compat: null
+  model_assets_compat: isleofashes.model_assets.yml
+  odm_compat: isleofashes.odm
+  blv_compat: null
+scripts:
+  level: ../events/isleofashes.lua
+  script_ir: ../events/isleofashes.script_ir.yml
+compatibility:
+  legacy_target_format: odm
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

@@ -1,0 +1,59 @@
+;--------------------------------------------------
+;TH_Chandelier.scr
+;1/29
+; timmy
+; Breaks the chain in Training Hall
+
+;--------------------------------------------------
+
+#include globals.inc
+
+
+; Parameters
+;P0 Item number of item to give
+
+
+;--------------------------------------------------
+
+
+;--------------------------------------------------
+:OnStart
+;--------------------------------------------------
+
+Playsound sounds\events\WoodCreak1.wav, DoNothing, 100, 2400, FALSE, 100
+wait 1 1 Break
+;wait 2 5 Creak
+;wait 3 10 Creak
+exit
+
+
+
+;--------------------------------------------------
+:Creak
+;--------------------------------------------------
+
+Playsound sounds\events\WoodCreak1.wav, DoNothing, 100, 2400, FALSE, 100
+exit
+;--------------------------------------------------
+:Break
+;--------------------------------------------------
+
+Playsound sounds\events\crate_smash.wav, DoNothing, 100, 2400, FALSE, 100
+getobjecthandle DestructableBrush6 g_hobject
+trigger g_hobject destroy
+exit
+
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Start OnStart
+
+
+exit
+
+

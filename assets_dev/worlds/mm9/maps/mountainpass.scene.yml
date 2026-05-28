@@ -1,0 +1,3061 @@
+format_version: 1
+kind: outdoor_scene
+source:
+  geometry_file: mountainpass.odm
+  source_metadata_file: mountainpass.mm9.yml
+runtime_restrictions:
+  allow_save_game: false
+  allow_lloyds_beacon: false
+  arena: false
+environment:
+  sky_texture: plansky1
+  ground_tileset_name: planset
+  master_tile: 0
+  tile_set_lookup_indices:
+  - 0
+  - 0
+  - 0
+  - 0
+  day_bits_raw: 0
+  map_extra_bits_raw: 8
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: true
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 8192
+    strong_distance: 16384
+  weather:
+    fog_mode: static
+    precipitation: none
+    daily_fog:
+      small_chance: 0
+      average_chance: 0
+      dense_chance: 0
+      small:
+        weak_distance: 8192
+        strong_distance: 16384
+      average:
+        weak_distance: 8192
+        strong_distance: 16384
+      dense:
+        weak_distance: 8192
+        strong_distance: 16384
+  ceiling: 32767
+terrain:
+  attribute_overrides: []
+  footstep_sound_overrides: []
+bmodel_faces:
+  interactive_faces: []
+entities: []
+spawns: []
+model_instances:
+- instance_id: mm9:mountainpass:object:42
+  source_ref: objects/42
+  source_kind: mm9_dat_object
+  source_object_index: 42
+  source_class: RedWolf
+  source_name: RedWolf6
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: 16056
+    y: 15729
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolfred
+- instance_id: mm9:mountainpass:object:43
+  source_ref: objects/43
+  source_kind: mm9_dat_object
+  source_object_index: 43
+  source_class: RedWolf
+  source_name: RedWolf5
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: 4383
+    y: -13926
+    z: 82
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolfred
+- instance_id: mm9:mountainpass:object:44
+  source_ref: objects/44
+  source_kind: mm9_dat_object
+  source_object_index: 44
+  source_class: RedWolf
+  source_name: RedWolf4
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: 20316
+    y: -12616
+    z: 1597
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolfred
+- instance_id: mm9:mountainpass:object:45
+  source_ref: objects/45
+  source_kind: mm9_dat_object
+  source_object_index: 45
+  source_class: RedWolf
+  source_name: RedWolf3
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: 20152
+    y: -9830
+    z: 1516
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolfred
+- instance_id: mm9:mountainpass:object:46
+  source_ref: objects/46
+  source_kind: mm9_dat_object
+  source_object_index: 46
+  source_class: RedWolf
+  source_name: RedWolf2
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: 20152
+    y: -10650
+    z: 1121
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolfred
+- instance_id: mm9:mountainpass:object:47
+  source_ref: objects/47
+  source_kind: mm9_dat_object
+  source_object_index: 47
+  source_class: RedWolf
+  source_name: RedWolf1
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: -15565
+    y: -12943
+    z: 1475
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolfred
+- instance_id: mm9:mountainpass:object:48
+  source_ref: objects/48
+  source_kind: mm9_dat_object
+  source_object_index: 48
+  source_class: RedWolf
+  source_name: RedWolf0
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: -6717
+    y: 19825
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolfred
+- instance_id: mm9:mountainpass:object:49
+  source_ref: objects/49
+  source_kind: mm9_dat_object
+  source_object_index: 49
+  source_class: ImpElder
+  source_name: ImpElder9
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -12452
+    y: 1475
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:50
+  source_ref: objects/50
+  source_kind: mm9_dat_object
+  source_object_index: 50
+  source_class: ImpElder
+  source_name: ImpElder8
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -12943
+    y: -1147
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:51
+  source_ref: objects/51
+  source_kind: mm9_dat_object
+  source_object_index: 51
+  source_class: ImpElder
+  source_name: ImpElder7
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -13926
+    y: -164
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:52
+  source_ref: objects/52
+  source_kind: mm9_dat_object
+  source_object_index: 52
+  source_class: ImpElder
+  source_name: ImpElder6
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -12288
+    y: 0
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:53
+  source_ref: objects/53
+  source_kind: mm9_dat_object
+  source_object_index: 53
+  source_class: ImpElder
+  source_name: ImpElder5
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -13271
+    y: 819
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:54
+  source_ref: objects/54
+  source_kind: mm9_dat_object
+  source_object_index: 54
+  source_class: ImpElder
+  source_name: ImpElder4
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -8028
+    y: 15729
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:55
+  source_ref: objects/55
+  source_kind: mm9_dat_object
+  source_object_index: 55
+  source_class: ImpElder
+  source_name: ImpElder3
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -7045
+    y: 15729
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:56
+  source_ref: objects/56
+  source_kind: mm9_dat_object
+  source_object_index: 56
+  source_class: ImpElder
+  source_name: ImpElder21
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: 14582
+    y: 14909
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:57
+  source_ref: objects/57
+  source_kind: mm9_dat_object
+  source_object_index: 57
+  source_class: ImpElder
+  source_name: ImpElder20
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: 12452
+    y: 12452
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:58
+  source_ref: objects/58
+  source_kind: mm9_dat_object
+  source_object_index: 58
+  source_class: ImpElder
+  source_name: ImpElder19
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: 12288
+    y: 10977
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:59
+  source_ref: objects/59
+  source_kind: mm9_dat_object
+  source_object_index: 59
+  source_class: ImpElder
+  source_name: ImpElder18
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: 12124
+    y: 9503
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:60
+  source_ref: objects/60
+  source_kind: mm9_dat_object
+  source_object_index: 60
+  source_class: ImpElder
+  source_name: ImpElder17
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: 17531
+    y: -11141
+    z: 1556
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:61
+  source_ref: objects/61
+  source_kind: mm9_dat_object
+  source_object_index: 61
+  source_class: ImpElder
+  source_name: ImpElder16
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: 12124
+    y: -11796
+    z: 2499
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:62
+  source_ref: objects/62
+  source_kind: mm9_dat_object
+  source_object_index: 62
+  source_class: ImpElder
+  source_name: ImpElder15
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: 9994
+    y: -12943
+    z: 1679
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:63
+  source_ref: objects/63
+  source_kind: mm9_dat_object
+  source_object_index: 63
+  source_class: ImpElder
+  source_name: ImpElder14
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: 7987
+    y: -13271
+    z: 1270
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:64
+  source_ref: objects/64
+  source_kind: mm9_dat_object
+  source_object_index: 64
+  source_class: ImpElder
+  source_name: ImpElder13
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: 6226
+    y: -13271
+    z: 957
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:65
+  source_ref: objects/65
+  source_kind: mm9_dat_object
+  source_object_index: 65
+  source_class: ImpElder
+  source_name: ImpElder12
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -5939
+    y: -11141
+    z: 2294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:66
+  source_ref: objects/66
+  source_kind: mm9_dat_object
+  source_object_index: 66
+  source_class: ImpElder
+  source_name: ImpElder11
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -3645
+    y: -11141
+    z: 1802
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:67
+  source_ref: objects/67
+  source_kind: mm9_dat_object
+  source_object_index: 67
+  source_class: ImpElder
+  source_name: ImpElder10
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -4137
+    y: -9830
+    z: 1802
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:68
+  source_ref: objects/68
+  source_kind: mm9_dat_object
+  source_object_index: 68
+  source_class: GreyWolf
+  source_name: GreyWolf9
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: 13107
+    y: -3113
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolf
+- instance_id: mm9:mountainpass:object:69
+  source_ref: objects/69
+  source_kind: mm9_dat_object
+  source_object_index: 69
+  source_class: GreyWolf
+  source_name: GreyWolf8
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: 12452
+    y: -5898
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolf
+- instance_id: mm9:mountainpass:object:70
+  source_ref: objects/70
+  source_kind: mm9_dat_object
+  source_object_index: 70
+  source_class: GreyWolf
+  source_name: GreyWolf7
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: 9011
+    y: -8847
+    z: 957
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolf
+- instance_id: mm9:mountainpass:object:71
+  source_ref: objects/71
+  source_kind: mm9_dat_object
+  source_object_index: 71
+  source_class: GreyWolf
+  source_name: GreyWolf6
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: 6554
+    y: -10322
+    z: 957
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolf
+- instance_id: mm9:mountainpass:object:72
+  source_ref: objects/72
+  source_kind: mm9_dat_object
+  source_object_index: 72
+  source_class: GreyWolf
+  source_name: GreyWolf5
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: -13763
+    y: -13926
+    z: 1475
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolf
+- instance_id: mm9:mountainpass:object:73
+  source_ref: objects/73
+  source_kind: mm9_dat_object
+  source_object_index: 73
+  source_class: GreyWolf
+  source_name: GreyWolf4
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: -12616
+    y: 4260
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolf
+- instance_id: mm9:mountainpass:object:74
+  source_ref: objects/74
+  source_kind: mm9_dat_object
+  source_object_index: 74
+  source_class: GreyWolf
+  source_name: GreyWolf3
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: -11796
+    y: 6062
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolf
+- instance_id: mm9:mountainpass:object:75
+  source_ref: objects/75
+  source_kind: mm9_dat_object
+  source_object_index: 75
+  source_class: GreyWolf
+  source_name: GreyWolf2
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: -11141
+    y: 7045
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolf
+- instance_id: mm9:mountainpass:object:76
+  source_ref: objects/76
+  source_kind: mm9_dat_object
+  source_object_index: 76
+  source_class: GreyWolf
+  source_name: GreyWolf10
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: 13926
+    y: -1147
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolf
+- instance_id: mm9:mountainpass:object:77
+  source_ref: objects/77
+  source_kind: mm9_dat_object
+  source_object_index: 77
+  source_class: GreyWolf
+  source_name: GreyWolf1
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: -6390
+    y: 20808
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolf
+- instance_id: mm9:mountainpass:object:78
+  source_ref: objects/78
+  source_kind: mm9_dat_object
+  source_object_index: 78
+  source_class: GreyWolf
+  source_name: GreyWolf0
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: -6226
+    y: 19988
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolf
+- instance_id: mm9:mountainpass:object:79
+  source_ref: objects/79
+  source_kind: mm9_dat_object
+  source_object_index: 79
+  source_class: BlackWolf
+  source_name: BlackWolf3
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: 19169
+    y: 15401
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolfblack
+- instance_id: mm9:mountainpass:object:80
+  source_ref: objects/80
+  source_kind: mm9_dat_object
+  source_object_index: 80
+  source_class: BlackWolf
+  source_name: BlackWolf2
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: -22282
+    y: 2294
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolfblack
+- instance_id: mm9:mountainpass:object:81
+  source_ref: objects/81
+  source_kind: mm9_dat_object
+  source_object_index: 81
+  source_class: BlackWolf
+  source_name: BlackWolf1
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: -18022
+    y: 2294
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolfblack
+- instance_id: mm9:mountainpass:object:82
+  source_ref: objects/82
+  source_kind: mm9_dat_object
+  source_object_index: 82
+  source_class: BlackWolf
+  source_name: BlackWolf0
+  source_model: models/sheep.abc
+  source_skin: ''
+  model_asset: models/wolf.glb
+  position:
+    x: -7373
+    y: 15401
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wolf_wolfblack
+- instance_id: mm9:mountainpass:object:83
+  source_ref: objects/83
+  source_kind: mm9_dat_object
+  source_object_index: 83
+  source_class: Bigfoot
+  source_name: Bigfoot0
+  source_model: models/bigfoot.abc
+  source_skin: ''
+  model_asset: models/bigfoot.glb
+  position:
+    x: -3932
+    y: -1966
+    z: 1761
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: bigfoot_bigfoot1
+- instance_id: mm9:mountainpass:object:84
+  source_ref: objects/84
+  source_kind: mm9_dat_object
+  source_object_index: 84
+  source_class: Imp
+  source_name: Imp0
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -18514
+    y: 20644
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp2_imptrident
+- instance_id: mm9:mountainpass:object:85
+  source_ref: objects/85
+  source_kind: mm9_dat_object
+  source_object_index: 85
+  source_class: Imp
+  source_name: Imp1
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -18514
+    y: 20808
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp2_imptrident
+- instance_id: mm9:mountainpass:object:86
+  source_ref: objects/86
+  source_kind: mm9_dat_object
+  source_object_index: 86
+  source_class: Imp
+  source_name: Imp2
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -18350
+    y: 20644
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp2_imptrident
+- instance_id: mm9:mountainpass:object:87
+  source_ref: objects/87
+  source_kind: mm9_dat_object
+  source_object_index: 87
+  source_class: Imp
+  source_name: Imp3
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -18350
+    y: 20316
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp2_imptrident
+- instance_id: mm9:mountainpass:object:88
+  source_ref: objects/88
+  source_kind: mm9_dat_object
+  source_object_index: 88
+  source_class: ImpElder
+  source_name: ImpElder0
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -18022
+    y: 20644
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:89
+  source_ref: objects/89
+  source_kind: mm9_dat_object
+  source_object_index: 89
+  source_class: ImpElder
+  source_name: ImpElder1
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -18186
+    y: 20808
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:90
+  source_ref: objects/90
+  source_kind: mm9_dat_object
+  source_object_index: 90
+  source_class: ImpElder
+  source_name: ImpElder2
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -18350
+    y: 20972
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp3_imptrident
+- instance_id: mm9:mountainpass:object:91
+  source_ref: objects/91
+  source_kind: mm9_dat_object
+  source_object_index: 91
+  source_class: Imply
+  source_name: Imply0
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -21955
+    y: 19005
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp1_imptrident
+- instance_id: mm9:mountainpass:object:92
+  source_ref: objects/92
+  source_kind: mm9_dat_object
+  source_object_index: 92
+  source_class: Imply
+  source_name: Imply1
+  source_model: models/Imp.abc
+  source_skin: ''
+  model_asset: models/imp.glb
+  position:
+    x: -18678
+    y: 20808
+    z: 328
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: imp_imp1_imptrident
+- instance_id: mm9:mountainpass:object:93
+  source_ref: objects/93
+  source_kind: mm9_dat_object
+  source_object_index: 93
+  source_class: WingedMutant
+  source_name: WingedMutant0
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: -16220
+    y: 18514
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant2
+- instance_id: mm9:mountainpass:object:94
+  source_ref: objects/94
+  source_kind: mm9_dat_object
+  source_object_index: 94
+  source_class: WingedMutant
+  source_name: WingedMutant1
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: 13926
+    y: -492
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant2
+- instance_id: mm9:mountainpass:object:95
+  source_ref: objects/95
+  source_kind: mm9_dat_object
+  source_object_index: 95
+  source_class: WingedMutant
+  source_name: WingedMutant2
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: 13763
+    y: 655
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant2
+- instance_id: mm9:mountainpass:object:96
+  source_ref: objects/96
+  source_kind: mm9_dat_object
+  source_object_index: 96
+  source_class: WingedMutant
+  source_name: WingedMutant3
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: 13926
+    y: 164
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant2
+- instance_id: mm9:mountainpass:object:97
+  source_ref: objects/97
+  source_kind: mm9_dat_object
+  source_object_index: 97
+  source_class: WingedOddity
+  source_name: WingedOddity0
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: -9011
+    y: 13271
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant1
+- instance_id: mm9:mountainpass:object:98
+  source_ref: objects/98
+  source_kind: mm9_dat_object
+  source_object_index: 98
+  source_class: WingedOddity
+  source_name: WingedOddity1
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: -9175
+    y: 12124
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant1
+- instance_id: mm9:mountainpass:object:99
+  source_ref: objects/99
+  source_kind: mm9_dat_object
+  source_object_index: 99
+  source_class: WingedOddity
+  source_name: WingedOddity2
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: 12780
+    y: 5407
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant1
+- instance_id: mm9:mountainpass:object:100
+  source_ref: objects/100
+  source_kind: mm9_dat_object
+  source_object_index: 100
+  source_class: WingedOddity
+  source_name: WingedOddity3
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: 12616
+    y: 6881
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant1
+- instance_id: mm9:mountainpass:object:101
+  source_ref: objects/101
+  source_kind: mm9_dat_object
+  source_object_index: 101
+  source_class: WingedOddity
+  source_name: WingedOddity4
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: -9830
+    y: 10322
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant1
+- instance_id: mm9:mountainpass:object:102
+  source_ref: objects/102
+  source_kind: mm9_dat_object
+  source_object_index: 102
+  source_class: WingedOddity
+  source_name: WingedOddity5
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: -12452
+    y: -13926
+    z: 1475
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant1
+- instance_id: mm9:mountainpass:object:103
+  source_ref: objects/103
+  source_kind: mm9_dat_object
+  source_object_index: 103
+  source_class: WingedOddity
+  source_name: WingedOddity6
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: -15565
+    y: -12288
+    z: 1475
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant1
+- instance_id: mm9:mountainpass:object:104
+  source_ref: objects/104
+  source_kind: mm9_dat_object
+  source_object_index: 104
+  source_class: WingedOddity
+  source_name: WingedOddity7
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: -13926
+    y: -14582
+    z: 1475
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant1
+- instance_id: mm9:mountainpass:object:105
+  source_ref: objects/105
+  source_kind: mm9_dat_object
+  source_object_index: 105
+  source_class: WingedOddity
+  source_name: WingedOddity8
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: 7373
+    y: -9830
+    z: 957
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant1
+- instance_id: mm9:mountainpass:object:106
+  source_ref: objects/106
+  source_kind: mm9_dat_object
+  source_object_index: 106
+  source_class: WingedAberration
+  source_name: WingedAberation3
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: 8028
+    y: -9339
+    z: 957
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant3
+- instance_id: mm9:mountainpass:object:107
+  source_ref: objects/107
+  source_kind: mm9_dat_object
+  source_object_index: 107
+  source_class: WingedAberration
+  source_name: WingedAberation2
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: 7373
+    y: -10977
+    z: 957
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant3
+- instance_id: mm9:mountainpass:object:108
+  source_ref: objects/108
+  source_kind: mm9_dat_object
+  source_object_index: 108
+  source_class: WingedAberration
+  source_name: WingedAberation1
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: 12943
+    y: 4424
+    z: 532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant3
+- instance_id: mm9:mountainpass:object:109
+  source_ref: objects/109
+  source_kind: mm9_dat_object
+  source_object_index: 109
+  source_class: WingedAberration
+  source_name: WingedAberation0
+  source_model: models/flyingicky.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: -15237
+    y: 17039
+    z: 287
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant3
+- instance_id: mm9:mountainpass:object:110
+  source_ref: objects/110
+  source_kind: mm9_dat_object
+  source_object_index: 110
+  source_class: WingedMutant
+  source_name: WingedMutant4
+  source_model: models/wingedmutant.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: -2949
+    y: -7045
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.93605955
+    w: 0.35184162
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant2
+- instance_id: mm9:mountainpass:object:111
+  source_ref: objects/111
+  source_kind: mm9_dat_object
+  source_object_index: 111
+  source_class: WingedOddity
+  source_name: WingedOddity10
+  source_model: models/wingedmutant.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: -4915
+    y: -7209
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.94494891
+    w: 0.3272179
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant1
+- instance_id: mm9:mountainpass:object:112
+  source_ref: objects/112
+  source_kind: mm9_dat_object
+  source_object_index: 112
+  source_class: WingedOddity
+  source_name: WingedOddity9
+  source_model: models/wingedmutant.abc
+  source_skin: ''
+  model_asset: models/wingedmutant.glb
+  position:
+    x: -3768
+    y: -6226
+    z: 3277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: wingedmutant_wingedmutant1
+- instance_id: mm9:mountainpass:object:113
+  source_ref: objects/113
+  source_kind: mm9_dat_object
+  source_object_index: 113
+  source_class: Gezzampt
+  source_name: Gezzampt0
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -4260
+    y: -2786
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt2
+- instance_id: mm9:mountainpass:object:114
+  source_ref: objects/114
+  source_kind: mm9_dat_object
+  source_object_index: 114
+  source_class: Gezzampt
+  source_name: Gezzampt1
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -4751
+    y: -3113
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.93969262
+    w: 0.34202015
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt2
+- instance_id: mm9:mountainpass:object:115
+  source_ref: objects/115
+  source_kind: mm9_dat_object
+  source_object_index: 115
+  source_class: Gezzampt
+  source_name: Gezzampt2
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -3932
+    y: -2867
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.9961947
+    w: -0.087155769
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt2
+- instance_id: mm9:mountainpass:object:116
+  source_ref: objects/116
+  source_kind: mm9_dat_object
+  source_object_index: 116
+  source_class: Gezzampt
+  source_name: Gezzampt3
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -3523
+    y: -3277
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.93969263
+    w: -0.34202012
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt2
+- instance_id: mm9:mountainpass:object:117
+  source_ref: objects/117
+  source_kind: mm9_dat_object
+  source_object_index: 117
+  source_class: Gezzampt
+  source_name: Gezzampt4
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -4178
+    y: -4014
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt2
+- instance_id: mm9:mountainpass:object:118
+  source_ref: objects/118
+  source_kind: mm9_dat_object
+  source_object_index: 118
+  source_class: Torch
+  source_name: Torch0
+  source_model: models/Props/LogsBurning.ABC
+  source_skin: Skins/Props/LogsBurning.dtx
+  model_asset: models/props/logsburning.glb
+  position:
+    x: -4178
+    y: -3441
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:mountainpass:object:128
+  source_ref: objects/128
+  source_kind: mm9_dat_object
+  source_object_index: 128
+  source_class: TreasureChest
+  source_name: TreasureChest0
+  source_model: models/Props/Chest3.ABC
+  source_skin: Skins/Props/Chest3.dtx
+  model_asset: models/props/chest3.glb
+  position:
+    x: -4096
+    y: -6799
+    z: 2821
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:mountainpass:object:129
+  source_ref: objects/129
+  source_kind: mm9_dat_object
+  source_object_index: 129
+  source_class: Prop
+  source_name: Prop38
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -4728
+    y: -6551
+    z: 2514
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:130
+  source_ref: objects/130
+  source_kind: mm9_dat_object
+  source_object_index: 130
+  source_class: Prop
+  source_name: Prop37
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -3500
+    y: -7124
+    z: 2514
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:131
+  source_ref: objects/131
+  source_kind: mm9_dat_object
+  source_object_index: 131
+  source_class: Prop
+  source_name: Prop36
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -4324
+    y: -7488
+    z: 2586
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:132
+  source_ref: objects/132
+  source_kind: mm9_dat_object
+  source_object_index: 132
+  source_class: Prop
+  source_name: Prop35
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 8015
+    y: -10028
+    z: 394
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:133
+  source_ref: objects/133
+  source_kind: mm9_dat_object
+  source_object_index: 133
+  source_class: Prop
+  source_name: Prop19
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -2112
+    y: -2737
+    z: 1357
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:134
+  source_ref: objects/134
+  source_kind: mm9_dat_object
+  source_object_index: 134
+  source_class: Prop
+  source_name: Prop15
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -5962
+    y: -2327
+    z: 1275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:135
+  source_ref: objects/135
+  source_kind: mm9_dat_object
+  source_object_index: 135
+  source_class: Prop
+  source_name: Prop14
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -4073
+    y: -11661
+    z: 1562
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:136
+  source_ref: objects/136
+  source_kind: mm9_dat_object
+  source_object_index: 136
+  source_class: Prop
+  source_name: Prop10
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 13356
+    y: -3300
+    z: 15
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:137
+  source_ref: objects/137
+  source_kind: mm9_dat_object
+  source_object_index: 137
+  source_class: Prop
+  source_name: Prop8
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 21629
+    y: 14804
+    z: -5
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:138
+  source_ref: objects/138
+  source_kind: mm9_dat_object
+  source_object_index: 138
+  source_class: Prop
+  source_name: Prop20
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -3254
+    y: -2291
+    z: 1367
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:139
+  source_ref: objects/139
+  source_kind: mm9_dat_object
+  source_object_index: 139
+  source_class: Prop
+  source_name: Prop17
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -5138
+    y: -1964
+    z: 1285
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:140
+  source_ref: objects/140
+  source_kind: mm9_dat_object
+  source_object_index: 140
+  source_class: Prop
+  source_name: Prop16
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -6991
+    y: -4257
+    z: 1531
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:141
+  source_ref: objects/141
+  source_kind: mm9_dat_object
+  source_object_index: 141
+  source_class: Prop
+  source_name: Prop11
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -13775
+    y: 704
+    z: 15
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:142
+  source_ref: objects/142
+  source_kind: mm9_dat_object
+  source_object_index: 142
+  source_class: Prop
+  source_name: Prop9
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 13274
+    y: 12183
+    z: -26
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:143
+  source_ref: objects/143
+  source_kind: mm9_dat_object
+  source_object_index: 143
+  source_class: Prop
+  source_name: Prop7
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 13601
+    y: 14477
+    z: 15
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:144
+  source_ref: objects/144
+  source_kind: mm9_dat_object
+  source_object_index: 144
+  source_class: Prop
+  source_name: Prop18
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -1160
+    y: -4211
+    z: 1295
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:145
+  source_ref: objects/145
+  source_kind: mm9_dat_object
+  source_object_index: 145
+  source_class: Prop
+  source_name: Prop22
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -12188
+    y: -33
+    z: 26
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:146
+  source_ref: objects/146
+  source_kind: mm9_dat_object
+  source_object_index: 146
+  source_class: Prop
+  source_name: Prop24
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -6858
+    y: 16059
+    z: 138
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:147
+  source_ref: objects/147
+  source_kind: mm9_dat_object
+  source_object_index: 147
+  source_class: Prop
+  source_name: Prop23
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -6285
+    y: 20974
+    z: -26
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:148
+  source_ref: objects/148
+  source_kind: mm9_dat_object
+  source_object_index: 148
+  source_class: Prop
+  source_name: Prop21
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -11973
+    y: 3162
+    z: -15
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:149
+  source_ref: objects/149
+  source_kind: mm9_dat_object
+  source_object_index: 149
+  source_class: Prop
+  source_name: Prop12
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 8440
+    y: -8707
+    z: 241
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:150
+  source_ref: objects/150
+  source_kind: mm9_dat_object
+  source_object_index: 150
+  source_class: Prop
+  source_name: Prop13
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 20646
+    y: -9853
+    z: 998
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:151
+  source_ref: objects/151
+  source_kind: mm9_dat_object
+  source_object_index: 151
+  source_class: Prop
+  source_name: Prop25
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 20334
+    y: -13059
+    z: 1029
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:152
+  source_ref: objects/152
+  source_kind: mm9_dat_object
+  source_object_index: 152
+  source_class: Prop
+  source_name: Prop26
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 21158
+    y: -12695
+    z: 1080
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:153
+  source_ref: objects/153
+  source_kind: mm9_dat_object
+  source_object_index: 153
+  source_class: Prop
+  source_name: Prop27
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -15250
+    y: -13878
+    z: 794
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:154
+  source_ref: objects/154
+  source_kind: mm9_dat_object
+  source_object_index: 154
+  source_class: Prop
+  source_name: Prop28
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -13663
+    y: -14615
+    z: 865
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:155
+  source_ref: objects/155
+  source_kind: mm9_dat_object
+  source_object_index: 155
+  source_class: Prop
+  source_name: Prop29
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -12301
+    y: -13222
+    z: 1050
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:156
+  source_ref: objects/156
+  source_kind: mm9_dat_object
+  source_object_index: 156
+  source_class: Prop
+  source_name: Prop30
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -16315
+    y: -11338
+    z: 568
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:157
+  source_ref: objects/157
+  source_kind: mm9_dat_object
+  source_object_index: 157
+  source_class: Prop
+  source_name: Prop31
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -14728
+    y: -12076
+    z: 742
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:158
+  source_ref: objects/158
+  source_kind: mm9_dat_object
+  source_object_index: 158
+  source_class: Prop
+  source_name: Prop32
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -14840
+    y: -7488
+    z: 230
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:159
+  source_ref: objects/159
+  source_kind: mm9_dat_object
+  source_object_index: 159
+  source_class: Prop
+  source_name: Prop33
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -18772
+    y: 21020
+    z: 15
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:160
+  source_ref: objects/160
+  source_kind: mm9_dat_object
+  source_object_index: 160
+  source_class: Prop
+  source_name: Prop34
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -22428
+    y: 3244
+    z: -97
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:mountainpass:object:260
+  source_ref: objects/260
+  source_kind: mm9_dat_object
+  source_object_index: 260
+  source_class: Barrel
+  source_name: Barrel0
+  source_model: models/Props/Barrel03.ABC
+  source_skin: skins/props/barrel03.dtx
+  model_asset: models/props/barrel03.glb
+  position:
+    x: -3359
+    y: -2458
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:mountainpass:object:261
+  source_ref: objects/261
+  source_kind: mm9_dat_object
+  source_object_index: 261
+  source_class: Barrel
+  source_name: Barrel1
+  source_model: models/Props/Barrel03.ABC
+  source_skin: skins/props/barrel03.dtx
+  model_asset: models/props/barrel03.glb
+  position:
+    x: -4915
+    y: -2130
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:mountainpass:object:262
+  source_ref: objects/262
+  source_kind: mm9_dat_object
+  source_object_index: 262
+  source_class: Barrel
+  source_name: Barrel2
+  source_model: models/Props/Barrel03.ABC
+  source_skin: skins/props/barrel03.dtx
+  model_asset: models/props/barrel03.glb
+  position:
+    x: -4260
+    y: -4588
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:mountainpass:object:263
+  source_ref: objects/263
+  source_kind: mm9_dat_object
+  source_object_index: 263
+  source_class: BonePile
+  source_name: BonePile0
+  source_model: models/Props/bonepile.ABC
+  source_skin: skins/props/bonepile.dtx
+  model_asset: models/props/bonepile.glb
+  position:
+    x: -6226
+    y: -2949
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:mountainpass:object:264
+  source_ref: objects/264
+  source_kind: mm9_dat_object
+  source_object_index: 264
+  source_class: BonePile
+  source_name: BonePile1
+  source_model: models/Props/bonepile.ABC
+  source_skin: skins/props/bonepile.dtx
+  model_asset: models/props/bonepile.glb
+  position:
+    x: -1311
+    y: -3113
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:mountainpass:object:265
+  source_ref: objects/265
+  source_kind: mm9_dat_object
+  source_object_index: 265
+  source_class: BonePile
+  source_name: BonePile2
+  source_model: models/Props/bonepile.ABC
+  source_skin: skins/props/bonepile.dtx
+  model_asset: models/props/bonepile.glb
+  position:
+    x: -1311
+    y: -6390
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:mountainpass:object:266
+  source_ref: objects/266
+  source_kind: mm9_dat_object
+  source_object_index: 266
+  source_class: BonePile
+  source_name: BonePile3
+  source_model: models/Props/bonepile.ABC
+  source_skin: skins/props/bonepile.dtx
+  model_asset: models/props/bonepile.glb
+  position:
+    x: 19825
+    y: -9994
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:mountainpass:object:267
+  source_ref: objects/267
+  source_kind: mm9_dat_object
+  source_object_index: 267
+  source_class: BonePile
+  source_name: BonePile4
+  source_model: models/Props/bonepile.ABC
+  source_skin: skins/props/bonepile.dtx
+  model_asset: models/props/bonepile.glb
+  position:
+    x: 19661
+    y: -11796
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  face_attribute_overrides: []
+  actors: []
+  sprite_objects: []
+  chests: []
+  variables:
+    map:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    decor:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0

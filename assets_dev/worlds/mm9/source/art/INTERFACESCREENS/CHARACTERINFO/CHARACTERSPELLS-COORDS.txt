@@ -1,0 +1,73 @@
+********************************************************************************
+                      Character Spells Coordinates
+********************************************************************************
+
+Graphic Elements:
+
+CharacterStatsBG.pcx	  0x   0y	800x600	Background
+
+Stats Page Tab		586x   4y	85x148
+Skills Page Tab		586x 154y	85x143
+Inventory Page Tab	586x 299y	85x143
+Spells Page Button	586x 444y	85x148
+
+Character 1 Portrait	723x  13y	60x80
+Character 2 Portrait	723x 113x	60x80
+Character 3 Portrait	723x 213y	60x80
+Character 4 Portrait	723x 313y	60x80
+
+Character 1 Marker	720x  10y	66x86
+Character 2 Marker	720x 110x	66x86
+Character 3 Marker	720x 210y	66x86
+Character 4 Marker	720x 310y	66x86
+
+Map/Note Toggle Button	690x 436y	110x105
+Exit Button		690x 548y	110x52
+
+********************************************************************************
+
+Text:
+
+Character Name		 	44x  19y	350x96	Name Font
+###TH Level Class		102x  12y	308x18	Main Font Center
+### Experience / +### Level Up	102x  31y	308x15	Tiny Font Center
+Note: The previous two lines overlap with the Character Name Space
+
+(HP) ###/###			459x  32y	103x18	Main Font Center
+(SP) ###/###			459x  61y	103x18	Main Font Center
+
+Rollover Text		 	47x 572y	530x18	Main Font Center
+
+********************************************************************************
+
+Spells-Page-Exclusive Items:
+
+Offense Button		 66x 145y	36x32
+Defense Button		104x 145y	36x32
+Healing Button		142x 145y	36x32
+All Button		180x 145y	56x32
+Set Quick Spell Button	256x 145y	113x32
+
+Note: These buttons should change which set of spells is displayed in the area
+	to the left.
+Note: The currently displayed set should have its button remain pressed.
+
+Spell Slot 1		 19x 253y	140x130
+Spell Slot 2		161x 213y	140x130
+Spell Slot 3		303x 213y	140x130
+Spell Slot 4		445x 253y	140x130
+Spell Slot 5		445x 395y	140x130
+Spell Slot 6		303x 425y	140x130
+Spell Slot 7		161x 425y	140x130
+Spell Slot 8		 19x 395y	140x130
+
+Previous Spells (Left)	165x 352y	60x64
+Next Spells (Right)	379x 352y	60x64
+
+Spell Name Text Line 1	226x 365y	152x18	Main Font Centered
+Spell Name Text Line 2	226x 384y	152x18	Main Font Centered
+
+"Quick Spell"		386x 144y	152x15	Tiny Font Centered
+Quick Spell Text	386x 160y	152x18	Main Font Centered
+
+********************************************************************************

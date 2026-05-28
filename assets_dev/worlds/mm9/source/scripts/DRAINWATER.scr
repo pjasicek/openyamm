@@ -1,0 +1,98 @@
+;---------------------------------------
+;	DrainWater.scr
+;	by SJR
+;	10-12-01
+;	Purpose:drain\fill area with liquid
+;
+;	ScriptParams:
+;		p0 = name of fill marker
+;		p1 = name of empty marker
+;		p2 = name of thing to trigger
+;
+;	Triggers:
+;		"Drain" = drain the brush
+;---------------------------------------
+#include BaseGlobals.inc
+
+#hobject	hMe = 0
+
+#string		sTopName = ""
+#string		sBottomName = ""
+#string		sFillTriggerName = ""
+#string		sDrainTriggerName = ""
+
+#hobject	hRoof = 0
+#hobject	hFloor = 0
+#hobject	hFillTrigger = 0
+#hobject	hDrainTrigger = 0
+
+#number		xMe = 0
+#number		zMe = 0
+#number		yMe = 0
+#number		nTemp = 0
+
+;---------------------------------------
+:Main
+;---------------------------------------
+	GetParam 0, sTopName
+	GetParam 1, sBottomName
+	GetParam 2, sFillTriggerName
+	GetParam 3, sDrainTriggerName
+
+	OnPostStartWorld InitDrainSwitch
+	OnPostMiniSaveLoad InitDrainSwitch
+
+	Exit TRUE
+
+;---------------------------------------
+:InitDrainSwitch
+;---------------------------------------
+	AddTrigger drain,	DrainWater
+	AddTrigger fill,	FillWater
+
+	GetMyHandle hMe
+	GetPOS hMe, xMe, nTemp, zMe
+	GetObjectHandle sFillTriggerName, hFillTrigger
+	GetObjectHandle sDrainTriggerName, hDrainTrigger
+	GetObjectHandle sBottomName, hFloor
+	GetObjectHandle sTopName, hRoof
+
+	Exit TRUE
+
+;---------------------------------------
+:FillWater
+;---------------------------------------
+	Trigger hFillTrigger, trigger
+	AddTrigger drain,	DrainWater
+	RemoveTrigger fill
+	PlaySound "sounds\ambient\fountain_20.wav", DoNothing, 1, 5000, FALSE, 100
+	GetPOS hRoof, nTemp,yMe,nTemp
+	MoveToPOS xMe,yMe,zMe, 10, OnFillWater
+
+	Exit TRUE
+
+;---------------------------------------
+:DrainWater
+;---------------------------------------
+	Trigger hDrainTrigger, trigger
+	AddTrigger fill,	FillWater
+	RemoveTrigger drain
+	PlaySound "sounds\ambient\fountain_20.wav", DoNothing, 1, 5000, FALSE, 100
+	GetPOS hFloor, nTemp,yMe,nTemp
+	MoveToPOS xMe,yMe,zMe, 10, OnDrainWater
+
+	Exit TRUE
+
+;---------------------------------------
+:OnFillWater
+;---------------------------------------
+	Stop
+
+	Exit TRUE
+
+;---------------------------------------
+:OnDrainWater
+;---------------------------------------
+	Stop
+
+	Exit TRUE

@@ -1,0 +1,87 @@
+#include BaseGlobals.inc
+#include CutSceneActor.inc
+#include LichLabScenes.inc
+#include TheThing.inc
+#include Flags.inc
+
+#string		sDoorName = ""
+#hobject	hDoor = 0
+#hobject	hLich = 0
+#hobject	hMe = 0
+
+;---------------------
+:Main
+;---------------------
+	GetParam 0, sDoorName
+
+	Wait 0, 3, Init
+
+	Exit TRUE
+
+;---------------------
+:Init
+;---------------------
+	SetStat hMe, Gravity, 0
+	gosub InitLichLabScenes
+	gosub InitTheThing
+	GetObjectHandle PowerLich0, hLich
+	GetMyHandle hMe
+	FaceObject hLich, 360, DoNothing
+
+	Exit TRUE
+
+;---------------------
+:OnScene2
+;---------------------
+cprint OnScene2
+	OnObstacle OnScene2
+	;;GetRandomInt
+
+	Exit TRUE
+
+;---------------------
+:OnScene3
+;---------------------
+cprint OnScene3
+	Stop
+	OnObstacle DoNothing
+	SetFlag hMe, FLAG_GOTHRUWORLD
+	PlayAnim rattack1, EndScene
+
+	Exit TRUE
+
+;---------------------
+:OnScene4
+;---------------------
+	GetObjectHandle sDoorName, hDoor
+	PlayAnim hattack1, DoNothing
+	Trigger hDoor, destroy
+	RunTo hLich, 25, Finish
+
+	Exit TRUE
+
+;---------------------
+:Finish
+;---------------------
+	Stop
+	PlayAnim hattack1, DoNothing
+	Trigger hLich, finish
+	Wait 0, 3, EndScene
+
+	Exit TRUE
+
+;---------------------
+:OnScene5
+;---------------------
+	GetObjectHandle MarkerTarget1, hLich
+	RunTo hLich, 100, EndCinema
+
+	Exit TRUE
+
+;---------------------
+:EndCinema
+;---------------------
+	Stop
+	gosub EndScene
+
+	Exit TRUE

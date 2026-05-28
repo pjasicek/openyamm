@@ -1,0 +1,138 @@
+schema: openyamm.model3d.v1
+id: chest_rusty01
+model: chest_rusty01.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/CHEST-RUSTY01.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: Chest-Rusty_Lid01
+  materialIndex: 0
+  lods:
+  - faces: 40
+    vertices: 14
+- name: Chest-Rusty01
+  materialIndex: 0
+  lods:
+  - faces: 32
+    vertices: 32
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 2
+    - 3
+    - 8
+    - 9
+  - index: 1
+    name: Spot01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 2
+    name: Spot01.Target
+    parent: 0
+    flags: 0
+    children: []
+  - index: 3
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 4
+    - 7
+  - index: 4
+    name: Bone02
+    parent: 3
+    flags: 0
+    children:
+    - 5
+    - 6
+  - index: 5
+    name: Bone03
+    parent: 4
+    flags: 0
+    children: []
+  - index: 6
+    name: Chest-Rusty_Lid01
+    parent: 4
+    flags: 0
+    children: []
+  - index: 7
+    name: Chest-Rusty01
+    parent: 3
+    flags: 0
+    children: []
+  - index: 8
+    name: Omni01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 9
+    name: Omni02
+    parent: 0
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Open
+  durationMs: 366
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: Close
+  durationMs: 366
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 43.52
+  - 28.16
+  - 43.52
+  origin:
+  - 0.0
+  - -7.68
+  - 0.0
+- name: Open
+  extents:
+  - 43.52
+  - 28.16
+  - 43.52
+  origin:
+  - 0.0
+  - -7.68
+  - 0.0
+- name: Close
+  extents:
+  - 43.52
+  - 28.16
+  - 43.52
+  origin:
+  - 0.0
+  - -7.68
+  - 0.0
+roles:
+- static_model
+source_model: models/props/chest-rusty01.abc

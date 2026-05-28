@@ -1,0 +1,123 @@
+schema: openyamm.model3d.v1
+id: minecart
+model: minecart.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/MINECART.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: MineCart
+  materialIndex: 0
+  lods:
+  - faces: 50
+    vertices: 28
+  - faces: 50
+    vertices: 28
+- name: Wheels1
+  materialIndex: 0
+  lods:
+  - faces: 84
+    vertices: 48
+  - faces: 66
+    vertices: 39
+- name: Wheels2
+  materialIndex: 0
+  lods:
+  - faces: 84
+    vertices: 48
+  - faces: 46
+    vertices: 29
+- name: Thjorad
+  materialIndex: 1
+  lods:
+  - faces: 6
+    vertices: 5
+  - faces: 6
+    vertices: 5
+materials:
+- index: 0
+  texture: skins_preview/props/minecart.png
+  runtime_texture: skins/props/minecart.dtx
+  preview_texture: skins_preview/props/minecart.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/MINECART.dtx
+- index: 1
+  texture: skins_preview/pickupitems/thjorad.png
+  runtime_texture: skins/pickupitems/thjorad.dtx
+  preview_texture: skins_preview/pickupitems/thjorad.png
+  source: mm9/extracted/SKINS/SKINS/PICKUPITEMS/THJORAD.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone05
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Bone07
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 1000
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: roll
+  durationMs: 500
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 87.04
+  - 51.2
+  - 53.76
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: roll
+  extents:
+  - 87.04
+  - 51.2
+  - 53.76
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/minecart.abc

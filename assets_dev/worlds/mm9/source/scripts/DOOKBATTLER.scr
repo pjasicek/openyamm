@@ -1,0 +1,70 @@
+;;TO DO:
+;;the combat has a problem with falling
+;;off of the dooks castle bridges
+;------------------------------------
+;	DookBattler.scr
+;	by SJR
+;	Purpose:participate in the dooks
+;			castle bridge fight
+;------------------------------------
+#include baseMelee.inc
+
+;------------------------------------
+:Main
+;------------------------------------
+;;	OnPostStartWorld InitDookBattler
+Wait 0, 5, InitDookBattler
+
+	Exit TRUE
+
+;------------------------------------
+:InitDookBattler
+;------------------------------------
+	AddFriend AIBase
+	AddFriend Player
+
+	AddTrigger on, SetupEnemies
+
+	GetMyHandle g_hMyObject
+	SetStat g_hMyObject, HitPoints, 700
+
+	gosub BaseInit
+
+	;;disable strafing, otherwise we'll fall off
+	g_nEvadeChance = 0
+	g_nMaxEvadeDist = 0
+	g_nStrafeAttackPct = 0
+
+	Exit TRUE
+
+;------------------------------------
+:SetupEnemies
+;------------------------------------
+	AddEnemy AIBase
+
+	OnTargetDead OnTargetDead
+	OnDamage OnDamage
+
+	Exit TRUE
+
+;------------------------------------
+:OnTargetDead
+;------------------------------------
+	AddEnemy Player
+	gosub OnTargetDead, 1
+
+	Exit TRUE
+
+;------------------------------------
+:OnDamage
+;------------------------------------
+	GetLiquidContainer g_hMyObject, g_hObject
+	if( g_hObject!=0 )
+		RemoveObject g_hMyObject
+	else
+		AddEnemy Player
+		GetParam 0, g_hTarget
+		gosub OnDamage, 1
+	endif
+
+	Exit TRUE

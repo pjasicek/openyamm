@@ -1,0 +1,139 @@
+;--------------------------------------------------
+;NPC181.scr
+; timmy
+; handles Fenja Tree-friend voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;promo variables
+
+#number		Fighter = 0
+#number		Mercenary = 1
+#number		Crusader = 2
+#number		Assassin = 3
+#number		Gladiator = 4
+#number		Ranger = 5
+#number		Paladin = 6
+#number		Initiate = 7
+#number		Scholar = 8
+#number		Healer = 9
+#number		Mage = 10
+#number		Lich = 11
+#number		Priest = 12
+#number		Druid = 13
+#number		Char1 = 0
+#number		Char2 = 1
+#number		Char3 = 2
+#number		Char4 = 3
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub Ranger
+
+
+exit
+
+
+;--------------------------------------------------
+:Ranger
+;--------------------------------------------------
+;****************
+;Ranger Quest
+;****************
+
+haskey 249 g_ntemp
+if (g_ntemp==0, )
+	Haskey 248 g_ntemp
+	if (g_ntemp==1, )
+		giveexp 63000
+		givegold 5000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		givekey 249
+		gosub PromoteRanger
+		exit
+	endif
+endif
+
+;End RAnger quest
+;******************
+exit
+
+
+
+;--------------------------------------------------
+:PromoteRanger
+;
+; Player has already completed the quest
+; just check to see who gets promoted
+;--------------------------------------------------
+
+haskey 417 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Ranger Char1
+	takekey 417
+endif
+
+haskey 418 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Ranger Char2
+	takekey 418
+endif
+
+haskey 419 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Ranger Char3
+	takekey 419
+endif
+
+haskey 420 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Ranger Char4
+	takekey 420
+endif
+exit
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+hasitem 184 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 241
+endif
+
+Playsound voices\NPC\NPC_181.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

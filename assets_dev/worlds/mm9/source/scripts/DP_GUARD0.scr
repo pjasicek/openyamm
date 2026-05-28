@@ -1,0 +1,94 @@
+;------------------------------------------------------------------
+;	DP_Guard0.scr
+;	Brett Yagi
+;
+;	Works in conjunction with IS_fickyflock.scr.
+;	Generic function moves object randomly between markers in parameters
+;	When given the "scatter" trigger, it will trigger the "birds"
+;	specified in parameters.
+;
+;	Parameters
+;
+;	0 - Marker Root name  (ie for Markers Mrk0, Mrk1, Mrk2  "Mrk" is the root name)
+;	1 - Number of Markers
+;	2 - Bird Root name  (ie for Birds Bird0, Bird01, Bird02  "Bird0" is the root name)
+;	3 - Number of Birds
+;
+;
+;-----------------------------------------------------
+
+#string		sGuardNameRoot
+#string		sSwitchNameRoot
+#number		nCount = 0
+
+#string		sGuard
+#hobject	hGuard
+
+#string		sSwitch
+#hobject	hSwitch
+#hobject	NULL = 0
+
+:dn
+
+exit 1
+
+;--------------------------------------------------------------
+:CloseCellDoor
+;--------------------------------------------------------------
+
+	playsound Sounds\wahoo.wav dn 0 1000 0 100
+
+	sSwitch = sSwitchNameRoot
+
+	GetObjectHandle sSwitch hSwitch
+	Trigger hSwitch close
+	nCount = nCount + 1
+
+
+Exit 1
+
+;--------------------------------------------------------------
+:OpenCellDoor
+;--------------------------------------------------------------
+	playsound Sounds\wahoo.wav dn 0 1000 0 100
+
+	sSwitch = sSwitchNameRoot + nCount
+	GetObjectHandle sSwitch hSwitch
+	Trigger hSwitch, Use
+
+
+Exit 1
+
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+
+	sGuard = sGuardNameRoot + 1
+	GetObjectHandle sGuard hGuard
+	Target hGuard 1
+
+Exit 1
+
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+
+	GetParam 0 sGuardNameRoot
+	GetParam 1 sSwitchNameRoot
+
+	AddTrigger OpenCellDoor OpenCellDoor
+	AddTrigger CloseCellDoor CloseCellDoor
+	
+	Wait 0 .1 main2
+
+
+Exit 1
+
+
+
+
+
+
+
+
+

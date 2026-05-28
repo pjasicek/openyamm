@@ -1,0 +1,62 @@
+;-----------------------------------------------------
+;
+;	RT_CaveIn.scr
+;
+;	Karl Drown 11-13-01
+;	Super simple "Move My World Object" script.
+;	
+;	
+;-----------------------------------------------------
+
+#include Globals.inc
+#include Flags.inc
+
+#hObject	hMarker
+#hObject	hRock
+#hObject	hDummy
+#hObject	hMe
+
+#string		sMarker
+#string		sDestBrush
+#string		sDestFloor
+
+#number		nVarX
+#number		nVarY
+#number		nVarZ
+#number		nNum
+;-----------------------------------------------------
+:StopHere
+;-----------------------------------------------------
+	GetObjectHandle sDestFloor, hRock
+	playsound Sounds\Weapons\EQHammerImpact.wav DoNothing 500 2000 FALSE 100
+	Trigger hRock, Destroy
+
+	Exit TRUE
+;-----------------------------------------------------
+:MoveToMarker
+;-----------------------------------------------------
+	GetMyHandle hMe
+	SetFlag hMe, FLAG_GOTHRUWORLD
+	GetObjectHandle sDestBrush, hRock
+	Trigger hRock, Destroy
+	;;playsound Sounds\Events\boulderroll.wav DoNothing hDummy 1000 TRUE 100
+	GetObjectHandle sMarker, hMarker
+	GetPos hMarker, nVarX, nVarY, nVarZ
+	MoveToPos nVarX, nVarY, nVarZ, 220, StopHere
+	Exit
+;-----------------------------------------------------
+:Delay
+;-----------------------------------------------------
+	Wait 0, nNum, MoveToMarker
+
+	Exit TRUE
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	GetParam 0, sMarker
+	GetParam 1, sDestBrush
+	GetParam 2, nNum
+	GetParam 3, sDestFloor
+	AddTrigger Fall, Delay
+	Exit
+;------------- E n d - O f - F i l e -------------------

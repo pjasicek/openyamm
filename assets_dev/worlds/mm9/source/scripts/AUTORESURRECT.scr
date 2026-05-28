@@ -1,0 +1,88 @@
+;-------------------------------------------------------
+;	AutoResurrect.scr
+;	Jeff Leggett
+;	12/12/2001
+;
+;	Used for AI that start out under the ground
+;	When we receive the Resurrect trigger, we
+;	play our resurrect animation and then Run our normal
+;	script...
+;
+;-------------------------------------------------------
+
+#include flags.inc
+#include AICommon.inc
+
+
+#hobject		g_hMyObject
+#string			g_sTemp
+#number			g_bCanResurrectNow = 0
+#number			g_nDist
+#hobject		g_hObject
+
+
+;-------------------------------------------------------
+:ResurrectDone
+;-------------------------------------------------------
+	gosub ResurrectDone,1
+	GetStatStr g_hMyObject,ScriptName,g_sTemp
+	RunScript g_sTemp
+	Exit
+	
+
+;-------------------------------------------------------
+:OnResurrect
+;-------------------------------------------------------
+	gosub OnResurrect,1
+
+	if ( g_bCanResurrectNow==FALSE )
+		exit
+	endif
+
+	SetFlag g_hMyObject,FLAG_SOLID
+	SetFlag g_hMyObject,FLAG_GRAVITY
+	SetFlag g_hMyObject,FLAG_VISIBLE
+
+	Exit
+
+;-------------------------------------------------------
+:Init
+;
+;	Just loop a custom anim so that we don't do anything
+;	else...
+;-------------------------------------------------------
+	LoopAnim 0,0
+	Exit
+
+;-------------------------------------------------------
+:CacheFiles
+;-------------------------------------------------------
+	GetStatStr g_hMyObject,ScriptName,g_sTemp
+	CacheScript g_sTemp
+
+	Exit
+
+;-------------------------------------------------------
+:Main
+;-------------------------------------------------------
+	GetMyHandle g_hMyObject
+
+;#number x
+;#number y
+;#number z
+;	GetPos g_hMyObject, x,y,z
+;	g_sTemp = x + _ + y + _ + z
+;	cprint g_sTemp
+ 
+	ClearFlag g_hMyObject,FLAG_SOLID
+	ClearFlag g_hMyObject,FLAG_GRAVITY
+	ClearFlag g_hMyObject,FLAG_VISIBLE
+
+	Wait 0,0.01,Init
+
+	AddTrigger TMSG_RESURRECT,OnResurrect
+	OnCacheFiles CacheFiles
+
+
+	Exit
+

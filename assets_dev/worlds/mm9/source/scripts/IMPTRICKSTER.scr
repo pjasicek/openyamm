@@ -1,0 +1,197 @@
+;-----------------------------------------
+;	ImpTrickster.scr
+;	by SJR
+;	10-12-01
+;	Purpose:bathhouse imp will run away,
+;			call buddies, generally be
+;			a punk.
+;
+;	Triggers:
+;		"Phase1" =  starts the first part
+;		"Phase2" =  starts the second part
+;-----------------------------------------
+#include BaseGlobals.inc
+#include ListTraverse.inc
+#include baseMelee.inc
+#include flags.inc
+
+#hobject	hMe = 0
+#hobject	hHenchman1 = 0
+#hobject	hHenchman2 = 0
+#hobject	hTrigger = 0
+
+#string		sColloidal1Name = "ColSInRoomA0"
+#string		sColloidal2Name = "ColGInRoomB0"
+#string		sColloidal3Name = "ColSoldLeft"
+#string		sColloidal4Name = "ColSoldRight"
+
+#number		x = 0
+#number		y = 0
+#number		z = 0
+
+#string		SPELL_ELEMBLAST = "elemental blast"
+
+;-----------------------------------------
+:Main
+;-----------------------------------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+
+	gosub SetTraverseRun
+	gosub SetTraverseOnce
+	TRAVERSERADIUS = 25
+
+	OnPostStartWorld InitImpTrickster
+Wait 0, 5, InitImpTrickster
+
+	Exit TRUE
+
+;-----------------------------------------
+:InitImpTrickster
+;-----------------------------------------
+	AddTrigger Phase1, OpeningRoom
+	AddTrigger Phase2, FloodRoom
+	OnStuck TraverseResume
+	OnDamage PreemtScene
+	OnDeath DisableScene
+
+	AddTrigger reappear, Reappear
+	AddTrigger disappear, Disappear
+
+	GetMyHandle hMe
+	GetObjectHandle TriggerFrontImp, hTrigger
+	GetObjectHandle sColloidal1Name, hHenchman1
+	GetObjectHandle sColloidal2Name, hHenchman2
+
+	gosub BaseWanderInit
+	gosub BaseWanderStartup
+
+	Exit TRUE
+
+;-----------------------------------------
+:PreemtScene
+;-----------------------------------------
+	OnDamage DoNothing
+	Trigger hTrigger, trigger
+
+	Exit TRUE
+
+;-----------------------------------------
+:DisableScene
+;-----------------------------------------
+	OnDeath DoNothing
+	Trigger hTrigger, off
+
+	Exit TRUE
+
+;-----------------------------------------
+:OnTraverseDone
+;-----------------------------------------
+	if( LISTINDEX==0 )
+		hTrigger = LISTOBJECT
+		gosub TraversePause
+		SetCallback 0, EndOpeningRoom
+		gosub AlertHenchman1
+		Exit TRUE
+	endif
+	if( LISTINDEX==5 )
+		gosub TraversePause
+		KillCallback 0
+		SetCallback 0, TraverseResume
+		gosub AlertHenchman1
+		Exit TRUE
+	endif
+	if( LISTINDEX==7 )
+		gosub TraversePause
+		gosub EscapeEnd
+	endif
+	PlaySound sounds\AnimSounds\DragonflyHattackair1.wav, DoNothing, 1, 5000, FALSE, 100
+	Exit TRUE
+
+;-----------------------------------------
+:OpeningRoom
+;-----------------------------------------
+	gosub BaseWanderStop
+	PlayAnim HAttack1, DoNothing
+	PlaySound sounds\AnimSounds\DragonflyHattackair1.wav, DoNothing, 1, 5000, FALSE, 100
+	GetPlayerHandle g_hTarget
+	FaceObject g_hTarget, 360, TraverseBegin
+	Exit TRUE
+
+;-----------------------------------------
+:EndOpeningRoom
+;-----------------------------------------
+	DoClientFX hTrigger, SPELL_ELEMBLAST, 0, 1
+	GetPOS LISTOBJECT, x,y,z
+	PlaySound sounds\magic\protectionfrommagic.wav, DoNothing, 1, 5000, FALSE, 100
+	SetPOS hMe, x,y,z
+;;	gosub Disappear
+	Exit TRUE
+
+;-----------------------------------------
+:FloodRoom
+;-----------------------------------------
+	GetObjectHandle sColloidal3Name, hHenchman1
+	GetObjectHandle sColloidal4Name, hHenchman2
+	gosub TraverseResume
+	Exit TRUE
+
+;-----------------------------------------
+:EscapeEnd
+;-----------------------------------------
+	Stop
+
+	gosub BaseInit
+	gosub SetupTarget
+	gosub AggressiveStart
+	Exit TRUE
+
+;-----------------------------------------
+:AlertHenchman1
+;-----------------------------------------
+	FaceObject hHenchman1, 360, DoTaunt
+	PlaySound "sounds\AnimSounds\DragonflyHattackair1.wav", DoNothing, 1, 5000, FALSE, 100
+	Trigger hHenchman1, Help
+	Wait 0, 1, AlertHenchman2
+	Exit TRUE
+
+;-----------------------------------------
+:AlertHenchman2
+;-----------------------------------------
+	FaceObject hHenchman2, 360, DoTaunt
+	PlaySound "sounds\AnimSounds\DragonflyHattackair1.wav", DoNothing, 1, 5000, FALSE, 100
+	Trigger hHenchman2, Help
+	Wait 0, 2, EndPhase
+	Exit TRUE
+
+;-----------------------------------------
+:DoTaunt
+;-----------------------------------------
+	PlaySound sounds\AnimSounds\DragonflyHattackair1.wav, DoNothing, 1, 5000, FALSE, 100
+	PlayAnim HAttack1
+	Exit TRUE
+
+;-----------------------------------------
+:EndPhase
+;-----------------------------------------
+	DoCallback 0
+	Exit TRUE
+
+;-----------------------------------------
+:Disappear
+;-----------------------------------------
+	ClearFlag hMe, FLAG_SOLID
+	ClearFlag hMe, FLAG_VISIBLE
+	SetPropNumber CanDamage, FALSE
+
+	Exit TRUE
+
+;-----------------------------------------
+:Reappear
+;-----------------------------------------
+	SetFlag hMe, FLAG_SOLID
+	SetFlag hMe, FLAG_VISIBLE
+	SetPropNumber CanDamage, TRUE
+
+	Exit TRUE

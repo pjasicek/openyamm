@@ -1,0 +1,239 @@
+;----------------------------------------------
+;NjamFreeze.scr
+; By Timmy
+; 11/16
+; Manager for Njam's freezing stuff
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#string						model_name
+#string						Model_skin = skins\Njam7.dtx
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+#string				sSpellEffect = "Njam lightball for cutscene"
+;-------------------------------------
+:OnChase
+;-------------------------------------
+
+
+getmyhandle g_hmyobject
+setflag g_hmyobject Solid
+setflag g_hmyobject Visible
+setflag g_hmyobject Gravity
+Playsound \Sounds\spells\TownPortal.wav, DoNothing, 100, 24000, FALSE, 100
+
+getobjecthandle NJamMarker g_hobject
+Runto g_hobject 0 OnArrive 
+exit
+
+;-------------------------------------
+:OnArrive
+;-------------------------------------
+
+getobjecthandle LeverHand g_hobject
+Trigger g_hobject Play
+
+exit
+
+;-------------------------------------
+:OnPanic
+;-------------------------------------
+
+getobjecthandle Earthquake g_hobject
+trigger g_hobject Trigger
+PlayAnim njam_wingame OnFreeze
+exit
+
+;-------------------------------------
+:OnFreeze
+;-------------------------------------
+
+LoopAnim Njam 0 DoNothing
+exit
+
+;-------------------------------------
+:OnLightning
+;-------------------------------------
+
+
+
+
+Loopanim njam_twitch 0 DoNothing
+gosub OnFreezeSkin
+getobjecthandle Lightning1 g_hobject
+trigger g_hobject On
+
+getobjecthandle Lightning2 g_hobject
+trigger g_hobject On
+
+Wait 1 7 OnLightningOff
+exit
+
+
+;-------------------------------------
+:OnLightningOff
+;-------------------------------------
+
+Loopanim njam_frozen 0 DoNothing
+getobjecthandle Lightning1 g_hobject
+trigger g_hobject Off
+getobjecthandle Lightning2 g_hobject
+trigger g_hobject Off
+getobjecthandle Earthquake g_hobject
+trigger g_hobject Off
+getobjecthandle winman g_hobject
+trigger g_hobject Frozen
+
+exit
+
+;-------------------------------------
+:OnCameraSwitch
+;-------------------------------------
+
+GetobjectHandle WinMan g_hobject
+trigger g_hobject CameraSwitch
+
+exit
+
+;-------------------------------------
+:OnCameraSwitch2
+;-------------------------------------
+
+GetobjectHandle WinMan g_hobject
+trigger g_hobject CameraSwitch2
+
+exit
+
+;-------------------------------------
+:OnStartBall
+;-------------------------------------
+
+DoClientFX g_hmyObject,sSpellEffect
+Playsound \Sounds\spells\column01.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnFreezeSkin
+;-------------------------------------
+
+
+
+set Model_skin NULL
+set g_ncounter, 0
+;removemodelkey Freeze
+
+wait 2 3 OnFreezeSkin2 
+exit
+
+;-------------------------------------
+:OnFreezeSkin2
+;-------------------------------------
+
+
+gosub SetFreezeSkin
+
+Playsound \Sounds\spells\Purify.wav, DoNothing, 100, 24000, FALSE, 100
+SetModelFilenames model_name Model_skin
+	Loopanim njam_twitch 0 DoNothing
+
+if (g_ncounter>7)
+	Loopanim njam_frozen 0 DoNothing
+	exit
+endif
+wait 3 .4 OnFreezeSkin2
+exit
+
+;-------------------------------------
+:SetFreezeSkin
+;-------------------------------------
+
+g_ncounter = g_ncounter + 1
+
+if (g_ncounter==1)
+	set Model_skin skins\Njam1.dtx
+	exit
+endif
+
+if (g_ncounter==2)
+	set Model_skin skins\Njam2.dtx
+	exit
+endif
+
+if (g_ncounter==3)
+	set Model_skin skins\Njam3.dtx
+	exit
+endif
+
+if (g_ncounter==4)
+	set Model_skin skins\Njam4.dtx
+	exit
+endif
+
+if (g_ncounter==5)
+	set Model_skin skins\Njam5.dtx
+	exit
+endif
+
+if (g_ncounter==6)
+	set Model_skin skins\Njam6.dtx
+	exit
+endif
+
+if (g_ncounter==7)
+	set Model_skin skins\Njam7.dtx
+	exit
+endif
+
+
+exit
+
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+CacheTexture skins\Njam1.dtx
+CacheTexture skins\Njam2.dtx
+CacheTexture skins\Njam3.dtx
+CacheTexture skins\Njam4.dtx
+CacheTexture skins\Njam5.dtx
+CacheTexture skins\Njam6.dtx
+CacheTexture skins\Njam7.dtx
+
+getmyhandle g_hmyobject
+Clearflag g_hmyobject Visible
+Clearflag g_hmyobject Gravity
+Clearflag g_hmyobject Solid
+
+exit
+
+;-------------------------------------
+:OnFootstep
+;-------------------------------------
+
+Playsound \Sounds\AnimSounds\Footsteps\Dirt1.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Chase, OnChase
+AddTrigger Panic OnPanic
+AddModelKey StartBall, OnStartBall
+AddModelKey Lightning, OnLightning
+AddModelKey CameraSwitch, OnCameraSwitch
+AddModelKey CameraSwitch2, OnCameraSwitch2
+AddModelKey footstep OnFootstep
+;AddModelKey Freeze, OnFreezeskin
+AddTrigger Freeze, OnFreezeskin
+Gosub Init
+exit

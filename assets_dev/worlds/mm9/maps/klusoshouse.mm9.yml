@@ -1,0 +1,51 @@
+format_version: 1
+kind: "mm9_indoor_source_metadata"
+source:
+  source_kind: "mm9_dat"
+  source_dat: "mm9/extracted/WORLDS/WORLDS/KLUSOSHOUSE.dat"
+  coordinate_scale: 2.56
+target:
+  classification: "indoor_like"
+  strategy: "sectorized_blv_prototype"
+  geometry_file: "klusoshouse.blv"
+  scene_file: "klusoshouse.scene.yml"
+  source_glb: "klusoshouse.source.glb"
+  geometry_metadata: "klusoshouse.geometry.yml"
+  bsp_diagnostics: "klusoshouse.bsp.yml"
+  bitmap_alias_dir: "assets_dev/worlds/mm9/textures"
+source_world_models: 156
+source_objects: 393
+layout:
+  sector_mode: "leaf_grid"
+  grid_size: 4
+  visbsp_leaves: 375
+  visbsp_leaf_polygon_entries: 3345
+  valid_leaf_polygon_refs: 3345
+  matched_leaf_polygon_refs: 3345
+  invalid_leaf_model_refs: 0
+  invalid_leaf_poly_refs: 0
+  leaves_with_geometry: 375
+  unassigned_source_triangles: 3415
+  source_triangles: 8583
+  rooms: 14
+  portals: 36
+  synthetic_bridge_portals: 13
+  dat_user_portals: 11
+  dat_user_portals_emitted: 11
+  dat_user_portals_skipped: 0
+  dat_user_portal_duplicate_pairs: 0
+  synthetic_portals_replaced_by_dat_user_portals: 0
+stats:
+  source_models: 156
+  source_polies: 3429
+  emitted_faces: 8583
+  skipped_polies: 0
+  triangulated_polies: 2968
+  skipped_degenerate_triangles: 2314
+  source_plane_orientation_flips: 1462
+  clamped_plane_distances: 0
+  source_glb_vertices: 11035
+  source_glb_triangles: 8655
+  source_glb_materials: 40
+  source_glb_rooms: 14
+  source_glb_portals: 36

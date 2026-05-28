@@ -1,0 +1,138 @@
+;----------------------------------------------
+;Randverrun.scr
+; By Timmy
+; Makes Randver the Storm (NPC 51) run away 
+; after he's exposed himself as a spy
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+#include basedoor.inc
+#include baserun.inc
+
+#string                         sMarker
+#string							Ceffect = "spell-town portal"
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;-------------------------------------
+:OnRudeExit2
+;-------------------------------------
+
+Haskey 15 g_ntemp
+
+If (g_ntemp==1, )
+	haskey 495 g_ntemp
+	if (g_ntemp==False)
+		givekey 495
+		GiveExp 800
+	endif
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+;	this is where Randver starts running
+	SetPropNumber DoRude False
+	Wait 25,0.1,OnRun
+;	Gosub OnRun
+	exit TRUE
+Endif
+
+exit
+
+;-------------------------------------
+:OnRun
+;-------------------------------------
+
+gosub Basedoorinit
+getobjecthandle RandverHide g_hobject
+runto g_hobject 16 OnRun2
+;;wait 1 1 OnRun2
+wait 3 10 Vanish
+exit
+
+;-------------------------------------
+:OnRun2
+;-------------------------------------
+
+
+
+	getplayerhandle g_htarget
+
+	Target g_hTarget, FALSE
+
+	g_hRunAwayTrigger	= g_hTarget
+
+	gosub BaseRunAway
+
+
+
+
+exit TRUE
+
+;-------------------------------------
+:Vanish
+;-------------------------------------
+getmyhandle g_hmyobject
+
+; play vanish effect here
+DoClientFX g_hmyObject,Ceffect
+Playsound \Sounds\magic\Windup10.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 Vanish2b
+exit
+
+;-------------------------------------
+:Vanish2b
+;-------------------------------------
+
+clearflag g_hmyobject visible
+Playsound \Sounds\spells\townportal.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 Vanish2c
+exit
+
+
+;-------------------------------------
+:Vanish2c
+;-------------------------------------
+removeobject g_hmyobject
+exit
+
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+;gosub OnRun
+;Playsound voices\NPC\NPC_051.wav, DoNothing, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+haskey 15 g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+endif
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger run, OnRudeExit2
+OnRudeExit OnRudeExit2
+Addtrigger use, Onuse
+gosub BaseRunInit
+
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+;OnStuck Stuck
+exit

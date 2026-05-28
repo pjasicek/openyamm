@@ -1,0 +1,121 @@
+schema: openyamm.model3d.v1
+id: sconce1
+model: sconce1.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/SCONCE1.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: 'coal '
+  materialIndex: 0
+  lods:
+  - faces: 10
+    vertices: 7
+  - faces: 10
+    vertices: 7
+  - faces: 10
+    vertices: 7
+- name: sconce 1
+  materialIndex: 0
+  lods:
+  - faces: 263
+    vertices: 148
+  - faces: 195
+    vertices: 113
+  - faces: 127
+    vertices: 79
+- name: sconce 1 fire node
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+materials:
+- index: 0
+  texture: skins_preview/props/sconce1.png
+  runtime_texture: skins/props/sconce1.dtx
+  preview_texture: skins_preview/props/sconce1.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SCONCE1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 5
+  - index: 1
+    name: Bone03
+    parent: 0
+    flags: 0
+    children:
+    - 2
+    - 3
+    - 4
+  - index: 2
+    name: Bone04
+    parent: 1
+    flags: 0
+    children: []
+  - index: 3
+    name: 'coal '
+    parent: 1
+    flags: 0
+    children: []
+  - index: 4
+    name: sconce 1
+    parent: 1
+    flags: 0
+    children: []
+  - index: 5
+    name: sconce 1 fire node
+    parent: 0
+    flags: 0
+    children: []
+sockets:
+- name: Firenode
+  node: 5
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.0
+  - 0.9985011219978333
+  - 0.0
+  - 0.05476510152220726
+animations:
+- name: static_object
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: static_object
+  extents:
+  - 20.48
+  - 15.36
+  - 20.48
+  origin:
+  - 0.0
+  - 2.56
+  - 1.28
+roles:
+- static_model
+source_model: models/props/sconce1.abc

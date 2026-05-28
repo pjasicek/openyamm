@@ -1,0 +1,68 @@
+schema: openyamm.model3d.v1
+id: bench_large1ns
+model: bench_large1ns.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/BENCH_LARGE1NS.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Bench_Large1
+  materialIndex: 0
+  lods:
+  - faces: 120
+    vertices: 80
+  - faces: 90
+    vertices: 65
+  - faces: 60
+    vertices: 50
+materials:
+- index: 0
+  texture: skins_preview/props/bench_large1.png
+  runtime_texture: skins/props/bench_large1.dtx
+  preview_texture: skins_preview/props/bench_large1.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/BENCH_LARGE1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 533
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 38.4
+  - 87.04
+  - 181.76
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/bench_large1ns.abc

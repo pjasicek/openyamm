@@ -1,0 +1,65 @@
+;-----------------------------------------------------
+;
+;	1000T_SkeletonHead.scr
+;
+;	Karl Drown 11-27-01
+;	Very Large Skull that targets the party.
+;	
+;	
+;-----------------------------------------------------
+
+#include Globals.inc
+
+#hObject	hShooterA
+#hObject	hShooterB
+
+#string		sShooterA
+#string		sShooterB
+
+#number		bIsAnimating
+
+;-----------------------------------------------------
+:DoNothing
+;-----------------------------------------------------
+
+	Exit TRUE
+;-----------------------------------------------------
+:Start
+;-----------------------------------------------------
+;Cprint Start
+	If (bIsAnimating==FALSE)
+		Exit
+	Endif
+	bIsAnimating = FALSE
+	Rotate 0, 1, 0, 180, 180, TurnOff
+
+	Exit TRUE
+;-----------------------------------------------------
+:TurnOff
+;-----------------------------------------------------
+;Cprint TurnOff
+	bIsAnimating = TRUE
+	Trigger hShooterA, Go
+	Trigger hShooterB, Go
+
+	Exit TRUE
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+	bIsAnimating = TRUE
+	GetObjectHandle sShooterA, hShooterA
+	GetObjectHandle sShooterB, hShooterB
+	AddTrigger Go, Start
+	AddTrigger Stop, TurnOff
+	Trigger hShooterA, Go
+	Trigger hShooterB, Go
+
+	Exit True
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	GetParam 0, sShooterA
+	GetParam 1, sShooterB
+	Wait 0, 0.5, Main2
+	Exit
+;------------- E n d - O f - F i l e -------------------

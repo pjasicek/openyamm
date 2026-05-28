@@ -1,0 +1,85 @@
+;-----------------------------------
+;	YanmirKey.scr
+;	by SJR
+;	01-16-02
+;	Purpose:yanmirs key to unlock
+;			the teleporter room
+;-----------------------------------
+
+#hobject	hObject = 0
+#string		sDoorRightName = "DoorTeleportRight"
+#string		sDoorLeftName = "DoorTeleportLeft"
+
+#number		bHasKey = 0
+
+;-----------------------------------
+:Main
+;-----------------------------------
+	GetParam 0, sDoorRightName
+	GetParam 1, sDoorLeftName
+
+	AddTrigger use, GiveKeyToPlayer
+
+	OnPostStartWorld CheckForKey
+	OnPostMiniSaveLoad CheckForKey
+
+	Exit 1
+
+;-----------------------------------
+:CheckForKey
+;-----------------------------------
+	HasKey 7001, bHasKey
+	if( bHasKey==1 )
+		gosub UnlockCages
+		gosub RemoveMe
+	endif
+
+	Exit 1
+
+;-----------------------------------
+:GiveKeyToPlayer
+;-----------------------------------
+	RemoveTrigger use
+
+	GiveItem 570
+	GiveKey 7001
+
+	gosub UnlockCages
+	gosub RemoveMe
+
+	Exit 1
+
+;-----------------------------------
+:UnlockCages
+;-----------------------------------
+	;;unlock the teleporter doors
+	GetObjectHandle sDoorRightName, hObject
+	Trigger hObject, unlock
+	GetObjectHandle sDoorLeftName, hObject
+	Trigger hObject, unlock
+
+	;;unlock all the cages
+	GetObjectHandle RotatingDoor61, hObject
+	Trigger hObject, unlock
+	GetObjectHandle RotatingDoor62, hObject
+	Trigger hObject, unlock
+	GetObjectHandle RotatingDoor63, hObject
+	Trigger hObject, unlock
+	GetObjectHandle RotatingDoor64, hObject
+	Trigger hObject, unlock
+	GetObjectHandle RotatingDoor65, hObject
+	Trigger hObject, unlock
+	GetObjectHandle RotatingDoor66, hObject
+	Trigger hObject, unlock
+	GetObjectHandle RotatingDoor67, hObject
+	Trigger hObject, unlock
+
+	Exit 1
+
+;-----------------------------------
+:RemoveMe
+;-----------------------------------
+	GetMyHandle hObject
+	RemoveObject hObject
+
+	Exit 1

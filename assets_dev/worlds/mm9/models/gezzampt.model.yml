@@ -1,0 +1,636 @@
+schema: openyamm.model3d.v1
+id: gezzampt
+model: gezzampt.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/GEZZAMPT.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: ear01
+  materialIndex: 0
+  lods:
+  - faces: 9
+    vertices: 7
+  - faces: 7
+    vertices: 6
+  - faces: 7
+    vertices: 6
+  - faces: 7
+    vertices: 6
+- name: ear
+  materialIndex: 0
+  lods:
+  - faces: 9
+    vertices: 7
+  - faces: 7
+    vertices: 6
+  - faces: 7
+    vertices: 6
+  - faces: 7
+    vertices: 6
+- name: body
+  materialIndex: 0
+  lods:
+  - faces: 536
+    vertices: 270
+  - faces: 402
+    vertices: 203
+  - faces: 262
+    vertices: 133
+  - faces: 124
+    vertices: 64
+materials:
+- index: 0
+  texture: skins_preview/gezzampt.png
+  runtime_texture: skins/gezzampt.dtx
+  preview_texture: skins_preview/gezzampt.png
+  source: mm9/extracted/SKINS/SKINS/GEZZAMPT.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 19
+    - 23
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bip01 Neck
+    parent: 4
+    flags: 1
+    children:
+    - 6
+    - 9
+    - 14
+  - index: 6
+    name: Bip01 Head
+    parent: 5
+    flags: 1
+    children:
+    - 7
+    - 8
+  - index: 7
+    name: Bip01 Ponytail1
+    parent: 6
+    flags: 1
+    children: []
+  - index: 8
+    name: Bip01 Ponytail2
+    parent: 6
+    flags: 1
+    children: []
+  - index: 9
+    name: Bip01 L Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bip01 L UpperArm
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bip01 L Forearm
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Bip01 L Hand
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bip01 L Finger0
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Bip01 R Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 R UpperArm
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bip01 R Forearm
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bip01 R Hand
+    parent: 16
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Bip01 R Finger0
+    parent: 17
+    flags: 1
+    children: []
+  - index: 19
+    name: Bip01 L Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Bip01 L Calf
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bip01 L HorseLink
+    parent: 20
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Bip01 L Foot
+    parent: 21
+    flags: 1
+    children: []
+  - index: 23
+    name: Bip01 R Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bip01 R Calf
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bip01 R HorseLink
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: Bip01 R Foot
+    parent: 25
+    flags: 1
+    children: []
+sockets:
+- name: LHand1
+  node: 13
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.7059619426727295
+  - 0.0028476098086684942
+  - -0.7059733867645264
+  - 0.0028676106594502926
+- name: RHand1
+  node: 18
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.002864744747057557
+  - 0.707101047039032
+  - -0.0028652704786509275
+  - 0.7071009278297424
+- name: RangeAttack
+  node: 17
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.46729326248168945
+  - 0.7049059271812439
+  - -0.2950095236301422
+  - 0.44465041160583496
+animations:
+- name: gezzexport
+  durationMs: 166
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: aware
+  durationMs: 900
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 220
+    event: playanimsound
+- name: fidget1
+  durationMs: 2500
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 1562
+    event: playanimsound
+- name: fidget2
+  durationMs: 2500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 609
+    event: playanimsound
+- name: walk
+  durationMs: 1100
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 402
+    event: footstep
+  - timeMs: 939
+    event: footstep
+- name: run
+  durationMs: 350
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 129
+    event: footstep
+  - timeMs: 299
+    event: footstep
+- name: Hattack1
+  durationMs: 700
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 97
+    event: speakanimsound
+  - timeMs: 291
+    event: playsoundFX
+  - timeMs: 389
+    event: Rattack
+- name: Hattack2
+  durationMs: 700
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 97
+    event: speakanimsound
+  - timeMs: 292
+    event: playsoundFX
+  - timeMs: 389
+    event: Rattack
+- name: Rattack1
+  durationMs: 700
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 389
+    event: RangeAttack
+- name: wince1
+  durationMs: 900
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 109
+    event: speakanimsound
+- name: wince2
+  durationMs: 800
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 111
+    event: speakanimsound
+- name: die1
+  durationMs: 1300
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0 -5  8
+  - timeMs: 144
+    event: speakanimsound; Velocity  0  28 -15
+  - timeMs: 288
+    event: Velocity  0 -37 -72
+  - timeMs: 433
+    event: Velocity  0 -121 -74
+  - timeMs: 577
+    event: Velocity  0 -6  0
+  - timeMs: 722
+    event: playdeathsound; Velocity  0  32  0
+  - timeMs: 867
+    event: Velocity  0 -32  0
+  - timeMs: 1011
+    event: Velocity  0  2  0
+  - timeMs: 1155
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: die2
+  durationMs: 1300
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0 -21  7
+  - timeMs: 144
+    event: speakanimsound; Velocity -10  44 -75
+  - timeMs: 289
+    event: Velocity -2 -1 -88
+  - timeMs: 433
+    event: Velocity -13 -48 -66
+  - timeMs: 577
+    event: Velocity -7 -99 -17
+  - timeMs: 722
+    event: Velocity -4 -5 -6
+  - timeMs: 867
+    event: Velocity -4  9 -5; playdeathsound
+  - timeMs: 1011
+    event: Velocity -5 -18 -11
+  - timeMs: 1155
+    event: Velocity -3  6 -9
+  - timeMs: 1300
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: Backpedal
+  durationMs: 1100
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 161
+    event: footstep
+  - timeMs: 698
+    event: footstep
+- name: BackpedalRun
+  durationMs: 700
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 102
+    event: footstep
+  - timeMs: 445
+    event: footstep
+- name: Taunt
+  durationMs: 900
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 220
+    event: playanimsound
+animationBindings:
+- name: gezzexport
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: stand
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: aware
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fidget1
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fidget2
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: walk
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - -5.12
+  - 0.0
+- name: run
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Hattack1
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Hattack2
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Rattack1
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: wince1
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: wince2
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: die1
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: die2
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Backpedal
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - -5.12
+  - 0.0
+- name: BackpedalRun
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - -5.12
+  - 0.0
+- name: Taunt
+  extents:
+  - 51.2
+  - 128.0
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- actor_model
+source_model: models/gezzampt.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: gezzampt_gezzampt
+  source_skins:
+  - skins/gezzampt.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 163
+    number: '171'
+    monster_name: Gezzamptling
+    type_picture: Gezzampt A
+    base_name: Gezzampt
+  - table: MONSTERS
+    row: 163
+    number: '171'
+    monster_name: Gezzamptling
+    type_picture: Gezzampt A
+    base_name: Gezzampt
+- id: gezzampt_gezzampt2
+  source_skins:
+  - skins/gezzampt2.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 164
+    number: '172'
+    monster_name: Gezzampt
+    type_picture: Gezzampt B
+    base_name: Gezzampt
+  - table: MONSTERS
+    row: 164
+    number: '172'
+    monster_name: Gezzampt
+    type_picture: Gezzampt B
+    base_name: Gezzampt
+- id: gezzampt_gezzampt3
+  source_skins:
+  - skins/gezzampt3.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 165
+    number: '173'
+    monster_name: Gezzampt Elder
+    type_picture: Gezzampt C
+    base_name: Gezzampt
+  - table: MONSTERS
+    row: 165
+    number: '173'
+    monster_name: Gezzampt Elder
+    type_picture: Gezzampt C
+    base_name: Gezzampt

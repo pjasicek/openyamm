@@ -1,0 +1,1437 @@
+format_version: 1
+source_file: NPC257.rude
+rows:
+  - source:
+      file: NPC257.rude
+      row: 1
+    raw_columns:
+      - 257
+      - 21
+      - 1
+      - Perhaps.
+      - And where would you like to send these "passengers"?
+      - 22
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 21
+      choice_slot: 1
+      prompt: Perhaps.
+      response: And where would you like to send these "passengers"?
+      next: 22
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 22
+  - source:
+      file: NPC257.rude
+      row: 2
+    raw_columns:
+      - 257
+      - 1
+      - 1
+      - Yes.
+      - Climb aboard!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 1
+      choice_slot: 1
+      prompt: Yes.
+      response: Climb aboard!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC257.rude
+      row: 3
+    raw_columns:
+      - 257
+      - 10
+      - 1
+      - Do you have any news?
+      - I got caught in a storm crossing the Verhoffin Sea recently.  I lost half my cargo!
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 10
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I got caught in a storm crossing the Verhoffin Sea recently.  I lost half my cargo!
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC257.rude
+      row: 4
+    raw_columns:
+      - 257
+      - 257
+      - 1
+      - Interested in leaving?
+      - Yes.
+      - -5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 257
+      choice_slot: 1
+      prompt: Interested in leaving?
+      response: Yes.
+      next: -5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -5
+        service: travel
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -5
+        service: travel
+        status: typed_pending_exact_runtime_behavior
+  - source:
+      file: NPC257.rude
+      row: 5
+    raw_columns:
+      - 257
+      - 20
+      - 1
+      - We need to send some people away.
+      - Is that so?  And might these people worship a certain temple devoted to geese?
+      - 21
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 20
+      choice_slot: 1
+      prompt: We need to send some people away.
+      response: Is that so?  And might these people worship a certain temple devoted to geese?
+      next: 21
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 21
+  - source:
+      file: NPC257.rude
+      row: 6
+    raw_columns:
+      - 257
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC257.rude
+      row: 7
+    raw_columns:
+      - 257
+      - 22
+      - 1
+      - We'd like to send them to Beldonia.
+      - If what I've heard about the army marching towards us is true, those Beldonians deserve it!  Just send them over here to the docks.  I'll take care of the rest.
+      - 23
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 139
+      - 145
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 22
+      choice_slot: 1
+      prompt: We'd like to send them to Beldonia.
+      response: If what I've heard about the army marching towards us is true, those Beldonians deserve it!  Just send them over here to the docks.  I'll take care of the rest.
+      next: 23
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 139
+        c17: 145
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 23
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 139
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c17
+        value: 145
+        status: raw_value_preserved
+  - source:
+      file: NPC257.rude
+      row: 8
+    raw_columns:
+      - 257
+      - 23
+      - 1
+      - Thanks.
+      - Trust me.  You're doing us ALL a favor.  Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 23
+      choice_slot: 1
+      prompt: Thanks.
+      response: Trust me.  You're doing us ALL a favor.  Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC257.rude
+      row: 9
+    raw_columns:
+      - 257
+      - 22
+      - 2
+      - We'd like to send them back to Guberland.
+      - A fitting destination if any.  Just send them all over here to the docks.  I'll take care of the rest.
+      - 23
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 140
+      - 145
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 22
+      choice_slot: 2
+      prompt: We'd like to send them back to Guberland.
+      response: A fitting destination if any.  Just send them all over here to the docks.  I'll take care of the rest.
+      next: 23
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 140
+        c17: 145
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 23
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 140
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c17
+        value: 145
+        status: raw_value_preserved
+  - source:
+      file: NPC257.rude
+      row: 10
+    raw_columns:
+      - 257
+      - 10
+      - 2
+      - What do you know about sailing?
+      - I'm the best sailor that ever lived!  I've traveled unscathed through storms that would have wrecked ships ten times my size!
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 10
+      choice_slot: 2
+      prompt: What do you know about sailing?
+      response: I'm the best sailor that ever lived!  I've traveled unscathed through storms that would have wrecked ships ten times my size!
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC257.rude
+      row: 11
+    raw_columns:
+      - 257
+      - 257
+      - 2
+      - We'd like to ask you some questions.
+      - Alright.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 257
+      choice_slot: 2
+      prompt: We'd like to ask you some questions.
+      response: Alright.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC257.rude
+      row: 12
+    raw_columns:
+      - 257
+      - 1
+      - 2
+      - No.
+      - Perhaps another time.
+      - 257
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 1
+      choice_slot: 2
+      prompt: No.
+      response: Perhaps another time.
+      next: 257
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 257
+  - source:
+      file: NPC257.rude
+      row: 13
+    raw_columns:
+      - 257
+      - 22
+      - 3
+      - We'd like to send them to Mendossus.
+      - That's just plain mean!  Those Mendossians don't deserve that!  Send all the honkies over here to the docks.  I'll take care of the rest.
+      - 23
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 141
+      - 145
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 22
+      choice_slot: 3
+      prompt: We'd like to send them to Mendossus.
+      response: That's just plain mean!  Those Mendossians don't deserve that!  Send all the honkies over here to the docks.  I'll take care of the rest.
+      next: 23
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 141
+        c17: 145
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 23
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 141
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c17
+        value: 145
+        status: raw_value_preserved
+  - source:
+      file: NPC257.rude
+      row: 14
+    raw_columns:
+      - 257
+      - 257
+      - 3
+      - We'd like to ask you a favor.
+      - What's that?
+      - 20
+      - 76
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 145
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 257
+      choice_slot: 3
+      prompt: We'd like to ask you a favor.
+      response: What's that?
+      next: 20
+      raw_fields:
+        c07: 76
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 145
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 20
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 76
+            qbit_id: 9076
+            state_id: mm9.keys.76
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 76
+          qbit_id: 9076
+          state_id: mm9.keys.76
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 145
+        status: raw_value_preserved
+  - source:
+      file: NPC257.rude
+      row: 15
+    raw_columns:
+      - 257
+      - 257
+      - 4
+      - How'd that Honky thing work out?
+      - They never knew what hit them!  They're well on their way to Beldonia.  I don't envy those Beldonians, that's for sure!
+      - 257
+      - 77
+      - 0
+      - 139
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 257
+      choice_slot: 4
+      prompt: How'd that Honky thing work out?
+      response: They never knew what hit them!  They're well on their way to Beldonia.  I don't envy those Beldonians, that's for sure!
+      next: 257
+      raw_fields:
+        c07: 77
+        c08: 0
+        c09: 139
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 257
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 77
+            qbit_id: 9077
+            state_id: mm9.keys.77
+          - column: c09
+            raw_id: 139
+            qbit_id: 9139
+            state_id: mm9.keys.139
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 77
+          qbit_id: 9077
+          state_id: mm9.keys.77
+        - domain: mm9.keys
+          raw_id: 139
+          qbit_id: 9139
+          state_id: mm9.keys.139
+  - source:
+      file: NPC257.rude
+      row: 16
+    raw_columns:
+      - 257
+      - 257
+      - 5
+      - How'd that Honky thing work out?
+      - They never knew what hit them!  They're well on their way back to Guberland where they belong!
+      - 257
+      - 77
+      - 0
+      - 140
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 257
+      choice_slot: 5
+      prompt: How'd that Honky thing work out?
+      response: They never knew what hit them!  They're well on their way back to Guberland where they belong!
+      next: 257
+      raw_fields:
+        c07: 77
+        c08: 0
+        c09: 140
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 257
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 77
+            qbit_id: 9077
+            state_id: mm9.keys.77
+          - column: c09
+            raw_id: 140
+            qbit_id: 9140
+            state_id: mm9.keys.140
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 77
+          qbit_id: 9077
+          state_id: mm9.keys.77
+        - domain: mm9.keys
+          raw_id: 140
+          qbit_id: 9140
+          state_id: mm9.keys.140
+  - source:
+      file: NPC257.rude
+      row: 17
+    raw_columns:
+      - 257
+      - 257
+      - 6
+      - How'd that Honky thing work out?
+      - They never knew what hit them!  They're well on their way to Mendossus.  That Mendossian king sure is going to hate us for that!  Heh, heh.  He might even declare war on us!
+      - 257
+      - 77
+      - 0
+      - 141
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 257
+      choice_slot: 6
+      prompt: How'd that Honky thing work out?
+      response: They never knew what hit them!  They're well on their way to Mendossus.  That Mendossian king sure is going to hate us for that!  Heh, heh.  He might even declare war on us!
+      next: 257
+      raw_fields:
+        c07: 77
+        c08: 0
+        c09: 141
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 257
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 77
+            qbit_id: 9077
+            state_id: mm9.keys.77
+          - column: c09
+            raw_id: 141
+            qbit_id: 9141
+            state_id: mm9.keys.141
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 77
+          qbit_id: 9077
+          state_id: mm9.keys.77
+        - domain: mm9.keys
+          raw_id: 141
+          qbit_id: 9141
+          state_id: mm9.keys.141
+  - source:
+      file: NPC257.rude
+      row: 18
+    raw_columns:
+      - 257
+      - 10
+      - 7
+      - Thanks for your time.
+      - Sure!
+      - 257
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 10
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Sure!
+      next: 257
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 257
+  - source:
+      file: NPC257.rude
+      row: 19
+    raw_columns:
+      - 257
+      - 257
+      - 10
+      - Sorry to bother you.
+      - Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 257
+      node_id: 257
+      choice_slot: 10
+      prompt: Sorry to bother you.
+      response: Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

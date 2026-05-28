@@ -1,0 +1,66 @@
+;-------------------------------------
+;	LichEffects.scr
+;	by SJR
+;	Purpose:
+;-------------------------------------
+#include BaseGlobals.inc
+#include CutSceneActor.inc
+
+#string		sEffect0Name = ""
+#string		sEffect1Name = ""
+#string		sEffect2Name = ""
+#string		sEffect3Name = ""
+
+#hobject	hEffect0 = 0
+#hobject	hEffect1 = 0
+#hobject	hEffect2 = 0
+#hobject	hEffect3 = 0
+
+#hobject	hMe = 0
+#number		nCounter = 0
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	GetParam 0, sEffect0Name
+	GetParam 1, sEffect1Name
+	GetParam 2, sEffect2Name
+	GetParam 3, sEffect3Name
+
+	GetMyHandle hMe
+
+	AddTrigger play, PlayEffects
+
+	Exit TRUE
+
+#string		SPELL_BLUEFIRE = "fireblue"
+;-------------------------------------
+:PlayEffects
+;-------------------------------------
+	GetObjectHandle sEffect0Name, hEffect0
+	GetObjectHandle sEffect1Name, hEffect1
+	GetObjectHandle sEffect2Name, hEffect2
+	GetObjectHandle sEffect3Name, hEffect3
+
+	gosub PlayEffectsLoop
+
+	Exit TRUE
+
+;-------------------------------------
+:PlayEffectsLoop
+;-------------------------------------
+	if( nCounter>6 )
+		gosub EndScene
+		Exit TRUE
+	else
+		nCounter = nCounter + 1
+	endif
+
+	DoClientFX hEffect0, SPELL_BLUEFIRE, FALSE, TRUE
+	DoClientFX hEffect1, SPELL_BLUEFIRE, FALSE, TRUE
+	DoClientFX hEffect2, SPELL_BLUEFIRE, FALSE, TRUE
+	DoClientFX hEffect3, SPELL_BLUEFIRE, FALSE, TRUE
+
+	Wait 0, 1, PlayEffectsLoop
+
+	Exit TRUE

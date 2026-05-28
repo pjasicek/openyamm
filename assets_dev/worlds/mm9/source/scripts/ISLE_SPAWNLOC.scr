@@ -1,0 +1,62 @@
+;---------------------------
+;	SpawnLoc.scr
+;	by SJR
+;	11-02-01
+;	Purpose:be a location for
+;			SpawnMgr.
+;	Triggers:
+;		"On" = enable
+;		"Off" = disable
+;		"Spawn" = change location and spawn
+;		"Focus" = change location
+;---------------------------
+
+#hobject	hSpawnMgr = 0
+
+;-------------
+:Main
+;-------------
+	OnPostStartWorld InitSpawnLoc
+
+	Exit 1
+
+;-------------
+:InitSpawnLoc
+;-------------
+	AddTrigger On, TurnOn
+	gosub TurnOn
+	GetObjectHandle SpawnMgr, hSpawnMgr
+	Exit 1
+
+;-------------
+:RequestSpawn
+;	ask Mgr to spawn here (spawn + focus)
+;-------------
+	gosub RequestFocus
+	Trigger hSpawnMgr, ForceSpawn
+	Exit 1
+
+;-------------
+:RequestFocus
+;	make this the current spawn location (focus only)
+;-------------
+	Trigger hSpawnMgr, SetLocation
+	Exit 1
+
+;-------------
+:TurnOn
+;	enable all messages
+;-------------
+	AddTrigger spawn, RequestSpawn
+	AddTrigger focus, RequestFocus
+	AddTrigger off, TurnOff
+	Exit 1
+
+;-------------
+:TurnOff
+;	disable all messages except On
+;-------------
+	RemoveTrigger spawn
+	RemoveTrigger focus
+	RemoveTrigger off
+	Exit 1

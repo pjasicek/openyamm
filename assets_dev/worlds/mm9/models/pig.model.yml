@@ -1,0 +1,503 @@
+schema: openyamm.model3d.v1
+id: pig
+model: pig.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PIG.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: d_pgtail
+  materialIndex: 0
+  lods:
+  - faces: 25
+    vertices: 15
+  - faces: 7
+    vertices: 6
+  - faces: 7
+    vertices: 6
+- name: d_pgbody
+  materialIndex: 0
+  lods:
+  - faces: 274
+    vertices: 139
+  - faces: 142
+    vertices: 73
+  - faces: 68
+    vertices: 36
+materials:
+- index: 0
+  texture: skins_preview/pig.png
+  runtime_texture: skins/pig.dtx
+  preview_texture: skins_preview/pig.png
+  source: mm9/extracted/SKINS/SKINS/PIG.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: XCENTER
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 18
+  - index: 2
+    name: XspineC
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 10
+    - 14
+  - index: 3
+    name: Xneck
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Xhead
+    parent: 3
+    flags: 1
+    children:
+    - 5
+    - 6
+    - 8
+  - index: 5
+    name: Xnose
+    parent: 4
+    flags: 1
+    children: []
+  - index: 6
+    name: Xearpiv
+    parent: 4
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Xear
+    parent: 6
+    flags: 1
+    children: []
+  - index: 8
+    name: Xearpiv01
+    parent: 4
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Xear01
+    parent: 8
+    flags: 1
+    children: []
+  - index: 10
+    name: Xftpiv
+    parent: 2
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Xftleg
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Xftlower
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Xftfoot
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Xftpiv01
+    parent: 2
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Xftleg01
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Xftlower01
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Xftfoot01
+    parent: 16
+    flags: 1
+    children: []
+  - index: 18
+    name: XspineA
+    parent: 1
+    flags: 1
+    children:
+    - 19
+    - 22
+    - 26
+  - index: 19
+    name: Xtailpiv
+    parent: 18
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: XtailA
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: XtailC
+    parent: 20
+    flags: 1
+    children: []
+  - index: 22
+    name: Xbkpivot
+    parent: 18
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Xbkleg
+    parent: 22
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Xbklower
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Xbkfoot
+    parent: 24
+    flags: 1
+    children: []
+  - index: 26
+    name: Xbkpivot01
+    parent: 18
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Xbkleg01
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Xbklower01
+    parent: 27
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Xbkfoot01
+    parent: 28
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: static_model
+  durationMs: 0
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Stand
+  durationMs: 1700
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: Fidget1
+  durationMs: 1700
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Fidget2
+  durationMs: 1800
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 163
+    event: speakanimsound
+- name: Standdown
+  durationMs: 1400
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Roll
+  durationMs: 900
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Rest
+  durationMs: 1200
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: playanimsound
+- name: Standup
+  durationMs: 1400
+  keyframes: 11
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Walk
+  durationMs: 900
+  keyframes: 41
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 22
+    event: footstep 2
+  - timeMs: 382
+    event: footstep 1
+- name: Run
+  durationMs: 300
+  keyframes: 41
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 188
+    event: footstep 1
+  - timeMs: 202
+    event: footstep 2
+  - timeMs: 232
+    event: footstep 3
+  - timeMs: 278
+    event: footstep 4
+- name: Wince1
+  durationMs: 900
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 100
+    event: speakanimsound
+- name: Wince2
+  durationMs: 900
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: Die1
+  durationMs: 1200
+  keyframes: 11
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity -1 0 -3; speakanimsound
+  - timeMs: 133
+    event: Velocity -4 0  0
+  - timeMs: 400
+    event: Velocity -10 0 -11
+  - timeMs: 666
+    event: Velocity -5 0 -4
+  - timeMs: 933
+    event: Velocity -3 0 -1
+  - timeMs: 1066
+    event: Velocity -1 0  0
+  - timeMs: 1200
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: Die2
+  durationMs: 1600
+  keyframes: 20
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity -1 0 -4
+  - timeMs: 177
+    event: Velocity  10 0 -4
+  - timeMs: 355
+    event: Velocity  15 0 -15
+  - timeMs: 710
+    event: Velocity  13 0 -5
+  - timeMs: 889
+    event: Velocity  2 0 -3
+  - timeMs: 1067
+    event: Velocity  5 0 -1
+  - timeMs: 1209
+    event: Velocity 0 0 0; DeadDims 1 0 1
+animationBindings:
+- name: static_model
+  extents:
+  - 25.6
+  - 17.92
+  - 25.6
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Stand
+  extents:
+  - 25.6
+  - 17.92
+  - 25.6
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Fidget1
+  extents:
+  - 25.6
+  - 17.92
+  - 25.6
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Fidget2
+  extents:
+  - 25.6
+  - 17.92
+  - 25.6
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Standdown
+  extents:
+  - 25.6
+  - 17.92
+  - 25.6
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Roll
+  extents:
+  - 25.6
+  - 17.92
+  - 25.6
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Rest
+  extents:
+  - 25.6
+  - 17.92
+  - 25.6
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Standup
+  extents:
+  - 25.6
+  - 17.92
+  - 25.6
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Walk
+  extents:
+  - 25.6
+  - 17.92
+  - 25.6
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Run
+  extents:
+  - 25.6
+  - 17.92
+  - 25.6
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Wince1
+  extents:
+  - 25.6
+  - 17.92
+  - 25.6
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Wince2
+  extents:
+  - 25.6
+  - 17.92
+  - 25.6
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Die1
+  extents:
+  - 25.6
+  - 17.92
+  - 25.6
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+- name: Die2
+  extents:
+  - 25.6
+  - 17.92
+  - 25.6
+  origin:
+  - 0.0
+  - 5.12
+  - 0.0
+roles:
+- actor_model
+source_model: models/pig.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: pig_pig
+  source_skins:
+  - skins/pig.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 252
+    number: '271'
+    monster_name: Pig
+    type_picture: Pig
+    base_name: pig
+  - table: MONSTERS
+    row: 252
+    number: '271'
+    monster_name: Pig
+    type_picture: Pig
+    base_name: pig

@@ -1,0 +1,259 @@
+;--------------------------------------------------
+;IsleAshesBook.scr
+; timmy
+; handles Isle of Ashes Book Quest
+;--------------------------------------------------
+
+#include globals.inc
+
+#String    Params          
+#String    sound
+
+#number				bSafeToStart
+
+#numberArray		g_hMonsterArray[10]
+#number				g_nMonsterCount
+
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+set bSafeToStart, FALSE
+
+gosub ContainerCheck
+
+if (bSafeToStart==FALSE)
+	exit
+endif
+
+haskey 29 g_ntemp
+if (g_ntemp==1)
+	haskey 28 g_ntemp
+	if (g_ntemp==0)
+		Gosub DestroyMonsters
+		ScreenFadeout 1
+		Letterbox true
+		getobjecthandle camera0 g_hobject
+		trigger g_hobject on
+		ScreenFadeIn 1
+		wait 1 1 StartDestroy
+		exit
+	endif
+endif
+exit
+
+
+;--------------------------------------------------
+:ContainerCheck
+;--------------------------------------------------
+
+getplayerhandle g_hplayer
+GetContainerCount  g_hplayer g_ntemp
+
+if (g_ntemp==0)
+
+	wait 1 1 ContainerCheck
+	exit
+
+endif
+
+Getcontainer g_hplayer 0 g_hobject
+IsClass g_hobject AIRail g_btemp
+if (g_btemp==TRUE)
+	set bSafeToStart, True
+endif
+
+exit
+
+
+;--------------------------------------------------
+:DestroyMonsters
+;--------------------------------------------------
+
+set g_ntemp, 0
+
+GetObjects AIBase, 500, 10, g_hMonsterArray, g_nMonsterCount
+
+if (g_nMonsterCount==0)
+	exit
+endif
+
+	while ( g_nTemp < g_nMonsterCount )
+
+		ArrayGet g_hMonsterArray, g_nTemp, g_hObject
+		removeobject g_hobject
+
+		g_nTemp = g_nTemp + 1
+
+
+	endwhile
+
+
+exit
+
+;--------------------------------------------------
+:StartDestroy
+;--------------------------------------------------
+
+
+getobjecthandle SpawnMgr g_hobject
+trigger g_hobject off
+getobjecthandle FortWall g_hobject
+trigger g_hobject destroy
+wait 1 .2 Shoot
+exit
+
+
+;--------------------------------------------------
+:Shoot
+;--------------------------------------------------
+
+getobjecthandle shooter g_hobject
+trigger g_hobject on
+wait 1 1 Camera1
+exit
+
+;--------------------------------------------------
+:Camera1
+;--------------------------------------------------
+
+getobjecthandle camera0 g_hobject
+trigger g_hobject off
+getobjecthandle camera1 g_hobject
+trigger g_hobject on
+wait 1 1 Shoot2
+exit
+
+;--------------------------------------------------
+:Shoot2
+;--------------------------------------------------
+getobjecthandle Shooter0 g_hobject
+trigger g_hobject On
+Playsound \sounds\spells\ebolt01.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 Camera2
+wait 2 1.3 OnSink
+exit
+
+;--------------------------------------------------
+:Camera2
+;--------------------------------------------------
+
+getobjecthandle camera1 g_hobject
+trigger g_hobject off
+getobjecthandle camera2 g_hobject
+trigger g_hobject on
+;wait 1 1 Shoot2
+exit
+
+;--------------------------------------------------
+:OnSink
+;--------------------------------------------------
+
+;explosion sound here...
+; blub blub
+Playsound \sounds\spells\eblast03.wav, DoNothing, 100, 24000, FALSE, 100
+Playsound \sounds\events\drown01.wav, DoNothing, 100, 24000, FALSE, 100
+
+getobjecthandle FortWall0 g_hobject
+trigger g_hobject destroy
+Playsound \sounds\ambient\fire\forrestfireloop.wav, DoNothing, 80, 24000, FALSE, 100
+;getobjecthandle Prop19 g_hobject
+;clearflag g_hobject, visible
+;clearflag g_hobject, solid
+;clearflag g_hobject, gravity
+getobjecthandle Terrain3 g_hobject
+trigger g_hobject open
+;getobjecthandle Earthquake g_hobject
+;trigger g_hobject trigger
+getobjecthandle Boat g_hobject
+Trigger g_hobject move
+Givekey 28
+
+giveexp 5200
+Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+wait 1 4 OnCrane
+exit
+
+
+;--------------------------------------------------
+:OnCrane
+;--------------------------------------------------
+
+
+getobjecthandle camera2 g_hobject
+trigger g_hobject Pan
+exit
+
+;--------------------------------------------------
+:OnCrane2
+;--------------------------------------------------
+
+Playsound \sounds\events\drown01.wav, DoNothing, 100, 24000, FALSE, 100
+getobjecthandle camera2 g_hobject
+trigger g_hobject off
+getobjecthandle camera3 g_hobject
+trigger g_hobject on
+wait 1 4 FadeOut
+exit
+
+;--------------------------------------------------
+:FadeOut
+;--------------------------------------------------
+ScreenFadeout 1
+wait 1 1 FadeOut2
+exit
+
+;--------------------------------------------------
+:FadeOut2
+;--------------------------------------------------
+Letterbox False
+getobjecthandle camera3 g_hobject
+trigger g_hobject off
+getobjecthandle ExitTrigger1 g_hobject
+trigger g_hobject trigger
+ScreenFadeIn 2
+exit
+
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+haskey 28 g_ntemp
+if (g_ntemp==FALSE)
+	exit
+endif
+
+getobjecthandle FortWall0 g_hobject
+trigger g_hobject destroy
+getobjecthandle Terrain3 g_hobject
+trigger g_hobject sinkspeed
+trigger g_hobject open
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddTrigger Crane OnCrane2
+Addtrigger Use, OnUse
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

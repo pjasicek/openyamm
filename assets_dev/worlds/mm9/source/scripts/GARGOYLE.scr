@@ -1,0 +1,62 @@
+;----------------------------------------------------------------
+;	gargoyle.scr
+;
+;
+;		Quick/dirty gargoyle implementation..
+;
+;	Start off as stone
+;	When a player is found, it will start flying after him...
+;----------------------------------------------------------------
+
+#include aiglobals.inc
+#include base.inc
+
+;----------------------------------------------------------------
+:LaunchDone
+;----------------------------------------------------------------
+
+	gosub BaseGoGetHim
+
+	exit TRUE
+
+;----------------------------------------------------------------
+:StandupDone
+;----------------------------------------------------------------
+	gosub InitBase
+
+	Target g_hTarget, TRUE
+	Launch LaunchDone, 24
+
+	exit TRUE
+
+;----------------------------------------------------------------
+:FoundPlayer
+;----------------------------------------------------------------
+	GetParam 0, g_hTarget
+	Target g_hTarget, FALSE
+
+	PlayAnim StandUp, StandupDone	
+
+	exit TRUE
+
+;----------------------------------------------------------------
+:Alert
+;----------------------------------------------------------------
+	exit FALSE
+
+;----------------------------------------------------------------
+:Main
+;
+;
+;----------------------------------------------------------------
+
+;;	traceon
+	gosub InitBase
+
+	OnFoundPlayer FoundPlayer
+	OnAlert Alert
+
+	LoopAnim STATIC_MODEL, 0
+
+
+	exit

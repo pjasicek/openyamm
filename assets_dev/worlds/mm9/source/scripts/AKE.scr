@@ -1,0 +1,232 @@
+;----------------------------------------------
+;ake.scr
+; By Timmy
+; handles ake's heckles of knut fastmouth
+;
+
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         sound   ; checks to see if a sound is currently playing
+#number							soundhandle ; handler for sounds
+#number							sounddur ; duration of sound
+#number							sounddone ; if sound is done this is true
+#number							knutwait  ;time to wait between heckles in seconds
+#number							shutup   ; knut has finally shut up
+
+#number							nPosition=1
+
+;-------------------------------------
+:Onblabber
+;-------------------------------------
+; ake's heckles 
+
+getparam 0 g_hobject
+target g_hobject
+
+if (shutup==1, )
+	goto Onexit
+endif
+	KillSound soundhandle
+	GetRandomInt 5, 10, knutwait
+	wait 1 knutwait, blabber
+	exit
+
+
+exit
+
+
+;-------------------------------------
+:blabber
+;-------------------------------------
+
+;plays random heckle
+
+	
+	set sound, 1
+	if (g_ntemp==1, )
+		converse -1 DoNothing
+		Playsoundhandle voices\cinema\socialism\ake01.wav, soundhandle, 768, FALSE, 100
+		GetSoundDuration, soundhandle, sounddur
+		set g_ntemp, 2
+		Wait 1 sounddur, Onblabber
+		exit
+	endif
+
+	if (g_ntemp==2, )
+		converse -1 DoNothing
+		Playsoundhandle voices\cinema\socialism\ake02.wav, soundhandle, 768, FALSE, 100
+		GetSoundDuration, soundhandle, sounddur
+		set g_ntemp, 3
+		Wait 1 sounddur, Onblabber
+		exit
+	endif
+
+	if (g_ntemp==3, )
+		converse -1 DoNothing
+		Playsoundhandle voices\cinema\socialism\ake03.wav, soundhandle, 768, FALSE, 100
+		GetSoundDuration, soundhandle, sounddur
+		set g_ntemp, 4
+		Wait 1 sounddur, Onblabber
+		exit
+	endif
+
+	if (g_ntemp==4, )
+		converse -1 DoNothing
+		Playsoundhandle voices\cinema\socialism\ake04.wav, soundhandle, 768, FALSE, 100
+		GetSoundDuration, soundhandle, sounddur
+		set g_ntemp, 5
+		Wait 1 sounddur, Onblabber
+		exit
+	endif
+if (g_ntemp==5, )
+		converse -1 DoNothing
+		Playsoundhandle voices\cinema\socialism\ake05.wav, soundhandle, 768, FALSE, 100
+		GetSoundDuration, soundhandle, sounddur
+		set g_ntemp, 1
+		Wait 1 sounddur, Onblabber
+		exit
+	endif
+
+exit
+
+
+
+
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+;if sound is playing, kill it
+
+if (sound==1, )
+	KillSound soundhandle
+
+	set sound, 0
+	set g_ntemp, 0
+endif
+;start rude dialog
+;;;DoRude 261
+exit
+
+
+;-------------------------------------
+:Onexit
+;-------------------------------------
+
+; kill the sound if it's done
+
+set shutup, 1
+IsSoundDone soundhandle, sounddone
+if (sounddone==1, )
+	KillSound soundhandle
+	endif
+
+exit
+
+
+;-------------------------------------
+:GoPosition1
+;-------------------------------------
+	SetPos g_hMyObject,3328.0,1344.0,-480.0
+	FaceDir 0,0,0,0
+
+	Exit
+
+;-------------------------------------
+:GoPosition2
+;-------------------------------------
+	SetPos g_hMyObject,3557,1254,3331
+	FaceDir -0.62,0,-0.79,0
+
+	Exit
+
+;-------------------------------------
+:GoPosition3
+;-------------------------------------
+
+	SetPos g_hMyObject,-720,1246,2166
+	FaceDir -0.7,0,-0.7,0
+
+	Exit
+
+;-------------------------------------
+:GoPosition4
+;-------------------------------------
+
+	SetPos g_hMyObject,-2176,1246,4711
+	FaceDir -0.54,0,-0.84,0
+
+	Exit
+
+
+;-------------------------------------
+:SetupPosition
+;-------------------------------------
+
+	GetMyHandle g_hMyObject
+
+	Add nPosition,1
+
+	if ( nPosition>4 )
+		nPosition = 1
+	endif
+
+	if ( nPosition==1 )
+		goto GoPosition1
+	endif
+
+	if ( nPosition==2 )
+		goto GoPosition2
+	endif
+
+	if ( nPosition==3 )
+		goto GoPosition3
+	endif
+
+	if ( nPosition==4 )
+		goto GoPosition4
+	endif
+
+	exit
+
+;-------------------------------------
+:PostMiniSaveLoad
+;-------------------------------------
+
+	gosub SetupPosition
+	exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger blabber, Onblabber
+AddTrigger Use, OnUse 
+Addtrigger shutup, onexit
+;CacheSound voices\cinema\socialism\Ake01.wav
+;CacheSound voices\cinema\socialism\Ake02.wav
+;CacheSound voices\cinema\socialism\Ake03.wav
+;CacheSound voices\cinema\socialism\Ake04.wav
+;CacheSound voices\cinema\socialism\Ake05.wav
+
+set shutup, 0
+set sound, 0
+set g_ntemp, 1
+haskey 114, g_ntemp
+if (g_ntemp==1)
+	set sound, 1
+endif
+
+gosub SetupPosition
+OnPostMiniSaveLoad	PostMiniSaveLoad
+AddTrigger GoPosition1,GoPosition1
+AddTrigger GoPosition2,GoPosition2
+AddTrigger GoPosition3,GoPosition3
+AddTrigger GoPosition4,GoPosition4
+
+exit

@@ -1,0 +1,166 @@
+;--------------------------------------------------
+;NPC133.scr
+; timmy
+; handles Thorir Mouth voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+haskey 490 g_ntemp
+if (g_ntemp==FALSE)
+	haskey 488 g_ntemp
+	if (g_ntemp==TRUE)
+		takeitem 362
+		takeitem 363
+		takeitem 364
+		takeitem 365
+		takeitem 366
+		takeitem 367
+		givekey 490
+	endif
+endif
+
+Gosub Nicolai
+Gosub Capstone
+
+exit
+
+
+;--------------------------------------------------
+:Capstone
+;--------------------------------------------------
+
+haskey 188 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+
+haskey 488 g_ntemp
+if (g_ntemp==TRUE)
+	giveitem 396
+	givekey, 188 ;gives player finished quest key
+	GiveExp 146000
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+	exit
+endif
+
+exit
+
+;--------------------------------------------------
+:Nicolai
+;--------------------------------------------------
+;****************
+;Thjorad Quest
+;****************
+
+haskey 122 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+haskey 121 g_ntemp
+if (g_ntemp==TRUE)
+	givegold 5000
+	giveexp 20000
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+	givekey 122
+	exit
+endif
+
+
+;End thjorad quest
+;******************
+exit
+
+
+
+;--------------------------------------------------
+:ItemCheck
+; Checks to see if the player has all the prize set.
+;--------------------------------------------------
+set g_ncounter, 0
+
+hasitem 362 g_ntemp
+if (g_ntemp==TRUE)
+	g_ncounter = g_ncounter + 1
+endif
+
+hasitem 363 g_ntemp
+if (g_ntemp==TRUE)
+	g_ncounter = g_ncounter + 1
+endif
+
+
+hasitem 364 g_ntemp
+if (g_ntemp==TRUE)
+	g_ncounter = g_ncounter + 1
+endif
+
+
+hasitem 365 g_ntemp
+if (g_ntemp==TRUE)
+	g_ncounter = g_ncounter + 1
+endif
+
+
+hasitem 366 g_ntemp
+if (g_ntemp==TRUE)
+	g_ncounter = g_ncounter + 1
+endif
+
+
+hasitem 367 g_ntemp
+if (g_ntemp==TRUE)
+	g_ncounter = g_ncounter + 1
+endif
+
+if (g_ncounter==6)
+	givekey 487
+endif
+
+
+
+exit
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+
+Gosub ItemCheck
+
+Playsound voices\NPC\NPC_133.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+
+exit
+

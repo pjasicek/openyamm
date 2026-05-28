@@ -1,0 +1,71 @@
+;--------------------------------------------------
+;GuardWalk.scr
+; timmy
+; 9/19
+; make a guard walk back and forth.!
+;--------------------------------------------------
+
+#include globals.inc
+
+#String			L_marker
+#Number			Counter=0
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+
+
+
+if (counter==0)
+	set L_marker g_marker1
+	set counter 1
+	goto WalkStart
+	exit
+endif
+
+if (counter==1)
+	set L_marker g_marker2
+	set counter 0
+	goto WalkStart
+	exit
+endif
+
+exit
+
+;-------------------------------------
+:WalkStart
+;-------------------------------------
+
+GetobjectHandle L_marker g_hobject
+runto g_hobject 32 Arrive
+exit
+
+
+;-------------------------------------
+:Arrive
+;-------------------------------------
+
+Wait 0 .01 OnUse
+;gosub OnUse
+exit
+
+
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+OnStuck WalkStart
+AddTrigger use OnUse
+exit
+

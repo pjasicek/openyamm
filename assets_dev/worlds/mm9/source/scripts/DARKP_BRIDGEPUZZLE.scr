@@ -1,0 +1,142 @@
+;------------------------------------------------------------------
+;	DarkP_bridgepuzzle.scr
+;	Brett Yagi
+;	11/09/2001
+;
+;	Manager for bridge puzzle
+;
+;	Requires DarkP_initMyStuff.inc
+;
+;	Parameters
+;		0 Root name of Bridges
+;
+;-----------------------------------------------------
+
+#include 	DarkP_initMyStuff.inc
+
+#string		sNameRoot
+#string		sName
+#string		sCreatureSwitch
+#hobject	hName
+#hobject	hDoor
+
+
+#number		nGroup = 14
+#number		nTemp1
+#number		nTemp2
+#number		nPos
+
+#number		nTwo = 2
+
+#number		nBridgeNumber
+
+
+
+;-----------------------------------------------
+:MoveStuff
+;-----------------------------------------------
+	
+	nTemp1 = nGroup
+	nBridgeNumber = 5
+	While ( nBridgeNumber > 0 )
+		nBridgeNumber = nBridgeNumber - 1
+		nTemp2 = nTemp1
+		
+		Mod nTemp2 nTwo
+
+; remember left to right evaluation, no precedence here
+		nTemp1 = nTemp1 - nTemp2 / 2
+
+		ArrayGet aBridges nBridgeNumber nPos
+		if ( nTemp2 != nPos)
+			ArrayPut aBridges nBridgeNumber nTemp2
+			sName = sNameRoot + nBridgeNumber
+			GetObjectHandle sName hName
+			Trigger hName Move
+		endif
+		
+	endwhile
+	
+	if (nGroup == 0 )
+		RemoveTrigger HitA
+		RemoveTrigger HitB
+		RemoveTrigger HitC
+		RemoveTrigger HitD
+		RemoveTrigger Reset
+		; Add triggered event Here
+		GetObjectHandle TeleportDoor0, hDoor
+		Trigger hDoor Unlock
+		Trigger hDoor Use
+		nTemp1 = 0
+		While (nTemp1 < 6)
+			sName = sCreatureSwitch + nTemp1
+			GetObjectHandle sName hName
+			Trigger hName, Stop
+			nTemp1 = nTemp1 + 1
+		EndWhile
+	endif
+Exit 1
+
+;-----------------------------------------------
+:HitA
+;-----------------------------------------------
+	ArrayGet aA nGroup nGroup
+	Gosub MoveStuff
+
+Exit 1
+
+;-----------------------------------------------
+:HitB
+;-----------------------------------------------
+	ArrayGet aB nGroup nGroup
+	Gosub MoveStuff
+
+Exit 1
+
+;-----------------------------------------------
+:HitC
+;-----------------------------------------------
+	ArrayGet aC nGroup nGroup
+	Gosub MoveStuff
+
+Exit 1
+
+;-----------------------------------------------
+:HitD
+;-----------------------------------------------
+	ArrayGet aD nGroup nGroup
+	Gosub MoveStuff
+
+Exit 1
+
+;-----------------------------------------------
+:Reset
+;-----------------------------------------------
+	nGroup = 14
+	Gosub MoveStuff
+
+Exit 1
+;-----------------------------------------------
+:main2
+;-----------------------------------------------
+
+	Gosub InitializeStuff
+
+Exit 1
+
+;-----------------------------------------------
+:main
+;-----------------------------------------------
+
+	GetParam 0 sNameRoot
+	GetParam 1 sCreatureSwitch
+	AddTrigger HitA HitA
+	AddTrigger HitB HitB
+	AddTrigger HitC HitC
+	AddTrigger HitD HitD
+	AddTrigger Reset Reset
+	Wait 0 1 main2
+
+Exit 1
+
+;-----------------------------------------------

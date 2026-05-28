@@ -1,0 +1,39 @@
+;--------------------------------------------------------
+;	Healer.scr
+;	Jeff Leggett
+;
+;	This script is used by objects which heal players
+;	one time.  That is, once a player is healed by this
+;	object, it won't be able to be healed by it again.
+;	(Unless it dies and comes back...)
+;
+;
+;	Parameters:
+;
+;			p0	- Amount to heal players by (default=10)
+;           p1  - Amount of times you can heal from this fountain
+;
+;--------------------------------------------------------
+
+#include healer.inc
+
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+	gosub HealerInit
+
+	GetParam 0, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set g_nHealAmt, g_nTemp
+	endif
+
+	GetParam 1, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set g_nHealCount, g_nTemp
+	endif
+
+	Exit

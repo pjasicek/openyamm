@@ -1,0 +1,84 @@
+;--------------------------------------------------
+;Sturmguard.scr
+;10/4
+; timmy
+; gives party specific item
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#number			Item_ID
+#number			nGiveOnce = FALSE
+
+
+
+
+
+; Parameters
+;P0 Item number of item to give
+
+
+;--------------------------------------------------
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+givekey 5008
+DoRude 425
+exit
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+takekey 5008
+
+haskey 5019 g_ntemp
+if (g_ntemp==TRUE)
+	Takekey 5018
+	takekey 5019
+	getobjecthandle Jaildoor g_hobject
+	trigger g_hobject close
+	trigger g_hobject lock
+endif
+
+haskey 5018 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle Jaildoor g_hobject
+	trigger g_hobject unlock
+	trigger g_hobject open
+endif
+
+
+
+haskey 5009 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+;open the door for hatlati
+haskey 154 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle Hatlati g_hobject
+	trigger g_hobject GotoJail
+	getobjecthandle Jaildoor g_hobject
+	trigger g_hobject unlock
+	trigger g_hobject open
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Use OnUse
+OnRudeexit OnRude
+exit
+
+

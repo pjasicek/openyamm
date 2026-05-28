@@ -1,0 +1,84 @@
+schema: openyamm.model3d.v1
+id: vikingship_wreck
+model: vikingship_wreck.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/VIKINGSHIP-WRECK.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 1280.0
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: VikingShip
+  materialIndex: 0
+  lods:
+  - faces: 712
+    vertices: 508
+- name: Crate1
+  materialIndex: 0
+  lods:
+  - faces: 10
+    vertices: 8
+- name: Crate2
+  materialIndex: 0
+  lods:
+  - faces: 10
+    vertices: 8
+materials:
+- index: 0
+  texture: skins_preview/props/vikingship.png
+  runtime_texture: skins/props/vikingship.dtx
+  preview_texture: skins_preview/props/vikingship.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/VIKINGSHIP.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+  - index: 1
+    name: Bone_Ship
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone_Crate1
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone_Crate2
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Rocking
+  durationMs: 2000
+  keyframes: 11
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Rocking
+  extents:
+  - 12.8
+  - 12.8
+  - 12.8
+  origin:
+  - 0.0
+  - -128.0
+  - 256.0
+roles:
+- static_model
+source_model: models/props/vikingship-wreck.abc

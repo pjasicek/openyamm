@@ -1,0 +1,45 @@
+#include baseMelee.inc
+#include CutSceneActor.inc
+#include LichLabScenes.inc
+
+#hobject	h = 0
+
+;---------------------
+:Main
+;---------------------
+	gosub InitLichLabScenes
+
+	Exit 1
+
+;---------------------
+:OnScene1
+;---------------------
+	PlayAnim search, EndScene
+
+	Exit 1
+
+;---------------------
+:OnScene3
+;---------------------
+	;PlayAnim aware, Attack
+
+	Exit 1
+
+;---------------------
+:OnScene5
+;---------------------
+	GetObjectHandle MarkerTarget2, g_hTarget
+	RunTo g_hTarget, 25, DoNothing
+
+	Exit 1
+
+;---------------------
+:Attack
+;---------------------
+	gosub EndScene
+	GetObjectHandle MarkerTarget2, g_hTarget
+	gosub BaseInit
+	gosub SetupTarget
+	gosub AggressiveStart
+
+	Exit 1

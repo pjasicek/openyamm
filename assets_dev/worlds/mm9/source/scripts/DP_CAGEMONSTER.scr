@@ -1,0 +1,68 @@
+;-------------------------------------
+;	DP_CageMonster.scr
+;	by SJR
+;	Purpose:
+;-------------------------------------
+#include baseMelee.inc
+
+#string		sDoorName = ""
+#hobject	hDoor = 0
+
+#number		WAIT_TIME = 0
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	GetParam 0, sDoorName
+
+	OnPostStartWorld InitCageMonster
+
+	Exit TRUE
+
+;-------------------------------------
+:InitCageMonster
+;-------------------------------------
+	AddTrigger on, TurnOn
+	AddTrigger off,TurnOff
+
+	AddTrigger go, OpenCage
+
+	GetObjectHandle sDoorName, hDoor
+
+	Exit TRUE
+
+;-------------------------------------
+:OpenCage
+;-------------------------------------
+	Trigger hDoor, unlock
+	Trigger hDoor, use
+
+	GetStat hDoor, DoorOpenTime, WAIT_TIME
+
+	Wait 0, WAIT_TIME, LeaveCage
+
+	Exit TRUE
+
+;-------------------------------------
+:LeaveCage
+;-------------------------------------
+	gosub BaseInit
+	GetPlayerHandle g_hTarget
+	gosub SetupTarget
+	gosub AggressiveStart
+
+	Exit TRUE
+
+;-------------------------------------
+:TurnOn
+;-------------------------------------
+	AddTrigger go, OpenCage
+
+	Exit TRUE
+
+;-------------------------------------
+:TurnOff
+;-------------------------------------
+	RemoveTrigger go
+
+	Exit TRUE

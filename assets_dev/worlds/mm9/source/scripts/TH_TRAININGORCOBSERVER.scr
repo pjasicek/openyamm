@@ -1,0 +1,83 @@
+;-----------------------------------------------------
+;
+;	TH_TrainingOrcObserver.scr
+;
+;	Karl Drown 11-17-01
+;	
+;	Orc Warrior Observing the Orcs training.
+;	
+;-----------------------------------------------------
+#include TrainingHostility.inc
+#include globals.inc
+
+#hObject	hMarker
+#hObject	hCommander
+
+#string sMarkerA
+#string	sMarkerB
+#string sTarget
+
+#number	bDirection = 0
+#number	bIsTraining = 0
+
+;-----------------------------------------------------
+:Start
+;-----------------------------------------------------
+	bIsTraining = TRUE
+	Gosub LookAtTrainees
+	Exit TRUE
+;-----------------------------------------------------
+:TurnOff
+;-----------------------------------------------------
+	Wait 1, 1, DoNothing
+	bIsTraining = FALSE
+	Exit TRUE
+
+;-----------------------------------------------------
+:LookAround
+;-----------------------------------------------------
+	Stop
+	PlayAnim Fidget1, LookAtTrainees
+	Exit TRUE
+;-----------------------------------------------------
+:Relax
+;-----------------------------------------------------
+	Stop
+	GetObjectHandle sTarget, hCommander
+	FaceObject hCommander, 180
+	Wait 0, 2, LookAround
+	Exit TRUE
+;-----------------------------------------------------
+:LookAtTrainees
+;-----------------------------------------------------
+	if (bIsTraining==FALSE)
+		exit
+	endif
+
+	if (bDirection==0)
+		bDirection = 1
+		GetObjectHandle sMarkerA, hMarker
+		WalkTo hMarker, 10, Relax
+	else
+		bDirection = 0
+		GetObjectHandle sMarkerB, hMarker
+		WalkTo hMarker, 10, Relax
+	endif
+	Exit TRUE
+
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+	AddTrigger Train, Start
+	AddTrigger Stop, TurnOff
+	gosub InitTrainingHostility
+	Exit TRUE
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	GetParam 0, sMarkerA
+	GetParam 1, sMarkerB
+	GetParam 2, sTarget
+	OnPostStartWorld Main2
+	Exit
+;------------- E n d - O f - F i l e -------------------

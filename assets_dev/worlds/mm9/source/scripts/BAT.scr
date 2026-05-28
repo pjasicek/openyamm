@@ -1,0 +1,51 @@
+;----------------------------------------------------------------
+;	bat.scr
+;
+;
+;		Quick/dirty bat implementation..
+;
+;	Start off as stone
+;	When a player is found, it will start flying after him...
+;----------------------------------------------------------------
+
+#include aiglobals.inc
+#include baserange.inc
+
+;----------------------------------------------------------------
+:LaunchDone
+;----------------------------------------------------------------
+
+	gosub BaseGoGetHim
+	Exit TRUE
+
+;----------------------------------------------------------------
+:FoundPlayer
+;----------------------------------------------------------------
+	gosub InitBase
+
+	Target g_hTarget, TRUE
+	Launch LaunchDone, 24
+
+	exit TRUE
+
+;----------------------------------------------------------------
+:Alert
+;----------------------------------------------------------------
+	exit FALSE
+
+;----------------------------------------------------------------
+:Main
+;
+;
+;----------------------------------------------------------------
+
+;;	traceon
+	gosub BaseRangeInit
+
+	OnFoundPlayer FoundPlayer
+	OnAlert Alert
+
+	LoopAnim Roost, 0
+
+
+	exit

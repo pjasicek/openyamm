@@ -1,0 +1,531 @@
+format_version: 1
+source_file: NPC378.rude
+rows:
+  - source:
+      file: NPC378.rude
+      row: 1
+    raw_columns:
+      - 378
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 378
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC378.rude
+      row: 2
+    raw_columns:
+      - 378
+      - 11
+      - 1
+      - Very well.  We shall go.
+      - Good luck!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 378
+      node_id: 11
+      choice_slot: 1
+      prompt: Very well.  We shall go.
+      response: Good luck!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC378.rude
+      row: 3
+    raw_columns:
+      - 378
+      - 10
+      - 1
+      - What?  Why?
+      - It is not for you to ask why!  Your duty is to go!  From what I understand, however, all of you are to answer to him for what you have done!
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 378
+      node_id: 10
+      choice_slot: 1
+      prompt: What?  Why?
+      response: It is not for you to ask why!  Your duty is to go!  From what I understand, however, all of you are to answer to him for what you have done!
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC378.rude
+      row: 4
+    raw_columns:
+      - 378
+      - 2
+      - 1
+      - We must stop this!  Tell Kira we'll find a way to stop the war!
+      - Great news!  I will tell her!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 378
+      node_id: 2
+      choice_slot: 1
+      prompt: We must stop this!  Tell Kira we'll find a way to stop the war!
+      response: Great news!  I will tell her!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC378.rude
+      row: 5
+    raw_columns:
+      - 378
+      - 378
+      - 1
+      - What is it?
+      - I've been sent by Kira the Cold.  It's about Sturmford and Drangheim.  They've gone to war against each other.
+      - 1
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 84
+      - 0
+      - 0
+      - 0
+      - 0
+      - 85
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 378
+      node_id: 378
+      choice_slot: 1
+      prompt: What is it?
+      response: I've been sent by Kira the Cold.  It's about Sturmford and Drangheim.  They've gone to war against each other.
+      next: 1
+      raw_fields:
+        c07: 83
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 84
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 85
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 83
+            qbit_id: 9083
+            state_id: mm9.keys.83
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 83
+          qbit_id: 9083
+          state_id: mm9.keys.83
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 84
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 85
+        status: raw_value_preserved
+  - source:
+      file: NPC378.rude
+      row: 6
+    raw_columns:
+      - 378
+      - 378
+      - 2
+      - What is it?
+      - Your group and Tamur Leng have been summoned to stand before Krohn.
+      - 10
+      - 106
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 107
+      - 0
+      - 0
+      - 0
+      - 0
+      - 107
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 378
+      node_id: 378
+      choice_slot: 2
+      prompt: What is it?
+      response: Your group and Tamur Leng have been summoned to stand before Krohn.
+      next: 10
+      raw_fields:
+        c07: 106
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 107
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 107
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 106
+            qbit_id: 9106
+            state_id: mm9.keys.106
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 106
+          qbit_id: 9106
+          state_id: mm9.keys.106
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 107
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 107
+        status: raw_value_preserved
+  - source:
+      file: NPC378.rude
+      row: 7
+    raw_columns:
+      - 378
+      - 1
+      - 2
+      - What?!  Why?
+      - They both claim that the other committed acts of war against them while under the guise of uniting against the Beldonian Hordes.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 378
+      node_id: 1
+      choice_slot: 2
+      prompt: What?!  Why?
+      response: They both claim that the other committed acts of war against them while under the guise of uniting against the Beldonian Hordes.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2

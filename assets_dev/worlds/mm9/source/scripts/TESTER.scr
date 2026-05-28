@@ -1,0 +1,48 @@
+:Main
+;traceon
+	AddFriend Player
+;;	OnFoundPlayer output
+	OnDamage ondamage
+	addtrigger use, givestuff
+;;	giveattribute 3, -25, 1, 0
+;;	givepromo 100
+	setidle
+	Exit 1
+#number		dv = 25
+#number		v = 200
+:givestuff
+	playsound sounds\default.wav
+	giveattribute 4, v, 1, 0
+	cprint v
+	exit 1
+
+:output
+	cprint "FoundPlayer!!!"
+	exit 1
+
+:reverse
+	PlaySound sounds\default.wav, callback
+	;;AddEnemy Player
+	exit 1
+
+:callback
+	cprint PlaySoundCallback
+	exit 1
+
+#hobject	h = 0
+#string		spell = "meteor shower"
+:dospell
+	;;getmyhandle h
+	CreateFX spell, h, 1
+	exit 1
+
+
+#number		counter = 0
+:ondamage
+	v = v - 1
+	counter = counter + 1
+cprint Hits:
+cprint counter
+cprint **********
+	exit 1
+	

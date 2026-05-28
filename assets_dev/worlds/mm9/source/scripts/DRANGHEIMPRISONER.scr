@@ -1,0 +1,137 @@
+;------------------------------------
+;	DrangheimPrisoner.scr
+;	SJR
+;	Purpose:
+;------------------------------------
+#include BaseGlobals.inc
+
+#string		sCellName = ""
+#hobject	hCell = 0
+
+#hobject	hGuard = 0
+
+#number		bReturning = 0
+#number		nTemp = 0
+
+;;hardcode these later
+#number		TEXT_RESCUE = 160
+#number		EXP_RESCUE = 500
+
+;------------------------------------
+:Main
+;------------------------------------
+	GetParam 0, sCellName
+
+	OnPostStartWorld InitDrangheimPrisoner
+	OnPostMiniSaveLoad InitDrangheimPrisoner
+
+	Exit TRUE
+
+;------------------------------------
+:InitDrangheimPrisoner
+;------------------------------------
+	GetObjectHandle sCellName, hCell
+
+	AddTrigger followme, StartFollowing
+	AddTrigger return, EnterCell
+	AddTrigger leave, LeaveCell
+	AddTrigger use, OnPlayerRescue
+
+	OnTargetDead OnTargetDead
+
+	Exit TRUE
+
+;------------------------------------
+:OnTargetDead
+;------------------------------------
+	hGuard = NULL
+	Target NULL
+
+	Exit TRUE
+
+;------------------------------------
+:EnterCell
+;------------------------------------
+	bReturning = TRUE
+	Target NULL
+	if( hCell!=0 )
+		WalkTo hCell, 5, OnEnteredCell
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:LeaveCell
+;------------------------------------
+	GetParam 0, hGuard
+	Target NULL
+	CreateObjectLink hGuard
+	WalkTo hGuard, 5, OnLeftCell
+
+	Exit TRUE
+
+;------------------------------------
+:OnEnteredCell
+;------------------------------------
+	Stop
+
+	if( hGuard!=0 )
+		Trigger hGuard, inside
+		FaceObject hGuard, 180, DoNothing
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:OnLeftCell
+;------------------------------------
+	Stop
+	PlayAnim cower, OnPlayedAnim
+
+	Exit TRUE
+
+;------------------------------------
+:OnPlayedAnim
+;------------------------------------
+	if( hGuard!=0 )
+		Trigger hGuard, outside
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:StartFollowing
+;------------------------------------
+	GetParam 0, hGuard
+	Target hGuard, TRUE
+	bReturning = FALSE
+	gosub FollowLoop
+
+	Exit TRUE
+
+;------------------------------------
+:FollowLoop
+;------------------------------------
+	Stop
+	if( bReturning==TRUE )
+		PlayAnim Fidget3, DoNothing
+	else
+	if( hGuard!=0 )
+		WalkTo hGuard, 32, StopMoving
+		Wait 0, 1, FollowLoop
+	endif
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:OnPlayerRescue
+;------------------------------------
+	HasKey 5007, nTemp
+	if( nTemp==FALSE )
+		RemoveTrigger use
+		RolloverText TEXT_RESCUE, 1, 7000, 6000
+		GiveExp EXP_RESCUE
+	endif
+
+	Exit TRUE

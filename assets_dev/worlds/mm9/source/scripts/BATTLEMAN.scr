@@ -1,0 +1,201 @@
+;--------------------------------------------------
+;BattleMan.scr
+; timmy
+; handles the Battle of Frosgard stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#number		nKeycheck
+
+#string					sMonsterA = HordeGrunt
+#string					sMonsterB = HordeLeader
+#string					sMonsterC = HordeWarrior
+
+
+#string					sGoodGuyA = ClanSoldier
+#string					sGoodGuyB = ClanCorporal
+#string					sGoodGuyC = ClanSergeant
+
+
+#hObject				hMonsterA
+#hObject				hMonsterB
+#hObject				hMonsterC
+;
+#number							XPos
+#number							YPos
+#number							ZPos
+
+
+#string							SCRIPT 
+;--------------------------------------------------
+:Spawn
+;--------------------------------------------------
+
+givekey 377
+
+getobjecthandle ForadDarre g_hobject
+trigger g_hobject Appear
+
+getobjecthandle TamurLeng0 g_hobject
+trigger g_hobject Appear
+
+set SCRIPT " ScriptName HateNPC.scr"
+;screenfadeout 1
+wait 1 1 FadeIn
+
+sMonsterA = sMonsterA + Script
+sMonsterB = sMonsterB + Script
+sMonsterC = sMonsterC + Script
+
+
+getobjecthandle Atlimarker g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn hMonsterA Xpos YPos ZPos sMonsterA
+Spawn hMonsterA Xpos YPos ZPos sMonsterA
+Spawn hMonsterB Xpos YPos ZPos sMonsterB
+Spawn hMonsterC Xpos YPos ZPos sMonsterC
+
+getobjecthandle BadGuys0 g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn hMonsterA Xpos YPos ZPos sMonsterA
+Spawn hMonsterA Xpos YPos ZPos sMonsterA
+Spawn hMonsterB Xpos YPos ZPos sMonsterB
+
+getobjecthandle BadGuys2 g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn hMonsterA Xpos YPos ZPos sMonsterA
+Spawn hMonsterA Xpos YPos ZPos sMonsterA
+Spawn hMonsterB Xpos YPos ZPos sMonsterB
+
+getobjecthandle BadGuys3 g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn hMonsterA Xpos YPos ZPos sMonsterC
+Spawn hMonsterA Xpos YPos ZPos sMonsterC
+
+exit
+
+
+
+;-------------------------------------
+:FadeIn
+;-------------------------------------
+
+;letterbox true
+;getobjecthandle Camera3 g_hobject
+;trigger g_hobject On
+;screenfadein 1
+wait 1 5 GoodGuys
+exit
+
+;-------------------------------------
+:GoodGuys
+;-------------------------------------
+
+set SCRIPT " ScriptName Hate.scr"
+
+sGoodGuyA = sGoodGuyA + Script
+sGoodGuyB = sGoodGuyB + Script
+sGoodGuyC = sGoodGuyc + Script
+
+
+
+getobjecthandle GoodGuys g_hobject
+getpos g_hobject XPos YPos ZPos
+
+;Spawn hMonsterC Xpos YPos ZPos sKira
+Spawn hMonsterA Xpos YPos ZPos sGoodGuyA
+Spawn hMonsterB Xpos YPos ZPos sGoodGuyB
+Spawn hMonsterB Xpos YPos ZPos sGoodGuyB
+Spawn hMonsterB Xpos YPos ZPos sGoodGuyC
+
+wait 1 5 End
+exit
+
+;--------------------------------------------------
+:End
+;--------------------------------------------------
+
+getobjecthandle BadGuys0 g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn hMonsterA Xpos YPos ZPos sMonsterA
+Spawn hMonsterA Xpos YPos ZPos sMonsterA
+Spawn hMonsterB Xpos YPos ZPos sMonsterB
+
+;screenfadeout 1
+;wait 1 1 FadeIn2
+exit
+
+;-------------------------------------
+:FadeIn2
+;-------------------------------------
+
+;letterbox false
+;getobjecthandle Camera3 g_hobject
+;trigger g_hobject Off
+;screenfadein 1
+;exit
+
+;-------------------------------------
+:OnFight2
+;-------------------------------------
+
+haskey 104 g_ntemp
+if (g_ntemp==FALSE)
+	exit
+endif
+
+
+getobjecthandle BadGuys1 g_hobject
+getpos g_hobject XPos YPos ZPos
+Spawn hMonsterA Xpos YPos ZPos sMonsterA
+Spawn hMonsterA Xpos YPos ZPos sMonsterA
+Spawn hMonsterB Xpos YPos ZPos sMonsterB
+Spawn hMonsterB Xpos YPos ZPos sMonsterC
+
+
+
+
+getobjecthandle GoodGuys0 g_hobject
+getpos g_hobject XPos YPos ZPos
+
+
+Spawn hMonsterA Xpos YPos ZPos sGoodGuyA
+Spawn hMonsterB Xpos YPos ZPos sGoodGuyB
+Spawn hMonsterB Xpos YPos ZPos sGoodGuyB
+
+exit
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+haskey 377 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+haskey 104 g_ntemp
+if (g_ntemp==TRUE)
+	gosub spawn
+	exit
+endif
+
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddTrigger Fight2 OnFight2
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+
+

@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: ruinedtemple
+display_name: Ruined Temple
+source:
+  dat: ../source/worlds/RUINEDTEMPLE.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/RUINEDTEMPLE.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: a27021f0fa772cdec2bcf60cae544c560f2775cf117da8c7154fc38259134552
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: ruinedtemple.dat_world.yml
+  raw_objects: ruinedtemple.raw_objects.yml
+  materials: ruinedtemple.material_aliases.yml
+  events: ruinedtemple.events.yml
+  scene_compat: ruinedtemple.scene.yml
+  source_metadata_compat: ruinedtemple.mm9.yml
+  bsp_compat: ruinedtemple.bsp.yml
+  geometry_compat: ruinedtemple.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: ruinedtemple.blv
+scripts:
+  level: ../events/ruinedtemple.lua
+  script_ir: ../events/ruinedtemple.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

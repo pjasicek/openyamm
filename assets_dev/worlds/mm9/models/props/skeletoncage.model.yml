@@ -1,0 +1,86 @@
+schema: openyamm.model3d.v1
+id: skeletoncage
+model: skeletoncage.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/SKELETONCAGE.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 4.023306898564917e+25
+pieces:
+- name: SkeletonCage
+  materialIndex: 0
+  lods:
+  - faces: 659
+    vertices: 442
+  - faces: 495
+    vertices: 359
+materials:
+- index: 0
+  texture: skins_preview/props/skeletoncage.png
+  runtime_texture: skins/props/skeletoncage.dtx
+  preview_texture: skins_preview/props/skeletoncage.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SKELETONCAGE.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 2
+  - index: 1
+    name: Dummy01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 2
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 3
+    - 4
+  - index: 3
+    name: Bone02
+    parent: 2
+    flags: 0
+    children: []
+  - index: 4
+    name: SkeletonCage
+    parent: 2
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: Sway
+  durationMs: 2000
+  keyframes: 22
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Sway
+  extents:
+  - 56.32
+  - 115.2
+  - 56.32
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/skeletoncage.abc

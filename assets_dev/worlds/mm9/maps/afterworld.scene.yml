@@ -1,0 +1,2566 @@
+format_version: 1
+kind: outdoor_scene
+source:
+  geometry_file: afterworld.odm
+  source_metadata_file: afterworld.mm9.yml
+runtime_restrictions:
+  allow_save_game: false
+  allow_lloyds_beacon: false
+  arena: false
+environment:
+  sky_texture: plansky1
+  ground_tileset_name: planset
+  master_tile: 0
+  tile_set_lookup_indices:
+  - 0
+  - 0
+  - 0
+  - 0
+  day_bits_raw: 0
+  map_extra_bits_raw: 8
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: true
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 8192
+    strong_distance: 16384
+  weather:
+    fog_mode: static
+    precipitation: none
+    daily_fog:
+      small_chance: 0
+      average_chance: 0
+      dense_chance: 0
+      small:
+        weak_distance: 8192
+        strong_distance: 16384
+      average:
+        weak_distance: 8192
+        strong_distance: 16384
+      dense:
+        weak_distance: 8192
+        strong_distance: 16384
+  ceiling: 32767
+terrain:
+  attribute_overrides: []
+  footstep_sound_overrides: []
+bmodel_faces:
+  interactive_faces: []
+entities: []
+spawns: []
+model_instances:
+- instance_id: mm9:afterworld:object:7
+  source_ref: objects/7
+  source_kind: mm9_dat_object
+  source_object_index: 7
+  source_class: Brazier
+  source_name: Guilt
+  source_model: models/Props/BrazierBowl.ABC
+  source_skin: Skins/Props/BrazierBowl.dtx
+  model_asset: models/props/brazierbowl.glb
+  position:
+    x: 11960
+    y: 13322
+    z: 1331
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 4
+    y: 4
+    z: 4
+  collision: solid
+- instance_id: mm9:afterworld:object:8
+  source_ref: objects/8
+  source_kind: mm9_dat_object
+  source_object_index: 8
+  source_class: Brazier
+  source_name: Confession
+  source_model: models/Props/BrazierBowl.ABC
+  source_skin: Skins/Props/BrazierBowl.dtx
+  model_asset: models/props/brazierbowl.glb
+  position:
+    x: 11960
+    y: 12974
+    z: 1331
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 4
+    y: 4
+    z: 4
+  collision: solid
+- instance_id: mm9:afterworld:object:9
+  source_ref: objects/9
+  source_kind: mm9_dat_object
+  source_object_index: 9
+  source_class: Brazier
+  source_name: Suffering
+  source_model: models/Props/BrazierBowl.ABC
+  source_skin: Skins/Props/BrazierBowl.dtx
+  model_asset: models/props/brazierbowl.glb
+  position:
+    x: 11960
+    y: 12667
+    z: 1331
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 4
+    y: 4
+    z: 4
+  collision: solid
+- instance_id: mm9:afterworld:object:10
+  source_ref: objects/10
+  source_kind: mm9_dat_object
+  source_object_index: 10
+  source_class: Brazier
+  source_name: Retribution
+  source_model: models/Props/BrazierBowl.ABC
+  source_skin: Skins/Props/BrazierBowl.dtx
+  model_asset: models/props/brazierbowl.glb
+  position:
+    x: 9994
+    y: 12667
+    z: 1331
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 4
+    y: 4
+    z: 4
+  collision: solid
+- instance_id: mm9:afterworld:object:11
+  source_ref: objects/11
+  source_kind: mm9_dat_object
+  source_object_index: 11
+  source_class: Brazier
+  source_name: Absolution
+  source_model: models/Props/BrazierBowl.ABC
+  source_skin: Skins/Props/BrazierBowl.dtx
+  model_asset: models/props/brazierbowl.glb
+  position:
+    x: 9994
+    y: 12974
+    z: 1331
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 4
+    y: 4
+    z: 4
+  collision: solid
+- instance_id: mm9:afterworld:object:12
+  source_ref: objects/12
+  source_kind: mm9_dat_object
+  source_object_index: 12
+  source_class: Brazier
+  source_name: Rebirth
+  source_model: models/Props/BrazierBowl.ABC
+  source_skin: Skins/Props/BrazierBowl.dtx
+  model_asset: models/props/brazierbowl.glb
+  position:
+    x: 9994
+    y: 13322
+    z: 1331
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 4
+    y: 4
+    z: 4
+  collision: solid
+- instance_id: mm9:afterworld:object:23
+  source_ref: objects/23
+  source_kind: mm9_dat_object
+  source_object_index: 23
+  source_class: Prop
+  source_name: Prop41
+  source_model: models/weapons/LongSword.abc
+  source_skin: skins/weapons/LongswordNew.dtx
+  model_asset: models/weapons/longsword.glb
+  position:
+    x: 13217
+    y: 18798
+    z: 1037
+  rotation_quat:
+    x: -0.42898882
+    y: -0.90141772
+    z: -0.052764715
+    w: -0.02511097
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:24
+  source_ref: objects/24
+  source_kind: mm9_dat_object
+  source_object_index: 24
+  source_class: Prop
+  source_name: guard
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 14341
+    y: 18250
+    z: 1031
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70957073
+    w: 0.70463422
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:25
+  source_ref: objects/25
+  source_kind: mm9_dat_object
+  source_object_index: 25
+  source_class: Prop
+  source_name: Prop40
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 12659
+    y: 20244
+    z: 1078
+  rotation_quat:
+    x: 0.62999831
+    y: 0
+    z: 0
+    w: 0.7765965
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:26
+  source_ref: objects/26
+  source_kind: mm9_dat_object
+  source_object_index: 26
+  source_class: Prop
+  source_name: Prop39
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 12685
+    y: 20250
+    z: 1078
+  rotation_quat:
+    x: 0.62999831
+    y: 0
+    z: 0
+    w: 0.7765965
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:27
+  source_ref: objects/27
+  source_kind: mm9_dat_object
+  source_object_index: 27
+  source_class: Prop
+  source_name: Sven16
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 12923
+    y: 19807
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:28
+  source_ref: objects/28
+  source_kind: mm9_dat_object
+  source_object_index: 28
+  source_class: Prop
+  source_name: Sven26
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 14441
+    y: 18455
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.17622579
+    w: 0.98434977
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:29
+  source_ref: objects/29
+  source_kind: mm9_dat_object
+  source_object_index: 29
+  source_class: Prop
+  source_name: Sven25
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 14605
+    y: 19489
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.45399059
+    w: -0.89100648
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:30
+  source_ref: objects/30
+  source_kind: mm9_dat_object
+  source_object_index: 30
+  source_class: Prop
+  source_name: Sven24
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 14922
+    y: 19405
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99737801
+    w: 0.072367847
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:31
+  source_ref: objects/31
+  source_kind: mm9_dat_object
+  source_object_index: 31
+  source_class: Prop
+  source_name: Sven23
+  source_model: models/clansoldier.abc
+  source_skin: skins/Beldonian1.dtx;skins/BeldSword.dtx;skins/beldshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 14753
+    y: 20283
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.86689671
+    w: 0.49848781
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_beldonian1_beldsword_beldshield1
+- instance_id: mm9:afterworld:object:32
+  source_ref: objects/32
+  source_kind: mm9_dat_object
+  source_object_index: 32
+  source_class: Prop
+  source_name: Sven22
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 14072
+    y: 18780
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.34693563
+    w: 0.93788894
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:33
+  source_ref: objects/33
+  source_kind: mm9_dat_object
+  source_object_index: 33
+  source_class: Prop
+  source_name: Sven21
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 14909
+    y: 19812
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.39714788
+    w: 0.91775463
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:34
+  source_ref: objects/34
+  source_kind: mm9_dat_object
+  source_object_index: 34
+  source_class: Prop
+  source_name: Sven20
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 13371
+    y: 21089
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.91032282
+    w: 0.41389897
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:35
+  source_ref: objects/35
+  source_kind: mm9_dat_object
+  source_object_index: 35
+  source_class: Prop
+  source_name: Sven19
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 13696
+    y: 18591
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.79600197
+    w: -0.60529403
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:36
+  source_ref: objects/36
+  source_kind: mm9_dat_object
+  source_object_index: 36
+  source_class: Prop
+  source_name: Sven15
+  source_model: models/clansoldier.abc
+  source_skin: skins/Beldonian1.dtx;skins/BeldSword.dtx;skins/beldshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 13059
+    y: 20859
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.28234145
+    w: 0.95931398
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_beldonian1_beldsword_beldshield1
+- instance_id: mm9:afterworld:object:37
+  source_ref: objects/37
+  source_kind: mm9_dat_object
+  source_object_index: 37
+  source_class: Prop
+  source_name: Sven14
+  source_model: models/clansoldier.abc
+  source_skin: skins/Beldonian1.dtx;skins/BeldSword.dtx;skins/beldshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 14282
+    y: 20439
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99995393
+    w: -0.0095992243
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_beldonian1_beldsword_beldshield1
+- instance_id: mm9:afterworld:object:38
+  source_ref: objects/38
+  source_kind: mm9_dat_object
+  source_object_index: 38
+  source_class: Prop
+  source_name: Sven13
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 13356
+    y: 20462
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:39
+  source_ref: objects/39
+  source_kind: mm9_dat_object
+  source_object_index: 39
+  source_class: Prop
+  source_name: Sven12
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 14083
+    y: 19886
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.9316912
+    w: 0.36325129
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:40
+  source_ref: objects/40
+  source_kind: mm9_dat_object
+  source_object_index: 40
+  source_class: Prop
+  source_name: Sven11
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier2.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 13276
+    y: 19236
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.60737587
+    w: 0.7944146
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/clansoldier.abc
+    source_skins:
+    - skins/clansoldier2.dtx
+    - skins/beldsword.dtx
+    - skins/clanshield1.dtx
+    candidates:
+    - id: clansoldier_beldonian1_beldsword_beldshield1
+      source_skins: &id001
+      - skins/beldonian1.dtx
+      - skins/beldsword.dtx
+      - skins/beldshield1.dtx
+    - id: clansoldier_beldonian2_beldsword_beldshield2
+      source_skins: &id002
+      - skins/beldonian2.dtx
+      - skins/beldsword.dtx
+      - skins/beldshield2.dtx
+    - id: clansoldier_beldonian3_beldswordold_beldshield3
+      source_skins: &id003
+      - skins/beldonian3.dtx
+      - skins/beldswordold.dtx
+      - skins/beldshield3.dtx
+    - id: clansoldier_beldoniandragon_belddragnsword_beldshield3
+      source_skins: &id004
+      - skins/beldoniandragon.dtx
+      - skins/belddragnsword.dtx
+      - skins/beldshield3.dtx
+    - id: clansoldier_clansoldier1_beldsword_clanshield1
+      source_skins: &id005
+      - skins/clansoldier1.dtx
+      - skins/beldsword.dtx
+      - skins/clanshield1.dtx
+    - id: clansoldier_clansoldier1_sword_clanshield1
+      source_skins: &id006
+      - skins/clansoldier1.dtx
+      - skins/clanshield1.dtx
+    - id: clansoldier_clansoldier2_beldsword_clanshieldguard
+      source_skins: &id007
+      - skins/clansoldier2.dtx
+      - skins/beldsword.dtx
+      - skins/clanshieldguard.dtx
+    - id: clansoldier_clansoldier2_sword_clanshieldguard
+      source_skins: &id008
+      - skins/clansoldier2.dtx
+      - skins/clanshieldguard.dtx
+    - id: clansoldier_clansoldier6_beldsword_clanshield2
+      source_skins: &id009
+      - skins/clansoldier6.dtx
+      - skins/beldsword.dtx
+      - skins/clanshield2.dtx
+    - id: clansoldier_clansoldier6_sword_clanshield2
+      source_skins: &id010
+      - skins/clansoldier6.dtx
+      - skins/clanshield2.dtx
+    - id: clansoldier_clansoldier9_beldsword_clanshield3
+      source_skins: &id011
+      - skins/clansoldier9.dtx
+      - skins/beldsword.dtx
+      - skins/clanshield3.dtx
+    - id: clansoldier_clansoldier9_sword_clanshield3
+      source_skins: &id012
+      - skins/clansoldier9.dtx
+      - skins/clanshield3.dtx
+- instance_id: mm9:afterworld:object:41
+  source_ref: objects/41
+  source_kind: mm9_dat_object
+  source_object_index: 41
+  source_class: Prop
+  source_name: Sven10
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 14372
+    y: 19036
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.98357145
+    w: 0.18051924
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:42
+  source_ref: objects/42
+  source_kind: mm9_dat_object
+  source_object_index: 42
+  source_class: Prop
+  source_name: Sven9
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 14438
+    y: 19968
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:43
+  source_ref: objects/43
+  source_kind: mm9_dat_object
+  source_object_index: 43
+  source_class: Prop
+  source_name: Sven8
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier6.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 14001
+    y: 20211
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.25628939
+    w: 0.9666001
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/clansoldier.abc
+    source_skins:
+    - skins/clansoldier6.dtx
+    - skins/beldsword.dtx
+    - skins/clanshield1.dtx
+    candidates:
+    - id: clansoldier_beldonian1_beldsword_beldshield1
+      source_skins: *id001
+    - id: clansoldier_beldonian2_beldsword_beldshield2
+      source_skins: *id002
+    - id: clansoldier_beldonian3_beldswordold_beldshield3
+      source_skins: *id003
+    - id: clansoldier_beldoniandragon_belddragnsword_beldshield3
+      source_skins: *id004
+    - id: clansoldier_clansoldier1_beldsword_clanshield1
+      source_skins: *id005
+    - id: clansoldier_clansoldier1_sword_clanshield1
+      source_skins: *id006
+    - id: clansoldier_clansoldier2_beldsword_clanshieldguard
+      source_skins: *id007
+    - id: clansoldier_clansoldier2_sword_clanshieldguard
+      source_skins: *id008
+    - id: clansoldier_clansoldier6_beldsword_clanshield2
+      source_skins: *id009
+    - id: clansoldier_clansoldier6_sword_clanshield2
+      source_skins: *id010
+    - id: clansoldier_clansoldier9_beldsword_clanshield3
+      source_skins: *id011
+    - id: clansoldier_clansoldier9_sword_clanshield3
+      source_skins: *id012
+- instance_id: mm9:afterworld:object:44
+  source_ref: objects/44
+  source_kind: mm9_dat_object
+  source_object_index: 44
+  source_class: Prop
+  source_name: Tryygva
+  source_model: models/Tryggva.ABC
+  source_skin: skins/Tryggva.dtx
+  model_asset: models/tryggva.glb
+  position:
+    x: 12718
+    y: 20224
+    z: 1191
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.83867055
+    w: 0.54463906
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: tryggva_tryggva
+- instance_id: mm9:afterworld:object:45
+  source_ref: objects/45
+  source_kind: mm9_dat_object
+  source_object_index: 45
+  source_class: Prop
+  source_name: sigmund
+  source_model: models/Sigmund.abc
+  source_skin: skins/Sigmund.dtx
+  model_asset: models/sigmund.glb
+  position:
+    x: 13204
+    y: 18790
+    z: 1277
+  rotation_quat:
+    x: 0.7598343
+    y: -0.65010742
+    z: -0.0022693019
+    w: 0.0026523208
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: sigmund_sigmund
+- instance_id: mm9:afterworld:object:46
+  source_ref: objects/46
+  source_kind: mm9_dat_object
+  source_object_index: 46
+  source_class: Prop
+  source_name: Prop38
+  source_model: models/weapons/LongSword.abc
+  source_skin: skins/weapons/LongswordNew.dtx
+  model_asset: models/weapons/longsword.glb
+  position:
+    x: 13612
+    y: 19067
+    z: 1037
+  rotation_quat:
+    x: 0.96646619
+    y: -0.24186312
+    z: -0.020947614
+    w: 0.083705035
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:47
+  source_ref: objects/47
+  source_kind: mm9_dat_object
+  source_object_index: 47
+  source_class: Prop
+  source_name: Prop37
+  source_model: models/props/axe-rusty.abc
+  source_skin: skins/props/axe-rusty.dtx
+  model_asset: models/props/axe_rusty.glb
+  position:
+    x: 13635
+    y: 19100
+    z: 1273
+  rotation_quat:
+    x: 0.66994584
+    y: -0.22262246
+    z: -0.67118174
+    w: -0.22611255
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:afterworld:object:48
+  source_ref: objects/48
+  source_kind: mm9_dat_object
+  source_object_index: 48
+  source_class: Prop
+  source_name: Prop36
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 13970
+    y: 19464
+    z: 1078
+  rotation_quat:
+    x: 0.16341057
+    y: -0.60773445
+    z: -0.75048951
+    w: 0.20179524
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:49
+  source_ref: objects/49
+  source_kind: mm9_dat_object
+  source_object_index: 49
+  source_class: Prop
+  source_name: Prop35
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 14042
+    y: 19451
+    z: 1078
+  rotation_quat:
+    x: 0.62999831
+    y: 0
+    z: 0
+    w: 0.7765965
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:50
+  source_ref: objects/50
+  source_kind: mm9_dat_object
+  source_object_index: 50
+  source_class: Prop
+  source_name: Prop34
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 14011
+    y: 19476
+    z: 1078
+  rotation_quat:
+    x: 0.62999831
+    y: 0
+    z: 0
+    w: 0.7765965
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:51
+  source_ref: objects/51
+  source_kind: mm9_dat_object
+  source_object_index: 51
+  source_class: Prop
+  source_name: Prop33
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 14052
+    y: 19482
+    z: 1078
+  rotation_quat:
+    x: 0.51188101
+    y: -0.084282479
+    z: -0.13889322
+    w: 0.84355377
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:52
+  source_ref: objects/52
+  source_kind: mm9_dat_object
+  source_object_index: 52
+  source_class: Prop
+  source_name: Prop32
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 14026
+    y: 19476
+    z: 1078
+  rotation_quat:
+    x: 0.51188101
+    y: -0.084282479
+    z: -0.13889322
+    w: 0.84355377
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:53
+  source_ref: objects/53
+  source_kind: mm9_dat_object
+  source_object_index: 53
+  source_class: Prop
+  source_name: Prop31
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 14021
+    y: 19474
+    z: 1078
+  rotation_quat:
+    x: 0.62095945
+    y: -0.10224252
+    z: -0.12625899
+    w: 0.76682103
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:54
+  source_ref: objects/54
+  source_kind: mm9_dat_object
+  source_object_index: 54
+  source_class: Prop
+  source_name: Prop30
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 13996
+    y: 19469
+    z: 1078
+  rotation_quat:
+    x: 0.62095945
+    y: -0.10224252
+    z: -0.12625899
+    w: 0.76682103
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:55
+  source_ref: objects/55
+  source_kind: mm9_dat_object
+  source_object_index: 55
+  source_class: Prop
+  source_name: Prop29
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 14011
+    y: 19459
+    z: 1078
+  rotation_quat:
+    x: 0.62999831
+    y: 0
+    z: 0
+    w: 0.7765965
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:56
+  source_ref: objects/56
+  source_kind: mm9_dat_object
+  source_object_index: 56
+  source_class: Prop
+  source_name: Prop28
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 13985
+    y: 19453
+    z: 1078
+  rotation_quat:
+    x: 0.62999831
+    y: 0
+    z: 0
+    w: 0.7765965
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:57
+  source_ref: objects/57
+  source_kind: mm9_dat_object
+  source_object_index: 57
+  source_class: Prop
+  source_name: Prop27
+  source_model: models/weapons/LongSword.abc
+  source_skin: skins/weapons/LongswordNew.dtx
+  model_asset: models/weapons/longsword.glb
+  position:
+    x: 13696
+    y: 19999
+    z: 1037
+  rotation_quat:
+    x: 0.96646619
+    y: -0.24186312
+    z: -0.020947614
+    w: 0.083705035
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:58
+  source_ref: objects/58
+  source_kind: mm9_dat_object
+  source_object_index: 58
+  source_class: Prop
+  source_name: Prop5
+  source_model: models/weapons/battlewitch.abc
+  source_skin: skins/weapons/battlewitch.dtx
+  model_asset: models/weapons/battlewitch.glb
+  position:
+    x: 12616
+    y: 19005
+    z: 1068
+  rotation_quat:
+    x: 0.92652865
+    y: 0
+    z: 0
+    w: 0.37622421
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:59
+  source_ref: objects/59
+  source_kind: mm9_dat_object
+  source_object_index: 59
+  source_class: Prop
+  source_name: Prop26
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 12948
+    y: 20188
+    z: 1078
+  rotation_quat:
+    x: 0.62999831
+    y: 0
+    z: 0
+    w: 0.7765965
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:60
+  source_ref: objects/60
+  source_kind: mm9_dat_object
+  source_object_index: 60
+  source_class: Prop
+  source_name: Prop25
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 12974
+    y: 20193
+    z: 1078
+  rotation_quat:
+    x: 0.62999831
+    y: 0
+    z: 0
+    w: 0.7765965
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:61
+  source_ref: objects/61
+  source_kind: mm9_dat_object
+  source_object_index: 61
+  source_class: Prop
+  source_name: Prop24
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 12979
+    y: 20244
+    z: 1109
+  rotation_quat:
+    x: 0.91601302
+    y: 0
+    z: 0
+    w: 0.40114854
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:62
+  source_ref: objects/62
+  source_kind: mm9_dat_object
+  source_object_index: 62
+  source_class: Prop
+  source_name: Prop23
+  source_model: models/props/axe-rusty.abc
+  source_skin: skins/props/axe-rusty.dtx
+  model_asset: models/props/axe_rusty.glb
+  position:
+    x: 12524
+    y: 19267
+    z: 1273
+  rotation_quat:
+    x: 0.66994584
+    y: -0.22262246
+    z: -0.67118174
+    w: -0.22611255
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:afterworld:object:63
+  source_ref: objects/63
+  source_kind: mm9_dat_object
+  source_object_index: 63
+  source_class: Prop
+  source_name: Sven7
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier9.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 14034
+    y: 19471
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.60737587
+    w: 0.7944146
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/clansoldier.abc
+    source_skins:
+    - skins/clansoldier9.dtx
+    - skins/beldsword.dtx
+    - skins/clanshield1.dtx
+    candidates:
+    - id: clansoldier_beldonian1_beldsword_beldshield1
+      source_skins: *id001
+    - id: clansoldier_beldonian2_beldsword_beldshield2
+      source_skins: *id002
+    - id: clansoldier_beldonian3_beldswordold_beldshield3
+      source_skins: *id003
+    - id: clansoldier_beldoniandragon_belddragnsword_beldshield3
+      source_skins: *id004
+    - id: clansoldier_clansoldier1_beldsword_clanshield1
+      source_skins: *id005
+    - id: clansoldier_clansoldier1_sword_clanshield1
+      source_skins: *id006
+    - id: clansoldier_clansoldier2_beldsword_clanshieldguard
+      source_skins: *id007
+    - id: clansoldier_clansoldier2_sword_clanshieldguard
+      source_skins: *id008
+    - id: clansoldier_clansoldier6_beldsword_clanshield2
+      source_skins: *id009
+    - id: clansoldier_clansoldier6_sword_clanshield2
+      source_skins: *id010
+    - id: clansoldier_clansoldier9_beldsword_clanshield3
+      source_skins: *id011
+    - id: clansoldier_clansoldier9_sword_clanshield3
+      source_skins: *id012
+- instance_id: mm9:afterworld:object:64
+  source_ref: objects/64
+  source_kind: mm9_dat_object
+  source_object_index: 64
+  source_class: Prop
+  source_name: Sven6
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 13706
+    y: 20009
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:65
+  source_ref: objects/65
+  source_kind: mm9_dat_object
+  source_object_index: 65
+  source_class: Prop
+  source_name: Sven5
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 13640
+    y: 19077
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:66
+  source_ref: objects/66
+  source_kind: mm9_dat_object
+  source_object_index: 66
+  source_class: Prop
+  source_name: Sven4
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier6.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 13020
+    y: 20209
+    z: 1311
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.60737587
+    w: 0.7944146
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/clansoldier.abc
+    source_skins:
+    - skins/clansoldier6.dtx
+    - skins/beldsword.dtx
+    - skins/clanshield1.dtx
+    candidates:
+    - id: clansoldier_beldonian1_beldsword_beldshield1
+      source_skins: *id001
+    - id: clansoldier_beldonian2_beldsword_beldshield2
+      source_skins: *id002
+    - id: clansoldier_beldonian3_beldswordold_beldshield3
+      source_skins: *id003
+    - id: clansoldier_beldoniandragon_belddragnsword_beldshield3
+      source_skins: *id004
+    - id: clansoldier_clansoldier1_beldsword_clanshield1
+      source_skins: *id005
+    - id: clansoldier_clansoldier1_sword_clanshield1
+      source_skins: *id006
+    - id: clansoldier_clansoldier2_beldsword_clanshieldguard
+      source_skins: *id007
+    - id: clansoldier_clansoldier2_sword_clanshieldguard
+      source_skins: *id008
+    - id: clansoldier_clansoldier6_beldsword_clanshield2
+      source_skins: *id009
+    - id: clansoldier_clansoldier6_sword_clanshield2
+      source_skins: *id010
+    - id: clansoldier_clansoldier9_beldsword_clanshield3
+      source_skins: *id011
+    - id: clansoldier_clansoldier9_sword_clanshield3
+      source_skins: *id012
+- instance_id: mm9:afterworld:object:67
+  source_ref: objects/67
+  source_kind: mm9_dat_object
+  source_object_index: 67
+  source_class: Prop
+  source_name: Sven3
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier2.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 12544
+    y: 19277
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.60737587
+    w: 0.7944146
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/clansoldier.abc
+    source_skins:
+    - skins/clansoldier2.dtx
+    - skins/beldsword.dtx
+    - skins/clanshield1.dtx
+    candidates:
+    - id: clansoldier_beldonian1_beldsword_beldshield1
+      source_skins: *id001
+    - id: clansoldier_beldonian2_beldsword_beldshield2
+      source_skins: *id002
+    - id: clansoldier_beldonian3_beldswordold_beldshield3
+      source_skins: *id003
+    - id: clansoldier_beldoniandragon_belddragnsword_beldshield3
+      source_skins: *id004
+    - id: clansoldier_clansoldier1_beldsword_clanshield1
+      source_skins: *id005
+    - id: clansoldier_clansoldier1_sword_clanshield1
+      source_skins: *id006
+    - id: clansoldier_clansoldier2_beldsword_clanshieldguard
+      source_skins: *id007
+    - id: clansoldier_clansoldier2_sword_clanshieldguard
+      source_skins: *id008
+    - id: clansoldier_clansoldier6_beldsword_clanshield2
+      source_skins: *id009
+    - id: clansoldier_clansoldier6_sword_clanshield2
+      source_skins: *id010
+    - id: clansoldier_clansoldier9_beldsword_clanshield3
+      source_skins: *id011
+    - id: clansoldier_clansoldier9_sword_clanshield3
+      source_skins: *id012
+- instance_id: mm9:afterworld:object:68
+  source_ref: objects/68
+  source_kind: mm9_dat_object
+  source_object_index: 68
+  source_class: Prop
+  source_name: Prop22
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 13486
+    y: 19610
+    z: 1078
+  rotation_quat:
+    x: 0.33680938
+    y: -0.51864093
+    z: -0.65907502
+    w: 0.42800835
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:69
+  source_ref: objects/69
+  source_kind: mm9_dat_object
+  source_object_index: 69
+  source_class: Prop
+  source_name: Prop21
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 13476
+    y: 19630
+    z: 1078
+  rotation_quat:
+    x: 0.46953979
+    y: -0.40244423
+    z: -0.51141536
+    w: 0.59667861
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:70
+  source_ref: objects/70
+  source_kind: mm9_dat_object
+  source_object_index: 70
+  source_class: Prop
+  source_name: Prop20
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 13476
+    y: 19651
+    z: 1078
+  rotation_quat:
+    x: 0.60714925
+    y: -0.11746809
+    z: -0.14927531
+    w: 0.77154903
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:71
+  source_ref: objects/71
+  source_kind: mm9_dat_object
+  source_object_index: 71
+  source_class: Prop
+  source_name: Prop19
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 13496
+    y: 19630
+    z: 1078
+  rotation_quat:
+    x: 0.61909393
+    y: 0
+    z: 0
+    w: 0.78531695
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:72
+  source_ref: objects/72
+  source_kind: mm9_dat_object
+  source_object_index: 72
+  source_class: Prop
+  source_name: Sven2
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 13496
+    y: 19620
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.98095516
+    w: 0.19423432
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:73
+  source_ref: objects/73
+  source_kind: mm9_dat_object
+  source_object_index: 73
+  source_class: Prop
+  source_name: Prop3
+  source_model: models/weapons/battlewitch.abc
+  source_skin: skins/weapons/battlewitch.dtx
+  model_asset: models/weapons/battlewitch.glb
+  position:
+    x: 13271
+    y: 19988
+    z: 1027
+  rotation_quat:
+    x: 0.70090927
+    y: 0
+    z: 0
+    w: 0.71325044
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:74
+  source_ref: objects/74
+  source_kind: mm9_dat_object
+  source_object_index: 74
+  source_class: Prop
+  source_name: Sven1
+  source_model: models/clansoldier.abc
+  source_skin: skins/Beldonian1.dtx;skins/BeldSword.dtx;skins/beldshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 13281
+    y: 19988
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99995393
+    w: -0.0095992243
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_beldonian1_beldsword_beldshield1
+- instance_id: mm9:afterworld:object:75
+  source_ref: objects/75
+  source_kind: mm9_dat_object
+  source_object_index: 75
+  source_class: Prop
+  source_name: Prop18
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 13169
+    y: 19594
+    z: 1037
+  rotation_quat:
+    x: 0.33680938
+    y: -0.51864093
+    z: -0.65907502
+    w: 0.42800835
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:76
+  source_ref: objects/76
+  source_kind: mm9_dat_object
+  source_object_index: 76
+  source_class: Prop
+  source_name: Prop17
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 13158
+    y: 19579
+    z: 1037
+  rotation_quat:
+    x: 0.46953979
+    y: -0.40244423
+    z: -0.51141536
+    w: 0.59667861
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:77
+  source_ref: objects/77
+  source_kind: mm9_dat_object
+  source_object_index: 77
+  source_class: Prop
+  source_name: Prop16
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 13158
+    y: 19599
+    z: 1037
+  rotation_quat:
+    x: 0.60714925
+    y: -0.11746809
+    z: -0.14927531
+    w: 0.77154903
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:78
+  source_ref: objects/78
+  source_kind: mm9_dat_object
+  source_object_index: 78
+  source_class: Prop
+  source_name: Prop15
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 13179
+    y: 19579
+    z: 1037
+  rotation_quat:
+    x: 0.61909393
+    y: 0
+    z: 0
+    w: 0.78531695
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:79
+  source_ref: objects/79
+  source_kind: mm9_dat_object
+  source_object_index: 79
+  source_class: Prop
+  source_name: Kira0
+  source_model: models/bjarni.abc
+  source_skin: skins/bjarni.dtx
+  model_asset: models/bjarni.glb
+  position:
+    x: 13169
+    y: 19548
+    z: 1078
+  rotation_quat:
+    x: 0.99750279
+    y: 0
+    z: 0
+    w: 0.07062709
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+  model_skin_binding: bjarni_bjarni
+- instance_id: mm9:afterworld:object:80
+  source_ref: objects/80
+  source_kind: mm9_dat_object
+  source_object_index: 80
+  source_class: Prop
+  source_name: Sven0
+  source_model: models/clansoldier.abc
+  source_skin: skins/ClanSoldier1.dtx;skins/BeldSword.dtx;skins/Clanshield1.dtx
+  model_asset: models/clansoldier.glb
+  position:
+    x: 12616
+    y: 19896
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: clansoldier_clansoldier1_beldsword_clanshield1
+- instance_id: mm9:afterworld:object:81
+  source_ref: objects/81
+  source_kind: mm9_dat_object
+  source_object_index: 81
+  source_class: Prop
+  source_name: Prop14
+  source_model: models/weapons/LongSword.abc
+  source_skin: skins/weapons/LongswordNew.dtx
+  model_asset: models/weapons/longsword.glb
+  position:
+    x: 12564
+    y: 19886
+    z: 1037
+  rotation_quat:
+    x: 0.96646619
+    y: -0.24186312
+    z: -0.020947614
+    w: 0.083705035
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:82
+  source_ref: objects/82
+  source_kind: mm9_dat_object
+  source_object_index: 82
+  source_class: Prop
+  source_name: Prop13
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 12595
+    y: 19917
+    z: 1109
+  rotation_quat:
+    x: 0.91601302
+    y: 0
+    z: 0
+    w: 0.40114854
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:83
+  source_ref: objects/83
+  source_kind: mm9_dat_object
+  source_object_index: 83
+  source_class: Prop
+  source_name: Prop12
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 12585
+    y: 19937
+    z: 1109
+  rotation_quat:
+    x: 0.91601302
+    y: 0
+    z: 0
+    w: 0.40114854
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:84
+  source_ref: objects/84
+  source_kind: mm9_dat_object
+  source_object_index: 84
+  source_class: Prop
+  source_name: Prop11
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 12585
+    y: 19958
+    z: 1109
+  rotation_quat:
+    x: 0.91601302
+    y: 0
+    z: 0
+    w: 0.40114854
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:85
+  source_ref: objects/85
+  source_kind: mm9_dat_object
+  source_object_index: 85
+  source_class: Prop
+  source_name: Prop10
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 12605
+    y: 19937
+    z: 1109
+  rotation_quat:
+    x: 0.91601302
+    y: 0
+    z: 0
+    w: 0.40114854
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:86
+  source_ref: objects/86
+  source_kind: mm9_dat_object
+  source_object_index: 86
+  source_class: Prop
+  source_name: Prop9
+  source_model: models/Props/arrow.abc
+  source_skin: skins/props/Arrow-Bolt.dtx
+  model_asset: models/props/arrow.glb
+  position:
+    x: 12636
+    y: 19907
+    z: 1078
+  rotation_quat:
+    x: 0.62999831
+    y: 0
+    z: 0
+    w: 0.7765965
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:87
+  source_ref: objects/87
+  source_kind: mm9_dat_object
+  source_object_index: 87
+  source_class: Prop
+  source_name: Kira
+  source_model: models/Kira.abc
+  source_skin: skins/KiraPlate.dtx
+  model_asset: models/kira.glb
+  position:
+    x: 13271
+    y: 19661
+    z: 1277
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99995393
+    w: -0.0095992243
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: kira_kiraplate
+- instance_id: mm9:afterworld:object:88
+  source_ref: objects/88
+  source_kind: mm9_dat_object
+  source_object_index: 88
+  source_class: Prop
+  source_name: Prop8
+  source_model: models/weapons/LongSword.abc
+  source_skin: skins/weapons/LongswordNew.dtx
+  model_asset: models/weapons/longsword.glb
+  position:
+    x: 12493
+    y: 19692
+    z: 1068
+  rotation_quat:
+    x: 0.99634529
+    y: 0
+    z: 0
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:89
+  source_ref: objects/89
+  source_kind: mm9_dat_object
+  source_object_index: 89
+  source_class: Prop
+  source_name: Prop7
+  source_model: models/weapons/LongSword.abc
+  source_skin: skins/weapons/LongswordNew.dtx
+  model_asset: models/weapons/longsword.glb
+  position:
+    x: 13251
+    y: 19681
+    z: 976
+  rotation_quat:
+    x: 0.96646619
+    y: -0.24186312
+    z: -0.020947614
+    w: 0.083705035
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:90
+  source_ref: objects/90
+  source_kind: mm9_dat_object
+  source_object_index: 90
+  source_class: Prop
+  source_name: Prop4
+  source_model: models/weapons/battlewitch.abc
+  source_skin: skins/weapons/battlewitch.dtx
+  model_asset: models/weapons/battlewitch.glb
+  position:
+    x: 12780
+    y: 20480
+    z: 986
+  rotation_quat:
+    x: 0.56197199
+    y: -0.418881
+    z: -0.4262564
+    w: 0.57186683
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:91
+  source_ref: objects/91
+  source_kind: mm9_dat_object
+  source_object_index: 91
+  source_class: Prop
+  source_name: Prop2
+  source_model: models/weapons/broadsword.abc
+  source_skin: skins/weapons/broadsword.dtx
+  model_asset: models/weapons/broadsword.glb
+  position:
+    x: 11960
+    y: 19005
+    z: 1037
+  rotation_quat:
+    x: 0.99634529
+    y: 0
+    z: 0
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:92
+  source_ref: objects/92
+  source_kind: mm9_dat_object
+  source_object_index: 92
+  source_class: Prop
+  source_name: Prop1
+  source_model: models/weapons/broadsword.abc
+  source_skin: skins/weapons/broadsword.dtx
+  model_asset: models/weapons/broadsword.glb
+  position:
+    x: 12780
+    y: 19825
+    z: 1037
+  rotation_quat:
+    x: 0.99634529
+    y: 0
+    z: 0
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:93
+  source_ref: objects/93
+  source_kind: mm9_dat_object
+  source_object_index: 93
+  source_class: Prop
+  source_name: Prop0
+  source_model: models/weapons/broadsword.abc
+  source_skin: skins/weapons/broadsword.dtx
+  model_asset: models/weapons/broadsword.glb
+  position:
+    x: 12967
+    y: 19479
+    z: 986
+  rotation_quat:
+    x: 0.99634529
+    y: 0
+    z: 0
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:afterworld:object:94
+  source_ref: objects/94
+  source_kind: mm9_dat_object
+  source_object_index: 94
+  source_class: Skraelos
+  source_name: Skraelos0
+  source_model: models/Skraelos.abc
+  source_skin: ''
+  model_asset: models/skraelos.glb
+  position:
+    x: 10936
+    y: 11951
+    z: 1647
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.6
+    y: 1.6
+    z: 1.6
+  collision: solid
+  model_skin_binding: skraelos_skraelos
+- instance_id: mm9:afterworld:object:96
+  source_ref: objects/96
+  source_kind: mm9_dat_object
+  source_object_index: 96
+  source_class: TryggvaRavenlocks
+  source_name: TryggvaRavenlocks0
+  source_model: models/Tryggva.abc
+  source_skin: ''
+  model_asset: models/tryggva.glb
+  position:
+    x: 12148
+    y: 8515
+    z: 1652
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: tryggva_tryggva
+- instance_id: mm9:afterworld:object:97
+  source_ref: objects/97
+  source_kind: mm9_dat_object
+  source_object_index: 97
+  source_class: KiratheCold
+  source_name: KiratheCold0
+  source_model: models/Kira.abc
+  source_skin: ''
+  model_asset: models/kira.glb
+  position:
+    x: 2248
+    y: 7079
+    z: 1652
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: kira_kiraplate
+- instance_id: mm9:afterworld:object:98
+  source_ref: objects/98
+  source_kind: mm9_dat_object
+  source_object_index: 98
+  source_class: MarkeltheGreat
+  source_name: MarkeltheGreat0
+  source_model: models/Markel.abc
+  source_skin: ''
+  model_asset: models/markel.glb
+  position:
+    x: 19818
+    y: 12350
+    z: 1652
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.72537443
+    w: -0.68835451
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: markel_markel
+- instance_id: mm9:afterworld:object:99
+  source_ref: objects/99
+  source_kind: mm9_dat_object
+  source_object_index: 99
+  source_class: SvenSvenssen
+  source_name: SvenSvenssen0
+  source_model: models/Sven.abc
+  source_skin: ''
+  model_asset: models/sven.glb
+  position:
+    x: 6650
+    y: 17999
+    z: 1560
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.97553456
+    w: 0.21984615
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: sven_sven
+- instance_id: mm9:afterworld:object:100
+  source_ref: objects/100
+  source_kind: mm9_dat_object
+  source_object_index: 100
+  source_class: BjarniThorvaldssen
+  source_name: BjarniThorvaldssen0
+  source_model: models/Bjarni.abc
+  source_skin: ''
+  model_asset: models/bjarni.glb
+  position:
+    x: 13283
+    y: 22067
+    z: 1560
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99580493
+    w: -0.09150162
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: bjarni_bjarni
+- instance_id: mm9:afterworld:object:101
+  source_ref: objects/101
+  source_kind: mm9_dat_object
+  source_object_index: 101
+  source_class: SigmundtheStressed
+  source_name: SigmundtheStressed0
+  source_model: models/Bjarni.abc
+  source_skin: ''
+  model_asset: models/sigmund.glb
+  position:
+    x: 20707
+    y: 16649
+    z: 1652
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.98822836
+    w: 0.15298595
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: sigmund_sigmund
+- instance_id: mm9:afterworld:object:103
+  source_ref: objects/103
+  source_kind: mm9_dat_object
+  source_object_index: 103
+  source_class: ForadDarre
+  source_name: ForadDarre0
+  source_model: models/ForadDarre.abc
+  source_skin: ''
+  model_asset: models/foraddarre.glb
+  position:
+    x: 15565
+    y: 16384
+    z: 1532
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: foraddarre_foraddarre
+- instance_id: mm9:afterworld:object:124
+  source_ref: objects/124
+  source_kind: mm9_dat_object
+  source_object_index: 124
+  source_class: Prop
+  source_name: KiraSword
+  source_model: models/weapons/LongSword.abc
+  source_skin: skins/weapons/LongswordRuneBlade.dtx
+  model_asset: models/weapons/longsword.glb
+  position:
+    x: 13271
+    y: 19825
+    z: 1140
+  rotation_quat:
+    x: 0.96631862
+    y: -0.24182619
+    z: -0.021369716
+    w: 0.085391722
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:afterworld:object:125
+  source_ref: objects/125
+  source_kind: mm9_dat_object
+  source_object_index: 125
+  source_class: Prop
+  source_name: SigmundSword
+  source_model: models/weapons/LongSword.abc
+  source_skin: skins/weapons/LongswordRuneBlade.dtx
+  model_asset: models/weapons/longsword.glb
+  position:
+    x: 13271
+    y: 18842
+    z: 1201
+  rotation_quat:
+    x: 0.96631862
+    y: -0.24182619
+    z: -0.021369716
+    w: 0.085391722
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:afterworld:object:126
+  source_ref: objects/126
+  source_kind: mm9_dat_object
+  source_object_index: 126
+  source_class: Prop
+  source_name: TryygvaSword
+  source_model: models/weapons/LongSword.abc
+  source_skin: skins/weapons/LongswordRuneBlade.dtx
+  model_asset: models/weapons/longsword.glb
+  position:
+    x: 12616
+    y: 20152
+    z: 1201
+  rotation_quat:
+    x: 0.96631862
+    y: -0.24182619
+    z: -0.021369716
+    w: 0.085391722
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:afterworld:object:127
+  source_ref: objects/127
+  source_kind: mm9_dat_object
+  source_object_index: 127
+  source_class: Prop
+  source_name: BjarniSword
+  source_model: models/weapons/LongSword.abc
+  source_skin: skins/weapons/LongswordRuneBlade.dtx
+  model_asset: models/weapons/longsword.glb
+  position:
+    x: 13271
+    y: 19497
+    z: 1232
+  rotation_quat:
+    x: 0.96631862
+    y: -0.24182619
+    z: -0.021369716
+    w: 0.085391722
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:afterworld:object:128
+  source_ref: objects/128
+  source_kind: mm9_dat_object
+  source_object_index: 128
+  source_class: Prop
+  source_name: SvenSword
+  source_model: models/weapons/LongSword.abc
+  source_skin: skins/weapons/LongswordRuneBlade.dtx
+  model_asset: models/weapons/longsword.glb
+  position:
+    x: 12452
+    y: 19497
+    z: 1232
+  rotation_quat:
+    x: 0.96631862
+    y: -0.24182619
+    z: -0.021369716
+    w: 0.085391722
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  face_attribute_overrides: []
+  actors: []
+  sprite_objects: []
+  chests: []
+  variables:
+    map:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    decor:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0

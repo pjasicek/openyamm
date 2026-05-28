@@ -1,0 +1,66 @@
+;--------------------------------------------------
+;TaSarTeacher.scr
+;10/4
+; timmy + SJR
+; handles the students going to the combat arena
+;--------------------------------------------------
+
+#include baseMelee.inc
+#include range.inc
+
+
+
+#number					Xpos
+#number					Ypos
+#number					Zpos
+
+
+
+;--------------------------------------------------
+:OnSpawn
+; Spawn monster to fight
+;--------------------------------------------------
+
+Playanim Hattack2 OnMonsterSpawn
+exit 1
+
+
+;--------------------------------------------------
+:OnMonsterSpawn
+; Spawn monster to fight
+;--------------------------------------------------
+
+GetObjectHandle Student0 g_hobject
+trigger g_Hobject Hate
+
+GetObjectHandle Student1 g_hobject
+trigger g_Hobject Hate
+
+GetObjectHandle Student2 g_hobject
+trigger g_Hobject Hate
+
+GetObjectHandle Student3 g_hobject
+trigger g_Hobject Hate
+
+GetObjectHandle DooksGuardCaptain0 g_hobject
+trigger g_Hobject Hate
+
+GetObjectHandle DooksGuardCaptain1 g_hobject
+trigger g_Hobject Hate
+
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+gosub RangeInit
+gosub BaseInit
+
+AddTrigger Fight, OnSpawn
+exit
+

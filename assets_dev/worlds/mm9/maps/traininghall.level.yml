@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: traininghall
+display_name: Training Hall
+source:
+  dat: ../source/worlds/TRAININGHALL.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/TRAININGHALL.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: b63244ab76ea44ea550e19fe18c78d25ddbf35f04cedfb096d425ba941765691
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_like
+  classification_confidence: medium
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: traininghall.dat_world.yml
+  raw_objects: traininghall.raw_objects.yml
+  materials: traininghall.material_aliases.yml
+  events: traininghall.events.yml
+  scene_compat: traininghall.scene.yml
+  source_metadata_compat: traininghall.mm9.yml
+  bsp_compat: traininghall.bsp.yml
+  geometry_compat: traininghall.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: traininghall.blv
+scripts:
+  level: ../events/traininghall.lua
+  script_ir: ../events/traininghall.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

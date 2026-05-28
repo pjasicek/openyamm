@@ -1,0 +1,58 @@
+;--------------------------------------------------
+;DP3Monsterdead.scr
+; timmy
+; Checks to see if both Monsters are dead in MonsterPharaoh2
+;         Parameters:
+;  p0   amount of monsters you want to check for dead
+;--------------------------------------------------
+
+#include globals.inc
+
+;#NumberArray			MonsterArray[20]
+
+#number					MonsterId
+#Number					counter
+#number					MonsterDead
+#number					BeenDone
+#number					DeadCount
+
+
+;--------------------------------------------------
+:CheckAllMonsters
+;--------------------------------------------------
+
+
+
+
+Add Counter, 1
+
+If (counter<DeadCount)
+	exit
+endif
+
+	;---Monsters are dead, now do this!!---
+
+GetObjectHandle Door13, g_hobject
+Trigger g_hobject, Open
+set BeenDone, true
+wait 0.2, killme
+
+	;------------------------------------------
+exit
+
+;--------------------------------------------------
+:killme
+;--------------------------------------------------
+
+exitscript
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+GetParam 0, DeadCount
+
+AddTrigger MonsterDead, CheckAllMonsters
+
+exit

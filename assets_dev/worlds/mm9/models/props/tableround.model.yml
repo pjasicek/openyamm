@@ -1,0 +1,69 @@
+schema: openyamm.model3d.v1
+id: tableround
+model: tableround.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/TABLEROUND.abc
+  commandString: NoAnimation; ShadowEnable; ShadowSizeX 32; ShadowSizeY 32; FadeRangeMax
+    2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Table
+  materialIndex: 0
+  lods:
+  - faces: 120
+    vertices: 82
+  - faces: 90
+    vertices: 67
+  - faces: 72
+    vertices: 58
+materials:
+- index: 0
+  texture: skins_preview/props/tableround.png
+  runtime_texture: skins/props/tableround.dtx
+  preview_texture: skins_preview/props/tableround.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/TABLEROUND.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: TableRound
+  durationMs: 700
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: TableRound
+  extents:
+  - 81.92
+  - 46.08
+  - 81.92
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/tableround.abc

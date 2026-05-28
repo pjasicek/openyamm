@@ -1,0 +1,90 @@
+;---------------------------------------
+;	YanmirFort_BugSpawn.scr
+;	Jeff Leggett
+;	01/03/2002
+;
+;---------------------------------------
+
+; 10 - 15 minutes of real-time before we'll spawn...
+
+#number				MIN_SPAWN_TIME = 600
+#number				MAX_SPAWN_TIME = 900
+
+
+#hobject			hMyObject
+#number				nWaitNbr = 0
+#number				nReWaitNbr = 16
+#number				nRandom
+#hobject			hSpawn
+
+#string				sCmd
+#string				sMyName
+#string				SPACE=" "
+
+
+;---------------------------------------
+:DoSpawn
+;---------------------------------------
+#number		x
+#number		y
+#number		z
+#number		bVisible
+#hobject	hPlayer
+
+;
+;	Make sure player can't see this happen.
+;
+	GetPlayerHandle hPlayer
+
+	IsVisible hPlayer,bVisible
+
+	if ( bVisible==1 )
+		nReWaitNbr = nReWaitNbr + 1
+		if ( nReWaitNbr > 29 )
+			nReWaitNbr = 16
+		endif
+		; keep waiting until player leaves...
+		Wait nReWaitNbr,5,DoSpawn
+		exit
+	endif
+
+	GetPos hMyObject,x,y,z
+	Spawn hSpawn,x,y,z,sCmd
+
+	Exit
+
+;---------------------------------------
+:OnRespawnMe
+;---------------------------------------
+
+	nWaitNbr = nWaitNbr + 1
+
+	if ( nWaitNbr > 15 )
+		nWaitNbr = 0
+	endif
+
+	GetRandomFloat MIN_SPAWN_TIME,MAX_SPAWN_TIME,nRandom
+
+	Wait nWaitNbr,nRandom,DoSpawn
+	
+
+	Exit
+
+;---------------------------------------
+:Main
+;---------------------------------------
+	GetMyHandle hMyObject
+
+	GetObjectName hMyObject,sMyName
+
+	Set sCmd,IceLobbercicle DeathTriggerMessage RespawnMe;DeathTriggerTarget
+
+	sCmd = sCmd + SPACE + sMyName
+
+	debugOut spawnCmd=
+	debugOut sCmd
+
+	AddTrigger RespawnMe,OnRespawnMe
+
+	Exit
+

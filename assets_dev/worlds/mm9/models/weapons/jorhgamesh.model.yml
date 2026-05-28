@@ -1,0 +1,112 @@
+schema: openyamm.model3d.v1
+id: jorhgamesh
+model: jorhgamesh.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/WEAPONS/JORHGAMESH.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: ScimitarMagic
+  materialIndex: 0
+  lods:
+  - faces: 189
+    vertices: 347
+materials:
+- index: 0
+  texture: skins_preview/weapons/jorhgamesh.png
+  runtime_texture: skins/weapons/jorhgamesh.dtx
+  preview_texture: skins_preview/weapons/jorhgamesh.png
+  source: mm9/extracted/SKINS/SKINS/WEAPONS/JORHGAMESH.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+  - index: 1
+    name: Spot01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 2
+    name: Spot01.Target
+    parent: 0
+    flags: 0
+    children: []
+  - index: 3
+    name: Omni01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 4
+    name: Omni02
+    parent: 0
+    flags: 0
+    children: []
+  - index: 5
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 6
+    - 7
+  - index: 6
+    name: Bone02
+    parent: 5
+    flags: 0
+    children: []
+  - index: 7
+    name: ScimitarMagic
+    parent: 5
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 0
+  events: []
+- name: pose
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 0
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 2.56
+  - 51.2
+  - 12.8
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: pose
+  extents:
+  - 2.56
+  - 51.2
+  - 12.8
+  origin:
+  - 0.0
+  - -30.72
+  - -12.8
+roles:
+- static_model
+source_model: models/weapons/jorhgamesh.abc

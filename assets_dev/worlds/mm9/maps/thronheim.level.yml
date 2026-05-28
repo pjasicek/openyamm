@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: thronheim
+display_name: Thronheim
+source:
+  dat: ../source/worlds/THRONHEIM.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/THRONHEIM.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 7187b41f490aff8b70011a7e31529a7ee9ea52c1557f55a071b8969fd98fff17
+runtime:
+  world_backend: dat_world
+  classification: outdoor_like
+  classification_confidence: high
+  visibility: dat_spatial
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: thronheim.dat_world.yml
+  raw_objects: thronheim.raw_objects.yml
+  materials: thronheim.material_aliases.yml
+  events: thronheim.events.yml
+  scene_compat: thronheim.scene.yml
+  source_metadata_compat: thronheim.mm9.yml
+  bsp_compat: null
+  geometry_compat: null
+  model_assets_compat: thronheim.model_assets.yml
+  odm_compat: thronheim.odm
+  blv_compat: null
+scripts:
+  level: ../events/thronheim.lua
+  script_ir: ../events/thronheim.script_ir.yml
+compatibility:
+  legacy_target_format: odm
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

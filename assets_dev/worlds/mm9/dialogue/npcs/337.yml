@@ -1,0 +1,1486 @@
+format_version: 1
+source_file: NPC337.rude
+rows:
+  - source:
+      file: NPC337.rude
+      row: 1
+    raw_columns:
+      - 337
+      - 10
+      - 1
+      - Who is behind Tamur Leng?
+      - I cannot answer that.  Besides, what makes you think he is not acting of his own accord?
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 10
+      choice_slot: 1
+      prompt: Who is behind Tamur Leng?
+      response: I cannot answer that.  Besides, what makes you think he is not acting of his own accord?
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC337.rude
+      row: 2
+    raw_columns:
+      - 337
+      - 16
+      - 1
+      - In western Chedian?  You mean Thronheim?
+      - That was before that fool Verhoffin resurfaced the geography.  Who knows where those ruins are now.
+      - 17
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 16
+      choice_slot: 1
+      prompt: In western Chedian?  You mean Thronheim?
+      response: That was before that fool Verhoffin resurfaced the geography.  Who knows where those ruins are now.
+      next: 17
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 17
+  - source:
+      file: NPC337.rude
+      row: 3
+    raw_columns:
+      - 337
+      - 15
+      - 1
+      - Any idea where it is?
+      - Well, it wasn't that long ago, at least for us, only 800 years ago or so.  Some group of soldiers for the Ursanian Empire picked it up, and took it to their storehouse in the western part of the land you now call Chedian.
+      - 16
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 15
+      choice_slot: 1
+      prompt: Any idea where it is?
+      response: Well, it wasn't that long ago, at least for us, only 800 years ago or so.  Some group of soldiers for the Ursanian Empire picked it up, and took it to their storehouse in the western part of the land you now call Chedian.
+      next: 16
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 16
+  - source:
+      file: NPC337.rude
+      row: 4
+    raw_columns:
+      - 337
+      - 1
+      - 1
+      - We would be glad to do your task.
+      - There is a new religious group called Honkies, or Honkers or something of that nature.  They have begun to worship Philip, our pet goose.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 343
+      - 0
+      - 0
+      - 0
+      - 0
+      - 345
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 1
+      choice_slot: 1
+      prompt: We would be glad to do your task.
+      response: There is a new religious group called Honkies, or Honkers or something of that nature.  They have begun to worship Philip, our pet goose.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 343
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 345
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 343
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 345
+        status: raw_value_preserved
+  - source:
+      file: NPC337.rude
+      row: 5
+    raw_columns:
+      - 337
+      - 2
+      - 1
+      - We've heard of them.
+      - This is becoming a problem, as it is taking their time away from those that they should be worshipping, namely us!  I wish to teach them a lesson.  Go back down there, get into the Temple of Honk, and bring back to me the icon they worship.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 2
+      choice_slot: 1
+      prompt: We've heard of them.
+      response: This is becoming a problem, as it is taking their time away from those that they should be worshipping, namely us!  I wish to teach them a lesson.  Go back down there, get into the Temple of Honk, and bring back to me the icon they worship.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC337.rude
+      row: 6
+    raw_columns:
+      - 337
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC337.rude
+      row: 7
+    raw_columns:
+      - 337
+      - 11
+      - 1
+      - What sword?  What two Jarls?
+      - Those are questions I cannot answer.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 11
+      choice_slot: 1
+      prompt: What sword?  What two Jarls?
+      response: Those are questions I cannot answer.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC337.rude
+      row: 8
+    raw_columns:
+      - 337
+      - 3
+      - 1
+      - What does it look like?
+      - It is a golden statue of Philip, an artifact which they have named the Golden Honk.  Bring it back to me.  And if they should put up some resistance, give them some divine justice.  Once they get here, they will pay for their neglect.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 3
+      choice_slot: 1
+      prompt: What does it look like?
+      response: It is a golden statue of Philip, an artifact which they have named the Golden Honk.  Bring it back to me.  And if they should put up some resistance, give them some divine justice.  Once they get here, they will pay for their neglect.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC337.rude
+      row: 9
+    raw_columns:
+      - 337
+      - 4
+      - 1
+      - Thank you for this opportunity.
+      - See that you do it quickly.  Now be off with you.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 4
+      choice_slot: 1
+      prompt: Thank you for this opportunity.
+      response: See that you do it quickly.  Now be off with you.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC337.rude
+      row: 10
+    raw_columns:
+      - 337
+      - 337
+      - 1
+      - Can we ask you some questions?
+      - I have a task for you.  If you can complete the task, I will answer three questions for you.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 343
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 337
+      choice_slot: 1
+      prompt: Can we ask you some questions?
+      response: I have a task for you.  If you can complete the task, I will answer three questions for you.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 343
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 343
+        status: raw_value_preserved
+  - source:
+      file: NPC337.rude
+      row: 11
+    raw_columns:
+      - 337
+      - 1
+      - 2
+      - Perhaps we can do your task another time.
+      - Should you wish your questions answered, return.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 345
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 1
+      choice_slot: 2
+      prompt: Perhaps we can do your task another time.
+      response: Should you wish your questions answered, return.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 345
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 345
+        status: raw_value_preserved
+  - source:
+      file: NPC337.rude
+      row: 12
+    raw_columns:
+      - 337
+      - 337
+      - 2
+      - We have retrieved the Golden Honk.
+      - Wonderful.  As a reward, I shall answer three questions.
+      - 10
+      - 344
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 346
+      - 0
+      - 0
+      - 0
+      - 0
+      - 346
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 337
+      choice_slot: 2
+      prompt: We have retrieved the Golden Honk.
+      response: Wonderful.  As a reward, I shall answer three questions.
+      next: 10
+      raw_fields:
+        c07: 344
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 346
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 346
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 344
+            qbit_id: 9344
+            state_id: mm9.keys.344
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 344
+          qbit_id: 9344
+          state_id: mm9.keys.344
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 346
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 346
+        status: raw_value_preserved
+  - source:
+      file: NPC337.rude
+      row: 13
+    raw_columns:
+      - 337
+      - 10
+      - 2
+      - Will we succeed in stopping Tamur Leng?
+      - If you persevere?  Yes.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 10
+      choice_slot: 2
+      prompt: Will we succeed in stopping Tamur Leng?
+      response: If you persevere?  Yes.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC337.rude
+      row: 14
+    raw_columns:
+      - 337
+      - 17
+      - 2
+      - Thanks for your time.
+      - You are welcome children.  Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 17
+      choice_slot: 2
+      prompt: Thanks for your time.
+      response: You are welcome children.  Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC337.rude
+      row: 15
+    raw_columns:
+      - 337
+      - 1
+      - 3
+      - Does it look like this?
+      - That's it!  You must have read my mind!  Very well.  I shall answer three questions for you.
+      - 10
+      - 345
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 346
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 1
+      choice_slot: 3
+      prompt: Does it look like this?
+      response: That's it!  You must have read my mind!  Very well.  I shall answer three questions for you.
+      next: 10
+      raw_fields:
+        c07: 345
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 346
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 345
+            qbit_id: 9345
+            state_id: mm9.keys.345
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 345
+          qbit_id: 9345
+          state_id: mm9.keys.345
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 346
+        status: raw_value_preserved
+  - source:
+      file: NPC337.rude
+      row: 16
+    raw_columns:
+      - 337
+      - 337
+      - 3
+      - Can we ask you some questions?
+      - The answers have not changed, children, but very well.
+      - 10
+      - 346
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 337
+      choice_slot: 3
+      prompt: Can we ask you some questions?
+      response: The answers have not changed, children, but very well.
+      next: 10
+      raw_fields:
+        c07: 346
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 346
+            qbit_id: 9346
+            state_id: mm9.keys.346
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 346
+          qbit_id: 9346
+          state_id: mm9.keys.346
+  - source:
+      file: NPC337.rude
+      row: 17
+    raw_columns:
+      - 337
+      - 10
+      - 3
+      - What does the future hold for Chedian?
+      - Should you succeed, I see the clans united.  A leader shall emerge, borne of two Jarls.  She shall draw the sword and become Queen of all Chedian.
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 10
+      choice_slot: 3
+      prompt: What does the future hold for Chedian?
+      response: Should you succeed, I see the clans united.  A leader shall emerge, borne of two Jarls.  She shall draw the sword and become Queen of all Chedian.
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC337.rude
+      row: 18
+    raw_columns:
+      - 337
+      - 10
+      - 4
+      - Thanks for your time.
+      - You are welcome, mortals.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 10
+      choice_slot: 4
+      prompt: Thanks for your time.
+      response: You are welcome, mortals.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC337.rude
+      row: 19
+    raw_columns:
+      - 337
+      - 337
+      - 4
+      - What happened to Hanndl's spear?
+      - Gungnir?  That old fool lost it!  As if that's a surprise.  Good thing Krohn doesn't know.  I don't envy Hanndl's punishment for that!
+      - 15
+      - 353
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 354
+      - 355
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 337
+      choice_slot: 4
+      prompt: What happened to Hanndl's spear?
+      response: Gungnir?  That old fool lost it!  As if that's a surprise.  Good thing Krohn doesn't know.  I don't envy Hanndl's punishment for that!
+      next: 15
+      raw_fields:
+        c07: 353
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 354
+        c22: 355
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 353
+            qbit_id: 9353
+            state_id: mm9.keys.353
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 353
+          qbit_id: 9353
+          state_id: mm9.keys.353
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 354
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 355
+        status: raw_value_preserved
+  - source:
+      file: NPC337.rude
+      row: 20
+    raw_columns:
+      - 337
+      - 337
+      - 5
+      - Sorry to bother you.
+      - Go in peace, children.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 337
+      node_id: 337
+      choice_slot: 5
+      prompt: Sorry to bother you.
+      response: Go in peace, children.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

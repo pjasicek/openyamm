@@ -1,0 +1,76 @@
+;-----------------------------------------------------
+;	PoolDamage.scr
+;	Brett Yagi
+;
+;	This script is controls the damage brush for the pool
+;	damage brush
+;
+;	Parameters
+;
+;	0 - Marker that damagebrush will move to and from
+;	1 - Speed at which the damage brush moves
+;
+;-----------------------------------------------------
+
+
+
+#hobject	myH
+#hobject 	ma
+#hobject 	mb
+#number 	ax
+#number 	ay
+#number 	az
+#number 	bx
+#number 	by
+#number 	bz
+#string		sMarker
+#number 	nSpeed
+
+
+
+;--------------------------------------------------------------
+:dn
+;--------------------------------------------------------------
+
+exit 1
+
+;--------------------------------------------------------------
+:turnoff
+;--------------------------------------------------------------
+
+	movetopos bx by bz nSpeed dn
+
+exit 1
+
+;--------------------------------------------------------------
+:turnon
+;--------------------------------------------------------------
+
+	movetopos ax ay az nSpeed dn
+
+exit 1
+
+;--------------------------------------------------------------
+:main2
+;--------------------------------------------------------------
+
+	GetMyHandle myH
+	GetObjectHandle sMarker ma
+	GetPos ma ax ay az
+	GetPos myH bx by bz
+
+exit 1
+
+
+;--------------------------------------------------------------
+:main
+;--------------------------------------------------------------
+
+	GetParam 0 sMarker
+	GetParam 1 nSpeed
+	AddTrigger turnon turnon
+	AddTrigger turnoff turnoff
+	wait 0 .1 main2
+
+exit 1
+

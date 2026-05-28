@@ -1,0 +1,141 @@
+;---------------------------------------------------------------------
+:	Water.inc
+;	Jeff Leggett
+;
+;	This script can be used to sink and fill water...
+;
+;
+;	Parameters:
+;
+;	p1	- How many inches of water to leave (when sinking)
+;	p2	- Sink Rate
+;	p3	- Fill Rate
+;
+;---------------------------------------------------------------------
+
+#include globals.inc
+
+#number			nOrigPosX
+#number			nOrigPosY
+#number			nOrigPosZ
+
+#number			nDimsX
+#number			nDimsY
+#number			nDimsZ
+
+#number			nDestPosY
+#number			bWaterSunk=0
+
+;
+; Default parameters
+;
+#number			nWaterToLeave=12
+#number			nWaterSinkRate=24
+#number			nWaterFillRate=24
+
+#string			sFillSound=Sounds\water\waterfill.wav
+#string			sSinkSound=Sounds\water\watersink.wav
+
+#number			hWaterSound
+
+;---------------------------------------------------------------------
+:WaterOnSink
+;
+;	Sets the water in motion in the downward direction...
+;---------------------------------------------------------------------
+	
+	GetDims g_hMyObject, nDimsX, nDimsY, nDimsZ
+	Set nDestPosY, nOrigPosY
+	Sub nDestPosY, nDimsY
+	Sub nDestPosY, nDimsY
+
+	; Leave some water there....
+
+	Add nDestPosY, nWaterToLeave
+
+	Set bWaterSunk, 1
+
+	IsSoundDone hWaterSound, g_bTemp
+	if ( g_bTemp==TRUE )
+		PlaySoundHandle sSinkSound, hWaterSound, 1000, TRUE, 100
+	endif
+
+	MoveToPos nOrigPosX, nDestPosY, nOrigPosZ, nWaterSinkRate, WaterDoneSinking
+
+	Exit
+
+;---------------------------------------------------------------------
+:WaterDoneSinking
+;---------------------------------------------------------------------
+	KillSound hWaterSound
+	DoCallback 1
+	Exit
+
+
+;---------------------------------------------------------------------
+:WaterDoneFilling
+;---------------------------------------------------------------------
+	KillSound hWaterSound
+	DoCallback 2
+	Exit
+
+;--------------------------------------------------------------------
+:WaterOnFill
+;---------------------------------------------------------------------
+
+	Set nDestPosY, nOrigPosY
+	Set bWaterSunk, 0
+
+	IsSoundDone hWaterSound, g_bTemp
+	if ( g_bTemp==TRUE )
+		PlaySoundHandle sFillSound, hWaterSound, 1000, TRUE, 100
+	endif
+
+	MoveToPos nOrigPosX, nDestPosY, nOrigPosZ, nWaterFillRate, WaterDoneFilling
+
+	Exit
+
+;---------------------------------------------------------------------
+:WaterOnToggle
+;---------------------------------------------------------------------
+
+	if ( bWaterSunk==TRUE )
+		gosub WaterOnFill
+	else
+		gosub WaterOnSink
+	endif
+
+	exit
+
+;---------------------------------------------------------------------
+:WaterInit
+;
+;
+;---------------------------------------------------------------------
+	
+	GetMyHandle g_hMyObject
+	GetPos g_hMyObject, nOrigPosX, nOrigPosY, nOrigPosZ
+
+	AddTrigger SinkWater, WaterOnSink
+	AddTrigger FillWater, WaterOnFill
+	AddTrigger ToggleWater, WaterOnToggle
+
+	GetParam 0, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set nWaterToLeave, g_nTemp
+	endif
+
+	GetParam 1, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set nWaterSinkRate, g_nTemp
+	endif
+
+	GetParam 2, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set nWaterFillRate, g_nTemp
+	endif
+
+	Exit

@@ -1,0 +1,839 @@
+schema: openyamm.model3d.v1
+id: imp
+model: imp.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/IMP.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: body
+  materialIndex: 0
+  lods:
+  - faces: 578
+    vertices: 293
+  - faces: 448
+    vertices: 228
+  - faces: 294
+    vertices: 151
+  - faces: 138
+    vertices: 73
+- name: tail
+  materialIndex: 0
+  lods:
+  - faces: 33
+    vertices: 19
+  - faces: 21
+    vertices: 13
+  - faces: 17
+    vertices: 11
+  - faces: 11
+    vertices: 8
+- name: trident
+  materialIndex: 1
+  lods:
+  - faces: 42
+    vertices: 23
+  - faces: 20
+    vertices: 12
+  - faces: 16
+    vertices: 10
+  - faces: 14
+    vertices: 9
+materials:
+- index: 0
+  texture: skins_preview/imp1.png
+  runtime_texture: skins/imp1.dtx
+  preview_texture: skins_preview/imp1.png
+  source: mm9/extracted/SKINS/SKINS/IMP1.dtx
+- index: 1
+  texture: skins_preview/imptrident.png
+  runtime_texture: skins/imptrident.dtx
+  preview_texture: skins_preview/imptrident.png
+  source: mm9/extracted/SKINS/SKINS/IMPTRIDENT.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 11
+    - 20
+    - 25
+    - 26
+  - index: 2
+    name: Bip01 L Thigh
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Bip01 L Calf
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 L Foot
+    parent: 3
+    flags: 1
+    children:
+    - 5
+    - 7
+    - 9
+  - index: 5
+    name: Bip01 L Toe0
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Bip01 L Toe01
+    parent: 5
+    flags: 1
+    children: []
+  - index: 7
+    name: Bip01 L Toe1
+    parent: 4
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Bip01 L Toe11
+    parent: 7
+    flags: 1
+    children: []
+  - index: 9
+    name: Bip01 L Toe2
+    parent: 4
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bip01 L Toe21
+    parent: 9
+    flags: 1
+    children: []
+  - index: 11
+    name: Bip01 R Thigh
+    parent: 1
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Bip01 R Calf
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bip01 R Foot
+    parent: 12
+    flags: 1
+    children:
+    - 14
+    - 16
+    - 18
+  - index: 14
+    name: Bip01 R Toe0
+    parent: 13
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 R Toe01
+    parent: 14
+    flags: 1
+    children: []
+  - index: 16
+    name: Bip01 R Toe1
+    parent: 13
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bip01 R Toe11
+    parent: 16
+    flags: 1
+    children: []
+  - index: 18
+    name: Bip01 R Toe2
+    parent: 13
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bip01 R Toe21
+    parent: 18
+    flags: 1
+    children: []
+  - index: 20
+    name: Bip01 Tail
+    parent: 1
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bip01 Tail1
+    parent: 20
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Bip01 Tail2
+    parent: 21
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bip01 Tail3
+    parent: 22
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bip01 Tail4
+    parent: 23
+    flags: 1
+    children: []
+  - index: 25
+    name: Xpiv
+    parent: 1
+    flags: 1
+    children: []
+  - index: 26
+    name: Bip01 Spine1
+    parent: 1
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Bip01 Spine2
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Bip01 Spine3
+    parent: 27
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Bip01 Neck
+    parent: 28
+    flags: 1
+    children:
+    - 30
+    - 31
+    - 47
+  - index: 30
+    name: Bip01 Head
+    parent: 29
+    flags: 1
+    children: []
+  - index: 31
+    name: Bip01 L Clavicle
+    parent: 29
+    flags: 1
+    children:
+    - 32
+  - index: 32
+    name: Bip01 L UpperArm
+    parent: 31
+    flags: 1
+    children:
+    - 33
+  - index: 33
+    name: Bip01 L Forearm
+    parent: 32
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: Bip01 L Hand
+    parent: 33
+    flags: 1
+    children:
+    - 35
+    - 38
+    - 41
+    - 44
+  - index: 35
+    name: Bip01 L Finger0
+    parent: 34
+    flags: 1
+    children:
+    - 36
+  - index: 36
+    name: Bip01 L Finger01
+    parent: 35
+    flags: 1
+    children:
+    - 37
+  - index: 37
+    name: Bip01 L Finger02
+    parent: 36
+    flags: 1
+    children: []
+  - index: 38
+    name: Bip01 L Finger1
+    parent: 34
+    flags: 1
+    children:
+    - 39
+  - index: 39
+    name: Bip01 L Finger11
+    parent: 38
+    flags: 1
+    children:
+    - 40
+  - index: 40
+    name: Bip01 L Finger12
+    parent: 39
+    flags: 1
+    children: []
+  - index: 41
+    name: Bip01 L Finger2
+    parent: 34
+    flags: 1
+    children:
+    - 42
+  - index: 42
+    name: Bip01 L Finger21
+    parent: 41
+    flags: 1
+    children:
+    - 43
+  - index: 43
+    name: Bip01 L Finger22
+    parent: 42
+    flags: 1
+    children: []
+  - index: 44
+    name: Bip01 L Finger3
+    parent: 34
+    flags: 1
+    children:
+    - 45
+  - index: 45
+    name: Bip01 L Finger31
+    parent: 44
+    flags: 1
+    children:
+    - 46
+  - index: 46
+    name: Bip01 L Finger32
+    parent: 45
+    flags: 1
+    children: []
+  - index: 47
+    name: Bip01 R Clavicle
+    parent: 29
+    flags: 1
+    children:
+    - 48
+  - index: 48
+    name: Bip01 R UpperArm
+    parent: 47
+    flags: 1
+    children:
+    - 49
+  - index: 49
+    name: Bip01 R Forearm
+    parent: 48
+    flags: 1
+    children:
+    - 50
+  - index: 50
+    name: Bip01 R Hand
+    parent: 49
+    flags: 1
+    children:
+    - 51
+    - 54
+    - 57
+    - 60
+    - 63
+  - index: 51
+    name: Bip01 R Finger0
+    parent: 50
+    flags: 1
+    children:
+    - 52
+  - index: 52
+    name: Bip01 R Finger01
+    parent: 51
+    flags: 1
+    children:
+    - 53
+  - index: 53
+    name: Bip01 R Finger02
+    parent: 52
+    flags: 1
+    children: []
+  - index: 54
+    name: Bip01 R Finger1
+    parent: 50
+    flags: 1
+    children:
+    - 55
+  - index: 55
+    name: Bip01 R Finger11
+    parent: 54
+    flags: 1
+    children:
+    - 56
+  - index: 56
+    name: Bip01 R Finger12
+    parent: 55
+    flags: 1
+    children: []
+  - index: 57
+    name: Bip01 R Finger2
+    parent: 50
+    flags: 1
+    children:
+    - 58
+  - index: 58
+    name: Bip01 R Finger21
+    parent: 57
+    flags: 1
+    children:
+    - 59
+  - index: 59
+    name: Bip01 R Finger22
+    parent: 58
+    flags: 1
+    children: []
+  - index: 60
+    name: Bip01 R Finger3
+    parent: 50
+    flags: 1
+    children:
+    - 61
+  - index: 61
+    name: Bip01 R Finger31
+    parent: 60
+    flags: 1
+    children:
+    - 62
+  - index: 62
+    name: Bip01 R Finger32
+    parent: 61
+    flags: 1
+    children: []
+  - index: 63
+    name: Yweaponbase
+    parent: 50
+    flags: 1
+    children:
+    - 64
+  - index: 64
+    name: Yweapon
+    parent: 63
+    flags: 1
+    children: []
+sockets:
+- name: RHand1
+  node: 64
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.6887397766113281
+  - -0.7245894074440002
+  - 0.017384828999638557
+  - 0.017956139519810677
+- name: RangeAttack
+  node: 64
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.6887397766113281
+  - -0.7245894074440002
+  - 0.017384828999638557
+  - 0.017956139519810677
+animations:
+- name: stand
+  durationMs: 1800
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: fidget1
+  durationMs: 3000
+  keyframes: 15
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 226
+    event: playanimsound
+- name: fidget2
+  durationMs: 2500
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 625
+    event: playanimsound
+- name: walk
+  durationMs: 800
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 390
+    event: footstep
+  - timeMs: 780
+    event: footstep
+- name: run
+  durationMs: 400
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 195
+    event: footstep
+  - timeMs: 390
+    event: footstep
+- name: aware
+  durationMs: 1200
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 300
+    event: playanimsound
+- name: taunt
+  durationMs: 2000
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 333
+    event: speakanimsound
+- name: Hattack1
+  durationMs: 675
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 450
+    event: Rattack; playanimsound
+- name: Hattack2
+  durationMs: 584
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 389
+    event: Rattack; playanimsound
+- name: Rattack1
+  durationMs: 675
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 450
+    event: RangeAttack
+- name: wince1
+  durationMs: 1000
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 250
+    event: playanimsound
+- name: wince2
+  durationMs: 1200
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 353
+    event: playanimsound
+- name: die1
+  durationMs: 1400
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0 -1 -14
+  - timeMs: 170
+    event: Velocity  0  24 -61; playanimsound
+  - timeMs: 341
+    event: Velocity  0 -85 -51
+  - timeMs: 512
+    event: Velocity  0  12 -12
+  - timeMs: 683
+    event: Velocity  0 -18 -7; playdeathsound
+  - timeMs: 854
+    event: Velocity  0  12 -4
+  - timeMs: 1025
+    event: Velocity  0 -1 -3
+  - timeMs: 1195
+    event: Velocity  0 -3 -3
+  - timeMs: 1366
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: die2
+  durationMs: 1300
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity -1 -3  9
+  - timeMs: 144
+    event: Velocity -2  45 -23; playanimsound
+  - timeMs: 288
+    event: Velocity  0 -18 -50
+  - timeMs: 433
+    event: Velocity -1 -46 -20
+  - timeMs: 577
+    event: Velocity -1 -41 -11
+  - timeMs: 722
+    event: Velocity  0  12 -7; playdeathsound
+  - timeMs: 867
+    event: Velocity  0 -3 -5
+  - timeMs: 1011
+    event: Velocity  0 -6 -4
+  - timeMs: 1155
+    event: Velocity  0 -6 -5
+  - timeMs: 1300
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: Backpedal
+  durationMs: 800
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 20
+    event: footstep
+  - timeMs: 410
+    event: footstep
+- name: BackpedalRun
+  durationMs: 500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 13
+    event: footstep
+  - timeMs: 256
+    event: footstep
+animationBindings:
+- name: stand
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fidget1
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fidget2
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: walk
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: run
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: aware
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: taunt
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Hattack1
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Hattack2
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Rattack1
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: wince1
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: wince2
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: die1
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: die2
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Backpedal
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: BackpedalRun
+  extents:
+  - 25.6
+  - 61.44
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- actor_model
+source_model: models/imp.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: imp_imp1_imptrident
+  source_skins:
+  - skins/imp1.dtx
+  - skins/imptrident.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 79
+    number: '78'
+    monster_name: Imply
+    type_picture: Imp A
+    base_name: Imp
+  - table: MONSTERS
+    row: 79
+    number: '78'
+    monster_name: Imply
+    type_picture: Imp A
+    base_name: Imp
+- id: imp_imp2_imptrident
+  source_skins:
+  - skins/imp2.dtx
+  - skins/imptrident.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 80
+    number: '79'
+    monster_name: Imp
+    type_picture: Imp B
+    base_name: Imp
+  - table: MONSTERS
+    row: 80
+    number: '79'
+    monster_name: Imp
+    type_picture: Imp B
+    base_name: Imp
+- id: imp_imp3_imptrident
+  source_skins:
+  - skins/imp3.dtx
+  - skins/imptrident.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 81
+    number: '80'
+    monster_name: Imp Elder
+    type_picture: Imp C
+    base_name: Imp
+  - table: MONSTERS
+    row: 81
+    number: '80'
+    monster_name: Imp Elder
+    type_picture: Imp C
+    base_name: Imp

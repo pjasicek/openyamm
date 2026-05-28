@@ -1,0 +1,261 @@
+;----------------------------------------------
+;LoseMan.scr
+; By Timmy
+; 12/20
+;handles losegame cutscene
+;----------------------------------------------
+
+#include globals.inc 
+
+
+
+#hobject		hTriggeredMe
+
+
+;-------------------------------------
+:Speak1
+;-------------------------------------
+
+getparam 0 hTriggeredMe
+
+playanim Sc3_hanndl07 Speak2
+
+exit
+
+
+;-------------------------------------
+:Voice1
+;-------------------------------------
+
+Playsound voices\cinema\Losegame\Hanndl07.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:Speak2
+;-------------------------------------
+
+playanim Sc3_hanndl08 Close
+exit
+
+;-------------------------------------
+:OnSpeak9
+;-------------------------------------
+
+getparam 0 hTriggeredMe
+; ..You again!  Why must you keep bothering me?!
+playanim Sc4_hanndl09 Done
+;wait 1 4.5 Done
+exit
+
+
+;-------------------------------------
+:OnSpeak10
+;-------------------------------------
+
+getparam 0 hTriggeredMe
+; I've told you before...
+playanim Sc4_hanndl10 Done
+;wait 1 4.5 Done
+exit
+
+
+;-------------------------------------
+:OnSpeak11
+;-------------------------------------
+
+getparam 0 hTriggeredMe
+; why?  What's so important...dead soldiers
+playanim Sc4_hanndl11 Done
+;wait 1 5.5 Done
+exit
+
+
+;-------------------------------------
+:OnSpeak12
+;-------------------------------------
+
+getparam 0 hTriggeredMe
+; Destiny?  What destiny...
+playanim Sc4_hanndl12 Done
+;wait 1 11 Done
+exit
+
+
+;-------------------------------------
+:OnSpeak13
+;-------------------------------------
+
+getparam 0 hTriggeredMe
+; You seem to believe it.
+playanim Sc4_hanndl13 OnSpeak14
+;wait 1 4.5 OnSpeak14
+exit
+
+
+;-------------------------------------
+:OnSpeak14
+;-------------------------------------
+
+
+; If I am to let you in...Writ of fate...Wyrdes.
+playanim Sc4_hanndl14 DoNothing
+exit
+
+
+;-------------------------------------
+:OnSpeak15
+;-------------------------------------
+
+getparam 0 hTriggeredMe
+
+; ...Dark passageway...Transport you to the entrance
+playanim Sc4_hanndl15 close
+exit
+
+
+;-------------------------------------
+:OnSpeak16
+;-------------------------------------
+
+getparam 0 hTriggeredMe
+; ...Well?
+playanim sc5_Hanndl16 DoNothing
+exit
+
+
+;-------------------------------------
+:OnSpeak17
+;-------------------------------------
+
+getparam 0 hTriggeredMe
+;...Harrumph!
+playanim sc5_Hanndl17 DoNothing
+exit
+
+
+;-------------------------------------
+:Voice2
+;-------------------------------------
+
+Playsound voices\cinema\Losegame\Hanndl08.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnVoice9
+;-------------------------------------
+
+; ..You again!  Why must you keep bothering me?!
+Playsound voices\cinema\writoffate\Hanndl09.wav, DoNothing, 100, 240000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnVoice10
+;-------------------------------------
+
+; I've told you before...not letting you in.
+Playsound voices\cinema\writoffate\Hanndl10.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnVoice11
+;-------------------------------------
+
+; Why?  ...important...Dead soldiers.
+Playsound voices\cinema\writoffate\Hanndl11.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnVoice12
+;-------------------------------------
+
+; Destiny?  What destiny?.,.position to know.
+Playsound voices\cinema\writoffate\Hanndl12.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnVoice13
+;-------------------------------------
+
+; You seem to believe it.
+Playsound voices\cinema\writoffate\Hanndl13.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnVoice14
+;-------------------------------------
+
+; If if am to let you in...Writ of Fate.
+Playsound voices\cinema\writoffate\Hanndl14.wav, Done, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnVoice15
+;-------------------------------------
+
+; ...Travel through the Dark Passageway...Teleport you to the entrance
+Playsound voices\cinema\writoffate\Hanndl15.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnVoice16
+;-------------------------------------
+
+; Well?
+Playsound voices\cinema\presenthanndlwithwrit\Hanndl16.wav, Done, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnVoice17
+;-------------------------------------
+
+; Harrumph
+Playsound voices\cinema\presenthanndlwithwrit\Hanndl17b.wav, Close, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:Close
+;-------------------------------------
+
+
+trigger hTriggeredMe FadeOut
+exit
+
+;-------------------------------------
+:Done
+;-------------------------------------
+
+
+trigger hTriggeredMe Done
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+
+AddTrigger Speak, Speak1
+AddTrigger Speak9 OnSpeak9
+AddTrigger Speak10 OnSpeak10
+AddTrigger Speak11 OnSpeak11
+AddTrigger Speak12 OnSpeak12
+AddTrigger Speak13 OnSpeak13
+AddTrigger Speak14 OnSpeak14
+AddTrigger Speak15 OnSpeak15
+AddTrigger Speak16 OnSpeak16
+AddTrigger Speak17 OnSpeak17
+AddModelKey Speak1 Voice1
+AddModelKey Speak2 Voice2
+AddModelKey Speak9 OnVoice9
+AddModelKey speak10 OnVoice10
+AddModelKey speak11 OnVoice11
+AddModelKey speak12 OnVoice12
+AddModelKey Speak13 OnVoice13
+AddModelKey Speak14 OnVoice14
+AddModelKey Speak15 OnVoice15
+AddModelKey Speak16 OnVoice16
+AddModelKey Speak17 OnVoice17
+AddModelKey Done Done
+AddModelKey Close Close
+exit

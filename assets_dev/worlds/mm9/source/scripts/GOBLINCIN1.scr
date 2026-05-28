@@ -1,0 +1,72 @@
+;------------------------------------------
+;	GoblinCin1.scr
+;	John Machin
+;	
+;	This script uses base.inc and extends it
+;	so that we can make the goblin do what we
+;	want when triggered with BeginScene
+;
+;------------------------------------------
+
+#include base.inc
+
+#hobject hCamera0
+#number speaking = 0
+
+;------------------------------------------
+:OnBeginScene
+;------------------------------------------
+	;Do Nothing for now.
+
+	Exit
+
+;------------------------------------------
+:OnSpeak
+;------------------------------------------	
+	if speaking = 1
+		Exit
+	endif
+	
+	Speak cinematic\blood2.wav, OnSpeakDone
+
+	Set speaking,1
+
+	Exit								   
+
+;------------------------------------------
+:OnSpeakDone
+;------------------------------------------
+	;Done talking now should exit
+
+	Trigger hCamera0, ZoomDone
+
+	gosub InitBase
+
+	Exit								   
+
+;------------------------------------------
+:OnUse
+;------------------------------------------
+
+	GetParam 0, g_hObject
+
+	FaceObject g_hObject, 180
+
+	Exit
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+;	TraceOn
+
+	GetObjectHandle c0,hCamera0	
+	
+	gosub InitBase	
+	
+	AddTrigger Use OnUse
+	AddTrigger BeginScene OnBeginScene
+	AddTrigger Speak OnSpeak
+
+	Exit		

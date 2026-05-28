@@ -1,0 +1,68 @@
+schema: openyamm.model3d.v1
+id: bookcase01ns
+model: bookcase01ns.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/BOOKCASE01NS.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Bookcase01
+  materialIndex: 0
+  lods:
+  - faces: 116
+    vertices: 85
+  - faces: 86
+    vertices: 70
+  - faces: 58
+    vertices: 56
+materials:
+- index: 0
+  texture: skins_preview/props/bookcase01.png
+  runtime_texture: skins/props/bookcase01.dtx
+  preview_texture: skins_preview/props/bookcase01.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/BOOKCASE01.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 40.96
+  - 120.32000000000001
+  - 84.48
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/bookcase01ns.abc

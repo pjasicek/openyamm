@@ -1,0 +1,93 @@
+#include BaseGlobals.inc
+#include CutSceneActor.inc
+
+#string		sDestinationName = ""
+#hobject	hDestination = 0
+#string		sDoorName = ""
+#hobject	hDoor = 0
+
+#hobject	hMe = 0
+#number		xMe = 0
+#number		yMe = 0
+#number		zMe = 0
+
+#hobject	hDummy = 0
+
+#number		nTemp = 0
+
+#string		SPELL_SPARKLIES = "sparklies"
+#string		SPELL_BLACKSMOKE = "blacksmoke"
+
+;----------------------------
+:Main
+;----------------------------
+	GetParam 0, sDestinationName
+	GetParam 1, sDoorName
+
+	GetMyHandle hMe
+
+	AddTrigger walk, WalkToChamber
+	AddTrigger transform, StartTransform
+	AddTrigger finish, FinishTransform
+
+	Exit TRUE
+
+;----------------------------
+:WalkToChamber
+;----------------------------
+	GetObjectHandle sDestinationName, hDestination
+	if( hDestination!=0 )
+		WalkTo hDestination, 0, OnReachedDestination
+	endif
+
+	Exit TRUE
+
+;----------------------------
+:OnReachedDestination
+;----------------------------
+	Stop
+	GetObjectHandle sDoorName, hDoor
+	if( hDoor!=0 )
+		Rotate 0,1,0, 180, 180, DoNothing
+		Trigger hDoor, open
+		GetStat hDoor, DoorOpenTime, nTemp
+		nTemp = nTemp + 3
+		Wait 0, nTemp, EndScene
+	endif
+
+	Exit TRUE
+
+;----------------------------
+:StartTransform
+;----------------------------
+	DoClientFX hMe, SPELL_SPARKLIES, FALSE, TRUE
+
+	PlayAnim taunt, ChangeToLich
+
+	Exit TRUE
+
+;----------------------------
+:ChangeToLich
+;----------------------------
+	PlayAnim die2, EndScene
+
+	DoClientFX hMe, SPELL_BLACKSMOKE, TRUE, TRUE
+
+	Exit TRUE
+
+;----------------------------
+:FinishTransform
+;----------------------------
+	GetPOS hMe, xMe,yMe,zMe
+	GetObjectHandle LichSorcererNew, hDummy
+	SetPOS hDummy, xMe,yMe,zMe
+	Wait 0, 1, RemoveMe
+
+	Exit TRUE
+
+;----------------------------
+:RemoveMe
+;----------------------------
+	RemoveObject hMe
+
+	Exit TRUE

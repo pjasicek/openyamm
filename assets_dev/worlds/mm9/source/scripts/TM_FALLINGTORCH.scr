@@ -1,0 +1,48 @@
+;-----------------------------------------------------
+;	TM_FallingTorch.scr
+;	kd
+;	10-30-01
+;	Makes the torch fall to the ground.
+;	Nothing slick or fancy
+;
+;
+;-----------------------------------------------------
+#include Globals.inc
+
+#hObject	hFTMarker
+#hObject	hBlocker
+#hObject	hDummy
+#hObject	hFire
+
+#number		nVarX
+#number		nVarY
+#number		nVarZ
+
+;-----------------------------------------------------
+:StopHere
+;-----------------------------------------------------
+	Exit TRUE
+;-----------------------------------------------------
+:MoveToMarker
+;-----------------------------------------------------
+	GetObjectHandle TorchHolder0, hBlocker
+	Trigger hBlocker, Destroy
+	Trigger hFire, Fall
+	Rotate 0, 0, 1, -90, 90, DoNothing
+	MoveToPos nVarX, nVarY, nVarZ, 180, StopHere
+	Exit
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	GetObjectHandle FallingTorchFire0, hFire
+	GetObjectHandle FallingTorchMarker0, hFTMarker
+	GetPos hFTMarker, nVarX, nVarY, nVarZ
+	OnDamage MoveToMarker
+	Exit TRUE
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	AddTrigger Hit, MoveToMarker
+	Wait 0 .1 main2
+	Exit TRUE
+;------------- E n d - O f - F i l e -------------------

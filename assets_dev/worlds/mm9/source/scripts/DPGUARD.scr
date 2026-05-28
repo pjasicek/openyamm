@@ -1,0 +1,44 @@
+;--------------------------------------------------
+;NPC419.scr
+; timmy
+; handles Aymril Banito voice and quest stuff
+;--------------------------------------------------
+
+#include baseMelee.inc
+
+
+
+;--------------------------------------------------
+:OnHelp
+;--------------------------------------------------
+
+;traceon
+
+getobjecthandle CommonerHumanMaleB0 g_hobject
+runto g_hobject 16 DoNothing
+getparam 0 g_htarget
+;help g_htarget
+removeenemy Commoner
+traceoff
+exit
+
+
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Help OnHelp
+
+gosub BaseInit
+
+exit
+

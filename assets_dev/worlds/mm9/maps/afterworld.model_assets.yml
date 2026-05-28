@@ -1,0 +1,204 @@
+format_version: 1
+kind: mm9_model_assets
+source_dat: mm9/extracted/WORLDS/WORLDS/AFTERWORLD.dat
+unique_model_count: 18
+models:
+- source_model: models/Bjarni.abc
+  model_asset: models/bjarni.glb
+  instance_count: 1
+  source_object_indices:
+  - 100
+  source_classes:
+  - BjarniThorvaldssen
+- source_model: models/bjarni.abc
+  model_asset: models/bjarni.glb
+  instance_count: 1
+  source_object_indices:
+  - 79
+  source_classes:
+  - Prop
+- source_model: models/clansoldier.abc
+  model_asset: models/clansoldier.glb
+  instance_count: 26
+  source_object_indices:
+  - 24
+  - 27
+  - 28
+  - 29
+  - 30
+  - 31
+  - 32
+  - 33
+  - 34
+  - 35
+  - 36
+  - 37
+  - 38
+  - 39
+  - 40
+  - 41
+  - 42
+  - 43
+  - 63
+  - 64
+  - 65
+  - 66
+  - 67
+  - 72
+  - 74
+  - 80
+  source_classes:
+  - Prop
+- source_model: models/ForadDarre.abc
+  model_asset: models/foraddarre.glb
+  instance_count: 1
+  source_object_indices:
+  - 103
+  source_classes:
+  - ForadDarre
+- source_model: models/Kira.abc
+  model_asset: models/kira.glb
+  instance_count: 2
+  source_object_indices:
+  - 87
+  - 97
+  source_classes:
+  - KiratheCold
+  - Prop
+- source_model: models/Markel.abc
+  model_asset: models/markel.glb
+  instance_count: 1
+  source_object_indices:
+  - 98
+  source_classes:
+  - MarkeltheGreat
+- source_model: models/Props/arrow.abc
+  model_asset: models/props/arrow.glb
+  instance_count: 27
+  source_object_indices:
+  - 25
+  - 26
+  - 48
+  - 49
+  - 50
+  - 51
+  - 52
+  - 53
+  - 54
+  - 55
+  - 56
+  - 59
+  - 60
+  - 61
+  - 68
+  - 69
+  - 70
+  - 71
+  - 75
+  - 76
+  - 77
+  - 78
+  - 82
+  - 83
+  - 84
+  - 85
+  - 86
+  source_classes:
+  - Prop
+- source_model: models/props/axe-rusty.abc
+  model_asset: models/props/axe_rusty.glb
+  instance_count: 2
+  source_object_indices:
+  - 47
+  - 62
+  source_classes:
+  - Prop
+- source_model: models/Props/BrazierBowl.ABC
+  model_asset: models/props/brazierbowl.glb
+  instance_count: 6
+  source_object_indices:
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  source_classes:
+  - Brazier
+- source_model: models/Bjarni.abc
+  model_asset: models/sigmund.glb
+  instance_count: 1
+  source_object_indices:
+  - 101
+  source_classes:
+  - SigmundtheStressed
+- source_model: models/Sigmund.abc
+  model_asset: models/sigmund.glb
+  instance_count: 1
+  source_object_indices:
+  - 45
+  source_classes:
+  - Prop
+- source_model: models/Skraelos.abc
+  model_asset: models/skraelos.glb
+  instance_count: 1
+  source_object_indices:
+  - 94
+  source_classes:
+  - Skraelos
+- source_model: models/Sven.abc
+  model_asset: models/sven.glb
+  instance_count: 1
+  source_object_indices:
+  - 99
+  source_classes:
+  - SvenSvenssen
+- source_model: models/Tryggva.ABC
+  model_asset: models/tryggva.glb
+  instance_count: 1
+  source_object_indices:
+  - 44
+  source_classes:
+  - Prop
+- source_model: models/Tryggva.abc
+  model_asset: models/tryggva.glb
+  instance_count: 1
+  source_object_indices:
+  - 96
+  source_classes:
+  - TryggvaRavenlocks
+- source_model: models/weapons/battlewitch.abc
+  model_asset: models/weapons/battlewitch.glb
+  instance_count: 3
+  source_object_indices:
+  - 58
+  - 73
+  - 90
+  source_classes:
+  - Prop
+- source_model: models/weapons/broadsword.abc
+  model_asset: models/weapons/broadsword.glb
+  instance_count: 3
+  source_object_indices:
+  - 91
+  - 92
+  - 93
+  source_classes:
+  - Prop
+- source_model: models/weapons/LongSword.abc
+  model_asset: models/weapons/longsword.glb
+  instance_count: 11
+  source_object_indices:
+  - 23
+  - 46
+  - 57
+  - 81
+  - 88
+  - 89
+  - 124
+  - 125
+  - 126
+  - 127
+  - 128
+  source_classes:
+  - Prop

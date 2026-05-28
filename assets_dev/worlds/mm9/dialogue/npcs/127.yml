@@ -1,0 +1,2821 @@
+format_version: 1
+source_file: NPC127.rude
+rows:
+  - source:
+      file: NPC127.rude
+      row: 1
+    raw_columns:
+      - 127
+      - 12
+      - 1
+      - The leader has yet to be decided.
+      - It has?  Oh.  Well when that decision is made, keep me in mind.  I am probably the most qualified general in all of Chedian.
+      - 13
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 12
+      choice_slot: 1
+      prompt: The leader has yet to be decided.
+      response: It has?  Oh.  Well when that decision is made, keep me in mind.  I am probably the most qualified general in all of Chedian.
+      next: 13
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 13
+  - source:
+      file: NPC127.rude
+      row: 2
+    raw_columns:
+      - 127
+      - 4
+      - 1
+      - We will do this for you.
+      - Good luck.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 57
+      - 0
+      - 0
+      - 0
+      - 0
+      - 166
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 4
+      choice_slot: 1
+      prompt: We will do this for you.
+      response: Good luck.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 57
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 166
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 57
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 166
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 3
+    raw_columns:
+      - 127
+      - 5
+      - 1
+      - What would you have us do?
+      - Markel the Great would reward you greatly if you would find a way to rid me of him.
+      - 6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 5
+      choice_slot: 1
+      prompt: What would you have us do?
+      response: Markel the Great would reward you greatly if you would find a way to rid me of him.
+      next: 6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 6
+  - source:
+      file: NPC127.rude
+      row: 4
+    raw_columns:
+      - 127
+      - 6
+      - 1
+      - We shall get rid of him for you.
+      - Thank you.  Return to Markel the Great for your reward.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 64
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 6
+      choice_slot: 1
+      prompt: We shall get rid of him for you.
+      response: Thank you.  Return to Markel the Great for your reward.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 64
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 64
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 5
+    raw_columns:
+      - 127
+      - 2
+      - 1
+      - What is the first thing you need done?
+      - If we are to do battle with this man, Tamur Leng, we need a book.  The book on combat.  It is called the Book of Rules, written by the famous warrior Monte.  It is kept in the Ta'Sar Academy in Lindisfarne.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 57
+      - 61
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 2
+      choice_slot: 1
+      prompt: What is the first thing you need done?
+      response: If we are to do battle with this man, Tamur Leng, we need a book.  The book on combat.  It is called the Book of Rules, written by the famous warrior Monte.  It is kept in the Ta'Sar Academy in Lindisfarne.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 57
+        c22: 61
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 57
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 61
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 6
+    raw_columns:
+      - 127
+      - 15
+      - 1
+      - Yes, that is true.  Their suffering is our responsibility.
+      - Go, warriors.  We are all counting on you to succeed.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 504
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 15
+      choice_slot: 1
+      prompt: Yes, that is true.  Their suffering is our responsibility.
+      response: Go, warriors.  We are all counting on you to succeed.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 504
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 504
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 7
+    raw_columns:
+      - 127
+      - 10
+      - 1
+      - Here.
+      - Wonderful!!  This is..great!  Here's a reward.  Markel the Great always rewards his heroes!
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 61
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 10
+      choice_slot: 1
+      prompt: Here.
+      response: Wonderful!!  This is..great!  Here's a reward.  Markel the Great always rewards his heroes!
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 61
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 61
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 8
+    raw_columns:
+      - 127
+      - 3
+      - 1
+      - We will do this for you.
+      - Good luck.  And you will need it.  Ivan the Smart is very intelligent!
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 58
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 3
+      choice_slot: 1
+      prompt: We will do this for you.
+      response: Good luck.  And you will need it.  Ivan the Smart is very intelligent!
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 58
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 58
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 9
+    raw_columns:
+      - 127
+      - 11
+      - 1
+      - Now that we've done these things for you, will you join us?
+      - Markel the Great would be happy to lead your armies!
+      - 12
+      - 62
+      - 0
+      - 61
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 63
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 11
+      choice_slot: 1
+      prompt: Now that we've done these things for you, will you join us?
+      response: Markel the Great would be happy to lead your armies!
+      next: 12
+      raw_fields:
+        c07: 62
+        c08: 0
+        c09: 61
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 63
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 62
+            qbit_id: 9062
+            state_id: mm9.keys.62
+          - column: c09
+            raw_id: 61
+            qbit_id: 9061
+            state_id: mm9.keys.61
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 62
+          qbit_id: 9062
+          state_id: mm9.keys.62
+        - domain: mm9.keys
+          raw_id: 61
+          qbit_id: 9061
+          state_id: mm9.keys.61
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 63
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 10
+    raw_columns:
+      - 127
+      - 13
+      - 1
+      - We shall.  We'll be in touch.
+      - Markel the Great and his soldiers will be ready for you.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 178
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 13
+      choice_slot: 1
+      prompt: We shall.  We'll be in touch.
+      response: Markel the Great and his soldiers will be ready for you.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 178
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 178
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 11
+    raw_columns:
+      - 127
+      - 1
+      - 1
+      - We need to unite the clans against Tamur Leng.
+      - Uniting the clans is a fine and noble cause.  I shall be of aid to you, however there are two things which you must do for me.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 56
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 1
+      choice_slot: 1
+      prompt: We need to unite the clans against Tamur Leng.
+      response: Uniting the clans is a fine and noble cause.  I shall be of aid to you, however there are two things which you must do for me.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 56
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 56
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 12
+    raw_columns:
+      - 127
+      - 30
+      - 1
+      - Yes, sir!
+      - Don't dawdle about it either!  Markel the Great does not like dawdlers!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 30
+      choice_slot: 1
+      prompt: Yes, sir!
+      response: Don't dawdle about it either!  Markel the Great does not like dawdlers!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC127.rude
+      row: 13
+    raw_columns:
+      - 127
+      - 25
+      - 1
+      - Tell them we will meet in Thronheim in two weeks.
+      - Markel the Great will let them know.  He will see you at the war council!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 25
+      choice_slot: 1
+      prompt: Tell them we will meet in Thronheim in two weeks.
+      response: Markel the Great will let them know.  He will see you at the war council!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC127.rude
+      row: 14
+    raw_columns:
+      - 127
+      - 21
+      - 1
+      - We..
+      - Never mind, Markel the Great doesn't really want to know.  As Markel the Great is a great leader, he will reward you well.
+      - 22
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 66
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 21
+      choice_slot: 1
+      prompt: We..
+      response: Never mind, Markel the Great doesn't really want to know.  As Markel the Great is a great leader, he will reward you well.
+      next: 22
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 66
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 22
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 66
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 15
+    raw_columns:
+      - 127
+      - 22
+      - 1
+      - Thanks.
+      - Was there anything else Markel the Great can do for you?
+      - 127
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 22
+      choice_slot: 1
+      prompt: Thanks.
+      response: Was there anything else Markel the Great can do for you?
+      next: 127
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 127
+  - source:
+      file: NPC127.rude
+      row: 16
+    raw_columns:
+      - 127
+      - 127
+      - 1
+      - We need your help.
+      - What?  A problem for the glorious Markel the Great to solve?  What is the problem?
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 56
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 127
+      choice_slot: 1
+      prompt: We need your help.
+      response: What?  A problem for the glorious Markel the Great to solve?  What is the problem?
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 56
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 56
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 17
+    raw_columns:
+      - 127
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC127.rude
+      row: 18
+    raw_columns:
+      - 127
+      - 20
+      - 1
+      - We did.  He gave us this letter to prove it.
+      - Hm.  That is his sigil all right.  So you have.  That is good news for you.  I am certain he did not reward you for beating him, so I shall.  Markel the Great always rewards his heroes.
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 62
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 20
+      choice_slot: 1
+      prompt: We did.  He gave us this letter to prove it.
+      response: Hm.  That is his sigil all right.  So you have.  That is good news for you.  I am certain he did not reward you for beating him, so I shall.  Markel the Great always rewards his heroes.
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 62
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 62
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 19
+    raw_columns:
+      - 127
+      - 3
+      - 2
+      - Perhaps some other time.
+      - It is alright to fear Markel the Great.  Come back when you are braver.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 3
+      choice_slot: 2
+      prompt: Perhaps some other time.
+      response: It is alright to fear Markel the Great.  Come back when you are braver.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC127.rude
+      row: 20
+    raw_columns:
+      - 127
+      - 13
+      - 2
+      - The clans are united.  It is time for the war council
+      - Markel the Great has heard wonderful news on this day!  He will dispatch word to the other Jarls immediately!
+      - 25
+      - 63
+      - 0
+      - 178
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 13
+      choice_slot: 2
+      prompt: The clans are united.  It is time for the war council
+      response: Markel the Great has heard wonderful news on this day!  He will dispatch word to the other Jarls immediately!
+      next: 25
+      raw_fields:
+        c07: 63
+        c08: 0
+        c09: 178
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 83
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 83
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 25
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 63
+            qbit_id: 9063
+            state_id: mm9.keys.63
+          - column: c09
+            raw_id: 178
+            qbit_id: 9178
+            state_id: mm9.keys.178
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 63
+          qbit_id: 9063
+          state_id: mm9.keys.63
+        - domain: mm9.keys
+          raw_id: 178
+          qbit_id: 9178
+          state_id: mm9.keys.178
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 83
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 83
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 21
+    raw_columns:
+      - 127
+      - 6
+      - 2
+      - We can't be bothered with that right now.
+      - I see the Dook has put the fear into you as well.  Should you regain your nerve,  Markel the Great will be happy to allow you to do this for him.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 6
+      choice_slot: 2
+      prompt: We can't be bothered with that right now.
+      response: I see the Dook has put the fear into you as well.  Should you regain your nerve,  Markel the Great will be happy to allow you to do this for him.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC127.rude
+      row: 22
+    raw_columns:
+      - 127
+      - 11
+      - 2
+      - Thank you.
+      - Was there anything else Markel the Great can help you with?
+      - 127
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 11
+      choice_slot: 2
+      prompt: Thank you.
+      response: Was there anything else Markel the Great can help you with?
+      next: 127
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 127
+  - source:
+      file: NPC127.rude
+      row: 23
+    raw_columns:
+      - 127
+      - 2
+      - 2
+      - What is the second thing you need done?
+      - For me to trust your ability and worth, you must beat Ivan the Smart.    Go to the Gathering, find Ivan the Smart and challenge him to an intellectual contest.  When you beat him, return to me.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 58
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 2
+      choice_slot: 2
+      prompt: What is the second thing you need done?
+      response: For me to trust your ability and worth, you must beat Ivan the Smart.    Go to the Gathering, find Ivan the Smart and challenge him to an intellectual contest.  When you beat him, return to me.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 58
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 58
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 24
+    raw_columns:
+      - 127
+      - 4
+      - 2
+      - We've already got that book.
+      - You have?  What are you doing with it?  Never mind!  Give it here!
+      - 10
+      - 166
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 4
+      choice_slot: 2
+      prompt: We've already got that book.
+      response: You have?  What are you doing with it?  Never mind!  Give it here!
+      next: 10
+      raw_fields:
+        c07: 166
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 166
+            qbit_id: 9166
+            state_id: mm9.keys.166
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 166
+          qbit_id: 9166
+          state_id: mm9.keys.166
+  - source:
+      file: NPC127.rude
+      row: 25
+    raw_columns:
+      - 127
+      - 127
+      - 2
+      - About those things you wanted us to do..
+      - Yes?
+      - 2
+      - 56
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 63
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 127
+      choice_slot: 2
+      prompt: About those things you wanted us to do..
+      response: Yes?
+      next: 2
+      raw_fields:
+        c07: 56
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 63
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 56
+            qbit_id: 9056
+            state_id: mm9.keys.56
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 56
+          qbit_id: 9056
+          state_id: mm9.keys.56
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 63
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 26
+    raw_columns:
+      - 127
+      - 4
+      - 3
+      - Perhaps some other time.
+      - Markel the Great will still be here when you've got more nerve.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 4
+      choice_slot: 3
+      prompt: Perhaps some other time.
+      response: Markel the Great will still be here when you've got more nerve.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC127.rude
+      row: 27
+    raw_columns:
+      - 127
+      - 127
+      - 3
+      - Is there anything we can do for you?
+      - In fact, there is.  There is a man who has come to Guberland who calls himself the Dook.  He has refused to acknowledge my sovereignty and has been an ever increasing thorn in my side.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 64
+      - 40
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 127
+      choice_slot: 3
+      prompt: Is there anything we can do for you?
+      response: In fact, there is.  There is a man who has come to Guberland who calls himself the Dook.  He has refused to acknowledge my sovereignty and has been an ever increasing thorn in my side.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 64
+        c22: 40
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 64
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 40
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 28
+    raw_columns:
+      - 127
+      - 2
+      - 3
+      - Thanks for your time.
+      - Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 2
+      choice_slot: 3
+      prompt: Thanks for your time.
+      response: Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC127.rude
+      row: 29
+    raw_columns:
+      - 127
+      - 127
+      - 5
+      - We've got the Book of Rules.
+      - You've got it??  How did you..?  Never mind.  Quick give it here!
+      - 10
+      - 59
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 61
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 127
+      choice_slot: 5
+      prompt: We've got the Book of Rules.
+      response: You've got it??  How did you..?  Never mind.  Quick give it here!
+      next: 10
+      raw_fields:
+        c07: 59
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 61
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 59
+            qbit_id: 9059
+            state_id: mm9.keys.59
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 59
+          qbit_id: 9059
+          state_id: mm9.keys.59
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 61
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 30
+    raw_columns:
+      - 127
+      - 127
+      - 6
+      - We've beaten Ivan the Smart.
+      - What?!  That's impossible!  No one has ever beaten him before.
+      - 20
+      - 60
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 62
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 127
+      choice_slot: 6
+      prompt: We've beaten Ivan the Smart.
+      response: What?!  That's impossible!  No one has ever beaten him before.
+      next: 20
+      raw_fields:
+        c07: 60
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 62
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 20
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 60
+            qbit_id: 9060
+            state_id: mm9.keys.60
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 60
+          qbit_id: 9060
+          state_id: mm9.keys.60
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 62
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 31
+    raw_columns:
+      - 127
+      - 127
+      - 7
+      - Now that we've done these things for you, will you join us?
+      - Markel the Great would be happy to lead your armies.
+      - 12
+      - 62
+      - 0
+      - 61
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 63
+      - 0
+      - 0
+      - 0
+      - 0
+      - 63
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 127
+      choice_slot: 7
+      prompt: Now that we've done these things for you, will you join us?
+      response: Markel the Great would be happy to lead your armies.
+      next: 12
+      raw_fields:
+        c07: 62
+        c08: 0
+        c09: 61
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 63
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 63
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 62
+            qbit_id: 9062
+            state_id: mm9.keys.62
+          - column: c09
+            raw_id: 61
+            qbit_id: 9061
+            state_id: mm9.keys.61
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 62
+          qbit_id: 9062
+          state_id: mm9.keys.62
+        - domain: mm9.keys
+          raw_id: 61
+          qbit_id: 9061
+          state_id: mm9.keys.61
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 63
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 63
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 32
+    raw_columns:
+      - 127
+      - 127
+      - 8
+      - The Dook is finished.
+      - He is?  What did you do to get rid of him?
+      - 21
+      - 65
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 66
+      - 40
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 127
+      choice_slot: 8
+      prompt: The Dook is finished.
+      response: He is?  What did you do to get rid of him?
+      next: 21
+      raw_fields:
+        c07: 65
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 66
+        c22: 40
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 21
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 65
+            qbit_id: 9065
+            state_id: mm9.keys.65
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 65
+          qbit_id: 9065
+          state_id: mm9.keys.65
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 66
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 40
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 33
+    raw_columns:
+      - 127
+      - 127
+      - 9
+      - The Clans are united.  It is time for the war council.
+      - Markel the Great has heard wonderful news on this day!  He will dispatch word to the other Jarls immediately!
+      - 25
+      - 63
+      - 0
+      - 178
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 127
+      choice_slot: 9
+      prompt: The Clans are united.  It is time for the war council.
+      response: Markel the Great has heard wonderful news on this day!  He will dispatch word to the other Jarls immediately!
+      next: 25
+      raw_fields:
+        c07: 63
+        c08: 0
+        c09: 178
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 83
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 83
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 25
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 63
+            qbit_id: 9063
+            state_id: mm9.keys.63
+          - column: c09
+            raw_id: 178
+            qbit_id: 9178
+            state_id: mm9.keys.178
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 63
+          qbit_id: 9063
+          state_id: mm9.keys.63
+        - domain: mm9.keys
+          raw_id: 178
+          qbit_id: 9178
+          state_id: mm9.keys.178
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 83
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 83
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 34
+    raw_columns:
+      - 127
+      - 127
+      - 10
+      - The Dook says he won't leave.
+      - That's not the answer I want to hear!  You go back and get rid of him!  Markel the Great does not have time to waste on people such as him!
+      - 30
+      - 138
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 65
+      - 40
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 127
+      choice_slot: 10
+      prompt: The Dook says he won't leave.
+      response: That's not the answer I want to hear!  You go back and get rid of him!  Markel the Great does not have time to waste on people such as him!
+      next: 30
+      raw_fields:
+        c07: 138
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 65
+        c22: 40
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 30
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 138
+            qbit_id: 9138
+            state_id: mm9.keys.138
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 138
+          qbit_id: 9138
+          state_id: mm9.keys.138
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 65
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 40
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 35
+    raw_columns:
+      - 127
+      - 127
+      - 12
+      - Markel?  Why are you here?  You weren't killed in the battle!
+      - Do you not think I had an interest in that battle?  Do you think that I wasn't betrayed by its outcome?  My people as much as anyone else's are in danger.
+      - 15
+      - 382
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 504
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 127
+      choice_slot: 12
+      prompt: Markel?  Why are you here?  You weren't killed in the battle!
+      response: Do you not think I had an interest in that battle?  Do you think that I wasn't betrayed by its outcome?  My people as much as anyone else's are in danger.
+      next: 15
+      raw_fields:
+        c07: 382
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 504
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 382
+            qbit_id: 9382
+            state_id: mm9.keys.382
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 382
+          qbit_id: 9382
+          state_id: mm9.keys.382
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 504
+        status: raw_value_preserved
+  - source:
+      file: NPC127.rude
+      row: 36
+    raw_columns:
+      - 127
+      - 127
+      - 13
+      - Thanks for your time.
+      - The glorious Markel the Great bids you farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 127
+      node_id: 127
+      choice_slot: 13
+      prompt: Thanks for your time.
+      response: The glorious Markel the Great bids you farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999

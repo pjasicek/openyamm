@@ -1,0 +1,68 @@
+schema: openyamm.model3d.v1
+id: cup2
+model: cup2.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/CUP2.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Cup2
+  materialIndex: 0
+  lods:
+  - faces: 128
+    vertices: 71
+  - faces: 96
+    vertices: 55
+  - faces: 64
+    vertices: 39
+materials:
+- index: 0
+  texture: skins_preview/props/cup2.png
+  runtime_texture: skins/props/cup2.dtx
+  preview_texture: skins_preview/props/cup2.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/CUP2.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 10.24
+  - 11.008000488281251
+  - 10.24
+  origin:
+  - -2.56
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/cup2.abc

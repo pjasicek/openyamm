@@ -1,0 +1,107 @@
+;-------------------------------
+;	HonkFollowGoose.scr
+;	by SJR
+;	10-09-01
+;	Purpose:follow a goose around and
+;			make it look more interesting
+;			than it actually is...
+;-------------------------------
+#include BaseGlobals.inc
+#include HonkHostility.inc
+
+#hobject	hGoose = 0
+
+#number		xCur = 0
+#number		yCur = 0
+#number		zCur = 0
+
+#number		diff = 0
+#string		sGooseName = ""
+
+;--------------------
+:Main
+;--------------------
+	GetParam 0, sGooseName
+
+	OnPostStartWorld InitHonkFollowGoose
+
+	Exit TRUE
+
+;-------------------------------
+:TurnHostilityOn
+;
+; overloaded so dumb goose death
+; won't set of Hostility
+; and wimping them out
+;-------------------------------
+
+
+
+
+	getmyhandle g_hmyobject
+	g_ntemp = 10
+	setstat g_hmyobject HitPoints g_ntemp
+	g_ntemp = 1
+	getstat g_hmyobject AC g_ntemp
+
+
+
+	gosub BecomeHostile
+
+	Exit 
+
+
+
+;--------------------
+:InitHonkFollowGoose
+;--------------------
+
+
+
+	
+
+	CacheSound sounds\ambient\crowd01.wav
+	OnTargetDead OnTargetDead
+
+	GetObjectHandle sGooseName, hGoose
+
+	if( hGoose==0 )
+		Wait 0, 1, InitHonkFollowGoose
+	else
+		Target hGoose, TRUE
+		gosub FollowLoop
+	endif
+
+	gosub InitHonkHostility
+
+	Exit TRUE
+
+;--------------------
+:FollowLoop
+;--------------------
+	if ( hGoose!=0 )
+		RunTo hGoose, 64, CrazyRun
+	endif
+
+	Exit TRUE
+
+;--------------------
+:CrazyRun
+;--------------------
+	PlaySound "sounds\animsounds\goose\wince1.wav", DoNothing, 1, 100, FALSE, 100
+	GetRandomInt -5000, 5000, diff
+	RunToPOS diff,diff,diff, 0, DoNothing
+	Wait 1, 2, FollowLoop
+
+	Exit TRUE
+
+;--------------------
+:OnTargetDead
+;	null out goose, go hostile
+;--------------------
+	Stop
+	hGoose = NULL
+
+	AddEnemy Player
+
+	Exit TRUE

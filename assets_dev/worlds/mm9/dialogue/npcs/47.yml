@@ -1,0 +1,1344 @@
+format_version: 1
+source_file: NPC47.rude
+rows:
+  - source:
+      file: NPC47.rude
+      row: 1
+    raw_columns:
+      - 47
+      - 6
+      - 1
+      - We'll get your manuscript for you.
+      - Eh?  Oh.  Thank you!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 6
+      choice_slot: 1
+      prompt: We'll get your manuscript for you.
+      response: Eh?  Oh.  Thank you!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 14
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 14
+        status: raw_value_preserved
+  - source:
+      file: NPC47.rude
+      row: 2
+    raw_columns:
+      - 47
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC47.rude
+      row: 3
+    raw_columns:
+      - 47
+      - 1
+      - 1
+      - You don't look that busy to us.
+      - What?  Oh, well you see, I'm a writer, and I've got to get my manuscript back.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 1
+      choice_slot: 1
+      prompt: You don't look that busy to us.
+      response: What?  Oh, well you see, I'm a writer, and I've got to get my manuscript back.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 14
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 14
+        status: raw_value_preserved
+  - source:
+      file: NPC47.rude
+      row: 4
+    raw_columns:
+      - 47
+      - 2
+      - 1
+      - What happened to your manuscript?
+      - Eh?  Oh, the manuscript?  Well it fell down the drain in my Beet Hoven.  I'm afraid of what's down there.  It's very important to me, though.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 2
+      choice_slot: 1
+      prompt: What happened to your manuscript?
+      response: Eh?  Oh, the manuscript?  Well it fell down the drain in my Beet Hoven.  I'm afraid of what's down there.  It's very important to me, though.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC47.rude
+      row: 5
+    raw_columns:
+      - 47
+      - 20
+      - 1
+      - Never mind.
+      - Come back soon!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 20
+      choice_slot: 1
+      prompt: Never mind.
+      response: Come back soon!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC47.rude
+      row: 6
+    raw_columns:
+      - 47
+      - 3
+      - 1
+      - Why can't you go down there?
+      - Because of the monsters!  If I went down there, they would surely eat me alive!  I don't want to be eaten by monsters.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 110
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 3
+      choice_slot: 1
+      prompt: Why can't you go down there?
+      response: Because of the monsters!  If I went down there, they would surely eat me alive!  I don't want to be eaten by monsters.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 110
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 110
+        status: raw_value_preserved
+  - source:
+      file: NPC47.rude
+      row: 7
+    raw_columns:
+      - 47
+      - 11
+      - 1
+      - You're welcome.
+      - Now if you don't mind, I've got some work to do.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 19
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 11
+      choice_slot: 1
+      prompt: You're welcome.
+      response: Now if you don't mind, I've got some work to do.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 19
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 19
+        status: raw_value_preserved
+  - source:
+      file: NPC47.rude
+      row: 8
+    raw_columns:
+      - 47
+      - 10
+      - 1
+      - WE FOUND YOUR MANUSCRIPT!!
+      - You have?!  Wonderful!!!  You are a brave sort.  Here's your reward.  Thank you!
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 19
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 10
+      choice_slot: 1
+      prompt: WE FOUND YOUR MANUSCRIPT!!
+      response: You have?!  Wonderful!!!  You are a brave sort.  Here's your reward.  Thank you!
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 19
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 19
+        status: raw_value_preserved
+  - source:
+      file: NPC47.rude
+      row: 9
+    raw_columns:
+      - 47
+      - 4
+      - 1
+      - Perhaps we could go down there for you.
+      - Huh?  What's that you said?
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 4
+      choice_slot: 1
+      prompt: Perhaps we could go down there for you.
+      response: Huh?  What's that you said?
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC47.rude
+      row: 10
+    raw_columns:
+      - 47
+      - 5
+      - 1
+      - Perhaps we could go down there for you!
+      - Oh, yeah.  That would be great!  I would pay you well if you would go down there and get my manuscript!  It should be easy to find.  A bundle of papers called "My Evermore Beloved".
+      - 6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 5
+      choice_slot: 1
+      prompt: Perhaps we could go down there for you!
+      response: Oh, yeah.  That would be great!  I would pay you well if you would go down there and get my manuscript!  It should be easy to find.  A bundle of papers called "My Evermore Beloved".
+      next: 6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 6
+  - source:
+      file: NPC47.rude
+      row: 11
+    raw_columns:
+      - 47
+      - 47
+      - 1
+      - We'd like you ask you a few questions.
+      - Huh?  Questions?  I'm sorry I'm too busy for that sort of thing.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 47
+      choice_slot: 1
+      prompt: We'd like you ask you a few questions.
+      response: Huh?  Questions?  I'm sorry I'm too busy for that sort of thing.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC47.rude
+      row: 12
+    raw_columns:
+      - 47
+      - 47
+      - 2
+      - We've found your manuscript.
+      - Eh, what's that?  I don't hear so well these days.
+      - 10
+      - 16
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 19
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 47
+      choice_slot: 2
+      prompt: We've found your manuscript.
+      response: Eh, what's that?  I don't hear so well these days.
+      next: 10
+      raw_fields:
+        c07: 16
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 19
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 16
+            qbit_id: 9016
+            state_id: mm9.keys.16
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 16
+          qbit_id: 9016
+          state_id: mm9.keys.16
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 19
+        status: raw_value_preserved
+  - source:
+      file: NPC47.rude
+      row: 13
+    raw_columns:
+      - 47
+      - 1
+      - 2
+      - We're still searching for your manuscript.
+      - Eh?  You're looking for canned tulips?  Sorry, I only sell beets.
+      - 20
+      - 14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 16
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 1
+      choice_slot: 2
+      prompt: We're still searching for your manuscript.
+      response: Eh?  You're looking for canned tulips?  Sorry, I only sell beets.
+      next: 20
+      raw_fields:
+        c07: 14
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 16
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 20
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 14
+            qbit_id: 9014
+            state_id: mm9.keys.14
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 14
+          qbit_id: 9014
+          state_id: mm9.keys.14
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 16
+        status: raw_value_preserved
+  - source:
+      file: NPC47.rude
+      row: 14
+    raw_columns:
+      - 47
+      - 3
+      - 2
+      - Does it look like this?
+      - My Manuscript!!!  How did you find it?  Oh, A thousand thank yous!! Here's a reward!
+      - 11
+      - 110
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 19
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 3
+      choice_slot: 2
+      prompt: Does it look like this?
+      response: My Manuscript!!!  How did you find it?  Oh, A thousand thank yous!! Here's a reward!
+      next: 11
+      raw_fields:
+        c07: 110
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 19
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 110
+            qbit_id: 9110
+            state_id: mm9.keys.110
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 110
+          qbit_id: 9110
+          state_id: mm9.keys.110
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 19
+        status: raw_value_preserved
+  - source:
+      file: NPC47.rude
+      row: 15
+    raw_columns:
+      - 47
+      - 6
+      - 2
+      - Sorry.  We don't have time for that.
+      - Alright.  Thanks anyway.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 6
+      choice_slot: 2
+      prompt: Sorry.  We don't have time for that.
+      response: Alright.  Thanks anyway.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC47.rude
+      row: 16
+    raw_columns:
+      - 47
+      - 1
+      - 3
+      - DO YOU HAVE ANY NEWS??
+      - I've got my manuscript back, thanks to you.  I'll be sure to remember that in my dedication!
+      - 999
+      - 19
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 1
+      choice_slot: 3
+      prompt: DO YOU HAVE ANY NEWS??
+      response: I've got my manuscript back, thanks to you.  I'll be sure to remember that in my dedication!
+      next: 999
+      raw_fields:
+        c07: 19
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 19
+            qbit_id: 9019
+            state_id: mm9.keys.19
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 19
+          qbit_id: 9019
+          state_id: mm9.keys.19
+  - source:
+      file: NPC47.rude
+      row: 17
+    raw_columns:
+      - 47
+      - 47
+      - 3
+      - Sorry to bother you.
+      - Eh?  Yeah, goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 47
+      choice_slot: 3
+      prompt: Sorry to bother you.
+      response: Eh?  Yeah, goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC47.rude
+      row: 18
+    raw_columns:
+      - 47
+      - 1
+      - 4
+      - Thanks for your time.
+      - You want tanks for your what?  Your wine?  I'm sorry, I only sell beets.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 47
+      node_id: 1
+      choice_slot: 4
+      prompt: Thanks for your time.
+      response: You want tanks for your what?  Your wine?  I'm sorry, I only sell beets.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999

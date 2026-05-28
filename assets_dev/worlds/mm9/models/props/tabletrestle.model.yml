@@ -1,0 +1,96 @@
+schema: openyamm.model3d.v1
+id: tabletrestle
+model: tabletrestle.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/TABLETRESTLE.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Table-Trestle
+  materialIndex: 0
+  lods:
+  - faces: 144
+    vertices: 96
+  - faces: 108
+    vertices: 78
+  - faces: 72
+    vertices: 60
+materials:
+- index: 0
+  texture: skins_preview/props/tabletrestle2.png
+  runtime_texture: skins/props/tabletrestle2.dtx
+  preview_texture: skins_preview/props/tabletrestle2.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/TABLETRESTLE2.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 700
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: NS
+  durationMs: 700
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: onside
+  durationMs: 700
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 92.16
+  - 46.08
+  - 56.32
+  origin:
+  - 0.0
+  - 12.8
+  - 0.0
+- name: NS
+  extents:
+  - 56.32
+  - 46.08
+  - 92.16
+  origin:
+  - 0.0
+  - 12.8
+  - 0.0
+- name: onside
+  extents:
+  - 92.16
+  - 46.08
+  - 56.32
+  origin:
+  - 0.0
+  - 5.12
+  - 10.24
+roles:
+- static_model
+source_model: models/props/tabletrestle.abc

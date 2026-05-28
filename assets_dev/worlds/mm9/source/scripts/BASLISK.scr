@@ -1,0 +1,65 @@
+;--------------------------------------------------
+;Baslisk.scr
+; timmy
+; handles giving the player the baslisk skin
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+;****************
+;merc to gladiator Quest
+;****************
+haskey 215 g_ntemp
+if (g_ntemp==0, )
+	haskey 214 g_ntemp
+	if (g_ntemp==1, )
+		givekey 215
+		giveitem 380
+		exit
+	endif
+endif
+
+; NOTE: this gives the waiting key outright.  
+;The player should have to kill the baslisk to get the skin
+
+;End merc to gladiator quest
+;******************
+exit
+
+
+
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+
+Addtrigger Use, OnUse
+
+exit
+

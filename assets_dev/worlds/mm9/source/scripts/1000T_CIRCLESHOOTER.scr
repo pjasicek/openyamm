@@ -1,0 +1,103 @@
+;-------------------------------------
+;	1000t_CircleShooter.scr
+;	by SJR
+;	11-20-01
+;	FeltUP slightly by Karl 12-1-01
+;	Purpose:circle around player and
+;			shoot stuff
+;
+;	Triggers:
+;		"Start" = begin shooting
+;
+;	ScriptParams:
+;		p0 = LISTNAME
+;		p1 = LISTFIRST
+;		p2 = LISTLAST
+;		p3 = time inbetween shots
+;		p4 = object to trigger when started
+;		p5 = object to trigger when stopped
+;-------------------------------------
+#include BaseGlobals.inc
+#include ListMaker.inc
+
+#hobject	hMe = 0
+#hobject	hPlayer = 0
+
+#number		nShootDelay = 0
+
+#number		xMe = 0
+#number		yMe = 0
+#number		zMe = 0
+
+#string		sStartName = ""
+#string		sStopName = ""
+#hobject	hTrigger = 0
+
+;-----------------
+:Main
+;-----------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+
+	GetParam 3, nShootDelay
+	GetParam 4, sStartName
+	GetParam 5, sStopName
+
+;;	OnPostStartWorld InitCircleShooter
+Wait 0, 5, InitCircleShooter
+	Exit TRUE
+
+;-----------------
+:InitCircleShooter
+;-----------------
+	AddTrigger go, StartShooting
+
+	GetPlayerHandle hPlayer
+	GetMyHandle hMe
+
+	Exit TRUE
+
+;-----------------
+:StartShooting
+;-----------------
+	gosub GetFirstObject
+	Target hPlayer, TRUE
+	gosub Fire
+
+	Exit TRUE
+
+;-----------------
+:UpdatePOS
+;-----------------
+	Trigger hMe, On
+	gosub GetNextObject
+	if( LISTINDEX==LISTFIRST )
+		GoSub StopShooting
+	else
+		
+		GoSub Fire
+		
+	endif
+
+	Exit TRUE
+
+;-----------------
+:Fire
+;-----------------
+	Trigger hMe, Off
+	GetPOS LISTOBJECT, xMe,yMe,zMe
+	MoveToPos xMe,yMe,zMe, 500, UpdatePOS
+	
+
+	Exit TRUE
+
+;-----------------
+:StopShooting
+;-----------------
+	GetObjectHandle sStopName, hTrigger
+	Trigger hTrigger, trigger
+	Trigger hMe, Off
+	Target NULL
+
+	Exit TRUE

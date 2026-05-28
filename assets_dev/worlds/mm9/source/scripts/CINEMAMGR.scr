@@ -1,0 +1,517 @@
+;;;TO DO:
+;;;FIX SNAPTO
+;;;FIX CURVED PATH
+;;;INCORPORATE FADE TO OTHER STUFF
+;-----------------------------
+;	CinemaMgr.scr
+;	by SJR
+;	10-16-01
+;	See also: EffectsMgr.scr
+;	Purpose:incorporates cool
+;			camera effects.
+;			Must be run by
+;			a camera object.
+;
+;	ScriptParams are:
+;		p0 = will receive "CinemaDone" on return to player
+;		p1-p4 = objects possible to switch between during the level
+;
+;	Triggers:
+;	
+;		"StartZoom"			= executes a zoom using all current settings
+;		"StartPan"			= executes a camera pan using all current settings
+;		"StartPanHere"		= pans to triggerer
+;
+;	PanEffects
+;
+;		"Pan180"			= pans a 180 in front of player
+;		"Pan135"			= pans a 135
+;		"Pan90"				= pans a 90
+;
+;		"Pan[Fast\Medium\Slow]	= sets speed of pan (3,6,9 seconds)
+;
+;		"PanToZoom"			= executes zoom directly after the pan
+;
+;	ZoomEffects
+;
+;		"BasicZoom"			= snapback, smooth, fast, short
+;		"LinkOn"			= chain all remaining targets continuously
+;		"LinkOff"			= disable linking
+;
+;		"CamSmooth"			= zooms in and out smoothly
+;		"CamRough"			= zooms in and out roughly
+;		"CamSpin"			= zooms in and out really roughly (w/ rotations)
+;
+;		"CamSnapto"			= goes to object instantaneously
+;		"CamSnapback"		= returns to player instantaneously
+;		"CamPullback"		= zooms out to player
+;
+;		"Cam[Fast\Medium\Slow]	= sets speed of zoom-in (1,2,4 seconds of travel)
+;
+;		"Cam[Long\Short\Instant]"	= sets duration of watch (6,3,1/2 seconds)
+;
+;		"CamTarget[1\2\3\4]"	= changes target to p[1\2\3\4]
+;
+;-----------------------------
+#include	BaseGlobals.inc
+
+#hobject	hMe = 0
+#hobject	hPlayer = 0
+#hobject	hTarget = 0
+#hobject	hNotify = 0
+
+#string		sNotifyName
+#string		sFocus0Name
+#string		sFocus1Name
+#string		sFocus2Name
+#string		sFocus3Name
+#string		sFocus4Name
+
+#number		bArrived = FALSE
+
+#number		bLink = FALSE
+#number		bSmooth = TRUE
+#number		bSpin = FALSE
+
+#number		bSnapback = TRUE
+#number		bSnapto = FALSE
+#number		nSpeed = 1
+#number		dirScale = 1
+
+#number		rand = 0
+#number		nCurTarget = 0
+#number		v1dist = 0
+#number		v2dist = 0
+
+;;;For spincam
+#number		nAngle = 90
+#number		nAngSpeed = 90
+
+;;;Time to stay at target
+#number		tLinger = 3
+
+;;;Player\camera POS
+#number		x = 0
+#number		y = 0
+#number		z = 0
+
+#number		dist = 0
+;;;Directions
+#number		dx = 1
+#number		dy = 1
+#number		dz = 1
+;;;Duration
+#number		dt = 1
+
+;;;For curved path following
+#number		xPathNorm = 0
+#number		yPathNorm = 1
+#number		zPathNorm = 0
+#number		nPathDist = 0
+#number		nPathSpeed = 0
+
+;;;Pan settings
+#number		nPanSpeed = 0
+#number		nPanTime = 0
+#number		bDoZoom = FALSE
+#number		nPanWidth = 180
+
+;;;TEMP UNTIL GETRIGHTDIR IS WORKING
+#hobject	hPanNode0 = 0
+#hobject	hPanNode1 = 0
+#string		sPanNodeName0 = ""
+#string		sPanNodeName1 = ""
+
+;----------------
+:Main
+;----------------
+	GetParam 0, sNotifyName
+
+	GetParam 1, sFocus0Name
+	GetParam 2, sFocus1Name
+	GetParam 3, sFocus2Name
+	GetParam 4, sFocus3Name
+
+	GetParam 5, sPanNodeName0
+	GetParam 6, sPanNodeName1
+
+	Wait 0, 1, InitCinemaMgr
+	Exit TRUE
+
+;----------------
+:InitCinemaMgr
+;----------------
+	gosub SetupAllTriggers
+
+	AddTrigger StartZoom, StartZoom
+	AddTrigger StartPan, StartPan
+	AddTrigger StartPanHere, StartPanHere
+AddTrigger TurnOff, CameraOff
+	GetObjectHandle sFocus0Name, hTarget
+	GetObjectHandle	sPanNodeName0, hPanNode0
+	GetObjectHandle	sPanNodeName1, hPanNode1
+	GetObjectHandle sNotifyName, hNotify
+	GetPlayerHandle hPlayer
+	GetMyHandle hMe
+
+	Exit TRUE
+
+;---------------
+:StartPanHere
+;	pans from hPanNode0 to hPanNode1
+;---------------
+	GetParam 0, hPanNode0
+	gosub AlignCamera
+	gosub CameraOn
+	FaceObject hPanNode0, 180, StopMoving
+	Exit TRUE
+
+;---------------
+:StartPan
+;	pans from hPanNode0 to hPanNode1
+;---------------
+	gosub AlignCamera
+	gosub SetupPan
+	FaceObject hPanNode0, 0, DoNothing
+	gosub ExecutePan
+	Exit TRUE
+
+;---------------
+:ExecutePan
+;	pans from current dir to hPanNode1
+;---------------
+	gosub CameraOn
+	FaceObject hPanNode1, nPanSpeed, EndPan
+	Exit TRUE
+
+;---------------
+:EndPan
+;---------------
+	if( bDoZoom==TRUE )
+		Wait 0, 1, ExecuteZoom
+	else
+		Wait 0, 1, CameraOff
+	endif
+	Exit TRUE
+
+;---------------
+:StartZoom
+;	zooms to hTarget from hPlayer
+;---------------
+	if( hTarget!=NULL )
+		GetPlayerHandle hPlayer
+		if( bSnapTo==TRUE )
+			FaceObject hTarget, 720, MoveCameraForward
+			Wait 9, dt, CameraOn
+		else
+			gosub AlignCamera
+			gosub ExecuteZoom
+		endif
+	endif
+
+	Exit TRUE
+
+;---------------
+:ExecuteZoom
+;	zooms to hTarget from current pos
+;---------------
+	dirScale = 1
+	FaceObject hTarget, 200, MoveCameraForward
+	gosub CameraOn
+	Exit TRUE
+
+;---------------
+:MoveCameraForward
+;	zooms in current direction for
+;	distance to hTarget using current options
+;---------------
+	gosub SetupZoom
+	if( bSmooth==FALSE )
+		gosub ShakeCamera
+	endif
+	if( bSpin==TRUE )
+		gosub SpinCamera
+	endif
+	gosub FollowCurve
+	VecScale dx,dy,dz, dirScale
+	if( DirScale<0 )
+		MoveDir dx,dy,dz, dist, nSpeed, CameraOff
+	else
+		MoveDir dx,dy,dz, dist, nSpeed, EndZoom
+	endif
+	Exit TRUE
+
+;---------------
+:EndZoom
+;	checks for targetlinks and zoomout
+;---------------
+	Stop
+	bArrived = TRUE
+	if( bLink==TRUE )
+		if( nCurTarget>=3 )
+			Wait 7, tLinger, CameraOff
+		else
+			gosub GetNextTarget
+			Wait 7, tLinger, ExecuteZoom
+		endif
+gosub SetCamInstant
+	else
+		if( bSnapback==TRUE )
+			Wait 7, tLinger, CameraOff
+		else
+			gosub ReverseDirections
+			Wait 7, tLinger, MoveCameraForward
+		endif
+	endif
+	Exit TRUE
+
+;---------------
+:FollowCurve
+;	basically, get the player's face vector(scaled up or down),
+;	head that direction towards projected midpoint, and reverse direction
+;	when we get to that midpoint. Just a sketch, fix this!
+;---------------
+Exit TRUE
+	if( bArrived==TRUE )
+		Exit TRUE
+	endif
+
+	GetRightDir xPathNorm, yPathNorm, yPathNorm
+	VecNorm xPathNorm, yPathNorm, zPathNorm
+	VecScale xPathNorm, yPathNorm, zPathNorm, dirScale
+
+	GetFaceDir hPlayer, x,y,z
+	VecNorm x,y,z
+	VecScale x,y,z, dist
+
+	VecScale xPathNorm, yPathNorm, zPathNorm, v1dist
+	VecDist xPathNorm, yPathNorm, zPathNorm, x,y,z, nPathDist
+
+	nPathSpeed = nPathDist / dt
+	nPathDist = nPathDist / 2
+	MoveDir xPathNorm, yPathNorm, zPathNorm, nPathDist, nSpeed, FollowCurve
+	Exit TRUE
+
+;----------------
+:ShakeCamera
+;	vibrates camera as it zooms
+;----------------
+Exit TRUE
+	if( bArrived==TRUE )
+		Exit TRUE
+	endif
+
+	GetRandomInt -35, 35, rand
+	GetRightDir hMe, x,y,z
+	x = x + rand
+	z = z + rand
+	rand = 20 / nSpeed
+	Wait 6, rand, ShakeCamera
+	Exit TRUE
+
+;----------------
+:SpinCamera
+;	rotates camera as it zooms
+;----------------
+	Rotate dx,dy,dz, nAngle, nAngSpeed, DoNothing
+	Exit TRUE
+
+
+;*******************************
+;Generic routines
+;*******************************
+
+;---------------
+:AlignCamera
+;	sets pos and dir to player's
+;---------------
+	GetPOS hPlayer, x,y,z
+	GetFaceDir hPlayer, dx,dy,dz
+	VecNorm dx,dy,dz
+	y = y + 38
+	SetPOS hMe, x,y,z
+	FaceDir dx,dy,dz, 0, DoNothing
+	Exit TRUE
+
+;----------------
+:ReverseDirections
+;----------------
+	dirScale = -1
+	bArrived = FALSE
+	Exit TRUE
+
+;---------------
+:SetupPan
+;	prepares pan vars:
+;	pan angle, turn speed
+;---------------
+;;	GetPOS hPanNode1, x,y,z
+;;	GetAngleToPOS x,y,z, nPanWidth
+	nPanSpeed = nPanWidth / nPanTime
+	Exit TRUE
+
+;---------------
+:SetupZoom
+;	prepares zoom vars:
+;	dir, speed, rotation, distance
+;---------------
+	Target hTarget, TRUE
+	GetFaceDir hMe, dx,dy,dz
+	VecNorm dx,dy,dz
+	GetDistance hMe, hTarget, dist
+	dist = dist - 100
+	nSpeed = dist / dt
+	nAngle = 180 * dirScale
+	nAngSpeed = nAngle / dt
+	Exit TRUE
+
+;---------------
+:CameraOn
+;---------------
+	Trigger hMe, On
+	LetterBox TRUE
+	Exit TRUE
+
+;---------------
+:CameraOff
+;---------------
+	Target NULL
+	bArrived = FALSE
+	Trigger hMe, Off
+	LetterBox FALSE
+	Exit TRUE
+
+;----------------
+:SetupAllTriggers
+;----------------
+	SetCallback 0, ChangeTarget0
+	SetCallback 1, ChangeTarget1
+	SetCallback 2, ChangeTarget2
+	SetCallback 3, ChangeTarget3
+
+	AddTrigger Pan180, SetPanFull
+	AddTrigger Pan135, SetPanHalf
+	AddTrigger Pan90, SetPanQuarter
+
+	AddTrigger PanFast, SetPanFast
+	AddTrigger PanMedium, SetPanMedium
+	AddTrigger PanSlow, SetPanSlow
+
+	AddTrigger PanToZoom, SetPanToZoom
+
+	AddTrigger CamSnapto, SetCamSnapto
+	AddTrigger CamSnapback, SetCamSnapback
+	AddTrigger CamPullback, SetCamPullback
+
+	AddTrigger CamSmooth, SetCamSmooth
+	AddTrigger CamRough, SetCamRough
+	AddTrigger CamSpin, SetCamSpin
+
+	AddTrigger CamFast, SetCamFast
+	AddTrigger CamMedium, SetCamMedium
+	AddTrigger CamSlow, SetCamSlow
+
+	AddTrigger CamLong, SetCamLong
+	AddTrigger CamShort, SetCamShort
+	AddTrigger CamInstant, SetCamInstant
+
+	AddTrigger CamTarget1, ChangeTarget0
+	AddTrigger CamTarget2, ChangeTarget1
+	AddTrigger CamTarget3, ChangeTarget2
+	AddTrigger CamTarget4, ChangeTarget3
+
+	AddTrigger BasicZoom, SetBasicZoom
+	AddTrigger LinkOn, SetCamLink
+	AddTrigger LinkOff, DisableCamLink
+
+	Exit TRUE
+
+:GetNextTarget
+	nCurTarget = nCurTarget + 1
+	DoCallback nCurTarget
+	Exit TRUE
+:SetCamLink
+	bLink = TRUE
+	Exit TRUE
+:DisableCamLink
+	bLink = FALSE
+	Exit TRUE
+:SetPanFull
+	nPanWidth = 180
+	Exit TRUE
+:SetPanHalf
+	nPanWidth = 135
+	Exit TRUE
+:SetPanQuarter
+	nPanWidth = 90
+	Exit TRUE
+:SetPanFast
+	nPanTime = 3
+	Exit TRUE
+:SetPanMedium
+	nPanTime = 6
+	Exit TRUE
+:SetPanSlow
+	nPanTime = 9
+	Exit TRUE
+:SetPanToZoom
+	bDoZoom = TRUE
+	Exit TRUE
+:SetBasicZoom
+	gosub SetCamSnapback
+	gosub SetCamSmooth
+	gosub SetCamFast
+	gosub SetCamShort
+	Exit TRUE
+:SetCamSnapto
+	bSnapto = TRUE
+	Exit TRUE
+:SetCamSnapback
+	bSnapback = TRUE
+	Exit TRUE
+:SetCamPullback
+	bSnapback = FALSE
+	Exit TRUE
+:SetCamSmooth
+	bSmooth = TRUE
+	Exit TRUE
+:SetCamRough
+	bSmooth = FALSE
+	Exit TRUE
+:SetCamSpin
+	bSpin = TRUE
+	Exit TRUE
+:SetCamFast
+	dt = .5
+	Exit TRUE
+:SetCamMedium
+	dt = 2
+	Exit TRUE
+:SetCamSlow
+	dt = 4
+	Exit TRUE
+:SetCamLong
+	tLinger = 6
+	Exit TRUE
+:SetCamShort
+	tLinger = 3
+	Exit TRUE
+:SetCamInstant
+	tLinger = .5
+	Exit TRUE
+:ChangeTarget0
+	nCurTarget = 0
+	GetObjectHandle sFocus0Name, hTarget
+	Exit TRUE
+:ChangeTarget1
+	nCurTarget = 1
+	GetObjectHandle sFocus1Name, hTarget
+	Exit TRUE
+:ChangeTarget2
+	nCurTarget = 2
+	GetObjectHandle sFocus2Name, hTarget
+	Exit TRUE
+:ChangeTarget3
+	nCurTarget = 3
+	GetObjectHandle sFocus3Name, hTarget
+	Exit TRUE

@@ -1,0 +1,360 @@
+schema: openyamm.model3d.v1
+id: peasantm8d
+model: peasantm8d.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PEASANTM8D.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: ngon
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: MP_8D
+  materialIndex: 0
+  lods:
+  - faces: 688
+    vertices: 349
+  - faces: 516
+    vertices: 263
+  - faces: 344
+    vertices: 177
+  - faces: 172
+    vertices: 91
+materials:
+- index: 0
+  texture: skins_preview/peasantm8d.png
+  runtime_texture: skins/peasantm8d.dtx
+  preview_texture: skins_preview/peasantm8d.png
+  source: mm9/extracted/SKINS/SKINS/PEASANTM8D.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 32
+  - index: 1
+    name: Bip01 Spine
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 24
+    - 28
+  - index: 2
+    name: Bip01 Spine1
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Bip01 Spine2
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine3
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bip01 Neck
+    parent: 4
+    flags: 1
+    children:
+    - 6
+    - 8
+    - 16
+  - index: 6
+    name: Bip01 Head
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Bip01 Ponytail1
+    parent: 6
+    flags: 1
+    children: []
+  - index: 8
+    name: Bip01 L Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bip01 L UpperArm
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bip01 L Forearm
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bip01 L Hand
+    parent: 10
+    flags: 1
+    children:
+    - 12
+    - 14
+  - index: 12
+    name: Bip01 L Finger0
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bip01 L Finger01
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Bip01 L Finger1
+    parent: 11
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 L Finger11
+    parent: 14
+    flags: 1
+    children: []
+  - index: 16
+    name: Bip01 R Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bip01 R UpperArm
+    parent: 16
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Bip01 R Forearm
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bip01 R Hand
+    parent: 18
+    flags: 1
+    children:
+    - 20
+    - 22
+  - index: 20
+    name: Bip01 R Finger0
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bip01 R Finger01
+    parent: 20
+    flags: 1
+    children: []
+  - index: 22
+    name: Bip01 R Finger1
+    parent: 19
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bip01 R Finger11
+    parent: 22
+    flags: 1
+    children: []
+  - index: 24
+    name: Bip01 L Thigh
+    parent: 1
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bip01 L Calf
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: Bip01 L Foot
+    parent: 25
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Bip01 L Toe0
+    parent: 26
+    flags: 1
+    children: []
+  - index: 28
+    name: Bip01 R Thigh
+    parent: 1
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Bip01 R Calf
+    parent: 28
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Bip01 R Foot
+    parent: 29
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: Bip01 R Toe0
+    parent: 30
+    flags: 1
+    children: []
+  - index: 32
+    name: root_bone
+    parent: 0
+    flags: 1
+    children:
+    - 33
+    - 35
+    - 37
+    - 39
+    - 41
+    - 43
+  - index: 33
+    name: Bone06
+    parent: 32
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: Bone07
+    parent: 33
+    flags: 1
+    children: []
+  - index: 35
+    name: Bone22
+    parent: 32
+    flags: 1
+    children:
+    - 36
+  - index: 36
+    name: Bone23
+    parent: 35
+    flags: 1
+    children: []
+  - index: 37
+    name: Bone14
+    parent: 32
+    flags: 1
+    children:
+    - 38
+  - index: 38
+    name: Bone15
+    parent: 37
+    flags: 1
+    children: []
+  - index: 39
+    name: Bone10
+    parent: 32
+    flags: 1
+    children:
+    - 40
+  - index: 40
+    name: Bone11
+    parent: 39
+    flags: 1
+    children: []
+  - index: 41
+    name: Bone02
+    parent: 32
+    flags: 1
+    children:
+    - 42
+  - index: 42
+    name: Bone03
+    parent: 41
+    flags: 1
+    children: []
+  - index: 43
+    name: Bone18
+    parent: 32
+    flags: 1
+    children:
+    - 44
+  - index: 44
+    name: Bone19
+    parent: 43
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: MP_8D
+  durationMs: 1366
+  keyframes: 13
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: MP_8D
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- actor_model
+source_model: models/peasantm8d.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: peasantm8d_peasantm8d
+  source_skins:
+  - skins/peasantm8d.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 24
+    number: '23'
+    monster_name: Commoner
+    type_picture: Peasant Elf MaleA B
+    base_name: ''
+  - table: MONSTERS
+    row: 24
+    number: '23'
+    monster_name: Commoner
+    type_picture: Peasant Elf MaleA B
+    base_name: PeasantMale

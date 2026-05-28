@@ -1,0 +1,128 @@
+;----------------------------------------------
+;erccspeech.scr
+; By Timmy
+; handles ercc's rant.
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         sound   ; checks to see if a sound is currently playing
+#number							soundhandle ; handler for sounds
+#number							sounddur ; duration of sound
+#number							sounddone ; if sound is done this is true
+#number							soundhandle2 ; handler for second actor
+#number							unconscious ; is he out cold
+
+;-------------------------------------
+:Onblabber
+;-------------------------------------
+; erccs blabber
+
+set unconscious, 1
+if (sound==0, )
+	LoopAnim Conv2, 0 Donothing
+	set sound, 1
+	Givekey 113
+	Playsoundhandle voices\cinema\ercc01.wav, soundhandle, 240, FALSE, 100
+	GetSoundDuration, soundhandle, sounddur
+	Wait 1 sounddur, Ercc2
+endif
+
+exit
+
+
+
+;-------------------------------------
+:ercc2
+;-------------------------------------
+
+Killsound soundhandle
+PlayAnim Fidget4, Passout
+Playsoundhandle voices\cinema\ercc02.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+Wait 1 sounddur, Onexit
+exit
+
+;-------------------------------------
+:Passout
+;-------------------------------------
+
+Loopanim listen 0, Donothing
+wait 1 3, passout2
+exit
+;-------------------------------------
+:Passout2
+;-------------------------------------
+
+PlayAnim Passout, Donothing2
+
+exit
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+;if sound is playing, kill it
+
+if (unconscious==1, )
+	exit
+endif
+;start rude dialog
+DoRude 106
+exit
+
+;-------------------------------------
+:Donothing2
+;-------------------------------------
+
+
+exit
+
+;-------------------------------------
+:Donothing
+;-------------------------------------
+
+LoopAnim conv2 0, Donothing
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+LoopAnim sitting 0, donothing2
+exit
+
+
+
+;-------------------------------------
+:Onexit
+;-------------------------------------
+
+; kill the sound if it's done
+
+IsSoundDone soundhandle, sounddone
+if (sounddone==1, )
+	KillSound soundhandle
+	PlayAnim Passout, Donothing
+	endif
+;goto ondrink
+exit
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddModelKey start OnStart
+AddModelKey Passout ONPassOut
+AddModelKey Done OnDone
+set sound, 0
+set g_ntemp, 0
+haskey 113, g_ntemp
+if (g_ntemp==1)
+	set sound, 1
+endif
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+exit

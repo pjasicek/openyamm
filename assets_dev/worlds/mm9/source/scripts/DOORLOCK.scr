@@ -1,0 +1,63 @@
+;--------------------------------------------------
+;Doorlock.scr
+; timmy
+; handles locked door stuff
+;
+;edited by Bones -- 6/10/03
+;TELP Patch 1.3 -- specified doors will re-lock
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#number			nKey
+#number			bTakeKey = 0
+#number			bLockDoor = 1
+
+; parameters
+; p0 item number of key 
+; p1 whether to take the key after use
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+hasitem nKey g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hmyobject
+	SetStat g_hmyobject,Locked,FALSE
+	RolloverText 17, 1
+
+;;;jsl	trigger g_hmyobject Unlock
+;;;jsl	trigger g_hmyobject use
+	if (bTakeKey==TRUE)
+		takeitem nKey
+	endif
+
+	if (bLockDoor==TRUE)
+		SetStat g_hmyobject,Locked,TRUE
+
+
+;;;jsl		trigger g_hmyobject Lock
+	endif
+
+	exit FALSE
+
+endif
+
+exit FALSE
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger use OnUse
+getparam 0 nKey
+getparam 1 bTakeKey
+getparam 2 bLockDoor
+
+exit
+

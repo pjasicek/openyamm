@@ -1,0 +1,62 @@
+schema: openyamm.model3d.v1
+id: cabinet01ns
+model: cabinet01ns.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/CABINET01NS.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: Cabinet01
+  materialIndex: 0
+  lods:
+  - faces: 58
+    vertices: 82
+materials:
+- index: 0
+  texture: skins_preview/props/cabinet01.png
+  runtime_texture: skins/props/cabinet01.dtx
+  preview_texture: skins_preview/props/cabinet01.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/CABINET01.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 40.96
+  - 122.88
+  - 120.32000000000001
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/cabinet01ns.abc

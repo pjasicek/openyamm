@@ -1,0 +1,54 @@
+;----------------------------------------------
+;MP_Imp.scr
+; By Timmy
+; Imp walks to target until it finds player. 
+; then it runs to its friends before attacking
+; 11/1/01
+
+;----------------------------------------------
+
+#include globals.inc 
+#include basemelee.scr
+
+
+;-------------------------------------
+:OnStart
+; start the walking
+;-------------------------------------
+
+OnFoundTarget TargetFound
+getobjecthandle ImpMarker1 g_hobject
+walkto g_hobject 8 DoNothing
+exit
+
+;-------------------------------------
+:TargetFound
+; play wince anim and run for friends
+;-------------------------------------
+
+
+GetParam 0, g_hTarget
+playanim wince1 DoNothing
+getobjecthandle ImpMarker2 g_hobject
+Runto g_hobject 32 StartAttack
+exit
+
+;-------------------------------------
+:StartAttack
+; shout for help and start attacking
+;-------------------------------------
+
+help g_htarget
+gosub BaseInit
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+
+
+wait 1 1 OnStart
+
+exit

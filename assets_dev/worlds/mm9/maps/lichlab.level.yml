@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: lichlab
+display_name: Lich Lab
+source:
+  dat: ../source/worlds/LICHLAB.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/LICHLAB.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 07b32ea60787cc97e3e3f68eb364d65b9873ff2eb1d76565ac3a3cc7d51a4fbe
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: lichlab.dat_world.yml
+  raw_objects: lichlab.raw_objects.yml
+  materials: lichlab.material_aliases.yml
+  events: lichlab.events.yml
+  scene_compat: lichlab.scene.yml
+  source_metadata_compat: lichlab.mm9.yml
+  bsp_compat: lichlab.bsp.yml
+  geometry_compat: lichlab.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: lichlab.blv
+scripts:
+  level: ../events/lichlab.lua
+  script_ir: ../events/lichlab.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

@@ -1,0 +1,59 @@
+;------------------------------------
+;	WizardDemon.scr
+;	01-01-02
+;	by SJR
+;	Purpose:
+;------------------------------------
+#include baseMelee.inc
+#include range.inc
+
+;------------------------------------
+:Main
+;------------------------------------
+	Wait 0, .1, InitWizardDemon
+
+	Exit 1
+
+;------------------------------------
+:InitWizardDemon
+;------------------------------------
+	AddEnemy EvilGrandSorcerer
+	AddEnemy EvilApprentice
+	AddEnemy Player
+
+	gosub PlaySpawnAnim
+
+	AddTrigger finish, PlayDeathAnims
+
+	Exit 1
+
+;------------------------------------
+:PlaySpawnAnim
+;------------------------------------
+	PlayAnim spawn, PlayAngryAnim
+
+	Exit 1
+
+;------------------------------------
+:PlayAngryAnim
+;------------------------------------
+	PlayAnim fidget1, SwitchScript
+
+	Exit 1
+
+;------------------------------------
+:SwitchScript
+;------------------------------------
+	gosub BaseInit
+	gosub RangeInit
+
+	Exit 1
+
+;------------------------------------
+:PlayDeathAnims
+;------------------------------------
+	Stop
+
+	RunScript "WizardDemonDeath.scr"
+
+	Exit 1

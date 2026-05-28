@@ -1,0 +1,360 @@
+;--------------------------------------------------------------------
+;	Lobber.Scr
+;	Jeff Leggett
+;	07/31/2001
+;
+;	The lobber creature has 2 attacks.  One attack spawns out
+;	the LobberPod creature.  The 2nd attack shoots a green
+;	and nasty poison-looking projectile.
+;
+;	When the lobber dies, it falls to the floor.
+;
+;	edited by Bones 9/11/02
+;	TELP Patch 1.3 -- repositions Frosgard IceLobber
+;--------------------------------------------------------------------
+
+
+#Include AIGlobals.inc
+
+#number						MIN_LOBBER_LAUNCH_WAIT = 5
+#number						MAX_LOBBER_LAUNCH_WAIT = 10
+
+#number						g_lastLobberLaunch = 0
+
+#number						g_attackRange = 0
+#number						g_nDist1
+#number						g_nDist2
+#number						g_bClearShot
+#hobject					g_hAttacker
+
+#number						ATTACK_CHECK_WAIT = 7
+
+#number						NO_CLEAR_SHOT_IGNORE_CHANCE = 75
+
+#number						TARGET_SEARCH_WAIT = 2
+
+
+
+;--------------------------------------------------------------------
+:DoNothing
+;--------------------------------------------------------------------
+
+	Exit
+
+;--------------------------------------------------------------------
+:TargetSearchOn
+;--------------------------------------------------------------------
+
+	GetRandomFloat 5, 15, g_nRandom
+	Wait TARGET_SEARCH_WAIT,g_nRandom,DoTargetSearch
+	Exit
+
+;--------------------------------------------------------------------
+:DoTargetSearch
+;--------------------------------------------------------------------
+
+	GetFaceDir g_hMyObject, g_dirX,g_dirY,g_dirZ
+
+	g_dirY	= 0
+
+	GetRandomFloat 20, 120, g_nRandom
+
+	GetRandomInt 0,1,g_nTemp
+
+	if ( g_nTemp==1 )
+		Mul g_nRandom,-1
+	Endif
+
+	RotateDir g_dirX,g_dirY,g_dirZ,g_nRandom
+	FaceDir g_dirX,g_dirY,g_dirZ,180,DoNothing
+
+	gosub TargetSearchOn
+
+	Exit
+
+;--------------------------------------------------------------------
+:TargetSearchCancel
+;--------------------------------------------------------------------
+	Wait TARGET_SEARCH_WAIT,0,DoNothing
+
+	Exit
+
+
+;--------------------------------------------------------------------
+:LaunchPodDone
+;--------------------------------------------------------------------
+
+	Exit
+
+;--------------------------------------------------------------------
+:StartLobberLaunch
+;--------------------------------------------------------------------
+
+	GetTime g_nLastAttackTime
+	PlayAnim LaunchPod,LaunchPodDone
+
+	Exit
+
+;--------------------------------------------------------------------
+:StartAttackCheck
+;--------------------------------------------------------------------
+	Wait ATTACK_CHECK_WAIT, 1, AttackCheck
+	
+	exit
+
+;--------------------------------------------------------------------
+:StopAttackCheck
+;--------------------------------------------------------------------
+	Wait ATTACK_CHECK_WAIT, 0, DoNothing
+
+	exit
+
+;--------------------------------------------------------------------
+:ClearTarget
+;--------------------------------------------------------------------
+	Target NULL
+	g_hTarget =	NULL
+	gosub StopAttackCheck
+	gosub TargetSearchOn
+	Exit
+
+;--------------------------------------------------------------------
+:AttackCheck
+;
+;	Decide whether we want to Lob another LobPod, or do a range 
+;	attack....
+;
+;--------------------------------------------------------------------
+
+	Wait ATTACK_CHECK_WAIT, 1, AttackCheck
+
+	if ( g_hTarget==NULL )
+		Exit
+	endif
+
+	g_bClearShot = FALSE
+	IsClearShot g_hTarget, g_bClearShot
+
+	GetTime g_nTemp
+
+	Sub g_nTemp,g_nLastAttackTime
+
+	if ( g_nTemp > 30 )
+		gosub ClearTarget
+		Exit
+	Endif
+
+	GetTime g_nTemp
+
+	Sub g_nTemp,g_lastLobberLaunch
+
+	if ( g_lastLobberLaunch==0 )
+		g_nTemp = MAX_LOBBER_LAUNCH_WAIT
+	endif
+
+	if ( g_nTemp > MIN_LOBBER_LAUNCH_WAIT )
+		GetStat g_hMyObject, CanLob, g_bTemp
+
+		if ( g_bTemp==TRUE )
+			gosub StartLobberLaunch
+			exit
+		endif
+	endif
+
+	CanAttack g_bCanAttack
+
+	if ( g_bCanAttack==FALSE )
+		exit
+	endif
+
+	AIGetDistance g_hTarget, g_nDist1
+	
+	if ( g_nDist1 > g_attackRange )
+		exit
+	endif
+
+	if ( g_bClearShot==FALSE )
+		; Randomly decide if we should target them
+		; anyway...
+		GetRandomInt 0,100,g_nRandom
+		if ( g_nRandom < NO_CLEAR_SHOT_IGNORE_CHANCE )
+			exit
+		endif
+	endif
+
+	GetTime g_nLastAttackTime
+	RangeAttack
+
+	Exit
+
+;--------------------------------------------------------------------
+:AwareDone
+;
+;	We've done our Aware... Now begin the attacks!
+;
+;--------------------------------------------------------------------
+
+	gosub StartAttackCheck
+	
+	Exit
+
+;--------------------------------------------------------------------
+:FoundTarget
+;
+;	Get him!!!!
+;
+;--------------------------------------------------------------------
+
+	GetParam 0, g_hTarget
+
+	if ( g_hTarget==0 )
+;		This shouldn't happen, but you can't be too careful!
+		Exit FALSE
+	Endif
+
+	gosub TargetSearchCancel
+	SendAlert g_hTarget
+
+	GetTime g_nLastAttackTime
+	Target g_hTarget, TRUE
+	Aware AwareDone
+
+	Exit
+
+;--------------------------------------------------------------------
+:TargetDead
+;
+;	OK, go back into idle mode...
+;
+;--------------------------------------------------------------------
+
+	Target NULL
+	Set g_hTarget, NULL
+
+;	cprint LOBBER TARGET DEAD!!
+	gosub StopAttackCheck
+	SetIdle
+
+	gosub TargetSearchOn
+
+	Exit TRUE
+
+;--------------------------------------------------------------------
+:Alert
+;--------------------------------------------------------------------
+
+	if ( g_hTarget!=NULL )
+		Exit
+	endif
+
+	GetParam 1, g_hTarget
+
+	IsFriend g_hTarget, g_bTemp
+
+	if ( g_bTemp==TRUE )
+		Exit FALSE
+	Endif
+
+	Target g_hTarget, TRUE
+	Aware AwareDone
+	Exit TRUE
+
+
+;--------------------------------------------------------------------
+:LostTarget
+;
+;	clear target..
+;
+;--------------------------------------------------------------------
+
+	Target NULL
+	g_hTarget = NULL
+
+	SetIdle
+
+	gosub StopAttackCheck
+	gosub TargetSearchOn
+
+	Exit TRUE
+
+;--------------------------------------------------------------------
+:OnDamage
+;--------------------------------------------------------------------
+
+	GetParam 0, g_hAttacker
+
+	IsFriend g_hAttacker, g_bTemp
+
+	if ( g_bTemp==TRUE )
+		Exit FALSE
+	Endif
+
+	SendAlert g_hAttacker
+
+	if ( g_hTarget!=NULL )
+		Exit FALSE
+	endif
+
+	g_hTarget	= g_hAttacker
+
+	Target g_hTarget, TRUE
+	Aware AwareDone
+
+	Exit FALSE
+
+;--------------------------------------------------------------------
+:Init
+;--------------------------------------------------------------------
+	SetIdle
+	exit
+
+;--------------------------------------------------------------------
+:Main
+;--------------------------------------------------------------------
+
+	GetMyHandle g_hMyObject
+	
+GetPos g_hMyObject g_posX g_posY g_posZ
+if g_posX==-4224
+	if g_posY==912
+		if g_posZ==1664
+			Set g_posY 864
+			SetPos g_hMyObject g_posX g_posY g_posZ
+		endif
+	endif
+endif
+set g_nPad2 1
+
+	OnFoundTarget	FoundTarget
+	OnTargetDead	TargetDead
+	OnAlert			Alert
+	OnLostTarget	LostTarget
+	OnDamage		OnDamage
+
+	GetStat g_hMyObject, RangeAttackRange, g_attackRange
+
+	Wait 0,0.1,Init
+
+	gosub TargetSearchOn
+
+	Exit
+
+;--------------------------------------------------------------------
+:FoundTarget
+;	overloaded -- Bones
+;--------------------------------------------------------------------
+	
+if g_nPad2 == 0
+	GetPos g_hMyObject g_posX g_posY g_posZ
+	if g_posX==-4224
+		if g_posY==912
+			if g_posZ==1664
+				Set g_posY 864
+				SetPos g_hMyObject g_posX g_posY g_posZ
+			endif
+		endif
+	endif
+	set g_nPad2 1
+endif
+
+goto FoundTarget, 1

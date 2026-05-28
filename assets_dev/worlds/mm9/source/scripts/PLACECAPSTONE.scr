@@ -1,0 +1,50 @@
+;----------------------------------------------
+;placeCapstone.scr
+; By Timmy
+; Places capstone of order onto the block
+; and the related key
+; Igrid's RudeID is 338
+; capstone is item 396
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+gosub use1
+exit
+
+
+;-------------------------------------
+:Use1
+;-------------------------------------
+
+
+
+haskey 98 g_ntemp
+if (g_ntemp==1, )
+
+
+	hasitem 396 g_ntemp
+	if (g_ntemp==1, )
+		getobjecthandle capstone g_hobject
+		trigger g_hobject place
+		exit
+	endif
+endif
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+
+exit

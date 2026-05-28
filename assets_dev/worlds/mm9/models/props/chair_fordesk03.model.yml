@@ -1,0 +1,65 @@
+schema: openyamm.model3d.v1
+id: chair_fordesk03
+model: chair_fordesk03.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/CHAIR_FORDESK03.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Chair_forDesk03
+  materialIndex: 0
+  lods:
+  - faces: 110
+    vertices: 96
+  - faces: 82
+    vertices: 82
+materials:
+- index: 0
+  texture: skins_preview/props/chair_fordesk03.png
+  runtime_texture: skins/props/chair_fordesk03.dtx
+  preview_texture: skins_preview/props/chair_fordesk03.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/CHAIR_FORDESK03.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 533
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 25.6
+  - 35.84
+  - 25.6
+  origin:
+  - 0.0
+  - 25.6
+  - 0.0
+roles:
+- static_model
+source_model: models/props/chair_fordesk03.abc

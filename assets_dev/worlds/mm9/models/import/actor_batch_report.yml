@@ -1,0 +1,8720 @@
+schema: openyamm.mm9ActorModelBatchReport.v1
+table: mm9/extracted/DATA/DATA/ACTOR.txt;mm9/extracted/DATA/DATA/MONSTERS.txt
+summary:
+  variants: 238
+  converted: 235
+  withWarnings: 14
+  withErrors: 16
+variants:
+- modelName: banshee.abc
+  skins:
+  - bansheeA.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/BANSHEE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: banshee
+  variantId: banshee_bansheea
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: bansheeA.dtx
+    path: mm9/extracted/SKINS/SKINS/BANSHEEA.dtx
+    textureId: bansheea
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 154
+    number: '162'
+    name: Fright
+    baseName: Banshee
+    typePicture: Banshee A
+  - table: ACTOR
+    row: 155
+    number: '163'
+    name: Dread
+    baseName: Banshee
+    typePicture: Banshee B
+  - table: ACTOR
+    row: 156
+    number: '164'
+    name: Terror
+    baseName: Banshee
+    typePicture: Banshee C
+  - table: MONSTERS
+    row: 154
+    number: '162'
+    name: Fright
+    baseName: Banshee
+    typePicture: Banshee A
+  - table: MONSTERS
+    row: 155
+    number: '163'
+    name: Dread
+    baseName: Banshee
+    typePicture: Banshee B
+  - table: MONSTERS
+    row: 156
+    number: '164'
+    name: Terror
+    baseName: Banshee
+    typePicture: Banshee C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: basilisk.abc
+  skins:
+  - basilisk.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/BASILISK.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: basilisk
+  variantId: basilisk_basilisk
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: basilisk.dtx
+    path: mm9/extracted/SKINS/SKINS/BASILISK.dtx
+    textureId: basilisk
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 142
+    number: '150'
+    name: Basilisk
+    baseName: Basilisk
+    typePicture: Basilisk A
+  - table: ACTOR
+    row: 143
+    number: '151'
+    name: Fibrase Basilisk
+    baseName: Basilisk
+    typePicture: Basilisk B
+  - table: ACTOR
+    row: 144
+    number: '152'
+    name: King Basilisk
+    baseName: Basilisk
+    typePicture: Basilisk C
+  - table: MONSTERS
+    row: 142
+    number: '150'
+    name: Basilisk
+    baseName: Basilisk
+    typePicture: Basilisk A
+  - table: MONSTERS
+    row: 143
+    number: '151'
+    name: Fibrase Basilisk
+    baseName: Basilisk
+    typePicture: Basilisk B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: basilisk.abc
+  skins:
+  - basilisk2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/BASILISK.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: basilisk
+  variantId: basilisk_basilisk2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: basilisk2.dtx
+    path: mm9/extracted/SKINS/SKINS/BASILISK2.dtx
+    textureId: basilisk2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 144
+    number: '152'
+    name: King Basilisk
+    baseName: Basilisk
+    typePicture: Basilisk C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: bigfoot.abc
+  skins:
+  - BigFoot1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/BIGFOOT.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: bigfoot
+  variantId: bigfoot_bigfoot1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: BigFoot1.dtx
+    path: mm9/extracted/SKINS/SKINS/BIGFOOT1.dtx
+    textureId: bigfoot1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 190
+    number: '198'
+    name: Bigfoot
+    baseName: Bigfoot
+    typePicture: Bigfoot A
+  - table: MONSTERS
+    row: 190
+    number: '198'
+    name: Bigfoot
+    baseName: Bigfoot
+    typePicture: Bigfoot A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: bigfoot.abc
+  skins:
+  - BigFoot2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/BIGFOOT.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: bigfoot
+  variantId: bigfoot_bigfoot2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: BigFoot2.dtx
+    path: mm9/extracted/SKINS/SKINS/BIGFOOT2.dtx
+    textureId: bigfoot2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 191
+    number: '199'
+    name: Sasquatch
+    baseName: Bigfoot
+    typePicture: Bigfoot B
+  - table: MONSTERS
+    row: 191
+    number: '199'
+    name: Sasquatch
+    baseName: Bigfoot
+    typePicture: Bigfoot B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: bigfoot.abc
+  skins:
+  - BigFoot3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/BIGFOOT.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: bigfoot
+  variantId: bigfoot_bigfoot3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: BigFoot3.dtx
+    path: mm9/extracted/SKINS/SKINS/BIGFOOT3.dtx
+    textureId: bigfoot3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 192
+    number: '200'
+    name: Yeti
+    baseName: Bigfoot
+    typePicture: Bigfoot C
+  - table: MONSTERS
+    row: 192
+    number: '200'
+    name: Yeti
+    baseName: Bigfoot
+    typePicture: Bigfoot C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Bjarni.abc
+  skins:
+  - bjarni.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/BJARNI.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: bjarni
+  variantId: bjarni_bjarni
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: bjarni.dtx
+    path: mm9/extracted/SKINS/SKINS/BJARNI.dtx
+    textureId: bjarni
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 227
+    number: '246'
+    name: Bjarni Thorvaldssen
+    baseName: ''
+    typePicture: Bjarni Thorvaldssen
+  - table: MONSTERS
+    row: 227
+    number: '246'
+    name: Bjarni Thorvaldssen
+    baseName: PeasantMale
+    typePicture: Bjarni Thorvaldssen
+  warnings: []
+  errors: []
+  converted: true
+- modelName: cat.abc
+  skins:
+  - cat.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CAT.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: cat
+  variantId: cat_cat
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: cat.dtx
+    path: mm9/extracted/SKINS/SKINS/CAT.dtx
+    textureId: cat
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 275
+    number: '294'
+    name: cat
+    baseName: ''
+    typePicture: Cat
+  - table: MONSTERS
+    row: 275
+    number: '294'
+    name: cat
+    baseName: cat
+    typePicture: Cat
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ClanSoldier.abc
+  skins:
+  - Beldonian1.dtx
+  - BeldSword.dtx
+  - Beldshield1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CLANSOLDIER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: clansoldier
+  variantId: clansoldier_beldonian1_beldsword_beldshield1
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: Beldonian1.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDONIAN1.dtx
+    textureId: beldonian1
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: BeldSword.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDSWORD.dtx
+    textureId: beldsword
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 2
+    tableName: Beldshield1.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDSHIELD1.dtx
+    textureId: beldshield1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 124
+    number: '129'
+    name: Horde Grunt
+    baseName: Soldier
+    typePicture: Beldonian HordesA
+  - table: MONSTERS
+    row: 124
+    number: '129'
+    name: Horde Grunt
+    baseName: Soldier
+    typePicture: Beldonian HordesA
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ClanSoldier.abc
+  skins:
+  - Beldonian2.dtx
+  - BeldSword.dtx
+  - Beldshield2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CLANSOLDIER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: clansoldier
+  variantId: clansoldier_beldonian2_beldsword_beldshield2
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: Beldonian2.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDONIAN2.dtx
+    textureId: beldonian2
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: BeldSword.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDSWORD.dtx
+    textureId: beldsword
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 2
+    tableName: Beldshield2.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDSHIELD2.dtx
+    textureId: beldshield2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 125
+    number: '130'
+    name: Horde Warrior
+    baseName: Soldier
+    typePicture: Beldonian HordesB
+  - table: MONSTERS
+    row: 125
+    number: '130'
+    name: Horde Warrior
+    baseName: Soldier
+    typePicture: Beldonian HordesB
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ClanSoldier.abc
+  skins:
+  - Beldonian3.dtx
+  - BeldSwordOld.dtx
+  - Beldshield3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CLANSOLDIER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: clansoldier
+  variantId: clansoldier_beldonian3_beldswordold_beldshield3
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: Beldonian3.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDONIAN3.dtx
+    textureId: beldonian3
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: BeldSwordOld.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDSWORDOLD.dtx
+    textureId: beldswordold
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 2
+    tableName: Beldshield3.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDSHIELD3.dtx
+    textureId: beldshield3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 126
+    number: '131'
+    name: Horde Leader
+    baseName: Soldier
+    typePicture: Beldonian HordesC
+  - table: MONSTERS
+    row: 126
+    number: '131'
+    name: Horde Leader
+    baseName: Soldier
+    typePicture: Beldonian HordesC
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ClanSoldier.abc
+  skins:
+  - BeldonianDragon.dtx
+  - BeldDragnSword.dtx
+  - Beldshield3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CLANSOLDIER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: clansoldier
+  variantId: clansoldier_beldoniandragon_belddragnsword_beldshield3
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: BeldonianDragon.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDONIANDRAGON.dtx
+    textureId: beldoniandragon
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: BeldDragnSword.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDDRAGNSWORD.dtx
+    textureId: belddragnsword
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 2
+    tableName: Beldshield3.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDSHIELD3.dtx
+    textureId: beldshield3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 273
+    number: '292'
+    name: Tamur Leng
+    baseName: ''
+    typePicture: NPC-14
+  - table: MONSTERS
+    row: 273
+    number: '292'
+    name: Tamur Leng
+    baseName: soldier
+    typePicture: NPC-14
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ClanSoldier.abc
+  skins:
+  - ClanSoldier1.dtx
+  - BeldSword.dtx
+  - Clanshield1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CLANSOLDIER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: clansoldier
+  variantId: clansoldier_clansoldier1_beldsword_clanshield1
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: ClanSoldier1.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSOLDIER1.dtx
+    textureId: clansoldier1
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: BeldSword.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDSWORD.dtx
+    textureId: beldsword
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 2
+    tableName: Clanshield1.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSHIELD1.dtx
+    textureId: clanshield1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 127
+    number: '132'
+    name: Clan Soldier
+    baseName: Soldier
+    typePicture: Clan SoldierA
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ClanSoldier.abc
+  skins:
+  - ClanSoldier1.dtx
+  - sword.dtx
+  - Clanshield1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CLANSOLDIER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: clansoldier
+  variantId: clansoldier_clansoldier1_sword_clanshield1
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: ClanSoldier1.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSOLDIER1.dtx
+    textureId: clansoldier1
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: sword.dtx
+    path: null
+    textureId: sword
+    version: null
+    bpp: null
+    error: missing texture sword.dtx
+  - materialIndex: 2
+    tableName: Clanshield1.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSHIELD1.dtx
+    textureId: clanshield1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 127
+    number: '132'
+    name: Clan Soldier
+    baseName: Soldier
+    typePicture: Clan SoldierA
+  warnings: []
+  errors:
+  - missing texture sword.dtx
+  - 'model uses material indices without resolved skins: [1]'
+  converted: true
+- modelName: ClanSoldier.abc
+  skins:
+  - ClanSoldier2.dtx
+  - BeldSword.dtx
+  - Clanshieldguard.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CLANSOLDIER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: clansoldier
+  variantId: clansoldier_clansoldier2_beldsword_clanshieldguard
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: ClanSoldier2.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSOLDIER2.dtx
+    textureId: clansoldier2
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: BeldSword.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDSWORD.dtx
+    textureId: beldsword
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 2
+    tableName: Clanshieldguard.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSHIELDGUARD.dtx
+    textureId: clanshieldguard
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 111
+    number: '110'
+    name: Town Guard
+    baseName: Guard
+    typePicture: Clan SoldierA
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ClanSoldier.abc
+  skins:
+  - ClanSoldier2.dtx
+  - sword.dtx
+  - Clanshieldguard.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CLANSOLDIER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: clansoldier
+  variantId: clansoldier_clansoldier2_sword_clanshieldguard
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: ClanSoldier2.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSOLDIER2.dtx
+    textureId: clansoldier2
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: sword.dtx
+    path: null
+    textureId: sword
+    version: null
+    bpp: null
+    error: missing texture sword.dtx
+  - materialIndex: 2
+    tableName: Clanshieldguard.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSHIELDGUARD.dtx
+    textureId: clanshieldguard
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 111
+    number: '110'
+    name: Wealthy-Town Guard
+    baseName: Guard
+    typePicture: Clan SoldierA
+  warnings: []
+  errors:
+  - missing texture sword.dtx
+  - 'model uses material indices without resolved skins: [1]'
+  converted: true
+- modelName: ClanSoldier.abc
+  skins:
+  - ClanSoldier6.dtx
+  - BeldSword.dtx
+  - Clanshield2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CLANSOLDIER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: clansoldier
+  variantId: clansoldier_clansoldier6_beldsword_clanshield2
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: ClanSoldier6.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSOLDIER6.dtx
+    textureId: clansoldier6
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: BeldSword.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDSWORD.dtx
+    textureId: beldsword
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 2
+    tableName: Clanshield2.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSHIELD2.dtx
+    textureId: clanshield2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 128
+    number: '133'
+    name: Clan Corporal
+    baseName: Soldier
+    typePicture: Clan SoldierB
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ClanSoldier.abc
+  skins:
+  - ClanSoldier6.dtx
+  - sword.dtx
+  - Clanshield2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CLANSOLDIER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: clansoldier
+  variantId: clansoldier_clansoldier6_sword_clanshield2
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: ClanSoldier6.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSOLDIER6.dtx
+    textureId: clansoldier6
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: sword.dtx
+    path: null
+    textureId: sword
+    version: null
+    bpp: null
+    error: missing texture sword.dtx
+  - materialIndex: 2
+    tableName: Clanshield2.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSHIELD2.dtx
+    textureId: clanshield2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 128
+    number: '133'
+    name: Clan Corporal
+    baseName: Soldier
+    typePicture: Clan SoldierB
+  warnings: []
+  errors:
+  - missing texture sword.dtx
+  - 'model uses material indices without resolved skins: [1]'
+  converted: true
+- modelName: ClanSoldier.abc
+  skins:
+  - ClanSoldier9.dtx
+  - BeldSword.dtx
+  - Clanshield3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CLANSOLDIER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: clansoldier
+  variantId: clansoldier_clansoldier9_beldsword_clanshield3
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: ClanSoldier9.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSOLDIER9.dtx
+    textureId: clansoldier9
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: BeldSword.dtx
+    path: mm9/extracted/SKINS/SKINS/BELDSWORD.dtx
+    textureId: beldsword
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 2
+    tableName: Clanshield3.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSHIELD3.dtx
+    textureId: clanshield3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 129
+    number: '134'
+    name: Clan Sergeant
+    baseName: Soldier
+    typePicture: Clan SoldierC
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ClanSoldier.abc
+  skins:
+  - ClanSoldier9.dtx
+  - sword.dtx
+  - Clanshield3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CLANSOLDIER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: clansoldier
+  variantId: clansoldier_clansoldier9_sword_clanshield3
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: ClanSoldier9.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSOLDIER9.dtx
+    textureId: clansoldier9
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: sword.dtx
+    path: null
+    textureId: sword
+    version: null
+    bpp: null
+    error: missing texture sword.dtx
+  - materialIndex: 2
+    tableName: Clanshield3.dtx
+    path: mm9/extracted/SKINS/SKINS/CLANSHIELD3.dtx
+    textureId: clanshield3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 129
+    number: '134'
+    name: Clan Sergeant
+    baseName: Soldier
+    typePicture: Clan SoldierC
+  warnings: []
+  errors:
+  - missing texture sword.dtx
+  - 'model uses material indices without resolved skins: [1]'
+  converted: true
+- modelName: ColloidalWarrior.abc
+  skins:
+  - Colloidal1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/COLLOIDALWARRIOR.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: colloidalwarrior
+  variantId: colloidalwarrior_colloidal1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Colloidal1.dtx
+    path: mm9/extracted/SKINS/SKINS/COLLOIDAL1.dtx
+    textureId: colloidal1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 215
+    number: '234'
+    name: Colloidal Soldier
+    baseName: Colloidal
+    typePicture: Strange Beast A
+  - table: MONSTERS
+    row: 215
+    number: '234'
+    name: Colloidal Soldier
+    baseName: Colloidal
+    typePicture: Strange Beast A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ColloidalWarrior.abc
+  skins:
+  - Colloidal2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/COLLOIDALWARRIOR.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: colloidalwarrior
+  variantId: colloidalwarrior_colloidal2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Colloidal2.dtx
+    path: mm9/extracted/SKINS/SKINS/COLLOIDAL2.dtx
+    textureId: colloidal2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 216
+    number: '235'
+    name: Colloidal Warrior
+    baseName: Colloidal
+    typePicture: Strange Beast B
+  - table: MONSTERS
+    row: 216
+    number: '235'
+    name: Colloidal Warrior
+    baseName: Colloidal
+    typePicture: Strange Beast B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ColloidalWarrior.abc
+  skins:
+  - Colloidal3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/COLLOIDALWARRIOR.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: colloidalwarrior
+  variantId: colloidalwarrior_colloidal3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Colloidal3.dtx
+    path: mm9/extracted/SKINS/SKINS/COLLOIDAL3.dtx
+    textureId: colloidal3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 217
+    number: '236'
+    name: Colloidal Guardian
+    baseName: Colloidal
+    typePicture: Strange Beast C
+  - table: MONSTERS
+    row: 217
+    number: '236'
+    name: Colloidal Guardian
+    baseName: Colloidal
+    typePicture: Strange Beast C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: cow.abc
+  skins:
+  - cow.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/COW.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: cow
+  variantId: cow_cow
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: cow.dtx
+    path: mm9/extracted/SKINS/SKINS/COW.dtx
+    textureId: cow
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 248
+    number: '267'
+    name: Cow
+    baseName: cow
+    typePicture: Cow
+  - table: MONSTERS
+    row: 248
+    number: '267'
+    name: Cow
+    baseName: cow
+    typePicture: Cow
+  warnings: []
+  errors: []
+  converted: true
+- modelName: cow.abc
+  skins:
+  - cowbrown.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/COW.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: cow
+  variantId: cow_cowbrown
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: cowbrown.dtx
+    path: mm9/extracted/SKINS/SKINS/COWBROWN.dtx
+    textureId: cowbrown
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 278
+    number: '297'
+    name: Brown Cow
+    baseName: cow
+    typePicture: Brown Cow
+  - table: MONSTERS
+    row: 278
+    number: '297'
+    name: Brown Cow
+    baseName: cow
+    typePicture: Brown Cow
+  warnings: []
+  errors: []
+  converted: true
+- modelName: crow.abc
+  skins:
+  - crow.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CROW.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: crow
+  variantId: crow_crow
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: crow.dtx
+    path: mm9/extracted/SKINS/SKINS/CROW.dtx
+    textureId: crow
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 94
+    number: '93'
+    name: Bird
+    baseName: ''
+    typePicture: Bird A
+  - table: ACTOR
+    row: 95
+    number: '94'
+    name: Bird
+    baseName: ''
+    typePicture: Bird B
+  - table: MONSTERS
+    row: 94
+    number: '93'
+    name: Bird
+    baseName: ''
+    typePicture: Bird A
+  - table: MONSTERS
+    row: 95
+    number: '94'
+    name: Bird
+    baseName: ''
+    typePicture: Bird B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: crow.abc
+  skins:
+  - drow.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/CROW.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: crow
+  variantId: crow_drow
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: drow.dtx
+    path: null
+    textureId: drow
+    version: null
+    bpp: null
+    error: missing texture drow.dtx
+  rows:
+  - table: ACTOR
+    row: 96
+    number: '95'
+    name: Bird
+    baseName: ''
+    typePicture: Bird C
+  - table: MONSTERS
+    row: 96
+    number: '95'
+    name: Bird
+    baseName: ''
+    typePicture: Bird C
+  warnings: []
+  errors:
+  - missing texture drow.dtx
+  - 'model uses material indices without resolved skins: [0]'
+  converted: true
+- modelName: dagrell.abc
+  skins:
+  - dagrell1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/DAGRELL.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: dagrell
+  variantId: dagrell_dagrell1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: dagrell1.dtx
+    path: mm9/extracted/SKINS/SKINS/DAGRELL1.dtx
+    textureId: dagrell1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 139
+    number: '147'
+    name: Dagrell
+    baseName: Dagrell
+    typePicture: Dagrell A
+  - table: MONSTERS
+    row: 139
+    number: '147'
+    name: Dagrell
+    baseName: Dagrell
+    typePicture: Dagrell A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: dagrell.abc
+  skins:
+  - dagrell2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/DAGRELL.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: dagrell
+  variantId: dagrell_dagrell2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: dagrell2.dtx
+    path: mm9/extracted/SKINS/SKINS/DAGRELL2.dtx
+    textureId: dagrell2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 140
+    number: '148'
+    name: Venomous Dagrell
+    baseName: Dagrell
+    typePicture: Dagrell B
+  - table: MONSTERS
+    row: 140
+    number: '148'
+    name: Venomous Dagrell
+    baseName: Dagrell
+    typePicture: Dagrell B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: dagrell.abc
+  skins:
+  - dagrell3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/DAGRELL.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: dagrell
+  variantId: dagrell_dagrell3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: dagrell3.dtx
+    path: mm9/extracted/SKINS/SKINS/DAGRELL3.dtx
+    textureId: dagrell3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 141
+    number: '149'
+    name: Spectre Dagrell
+    baseName: Dagrell
+    typePicture: Dagrell C
+  - table: MONSTERS
+    row: 141
+    number: '149'
+    name: Spectre Dagrell
+    baseName: Dagrell
+    typePicture: Dagrell C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: dog.abc
+  skins:
+  - dog.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/DOG.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: dog
+  variantId: dog_dog
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: dog.dtx
+    path: mm9/extracted/SKINS/SKINS/DOG.dtx
+    textureId: dog
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 276
+    number: '295'
+    name: dog
+    baseName: ''
+    typePicture: Dog
+  - table: MONSTERS
+    row: 276
+    number: '295'
+    name: dog
+    baseName: dog
+    typePicture: Dog
+  warnings: []
+  errors: []
+  converted: true
+- modelName: dookmilitia.abc
+  skins: []
+  modelPath: mm9/extracted/MODELS/MODELS/DOOKMILITIA.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: dookmilitia
+  variantId: dookmilitia
+  materials:
+  - 0
+  - 1
+  textures: []
+  rows:
+  - table: MONSTERS
+    row: 284
+    number: '303'
+    name: Phantom Fighter
+    baseName: Phantom
+    typePicture: Guard A
+  warnings: []
+  errors:
+  - missing actor skin binding for material indices [0, 1]; no table skins or exact
+    model-name DTX fallback
+  converted: true
+- modelName: dookmilitia.abc
+  skins:
+  - DookMilitia1.dtx
+  - dooksword.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/DOOKMILITIA.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: dookmilitia
+  variantId: dookmilitia_dookmilitia1_dooksword
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: DookMilitia1.dtx
+    path: mm9/extracted/SKINS/SKINS/DOOKMILITIA1.dtx
+    textureId: dookmilitia1
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: dooksword.dtx
+    path: mm9/extracted/SKINS/SKINS/DOOKSWORD.dtx
+    textureId: dooksword
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 103
+    number: '102'
+    name: Half Orc Recruit
+    baseName: ''
+    typePicture: Militiaman A
+  - table: ACTOR
+    row: 104
+    number: '103'
+    name: Half Orc Soldier
+    baseName: ''
+    typePicture: Militiaman B
+  - table: ACTOR
+    row: 109
+    number: '108'
+    name: Poor-Town Guard
+    baseName: Guard
+    typePicture: Militiaman A
+  - table: MONSTERS
+    row: 103
+    number: '102'
+    name: Half Orc Recruit
+    baseName: dookmilitia
+    typePicture: Militiaman A
+  - table: MONSTERS
+    row: 109
+    number: '108'
+    name: Town Guard
+    baseName: Guard
+    typePicture: Militiaman A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: dookmilitia.abc
+  skins:
+  - DookMilitia2.dtx
+  - dooksword.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/DOOKMILITIA.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: dookmilitia
+  variantId: dookmilitia_dookmilitia2_dooksword
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: DookMilitia2.dtx
+    path: mm9/extracted/SKINS/SKINS/DOOKMILITIA2.dtx
+    textureId: dookmilitia2
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: dooksword.dtx
+    path: mm9/extracted/SKINS/SKINS/DOOKSWORD.dtx
+    textureId: dooksword
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 105
+    number: '104'
+    name: Half Orc Captain
+    baseName: ''
+    typePicture: Militiaman C
+  - table: MONSTERS
+    row: 104
+    number: '103'
+    name: Half Orc Soldier
+    baseName: dookmilitia
+    typePicture: Militiaman B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: dookmilitia.abc
+  skins:
+  - DookMilitia3.dtx
+  - dooksword.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/DOOKMILITIA.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: dookmilitia
+  variantId: dookmilitia_dookmilitia3_dooksword
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: DookMilitia3.dtx
+    path: mm9/extracted/SKINS/SKINS/DOOKMILITIA3.dtx
+    textureId: dookmilitia3
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: dooksword.dtx
+    path: mm9/extracted/SKINS/SKINS/DOOKSWORD.dtx
+    textureId: dooksword
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 105
+    number: '104'
+    name: Half Orc Captain
+    baseName: dookmilitia
+    typePicture: Militiaman C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: dragon.abc
+  skins:
+  - greendragon.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/DRAGON.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: dragon
+  variantId: dragon_greendragon
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: greendragon.dtx
+    path: null
+    textureId: greendragon
+    version: null
+    bpp: null
+    error: missing texture greendragon.dtx
+  rows:
+  - table: ACTOR
+    row: 199
+    number: '212'
+    name: Dragon King
+    baseName: Dragon
+    typePicture: Dragon
+  warnings: []
+  errors:
+  - missing texture greendragon.dtx
+  - 'model uses material indices without resolved skins: [0]'
+  converted: true
+- modelName: dragon.abc
+  skins:
+  - greendragonlt.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/DRAGON.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: dragon
+  variantId: dragon_greendragonlt
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: greendragonlt.dtx
+    path: mm9/extracted/SKINS/SKINS/GREENDRAGONLT.dtx
+    textureId: greendragonlt
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 199
+    number: '212'
+    name: Dragon King
+    baseName: Dragon
+    typePicture: Dragon
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Dragonfly.abc
+  skins:
+  - dragonfly1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/DRAGONFLY.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: dragonfly
+  variantId: dragonfly_dragonfly1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: dragonfly1.dtx
+    path: mm9/extracted/SKINS/SKINS/DRAGONFLY1.dtx
+    textureId: dragonfly1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 76
+    number: '75'
+    name: Dragonfly Mite
+    baseName: Dragonfly
+    typePicture: Dragonfly A
+  - table: MONSTERS
+    row: 76
+    number: '75'
+    name: Dragonfly Mite
+    baseName: Dragonfly
+    typePicture: Dragonfly A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Dragonfly.abc
+  skins:
+  - dragonfly2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/DRAGONFLY.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: dragonfly
+  variantId: dragonfly_dragonfly2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: dragonfly2.dtx
+    path: mm9/extracted/SKINS/SKINS/DRAGONFLY2.dtx
+    textureId: dragonfly2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 77
+    number: '76'
+    name: Dragonfly
+    baseName: Dragonfly
+    typePicture: Dragonfly B
+  - table: MONSTERS
+    row: 77
+    number: '76'
+    name: Dragonfly
+    baseName: Dragonfly
+    typePicture: Dragonfly B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Dragonfly.abc
+  skins:
+  - dragonfly3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/DRAGONFLY.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: dragonfly
+  variantId: dragonfly_dragonfly3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: dragonfly3.dtx
+    path: mm9/extracted/SKINS/SKINS/DRAGONFLY3.dtx
+    textureId: dragonfly3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 78
+    number: '77'
+    name: Fire Dragonfly
+    baseName: Dragonfly
+    typePicture: Dragonfly C
+  - table: MONSTERS
+    row: 78
+    number: '77'
+    name: Fire Dragonfly
+    baseName: Dragonfly
+    typePicture: Dragonfly C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: dwarf.abc
+  skins:
+  - dwarf.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/DWARF.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: dwarf
+  variantId: dwarf_dwarf
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: dwarf.dtx
+    path: mm9/extracted/SKINS/SKINS/DWARF.dtx
+    textureId: dwarf
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 118
+    number: '120'
+    name: Dwarven Guard
+    baseName: Dwarf
+    typePicture: Dwarf A
+  - table: ACTOR
+    row: 119
+    number: '121'
+    name: Dwarven Soldier
+    baseName: Dwarf
+    typePicture: Dwarf B
+  - table: ACTOR
+    row: 120
+    number: '122'
+    name: Dwarven Commander
+    baseName: Dwarf
+    typePicture: Dwarf C
+  - table: MONSTERS
+    row: 118
+    number: '120'
+    name: Dwarven Guard
+    baseName: Dwarf
+    typePicture: Dwarf A
+  - table: MONSTERS
+    row: 119
+    number: '121'
+    name: Dwarven Soldier
+    baseName: Dwarf
+    typePicture: Dwarf B
+  - table: MONSTERS
+    row: 120
+    number: '122'
+    name: Dwarven Commander
+    baseName: Dwarf
+    typePicture: Dwarf C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ebora.abc
+  skins:
+  - ebora.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/EBORA.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: ebora
+  variantId: ebora_ebora
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: ebora.dtx
+    path: mm9/extracted/SKINS/SKINS/EBORA.dtx
+    textureId: ebora
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 282
+    number: '301'
+    name: Ebora
+    baseName: PeasantFemale
+    typePicture: Ebora
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ebora.abc
+  skins:
+  - siren1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/EBORA.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: ebora
+  variantId: ebora_siren1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: siren1.dtx
+    path: mm9/extracted/SKINS/SKINS/SIREN1.dtx
+    textureId: siren1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 283
+    number: '302'
+    name: Concubine
+    baseName: PeasantFemale
+    typePicture: Concubine
+  warnings: []
+  errors: []
+  converted: true
+- modelName: EvileyeTerror.abc
+  skins:
+  - Orbus1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/EVILEYETERROR.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: evileyeterror
+  variantId: evileyeterror_orbus1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Orbus1.dtx
+    path: mm9/extracted/SKINS/SKINS/ORBUS1.dtx
+    textureId: orbus1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 212
+    number: '228'
+    name: Eye
+    baseName: Beholder
+    typePicture: Beholder A
+  - table: MONSTERS
+    row: 212
+    number: '228'
+    name: Eye
+    baseName: Beholder
+    typePicture: Beholder A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: EvileyeTerror.abc
+  skins:
+  - Orbus2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/EVILEYETERROR.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: evileyeterror
+  variantId: evileyeterror_orbus2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Orbus2.dtx
+    path: mm9/extracted/SKINS/SKINS/ORBUS2.dtx
+    textureId: orbus2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 213
+    number: '229'
+    name: Orbus
+    baseName: Beholder
+    typePicture: Beholder B
+  - table: MONSTERS
+    row: 213
+    number: '229'
+    name: Orbus
+    baseName: Beholder
+    typePicture: Beholder B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: EvileyeTerror.abc
+  skins:
+  - Orbus3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/EVILEYETERROR.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: evileyeterror
+  variantId: evileyeterror_orbus3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Orbus3.dtx
+    path: mm9/extracted/SKINS/SKINS/ORBUS3.dtx
+    textureId: orbus3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 214
+    number: '230'
+    name: Oculus
+    baseName: Beholder
+    typePicture: Beholder C
+  - table: MONSTERS
+    row: 214
+    number: '230'
+    name: Oculus
+    baseName: Beholder
+    typePicture: Beholder C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: EvilSorcerer.abc
+  skins:
+  - EvilSorcerer1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/EVILSORCERER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: evilsorcerer
+  variantId: evilsorcerer_evilsorcerer1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: EvilSorcerer1.dtx
+    path: mm9/extracted/SKINS/SKINS/EVILSORCERER1.dtx
+    textureId: evilsorcerer1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 148
+    number: '156'
+    name: Evil Apprentice
+    baseName: ''
+    typePicture: EvilSorcerer A
+  - table: MONSTERS
+    row: 148
+    number: '156'
+    name: Evil Apprentice
+    baseName: EvilSorcerer
+    typePicture: EvilSorcerer A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: EvilSorcerer.abc
+  skins:
+  - EvilSorcerer2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/EVILSORCERER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: evilsorcerer
+  variantId: evilsorcerer_evilsorcerer2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: EvilSorcerer2.dtx
+    path: mm9/extracted/SKINS/SKINS/EVILSORCERER2.dtx
+    textureId: evilsorcerer2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 149
+    number: '157'
+    name: Evil Sorcerer
+    baseName: ''
+    typePicture: EvilSorcerer B
+  - table: MONSTERS
+    row: 149
+    number: '157'
+    name: Evil Sorcerer
+    baseName: EvilSorcerer
+    typePicture: EvilSorcerer B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: EvilSorcerer.abc
+  skins:
+  - EvilSorcerer3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/EVILSORCERER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: evilsorcerer
+  variantId: evilsorcerer_evilsorcerer3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: EvilSorcerer3.dtx
+    path: mm9/extracted/SKINS/SKINS/EVILSORCERER3.dtx
+    textureId: evilsorcerer3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 150
+    number: '158'
+    name: Evil Grand Sorcerer
+    baseName: ''
+    typePicture: EvilSorcerer C
+  - table: MONSTERS
+    row: 150
+    number: '158'
+    name: Evil Grand Sorcerer
+    baseName: EvilSorcerer
+    typePicture: EvilSorcerer C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: fish.abc
+  skins:
+  - fish.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/FISH.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: fish
+  variantId: fish_fish
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: fish.dtx
+    path: mm9/extracted/SKINS/SKINS/FISH.dtx
+    textureId: fish
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 211
+    number: '227'
+    name: Fish
+    baseName: ''
+    typePicture: Fish
+  - table: MONSTERS
+    row: 211
+    number: '227'
+    name: Fish
+    baseName: Fish
+    typePicture: Fish
+  warnings: []
+  errors: []
+  converted: true
+- modelName: flyingicky.abc
+  skins:
+  - flyingicky.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/FLYINGICKY.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: flyingicky
+  variantId: flyingicky_flyingicky
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: flyingicky.dtx
+    path: mm9/extracted/SKINS/SKINS/FLYINGICKY.dtx
+    textureId: flyingicky
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 88
+    number: '87'
+    name: Airborne Icky
+    baseName: ''
+    typePicture: Flying Icky A
+  - table: ACTOR
+    row: 89
+    number: '88'
+    name: Flying Icky
+    baseName: ''
+    typePicture: Flying Icky B
+  - table: ACTOR
+    row: 90
+    number: '89'
+    name: Astral Icky
+    baseName: ''
+    typePicture: Flying Icky C
+  - table: MONSTERS
+    row: 88
+    number: '87'
+    name: Airborne Icky
+    baseName: FlyingIcky
+    typePicture: Flying Icky A
+  - table: MONSTERS
+    row: 89
+    number: '88'
+    name: Flying Icky
+    baseName: FlyingIcky
+    typePicture: Flying Icky B
+  - table: MONSTERS
+    row: 90
+    number: '89'
+    name: Astral Icky
+    baseName: FlyingIcky
+    typePicture: Flying Icky C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ForadDarre.abc
+  skins:
+  - ForadDarre.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/FORADDARRE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: foraddarre
+  variantId: foraddarre_foraddarre
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: ForadDarre.dtx
+    path: mm9/extracted/SKINS/SKINS/FORADDARRE.dtx
+    textureId: foraddarre
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 233
+    number: '252'
+    name: Forad Darre
+    baseName: ''
+    typePicture: Forad Darre
+  - table: MONSTERS
+    row: 233
+    number: '252'
+    name: Forad Darre
+    baseName: PeasantMale
+    typePicture: NPC-15
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Fre.abc
+  skins:
+  - Fre.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/FRE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: fre
+  variantId: fre_fre
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Fre.dtx
+    path: mm9/extracted/SKINS/SKINS/FRE.dtx
+    textureId: fre
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 237
+    number: '256'
+    name: Fre
+    baseName: ''
+    typePicture: Fre
+  - table: MONSTERS
+    row: 237
+    number: '256'
+    name: Fre
+    baseName: PeasantFemale
+    typePicture: Fre
+  warnings: []
+  errors: []
+  converted: true
+- modelName: gezzampt.abc
+  skins:
+  - Gezzampt.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GEZZAMPT.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: gezzampt
+  variantId: gezzampt_gezzampt
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Gezzampt.dtx
+    path: mm9/extracted/SKINS/SKINS/GEZZAMPT.dtx
+    textureId: gezzampt
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 163
+    number: '171'
+    name: Gezzamptling
+    baseName: Gezzampt
+    typePicture: Gezzampt A
+  - table: MONSTERS
+    row: 163
+    number: '171'
+    name: Gezzamptling
+    baseName: Gezzampt
+    typePicture: Gezzampt A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: gezzampt.abc
+  skins:
+  - Gezzampt2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GEZZAMPT.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: gezzampt
+  variantId: gezzampt_gezzampt2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Gezzampt2.dtx
+    path: mm9/extracted/SKINS/SKINS/GEZZAMPT2.dtx
+    textureId: gezzampt2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 164
+    number: '172'
+    name: Gezzampt
+    baseName: Gezzampt
+    typePicture: Gezzampt B
+  - table: MONSTERS
+    row: 164
+    number: '172'
+    name: Gezzampt
+    baseName: Gezzampt
+    typePicture: Gezzampt B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: gezzampt.abc
+  skins:
+  - Gezzampt3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GEZZAMPT.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: gezzampt
+  variantId: gezzampt_gezzampt3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Gezzampt3.dtx
+    path: mm9/extracted/SKINS/SKINS/GEZZAMPT3.dtx
+    textureId: gezzampt3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 165
+    number: '173'
+    name: Gezzampt Elder
+    baseName: Gezzampt
+    typePicture: Gezzampt C
+  - table: MONSTERS
+    row: 165
+    number: '173'
+    name: Gezzampt Elder
+    baseName: Gezzampt
+    typePicture: Gezzampt C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ghost.abc
+  skins:
+  - ghost.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GHOST.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: ghost
+  variantId: ghost_ghost
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: ghost.dtx
+    path: null
+    textureId: ghost
+    version: null
+    bpp: null
+    error: missing texture ghost.dtx
+  rows:
+  - table: ACTOR
+    row: 133
+    number: '138'
+    name: Shadow
+    baseName: ''
+    typePicture: Ghost A
+  - table: ACTOR
+    row: 134
+    number: '139'
+    name: Apparition
+    baseName: ''
+    typePicture: Ghost B
+  - table: ACTOR
+    row: 135
+    number: '140'
+    name: Specter
+    baseName: ''
+    typePicture: Ghost C
+  warnings: []
+  errors:
+  - missing texture ghost.dtx
+  - 'model uses material indices without resolved skins: [0]'
+  converted: true
+- modelName: ghost.abc
+  skins:
+  - ghost1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GHOST.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: ghost
+  variantId: ghost_ghost1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: ghost1.dtx
+    path: mm9/extracted/SKINS/SKINS/GHOST1.dtx
+    textureId: ghost1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 133
+    number: '138'
+    name: Shadow
+    baseName: ghost
+    typePicture: Ghost A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ghost.abc
+  skins:
+  - ghost2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GHOST.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: ghost
+  variantId: ghost_ghost2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: ghost2.dtx
+    path: mm9/extracted/SKINS/SKINS/GHOST2.dtx
+    textureId: ghost2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 134
+    number: '139'
+    name: Apparition
+    baseName: ghost
+    typePicture: Ghost B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ghost.abc
+  skins:
+  - ghost3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GHOST.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: ghost
+  variantId: ghost_ghost3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: ghost3.dtx
+    path: mm9/extracted/SKINS/SKINS/GHOST3.dtx
+    textureId: ghost3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 135
+    number: '140'
+    name: Specter
+    baseName: ghost
+    typePicture: Ghost C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ghoul.abc
+  skins:
+  - ghoul1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GHOUL.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: ghoul
+  variantId: ghoul_ghoul1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: ghoul1.dtx
+    path: mm9/extracted/SKINS/SKINS/GHOUL1.dtx
+    textureId: ghoul1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 166
+    number: '174'
+    name: Ghast
+    baseName: Ghoul
+    typePicture: Ghoul A
+  - table: MONSTERS
+    row: 166
+    number: '174'
+    name: Ghast
+    baseName: Ghoul
+    typePicture: Ghoul A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ghoul.abc
+  skins:
+  - ghoul2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GHOUL.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: ghoul
+  variantId: ghoul_ghoul2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: ghoul2.dtx
+    path: mm9/extracted/SKINS/SKINS/GHOUL2.dtx
+    textureId: ghoul2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 167
+    number: '175'
+    name: Ghoul
+    baseName: Ghoul
+    typePicture: Ghoul B
+  - table: MONSTERS
+    row: 167
+    number: '175'
+    name: Ghoul
+    baseName: Ghoul
+    typePicture: Ghoul B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ghoul.abc
+  skins:
+  - ghoul3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GHOUL.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: ghoul
+  variantId: ghoul_ghoul3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: ghoul3.dtx
+    path: mm9/extracted/SKINS/SKINS/GHOUL3.dtx
+    textureId: ghoul3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 168
+    number: '176'
+    name: Revenant
+    baseName: Ghoul
+    typePicture: Ghoul C
+  - table: MONSTERS
+    row: 168
+    number: '176'
+    name: Revenant
+    baseName: Ghoul
+    typePicture: Ghoul C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Giant.ABC
+  skins:
+  - giant2.dtx
+  - GiantMallet.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GIANT.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: giant
+  variantId: giant_giant2_giantmallet
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: giant2.dtx
+    path: mm9/extracted/SKINS/SKINS/GIANT2.dtx
+    textureId: giant2
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: GiantMallet.dtx
+    path: mm9/extracted/SKINS/SKINS/GIANTMALLET.dtx
+    textureId: giantmallet
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 193
+    number: '204'
+    name: Plain Giant
+    baseName: Giant
+    typePicture: Giant A
+  - table: MONSTERS
+    row: 193
+    number: '204'
+    name: Plain Giant
+    baseName: Giant
+    typePicture: Giant A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Giant.ABC
+  skins:
+  - giant3.dtx
+  - YanmirMallet.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GIANT.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: giant
+  variantId: giant_giant3_yanmirmallet
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: giant3.dtx
+    path: mm9/extracted/SKINS/SKINS/GIANT3.dtx
+    textureId: giant3
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: YanmirMallet.dtx
+    path: mm9/extracted/SKINS/SKINS/YANMIRMALLET.dtx
+    textureId: yanmirmallet
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 194
+    number: '205'
+    name: Forest Giant
+    baseName: Giant
+    typePicture: Giant B
+  - table: MONSTERS
+    row: 194
+    number: '205'
+    name: Forest Giant
+    baseName: Giant
+    typePicture: Giant B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: goat.abc
+  skins:
+  - goat.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GOAT.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: goat
+  variantId: goat_goat
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: goat.dtx
+    path: mm9/extracted/SKINS/SKINS/GOAT.dtx
+    textureId: goat
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 249
+    number: '268'
+    name: Goat
+    baseName: goat
+    typePicture: Goat
+  - table: MONSTERS
+    row: 249
+    number: '268'
+    name: Goat
+    baseName: goat
+    typePicture: Goat
+  warnings: []
+  errors: []
+  converted: true
+- modelName: goose.abc
+  skins:
+  - goose.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GOOSE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: goose
+  variantId: goose_goose
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: goose.dtx
+    path: mm9/extracted/SKINS/SKINS/GOOSE.dtx
+    textureId: goose
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 274
+    number: '293'
+    name: Goose
+    baseName: ''
+    typePicture: goose
+  - table: MONSTERS
+    row: 274
+    number: '293'
+    name: Goose
+    baseName: goose
+    typePicture: goose
+  warnings: []
+  errors: []
+  converted: true
+- modelName: goose.abc
+  skins:
+  - goosebrown.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GOOSE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: goose
+  variantId: goose_goosebrown
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: goosebrown.dtx
+    path: mm9/extracted/SKINS/SKINS/GOOSEBROWN.dtx
+    textureId: goosebrown
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 243
+    number: '262'
+    name: The Great Honk
+    baseName: ''
+    typePicture: God's Pet
+  - table: MONSTERS
+    row: 243
+    number: '262'
+    name: The Great Honk
+    baseName: goose
+    typePicture: God's Pet
+  warnings: []
+  errors: []
+  converted: true
+- modelName: greenman.abc
+  skins:
+  - greenman.dtx
+  - Greenmanstaff.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GREENMAN.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: greenman
+  variantId: greenman_greenman_greenmanstaff
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: greenman.dtx
+    path: mm9/extracted/SKINS/SKINS/GREENMAN.dtx
+    textureId: greenman
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: Greenmanstaff.dtx
+    path: mm9/extracted/SKINS/SKINS/GREENMANSTAFF.dtx
+    textureId: greenmanstaff
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 247
+    number: '266'
+    name: Green Man
+    baseName: ''
+    typePicture: Green Man
+  - table: MONSTERS
+    row: 247
+    number: '266'
+    name: Green Man
+    baseName: PeasantMale
+    typePicture: Green Man
+  warnings: []
+  errors: []
+  converted: true
+- modelName: guard.abc
+  skins:
+  - Guard1.dtx
+  - guardpole.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GUARD.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: guard
+  variantId: guard_guard1_guardpole
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: Guard1.dtx
+    path: mm9/extracted/SKINS/SKINS/GUARD1.dtx
+    textureId: guard1
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: guardpole.dtx
+    path: mm9/extracted/SKINS/SKINS/GUARDPOLE.dtx
+    textureId: guardpole
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 108
+    number: '107'
+    name: Poor-Town Guard
+    baseName: Guard
+    typePicture: Guard A
+  - table: ACTOR
+    row: 112
+    number: '111'
+    name: Guard
+    baseName: Guard
+    typePicture: Guard A
+  - table: MONSTERS
+    row: 108
+    number: '107'
+    name: Town Guard
+    baseName: Guard
+    typePicture: Guard A
+  - table: MONSTERS
+    row: 112
+    number: '111'
+    name: Guard
+    baseName: Guard
+    typePicture: Guard A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: guard.abc
+  skins:
+  - Guard2.dtx
+  - guardpole.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GUARD.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: guard
+  variantId: guard_guard2_guardpole
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: Guard2.dtx
+    path: mm9/extracted/SKINS/SKINS/GUARD2.dtx
+    textureId: guard2
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: guardpole.dtx
+    path: mm9/extracted/SKINS/SKINS/GUARDPOLE.dtx
+    textureId: guardpole
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 113
+    number: '112'
+    name: Guard Segeant
+    baseName: Guard
+    typePicture: Guard B
+  - table: MONSTERS
+    row: 113
+    number: '112'
+    name: Guard Segeant
+    baseName: Guard
+    typePicture: Guard B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: guard.abc
+  skins:
+  - Guard3.dtx
+  - guardpole2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/GUARD.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: guard
+  variantId: guard_guard3_guardpole2
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: Guard3.dtx
+    path: mm9/extracted/SKINS/SKINS/GUARD3.dtx
+    textureId: guard3
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: guardpole2.dtx
+    path: mm9/extracted/SKINS/SKINS/GUARDPOLE2.dtx
+    textureId: guardpole2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 110
+    number: '109'
+    name: Wealthy-Town Guard
+    baseName: Guard
+    typePicture: Guard C
+  - table: ACTOR
+    row: 114
+    number: '113'
+    name: Guard Captain
+    baseName: Guard
+    typePicture: Guard C
+  - table: MONSTERS
+    row: 110
+    number: '109'
+    name: Town Guard
+    baseName: Guard
+    typePicture: Guard C
+  - table: MONSTERS
+    row: 114
+    number: '113'
+    name: Guard Captain
+    baseName: Guard
+    typePicture: Guard C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: hag.abc
+  skins:
+  - hag.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/HAG.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: hag
+  variantId: hag_hag
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: hag.dtx
+    path: mm9/extracted/SKINS/SKINS/HAG.dtx
+    textureId: hag
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 226
+    number: '245'
+    name: Old Hag
+    baseName: PeasantFemale
+    typePicture: Old Hag
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Hanndl.abc
+  skins:
+  - Hanndl.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/HANNDL.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: hanndl
+  variantId: hanndl_hanndl
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Hanndl.dtx
+    path: mm9/extracted/SKINS/SKINS/HANNDL.dtx
+    textureId: hanndl
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 241
+    number: '260'
+    name: Hanndl
+    baseName: PeasantMale
+    typePicture: Gate Keeper
+  warnings: []
+  errors: []
+  converted: true
+- modelName: hen.abc
+  skins:
+  - hen.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/HEN.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: hen
+  variantId: hen_hen
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: hen.dtx
+    path: mm9/extracted/SKINS/SKINS/HEN.dtx
+    textureId: hen
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 250
+    number: '269'
+    name: Hen
+    baseName: hen
+    typePicture: Hen
+  - table: MONSTERS
+    row: 250
+    number: '269'
+    name: Hen
+    baseName: hen
+    typePicture: Hen
+  warnings: []
+  errors: []
+  converted: true
+- modelName: highwayman.abc
+  skins:
+  - highwayman1.dtx
+  - HighwaymanSS.dtx
+  - highwaymandagger.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/HIGHWAYMAN.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: highwayman
+  variantId: highwayman_highwayman1_highwaymanss_highwaymandagger
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: highwayman1.dtx
+    path: mm9/extracted/SKINS/SKINS/HIGHWAYMAN1.dtx
+    textureId: highwayman1
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: HighwaymanSS.dtx
+    path: mm9/extracted/SKINS/SKINS/HIGHWAYMANSS.dtx
+    textureId: highwaymanss
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 2
+    tableName: highwaymandagger.dtx
+    path: mm9/extracted/SKINS/SKINS/HIGHWAYMANDAGGER.dtx
+    textureId: highwaymandagger
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 100
+    number: '99'
+    name: Cutpurse
+    baseName: ''
+    typePicture: Raider A
+  - table: MONSTERS
+    row: 100
+    number: '99'
+    name: Cutpurse
+    baseName: Highwayman
+    typePicture: Raider A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: highwayman.abc
+  skins:
+  - highwayman2.dtx
+  - HighwaymanSS.dtx
+  - highwaymandagger.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/HIGHWAYMAN.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: highwayman
+  variantId: highwayman_highwayman2_highwaymanss_highwaymandagger
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: highwayman2.dtx
+    path: mm9/extracted/SKINS/SKINS/HIGHWAYMAN2.dtx
+    textureId: highwayman2
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: HighwaymanSS.dtx
+    path: mm9/extracted/SKINS/SKINS/HIGHWAYMANSS.dtx
+    textureId: highwaymanss
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 2
+    tableName: highwaymandagger.dtx
+    path: mm9/extracted/SKINS/SKINS/HIGHWAYMANDAGGER.dtx
+    textureId: highwaymandagger
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 101
+    number: '100'
+    name: Burgler
+    baseName: ''
+    typePicture: Raider B
+  - table: MONSTERS
+    row: 101
+    number: '100'
+    name: Burglar
+    baseName: Highwayman
+    typePicture: Raider B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: highwayman.abc
+  skins:
+  - highwayman3.dtx
+  - HighwaymanSS.dtx
+  - highwaymandagger.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/HIGHWAYMAN.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: highwayman
+  variantId: highwayman_highwayman3_highwaymanss_highwaymandagger
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: highwayman3.dtx
+    path: mm9/extracted/SKINS/SKINS/HIGHWAYMAN3.dtx
+    textureId: highwayman3
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: HighwaymanSS.dtx
+    path: mm9/extracted/SKINS/SKINS/HIGHWAYMANSS.dtx
+    textureId: highwaymanss
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 2
+    tableName: highwaymandagger.dtx
+    path: mm9/extracted/SKINS/SKINS/HIGHWAYMANDAGGER.dtx
+    textureId: highwaymandagger
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 102
+    number: '101'
+    name: Bandit
+    baseName: ''
+    typePicture: Raider C
+  - table: MONSTERS
+    row: 102
+    number: '101'
+    name: Bandit
+    baseName: Highwayman
+    typePicture: Raider C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: honkfemale.abc
+  skins:
+  - honkf1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/HONKFEMALE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: honkfemale
+  variantId: honkfemale_honkf1
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: honkf1.dtx
+    path: mm9/extracted/SKINS/SKINS/HONKF1.dtx
+    textureId: honkf1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 178
+    number: '186'
+    name: Honk
+    baseName: ''
+    typePicture: Honk Worshipper A
+  warnings: []
+  errors:
+  - 'model uses material indices without resolved skins: [1]'
+  converted: true
+- modelName: honkfemale.abc
+  skins:
+  - honkf1.dtx
+  - honkhat.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/HONKFEMALE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: honkfemale
+  variantId: honkfemale_honkf1_honkhat
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: honkf1.dtx
+    path: mm9/extracted/SKINS/SKINS/HONKF1.dtx
+    textureId: honkf1
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: honkhat.dtx
+    path: mm9/extracted/SKINS/SKINS/HONKHAT.dtx
+    textureId: honkhat
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 178
+    number: '186'
+    name: Honk
+    baseName: Honk Worshipper
+    typePicture: Honk Worshipper A
+  warnings:
+  - 'duplicate texture basename candidates for honkhat.dtx: mm9/extracted/SKINS/SKINS/HONKHAT.dtx,
+    mm9/extracted/SKINS/SKINS/MODELPROPS/HONKHAT.dtx'
+  errors: []
+  converted: true
+- modelName: honkfemale.abc
+  skins:
+  - honkf3.dtx
+  - honkhat.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/HONKFEMALE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: honkfemale
+  variantId: honkfemale_honkf3_honkhat
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: honkf3.dtx
+    path: mm9/extracted/SKINS/SKINS/HONKF3.dtx
+    textureId: honkf3
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: honkhat.dtx
+    path: mm9/extracted/SKINS/SKINS/HONKHAT.dtx
+    textureId: honkhat
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 201
+    number: '217'
+    name: Elder Honk
+    baseName: ''
+    typePicture: Honk Worshipper2 B
+  - table: MONSTERS
+    row: 201
+    number: '217'
+    name: Elder Honk
+    baseName: Honk Worshipper
+    typePicture: Honk Worshipper2 B
+  warnings:
+  - 'duplicate texture basename candidates for honkhat.dtx: mm9/extracted/SKINS/SKINS/HONKHAT.dtx,
+    mm9/extracted/SKINS/SKINS/MODELPROPS/HONKHAT.dtx'
+  errors: []
+  converted: true
+- modelName: honkmale.abc
+  skins:
+  - honkleader.dtx
+  - elderhonkhat.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/HONKMALE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: honkmale
+  variantId: honkmale_honkleader_elderhonkhat
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: honkleader.dtx
+    path: mm9/extracted/SKINS/SKINS/HONKLEADER.dtx
+    textureId: honkleader
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: elderhonkhat.dtx
+    path: mm9/extracted/SKINS/SKINS/MODELPROPS/ELDERHONKHAT.dtx
+    textureId: elderhonkhat
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 180
+    number: '188'
+    name: Honk Seer
+    baseName: ''
+    typePicture: Honk Worshipper C
+  - table: MONSTERS
+    row: 180
+    number: '188'
+    name: Honk Seer
+    baseName: Honk Worshipper
+    typePicture: Honk Worshipper C
+  warnings:
+  - 'table provides skins for unused material indices: [1]'
+  errors: []
+  converted: true
+- modelName: honkmale.abc
+  skins:
+  - honkm2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/HONKMALE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: honkmale
+  variantId: honkmale_honkm2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: honkm2.dtx
+    path: mm9/extracted/SKINS/SKINS/HONKM2.dtx
+    textureId: honkm2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 200
+    number: '216'
+    name: Honk
+    baseName: ''
+    typePicture: Honk Worshipper2 A
+  - table: MONSTERS
+    row: 200
+    number: '216'
+    name: Honk
+    baseName: Honk Worshipper
+    typePicture: Honk Worshipper2 A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: honkmale.abc
+  skins:
+  - honkm3.dtx
+  - honkhat.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/HONKMALE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: honkmale
+  variantId: honkmale_honkm3_honkhat
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: honkm3.dtx
+    path: mm9/extracted/SKINS/SKINS/HONKM3.dtx
+    textureId: honkm3
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: honkhat.dtx
+    path: mm9/extracted/SKINS/SKINS/HONKHAT.dtx
+    textureId: honkhat
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 179
+    number: '187'
+    name: Elder Honk
+    baseName: ''
+    typePicture: Honk Worshipper B
+  - table: MONSTERS
+    row: 179
+    number: '187'
+    name: Elder Honk
+    baseName: Honk Worshipper
+    typePicture: Honk Worshipper B
+  warnings:
+  - 'duplicate texture basename candidates for honkhat.dtx: mm9/extracted/SKINS/SKINS/HONKHAT.dtx,
+    mm9/extracted/SKINS/SKINS/MODELPROPS/HONKHAT.dtx'
+  - 'table provides skins for unused material indices: [1]'
+  errors: []
+  converted: true
+- modelName: Imp.abc
+  skins:
+  - Imp1.dtx
+  - ImpTrident.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/IMP.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: imp
+  variantId: imp_imp1_imptrident
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: Imp1.dtx
+    path: mm9/extracted/SKINS/SKINS/IMP1.dtx
+    textureId: imp1
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: ImpTrident.dtx
+    path: mm9/extracted/SKINS/SKINS/IMPTRIDENT.dtx
+    textureId: imptrident
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 79
+    number: '78'
+    name: Imply
+    baseName: Imp
+    typePicture: Imp A
+  - table: MONSTERS
+    row: 79
+    number: '78'
+    name: Imply
+    baseName: Imp
+    typePicture: Imp A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Imp.abc
+  skins:
+  - Imp2.dtx
+  - ImpTrident.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/IMP.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: imp
+  variantId: imp_imp2_imptrident
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: Imp2.dtx
+    path: mm9/extracted/SKINS/SKINS/IMP2.dtx
+    textureId: imp2
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: ImpTrident.dtx
+    path: mm9/extracted/SKINS/SKINS/IMPTRIDENT.dtx
+    textureId: imptrident
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 80
+    number: '79'
+    name: Imp
+    baseName: Imp
+    typePicture: Imp B
+  - table: MONSTERS
+    row: 80
+    number: '79'
+    name: Imp
+    baseName: Imp
+    typePicture: Imp B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Imp.abc
+  skins:
+  - Imp3.dtx
+  - ImpTrident.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/IMP.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: imp
+  variantId: imp_imp3_imptrident
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: Imp3.dtx
+    path: mm9/extracted/SKINS/SKINS/IMP3.dtx
+    textureId: imp3
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: ImpTrident.dtx
+    path: mm9/extracted/SKINS/SKINS/IMPTRIDENT.dtx
+    textureId: imptrident
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 81
+    number: '80'
+    name: Imp Elder
+    baseName: Imp
+    typePicture: Imp C
+  - table: MONSTERS
+    row: 81
+    number: '80'
+    name: Imp Elder
+    baseName: Imp
+    typePicture: Imp C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: jellyspore.abc
+  skins:
+  - NettleSpore.spr
+  modelPath: mm9/extracted/MODELS/MODELS/JELLYSPORE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: jellyspore
+  variantId: jellyspore_nettlespore
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: NettleSpore.spr
+    path: null
+    textureId: nettlespore
+    version: null
+    bpp: null
+    error: missing texture NettleSpore.spr
+  rows:
+  - table: MONSTERS
+    row: 162
+    number: '170'
+    name: Nettle Spore
+    baseName: Jellyspore
+    typePicture: JellysporeC
+  warnings: []
+  errors:
+  - missing texture NettleSpore.spr
+  - 'model uses material indices without resolved skins: [0]'
+  converted: true
+- modelName: jellyspore.abc
+  skins:
+  - jellyspore1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/JELLYSPORE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: jellyspore
+  variantId: jellyspore_jellyspore1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: jellyspore1.dtx
+    path: mm9/extracted/SKINS/SKINS/JELLYSPORE1.dtx
+    textureId: jellyspore1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 160
+    number: '168'
+    name: Jellyspore
+    baseName: Jellyspore
+    typePicture: JellysporeA
+  - table: MONSTERS
+    row: 160
+    number: '168'
+    name: Jellyspore
+    baseName: Jellyspore
+    typePicture: JellysporeA
+  warnings: []
+  errors: []
+  converted: true
+- modelName: jellyspore.abc
+  skins:
+  - jellyspore2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/JELLYSPORE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: jellyspore
+  variantId: jellyspore_jellyspore2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: jellyspore2.dtx
+    path: mm9/extracted/SKINS/SKINS/JELLYSPORE2.dtx
+    textureId: jellyspore2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 161
+    number: '169'
+    name: Gelatinous Spore
+    baseName: Jellyspore
+    typePicture: JellysporeB
+  - table: MONSTERS
+    row: 161
+    number: '169'
+    name: Gelatinous Spore
+    baseName: Jellyspore
+    typePicture: JellysporeB
+  warnings: []
+  errors: []
+  converted: true
+- modelName: jellyspore.abc
+  skins:
+  - jellyspore4.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/JELLYSPORE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: jellyspore
+  variantId: jellyspore_jellyspore4
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: jellyspore4.dtx
+    path: mm9/extracted/SKINS/SKINS/JELLYSPORE4.dtx
+    textureId: jellyspore4
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 162
+    number: '170'
+    name: Nettle Spore
+    baseName: Jellyspore
+    typePicture: JellysporeC
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Kira.abc
+  skins:
+  - Kiraplate.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/KIRA.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: kira
+  variantId: kira_kiraplate
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Kiraplate.dtx
+    path: mm9/extracted/SKINS/SKINS/KIRAPLATE.dtx
+    textureId: kiraplate
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 232
+    number: '251'
+    name: Kira the Cold
+    baseName: ''
+    typePicture: Kira the Cold
+  - table: MONSTERS
+    row: 232
+    number: '251'
+    name: Kira the Cold
+    baseName: Kira
+    typePicture: Kira the Cold
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Krohn.abc
+  skins:
+  - Krohn.dtx
+  - KrohnSword.dtx
+  - KrohnSpear.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/KROHN.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: krohn
+  variantId: krohn_krohn_krohnsword_krohnspear
+  materials:
+  - 0
+  - 1
+  - 2
+  textures:
+  - materialIndex: 0
+    tableName: Krohn.dtx
+    path: mm9/extracted/SKINS/SKINS/KROHN.dtx
+    textureId: krohn
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: KrohnSword.dtx
+    path: mm9/extracted/SKINS/SKINS/KROHNSWORD.dtx
+    textureId: krohnsword
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 2
+    tableName: KrohnSpear.dtx
+    path: mm9/extracted/SKINS/SKINS/KROHNSPEAR.dtx
+    textureId: krohnspear
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 236
+    number: '255'
+    name: Krohn
+    baseName: ''
+    typePicture: Krohn
+  - table: MONSTERS
+    row: 236
+    number: '255'
+    name: Krohn
+    baseName: PeasantMale
+    typePicture: Krohn
+  warnings: []
+  errors: []
+  converted: true
+- modelName: lich.abc
+  skins:
+  - lich1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/LICH.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: lich
+  variantId: lich_lich1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: lich1.dtx
+    path: mm9/extracted/SKINS/SKINS/LICH1.dtx
+    textureId: lich1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 196
+    number: '207'
+    name: Lich
+    baseName: Lich
+    typePicture: Lich A
+  - table: MONSTERS
+    row: 196
+    number: '207'
+    name: Lich
+    baseName: Lich
+    typePicture: Lich A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: lich.abc
+  skins:
+  - lich2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/LICH.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: lich
+  variantId: lich_lich2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: lich2.dtx
+    path: mm9/extracted/SKINS/SKINS/LICH2.dtx
+    textureId: lich2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 197
+    number: '208'
+    name: Power Lich
+    baseName: Lichking
+    typePicture: Lich B
+  - table: MONSTERS
+    row: 197
+    number: '208'
+    name: Power Lich
+    baseName: Lich
+    typePicture: Lich B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: lichking.abc
+  skins:
+  - lichking1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/LICHKING.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: lichking
+  variantId: lichking_lichking1
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: lichking1.dtx
+    path: mm9/extracted/SKINS/SKINS/LICHKING1.dtx
+    textureId: lichking1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 198
+    number: '209'
+    name: Lich King
+    baseName: Lichking
+    typePicture: Lich C
+  warnings: []
+  errors:
+  - 'model uses material indices without resolved skins: [1]'
+  converted: true
+- modelName: lichking.abc
+  skins:
+  - lichking1.dtx
+  - lichstaff.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/LICHKING.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: lichking
+  variantId: lichking_lichking1_lichstaff
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: lichking1.dtx
+    path: mm9/extracted/SKINS/SKINS/LICHKING1.dtx
+    textureId: lichking1
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: lichstaff.dtx
+    path: mm9/extracted/SKINS/SKINS/LICHSTAFF.dtx
+    textureId: lichstaff
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 198
+    number: '209'
+    name: Lich King
+    baseName: Lichking
+    typePicture: Lich C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: lizardorc.abc
+  skins:
+  - LizardOrc.dtx
+  - LizOrcCutlass.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/LIZARDORC.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: lizardorc
+  variantId: lizardorc_lizardorc_lizorccutlass
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: LizardOrc.dtx
+    path: mm9/extracted/SKINS/SKINS/LIZARDORC.dtx
+    textureId: lizardorc
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: LizOrcCutlass.dtx
+    path: mm9/extracted/SKINS/SKINS/LIZORCCUTLASS.dtx
+    textureId: lizorccutlass
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 181
+    number: '189'
+    name: Lizard-Orc
+    baseName: LizardOrc
+    typePicture: Lizard-Orc A
+  - table: ACTOR
+    row: 182
+    number: '190'
+    name: Lizard-Orc Warrior
+    baseName: LizardOrc
+    typePicture: Lizard-Orc B
+  - table: ACTOR
+    row: 183
+    number: '191'
+    name: Lizard-Orc Mage
+    baseName: LizardOrc
+    typePicture: Lizard-Orc C
+  - table: MONSTERS
+    row: 181
+    number: '189'
+    name: Lizard-Orc
+    baseName: LizardOrc
+    typePicture: Lizard-Orc A
+  - table: MONSTERS
+    row: 182
+    number: '190'
+    name: Lizard-Orc Warrior
+    baseName: LizardOrc
+    typePicture: Lizard-Orc B
+  - table: MONSTERS
+    row: 183
+    number: '191'
+    name: Lizard-Orc Mage
+    baseName: LizardOrc
+    typePicture: Lizard-Orc C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: lobber.abc
+  skins:
+  - icelobber.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/LOBBER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: lobber
+  variantId: lobber_icelobber
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: icelobber.dtx
+    path: mm9/extracted/SKINS/SKINS/ICELOBBER.dtx
+    textureId: icelobber
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 107
+    number: '106'
+    name: Ice Lobber
+    baseName: lobber
+    typePicture: Lobber2 B
+  - table: MONSTERS
+    row: 107
+    number: '106'
+    name: Ice Lobber
+    baseName: lobber
+    typePicture: Lobber2 B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: lobber.abc
+  skins:
+  - lobber.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/LOBBER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: lobber
+  variantId: lobber_lobber
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: lobber.dtx
+    path: mm9/extracted/SKINS/SKINS/LOBBER.dtx
+    textureId: lobber
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 87
+    number: '86'
+    name: Lobber
+    baseName: lobber
+    typePicture: Lobber C
+  - table: MONSTERS
+    row: 87
+    number: '86'
+    name: Lobber
+    baseName: lobber
+    typePicture: Lobber C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: LobberPod.ABC
+  skins:
+  - icelobberpod.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/LOBBERPOD.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: lobberpod
+  variantId: lobberpod_icelobberpod
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: icelobberpod.dtx
+    path: mm9/extracted/SKINS/SKINS/ICELOBBERPOD.dtx
+    textureId: icelobberpod
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 106
+    number: '105'
+    name: Ice Lobbercicle
+    baseName: lobber
+    typePicture: Lobber2 A
+  - table: MONSTERS
+    row: 106
+    number: '105'
+    name: Ice Lobbercicle
+    baseName: lobberpod
+    typePicture: Lobber2 A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: LobberPod.ABC
+  skins:
+  - lobberpod.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/LOBBERPOD.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: lobberpod
+  variantId: lobberpod_lobberpod
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: lobberpod.dtx
+    path: mm9/extracted/SKINS/SKINS/LOBBERPOD.dtx
+    textureId: lobberpod
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 85
+    number: '84'
+    name: Lobber Pod
+    baseName: lobber
+    typePicture: Lobber A
+  - table: ACTOR
+    row: 86
+    number: '85'
+    name: Lobber Pod
+    baseName: lobber
+    typePicture: Lobber B
+  - table: MONSTERS
+    row: 85
+    number: '84'
+    name: Lobber Pod
+    baseName: lobberpod
+    typePicture: Lobber A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: LobberPod.ABC
+  skins:
+  - lobberpod2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/LOBBERPOD.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: lobberpod
+  variantId: lobberpod_lobberpod2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: lobberpod2.dtx
+    path: mm9/extracted/SKINS/SKINS/LOBBERPOD2.dtx
+    textureId: lobberpod2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 86
+    number: '85'
+    name: Lobber Pod
+    baseName: lobberpod
+    typePicture: Lobber B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: MagicMine.ABC
+  skins:
+  - MagicMine.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SPELLS/MAGICMINE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: magicmine
+  variantId: magicmine_magicmine
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: MagicMine.dtx
+    path: mm9/extracted/SKINS/SKINS/SPELLS/MAGICMINE.dtx
+    textureId: magicmine
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 171
+    number: '179'
+    name: Magic Mine
+    baseName: MagicMine
+    typePicture: Magic Mine
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Magreeb.abc
+  skins:
+  - magreeb1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/MAGREEB.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: magreeb
+  variantId: magreeb_magreeb1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: magreeb1.dtx
+    path: mm9/extracted/SKINS/SKINS/MAGREEB1.dtx
+    textureId: magreeb1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 257
+    number: '276'
+    name: Magreeb Spawn
+    baseName: ''
+    typePicture: mantis monster
+  - table: ACTOR
+    row: 258
+    number: '277'
+    name: Magreeb
+    baseName: ''
+    typePicture: mantis monster
+  - table: MONSTERS
+    row: 225
+    number: '244'
+    name: MagreebBaby
+    baseName: magreeb
+    typePicture: mantis monster
+  - table: MONSTERS
+    row: 257
+    number: '276'
+    name: Magreeb Spawn
+    baseName: Magreeb
+    typePicture: mantis monster
+  - table: MONSTERS
+    row: 258
+    number: '277'
+    name: Magreeb
+    baseName: Magreeb
+    typePicture: mantis monster
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Magreeb.abc
+  skins:
+  - magreeb2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/MAGREEB.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: magreeb
+  variantId: magreeb_magreeb2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: magreeb2.dtx
+    path: mm9/extracted/SKINS/SKINS/MAGREEB2.dtx
+    textureId: magreeb2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 259
+    number: '278'
+    name: Armored Magreeb
+    baseName: ''
+    typePicture: mantis monster
+  - table: MONSTERS
+    row: 259
+    number: '278'
+    name: Armored Magreeb
+    baseName: Magreeb
+    typePicture: mantis monster
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Markel.abc
+  skins:
+  - Markel.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/MARKEL.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: markel
+  variantId: markel_markel
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Markel.dtx
+    path: mm9/extracted/SKINS/SKINS/MARKEL.dtx
+    textureId: markel
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 229
+    number: '248'
+    name: Markel the Great
+    baseName: ''
+    typePicture: Markel the Great
+  - table: MONSTERS
+    row: 229
+    number: '248'
+    name: Markel the Great
+    baseName: PeasantMale
+    typePicture: Markel the Great
+  warnings: []
+  errors: []
+  converted: true
+- modelName: monk.abc
+  skins:
+  - Monk1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/MONK.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: monk
+  variantId: monk_monk1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Monk1.dtx
+    path: mm9/extracted/SKINS/SKINS/MONK1.dtx
+    textureId: monk1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 121
+    number: '123'
+    name: Initiate
+    baseName: Monk
+    typePicture: Cleric  A
+  - table: MONSTERS
+    row: 121
+    number: '123'
+    name: Initiate
+    baseName: Monk
+    typePicture: Cleric  A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: monk.abc
+  skins:
+  - Monk2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/MONK.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: monk
+  variantId: monk_monk2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Monk2.dtx
+    path: mm9/extracted/SKINS/SKINS/MONK2.dtx
+    textureId: monk2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 122
+    number: '124'
+    name: Monk
+    baseName: Monk
+    typePicture: Cleric  B
+  - table: MONSTERS
+    row: 122
+    number: '124'
+    name: Monk
+    baseName: Monk
+    typePicture: Cleric  B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: monk.abc
+  skins:
+  - Monk3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/MONK.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: monk
+  variantId: monk_monk3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Monk3.dtx
+    path: mm9/extracted/SKINS/SKINS/MONK3.dtx
+    textureId: monk3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 123
+    number: '125'
+    name: Reverend Monk
+    baseName: Monk
+    typePicture: Cleric  C
+  - table: MONSTERS
+    row: 123
+    number: '125'
+    name: Reverend Monk
+    baseName: Monk
+    typePicture: Cleric  C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: mouse.abc
+  skins:
+  - mouse1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/MOUSE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: mouse
+  variantId: mouse_mouse1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: mouse1.dtx
+    path: null
+    textureId: mouse1
+    version: null
+    bpp: null
+    error: missing texture mouse1.dtx
+  rows:
+  - table: ACTOR
+    row: 280
+    number: '299'
+    name: mouse
+    baseName: ''
+    typePicture: mouse A
+  - table: MONSTERS
+    row: 280
+    number: '299'
+    name: mouse
+    baseName: mouse
+    typePicture: mouse A
+  warnings: []
+  errors:
+  - missing texture mouse1.dtx
+  - 'model uses material indices without resolved skins: [0]'
+  converted: false
+- modelName: mouse.abc
+  skins:
+  - mouse3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/MOUSE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: mouse
+  variantId: mouse_mouse3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: mouse3.dtx
+    path: null
+    textureId: mouse3
+    version: null
+    bpp: null
+    error: missing texture mouse3.dtx
+  rows:
+  - table: ACTOR
+    row: 281
+    number: '300'
+    name: evil mouse
+    baseName: ''
+    typePicture: mouse C
+  - table: MONSTERS
+    row: 281
+    number: '300'
+    name: evil mouse
+    baseName: mouse
+    typePicture: mouse C
+  warnings: []
+  errors:
+  - missing texture mouse3.dtx
+  - 'model uses material indices without resolved skins: [0]'
+  converted: false
+- modelName: Mummy.abc
+  skins:
+  - mummy1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/MUMMY.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: mummy
+  variantId: mummy_mummy1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: mummy1.dtx
+    path: mm9/extracted/SKINS/SKINS/MUMMY1.dtx
+    textureId: mummy1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 136
+    number: '144'
+    name: Canopic Mummy
+    baseName: mummy
+    typePicture: Mummy A
+  - table: MONSTERS
+    row: 136
+    number: '144'
+    name: Canopic Mummy
+    baseName: mummy
+    typePicture: Mummy A
+  warnings:
+  - 'duplicate model basename candidates: mm9/extracted/MODELS/MODELS/MUMMY.abc, mm9/extracted/MODELS/MODELS/PROPS/MUMMY.abc'
+  errors: []
+  converted: true
+- modelName: Mummy.abc
+  skins:
+  - mummy2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/MUMMY.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: mummy
+  variantId: mummy_mummy2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: mummy2.dtx
+    path: mm9/extracted/SKINS/SKINS/MUMMY2.dtx
+    textureId: mummy2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 137
+    number: '145'
+    name: Embalmed Mummy
+    baseName: mummy
+    typePicture: Mummy B
+  - table: MONSTERS
+    row: 137
+    number: '145'
+    name: Embalmed Mummy
+    baseName: mummy
+    typePicture: Mummy B
+  warnings:
+  - 'duplicate model basename candidates: mm9/extracted/MODELS/MODELS/MUMMY.abc, mm9/extracted/MODELS/MODELS/PROPS/MUMMY.abc'
+  - 'duplicate texture basename candidates for mummy2.dtx: mm9/extracted/SKINS/SKINS/MUMMY2.dtx,
+    mm9/extracted/SKINS/SKINS/PROPS/MUMMY2.dtx'
+  errors: []
+  converted: true
+- modelName: Mummy.abc
+  skins:
+  - mummy3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/MUMMY.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: mummy
+  variantId: mummy_mummy3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: mummy3.dtx
+    path: mm9/extracted/SKINS/SKINS/MUMMY3.dtx
+    textureId: mummy3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 138
+    number: '146'
+    name: Petrified Mummy
+    baseName: mummy
+    typePicture: Mummy C
+  - table: MONSTERS
+    row: 138
+    number: '146'
+    name: Petrified Mummy
+    baseName: mummy
+    typePicture: Mummy C
+  warnings:
+  - 'duplicate model basename candidates: mm9/extracted/MODELS/MODELS/MUMMY.abc, mm9/extracted/MODELS/MODELS/PROPS/MUMMY.abc'
+  errors: []
+  converted: true
+- modelName: n/a
+  skins: []
+  modelPath: null
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: a
+  variantId: a
+  materials: []
+  textures: []
+  rows:
+  - table: ACTOR
+    row: 260
+    number: '279'
+    name: Hrolf Spearmaster
+    baseName: ''
+    typePicture: NPC-01
+  - table: ACTOR
+    row: 261
+    number: '280'
+    name: Tesar Olin
+    baseName: ''
+    typePicture: NPC-02
+  - table: ACTOR
+    row: 262
+    number: '281'
+    name: "Arienh A\x92Klindor"
+    baseName: ''
+    typePicture: NPC-03
+  - table: ACTOR
+    row: 263
+    number: '282'
+    name: Randver Headcrusher
+    baseName: ''
+    typePicture: NPC-04
+  - table: ACTOR
+    row: 264
+    number: '283'
+    name: Ake the Righteous
+    baseName: ''
+    typePicture: NPC-05
+  - table: ACTOR
+    row: 265
+    number: '284'
+    name: "Beagan A\x92Ghrie"
+    baseName: ''
+    typePicture: NPC-06
+  - table: ACTOR
+    row: 266
+    number: '285'
+    name: "Edina A\x92Mor"
+    baseName: ''
+    typePicture: NPC-07
+  - table: ACTOR
+    row: 267
+    number: '286'
+    name: Alberik Gusmundssen
+    baseName: ''
+    typePicture: NPC-08
+  - table: ACTOR
+    row: 268
+    number: '287'
+    name: Alvar the Clumsy
+    baseName: ''
+    typePicture: NPC-09
+  - table: ACTOR
+    row: 269
+    number: '288'
+    name: Ehwaz
+    baseName: ''
+    typePicture: NPC-10
+  - table: ACTOR
+    row: 270
+    number: '289'
+    name: Sowelu Axeldotir
+    baseName: ''
+    typePicture: NPC-11
+  - table: ACTOR
+    row: 271
+    number: '290'
+    name: "Cleirach A\x92Lyrae"
+    baseName: ''
+    typePicture: NPC-12
+  - table: ACTOR
+    row: 272
+    number: '291'
+    name: "Florie de Latharna A\x92Washadi"
+    baseName: ''
+    typePicture: NPC-13
+  - table: ACTOR
+    row: 279
+    number: '298'
+    name: Huber Carryall
+    baseName: ''
+    typePicture: porter
+  - table: MONSTERS
+    row: 260
+    number: '279'
+    name: Hrolf Spearmaster
+    baseName: PeasantMale
+    typePicture: NPC-01
+  - table: MONSTERS
+    row: 261
+    number: '280'
+    name: Tesar Olin
+    baseName: PeasantMale
+    typePicture: NPC-02
+  - table: MONSTERS
+    row: 262
+    number: '281'
+    name: Arienh A'Klindor
+    baseName: PeasantMale
+    typePicture: NPC-03
+  - table: MONSTERS
+    row: 263
+    number: '282'
+    name: Randver Headcrusher
+    baseName: PeasantMale
+    typePicture: NPC-04
+  - table: MONSTERS
+    row: 264
+    number: '283'
+    name: Ake the Righteous
+    baseName: PeasantMale
+    typePicture: NPC-05
+  - table: MONSTERS
+    row: 265
+    number: '284'
+    name: Beagan A'Ghrie
+    baseName: PeasantFemale
+    typePicture: NPC-06
+  - table: MONSTERS
+    row: 266
+    number: '285'
+    name: Edina A'Mor
+    baseName: PeasantFemale
+    typePicture: NPC-07
+  - table: MONSTERS
+    row: 267
+    number: '286'
+    name: Alberik Gusmundssen
+    baseName: PeasantMale
+    typePicture: NPC-08
+  - table: MONSTERS
+    row: 268
+    number: '287'
+    name: Alvar the Clumsy
+    baseName: PeasantMale
+    typePicture: NPC-09
+  - table: MONSTERS
+    row: 269
+    number: '288'
+    name: Ehwaz
+    baseName: PeasantFemale
+    typePicture: NPC-10
+  - table: MONSTERS
+    row: 270
+    number: '289'
+    name: Sowelu Axeldotir
+    baseName: PeasantFemale
+    typePicture: NPC-11
+  - table: MONSTERS
+    row: 271
+    number: '290'
+    name: Cleirach A'Lyrae
+    baseName: PeasantFemale
+    typePicture: NPC-12
+  - table: MONSTERS
+    row: 272
+    number: '291'
+    name: Florie de Latharna A'Washadi
+    baseName: PeasantFemale
+    typePicture: NPC-13
+  - table: MONSTERS
+    row: 279
+    number: '298'
+    name: Huber Carryall
+    baseName: PeasantMale
+    typePicture: porter
+  warnings: []
+  errors:
+  - missing model n/a
+  converted: false
+- modelName: nagate.abc
+  skins:
+  - nagate1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/NAGATE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: nagate
+  variantId: nagate_nagate1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: nagate1.dtx
+    path: mm9/extracted/SKINS/SKINS/NAGATE1.dtx
+    textureId: nagate1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 82
+    number: '81'
+    name: Nagate Hatchling
+    baseName: Nagate
+    typePicture: Nagate A
+  - table: MONSTERS
+    row: 82
+    number: '81'
+    name: Nagate Hatchling
+    baseName: Nagate
+    typePicture: Nagate A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: nagate.abc
+  skins:
+  - nagate2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/NAGATE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: nagate
+  variantId: nagate_nagate2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: nagate2.dtx
+    path: mm9/extracted/SKINS/SKINS/NAGATE2.dtx
+    textureId: nagate2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 83
+    number: '82'
+    name: Nagate
+    baseName: Nagate
+    typePicture: Nagate B
+  - table: MONSTERS
+    row: 83
+    number: '82'
+    name: Nagate
+    baseName: Nagate
+    typePicture: Nagate B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: nagate.abc
+  skins:
+  - nagate3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/NAGATE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: nagate
+  variantId: nagate_nagate3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: nagate3.dtx
+    path: mm9/extracted/SKINS/SKINS/NAGATE3.dtx
+    textureId: nagate3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 84
+    number: '83'
+    name: Nagate Elder
+    baseName: Nagate
+    typePicture: Nagate C
+  - table: MONSTERS
+    row: 84
+    number: '83'
+    name: Nagate Elder
+    baseName: Nagate
+    typePicture: Nagate C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Njam.abc
+  skins:
+  - Njam.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/NJAM.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: njam
+  variantId: njam_njam
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Njam.dtx
+    path: mm9/extracted/SKINS/SKINS/NJAM.dtx
+    textureId: njam
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 242
+    number: '261'
+    name: Njam the Meddler
+    baseName: ''
+    typePicture: Njam the Meddler
+  - table: MONSTERS
+    row: 242
+    number: '261'
+    name: Njam the Meddler
+    baseName: PeasantMale
+    typePicture: Njam the Meddler
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Nobleman.abc
+  skins:
+  - Nobleman1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/NOBLEMAN.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: nobleman
+  variantId: nobleman_nobleman1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Nobleman1.dtx
+    path: mm9/extracted/SKINS/SKINS/NOBLEMAN1.dtx
+    textureId: nobleman1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 145
+    number: '153'
+    name: Baron
+    baseName: Nobleman
+    typePicture: Nobleman A
+  - table: MONSTERS
+    row: 145
+    number: '153'
+    name: Baron
+    baseName: Nobleman
+    typePicture: Nobleman A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Nobleman.abc
+  skins:
+  - Nobleman2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/NOBLEMAN.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: nobleman
+  variantId: nobleman_nobleman2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Nobleman2.dtx
+    path: mm9/extracted/SKINS/SKINS/NOBLEMAN2.dtx
+    textureId: nobleman2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 146
+    number: '154'
+    name: Viscount
+    baseName: Nobleman
+    typePicture: Nobleman B
+  - table: MONSTERS
+    row: 146
+    number: '154'
+    name: Viscount
+    baseName: Nobleman
+    typePicture: Nobleman B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Nobleman.abc
+  skins:
+  - Nobleman4.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/NOBLEMAN.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: nobleman
+  variantId: nobleman_nobleman4
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Nobleman4.dtx
+    path: mm9/extracted/SKINS/SKINS/NOBLEMAN4.dtx
+    textureId: nobleman4
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 147
+    number: '155'
+    name: Count
+    baseName: Nobleman
+    typePicture: Nobleman C
+  - table: MONSTERS
+    row: 147
+    number: '155'
+    name: Count
+    baseName: Nobleman
+    typePicture: Nobleman C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: nosferatu.abc
+  skins:
+  - Nosferatu.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/NOSFERATU.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: nosferatu
+  variantId: nosferatu_nosferatu
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Nosferatu.dtx
+    path: null
+    textureId: nosferatu
+    version: null
+    bpp: null
+    error: missing texture Nosferatu.dtx
+  rows:
+  - table: ACTOR
+    row: 187
+    number: '195'
+    name: Bloodsucker
+    baseName: Nosferatu
+    typePicture: Vampire A
+  - table: ACTOR
+    row: 188
+    number: '196'
+    name: Annelid
+    baseName: Nosferatu
+    typePicture: Vampire B
+  - table: ACTOR
+    row: 189
+    number: '197'
+    name: Vampir
+    baseName: Nosferatu
+    typePicture: Vampire C
+  warnings: []
+  errors:
+  - missing texture Nosferatu.dtx
+  - 'model uses material indices without resolved skins: [0]'
+  converted: true
+- modelName: nosferatu.abc
+  skins:
+  - Nosferatu1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/NOSFERATU.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: nosferatu
+  variantId: nosferatu_nosferatu1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Nosferatu1.dtx
+    path: mm9/extracted/SKINS/SKINS/NOSFERATU1.dtx
+    textureId: nosferatu1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 187
+    number: '195'
+    name: Bloodsucker
+    baseName: Nosferatu
+    typePicture: Vampire A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: nosferatu.abc
+  skins:
+  - Nosferatu2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/NOSFERATU.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: nosferatu
+  variantId: nosferatu_nosferatu2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Nosferatu2.dtx
+    path: mm9/extracted/SKINS/SKINS/NOSFERATU2.dtx
+    textureId: nosferatu2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 188
+    number: '196'
+    name: Annelid
+    baseName: Nosferatu
+    typePicture: Vampire B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: nosferatu.abc
+  skins:
+  - Nosferatu3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/NOSFERATU.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: nosferatu
+  variantId: nosferatu_nosferatu3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Nosferatu3.dtx
+    path: mm9/extracted/SKINS/SKINS/NOSFERATU3.dtx
+    textureId: nosferatu3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 189
+    number: '197'
+    name: Vampir
+    baseName: Nosferatu
+    typePicture: Vampire C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Peasantboy1.ABC
+  skins:
+  - Peasantboy1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTBOY1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantboy1
+  variantId: peasantboy1_peasantboy1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Peasantboy1.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTBOY1.dtx
+    textureId: peasantboy1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 70
+    number: '69'
+    name: Commoner Child
+    baseName: ''
+    typePicture: Peasant Human Child A
+  - table: MONSTERS
+    row: 70
+    number: '69'
+    name: Commoner Child
+    baseName: PeasantBoy
+    typePicture: Peasant Human Child A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Peasantboy1e.ABC
+  skins:
+  - Peasantboy2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTBOY1E.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantboy1e
+  variantId: peasantboy1e_peasantboy2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Peasantboy2.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTBOY2.dtx
+    textureId: peasantboy2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 74
+    number: '73'
+    name: Commoner Child
+    baseName: ''
+    typePicture: Peasant Elf Child A
+  - table: MONSTERS
+    row: 74
+    number: '73'
+    name: Commoner Child
+    baseName: PeasantBoy
+    typePicture: Peasant Elf Child A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Peasantboy2.ABC
+  skins:
+  - Peasantboy3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTBOY2.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantboy2
+  variantId: peasantboy2_peasantboy3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Peasantboy3.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTBOY3.dtx
+    textureId: peasantboy3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 71
+    number: '70'
+    name: Townsfolk Child
+    baseName: ''
+    typePicture: Peasant Human Child B
+  - table: MONSTERS
+    row: 71
+    number: '70'
+    name: Townsfolk Child
+    baseName: PeasantBoy
+    typePicture: Peasant Human Child B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDboy1.ABC
+  skins:
+  - dwarfboy1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDBOY1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdboy1
+  variantId: peasantdboy1_dwarfboy1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: dwarfboy1.dtx
+    path: mm9/extracted/SKINS/SKINS/DWARFBOY1.dtx
+    textureId: dwarfboy1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 68
+    number: '67'
+    name: Commoner Child
+    baseName: PeasantBoy
+    typePicture: Peasant Dwarf Child A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDboy1.ABC
+  skins:
+  - dwarfboy2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDBOY1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdboy1
+  variantId: peasantdboy1_dwarfboy2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: dwarfboy2.dtx
+    path: mm9/extracted/SKINS/SKINS/DWARFBOY2.dtx
+    textureId: dwarfboy2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 69
+    number: '68'
+    name: Townsfolk Child
+    baseName: PeasantBoy
+    typePicture: Peasant Dwarf Child B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDF1.abc
+  skins:
+  - PeasantDF1a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDF1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdf1
+  variantId: peasantdf1_peasantdf1a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantDF1a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTDF1A.dtx
+    textureId: peasantdf1a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 2
+    number: '1'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Dwarf FemaleA A
+  - table: MONSTERS
+    row: 2
+    number: '1'
+    name: Commoner
+    baseName: PeasantDF
+    typePicture: Peasant Dwarf FemaleA A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDF1.abc
+  skins:
+  - PeasantDF1b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDF1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdf1
+  variantId: peasantdf1_peasantdf1b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantDF1b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTDF1B.dtx
+    textureId: peasantdf1b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 6
+    number: '5'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Dwarf FemaleC A
+  - table: MONSTERS
+    row: 6
+    number: '5'
+    name: Shopkeeper
+    baseName: PeasantDF
+    typePicture: Peasant Dwarf FemaleC A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDF2.abc
+  skins:
+  - PeasantDF2b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDF2.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdf2
+  variantId: peasantdf2_peasantdf2b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantDF2b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTDF2B.dtx
+    textureId: peasantdf2b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 3
+    number: '2'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Dwarf FemaleA B
+  - table: MONSTERS
+    row: 3
+    number: '2'
+    name: Commoner
+    baseName: PeasantDF
+    typePicture: Peasant Dwarf FemaleA B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDF3.abc
+  skins:
+  - PeasantDF3a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDF3.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdf3
+  variantId: peasantdf3_peasantdf3a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantDF3a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTDF3A.dtx
+    textureId: peasantdf3a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 5
+    number: '4'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Dwarf FemaleB B
+  - table: MONSTERS
+    row: 5
+    number: '4'
+    name: Town
+    baseName: PeasantDF
+    typePicture: Peasant Dwarf FemaleB B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDF3.abc
+  skins:
+  - PeasantDF3b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDF3.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdf3
+  variantId: peasantdf3_peasantdf3b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantDF3b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTDF3B.dtx
+    textureId: peasantdf3b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 8
+    number: '7'
+    name: Prisoner
+    baseName: ''
+    typePicture: Peasant Dwarf FemaleD A
+  - table: MONSTERS
+    row: 8
+    number: '7'
+    name: Prisoner
+    baseName: PeasantDF
+    typePicture: Peasant Dwarf FemaleD A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDF4.abc
+  skins:
+  - PeasantDF4a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDF4.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdf4
+  variantId: peasantdf4_peasantdf4a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantDF4a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTDF4A.dtx
+    textureId: peasantdf4a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 7
+    number: '6'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Dwarf FemaleC B
+  - table: MONSTERS
+    row: 7
+    number: '6'
+    name: Shopkeeper
+    baseName: PeasantDF
+    typePicture: Peasant Dwarf FemaleC B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDF4.abc
+  skins:
+  - PeasantDF4b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDF4.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdf4
+  variantId: peasantdf4_peasantdf4b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantDF4b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTDF4B.dtx
+    textureId: peasantdf4b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 4
+    number: '3'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Dwarf FemaleB A
+  - table: MONSTERS
+    row: 4
+    number: '3'
+    name: Town
+    baseName: PeasantDF
+    typePicture: Peasant Dwarf FemaleB A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDM1.abc
+  skins:
+  - PeasantDM1a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDM1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdm1
+  variantId: peasantdm1_peasantdm1a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantDM1a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTDM1A.dtx
+    textureId: peasantdm1a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 9
+    number: '8'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Dwarf MaleA A
+  - table: MONSTERS
+    row: 9
+    number: '8'
+    name: Commoner
+    baseName: PeasantDM
+    typePicture: Peasant Dwarf MaleA A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDM1.abc
+  skins:
+  - PeasantDM1b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDM1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdm1
+  variantId: peasantdm1_peasantdm1b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantDM1b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTDM1B.dtx
+    textureId: peasantdm1b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 14
+    number: '13'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Dwarf MaleC B
+  - table: ACTOR
+    row: 15
+    number: '13'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Dwarf MaleC B
+  - table: MONSTERS
+    row: 14
+    number: '13'
+    name: Shopkeeper
+    baseName: PeasantDM
+    typePicture: Peasant Dwarf MaleC B
+  - table: MONSTERS
+    row: 15
+    number: '14'
+    name: Shopkeeper
+    baseName: PeasantDM
+    typePicture: Peasant Dwarf MaleC B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDM2.abc
+  skins:
+  - PeasantDM2a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDM2.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdm2
+  variantId: peasantdm2_peasantdm2a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantDM2a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTDM2A.dtx
+    textureId: peasantdm2a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 10
+    number: '9'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Dwarf MaleA B
+  - table: MONSTERS
+    row: 10
+    number: '9'
+    name: Commoner
+    baseName: PeasantDM
+    typePicture: Peasant Dwarf MaleA B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDM3.abc
+  skins:
+  - PeasantDM3a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDM3.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdm3
+  variantId: peasantdm3_peasantdm3a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantDM3a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTDM3A.dtx
+    textureId: peasantdm3a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 13
+    number: '12'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Dwarf MaleC A
+  - table: MONSTERS
+    row: 13
+    number: '12'
+    name: Shopkeeper
+    baseName: PeasantDM
+    typePicture: Peasant Dwarf MaleC A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDM3.abc
+  skins:
+  - PeasantDM3b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDM3.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdm3
+  variantId: peasantdm3_peasantdm3b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantDM3b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTDM3B.dtx
+    textureId: peasantdm3b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 12
+    number: '11'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Dwarf MaleB B
+  - table: MONSTERS
+    row: 12
+    number: '11'
+    name: Town
+    baseName: PeasantDM
+    typePicture: Peasant Dwarf MaleB B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantDM4.abc
+  skins:
+  - PeasantDM4a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTDM4.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantdm4
+  variantId: peasantdm4_peasantdm4a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantDM4a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTDM4A.dtx
+    textureId: peasantdm4a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 11
+    number: '10'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Dwarf MaleB A
+  - table: MONSTERS
+    row: 11
+    number: '10'
+    name: Town
+    baseName: PeasantDM
+    typePicture: Peasant Dwarf MaleB A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF1.abc
+  skins:
+  - PeasantF1a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf1
+  variantId: peasantf1_peasantf1a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF1a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF1A.dtx
+    textureId: peasantf1a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 34
+    number: '33'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Human1 FemaleC A
+  - table: MONSTERS
+    row: 34
+    number: '33'
+    name: Shopkeeper
+    baseName: PeasantFemale
+    typePicture: Peasant Human1 FemaleC A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF1.abc
+  skins:
+  - PeasantF1b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf1
+  variantId: peasantf1_peasantf1b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF1b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF1B.dtx
+    textureId: peasantf1b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 30
+    number: '29'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Human1 FemaleA A
+  - table: MONSTERS
+    row: 30
+    number: '29'
+    name: Commoner
+    baseName: PeasantFemale
+    typePicture: Peasant Human1 FemaleA A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF2.abc
+  skins:
+  - PeasantF2a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF2.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf2
+  variantId: peasantf2_peasantf2a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF2a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF2A.dtx
+    textureId: peasantf2a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 32
+    number: '31'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Human1 FemaleB A
+  - table: MONSTERS
+    row: 32
+    number: '31'
+    name: Town
+    baseName: PeasantFemale
+    typePicture: Peasant Human1 FemaleB A
+  - table: MONSTERS
+    row: 39
+    number: '38'
+    name: Town
+    baseName: PeasantFemale
+    typePicture: Peasant Human2 FemaleB A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF2.abc
+  skins:
+  - PeasantF2b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF2.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf2
+  variantId: peasantf2_peasantf2b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF2b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF2B.dtx
+    textureId: peasantf2b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 33
+    number: '32'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Human1 FemaleB B
+  - table: MONSTERS
+    row: 33
+    number: '32'
+    name: Town
+    baseName: PeasantFemale
+    typePicture: Peasant Human1 FemaleB B
+  - table: MONSTERS
+    row: 40
+    number: '39'
+    name: Town
+    baseName: PeasantFemale
+    typePicture: Peasant Human2 FemaleB B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF3.abc
+  skins:
+  - PeasantF3a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF3.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf3
+  variantId: peasantf3_peasantf3a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF3a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF3A.dtx
+    textureId: peasantf3a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 41
+    number: '40'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Human2 FemaleC A
+  - table: MONSTERS
+    row: 41
+    number: '40'
+    name: Shopkeeper
+    baseName: PeasantFemale
+    typePicture: Peasant Human2 FemaleC A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF3.abc
+  skins:
+  - PeasantF3b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF3.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf3
+  variantId: peasantf3_peasantf3b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF3b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF3B.dtx
+    textureId: peasantf3b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 36
+    number: '35'
+    name: Prisoner
+    baseName: ''
+    typePicture: Peasant Human1 FemaleD A
+  - table: MONSTERS
+    row: 36
+    number: '35'
+    name: Prisoner
+    baseName: PeasantFemale
+    typePicture: Peasant Human1 FemaleD A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF4.abc
+  skins:
+  - PeasantF4a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF4.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf4
+  variantId: peasantf4_peasantf4a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF4a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF4A.dtx
+    textureId: peasantf4a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 31
+    number: '30'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Human1 FemaleA B
+  - table: MONSTERS
+    row: 31
+    number: '30'
+    name: Commoner
+    baseName: PeasantFemale
+    typePicture: Peasant Human1 FemaleA B
+  - table: MONSTERS
+    row: 38
+    number: '37'
+    name: Commoner
+    baseName: PeasantFemale
+    typePicture: Peasant Human2 FemaleA B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF4.abc
+  skins:
+  - PeasantF4b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF4.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf4
+  variantId: peasantf4_peasantf4b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF4b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF4B.dtx
+    textureId: peasantf4b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 43
+    number: '42'
+    name: Prisoner
+    baseName: ''
+    typePicture: Peasant Human2 FemaleD A
+  - table: MONSTERS
+    row: 43
+    number: '42'
+    name: Prisoner
+    baseName: PeasantFemale
+    typePicture: Peasant Human2 FemaleD A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF5.abc
+  skins:
+  - PeasantF5a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF5.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf5
+  variantId: peasantf5_peasantf5a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF5a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF5A.dtx
+    textureId: peasantf5a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 35
+    number: '34'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Human1 FemaleC B
+  - table: MONSTERS
+    row: 35
+    number: '34'
+    name: Shopkeeper
+    baseName: PeasantFemale
+    typePicture: Peasant Human1 FemaleC B
+  - table: MONSTERS
+    row: 42
+    number: '41'
+    name: Shopkeeper
+    baseName: PeasantFemale
+    typePicture: Peasant Human2 FemaleC B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF5.abc
+  skins:
+  - PeasantF5b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF5.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf5
+  variantId: peasantf5_peasantf5b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF5b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF5B.dtx
+    textureId: peasantf5b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 37
+    number: '36'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Human2 FemaleA A
+  - table: MONSTERS
+    row: 37
+    number: '36'
+    name: Commoner
+    baseName: PeasantFemale
+    typePicture: Peasant Human2 FemaleA A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF6.abc
+  skins:
+  - PeasantF6a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF6.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf6
+  variantId: peasantf6_peasantf6a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF6a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF6A.dtx
+    textureId: peasantf6a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 18
+    number: '17'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Elf FemaleB A
+  - table: MONSTERS
+    row: 18
+    number: '17'
+    name: Town
+    baseName: PeasantFemale
+    typePicture: Peasant Elf FemaleB A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF6.abc
+  skins:
+  - PeasantF6b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF6.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf6
+  variantId: peasantf6_peasantf6b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF6b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF6B.dtx
+    textureId: peasantf6b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 20
+    number: '19'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Elf FemaleC A
+  - table: MONSTERS
+    row: 20
+    number: '19'
+    name: Shopkeeper
+    baseName: PeasantFemale
+    typePicture: Peasant Elf FemaleC A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF7.abc
+  skins:
+  - PeasantF7a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF7.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf7
+  variantId: peasantf7_peasantf7a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF7a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF7A.dtx
+    textureId: peasantf7a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 19
+    number: '18'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Elf FemaleB B
+  - table: MONSTERS
+    row: 19
+    number: '18'
+    name: Town
+    baseName: PeasantFemale
+    typePicture: Peasant Elf FemaleB B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF7.abc
+  skins:
+  - PeasantF7b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF7.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf7
+  variantId: peasantf7_peasantf7b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF7b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF7B.dtx
+    textureId: peasantf7b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 21
+    number: '20'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Elf FemaleC B
+  - table: MONSTERS
+    row: 21
+    number: '20'
+    name: Shopkeeper
+    baseName: PeasantFemale
+    typePicture: Peasant Elf FemaleC B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF8.abc
+  skins:
+  - PeasantF8a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF8.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf8
+  variantId: peasantf8_peasantf8a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF8a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF8A.dtx
+    textureId: peasantf8a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 17
+    number: '16'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Elf FemaleA B
+  - table: MONSTERS
+    row: 17
+    number: '16'
+    name: Commoner
+    baseName: PeasantFemale
+    typePicture: Peasant Elf FemaleA B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantF8.abc
+  skins:
+  - PeasantF8b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTF8.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantf8
+  variantId: peasantf8_peasantf8b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantF8b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTF8B.dtx
+    textureId: peasantf8b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 16
+    number: '15'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Elf FemaleA A
+  - table: ACTOR
+    row: 22
+    number: '21'
+    name: Prisoner
+    baseName: ''
+    typePicture: Peasant Elf FemaleD A
+  - table: MONSTERS
+    row: 16
+    number: '15'
+    name: Commoner
+    baseName: PeasantFemale
+    typePicture: Peasant Elf FemaleA A
+  - table: MONSTERS
+    row: 22
+    number: '21'
+    name: Prisoner
+    baseName: PeasantFemale
+    typePicture: Peasant Elf FemaleD A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantGirl1e.ABC
+  skins:
+  - Peasantgirl1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTGIRL1E.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantgirl1e
+  variantId: peasantgirl1e_peasantgirl1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Peasantgirl1.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTGIRL1.dtx
+    textureId: peasantgirl1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 75
+    number: '74'
+    name: Townsfolk Child
+    baseName: ''
+    typePicture: Peasant Elf Child B
+  - table: MONSTERS
+    row: 75
+    number: '74'
+    name: Townsfolk Child
+    baseName: PeasantGirl
+    typePicture: Peasant Elf Child B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantGirl2.ABC
+  skins:
+  - Peasantgirl2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTGIRL2.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantgirl2
+  variantId: peasantgirl2_peasantgirl2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Peasantgirl2.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTGIRL2.dtx
+    textureId: peasantgirl2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 72
+    number: '71'
+    name: Commoner Child
+    baseName: ''
+    typePicture: Peasant Human2 Child A
+  - table: MONSTERS
+    row: 72
+    number: '71'
+    name: Commoner Child
+    baseName: PeasantGirl
+    typePicture: Peasant Human2 Child A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantGirl3.ABC
+  skins:
+  - Peasantgirl3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTGIRL3.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantgirl3
+  variantId: peasantgirl3_peasantgirl3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Peasantgirl3.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTGIRL3.dtx
+    textureId: peasantgirl3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 73
+    number: '72'
+    name: Townsfolk Child
+    baseName: ''
+    typePicture: Peasant Human2 Child B
+  - table: MONSTERS
+    row: 73
+    number: '72'
+    name: Townsfolk Child
+    baseName: PeasantGirl
+    typePicture: Peasant Human2 Child B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantHOF1.ABC
+  skins:
+  - PeasantHOF1a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTHOF1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasanthof1
+  variantId: peasanthof1_peasanthof1a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantHOF1a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTHOF1A.dtx
+    textureId: peasanthof1a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 62
+    number: '61'
+    name: Commoner
+    baseName: PeasantFemale
+    typePicture: Peasant Half-Orc Female A
+  - table: MONSTERS
+    row: 63
+    number: '62'
+    name: Town
+    baseName: PeasantFemale
+    typePicture: Peasant Half-Orc Female B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantHOF1.ABC
+  skins:
+  - PeasantHOF1b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTHOF1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasanthof1
+  variantId: peasanthof1_peasanthof1b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantHOF1b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTHOF1B.dtx
+    textureId: peasanthof1b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 64
+    number: '63'
+    name: Shopkeeper
+    baseName: PeasantFemale
+    typePicture: Peasant Half-Orc Female C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantHOF2.ABC
+  skins:
+  - PeasantHOF1c.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTHOF2.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasanthof2
+  variantId: peasanthof2_peasanthof1c
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantHOF1c.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTHOF1C.dtx
+    textureId: peasanthof1c
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 65
+    number: '64'
+    name: Prisoner
+    baseName: PeasantFemale
+    typePicture: Peasant Half-Orc Female D
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantHOM1.ABC
+  skins:
+  - PeasantHOM1a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTHOM1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasanthom1
+  variantId: peasanthom1_peasanthom1a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantHOM1a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTHOM1A.dtx
+    textureId: peasanthom1a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 58
+    number: '57'
+    name: Commoner
+    baseName: PeasantHOM
+    typePicture: Peasant Half-Orc Male A
+  - table: MONSTERS
+    row: 61
+    number: '60'
+    name: Prisoner
+    baseName: PeasantHOM
+    typePicture: Peasant Half-Orc Male D
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantHOM1.ABC
+  skins:
+  - PeasantHOM1b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTHOM1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasanthom1
+  variantId: peasanthom1_peasanthom1b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantHOM1b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTHOM1B.dtx
+    textureId: peasanthom1b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 59
+    number: '58'
+    name: Town
+    baseName: PeasantHOM
+    typePicture: Peasant Half-Orc Male B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantHOM2.ABC
+  skins:
+  - PeasantHOM2a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTHOM2.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasanthom2
+  variantId: peasanthom2_peasanthom2a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantHOM2a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTHOM2A.dtx
+    textureId: peasanthom2a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 60
+    number: '59'
+    name: Shopkeeper
+    baseName: PeasantHOM
+    typePicture: Peasant Half-Orc Male C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM1.abc
+  skins:
+  - PeasantM1a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm1
+  variantId: peasantm1_peasantm1a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM1a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM1A.dtx
+    textureId: peasantm1a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 44
+    number: '43'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Human1 MaleA A
+  - table: ACTOR
+    row: 277
+    number: '296'
+    name: RailTest
+    baseName: ''
+    typePicture: Peasant Human1 MaleA A
+  - table: MONSTERS
+    row: 44
+    number: '43'
+    name: Commoner
+    baseName: PeasantMale
+    typePicture: Peasant Human1 MaleA A
+  - table: MONSTERS
+    row: 277
+    number: '296'
+    name: RailTest
+    baseName: ''
+    typePicture: Peasant Human1 MaleA A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM1.abc
+  skins:
+  - PeasantM1b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM1.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm1
+  variantId: peasantm1_peasantm1b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM1b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM1B.dtx
+    textureId: peasantm1b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 57
+    number: '56'
+    name: Prisoner
+    baseName: ''
+    typePicture: Peasant Human2 MaleD A
+  - table: MONSTERS
+    row: 57
+    number: '56'
+    name: Prisoner
+    baseName: PeasantMale
+    typePicture: Peasant Human2 MaleD A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM1d.abc
+  skins:
+  - PeasantM1c.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM1D.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm1d
+  variantId: peasantm1d_peasantm1c
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM1c.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM1C.dtx
+    textureId: peasantm1c
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 23
+    number: '22'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Elf MaleA A
+  - table: MONSTERS
+    row: 23
+    number: '22'
+    name: Commoner
+    baseName: PeasantMale
+    typePicture: Peasant Elf MaleA A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM1d.abc
+  skins:
+  - PeasantM1d.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM1D.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm1d
+  variantId: peasantm1d_peasantm1d
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM1d.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM1D.dtx
+    textureId: peasantm1d
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 29
+    number: '28'
+    name: Prisoner
+    baseName: ''
+    typePicture: Peasant Elf MaleD A
+  - table: MONSTERS
+    row: 29
+    number: '28'
+    name: Prisoner
+    baseName: PeasantMale
+    typePicture: Peasant Elf MaleD A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM2.abc
+  skins:
+  - PeasantM2a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM2.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm2
+  variantId: peasantm2_peasantm2a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM2a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM2A.dtx
+    textureId: peasantm2a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 51
+    number: '50'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Human2 MaleA A
+  - table: MONSTERS
+    row: 51
+    number: '50'
+    name: Commoner
+    baseName: PeasantMale
+    typePicture: Peasant Human2 MaleA A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM2.abc
+  skins:
+  - PeasantM2b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM2.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm2
+  variantId: peasantm2_peasantm2b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM2b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM2B.dtx
+    textureId: peasantm2b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 45
+    number: '44'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Human1 MaleA B
+  - table: MONSTERS
+    row: 45
+    number: '44'
+    name: Commoner
+    baseName: PeasantMale
+    typePicture: Peasant Human1 MaleA B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM2d.abc
+  skins:
+  - PeasantM2c.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM2D.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm2d
+  variantId: peasantm2d_peasantm2c
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM2c.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM2C.dtx
+    textureId: peasantm2c
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 25
+    number: '24'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Elf MaleB A
+  - table: MONSTERS
+    row: 25
+    number: '24'
+    name: Town
+    baseName: PeasantMale
+    typePicture: Peasant Elf MaleB A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM2d.abc
+  skins:
+  - PeasantM2d.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM2D.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm2d
+  variantId: peasantm2d_peasantm2d
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM2d.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM2D.dtx
+    textureId: peasantm2d
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 27
+    number: '26'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Elf MaleC A
+  - table: MONSTERS
+    row: 27
+    number: '26'
+    name: Shopkeeper
+    baseName: PeasantMale
+    typePicture: Peasant Elf MaleC A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM3.abc
+  skins:
+  - PeasantM3a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM3.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm3
+  variantId: peasantm3_peasantm3a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM3a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM3A.dtx
+    textureId: peasantm3a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 53
+    number: '52'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Human2 MaleB A
+  - table: MONSTERS
+    row: 53
+    number: '52'
+    name: Town
+    baseName: PeasantMale
+    typePicture: Peasant Human2 MaleB A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM3.abc
+  skins:
+  - PeasantM3b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM3.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm3
+  variantId: peasantm3_peasantm3b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM3b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM3B.dtx
+    textureId: peasantm3b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 46
+    number: '45'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Human1 MaleB A
+  - table: MONSTERS
+    row: 46
+    number: '45'
+    name: Town
+    baseName: PeasantMale
+    typePicture: Peasant Human1 MaleB A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM4.abc
+  skins:
+  - PeasantM4a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM4.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm4
+  variantId: peasantm4_peasantm4a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM4a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM4A.dtx
+    textureId: peasantm4a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 50
+    number: '49'
+    name: Prisoner
+    baseName: ''
+    typePicture: Peasant Human1 MaleD A
+  - table: MONSTERS
+    row: 50
+    number: '49'
+    name: Prisoner
+    baseName: PeasantMale
+    typePicture: Peasant Human1 MaleD A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM5.abc
+  skins:
+  - PeasantM5a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM5.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm5
+  variantId: peasantm5_peasantm5a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM5a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM5A.dtx
+    textureId: peasantm5a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 49
+    number: '48'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Human1 MaleC B
+  - table: MONSTERS
+    row: 49
+    number: '48'
+    name: Shopkeeper
+    baseName: PeasantMale
+    typePicture: Peasant Human1 MaleC B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM5.abc
+  skins:
+  - PeasantM5b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM5.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm5
+  variantId: peasantm5_peasantm5b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM5b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM5B.dtx
+    textureId: peasantm5b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 47
+    number: '46'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Human1 MaleB B
+  - table: MONSTERS
+    row: 47
+    number: '46'
+    name: Town
+    baseName: PeasantMale
+    typePicture: Peasant Human1 MaleB B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM6.abc
+  skins:
+  - PeasantM6a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM6.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm6
+  variantId: peasantm6_peasantm6a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM6a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM6A.dtx
+    textureId: peasantm6a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 48
+    number: '47'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Human1 MaleC A
+  - table: MONSTERS
+    row: 48
+    number: '47'
+    name: Shopkeeper
+    baseName: PeasantMale
+    typePicture: Peasant Human1 MaleC A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM6.abc
+  skins:
+  - PeasantM6b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM6.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm6
+  variantId: peasantm6_peasantm6b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM6b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM6B.dtx
+    textureId: peasantm6b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 55
+    number: '54'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Human2 MaleC A
+  - table: MONSTERS
+    row: 55
+    number: '54'
+    name: Shopkeeper
+    baseName: PeasantMale
+    typePicture: Peasant Human2 MaleC A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM7.abc
+  skins:
+  - PeasantM7a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM7.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm7
+  variantId: peasantm7_peasantm7a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM7a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM7A.dtx
+    textureId: peasantm7a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 54
+    number: '53'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Human2 MaleB B
+  - table: MONSTERS
+    row: 54
+    number: '53'
+    name: Town
+    baseName: PeasantMale
+    typePicture: Peasant Human2 MaleB B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM7.abc
+  skins:
+  - PeasantM7b.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM7.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm7
+  variantId: peasantm7_peasantm7b
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM7b.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM7B.dtx
+    textureId: peasantm7b
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 52
+    number: '51'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Human2 MaleA B
+  - table: MONSTERS
+    row: 52
+    number: '51'
+    name: Commoner
+    baseName: PeasantMale
+    typePicture: Peasant Human2 MaleA B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM7d.abc
+  skins:
+  - PeasantM7c.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM7D.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm7d
+  variantId: peasantm7d_peasantm7c
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM7c.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM7C.dtx
+    textureId: peasantm7c
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 28
+    number: '27'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Elf MaleC B
+  - table: MONSTERS
+    row: 28
+    number: '27'
+    name: Shopkeeper
+    baseName: PeasantMale
+    typePicture: Peasant Elf MaleC B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM7d.abc
+  skins:
+  - PeasantM7d.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM7D.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm7d
+  variantId: peasantm7d_peasantm7d
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM7d.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM7D.dtx
+    textureId: peasantm7d
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 26
+    number: '25'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Elf MaleB B
+  - table: MONSTERS
+    row: 26
+    number: '25'
+    name: Town
+    baseName: PeasantMale
+    typePicture: Peasant Elf MaleB B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM8.abc
+  skins:
+  - PeasantM8a.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM8.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm8
+  variantId: peasantm8_peasantm8a
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM8a.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM8A.dtx
+    textureId: peasantm8a
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 56
+    number: '55'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Human2 MaleC B
+  - table: MONSTERS
+    row: 56
+    number: '55'
+    name: Shopkeeper
+    baseName: PeasantMale
+    typePicture: Peasant Human2 MaleC B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: PeasantM8d.abc
+  skins:
+  - PeasantM8d.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PEASANTM8D.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: peasantm8d
+  variantId: peasantm8d_peasantm8d
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: PeasantM8d.dtx
+    path: mm9/extracted/SKINS/SKINS/PEASANTM8D.dtx
+    textureId: peasantm8d
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 24
+    number: '23'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Elf MaleA B
+  - table: MONSTERS
+    row: 24
+    number: '23'
+    name: Commoner
+    baseName: PeasantMale
+    typePicture: Peasant Elf MaleA B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: pig.abc
+  skins:
+  - pig.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/PIG.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: pig
+  variantId: pig_pig
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: pig.dtx
+    path: mm9/extracted/SKINS/SKINS/PIG.dtx
+    textureId: pig
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 252
+    number: '271'
+    name: Pig
+    baseName: pig
+    typePicture: Pig
+  - table: MONSTERS
+    row: 252
+    number: '271'
+    name: Pig
+    baseName: pig
+    typePicture: Pig
+  warnings: []
+  errors: []
+  converted: true
+- modelName: ram.abc
+  skins:
+  - sheep2.dtx
+  - ramhornblack.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/RAM.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: ram
+  variantId: ram_sheep2_ramhornblack
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: sheep2.dtx
+    path: mm9/extracted/SKINS/SKINS/SHEEP2.dtx
+    textureId: sheep2
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: ramhornblack.dtx
+    path: mm9/extracted/SKINS/SKINS/RAMHORNBLACK.dtx
+    textureId: ramhornblack
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 254
+    number: '273'
+    name: Ram
+    baseName: sheep
+    typePicture: Ram
+  warnings: []
+  errors: []
+  converted: true
+- modelName: rooster.abc
+  skins:
+  - rooster.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/ROOSTER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: rooster
+  variantId: rooster_rooster
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: rooster.dtx
+    path: mm9/extracted/SKINS/SKINS/ROOSTER.dtx
+    textureId: rooster
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 251
+    number: '270'
+    name: Rooster
+    baseName: rooster
+    typePicture: Rooster
+  - table: MONSTERS
+    row: 251
+    number: '270'
+    name: Rooster
+    baseName: rooster
+    typePicture: Rooster
+  warnings: []
+  errors: []
+  converted: true
+- modelName: scholar.abc
+  skins:
+  - scholar1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SCHOLAR.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: scholar
+  variantId: scholar_scholar1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: scholar1.dtx
+    path: mm9/extracted/SKINS/SKINS/SCHOLAR1.dtx
+    textureId: scholar1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 255
+    number: '274'
+    name: Scholar
+    baseName: ''
+    typePicture: Bembridge ScholarA
+  - table: MONSTERS
+    row: 255
+    number: '274'
+    name: Scholar
+    baseName: Scholar
+    typePicture: Bembridge ScholarA
+  warnings: []
+  errors: []
+  converted: true
+- modelName: scholar.abc
+  skins:
+  - scholar3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SCHOLAR.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: scholar
+  variantId: scholar_scholar3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: scholar3.dtx
+    path: mm9/extracted/SKINS/SKINS/SCHOLAR3.dtx
+    textureId: scholar3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 256
+    number: '275'
+    name: Master Scholar
+    baseName: ''
+    typePicture: Bembridge Scholar B
+  - table: MONSTERS
+    row: 256
+    number: '275'
+    name: Master Scholar
+    baseName: Scholar
+    typePicture: Bembridge Scholar B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: seamonster.abc
+  skins:
+  - SeaCreatureF.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SEAMONSTER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: seamonster
+  variantId: seamonster_seacreaturef
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: SeaCreatureF.dtx
+    path: mm9/extracted/SKINS/SKINS/SEACREATUREF.dtx
+    textureId: seacreaturef
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 169
+    number: '177'
+    name: Sea Monster Male
+    baseName: ''
+    typePicture: Sea Monster A
+  - table: MONSTERS
+    row: 169
+    number: '177'
+    name: Sea Monster Male
+    baseName: SeaMonster
+    typePicture: Sea Monster A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: seamonster.abc
+  skins:
+  - SeaCreatureM.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SEAMONSTER.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: seamonster
+  variantId: seamonster_seacreaturem
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: SeaCreatureM.dtx
+    path: mm9/extracted/SKINS/SKINS/SEACREATUREM.dtx
+    textureId: seacreaturem
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 170
+    number: '178'
+    name: Sea Monster Female
+    baseName: ''
+    typePicture: Sea Monster B
+  - table: MONSTERS
+    row: 170
+    number: '178'
+    name: Sea Monster Female
+    baseName: SeaMonster
+    typePicture: Sea Monster B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: sheep.abc
+  skins: []
+  modelPath: mm9/extracted/MODELS/MODELS/SHEEP.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: sheep
+  variantId: sheep
+  materials:
+  - 0
+  textures: []
+  rows:
+  - table: ACTOR
+    row: 58
+    number: '57'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Half-Orc Male A
+  - table: ACTOR
+    row: 59
+    number: '58'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Half-Orc Male B
+  - table: ACTOR
+    row: 60
+    number: '59'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Half-Orc Male C
+  - table: ACTOR
+    row: 61
+    number: '60'
+    name: Prisoner
+    baseName: ''
+    typePicture: Peasant Half-Orc Male D
+  - table: ACTOR
+    row: 62
+    number: '61'
+    name: Commoner
+    baseName: ''
+    typePicture: Peasant Half-Orc Female A
+  - table: ACTOR
+    row: 63
+    number: '62'
+    name: Town
+    baseName: ''
+    typePicture: Peasant Half-Orc Female B
+  - table: ACTOR
+    row: 64
+    number: '63'
+    name: Shopkeeper
+    baseName: ''
+    typePicture: Peasant Half-Orc Female C
+  - table: ACTOR
+    row: 65
+    number: '64'
+    name: Prisoner
+    baseName: ''
+    typePicture: Peasant Half-Orc Female D
+  - table: ACTOR
+    row: 66
+    number: '65'
+    name: Commoner Child
+    baseName: ''
+    typePicture: Peasant Half-Orc Child A
+  - table: ACTOR
+    row: 67
+    number: '66'
+    name: Townsfolk Child
+    baseName: ''
+    typePicture: Peasant Half-Orc Child B
+  - table: ACTOR
+    row: 68
+    number: '67'
+    name: Commoner Child
+    baseName: ''
+    typePicture: Peasant Dwarf Child A
+  - table: ACTOR
+    row: 69
+    number: '68'
+    name: Townsfolk Child
+    baseName: ''
+    typePicture: Peasant Dwarf Child B
+  - table: ACTOR
+    row: 239
+    number: '258'
+    name: Bori
+    baseName: ''
+    typePicture: Bori
+  - table: ACTOR
+    row: 240
+    number: '259'
+    name: Ratatosk
+    baseName: ''
+    typePicture: Ratatosk
+  - table: ACTOR
+    row: 241
+    number: '260'
+    name: Hanndl
+    baseName: ''
+    typePicture: Gate Keeper
+  - table: ACTOR
+    row: 244
+    number: '263'
+    name: Wyrde of the Known (Igrid)
+    baseName: ''
+    typePicture: Young Fate
+  - table: ACTOR
+    row: 245
+    number: '264'
+    name: Wyrde of the Knowing (Verdandi)
+    baseName: ''
+    typePicture: Middle Fate
+  - table: ACTOR
+    row: 246
+    number: '265'
+    name: Wyrde of the Unknown (Morgan)
+    baseName: ''
+    typePicture: Old Fate
+  - table: MONSTERS
+    row: 239
+    number: '258'
+    name: Bori
+    baseName: PeasantMale
+    typePicture: Bori
+  - table: MONSTERS
+    row: 240
+    number: '259'
+    name: Ratatosk
+    baseName: PeasantMale
+    typePicture: Ratatosk
+  warnings: []
+  errors:
+  - missing actor skin binding for material indices [0]; no table skins or exact model-name
+    DTX fallback
+  converted: true
+- modelName: sheep.abc
+  skins:
+  - sheep1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SHEEP.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: sheep
+  variantId: sheep_sheep1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: sheep1.dtx
+    path: mm9/extracted/SKINS/SKINS/SHEEP1.dtx
+    textureId: sheep1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 253
+    number: '272'
+    name: Ewe
+    baseName: sheep
+    typePicture: Ewe
+  - table: MONSTERS
+    row: 253
+    number: '272'
+    name: Ewe
+    baseName: sheep
+    typePicture: Ewe
+  warnings: []
+  errors: []
+  converted: true
+- modelName: sheep.abc
+  skins:
+  - sheep2.dtx
+  - ramhornblack.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SHEEP.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: sheep
+  variantId: sheep_sheep2_ramhornblack
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: sheep2.dtx
+    path: mm9/extracted/SKINS/SKINS/SHEEP2.dtx
+    textureId: sheep2
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: ramhornblack.dtx
+    path: mm9/extracted/SKINS/SKINS/RAMHORNBLACK.dtx
+    textureId: ramhornblack
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 254
+    number: '273'
+    name: Ram
+    baseName: sheep
+    typePicture: Ram
+  warnings:
+  - 'table provides skins for unused material indices: [1]'
+  errors: []
+  converted: true
+- modelName: sigmund.abc
+  skins:
+  - sigmund.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SIGMUND.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: sigmund
+  variantId: sigmund_sigmund
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: sigmund.dtx
+    path: mm9/extracted/SKINS/SKINS/SIGMUND.dtx
+    textureId: sigmund
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 228
+    number: '247'
+    name: Sigmund the Stressed
+    baseName: ''
+    typePicture: Sigmund the Stressed
+  - table: MONSTERS
+    row: 228
+    number: '247'
+    name: Sigmund the Stressed
+    baseName: PeasantMale
+    typePicture: Sigmund the Stressed
+  warnings: []
+  errors: []
+  converted: true
+- modelName: skeleton.abc
+  skins:
+  - Skeleton1.dtx
+  - skeletondagger.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SKELETON.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: skeleton
+  variantId: skeleton_skeleton1_skeletondagger
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: Skeleton1.dtx
+    path: mm9/extracted/SKINS/SKINS/SKELETON1.dtx
+    textureId: skeleton1
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: skeletondagger.dtx
+    path: mm9/extracted/SKINS/SKINS/SKELETONDAGGER.dtx
+    textureId: skeletondagger
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 175
+    number: '183'
+    name: Skeletoid
+    baseName: skeleton
+    typePicture: Skeleton Warriorlet A
+  warnings:
+  - 'duplicate model basename candidates: mm9/extracted/MODELS/MODELS/SKELETON.abc,
+    mm9/extracted/MODELS/MODELS/SAVE/SKELETON.abc'
+  errors: []
+  converted: true
+- modelName: skeleton.abc
+  skins:
+  - Skeleton2.dtx
+  - skeletondagger.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SKELETON.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: skeleton
+  variantId: skeleton_skeleton2_skeletondagger
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: Skeleton2.dtx
+    path: mm9/extracted/SKINS/SKINS/SKELETON2.dtx
+    textureId: skeleton2
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: skeletondagger.dtx
+    path: mm9/extracted/SKINS/SKINS/SKELETONDAGGER.dtx
+    textureId: skeletondagger
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 130
+    number: '135'
+    name: Skeleton
+    baseName: skeleton
+    typePicture: Skeleton Warrior A
+  - table: ACTOR
+    row: 176
+    number: '184'
+    name: Bone Thrasher
+    baseName: skeleton
+    typePicture: Skeleton Warriorlet B
+  - table: MONSTERS
+    row: 130
+    number: '135'
+    name: Skeleton
+    baseName: skeleton
+    typePicture: Skeleton Warrior A
+  - table: MONSTERS
+    row: 176
+    number: '184'
+    name: Bone Thrasher
+    baseName: skeleton
+    typePicture: Skeleton Warriorlet B
+  - table: MONSTERS
+    row: 184
+    number: '192'
+    name: Skeleton
+    baseName: skeleton
+    typePicture: Skeleton Warrior A
+  warnings:
+  - 'duplicate model basename candidates: mm9/extracted/MODELS/MODELS/SKELETON.abc,
+    mm9/extracted/MODELS/MODELS/SAVE/SKELETON.abc'
+  errors: []
+  converted: true
+- modelName: skeleton.abc
+  skins:
+  - Skeletonred.dtx
+  - skeletondagger.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SKELETON.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: skeleton
+  variantId: skeleton_skeletonred_skeletondagger
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: Skeletonred.dtx
+    path: mm9/extracted/SKINS/SKINS/SKELETONRED.dtx
+    textureId: skeletonred
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: skeletondagger.dtx
+    path: mm9/extracted/SKINS/SKINS/SKELETONDAGGER.dtx
+    textureId: skeletondagger
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 175
+    number: '183'
+    name: Skeletoid
+    baseName: skeleton
+    typePicture: Skeleton Warriorlet A
+  - table: MONSTERS
+    row: 177
+    number: '185'
+    name: Skull Thrower
+    baseName: skeleton
+    typePicture: Skeleton Warriorlet C
+  warnings:
+  - 'duplicate model basename candidates: mm9/extracted/MODELS/MODELS/SKELETON.abc,
+    mm9/extracted/MODELS/MODELS/SAVE/SKELETON.abc'
+  errors: []
+  converted: true
+- modelName: skeletonwarrior.abc
+  skins:
+  - SkeletonWar1.dtx
+  - skeletonscimitar.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SKELETONWARRIOR.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: skeletonwarrior
+  variantId: skeletonwarrior_skeletonwar1_skeletonscimitar
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: SkeletonWar1.dtx
+    path: mm9/extracted/SKINS/SKINS/SKELETONWAR1.dtx
+    textureId: skeletonwar1
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: skeletonscimitar.dtx
+    path: mm9/extracted/SKINS/SKINS/SKELETONSCIMITAR.dtx
+    textureId: skeletonscimitar
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 132
+    number: '137'
+    name: Skeleton Master
+    baseName: skeleton
+    typePicture: Skeleton Warrior C
+  - table: MONSTERS
+    row: 132
+    number: '137'
+    name: Skeleton Master
+    baseName: skeletonwarrior
+    typePicture: Skeleton Warrior C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: skeletonwarrior.abc
+  skins:
+  - SkeletonWar2.dtx
+  - skeletonscimitar.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SKELETONWARRIOR.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: skeletonwarrior
+  variantId: skeletonwarrior_skeletonwar2_skeletonscimitar
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: SkeletonWar2.dtx
+    path: mm9/extracted/SKINS/SKINS/SKELETONWAR2.dtx
+    textureId: skeletonwar2
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: skeletonscimitar.dtx
+    path: mm9/extracted/SKINS/SKINS/SKELETONSCIMITAR.dtx
+    textureId: skeletonscimitar
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 131
+    number: '136'
+    name: Skeleton Warrior
+    baseName: skeleton
+    typePicture: Skeleton Warrior B
+  - table: MONSTERS
+    row: 131
+    number: '136'
+    name: Skeleton Warrior
+    baseName: skeletonwarrior
+    typePicture: Skeleton Warrior B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Skraelos.abc
+  skins:
+  - skraelos.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SKRAELOS.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: skraelos
+  variantId: skraelos_skraelos
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: skraelos.dtx
+    path: mm9/extracted/SKINS/SKINS/SKRAELOS.dtx
+    textureId: skraelos
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 238
+    number: '257'
+    name: Skraelos
+    baseName: ''
+    typePicture: Skraelos
+  - table: MONSTERS
+    row: 238
+    number: '257'
+    name: Skraelos
+    baseName: PeasantMale
+    typePicture: Skraelos
+  warnings: []
+  errors: []
+  converted: true
+- modelName: stage1demon.abc
+  skins:
+  - lesserdemon.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/STAGE1DEMON.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: stage1demon
+  variantId: stage1demon_lesserdemon
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: lesserdemon.dtx
+    path: mm9/extracted/SKINS/SKINS/LESSERDEMON.dtx
+    textureId: lesserdemon
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 222
+    number: '241'
+    name: Lesser Demon
+    baseName: ''
+    typePicture: DoubleDemon A
+  - table: MONSTERS
+    row: 222
+    number: '241'
+    name: Lesser Demon
+    baseName: stage1demon
+    typePicture: DoubleDemon A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: stage2demon.abc
+  skins:
+  - greaterdemon.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/STAGE2DEMON.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: stage2demon
+  variantId: stage2demon_greaterdemon
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: greaterdemon.dtx
+    path: mm9/extracted/SKINS/SKINS/GREATERDEMON.dtx
+    textureId: greaterdemon
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 223
+    number: '242'
+    name: Greater Demon
+    baseName: ''
+    typePicture: DoubleDemon B
+  - table: MONSTERS
+    row: 223
+    number: '242'
+    name: Greater Demon
+    baseName: stage2demon
+    typePicture: DoubleDemon B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Sven.abc
+  skins:
+  - sven.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/SVEN.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: sven
+  variantId: sven_sven
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: sven.dtx
+    path: mm9/extracted/SKINS/SKINS/SVEN.dtx
+    textureId: sven
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 230
+    number: '249'
+    name: Sven Svenssen
+    baseName: ''
+    typePicture: Sven Svenssen
+  - table: MONSTERS
+    row: 230
+    number: '249'
+    name: Sven Svenssen
+    baseName: PeasantMale
+    typePicture: Sven Svenssen
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Terror.abc
+  skins:
+  - Terror1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/TERROR.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: terror
+  variantId: terror_terror1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Terror1.dtx
+    path: mm9/extracted/SKINS/SKINS/TERROR1.dtx
+    textureId: terror1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 218
+    number: '237'
+    name: Amphibious Terror
+    baseName: ''
+    typePicture: Tunnel Terror A
+  - table: MONSTERS
+    row: 218
+    number: '237'
+    name: Amphibious Terror
+    baseName: Terror
+    typePicture: Tunnel Terror A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Terror.abc
+  skins:
+  - Terror2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/TERROR.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: terror
+  variantId: terror_terror2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Terror2.dtx
+    path: mm9/extracted/SKINS/SKINS/TERROR2.dtx
+    textureId: terror2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 219
+    number: '238'
+    name: Desert Terror
+    baseName: ''
+    typePicture: Tunnel Terror B
+  - table: MONSTERS
+    row: 219
+    number: '238'
+    name: Desert Terror
+    baseName: Terror
+    typePicture: Tunnel Terror B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Terror.abc
+  skins:
+  - Terror3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/TERROR.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: terror
+  variantId: terror_terror3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Terror3.dtx
+    path: mm9/extracted/SKINS/SKINS/TERROR3.dtx
+    textureId: terror3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 220
+    number: '239'
+    name: Reptilian Terror
+    baseName: ''
+    typePicture: Tunnel Terror C
+  - table: MONSTERS
+    row: 220
+    number: '239'
+    name: Reptilian Terror
+    baseName: Terror
+    typePicture: Tunnel Terror C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Thrall.abc
+  skins:
+  - Thrall1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/THRALL.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: thrall
+  variantId: thrall_thrall1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Thrall1.dtx
+    path: mm9/extracted/SKINS/SKINS/THRALL1.dtx
+    textureId: thrall1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 91
+    number: '90'
+    name: Field Thrall
+    baseName: ''
+    typePicture: Thrall A
+  - table: MONSTERS
+    row: 91
+    number: '90'
+    name: Field Thrall
+    baseName: Thrall
+    typePicture: Thrall A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Thrall.abc
+  skins:
+  - Thrall2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/THRALL.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: thrall
+  variantId: thrall_thrall2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Thrall2.dtx
+    path: mm9/extracted/SKINS/SKINS/THRALL2.dtx
+    textureId: thrall2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 92
+    number: '91'
+    name: Thrall
+    baseName: ''
+    typePicture: Thrall B
+  - table: MONSTERS
+    row: 92
+    number: '91'
+    name: Thrall
+    baseName: Thrall
+    typePicture: Thrall B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Thrall.abc
+  skins:
+  - Thrall3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/THRALL.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: thrall
+  variantId: thrall_thrall3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Thrall3.dtx
+    path: mm9/extracted/SKINS/SKINS/THRALL3.dtx
+    textureId: thrall3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 93
+    number: '92'
+    name: Thrall Master
+    baseName: ''
+    typePicture: Thrall C
+  - table: MONSTERS
+    row: 93
+    number: '92'
+    name: Thrall Master
+    baseName: Thrall
+    typePicture: Thrall C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: trellborg.abc
+  skins:
+  - Trellborg1.dtx
+  - trellborgclub.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/TRELLBORG.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: trellborg
+  variantId: trellborg_trellborg1_trellborgclub
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: Trellborg1.dtx
+    path: mm9/extracted/SKINS/SKINS/TRELLBORG1.dtx
+    textureId: trellborg1
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: trellborgclub.dtx
+    path: mm9/extracted/SKINS/SKINS/TRELLBORGCLUB.dtx
+    textureId: trellborgclub
+    version: -5
+    bpp: 4
+    error: null
+  rows:
+  - table: ACTOR
+    row: 157
+    number: '165'
+    name: Trellborg
+    baseName: Trellborg
+    typePicture: Trellborg A
+  - table: MONSTERS
+    row: 157
+    number: '165'
+    name: Trellborg
+    baseName: Trellborg
+    typePicture: Trellborg A
+  warnings:
+  - 'duplicate texture basename candidates for trellborgclub.dtx: mm9/extracted/SKINS/SKINS/TRELLBORGCLUB.dtx,
+    mm9/extracted/SKINS/SKINS/WEAPONS/TRELLBORGCLUB.dtx'
+  errors: []
+  converted: true
+- modelName: trellborg.abc
+  skins:
+  - Trellborg2.dtx
+  - trellborgclub.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/TRELLBORG.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: trellborg
+  variantId: trellborg_trellborg2_trellborgclub
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: Trellborg2.dtx
+    path: mm9/extracted/SKINS/SKINS/TRELLBORG2.dtx
+    textureId: trellborg2
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: trellborgclub.dtx
+    path: mm9/extracted/SKINS/SKINS/TRELLBORGCLUB.dtx
+    textureId: trellborgclub
+    version: -5
+    bpp: 4
+    error: null
+  rows:
+  - table: ACTOR
+    row: 158
+    number: '166'
+    name: Kin Trellborg
+    baseName: Trellborg
+    typePicture: Trellborg B
+  - table: MONSTERS
+    row: 158
+    number: '166'
+    name: Kin Trellborg
+    baseName: Trellborg
+    typePicture: Trellborg B
+  warnings:
+  - 'duplicate texture basename candidates for trellborgclub.dtx: mm9/extracted/SKINS/SKINS/TRELLBORGCLUB.dtx,
+    mm9/extracted/SKINS/SKINS/WEAPONS/TRELLBORGCLUB.dtx'
+  errors: []
+  converted: true
+- modelName: trellborg.abc
+  skins:
+  - Trellborg3.dtx
+  - trellborgclub.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/TRELLBORG.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: trellborg
+  variantId: trellborg_trellborg3_trellborgclub
+  materials:
+  - 0
+  - 1
+  textures:
+  - materialIndex: 0
+    tableName: Trellborg3.dtx
+    path: mm9/extracted/SKINS/SKINS/TRELLBORG3.dtx
+    textureId: trellborg3
+    version: -5
+    bpp: 3
+    error: null
+  - materialIndex: 1
+    tableName: trellborgclub.dtx
+    path: mm9/extracted/SKINS/SKINS/TRELLBORGCLUB.dtx
+    textureId: trellborgclub
+    version: -5
+    bpp: 4
+    error: null
+  rows:
+  - table: ACTOR
+    row: 159
+    number: '167'
+    name: Ancient Trellborg
+    baseName: Trellborg
+    typePicture: Trellborg C
+  - table: MONSTERS
+    row: 159
+    number: '167'
+    name: Ancient Trellborg
+    baseName: Trellborg
+    typePicture: Trellborg C
+  warnings:
+  - 'duplicate texture basename candidates for trellborgclub.dtx: mm9/extracted/SKINS/SKINS/TRELLBORGCLUB.dtx,
+    mm9/extracted/SKINS/SKINS/WEAPONS/TRELLBORGCLUB.dtx'
+  errors: []
+  converted: true
+- modelName: troglodyte.abc
+  skins:
+  - troglodyte1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/TROGLODYTE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: troglodyte
+  variantId: troglodyte_troglodyte1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: troglodyte1.dtx
+    path: mm9/extracted/SKINS/SKINS/TROGLODYTE1.dtx
+    textureId: troglodyte1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 97
+    number: '96'
+    name: Troglodyte
+    baseName: Troglodyte
+    typePicture: Troglodyte A
+  - table: MONSTERS
+    row: 97
+    number: '96'
+    name: Troglodyte
+    baseName: Troglodyte
+    typePicture: Troglodyte A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: troglodyte.abc
+  skins:
+  - troglodyte2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/TROGLODYTE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: troglodyte
+  variantId: troglodyte_troglodyte2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: troglodyte2.dtx
+    path: mm9/extracted/SKINS/SKINS/TROGLODYTE2.dtx
+    textureId: troglodyte2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 98
+    number: '97'
+    name: Troglodyte Wren
+    baseName: Troglodyte
+    typePicture: Troglodyte B
+  - table: MONSTERS
+    row: 98
+    number: '97'
+    name: Troglodyte Wren
+    baseName: Troglodyte
+    typePicture: Troglodyte B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: troglodyte.abc
+  skins:
+  - troglodyte3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/TROGLODYTE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: troglodyte
+  variantId: troglodyte_troglodyte3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: troglodyte3.dtx
+    path: mm9/extracted/SKINS/SKINS/TROGLODYTE3.dtx
+    textureId: troglodyte3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 99
+    number: '98'
+    name: Troglodyte Gnoll
+    baseName: Troglodyte
+    typePicture: Troglodyte C
+  - table: MONSTERS
+    row: 99
+    number: '98'
+    name: Troglodyte Gnoll
+    baseName: Troglodyte
+    typePicture: Troglodyte C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Tryggva.abc
+  skins:
+  - tryggva.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/TRYGGVA.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: tryggva
+  variantId: tryggva_tryggva
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: tryggva.dtx
+    path: mm9/extracted/SKINS/SKINS/TRYGGVA.dtx
+    textureId: tryggva
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 231
+    number: '250'
+    name: Tryggva Ravenlocks
+    baseName: ''
+    typePicture: Tryggva Ravenlocks
+  - table: MONSTERS
+    row: 231
+    number: '250'
+    name: Tryggva Ravenlocks
+    baseName: PeasantMale
+    typePicture: Tryggva Ravenlocks
+  warnings: []
+  errors: []
+  converted: true
+- modelName: WingedMutant.abc
+  skins:
+  - WingedMutant1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/WINGEDMUTANT.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: wingedmutant
+  variantId: wingedmutant_wingedmutant1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: WingedMutant1.dtx
+    path: mm9/extracted/SKINS/SKINS/WINGEDMUTANT1.dtx
+    textureId: wingedmutant1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 151
+    number: '159'
+    name: Winged Oddity
+    baseName: ''
+    typePicture: Winged Mutant A
+  - table: MONSTERS
+    row: 151
+    number: '159'
+    name: Winged Oddity
+    baseName: WingedMutant
+    typePicture: Winged Mutant A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: WingedMutant.abc
+  skins:
+  - WingedMutant2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/WINGEDMUTANT.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: wingedmutant
+  variantId: wingedmutant_wingedmutant2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: WingedMutant2.dtx
+    path: mm9/extracted/SKINS/SKINS/WINGEDMUTANT2.dtx
+    textureId: wingedmutant2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 152
+    number: '160'
+    name: Winged Mutant
+    baseName: ''
+    typePicture: Winged Mutant B
+  - table: MONSTERS
+    row: 152
+    number: '160'
+    name: Winged Mutant
+    baseName: WingedMutant
+    typePicture: Winged Mutant B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: WingedMutant.abc
+  skins:
+  - WingedMutant3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/WINGEDMUTANT.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: wingedmutant
+  variantId: wingedmutant_wingedmutant3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: WingedMutant3.dtx
+    path: mm9/extracted/SKINS/SKINS/WINGEDMUTANT3.dtx
+    textureId: wingedmutant3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 153
+    number: '161'
+    name: Winged Aberration
+    baseName: ''
+    typePicture: Winged Mutant C
+  - table: MONSTERS
+    row: 153
+    number: '161'
+    name: Winged Aberration
+    baseName: WingedMutant
+    typePicture: Winged Mutant C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: wolf.abc
+  skins:
+  - Wolfred.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/WOLF.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: wolf
+  variantId: wolf_wolfred
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Wolfred.dtx
+    path: mm9/extracted/SKINS/SKINS/WOLFRED.dtx
+    textureId: wolfred
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 116
+    number: '115'
+    name: Red Wolf
+    baseName: ''
+    typePicture: Wolf B
+  - table: MONSTERS
+    row: 116
+    number: '115'
+    name: Red Wolf
+    baseName: Wolf
+    typePicture: Wolf B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: wolf.abc
+  skins:
+  - wolf.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/WOLF.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: wolf
+  variantId: wolf_wolf
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: wolf.dtx
+    path: mm9/extracted/SKINS/SKINS/WOLF.dtx
+    textureId: wolf
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 115
+    number: '114'
+    name: Grey Wolf
+    baseName: ''
+    typePicture: Wolf A
+  - table: MONSTERS
+    row: 115
+    number: '114'
+    name: Grey Wolf
+    baseName: Wolf
+    typePicture: Wolf A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: wolf.abc
+  skins:
+  - wolfblack.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/WOLF.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: wolf
+  variantId: wolf_wolfblack
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: wolfblack.dtx
+    path: mm9/extracted/SKINS/SKINS/WOLFBLACK.dtx
+    textureId: wolfblack
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 117
+    number: '116'
+    name: Black Wolf
+    baseName: ''
+    typePicture: Wolf C
+  - table: MONSTERS
+    row: 117
+    number: '116'
+    name: Black Wolf
+    baseName: Wolf
+    typePicture: Wolf C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: wyrd_mature.ABC
+  skins:
+  - wyrdmature.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/WYRD_MATURE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: wyrd_mature
+  variantId: wyrd_mature_wyrdmature
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: wyrdmature.dtx
+    path: mm9/extracted/SKINS/SKINS/WYRDMATURE.dtx
+    textureId: wyrdmature
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 245
+    number: '264'
+    name: Wyrde of the Knowing (Verdandi)
+    baseName: PeasantFemale
+    typePicture: Middle Fate
+  warnings: []
+  errors: []
+  converted: true
+- modelName: wyrd_old.abc
+  skins:
+  - wyrdold.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/WYRD_OLD.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: wyrd_old
+  variantId: wyrd_old_wyrdold
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: wyrdold.dtx
+    path: mm9/extracted/SKINS/SKINS/WYRDOLD.dtx
+    textureId: wyrdold
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 244
+    number: '263'
+    name: Wyrde of the Known (Igrid)
+    baseName: PeasantFemale
+    typePicture: Young Fate
+  warnings: []
+  errors: []
+  converted: true
+- modelName: wyrd_young.ABC
+  skins:
+  - wyrdyoung.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/WYRD_YOUNG.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: wyrd_young
+  variantId: wyrd_young_wyrdyoung
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: wyrdyoung.dtx
+    path: mm9/extracted/SKINS/SKINS/WYRDYOUNG.dtx
+    textureId: wyrdyoung
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: MONSTERS
+    row: 246
+    number: '265'
+    name: Wyrde of the Unknown (Morgan)
+    baseName: PeasantFemale
+    typePicture: Old Fate
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Yanmir.ABC
+  skins:
+  - yanmir.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/YANMIR.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: yanmir
+  variantId: yanmir_yanmir
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: yanmir.dtx
+    path: mm9/extracted/SKINS/SKINS/YANMIR.dtx
+    textureId: yanmir
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 195
+    number: '206'
+    name: Yanmir
+    baseName: Yanmir
+    typePicture: Giant C
+  - table: MONSTERS
+    row: 195
+    number: '206'
+    name: Yanmir
+    baseName: Yanmir
+    typePicture: Giant C
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Yrsa.abc
+  skins:
+  - Yrsa.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/YRSA.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: yrsa
+  variantId: yrsa_yrsa
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Yrsa.dtx
+    path: mm9/extracted/SKINS/SKINS/YRSA.dtx
+    textureId: yrsa
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 235
+    number: '254'
+    name: Yrsa the Troll
+    baseName: ''
+    typePicture: Troll-female
+  - table: MONSTERS
+    row: 235
+    number: '254'
+    name: Yrsa the Troll
+    baseName: PeasantFemale
+    typePicture: Troll-female
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Zombie.abc
+  skins:
+  - Zombie1.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/ZOMBIE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: zombie
+  variantId: zombie_zombie1
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Zombie1.dtx
+    path: mm9/extracted/SKINS/SKINS/ZOMBIE1.dtx
+    textureId: zombie1
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 172
+    number: '180'
+    name: Rotter
+    baseName: Zombie
+    typePicture: Zombie A
+  - table: MONSTERS
+    row: 172
+    number: '180'
+    name: Rotter
+    baseName: Zombie
+    typePicture: Zombie A
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Zombie.abc
+  skins:
+  - Zombie2.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/ZOMBIE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: zombie
+  variantId: zombie_zombie2
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Zombie2.dtx
+    path: mm9/extracted/SKINS/SKINS/ZOMBIE2.dtx
+    textureId: zombie2
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 173
+    number: '181'
+    name: Dripper
+    baseName: Zombie
+    typePicture: Zombie B
+  - table: MONSTERS
+    row: 173
+    number: '181'
+    name: Dripper
+    baseName: Zombie
+    typePicture: Zombie B
+  warnings: []
+  errors: []
+  converted: true
+- modelName: Zombie.abc
+  skins:
+  - Zombie3.dtx
+  modelPath: mm9/extracted/MODELS/MODELS/ZOMBIE.abc
+  outputDir: assets_dev/worlds/mm9/models
+  modelId: zombie
+  variantId: zombie_zombie3
+  materials:
+  - 0
+  textures:
+  - materialIndex: 0
+    tableName: Zombie3.dtx
+    path: mm9/extracted/SKINS/SKINS/ZOMBIE3.dtx
+    textureId: zombie3
+    version: -5
+    bpp: 3
+    error: null
+  rows:
+  - table: ACTOR
+    row: 174
+    number: '182'
+    name: Zombie
+    baseName: Zombie
+    typePicture: Zombie C
+  - table: MONSTERS
+    row: 174
+    number: '182'
+    name: Zombie
+    baseName: Zombie
+    typePicture: Zombie C
+  warnings: []
+  errors: []
+  converted: true

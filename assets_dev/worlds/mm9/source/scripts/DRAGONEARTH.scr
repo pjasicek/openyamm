@@ -1,0 +1,106 @@
+;---------------------------------------------------------
+;	dragonearth.scr
+;	Jeff Leggett
+;
+;	Implementation of the earth dragon...
+;---------------------------------------------------------
+
+#include base.inc
+
+
+
+;------------------------------------------
+:DragonAwake
+;	
+;	Now we're awake, go get him...
+;------------------------------------------
+
+	Target g_hTarget, TRUE
+
+	OnFoundPlayer				BaseFoundPlayer
+	OnAttackReady				BaseAttackReady
+	OnDamage					BaseDamage
+
+	Set g_sTemp, g_hTarget
+
+	SetParam 0, g_sTemp
+
+	gosub BaseFoundPlayer
+
+	Exit
+
+;------------------------------------------
+:WakeUp
+;
+;	Wake up and go get 'em boy!
+;
+;------------------------------------------
+
+	GetParam 0, g_hTarget
+
+	if ( g_hTarget==NULL )
+		Exit FALSE
+	endif
+
+	OnFoundPlayer				
+	OnAttackReady				
+	OnDamage					
+
+	Target g_hTarget, TRUE
+
+	OnAttackReady
+	OnFoundPlayer
+
+	PlayAnim StandUp, DragonAwake
+
+	Exit TRUE
+
+;------------------------------------------
+:SetupSleeping
+;
+;	Setup the dragon as asleep....
+;------------------------------------------
+
+	; Loop our sleeping animation
+
+	LoopAnim Rest,0
+
+	; When we find the player, we'll need to wake up...
+	OnFoundPlayer				WakeUp
+	OnAttackReady				WakeUp
+	OnDamage					WakeUp
+
+
+	Exit
+
+;------------------------------------------
+:OnCongestion
+;
+;	Don't do anything here...
+;	
+;------------------------------------------
+
+	Exit FALSE
+
+;------------------------------------------
+:Main
+;
+;	Parameters:
+;
+;		p0 ==> bIsSleeping
+;
+;------------------------------------------
+
+	gosub InitBase
+
+;;;	TraceOn
+
+	GetParam 0, g_nTemp
+
+	if ( g_nTemp!=FALSE )
+		gosub SetupSleeping
+	endif
+
+	OnCongestion OnCongestion
+
+	Exit		

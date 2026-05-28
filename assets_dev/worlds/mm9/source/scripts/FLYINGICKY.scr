@@ -1,0 +1,248 @@
+;-----------------------------------------------------
+;	FlyingIcky.scr
+;	Jeff Leggett
+;	10/01/2001
+;
+;	Custom script for the Flying icky's custom anims
+;	
+;-----------------------------------------------------
+
+#include BaseFly.inc
+
+#number			FIDGET_WAIT = 20
+
+#number			g_bHanging = 1
+
+
+;-----------------------------------------------------
+:IckyDamage
+;-----------------------------------------------------
+
+	GetParam 0, g_hTarget
+	Target g_hTarget, FALSE
+
+	gosub IckyLaunch
+
+	Exit TRUE
+
+;-----------------------------------------------------
+:Fidget
+;-----------------------------------------------------
+
+	PlayAnim hangfidget, FidgetDone
+	OnFoundTarget IckyTarget
+
+	Exit
+
+;-----------------------------------------------------
+:FidgetDone
+;-----------------------------------------------------
+
+	if ( g_bHanging==FALSE )
+		Exit
+	endif
+
+	LoopAnim Hang, 0
+	gosub FidgetSetup
+
+	Exit
+
+;-----------------------------------------------------
+:FidgetSetup
+;-----------------------------------------------------
+
+	OnFoundTarget
+	GetRandomFloat 2,10, g_nRandom
+
+	Wait FIDGET_WAIT, g_nRandom, Fidget
+
+	Exit
+
+;-----------------------------------------------------
+:FidgetCancel
+;-----------------------------------------------------
+
+	Wait FIDGET_WAIT, 0, DoNothing
+	exit
+
+;-----------------------------------------------------
+:IckyLaunchDone
+;-----------------------------------------------------
+
+	Stop	
+
+	gosub BaseFlyInit	
+;;	gosub BaseFlyInitCallbacks
+	gosub SetupTarget
+	gosub AggressiveStart
+
+	Exit
+
+;-----------------------------------------------------
+:IckyLaunch
+;-----------------------------------------------------
+
+	MoveDir 0, -1, 0, 0, 100
+
+	gosub FidgetCancel
+
+	PlayAnim Launch, IckyLaunchDone
+
+	Exit
+
+;-----------------------------------------------------
+:IckyTarget
+;
+;	We found a target when we fidgeted...
+;
+;-----------------------------------------------------
+	GetParam 0, g_hTarget
+	Target g_hTarget, FALSE
+
+	gosub IckyLaunch
+
+	Exit
+
+;-----------------------------------------------------
+:IckyAlert
+;	
+;	p0 - hAlerter
+;	p1 - hBadGuy
+;
+;-----------------------------------------------------
+
+	GetParam 1, g_hObject
+
+	IsFriend g_hObject, g_bTemp
+
+	if ( g_bTemp==TRUE )
+		Exit
+	endif
+
+	g_hTarget = g_hObject
+
+	Target g_hTarget, FALSE
+	gosub IckyLaunch
+
+	Exit 
+
+
+;-----------------------------------------------------
+:IckyHelp
+;	p0 - hPoorSlob
+;	p1 - hBadGuy
+;-----------------------------------------------------
+
+	GetParam 0, g_hObject
+	
+	IsFriend g_hObject, g_bTemp
+
+	if ( g_bTemp==FALSE )
+		Exit
+	Endif
+
+	GetParam 1, g_hTarget
+	Target g_hTarget, FALSE
+
+	gosub IckyLaunch
+
+	Exit
+
+
+;-----------------------------------------------------
+:IckyProjectile
+;-----------------------------------------------------
+
+	GetParam 1, g_hTarget
+	Target g_hTarget, FALSE
+	gosub IckyLaunch
+
+	Exit
+
+;-----------------------------------------------------
+:IckyWanderStartup
+;-----------------------------------------------------
+
+	gosub BaseWanderStartup
+	gosub DisableWandering
+
+	Exit
+
+;-----------------------------------------------------
+:AirborneIckyInit
+;-----------------------------------------------------
+
+	SetIdle
+	gosub BaseWanderStartup
+
+	Exit
+
+;-----------------------------------------------------
+:BaseWanderGo
+;-----------------------------------------------------
+	SetStat g_hMyObject,FlyVel,150
+	gosub BaseWanderGo,2
+	Exit
+
+;-----------------------------------------------------
+:BaseWanderStop
+;-----------------------------------------------------
+	gosub BaseWanderStop,2
+	Exit
+
+;-----------------------------------------------------
+:Sleep
+;-----------------------------------------------------
+	OnDamage		IckyDamage
+	OnAlert			IckyAlert
+	OnHelp			IckyHelp
+	OnProjectile	IckyProjectile, 200
+	OnFoundTarget
+
+	Wait 0, 0.1, IckyWanderStartup
+	gosub FidgetSetup
+	LoopAnim Hang, 0
+	Exit
+
+;-----------------------------------------------------
+:BeAwake
+;-----------------------------------------------------
+	gosub BaseFlyInit
+	wait 0, 0.1,AirborneIckyInit
+
+	Exit
+
+;-----------------------------------------------------
+:Main
+;
+;	The flying icky is supposed to start asleep and
+;	upside-down (like a bat...)
+;
+;-----------------------------------------------------
+	GetMyHandle g_hMyObject
+
+
+	GetParam 0,g_nTemp
+
+	if ( g_nTemp==1 )
+		; Force sleeping
+		gosub Sleep
+		Exit
+	else
+		if ( g_nTemp==2 )
+			; Force Flying
+			gosub BeAwake
+			Exit
+		Endif
+	Endif
+
+	GetClassName g_hMyObject,g_sTemp
+
+	if ( g_sTemp==AirborneIcky )
+		gosub BeAwake
+	else
+		gosub Sleep
+	endif
+
+	Exit
+

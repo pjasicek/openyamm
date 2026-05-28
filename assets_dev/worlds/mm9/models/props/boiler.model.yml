@@ -1,0 +1,112 @@
+schema: openyamm.model3d.v1
+id: boiler
+model: boiler.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/BOILER.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: FireNode
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Boiler
+  materialIndex: 0
+  lods:
+  - faces: 223
+    vertices: 255
+  - faces: 167
+    vertices: 213
+  - faces: 111
+    vertices: 169
+materials:
+- index: 0
+  texture: skins_preview/props/boiler.png
+  runtime_texture: skins/props/boiler.dtx
+  preview_texture: skins_preview/props/boiler.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/BOILER.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 2
+    - 5
+  - index: 1
+    name: FireNode
+    parent: 0
+    flags: 0
+    children: []
+  - index: 2
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 3
+    - 4
+  - index: 3
+    name: Bone02
+    parent: 2
+    flags: 0
+    children: []
+  - index: 4
+    name: Boiler
+    parent: 2
+    flags: 0
+    children: []
+  - index: 5
+    name: Omni01
+    parent: 0
+    flags: 0
+    children: []
+sockets:
+- name: FireNode
+  node: 1
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 3.0908616110991716e-08
+  - -0.7071067094802856
+  - 0.7071068286895752
+  - 3.0908616110991716e-08
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 53.76
+  - 89.60000000000001
+  - 28.16
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/boiler.abc

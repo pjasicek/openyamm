@@ -1,0 +1,97 @@
+;--------------------------------------------------
+;Guardhelp.scr
+; timmy
+; helps anrito when he calles for help.
+;--------------------------------------------------
+
+#include globals.inc
+#include basemelee.inc
+#Include BaseDoor.inc
+#include guardsounds.inc
+
+
+#number bHasKey = FALSE
+#number bIsPlayer = FALSE
+#number bResult = FALSE
+#hobject hParam = 0
+#number nKeyValue = 5007
+
+
+
+;-------------------------------------
+:OnGiveHelp
+;-------------------------------------
+
+getparam 0 g_hobject
+runto g_hobject 32 DoNothing
+exit
+
+;-------------------------------------
+:OnTarget
+;-------------------------------------
+
+
+
+	GetParam 0, hParam
+	IsPlayer hParam, bIsPlayer
+	HasKey nKeyValue, bHasKey
+	bResult = bIsPlayer * bHasKey
+	if( bResult != TRUE )
+		RunTo hParam, 25, BaseInit
+	endif
+	Exit TRUE
+
+
+;-------------------------------------
+:OnDamage
+;-------------------------------------
+
+
+getparam 0 g_hobject
+IsPlayer g_hobject, bIsPlayer
+if (bIsPlayer==TRUE)
+	givekey 5006
+	removefriend Player
+	gosub Help
+	gosub BaseInit
+else
+	addfriend player
+	gosub baseinit
+endif
+exit
+
+;-------------------------------------
+:Help
+;-------------------------------------
+
+
+	Getobjecthandle Help1 g_hobject
+	trigger g_hobject help
+
+	Getobjecthandle Help2 g_hobject
+	trigger g_hobject help
+
+	Getobjecthandle Help3 g_hobject
+	trigger g_hobject help
+
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;Traceon
+addfriend CommonerHuman2MaleA
+addtrigger help OnGiveHelp
+Onfoundtarget OnTarget
+OnDamage OnDamage
+Gosub BaseDoorInit
+gosub GS_Init
+exit
+

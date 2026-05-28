@@ -1,0 +1,72 @@
+schema: openyamm.model3d.v1
+id: edstatue
+model: edstatue.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/EDSTATUE.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 768.0
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: wing
+  materialIndex: 0
+  lods:
+  - faces: 88
+    vertices: 50
+  - faces: 88
+    vertices: 50
+- name: body
+  materialIndex: 0
+  lods:
+  - faces: 1198
+    vertices: 685
+  - faces: 1006
+    vertices: 589
+materials:
+- index: 0
+  texture: skins_preview/spells/body.png
+  runtime_texture: skins/spells/body.dtx
+  preview_texture: skins_preview/spells/body.png
+  source: mm9/extracted/SKINS/SKINS/SPELLS/BODY.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: edpose
+  durationMs: 366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: edpose
+  extents:
+  - 256.0
+  - 184.32
+  - 371.2
+  origin:
+  - 0.0
+  - -5.12
+  - 0.0
+roles:
+- static_model
+source_model: models/props/edstatue.abc

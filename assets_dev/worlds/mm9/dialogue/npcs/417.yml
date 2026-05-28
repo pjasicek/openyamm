@@ -1,0 +1,1183 @@
+format_version: 1
+source_file: NPC417.rude
+rows:
+  - source:
+      file: NPC417.rude
+      row: 1
+    raw_columns:
+      - 417
+      - 4
+      - 1
+      - Yes.
+      - Wonderful.  Good luck
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 243
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 244
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 4
+      choice_slot: 1
+      prompt: Yes.
+      response: Wonderful.  Good luck
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 243
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 244
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 243
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c26
+        value: 244
+        status: raw_value_preserved
+  - source:
+      file: NPC417.rude
+      row: 2
+    raw_columns:
+      - 417
+      - 21
+      - 1
+      - Okay.
+      - You must throw the lever, and make it to the door without setting off the traps, and before the time expires.  If you fail, you must return and start over.  Good luck.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 21
+      choice_slot: 1
+      prompt: Okay.
+      response: You must throw the lever, and make it to the door without setting off the traps, and before the time expires.  If you fail, you must return and start over.  Good luck.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC417.rude
+      row: 3
+    raw_columns:
+      - 417
+      - 1
+      - 1
+      - We are here for the trial.
+      - Ah yes.  Wonderful.  Let me explain the procedure.  The Dungeon of Secrets is divided into nine sections, each starts with a lever, and ends with a door.
+      - 2
+      - 239
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 1
+      choice_slot: 1
+      prompt: We are here for the trial.
+      response: Ah yes.  Wonderful.  Let me explain the procedure.  The Dungeon of Secrets is divided into nine sections, each starts with a lever, and ends with a door.
+      next: 2
+      raw_fields:
+        c07: 239
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 239
+            qbit_id: 9239
+            state_id: mm9.keys.239
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 239
+          qbit_id: 9239
+          state_id: mm9.keys.239
+  - source:
+      file: NPC417.rude
+      row: 4
+    raw_columns:
+      - 417
+      - 20
+      - 1
+      - Yes.
+      - Very well, let me explain the procedure.  The Dungeon of Secrets is divided into nine sections, each starts with a lever, and ends with a door.
+      - 21
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 20
+      choice_slot: 1
+      prompt: Yes.
+      response: Very well, let me explain the procedure.  The Dungeon of Secrets is divided into nine sections, each starts with a lever, and ends with a door.
+      next: 21
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 21
+  - source:
+      file: NPC417.rude
+      row: 5
+    raw_columns:
+      - 417
+      - 2
+      - 1
+      - Okay.
+      - You must throw the lever, and make it to the door without setting off the traps, and before the time expires.  If you fail, you must return and start over.  When you are finished, return to me.  Are you ready to begin?
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 2
+      choice_slot: 1
+      prompt: Okay.
+      response: You must throw the lever, and make it to the door without setting off the traps, and before the time expires.  If you fail, you must return and start over.  When you are finished, return to me.  Are you ready to begin?
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC417.rude
+      row: 6
+    raw_columns:
+      - 417
+      - 3
+      - 1
+      - Yes
+      - Good luck.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 243
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 3
+      choice_slot: 1
+      prompt: Yes
+      response: Good luck.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 243
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 243
+        status: raw_value_preserved
+  - source:
+      file: NPC417.rude
+      row: 7
+    raw_columns:
+      - 417
+      - 417
+      - 1
+      - Hello.
+      - Welcome to the Dungeon of Secrets.  Can I help you?
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 243
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 417
+      choice_slot: 1
+      prompt: Hello.
+      response: Welcome to the Dungeon of Secrets.  Can I help you?
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 243
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 243
+        status: raw_value_preserved
+  - source:
+      file: NPC417.rude
+      row: 8
+    raw_columns:
+      - 417
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC417.rude
+      row: 9
+    raw_columns:
+      - 417
+      - 417
+      - 2
+      - We'd like our reward.
+      - I'm afraid you set off a trap.  Would you like to try again?
+      - 4
+      - 244
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 417
+      choice_slot: 2
+      prompt: We'd like our reward.
+      response: I'm afraid you set off a trap.  Would you like to try again?
+      next: 4
+      raw_fields:
+        c07: 244
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 244
+            qbit_id: 9244
+            state_id: mm9.keys.244
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 244
+          qbit_id: 9244
+          state_id: mm9.keys.244
+  - source:
+      file: NPC417.rude
+      row: 10
+    raw_columns:
+      - 417
+      - 4
+      - 2
+      - No.
+      - Very well.  Come back when you are ready.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 4
+      choice_slot: 2
+      prompt: No.
+      response: Very well.  Come back when you are ready.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC417.rude
+      row: 11
+    raw_columns:
+      - 417
+      - 1
+      - 2
+      - We'd like to run the course.
+      - The course is normally reserved as a testing grounds for those who would be Rangers.  I can allow you to practice, but you will not get a reward for completing it.  Is that alright?
+      - 20
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 239
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 1
+      choice_slot: 2
+      prompt: We'd like to run the course.
+      response: The course is normally reserved as a testing grounds for those who would be Rangers.  I can allow you to practice, but you will not get a reward for completing it.  Is that alright?
+      next: 20
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 239
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 20
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 239
+        status: raw_value_preserved
+  - source:
+      file: NPC417.rude
+      row: 12
+    raw_columns:
+      - 417
+      - 20
+      - 2
+      - No.
+      - Very well.  Come back when you are ready to practice.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 20
+      choice_slot: 2
+      prompt: No.
+      response: Very well.  Come back when you are ready to practice.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC417.rude
+      row: 13
+    raw_columns:
+      - 417
+      - 3
+      - 2
+      - No.
+      - Very well.  Return when you are.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 3
+      choice_slot: 2
+      prompt: No.
+      response: Very well.  Return when you are.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC417.rude
+      row: 14
+    raw_columns:
+      - 417
+      - 417
+      - 3
+      - We'd like our reward.
+      - Congratulations.  You have successfully completed the course.
+      - 417
+      - 245
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 246
+      - 0
+      - 0
+      - 0
+      - 0
+      - 246
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 417
+      choice_slot: 3
+      prompt: We'd like our reward.
+      response: Congratulations.  You have successfully completed the course.
+      next: 417
+      raw_fields:
+        c07: 245
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 246
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 246
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 417
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 245
+            qbit_id: 9245
+            state_id: mm9.keys.245
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 245
+          qbit_id: 9245
+          state_id: mm9.keys.245
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 246
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 246
+        status: raw_value_preserved
+  - source:
+      file: NPC417.rude
+      row: 15
+    raw_columns:
+      - 417
+      - 1
+      - 3
+      - No.  Sorry.
+      - Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 1
+      choice_slot: 3
+      prompt: No.  Sorry.
+      response: Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC417.rude
+      row: 16
+    raw_columns:
+      - 417
+      - 417
+      - 4
+      - Sorry to bother you.
+      - Farewell.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 417
+      node_id: 417
+      choice_slot: 4
+      prompt: Sorry to bother you.
+      response: Farewell.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

@@ -1,0 +1,136 @@
+;------------------------------------------------------------------
+;	DP_Patrol.scr
+;	Brett Yagi
+;
+;
+;	Parameters
+;
+;	0 - Marker Root name  (ie for Markers Mrk0, Mrk1, Mrk2  "Mrk" is the root name)
+;	1 - Number of Markers
+;
+;
+;-----------------------------------------------------
+#include DrangheimHostility.inc
+
+#string		sPatrolMarkerRoot
+#string		sMarker
+#number		nNumMarkers
+#number		nMarker = 0
+#number		nForward = 0
+#hobject	hMarker
+
+#hobject	hDoor
+#number		nDoor = 0
+
+:dn
+
+exit 1
+
+
+;--------------------------------------------------------------
+:GoToMarker
+;--------------------------------------------------------------
+
+	sMarker = sPatrolMarkerRoot + nMarker
+	GetObjectHandle sMarker hMarker
+
+	if ( nForward == 0 )
+		if ( nMarker != nNumMarkers )
+			nMarker = nMarker + 1
+		else
+			nForward = 1
+			nMarker = nMarker - 1
+		endif
+	else
+		if ( nMarker != 0 )
+			nMarker = nMarker - 1
+		else
+			nForward = 0
+			nMarker = nMarker + 1
+		endif
+
+	endif
+	WalkTo hMarker 40 GoToMarker
+
+
+Exit 1
+
+;--------------------------------------------------------------
+:UnStuckMe
+;--------------------------------------------------------------
+
+	if ( nForward == 0 )
+		nMarker = nMarker - 1
+	else
+		nMarker = nMarker + 1
+	endif
+
+	GoSub GoToMarker
+
+Exit 1
+
+;--------------------------------------------------------------
+:ClearofDoor
+;--------------------------------------------------------------
+
+	nDoor = 0
+
+
+Exit 1
+
+
+
+;--------------------------------------------------------------
+:GoThruDoor
+;--------------------------------------------------------------
+
+	GetParam 0 hDoor
+	if ( nDoor == 0 )
+		SetIdle
+		nDoor = 1
+		if ( nForward == 0 )
+			nMarker = nMarker - 1
+		else
+			nMarker = nMarker + 1
+		endif
+	
+		Trigger hDoor use
+		Wait 0 1 GoToMarker
+		Wait 1 3 ClearofDoor
+	endif
+
+Exit 1
+
+
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	gosub InitDrangheimHostility
+
+	nNumMarkers = nNumMarkers - 1
+	
+	GoSub GoToMarker
+
+Exit 1
+
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+
+	GetParam 0 sPatrolMarkerRoot
+	GetParam 1 nNumMarkers
+	OnStuck UnStuckMe
+	OnDoor GoThruDoor
+	Wait 0 .1 main2
+
+
+Exit 1
+
+
+
+
+
+
+
+
+

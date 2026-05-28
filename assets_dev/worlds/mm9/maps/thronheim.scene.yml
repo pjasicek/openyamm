@@ -1,0 +1,4103 @@
+format_version: 1
+kind: outdoor_scene
+source:
+  geometry_file: thronheim.odm
+  source_metadata_file: thronheim.mm9.yml
+runtime_restrictions:
+  allow_save_game: false
+  allow_lloyds_beacon: false
+  arena: false
+environment:
+  sky_texture: plansky1
+  ground_tileset_name: planset
+  master_tile: 0
+  tile_set_lookup_indices:
+  - 0
+  - 0
+  - 0
+  - 0
+  day_bits_raw: 0
+  map_extra_bits_raw: 8
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: true
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 8192
+    strong_distance: 16384
+  weather:
+    fog_mode: static
+    precipitation: none
+    daily_fog:
+      small_chance: 0
+      average_chance: 0
+      dense_chance: 0
+      small:
+        weak_distance: 8192
+        strong_distance: 16384
+      average:
+        weak_distance: 8192
+        strong_distance: 16384
+      dense:
+        weak_distance: 8192
+        strong_distance: 16384
+  ceiling: 32767
+terrain:
+  attribute_overrides: []
+  footstep_sound_overrides: []
+bmodel_faces:
+  interactive_faces: []
+entities: []
+spawns: []
+model_instances:
+- instance_id: mm9:thronheim:object:8
+  source_ref: objects/8
+  source_kind: mm9_dat_object
+  source_object_index: 8
+  source_class: CandleProp
+  source_name: Lightpost28
+  source_model: models/Props/Lamppost4.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost4.glb
+  position:
+    x: -24919
+    y: 15473
+    z: 1469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:10
+  source_ref: objects/10
+  source_kind: mm9_dat_object
+  source_object_index: 10
+  source_class: CandleProp
+  source_name: Lightpost27
+  source_model: models/Props/Lamppost4.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost4.glb
+  position:
+    x: -23608
+    y: 14920
+    z: 1469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:12
+  source_ref: objects/12
+  source_kind: mm9_dat_object
+  source_object_index: 12
+  source_class: CandleProp
+  source_name: Lightpost26
+  source_model: models/Props/Lamppost4.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost4.glb
+  position:
+    x: -22200
+    y: 14259
+    z: 1469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:14
+  source_ref: objects/14
+  source_kind: mm9_dat_object
+  source_object_index: 14
+  source_class: CandleProp
+  source_name: Lightpost29
+  source_model: models/Props/Lamppost4.ABC
+  source_skin: Skins/Props/Lamppost3.dtx
+  model_asset: models/props/lamppost4.glb
+  position:
+    x: -22200
+    y: 16133
+    z: 1469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:15
+  source_ref: objects/15
+  source_kind: mm9_dat_object
+  source_object_index: 15
+  source_class: Prop
+  source_name: Barrel0
+  source_model: models/props/barrel.abc
+  source_skin: skins/props/barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: -22118
+    y: 14828
+    z: 1403
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheim:object:16
+  source_ref: objects/16
+  source_kind: mm9_dat_object
+  source_object_index: 16
+  source_class: Prop
+  source_name: Barrel1
+  source_model: models/props/barrel.abc
+  source_skin: skins/props/barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: -22118
+    y: 14664
+    z: 1403
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheim:object:17
+  source_ref: objects/17
+  source_kind: mm9_dat_object
+  source_object_index: 17
+  source_class: Prop
+  source_name: Barrel2
+  source_model: models/props/barrel.abc
+  source_skin: skins/props/barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: -21709
+    y: 15770
+    z: 1403
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheim:object:18
+  source_ref: objects/18
+  source_kind: mm9_dat_object
+  source_object_index: 18
+  source_class: Prop
+  source_name: Barrel
+  source_model: models/props/barrel.abc
+  source_skin: skins/props/barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: -21709
+    y: 15606
+    z: 1403
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:thronheim:object:19
+  source_ref: objects/19
+  source_kind: mm9_dat_object
+  source_object_index: 19
+  source_class: Prop
+  source_name: Rope1
+  source_model: models/Props/RopeCoil.ABC
+  source_skin: Skins/Props/RopeCoil.dtx
+  model_asset: models/props/ropecoil.glb
+  position:
+    x: -22815
+    y: 16343
+    z: 911
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:20
+  source_ref: objects/20
+  source_kind: mm9_dat_object
+  source_object_index: 20
+  source_class: Prop
+  source_name: Rope0
+  source_model: models/Props/RopeCoil.ABC
+  source_skin: Skins/Props/RopeCoil.dtx
+  model_asset: models/props/ropecoil.glb
+  position:
+    x: -21668
+    y: 14295
+    z: 1321
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:21
+  source_ref: objects/21
+  source_kind: mm9_dat_object
+  source_object_index: 21
+  source_class: Prop
+  source_name: Rope
+  source_model: models/Props/RopeCoil.ABC
+  source_skin: Skins/Props/RopeCoil.dtx
+  model_asset: models/props/ropecoil.glb
+  position:
+    x: -22159
+    y: 15483
+    z: 1321
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:24
+  source_ref: objects/24
+  source_kind: mm9_dat_object
+  source_object_index: 24
+  source_class: CommonerHumanFemaleA
+  source_name: CommonerHumanFemaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantf1.glb
+  position:
+    x: -34332
+    y: 5112
+    z: 1541
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantf1_peasantf1b
+- instance_id: mm9:thronheim:object:44
+  source_ref: objects/44
+  source_kind: mm9_dat_object
+  source_object_index: 44
+  source_class: CommonerHumanMaleA
+  source_name: CommonerHumanMaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm1.glb
+  position:
+    x: -25969
+    y: 14991
+    z: 1475
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42972334
+    w: -0.9029606
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm1_peasantm1a
+- instance_id: mm9:thronheim:object:45
+  source_ref: objects/45
+  source_kind: mm9_dat_object
+  source_object_index: 45
+  source_class: TreasureChest
+  source_name: TreasureChest2
+  source_model: models/Props/Chest1.ABC
+  source_skin: skins/props/Chest1.dtx
+  model_asset: models/props/chest1.glb
+  position:
+    x: -48824
+    y: -18678
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:46
+  source_ref: objects/46
+  source_kind: mm9_dat_object
+  source_object_index: 46
+  source_class: Gezzampt
+  source_name: Gezzampt0
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -48660
+    y: -17777
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt2
+- instance_id: mm9:thronheim:object:47
+  source_ref: objects/47
+  source_kind: mm9_dat_object
+  source_object_index: 47
+  source_class: Gezzampt
+  source_name: Gezzampt1
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -48169
+    y: -17449
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.25881905
+    w: 0.96592582
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt2
+- instance_id: mm9:thronheim:object:48
+  source_ref: objects/48
+  source_kind: mm9_dat_object
+  source_object_index: 48
+  source_class: Gezzamptling
+  source_name: Gezzamptling0
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -48988
+    y: -18104
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.23683818
+    w: -0.97154911
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt
+- instance_id: mm9:thronheim:object:49
+  source_ref: objects/49
+  source_kind: mm9_dat_object
+  source_object_index: 49
+  source_class: Gezzamptling
+  source_name: Gezzamptling1
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -52756
+    y: -13681
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.34202013
+    w: 0.93969262
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt
+- instance_id: mm9:thronheim:object:50
+  source_ref: objects/50
+  source_kind: mm9_dat_object
+  source_object_index: 50
+  source_class: Gezzamptling
+  source_name: Gezzamptling2
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -51855
+    y: -12780
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.08715574
+    w: 0.9961947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt
+- instance_id: mm9:thronheim:object:51
+  source_ref: objects/51
+  source_kind: mm9_dat_object
+  source_object_index: 51
+  source_class: Gezzampt
+  source_name: Gezzampt2
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -54559
+    y: -11305
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.91601302
+    w: 0.40114854
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt2
+- instance_id: mm9:thronheim:object:52
+  source_ref: objects/52
+  source_kind: mm9_dat_object
+  source_object_index: 52
+  source_class: Gezzamptling
+  source_name: Gezzamptling3
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -51855
+    y: -9748
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.98372862
+    w: 0.17966078
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt
+- instance_id: mm9:thronheim:object:53
+  source_ref: objects/53
+  source_kind: mm9_dat_object
+  source_object_index: 53
+  source_class: Gezzamptling
+  source_name: Gezzamptling4
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -50872
+    y: -11633
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.89879404
+    w: 0.43837115
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt
+- instance_id: mm9:thronheim:object:54
+  source_ref: objects/54
+  source_kind: mm9_dat_object
+  source_object_index: 54
+  source_class: Gezzamptling
+  source_name: Gezzamptling5
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -49562
+    y: -10076
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.941176
+    w: 0.33791675
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt
+- instance_id: mm9:thronheim:object:55
+  source_ref: objects/55
+  source_kind: mm9_dat_object
+  source_object_index: 55
+  source_class: Gezzamptling
+  source_name: Gezzamptling6
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -47596
+    y: -13926
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.39233726
+    w: -0.91982144
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt
+- instance_id: mm9:thronheim:object:56
+  source_ref: objects/56
+  source_kind: mm9_dat_object
+  source_object_index: 56
+  source_class: Gezzamptling
+  source_name: Gezzamptling7
+  source_model: models/Gezzampt.abc
+  source_skin: ''
+  model_asset: models/gezzampt.glb
+  position:
+    x: -43909
+    y: -12780
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.44150585
+    w: -0.89725837
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt
+- instance_id: mm9:thronheim:object:57
+  source_ref: objects/57
+  source_kind: mm9_dat_object
+  source_object_index: 57
+  source_class: Cookpot
+  source_name: Cookpot0
+  source_model: models/Props/cookpot.ABC
+  source_skin: skins/props/cookpot.dtx
+  model_asset: models/props/cookpot.glb
+  position:
+    x: -50790
+    y: -11305
+    z: 2949
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:58
+  source_ref: objects/58
+  source_kind: mm9_dat_object
+  source_object_index: 58
+  source_class: Prop
+  source_name: Prop44
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -25864
+    y: -17969
+    z: 2360
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:59
+  source_ref: objects/59
+  source_kind: mm9_dat_object
+  source_object_index: 59
+  source_class: Prop
+  source_name: Prop43
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -22833
+    y: -11825
+    z: 2094
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:60
+  source_ref: objects/60
+  source_kind: mm9_dat_object
+  source_object_index: 60
+  source_class: Prop
+  source_name: Prop40
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -26437
+    y: 12014
+    z: 1234
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:61
+  source_ref: objects/61
+  source_kind: mm9_dat_object
+  source_object_index: 61
+  source_class: Prop
+  source_name: Prop38
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -47245
+    y: -1257
+    z: 2360
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:62
+  source_ref: objects/62
+  source_kind: mm9_dat_object
+  source_object_index: 62
+  source_class: Prop
+  source_name: Prop34
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -34895
+    y: -19274
+    z: 2043
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:63
+  source_ref: objects/63
+  source_kind: mm9_dat_object
+  source_object_index: 63
+  source_class: Prop
+  source_name: Prop33
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -32335
+    y: -16412
+    z: 2074
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:64
+  source_ref: objects/64
+  source_kind: mm9_dat_object
+  source_object_index: 64
+  source_class: Prop
+  source_name: Prop31
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -16530
+    y: -12403
+    z: 2115
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:65
+  source_ref: objects/65
+  source_kind: mm9_dat_object
+  source_object_index: 65
+  source_class: Prop
+  source_name: Prop28
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -15624
+    y: -13299
+    z: 2115
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:66
+  source_ref: objects/66
+  source_kind: mm9_dat_object
+  source_object_index: 66
+  source_class: Prop
+  source_name: Prop24
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -35699
+    y: -8061
+    z: 1787
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:67
+  source_ref: objects/67
+  source_kind: mm9_dat_object
+  source_object_index: 67
+  source_class: Prop
+  source_name: Prop22
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -33600
+    y: 5455
+    z: 1428
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:68
+  source_ref: objects/68
+  source_kind: mm9_dat_object
+  source_object_index: 68
+  source_class: Prop
+  source_name: Prop21
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -36370
+    y: -15670
+    z: 2043
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:69
+  source_ref: objects/69
+  source_kind: mm9_dat_object
+  source_object_index: 69
+  source_class: Prop
+  source_name: Prop8
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -23918
+    y: 6203
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:70
+  source_ref: objects/70
+  source_kind: mm9_dat_object
+  source_object_index: 70
+  source_class: Prop
+  source_name: Prop10
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -36370
+    y: -8952
+    z: 1715
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:71
+  source_ref: objects/71
+  source_kind: mm9_dat_object
+  source_object_index: 71
+  source_class: Prop
+  source_name: Prop13
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -45069
+    y: -4621
+    z: 2698
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:72
+  source_ref: objects/72
+  source_kind: mm9_dat_object
+  source_object_index: 72
+  source_class: Prop
+  source_name: Prop14
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -35121
+    y: 5952
+    z: 1275
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:73
+  source_ref: objects/73
+  source_kind: mm9_dat_object
+  source_object_index: 73
+  source_class: Prop
+  source_name: Prop15
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -25705
+    y: 3981
+    z: 1254
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:74
+  source_ref: objects/74
+  source_kind: mm9_dat_object
+  source_object_index: 74
+  source_class: Prop
+  source_name: Prop19
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -22756
+    y: 5537
+    z: 1418
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:75
+  source_ref: objects/75
+  source_kind: mm9_dat_object
+  source_object_index: 75
+  source_class: Prop
+  source_name: Prop50
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -21230
+    y: -16335
+    z: 2084
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:76
+  source_ref: objects/76
+  source_kind: mm9_dat_object
+  source_object_index: 76
+  source_class: Prop
+  source_name: Prop49
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -25454
+    y: -12777
+    z: 2084
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:77
+  source_ref: objects/77
+  source_kind: mm9_dat_object
+  source_object_index: 77
+  source_class: Prop
+  source_name: Prop48
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -28321
+    y: -17037
+    z: 2166
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:78
+  source_ref: objects/78
+  source_kind: mm9_dat_object
+  source_object_index: 78
+  source_class: Prop
+  source_name: Prop47
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -21148
+    y: -13222
+    z: 2084
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:79
+  source_ref: objects/79
+  source_kind: mm9_dat_object
+  source_object_index: 79
+  source_class: Prop
+  source_name: Prop46
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -23754
+    y: -12803
+    z: 2084
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:80
+  source_ref: objects/80
+  source_kind: mm9_dat_object
+  source_object_index: 80
+  source_class: Prop
+  source_name: Prop45
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -27456
+    y: -14042
+    z: 2084
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:81
+  source_ref: objects/81
+  source_kind: mm9_dat_object
+  source_object_index: 81
+  source_class: Prop
+  source_name: Prop42
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -47941
+    y: 2537
+    z: 2381
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:82
+  source_ref: objects/82
+  source_kind: mm9_dat_object
+  source_object_index: 82
+  source_class: Prop
+  source_name: Prop195
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -30400
+    y: -12616
+    z: 2092
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.39233726
+    w: -0.91982144
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:83
+  source_ref: objects/83
+  source_kind: mm9_dat_object
+  source_object_index: 83
+  source_class: Prop
+  source_name: Prop86
+  source_model: MODELS/Props/LogsBurning.ABC
+  source_skin: Skins/Props/LogsBurning.dtx
+  model_asset: models/props/logsburning.glb
+  position:
+    x: -30400
+    y: -12718
+    z: 2095
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:86
+  source_ref: objects/86
+  source_kind: mm9_dat_object
+  source_object_index: 86
+  source_class: Prop
+  source_name: Prop191
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -30298
+    y: -12657
+    z: 2092
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99634529
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:87
+  source_ref: objects/87
+  source_kind: mm9_dat_object
+  source_object_index: 87
+  source_class: Prop
+  source_name: Prop192
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -30298
+    y: -12759
+    z: 2092
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42972334
+    w: -0.9029606
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:88
+  source_ref: objects/88
+  source_kind: mm9_dat_object
+  source_object_index: 88
+  source_class: Prop
+  source_name: Prop194
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -30502
+    y: -12667
+    z: 2092
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99634529
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:89
+  source_ref: objects/89
+  source_kind: mm9_dat_object
+  source_object_index: 89
+  source_class: Prop
+  source_name: Prop196
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -30502
+    y: -12769
+    z: 2092
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.28234145
+    w: 0.95931398
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:90
+  source_ref: objects/90
+  source_kind: mm9_dat_object
+  source_object_index: 90
+  source_class: Prop
+  source_name: Prop193
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -30400
+    y: -12820
+    z: 2092
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.76548321
+    w: 0.64345587
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:91
+  source_ref: objects/91
+  source_kind: mm9_dat_object
+  source_object_index: 91
+  source_class: TreasureChest
+  source_name: TreasureChest0
+  source_model: models/Props/Chest3.ABC
+  source_skin: Skins/Props/Chest3.dtx
+  model_asset: models/props/chest3.glb
+  position:
+    x: -30310
+    y: -12124
+    z: 2376
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:92
+  source_ref: objects/92
+  source_kind: mm9_dat_object
+  source_object_index: 92
+  source_class: TreasureChest
+  source_name: TreasureChest1
+  source_model: models/Props/Chest3.ABC
+  source_skin: Skins/Props/Chest3.dtx
+  model_asset: models/props/chest3.glb
+  position:
+    x: -19743
+    y: -18678
+    z: 2294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.39233726
+    w: -0.91982144
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:93
+  source_ref: objects/93
+  source_kind: mm9_dat_object
+  source_object_index: 93
+  source_class: Prop
+  source_name: Prop206
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -20234
+    y: -18225
+    z: 2110
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99634529
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:94
+  source_ref: objects/94
+  source_kind: mm9_dat_object
+  source_object_index: 94
+  source_class: Prop
+  source_name: Prop203
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -20029
+    y: -18317
+    z: 2110
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42972334
+    w: -0.9029606
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:96
+  source_ref: objects/96
+  source_kind: mm9_dat_object
+  source_object_index: 96
+  source_class: Prop
+  source_name: Prop204
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -20029
+    y: -18214
+    z: 2110
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99634529
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:97
+  source_ref: objects/97
+  source_kind: mm9_dat_object
+  source_object_index: 97
+  source_class: Prop
+  source_name: Prop205
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -20132
+    y: -18378
+    z: 2110
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.76548321
+    w: 0.64345587
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:98
+  source_ref: objects/98
+  source_kind: mm9_dat_object
+  source_object_index: 98
+  source_class: Prop
+  source_name: Prop207
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -20132
+    y: -18173
+    z: 2110
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.39233726
+    w: -0.91982144
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:99
+  source_ref: objects/99
+  source_kind: mm9_dat_object
+  source_object_index: 99
+  source_class: Prop
+  source_name: Prop208
+  source_model: MODELS/Props/Debris/StoneDebris01.ABC
+  source_skin: Skins/Props/Debris/LumberStoneDebris.dtx
+  model_asset: models/props/debris/stonedebris01.glb
+  position:
+    x: -20234
+    y: -18327
+    z: 2110
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.28234145
+    w: 0.95931398
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:100
+  source_ref: objects/100
+  source_kind: mm9_dat_object
+  source_object_index: 100
+  source_class: Cauldron
+  source_name: Cauldron0
+  source_model: models/Props/cauldron01.ABC
+  source_skin: skins/props/cauldron01.dtx
+  model_asset: models/props/cauldron01.glb
+  position:
+    x: -20132
+    y: -18276
+    z: 2134
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:101
+  source_ref: objects/101
+  source_kind: mm9_dat_object
+  source_object_index: 101
+  source_class: Prop
+  source_name: Prop87
+  source_model: MODELS/Props/LogsBurning.ABC
+  source_skin: Skins/Props/LogsBurning.dtx
+  model_asset: models/props/logsburning.glb
+  position:
+    x: -20132
+    y: -18276
+    z: 2093
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:102
+  source_ref: objects/102
+  source_kind: mm9_dat_object
+  source_object_index: 102
+  source_class: Annelid
+  source_name: Annelid0
+  source_model: models/nosferatu.abc
+  source_skin: ''
+  model_asset: models/nosferatu.glb
+  position:
+    x: -30802
+    y: -12780
+    z: 2376
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.86602542
+    w: 0.49999997
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/nosferatu.abc
+    source_skins: []
+    candidates:
+    - id: nosferatu_nosferatu
+      source_skins: []
+    - id: nosferatu_nosferatu1
+      source_skins: &id001
+      - skins/nosferatu1.dtx
+    - id: nosferatu_nosferatu2
+      source_skins: &id002
+      - skins/nosferatu2.dtx
+    - id: nosferatu_nosferatu3
+      source_skins: &id003
+      - skins/nosferatu3.dtx
+- instance_id: mm9:thronheim:object:103
+  source_ref: objects/103
+  source_kind: mm9_dat_object
+  source_object_index: 103
+  source_class: Annelid
+  source_name: Annelid1
+  source_model: models/nosferatu.abc
+  source_skin: ''
+  model_asset: models/nosferatu.glb
+  position:
+    x: -29983
+    y: -12943
+    z: 2376
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.3023701
+    w: -0.9531906
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/nosferatu.abc
+    source_skins: []
+    candidates:
+    - id: nosferatu_nosferatu
+      source_skins: []
+    - id: nosferatu_nosferatu1
+      source_skins: *id001
+    - id: nosferatu_nosferatu2
+      source_skins: *id002
+    - id: nosferatu_nosferatu3
+      source_skins: *id003
+- instance_id: mm9:thronheim:object:104
+  source_ref: objects/104
+  source_kind: mm9_dat_object
+  source_object_index: 104
+  source_class: Bloodsucker
+  source_name: Bloodsucker0
+  source_model: models/nosferatu.abc
+  source_skin: ''
+  model_asset: models/nosferatu.glb
+  position:
+    x: -30638
+    y: -13107
+    z: 2376
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42261826
+    w: 0.90630779
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/nosferatu.abc
+    source_skins: []
+    candidates:
+    - id: nosferatu_nosferatu
+      source_skins: []
+    - id: nosferatu_nosferatu1
+      source_skins: *id001
+    - id: nosferatu_nosferatu2
+      source_skins: *id002
+    - id: nosferatu_nosferatu3
+      source_skins: *id003
+- instance_id: mm9:thronheim:object:105
+  source_ref: objects/105
+  source_kind: mm9_dat_object
+  source_object_index: 105
+  source_class: Bloodsucker
+  source_name: Bloodsucker1
+  source_model: models/nosferatu.abc
+  source_skin: ''
+  model_asset: models/nosferatu.glb
+  position:
+    x: -30638
+    y: -12288
+    z: 2376
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.97553456
+    w: 0.21984615
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/nosferatu.abc
+    source_skins: []
+    candidates:
+    - id: nosferatu_nosferatu
+      source_skins: []
+    - id: nosferatu_nosferatu1
+      source_skins: *id001
+    - id: nosferatu_nosferatu2
+      source_skins: *id002
+    - id: nosferatu_nosferatu3
+      source_skins: *id003
+- instance_id: mm9:thronheim:object:106
+  source_ref: objects/106
+  source_kind: mm9_dat_object
+  source_object_index: 106
+  source_class: Annelid
+  source_name: Annelid2
+  source_model: models/nosferatu.abc
+  source_skin: ''
+  model_asset: models/nosferatu.glb
+  position:
+    x: -29983
+    y: -12452
+    z: 2376
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.92945487
+    w: -0.36893582
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/nosferatu.abc
+    source_skins: []
+    candidates:
+    - id: nosferatu_nosferatu
+      source_skins: []
+    - id: nosferatu_nosferatu1
+      source_skins: *id001
+    - id: nosferatu_nosferatu2
+      source_skins: *id002
+    - id: nosferatu_nosferatu3
+      source_skins: *id003
+- instance_id: mm9:thronheim:object:107
+  source_ref: objects/107
+  source_kind: mm9_dat_object
+  source_object_index: 107
+  source_class: Bloodsucker
+  source_name: Bloodsucker2
+  source_model: models/nosferatu.abc
+  source_skin: ''
+  model_asset: models/nosferatu.glb
+  position:
+    x: -20562
+    y: -18514
+    z: 2294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/nosferatu.abc
+    source_skins: []
+    candidates:
+    - id: nosferatu_nosferatu
+      source_skins: []
+    - id: nosferatu_nosferatu1
+      source_skins: *id001
+    - id: nosferatu_nosferatu2
+      source_skins: *id002
+    - id: nosferatu_nosferatu3
+      source_skins: *id003
+- instance_id: mm9:thronheim:object:108
+  source_ref: objects/108
+  source_kind: mm9_dat_object
+  source_object_index: 108
+  source_class: Bloodsucker
+  source_name: Bloodsucker3
+  source_model: models/nosferatu.abc
+  source_skin: ''
+  model_asset: models/nosferatu.glb
+  position:
+    x: -20398
+    y: -17859
+    z: 2294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.941176
+    w: 0.33791675
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/nosferatu.abc
+    source_skins: []
+    candidates:
+    - id: nosferatu_nosferatu
+      source_skins: []
+    - id: nosferatu_nosferatu1
+      source_skins: *id001
+    - id: nosferatu_nosferatu2
+      source_skins: *id002
+    - id: nosferatu_nosferatu3
+      source_skins: *id003
+- instance_id: mm9:thronheim:object:109
+  source_ref: objects/109
+  source_kind: mm9_dat_object
+  source_object_index: 109
+  source_class: Annelid
+  source_name: Annelid3
+  source_model: models/nosferatu.abc
+  source_skin: ''
+  model_asset: models/nosferatu.glb
+  position:
+    x: -19907
+    y: -17859
+    z: 2294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.94832365
+    w: -0.31730466
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/nosferatu.abc
+    source_skins: []
+    candidates:
+    - id: nosferatu_nosferatu
+      source_skins: []
+    - id: nosferatu_nosferatu1
+      source_skins: *id001
+    - id: nosferatu_nosferatu2
+      source_skins: *id002
+    - id: nosferatu_nosferatu3
+      source_skins: *id003
+- instance_id: mm9:thronheim:object:110
+  source_ref: objects/110
+  source_kind: mm9_dat_object
+  source_object_index: 110
+  source_class: Bloodsucker
+  source_name: Bloodsucker4
+  source_model: models/nosferatu.abc
+  source_skin: ''
+  model_asset: models/nosferatu.glb
+  position:
+    x: -19743
+    y: -18514
+    z: 2294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.22410055
+    w: -0.97456603
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/nosferatu.abc
+    source_skins: []
+    candidates:
+    - id: nosferatu_nosferatu
+      source_skins: []
+    - id: nosferatu_nosferatu1
+      source_skins: *id001
+    - id: nosferatu_nosferatu2
+      source_skins: *id002
+    - id: nosferatu_nosferatu3
+      source_skins: *id003
+- instance_id: mm9:thronheim:object:111
+  source_ref: objects/111
+  source_kind: mm9_dat_object
+  source_object_index: 111
+  source_class: Annelid
+  source_name: Annelid4
+  source_model: models/nosferatu.abc
+  source_skin: ''
+  model_asset: models/nosferatu.glb
+  position:
+    x: -20070
+    y: -18678
+    z: 2294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/nosferatu.abc
+    source_skins: []
+    candidates:
+    - id: nosferatu_nosferatu
+      source_skins: []
+    - id: nosferatu_nosferatu1
+      source_skins: *id001
+    - id: nosferatu_nosferatu2
+      source_skins: *id002
+    - id: nosferatu_nosferatu3
+      source_skins: *id003
+- instance_id: mm9:thronheim:object:112
+  source_ref: objects/112
+  source_kind: mm9_dat_object
+  source_object_index: 112
+  source_class: Bloodsucker
+  source_name: Bloodsucker5
+  source_model: models/nosferatu.abc
+  source_skin: ''
+  model_asset: models/nosferatu.glb
+  position:
+    x: -18575
+    y: -11899
+    z: 2294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.94832365
+    w: -0.31730466
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/nosferatu.abc
+    source_skins: []
+    candidates:
+    - id: nosferatu_nosferatu
+      source_skins: []
+    - id: nosferatu_nosferatu1
+      source_skins: *id001
+    - id: nosferatu_nosferatu2
+      source_skins: *id002
+    - id: nosferatu_nosferatu3
+      source_skins: *id003
+- instance_id: mm9:thronheim:object:113
+  source_ref: objects/113
+  source_kind: mm9_dat_object
+  source_object_index: 113
+  source_class: Annelid
+  source_name: Annelid5
+  source_model: models/nosferatu.abc
+  source_skin: ''
+  model_asset: models/nosferatu.glb
+  position:
+    x: -24023
+    y: -10998
+    z: 2294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.94580235
+    w: 0.32474283
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/nosferatu.abc
+    source_skins: []
+    candidates:
+    - id: nosferatu_nosferatu
+      source_skins: []
+    - id: nosferatu_nosferatu1
+      source_skins: *id001
+    - id: nosferatu_nosferatu2
+      source_skins: *id002
+    - id: nosferatu_nosferatu3
+      source_skins: *id003
+- instance_id: mm9:thronheim:object:114
+  source_ref: objects/114
+  source_kind: mm9_dat_object
+  source_object_index: 114
+  source_class: Bloodsucker
+  source_name: Bloodsucker6
+  source_model: models/nosferatu.abc
+  source_skin: ''
+  model_asset: models/nosferatu.glb
+  position:
+    x: -23245
+    y: -10998
+    z: 2294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.94380095
+    w: -0.33051439
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/nosferatu.abc
+    source_skins: []
+    candidates:
+    - id: nosferatu_nosferatu
+      source_skins: []
+    - id: nosferatu_nosferatu1
+      source_skins: *id001
+    - id: nosferatu_nosferatu2
+      source_skins: *id002
+    - id: nosferatu_nosferatu3
+      source_skins: *id003
+- instance_id: mm9:thronheim:object:115
+  source_ref: objects/115
+  source_kind: mm9_dat_object
+  source_object_index: 115
+  source_class: Annelid
+  source_name: Annelid6
+  source_model: models/nosferatu.abc
+  source_skin: ''
+  model_asset: models/nosferatu.glb
+  position:
+    x: -26955
+    y: -18020
+    z: 2294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.40992304
+    w: 0.91212011
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/nosferatu.abc
+    source_skins: []
+    candidates:
+    - id: nosferatu_nosferatu
+      source_skins: []
+    - id: nosferatu_nosferatu1
+      source_skins: *id001
+    - id: nosferatu_nosferatu2
+      source_skins: *id002
+    - id: nosferatu_nosferatu3
+      source_skins: *id003
+- instance_id: mm9:thronheim:object:116
+  source_ref: objects/116
+  source_kind: mm9_dat_object
+  source_object_index: 116
+  source_class: FibraseBasilisk
+  source_name: FibraseBasilisk3
+  source_model: models/FibraseBasilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: -36700
+    y: -11141
+    z: 2130
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42261826
+    w: 0.90630779
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+- instance_id: mm9:thronheim:object:117
+  source_ref: objects/117
+  source_kind: mm9_dat_object
+  source_object_index: 117
+  source_class: KingBasilisk
+  source_name: KingBasilisk1
+  source_model: models/KingBasilisk.abc
+  source_skin: ''
+  position:
+    x: -36045
+    y: -8520
+    z: 2130
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.96198003
+    w: 0.2731198
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: missing
+    source_model: models/kingbasilisk.abc
+    source_skins: []
+- instance_id: mm9:thronheim:object:118
+  source_ref: objects/118
+  source_kind: mm9_dat_object
+  source_object_index: 118
+  source_class: Basilisk
+  source_name: Basilisk6
+  source_model: models/Basilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: -36209
+    y: -9667
+    z: 2130
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+- instance_id: mm9:thronheim:object:119
+  source_ref: objects/119
+  source_kind: mm9_dat_object
+  source_object_index: 119
+  source_class: Basilisk
+  source_name: Basilisk7
+  source_model: models/Basilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: -32768
+    y: 0
+    z: 2294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.86427488
+    w: -0.50301982
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+- instance_id: mm9:thronheim:object:120
+  source_ref: objects/120
+  source_kind: mm9_dat_object
+  source_object_index: 120
+  source_class: StatStone
+  source_name: StatStone0
+  source_model: models/Props/statstone.ABC
+  source_skin: Skins/Props/StatStonePurple.dtx
+  model_asset: models/props/statstone.glb
+  position:
+    x: -37806
+    y: -819
+    z: 2785
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.93969262
+    w: 0.34202015
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:thronheim:object:121
+  source_ref: objects/121
+  source_kind: mm9_dat_object
+  source_object_index: 121
+  source_class: Prop
+  source_name: Prop41
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -25736
+    y: 11026
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:122
+  source_ref: objects/122
+  source_kind: mm9_dat_object
+  source_object_index: 122
+  source_class: Prop
+  source_name: Prop39
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -47526
+    y: 294
+    z: 2473
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:123
+  source_ref: objects/123
+  source_kind: mm9_dat_object
+  source_object_index: 123
+  source_class: Prop
+  source_name: Prop37
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -28731
+    y: -11548
+    z: 2063
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:124
+  source_ref: objects/124
+  source_kind: mm9_dat_object
+  source_object_index: 124
+  source_class: Prop
+  source_name: Prop36
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -28193
+    y: -13386
+    z: 2063
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:125
+  source_ref: objects/125
+  source_kind: mm9_dat_object
+  source_object_index: 125
+  source_class: Prop
+  source_name: Prop35
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -15757
+    y: -11139
+    z: 2371
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:thronheim:object:126
+  source_ref: objects/126
+  source_kind: mm9_dat_object
+  source_object_index: 126
+  source_class: Prop
+  source_name: Prop32
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -45852
+    y: -1554
+    z: 2493
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:127
+  source_ref: objects/127
+  source_kind: mm9_dat_object
+  source_object_index: 127
+  source_class: Prop
+  source_name: Prop30
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -28649
+    y: -14497
+    z: 2166
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:128
+  source_ref: objects/128
+  source_kind: mm9_dat_object
+  source_object_index: 128
+  source_class: Prop
+  source_name: Prop29
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -29832
+    y: -17073
+    z: 2084
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:129
+  source_ref: objects/129
+  source_kind: mm9_dat_object
+  source_object_index: 129
+  source_class: Prop
+  source_name: Prop27
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -34665
+    y: -17482
+    z: 1859
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:130
+  source_ref: objects/130
+  source_kind: mm9_dat_object
+  source_object_index: 130
+  source_class: Prop
+  source_name: Prop26
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -36042
+    y: -16489
+    z: 1859
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:131
+  source_ref: objects/131
+  source_kind: mm9_dat_object
+  source_object_index: 131
+  source_class: Prop
+  source_name: Prop25
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -36022
+    y: -17856
+    z: 1818
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:132
+  source_ref: objects/132
+  source_kind: mm9_dat_object
+  source_object_index: 132
+  source_class: Prop
+  source_name: Prop23
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -33155
+    y: -6060
+    z: 2063
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:133
+  source_ref: objects/133
+  source_kind: mm9_dat_object
+  source_object_index: 133
+  source_class: Prop
+  source_name: Prop7
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -44234
+    y: -3300
+    z: 2452
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:134
+  source_ref: objects/134
+  source_kind: mm9_dat_object
+  source_object_index: 134
+  source_class: Prop
+  source_name: Prop9
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -42760
+    y: -4774
+    z: 2350
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:135
+  source_ref: objects/135
+  source_kind: mm9_dat_object
+  source_object_index: 135
+  source_class: Prop
+  source_name: Prop11
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -35075
+    y: 4964
+    z: 1285
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:136
+  source_ref: objects/136
+  source_kind: mm9_dat_object
+  source_object_index: 136
+  source_class: Prop
+  source_name: Prop12
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -43021
+    y: -3965
+    z: 2412
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:137
+  source_ref: objects/137
+  source_kind: mm9_dat_object
+  source_object_index: 137
+  source_class: Prop
+  source_name: Prop17
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -25126
+    y: 5000
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:138
+  source_ref: objects/138
+  source_kind: mm9_dat_object
+  source_object_index: 138
+  source_class: Prop
+  source_name: Prop16
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -26406
+    y: 3197
+    z: 1633
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:thronheim:object:139
+  source_ref: objects/139
+  source_kind: mm9_dat_object
+  source_object_index: 139
+  source_class: Prop
+  source_name: Prop18
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -24589
+    y: 3162
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:140
+  source_ref: objects/140
+  source_kind: mm9_dat_object
+  source_object_index: 140
+  source_class: Prop
+  source_name: Prop20
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -23570
+    y: 4672
+    z: 1388
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:141
+  source_ref: objects/141
+  source_kind: mm9_dat_object
+  source_object_index: 141
+  source_class: Prop
+  source_name: Prop51
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -39826
+    y: -2982
+    z: 2412
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:142
+  source_ref: objects/142
+  source_kind: mm9_dat_object
+  source_object_index: 142
+  source_class: Prop
+  source_name: Prop52
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -39319
+    y: -1907
+    z: 2289
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:143
+  source_ref: objects/143
+  source_kind: mm9_dat_object
+  source_object_index: 143
+  source_class: Prop
+  source_name: Prop53
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -38991
+    y: -4119
+    z: 2289
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:144
+  source_ref: objects/144
+  source_kind: mm9_dat_object
+  source_object_index: 144
+  source_class: Prop
+  source_name: Prop54
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -37742
+    y: -1912
+    z: 2299
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:145
+  source_ref: objects/145
+  source_kind: mm9_dat_object
+  source_object_index: 145
+  source_class: Prop
+  source_name: Prop55
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -40778
+    y: -6341
+    z: 2278
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:146
+  source_ref: objects/146
+  source_kind: mm9_dat_object
+  source_object_index: 146
+  source_class: Prop
+  source_name: Prop56
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -37829
+    y: -4785
+    z: 2401
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:147
+  source_ref: objects/147
+  source_kind: mm9_dat_object
+  source_object_index: 147
+  source_class: Prop
+  source_name: Prop57
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -27456
+    y: 16433
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:148
+  source_ref: objects/148
+  source_kind: mm9_dat_object
+  source_object_index: 148
+  source_class: Prop
+  source_name: Prop58
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -38643
+    y: -5650
+    z: 2289
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:149
+  source_ref: objects/149
+  source_kind: mm9_dat_object
+  source_object_index: 149
+  source_class: Prop
+  source_name: Prop59
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -39662
+    y: -7160
+    z: 2248
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:150
+  source_ref: objects/150
+  source_kind: mm9_dat_object
+  source_object_index: 150
+  source_class: Prop
+  source_name: Prop60
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -37517
+    y: -3136
+    z: 2289
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:151
+  source_ref: objects/151
+  source_kind: mm9_dat_object
+  source_object_index: 151
+  source_class: Prop
+  source_name: Prop67
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -50132
+    y: -10099
+    z: 2555
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:152
+  source_ref: objects/152
+  source_kind: mm9_dat_object
+  source_object_index: 152
+  source_class: Prop
+  source_name: Prop68
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -52426
+    y: -10509
+    z: 2555
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:153
+  source_ref: objects/153
+  source_kind: mm9_dat_object
+  source_object_index: 153
+  source_class: Prop
+  source_name: Prop69
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -45233
+    y: -13059
+    z: 2555
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:154
+  source_ref: objects/154
+  source_kind: mm9_dat_object
+  source_object_index: 154
+  source_class: Prop
+  source_name: Prop70
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -48591
+    y: -12485
+    z: 2555
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:155
+  source_ref: objects/155
+  source_kind: mm9_dat_object
+  source_object_index: 155
+  source_class: Prop
+  source_name: Prop71
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -50353
+    y: 4692
+    z: 1439
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:156
+  source_ref: objects/156
+  source_kind: mm9_dat_object
+  source_object_index: 156
+  source_class: Prop
+  source_name: Prop72
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -46707
+    y: -11092
+    z: 2657
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:157
+  source_ref: objects/157
+  source_kind: mm9_dat_object
+  source_object_index: 157
+  source_class: Prop
+  source_name: Prop73
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -54572
+    y: -11830
+    z: 2575
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:158
+  source_ref: objects/158
+  source_kind: mm9_dat_object
+  source_object_index: 158
+  source_class: Prop
+  source_name: Prop74
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -47511
+    y: -17062
+    z: 2555
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:159
+  source_ref: objects/159
+  source_kind: mm9_dat_object
+  source_object_index: 159
+  source_class: Prop
+  source_name: Prop75
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -53737
+    y: -12966
+    z: 2555
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:160
+  source_ref: objects/160
+  source_kind: mm9_dat_object
+  source_object_index: 160
+  source_class: Prop
+  source_name: Prop76
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -48643
+    y: -14943
+    z: 2729
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:161
+  source_ref: objects/161
+  source_kind: mm9_dat_object
+  source_object_index: 161
+  source_class: Prop
+  source_name: Prop77
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -51177
+    y: 9669
+    z: 1388
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:162
+  source_ref: objects/162
+  source_kind: mm9_dat_object
+  source_object_index: 162
+  source_class: Prop
+  source_name: Prop78
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -50685
+    y: 6884
+    z: 1326
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:163
+  source_ref: objects/163
+  source_kind: mm9_dat_object
+  source_object_index: 163
+  source_class: Prop
+  source_name: Prop79
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -49974
+    y: 9853
+    z: 1592
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:164
+  source_ref: objects/164
+  source_kind: mm9_dat_object
+  source_object_index: 164
+  source_class: Prop
+  source_name: Prop66
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -49641
+    y: -15588
+    z: 2555
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:165
+  source_ref: objects/165
+  source_kind: mm9_dat_object
+  source_object_index: 165
+  source_class: Prop
+  source_name: Prop65
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -52590
+    y: -12803
+    z: 2555
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:166
+  source_ref: objects/166
+  source_kind: mm9_dat_object
+  source_object_index: 166
+  source_class: Prop
+  source_name: Prop64
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -52575
+    y: -15844
+    z: 2524
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:167
+  source_ref: objects/167
+  source_kind: mm9_dat_object
+  source_object_index: 167
+  source_class: Prop
+  source_name: Prop63
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -51459
+    y: -16663
+    z: 2534
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:168
+  source_ref: objects/168
+  source_kind: mm9_dat_object
+  source_object_index: 168
+  source_class: Prop
+  source_name: Prop62
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -50767
+    y: -13842
+    z: 2698
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:169
+  source_ref: objects/169
+  source_kind: mm9_dat_object
+  source_object_index: 169
+  source_class: Prop
+  source_name: Prop61
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -49953
+    y: -12977
+    z: 2688
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:thronheim:object:170
+  source_ref: objects/170
+  source_kind: mm9_dat_object
+  source_object_index: 170
+  source_class: Prop
+  source_name: Prop80
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -53082
+    y: 11610
+    z: 2473
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:171
+  source_ref: objects/171
+  source_kind: mm9_dat_object
+  source_object_index: 171
+  source_class: Prop
+  source_name: Prop81
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -53097
+    y: 9715
+    z: 2391
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:172
+  source_ref: objects/172
+  source_kind: mm9_dat_object
+  source_object_index: 172
+  source_class: Prop
+  source_name: Prop82
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -52979
+    y: 7918
+    z: 2483
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:173
+  source_ref: objects/173
+  source_kind: mm9_dat_object
+  source_object_index: 173
+  source_class: Prop
+  source_name: Prop83
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: -49866
+    y: 15619
+    z: 2156
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:174
+  source_ref: objects/174
+  source_kind: mm9_dat_object
+  source_object_index: 174
+  source_class: Prop
+  source_name: Prop84
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -33354
+    y: 458
+    z: 2125
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:175
+  source_ref: objects/175
+  source_kind: mm9_dat_object
+  source_object_index: 175
+  source_class: Prop
+  source_name: Prop85
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: -32929
+    y: -351
+    z: 2022
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:177
+  source_ref: objects/177
+  source_kind: mm9_dat_object
+  source_object_index: 177
+  source_class: Prop
+  source_name: Boat0
+  source_model: models/props/vikingship.abc
+  source_skin: skins/props/vikingship.dtx
+  model_asset: models/props/vikingship.glb
+  position:
+    x: -22651
+    y: 16722
+    z: 824
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.62524262
+    w: -0.78043044
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:thronheim:object:182
+  source_ref: objects/182
+  source_kind: mm9_dat_object
+  source_object_index: 182
+  source_class: JellySpore
+  source_name: JellySpore0
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: -24904
+    y: 21627
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.97092575
+    w: -0.23938085
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:thronheim:object:183
+  source_ref: objects/183
+  source_kind: mm9_dat_object
+  source_object_index: 183
+  source_class: JellySpore
+  source_name: JellySpore1
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: -16056
+    y: 10158
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.65671746
+    w: -0.75413671
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:thronheim:object:184
+  source_ref: objects/184
+  source_kind: mm9_dat_object
+  source_object_index: 184
+  source_class: JellySpore
+  source_name: JellySpore2
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: -14746
+    y: 655
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:thronheim:object:185
+  source_ref: objects/185
+  source_kind: mm9_dat_object
+  source_object_index: 185
+  source_class: JellySpore
+  source_name: JellySpore3
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: -14090
+    y: 983
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:thronheim:object:186
+  source_ref: objects/186
+  source_kind: mm9_dat_object
+  source_object_index: 186
+  source_class: JellySpore
+  source_name: JellySpore4
+  source_model: models/JellySpore.abc
+  source_skin: ''
+  model_asset: models/jellyspore.glb
+  position:
+    x: -13763
+    y: 1966
+    z: 492
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore1
+- instance_id: mm9:thronheim:object:193
+  source_ref: objects/193
+  source_kind: mm9_dat_object
+  source_object_index: 193
+  source_class: Basilisk
+  source_name: Basilisk0
+  source_model: models/Basilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: -50135
+    y: 5243
+    z: 2170
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+- instance_id: mm9:thronheim:object:194
+  source_ref: objects/194
+  source_kind: mm9_dat_object
+  source_object_index: 194
+  source_class: Basilisk
+  source_name: Basilisk1
+  source_model: models/Basilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: -50299
+    y: 9011
+    z: 2170
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.45399059
+    w: -0.89100648
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+- instance_id: mm9:thronheim:object:195
+  source_ref: objects/195
+  source_kind: mm9_dat_object
+  source_object_index: 195
+  source_class: KingBasilisk
+  source_name: KingBasilisk0
+  source_model: models/KingBasilisk.abc
+  source_skin: ''
+  position:
+    x: -47350
+    y: 1966
+    z: 3113
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.98599604
+    w: 0.16676873
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: missing
+    source_model: models/kingbasilisk.abc
+    source_skins: []
+- instance_id: mm9:thronheim:object:196
+  source_ref: objects/196
+  source_kind: mm9_dat_object
+  source_object_index: 196
+  source_class: FibraseBasilisk
+  source_name: FibraseBasilisk0
+  source_model: models/FibraseBasilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: -48333
+    y: 2294
+    z: 3113
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.84292224
+    w: -0.5380354
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+- instance_id: mm9:thronheim:object:197
+  source_ref: objects/197
+  source_kind: mm9_dat_object
+  source_object_index: 197
+  source_class: FibraseBasilisk
+  source_name: FibraseBasilisk1
+  source_model: models/FibraseBasilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: -46121
+    y: -2232
+    z: 3113
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.23683818
+    w: -0.97154911
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+- instance_id: mm9:thronheim:object:198
+  source_ref: objects/198
+  source_kind: mm9_dat_object
+  source_object_index: 198
+  source_class: FibraseBasilisk
+  source_name: FibraseBasilisk2
+  source_model: models/FibraseBasilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: -45916
+    y: -3011
+    z: 3113
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.82363159
+    w: 0.56712522
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+- instance_id: mm9:thronheim:object:199
+  source_ref: objects/199
+  source_kind: mm9_dat_object
+  source_object_index: 199
+  source_class: Basilisk
+  source_name: Basilisk2
+  source_model: models/Basilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: -39055
+    y: -2662
+    z: 3113
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99634529
+    w: 0.085416967
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+- instance_id: mm9:thronheim:object:200
+  source_ref: objects/200
+  source_kind: mm9_dat_object
+  source_object_index: 200
+  source_class: Basilisk
+  source_name: Basilisk3
+  source_model: models/Basilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: -38543
+    y: -4690
+    z: 3113
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.42261826
+    w: 0.90630779
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+- instance_id: mm9:thronheim:object:201
+  source_ref: objects/201
+  source_kind: mm9_dat_object
+  source_object_index: 201
+  source_class: Basilisk
+  source_name: Basilisk4
+  source_model: models/Basilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: -40448
+    y: -7619
+    z: 3113
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+- instance_id: mm9:thronheim:object:202
+  source_ref: objects/202
+  source_kind: mm9_dat_object
+  source_object_index: 202
+  source_class: Basilisk
+  source_name: Basilisk5
+  source_model: models/Basilisk.abc
+  source_skin: ''
+  model_asset: models/basilisk.glb
+  position:
+    x: -40632
+    y: -4424
+    z: 3113
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.89879404
+    w: 0.43837115
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: basilisk_basilisk
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  face_attribute_overrides: []
+  actors: []
+  sprite_objects: []
+  chests: []
+  variables:
+    map:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    decor:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0

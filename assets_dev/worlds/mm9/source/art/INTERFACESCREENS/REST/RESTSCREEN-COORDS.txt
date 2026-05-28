@@ -1,0 +1,25 @@
+			      Rest Screen Coords
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                             Graphics Coordinates
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+RestBG.pcx		  0x   0y	800x600	Background Image
+RestExit		690x 548y	110x52
+Note: Use exit button from create character screen
+
+RestWait5 		 74x 286y	64x58
+RestWaitHour		 74x 350y	64x58
+RestWaitDawn		 74x 414y	64x58
+RestWaitHeal		 74x 478y	64x58
+
+Sun/Moon Image Sequence 102x  87y	420x115
+
+Text Items:
+
+Time/Date Text		 	96x 218y	431x18	Main Font Centered
+
+"Wait 5 Minutes"		153x 307y	386x18	Main Font Left
+"Wait One Hour"			153x 371y	386x18	Main Font Left
+"Wait Until Dawn"		153x 435y	386x18	Main Font Left
+"Rest Until Healed 8 hours"	153x 499y	386x18	Main Font Left

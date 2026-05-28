@@ -1,0 +1,255 @@
+format_version: 1
+kind: "mm9_material_aliases"
+source_dat: "mm9/extracted/WORLDS/WORLDS/GREATGATE.dat"
+notes:
+  - "ODM face texture names are limited to 10 bytes; aliases preserve editor compatibility."
+stats:
+  source_models: 5
+  source_polies: 1120
+  emitted_faces: 3452
+  skipped_polies: 0
+  triangulated_polies: 1098
+  skipped_degenerate_triangles: 1020
+  source_plane_orientation_flips: 548
+  clamped_plane_distances: 0
+  model_instances: 1
+  unique_model_assets: 1
+textures:
+  - alias: "INVISIB000"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\Invisible.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/INVISIBLE.dtx"
+    emitted_bitmap: "greatgate.bitmaps/INVISIB000.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 202
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 1
+    dtx_flags: 265
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "INVISIBLE"
+    source_texture: "TEXTURES\\LevelTextures\\Invisible.dtx"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "greatgate.bitmaps/INVISIBLE.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "MTNDOWN"
+    source_texture: "TEXTURES\\ENVIRONMENTMAPS\\MountainSky\\MTN_Down.dtx"
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: "greatgate.bitmaps/MTNDOWN.bmp"
+    emitted_bitmap_mode: "placeholder_missing_source"
+  - alias: "SKYMARKER"
+    source_texture: "TEXTURES\\Skybox\\SkyMarker.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/SKYMARKER.dtx"
+    emitted_bitmap: "greatgate.bitmaps/SKYMARKER.bmp"
+    emitted_bitmap_mode: "placeholder_bpp_0"
+    dtx_surface_flag: 17
+    dtx_texture_group: 0
+    dtx_bpp: 0
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SNOWMTN000"
+    source_texture: "TEXTURES\\Skybox\\SnowMtns_Down.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/SNOWMTNS_DOWN.dtx"
+    emitted_bitmap: "greatgate.bitmaps/SNOWMTN000.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 17
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SNOWMTNSE"
+    source_texture: "TEXTURES\\Skybox\\SnowMtns_E.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/SNOWMTNS_E.dtx"
+    emitted_bitmap: "greatgate.bitmaps/SNOWMTNSE.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 17
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SNOWMTNSN"
+    source_texture: "TEXTURES\\Skybox\\SnowMtns_N.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/SNOWMTNS_N.dtx"
+    emitted_bitmap: "greatgate.bitmaps/SNOWMTNSN.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 17
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SNOWMTNSS"
+    source_texture: "TEXTURES\\Skybox\\SnowMtns_S.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/SNOWMTNS_S.dtx"
+    emitted_bitmap: "greatgate.bitmaps/SNOWMTNSS.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 17
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SNOWMTNSUP"
+    source_texture: "TEXTURES\\Skybox\\SnowMtns_Up.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/SNOWMTNS_UP.dtx"
+    emitted_bitmap: "greatgate.bitmaps/SNOWMTNSUP.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 17
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "SNOWMTNSW"
+    source_texture: "TEXTURES\\Skybox\\SnowMtns_W.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/SNOWMTNS_W.dtx"
+    emitted_bitmap: "greatgate.bitmaps/SNOWMTNSW.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 17
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "STARFIELD"
+    source_texture: "TEXTURES\\Skybox\\starfield.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/STARFIELD.dtx"
+    emitted_bitmap: "greatgate.bitmaps/STARFIELD.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "STONEBR000"
+    source_texture: "TEXTURES\\LevelTextures\\WallsStone\\stone_bricks_t.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/WALLSSTONE/STONE_BRICKS_T.dtx"
+    emitted_bitmap: "greatgate.bitmaps/STONEBR000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_10.dtx"
+  - alias: "STURMSI000"
+    source_texture: "TEXTURES\\A3Sturmgaard\\misc\\sturmsidewalk.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A3STURMGAARD/MISC/STURMSIDEWALK.dtx"
+    emitted_bitmap: "greatgate.bitmaps/STURMSI000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "TRIMGARG"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\Trimgarg.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/TRIMGARG.dtx"
+    emitted_bitmap: "greatgate.bitmaps/TRIMGARG.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "UNDERWA000"
+    source_texture: "TEXTURES\\LevelTextures\\FloorsStone\\underwater_tile.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/FLOORSSTONE/UNDERWATER_TILE.dtx"
+    emitted_bitmap: "greatgate.bitmaps/UNDERWA000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_07.dtx"
+  - alias: "WOODGRA000"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\woodgrain01.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/WOODGRAIN01.dtx"
+    emitted_bitmap: "greatgate.bitmaps/WOODGRA000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 11
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"

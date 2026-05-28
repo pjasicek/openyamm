@@ -1,0 +1,53 @@
+;--------------------------------------------------
+;NPC382.scr
+; timmy
+; handles Pilgrim Jann and the Fizbin of Misfortune voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include Basewander.inc
+
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+takekey 393
+
+haskey 394 g_ntemp
+if (g_ntemp==TRUE)
+	takeitem 216
+	givegold 40000
+	takekey 394
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+
+
+hasitem 216 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 393
+	exit
+endif
+
+
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+gosub basewanderinit
+exit
+

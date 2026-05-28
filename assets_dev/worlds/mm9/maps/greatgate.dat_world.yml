@@ -1,0 +1,455 @@
+format_version: 1
+kind: mm9_dat_world
+map_id: greatgate
+source_dat: ../source/worlds/GREATGATE.dat
+original_source_dat: mm9/extracted/WORLDS/WORLDS/GREATGATE.dat
+source_hash: 859b8ef20ed5e1bdc8d3bbbf4a9c94e228701f34b2856e90d54ecf69f8fcedf7
+dat_version: 66
+coordinate_system:
+  source: lithtech_mm9
+  openyamm_mapping:
+  - x
+  - z
+  - y
+  scale: 2.56
+world_info:
+  property_string: AmbientLight 50 50 50
+  light_map_grid_size: 20.0
+  extents_min_lt:
+  - -1152.0001220703125
+  - -256.00006103515625
+  - -3328.0
+  extents_max_lt:
+  - 1152.0001220703125
+  - 1792.0
+  - 1472.0001220703125
+classification:
+  recommendation: indoor_like
+  confidence: medium
+  reason: not terrain-dominated and carries meaningful helper BSP geometry
+totals:
+  world_model_count: 5
+  object_count: 17
+  source_poly_count: 1120
+  surface_count: 1048
+  user_portal_count: 0
+  leaf_count: 1
+  leaf_reference_count: 1084
+  invalid_leaf_reference_count: 0
+world_models:
+- source_model_index: 0
+  source_name: TOD_Sky0
+  world_info_flags: 2
+  kind: sky
+  point_count: 18
+  plane_count: 12
+  surface_count: 12
+  poly_count: 12
+  leaf_count: 0
+  node_count: 24
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 48
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 72
+    texture_count: 2
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 7
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -1458.0
+      - -306.0000305175781
+      - -210.00001525878906
+    record_count: 1
+  bounds_lt:
+    min:
+    - -1458.0
+    - -306.0000305175781
+    - -210.00001525878906
+    max:
+    - -1230.0
+    - -77.99995422363281
+    - 18.000017166137695
+  world_translation_lt:
+  - -1344.0
+  - -192.0
+  - -96.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\Skybox\starfield.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Misc\Invisible.dtx
+  surface_flag_histogram:
+    4265: 12
+  texture_user_flag_histogram:
+    0: 12
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: true
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 1
+  source_name: SkyBox0
+  world_info_flags: 2
+  kind: sky
+  point_count: 16
+  plane_count: 12
+  surface_count: 12
+  poly_count: 12
+  leaf_count: 0
+  node_count: 24
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 48
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 277
+    texture_count: 8
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 7
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 0
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -1472.0
+      - -320.0000305175781
+      - -224.0000457763672
+    record_count: 1
+  bounds_lt:
+    min:
+    - -1472.0
+    - -320.0000305175781
+    - -224.00001525878906
+    max:
+    - -1216.0
+    - -63.99996566772461
+    - 32.0000114440918
+  world_translation_lt:
+  - -1344.0
+  - -192.0
+  - -96.00001525878906
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\Skybox\SnowMtns_Down.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\ENVIRONMENTMAPS\MountainSky\MTN_Down.dtx
+  - texture_index: 2
+    source_texture: TEXTURES\Skybox\SnowMtns_Up.dtx
+  - texture_index: 3
+    source_texture: TEXTURES\LevelTextures\Invisible.dtx
+  - texture_index: 4
+    source_texture: TEXTURES\Skybox\SnowMtns_N.dtx
+  - texture_index: 5
+    source_texture: TEXTURES\Skybox\SnowMtns_W.dtx
+  - texture_index: 6
+    source_texture: TEXTURES\Skybox\SnowMtns_E.dtx
+  - texture_index: 7
+    source_texture: TEXTURES\Skybox\SnowMtns_S.dtx
+  surface_flag_histogram:
+    289: 12
+  texture_user_flag_histogram:
+    0: 12
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: true
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 2
+  source_name: Door0
+  world_info_flags: 2
+  kind: visible_geometry
+  point_count: 8
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 0
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 44
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 6
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 1
+    - 1
+    - 1
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - 16.0
+      - 384.0
+      - 1268.0
+    record_count: 1
+  bounds_lt:
+    min:
+    - 16.0
+    - 384.0
+    - 1268.0
+    max:
+    - 32.0
+    - 388.0
+    - 1272.0
+  world_translation_lt:
+  - 24.0
+  - 386.0
+  - 1270.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\LevelTextures\Trim\woodgrain01.dtx
+  surface_flag_histogram:
+    4225: 6
+  texture_user_flag_histogram:
+    0: 6
+  roles:
+    visible: true
+    terrain: false
+    physics_bsp: false
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: true
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 3
+  source_name: PhysicsBSP
+  world_info_flags: 20
+  kind: physics_bsp
+  point_count: 1585
+  plane_count: 514
+  surface_count: 1012
+  poly_count: 1084
+  leaf_count: 0
+  node_count: 3674
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 4466
+    total_vis_list_size: 0
+    leaf_list_count: 0
+    texture_name_length: 268
+    texture_count: 6
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 203
+    world_bsp_unknown_value_2: 0
+    world_bsp_unknown_value_3: 1078
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 5
+    - 5
+    - 10
+    bounds_lt:
+      min:
+      - 500.0
+      - 500.0
+      - 500.0
+      max:
+      - -1152.0001220703125
+      - -256.00006103515625
+      - -3328.0
+    record_count: 250
+  bounds_lt:
+    min:
+    - -1152.0001220703125
+    - -256.00006103515625
+    - -3328.0
+    max:
+    - 1152.0001220703125
+    - 1792.0
+    - 1472.0001220703125
+  world_translation_lt:
+  - 0.0
+  - 767.9999389648438
+  - -928.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\A3Sturmgaard\misc\sturmsidewalk.dtx
+  - texture_index: 1
+    source_texture: TEXTURES\LevelTextures\Trim\woodgrain01.dtx
+  - texture_index: 2
+    source_texture: TEXTURES\LevelTextures\Trim\Trimgarg.dtx
+  - texture_index: 3
+    source_texture: TEXTURES\Skybox\SkyMarker.dtx
+  - texture_index: 4
+    source_texture: TEXTURES\LevelTextures\WallsStone\stone_bricks_t.dtx
+  - texture_index: 5
+    source_texture: TEXTURES\LevelTextures\FloorsStone\underwater_tile.dtx
+  surface_flag_histogram:
+    273: 6
+    4225: 1006
+  texture_user_flag_histogram:
+    0: 1012
+  roles:
+    visible: false
+    terrain: false
+    physics_bsp: true
+    vis_bsp: false
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: false
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+- source_model_index: 4
+  source_name: VisBSP
+  world_info_flags: 32
+  kind: vis_bsp
+  point_count: 24
+  plane_count: 6
+  surface_count: 6
+  poly_count: 6
+  leaf_count: 1
+  node_count: 6
+  user_portal_count: 0
+  bsp_counts:
+    vert_count: 24
+    total_vis_list_size: 1
+    leaf_list_count: 1
+    texture_name_length: 30
+    texture_count: 1
+  root_node_index: 0
+  section_count: 0
+  unknown_values:
+    world_bsp_unknown_value: 6
+    world_bsp_unknown_value_2: 1084
+    world_bsp_unknown_value_3: 0
+  pblock_table:
+    preserved_in_source_dat: true
+    decoded_summary: true
+    dimensions:
+    - 0
+    - 0
+    - 0
+    bounds_lt:
+      min:
+      - 0.0
+      - 0.0
+      - 0.0
+      max:
+      - 0.0
+      - 0.0
+      - 0.0
+    record_count: 0
+  bounds_lt:
+    min:
+    - -1152.0001220703125
+    - -256.00006103515625
+    - -3328.0
+    max:
+    - 1152.0001220703125
+    - 1792.0
+    - 1472.0001220703125
+  world_translation_lt:
+  - 0.0
+  - 0.0
+  - 0.0
+  textures:
+  - texture_index: 0
+    source_texture: TEXTURES\Skybox\SkyMarker.dtx
+  surface_flag_histogram:
+    273: 6
+  texture_user_flag_histogram:
+    0: 6
+  roles:
+    visible: false
+    terrain: false
+    physics_bsp: false
+    vis_bsp: true
+    sky: false
+    water: false
+    trigger_or_volume: false
+    movable: false
+  reference_validation:
+    invalid_surface_texture_refs: 0
+    invalid_poly_surface_refs: 0
+    invalid_poly_plane_refs: 0
+    invalid_poly_vertex_refs: 0
+    invalid_node_poly_refs: 0
+    invalid_root_node_refs: 0
+user_portals: []
+leaf_references:
+  decode: world_model_index_low16_poly_index_high16
+  total_refs: 1084
+  invalid_refs: 0
+validation:
+  parse_status: ok
+  unknown_field_policy: preserved_in_source_dat
+  pblock_summary_status: summary_decoded_records_preserved_in_source_dat

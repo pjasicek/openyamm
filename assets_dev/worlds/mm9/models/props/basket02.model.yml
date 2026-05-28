@@ -1,0 +1,68 @@
+schema: openyamm.model3d.v1
+id: basket02
+model: basket02.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/BASKET02.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Basket02
+  materialIndex: 0
+  lods:
+  - faces: 108
+    vertices: 82
+  - faces: 82
+    vertices: 69
+  - faces: 54
+    vertices: 55
+materials:
+- index: 0
+  texture: skins_preview/props/basket02.png
+  runtime_texture: skins/props/basket02.dtx
+  preview_texture: skins_preview/props/basket02.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/BASKET02.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: STATIC_MODEL
+  durationMs: 66
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: STATIC_MODEL
+  extents:
+  - 38.4
+  - 19.2
+  - 35.84
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/basket02.abc

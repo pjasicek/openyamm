@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: 1000terrors
+display_name: Thousand Terrors
+source:
+  dat: ../source/worlds/1000TERRORS.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/1000TERRORS.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 6a84746f7b9ca541106e1e18a28c0ff28adcf261ba8c3540fdebdf7db1dc7a64
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: 1000terrors.dat_world.yml
+  raw_objects: 1000terrors.raw_objects.yml
+  materials: 1000terrors.material_aliases.yml
+  events: 1000terrors.events.yml
+  scene_compat: 1000terrors.scene.yml
+  source_metadata_compat: 1000terrors.mm9.yml
+  bsp_compat: 1000terrors.bsp.yml
+  geometry_compat: 1000terrors.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: 1000terrors.blv
+scripts:
+  level: ../events/1000terrors.lua
+  script_ir: ../events/1000terrors.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

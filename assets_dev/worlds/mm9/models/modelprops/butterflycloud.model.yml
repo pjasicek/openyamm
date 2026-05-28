@@ -1,0 +1,434 @@
+schema: openyamm.model3d.v1
+id: butterflycloud
+model: butterflycloud.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/MODELPROPS/BUTTERFLYCLOUD.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: bu1
+  materialIndex: 0
+  lods:
+  - faces: 40
+    vertices: 30
+- name: bu2
+  materialIndex: 0
+  lods:
+  - faces: 40
+    vertices: 30
+- name: bu3
+  materialIndex: 0
+  lods:
+  - faces: 40
+    vertices: 30
+- name: bu4
+  materialIndex: 0
+  lods:
+  - faces: 40
+    vertices: 30
+materials:
+- index: 0
+  texture: skins_preview/modelprops/butterflycloud.png
+  runtime_texture: skins/modelprops/butterflycloud.dtx
+  preview_texture: skins_preview/modelprops/butterflycloud.png
+  source: mm9/extracted/SKINS/SKINS/MODELPROPS/BUTTERFLYCLOUD.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 4
+    - 7
+    - 10
+    - 13
+    - 16
+    - 19
+    - 22
+    - 25
+    - 28
+    - 31
+    - 34
+    - 37
+    - 40
+    - 43
+    - 46
+    - 49
+    - 52
+    - 55
+    - 58
+  - index: 1
+    name: XCenter05
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 3
+  - index: 2
+    name: Xwingpiv05
+    parent: 1
+    flags: 1
+    children: []
+  - index: 3
+    name: Xwingpiva05
+    parent: 1
+    flags: 1
+    children: []
+  - index: 4
+    name: XCenter
+    parent: 0
+    flags: 1
+    children:
+    - 5
+    - 6
+  - index: 5
+    name: Xwingpiv
+    parent: 4
+    flags: 1
+    children: []
+  - index: 6
+    name: Xwingpiva
+    parent: 4
+    flags: 1
+    children: []
+  - index: 7
+    name: XCenter04
+    parent: 0
+    flags: 1
+    children:
+    - 8
+    - 9
+  - index: 8
+    name: Xwingpiv04
+    parent: 7
+    flags: 1
+    children: []
+  - index: 9
+    name: Xwingpiva04
+    parent: 7
+    flags: 1
+    children: []
+  - index: 10
+    name: XCenter06
+    parent: 0
+    flags: 1
+    children:
+    - 11
+    - 12
+  - index: 11
+    name: Xwingpiva06
+    parent: 10
+    flags: 1
+    children: []
+  - index: 12
+    name: Xwingpiv06
+    parent: 10
+    flags: 1
+    children: []
+  - index: 13
+    name: XCenter10
+    parent: 0
+    flags: 1
+    children:
+    - 14
+    - 15
+  - index: 14
+    name: Xwingpiva10
+    parent: 13
+    flags: 1
+    children: []
+  - index: 15
+    name: Xwingpiv10
+    parent: 13
+    flags: 1
+    children: []
+  - index: 16
+    name: XCenter11
+    parent: 0
+    flags: 1
+    children:
+    - 17
+    - 18
+  - index: 17
+    name: Xwingpiv11
+    parent: 16
+    flags: 1
+    children: []
+  - index: 18
+    name: Xwingpiva11
+    parent: 16
+    flags: 1
+    children: []
+  - index: 19
+    name: XCenter12
+    parent: 0
+    flags: 1
+    children:
+    - 20
+    - 21
+  - index: 20
+    name: Xwingpiv12
+    parent: 19
+    flags: 1
+    children: []
+  - index: 21
+    name: Xwingpiva12
+    parent: 19
+    flags: 1
+    children: []
+  - index: 22
+    name: XCenter13
+    parent: 0
+    flags: 1
+    children:
+    - 23
+    - 24
+  - index: 23
+    name: Xwingpiv13
+    parent: 22
+    flags: 1
+    children: []
+  - index: 24
+    name: Xwingpiva13
+    parent: 22
+    flags: 1
+    children: []
+  - index: 25
+    name: XCenter14
+    parent: 0
+    flags: 1
+    children:
+    - 26
+    - 27
+  - index: 26
+    name: Xwingpiva14
+    parent: 25
+    flags: 1
+    children: []
+  - index: 27
+    name: Xwingpiv14
+    parent: 25
+    flags: 1
+    children: []
+  - index: 28
+    name: XCenter15
+    parent: 0
+    flags: 1
+    children:
+    - 29
+    - 30
+  - index: 29
+    name: Xwingpiva15
+    parent: 28
+    flags: 1
+    children: []
+  - index: 30
+    name: Xwingpiv15
+    parent: 28
+    flags: 1
+    children: []
+  - index: 31
+    name: XCenter16
+    parent: 0
+    flags: 1
+    children:
+    - 32
+    - 33
+  - index: 32
+    name: Xwingpiv16
+    parent: 31
+    flags: 1
+    children: []
+  - index: 33
+    name: Xwingpiva16
+    parent: 31
+    flags: 1
+    children: []
+  - index: 34
+    name: XCenter17
+    parent: 0
+    flags: 1
+    children:
+    - 35
+    - 36
+  - index: 35
+    name: Xwingpiv17
+    parent: 34
+    flags: 1
+    children: []
+  - index: 36
+    name: Xwingpiva17
+    parent: 34
+    flags: 1
+    children: []
+  - index: 37
+    name: XCenter18
+    parent: 0
+    flags: 1
+    children:
+    - 38
+    - 39
+  - index: 38
+    name: Xwingpiv18
+    parent: 37
+    flags: 1
+    children: []
+  - index: 39
+    name: Xwingpiva18
+    parent: 37
+    flags: 1
+    children: []
+  - index: 40
+    name: XCenter19
+    parent: 0
+    flags: 1
+    children:
+    - 41
+    - 42
+  - index: 41
+    name: Xwingpiva19
+    parent: 40
+    flags: 1
+    children: []
+  - index: 42
+    name: Xwingpiv19
+    parent: 40
+    flags: 1
+    children: []
+  - index: 43
+    name: XCenter20
+    parent: 0
+    flags: 1
+    children:
+    - 44
+    - 45
+  - index: 44
+    name: Xwingpiva20
+    parent: 43
+    flags: 1
+    children: []
+  - index: 45
+    name: Xwingpiv20
+    parent: 43
+    flags: 1
+    children: []
+  - index: 46
+    name: XCenter21
+    parent: 0
+    flags: 1
+    children:
+    - 47
+    - 48
+  - index: 47
+    name: Xwingpiv21
+    parent: 46
+    flags: 1
+    children: []
+  - index: 48
+    name: Xwingpiva21
+    parent: 46
+    flags: 1
+    children: []
+  - index: 49
+    name: XCenter22
+    parent: 0
+    flags: 1
+    children:
+    - 50
+    - 51
+  - index: 50
+    name: Xwingpiv22
+    parent: 49
+    flags: 1
+    children: []
+  - index: 51
+    name: Xwingpiva22
+    parent: 49
+    flags: 1
+    children: []
+  - index: 52
+    name: XCenter23
+    parent: 0
+    flags: 1
+    children:
+    - 53
+    - 54
+  - index: 53
+    name: Xwingpiv23
+    parent: 52
+    flags: 1
+    children: []
+  - index: 54
+    name: Xwingpiva23
+    parent: 52
+    flags: 1
+    children: []
+  - index: 55
+    name: XCenter24
+    parent: 0
+    flags: 1
+    children:
+    - 56
+    - 57
+  - index: 56
+    name: Xwingpiva24
+    parent: 55
+    flags: 1
+    children: []
+  - index: 57
+    name: Xwingpiv24
+    parent: 55
+    flags: 1
+    children: []
+  - index: 58
+    name: XCenter25
+    parent: 0
+    flags: 1
+    children:
+    - 59
+    - 60
+  - index: 59
+    name: Xwingpiva25
+    parent: 58
+    flags: 1
+    children: []
+  - index: 60
+    name: Xwingpiv25
+    parent: 58
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: butterflies
+  durationMs: 3000
+  keyframes: 42
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: butterflies
+  extents:
+  - 40.96
+  - 40.96
+  - 40.96
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/modelprops/butterflycloud.abc

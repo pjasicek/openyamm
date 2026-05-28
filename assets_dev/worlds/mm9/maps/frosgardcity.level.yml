@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: frosgardcity
+display_name: Frosgard City
+source:
+  dat: ../source/worlds/FROSGARDCITY.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/FROSGARDCITY.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: ecdab03d78f0221205bd46c1b068152f630464b7753f5c0f2bad5bbebd71a40e
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: frosgardcity.dat_world.yml
+  raw_objects: frosgardcity.raw_objects.yml
+  materials: frosgardcity.material_aliases.yml
+  events: frosgardcity.events.yml
+  scene_compat: frosgardcity.scene.yml
+  source_metadata_compat: frosgardcity.mm9.yml
+  bsp_compat: null
+  geometry_compat: null
+  model_assets_compat: frosgardcity.model_assets.yml
+  odm_compat: frosgardcity.odm
+  blv_compat: null
+scripts:
+  level: ../events/frosgardcity.lua
+  script_ir: ../events/frosgardcity.script_ir.yml
+compatibility:
+  legacy_target_format: odm
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

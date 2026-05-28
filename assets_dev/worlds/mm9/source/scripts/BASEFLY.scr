@@ -1,0 +1,30 @@
+;------------------------------------------------------------------
+;	basefly.scr
+;	Jeff Leggett
+;	10/01/2001
+;
+;	Base script for creatures that stay in the air and attack.
+;
+;------------------------------------------------------------------
+
+#include BaseFly.inc
+
+
+;------------------------------------------
+:Init
+;------------------------------------------
+	SetIdle
+
+	exit
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+
+	gosub BaseFlyInit
+
+	Wait 30, 0.01, Init
+
+	exit

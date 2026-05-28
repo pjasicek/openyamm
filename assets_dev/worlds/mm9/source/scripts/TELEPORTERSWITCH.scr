@@ -1,0 +1,86 @@
+;-------------------------------------
+;	TeleporterSwitch.scr
+;	by SJR
+;	01-01-02
+;	Purpose:function as a destination switcher.
+;
+;	ScriptParams:
+;		p0 = name teleporter to switch
+;		p1 = name of destination
+;-------------------------------------
+
+#string		TELEPORTER_NAME = ""
+#string		DESTINATION_NAME = ""
+#string		EFFECTS_NAME = ""
+#hobject	hTeleporter = 0
+#hobject	hEffects = 0
+
+#number		EFFECTS_WAIT_TIME = 4
+
+#string		SPELL_SPELLREAVER = "spell-spell reaver"
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	GetParam 0, TELEPORTER_NAME
+	GetParam 1, DESTINATION_NAME
+	GetParam 2, EFFECTS_NAME
+
+	SetConsoleStrVar TELEPORTER_DESTINATION, ""
+
+	AddTrigger use, SetDestination
+
+	OnCacheFiles CacheFiles
+
+	Exit 1
+
+;-------------------------------------
+:CacheFiles
+;-------------------------------------
+	CacheSound "sounds\magic\wizardeyeloop.wav"
+
+	CacheClientFX SPELL_SPELLREAVER
+
+	Exit 1
+
+;-------------------------------------
+:SetDestination
+;-------------------------------------
+	SetConsoleStrVar TELEPORTER_DESTINATION, DESTINATION_NAME
+
+	if( hTeleporter==0 )
+		GetObjectHandle TELEPORTER_NAME, hTeleporter
+	endif
+	if( hEffects==0 )
+		GetObjectHandle EFFECTS_NAME, hEffects
+	endif
+
+	if( hTeleporter!=0 )
+		Trigger hTeleporter, on
+		Trigger hTeleporter, update
+	endif
+
+	if( hEffects!=0 )
+		PlaySound "sounds\magic\wizardeyeloop.wav"
+		DoClientFX hTeleporter, SPELL_SPELLREAVER, 0, 1
+		gosub TurnEffectsOn
+		Wait 0, EFFECTS_WAIT_TIME, TurnEffectsOff
+	endif
+
+	Exit 1
+
+;-------------------------------------
+:TurnEffectsOn
+;-------------------------------------
+	RemoveTrigger use
+	Trigger hEffects, on
+
+	Exit 1
+
+;-------------------------------------
+:TurnEffectsOff
+;-------------------------------------
+	Trigger hEffects, off
+	AddTrigger use, SetDestination
+
+	Exit 1

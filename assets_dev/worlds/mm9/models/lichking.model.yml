@@ -1,0 +1,708 @@
+schema: openyamm.model3d.v1
+id: lichking
+model: lichking.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/LICHKING.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 4.023306898564917e+25
+pieces:
+- name: LHand1
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: RHand1
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: d_lichking
+  materialIndex: 0
+  lods:
+  - faces: 996
+    vertices: 500
+  - faces: 778
+    vertices: 391
+- name: staff2
+  materialIndex: 1
+  lods:
+  - faces: 274
+    vertices: 142
+  - faces: 174
+    vertices: 92
+materials:
+- index: 0
+  texture: skins_preview/lichking1.png
+  runtime_texture: skins/lichking1.dtx
+  preview_texture: skins_preview/lichking1.png
+  source: mm9/extracted/SKINS/SKINS/LICHKING1.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+- index: 1
+  texture: skins_preview/lichstaff.png
+  runtime_texture: skins/lichstaff.dtx
+  preview_texture: skins_preview/lichstaff.png
+  source: mm9/extracted/SKINS/SKINS/LICHSTAFF.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 22
+    - 29
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bip01 Spine3
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Bip01 Neck
+    parent: 5
+    flags: 1
+    children:
+    - 7
+    - 8
+    - 14
+  - index: 7
+    name: Bip01 Head
+    parent: 6
+    flags: 1
+    children: []
+  - index: 8
+    name: Bip01 L Clavicle
+    parent: 6
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bip01 L UpperArm
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bip01 L Forearm
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bip01 L Finger0
+    parent: 10
+    flags: 1
+    children:
+    - 12
+    - 13
+  - index: 12
+    name: Bip01 L Finger01
+    parent: 11
+    flags: 1
+    children: []
+  - index: 13
+    name: LHand1
+    parent: 11
+    flags: 1
+    children: []
+  - index: 14
+    name: Bip01 R Clavicle
+    parent: 6
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 R UpperArm
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bip01 R Forearm
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bip01 R Hand
+    parent: 16
+    flags: 1
+    children:
+    - 18
+    - 21
+  - index: 18
+    name: Bip01 R Finger0
+    parent: 17
+    flags: 1
+    children:
+    - 19
+    - 20
+  - index: 19
+    name: Bip01 R Finger01
+    parent: 18
+    flags: 1
+    children: []
+  - index: 20
+    name: RHand1
+    parent: 18
+    flags: 1
+    children: []
+  - index: 21
+    name: Bone01
+    parent: 17
+    flags: 1
+    children: []
+  - index: 22
+    name: Bip01 L Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bip01 L Calf
+    parent: 22
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bip01 L Foot
+    parent: 23
+    flags: 1
+    children:
+    - 25
+    - 26
+    - 27
+    - 28
+  - index: 25
+    name: Bip01 L Toe02
+    parent: 24
+    flags: 1
+    children: []
+  - index: 26
+    name: Bip01 L Toe22
+    parent: 24
+    flags: 1
+    children: []
+  - index: 27
+    name: Bip01 L Toe32
+    parent: 24
+    flags: 1
+    children: []
+  - index: 28
+    name: Bip01 L Toe42
+    parent: 24
+    flags: 1
+    children: []
+  - index: 29
+    name: Bip01 R Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Bip01 R Calf
+    parent: 29
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: Bip01 R Foot
+    parent: 30
+    flags: 1
+    children:
+    - 32
+    - 33
+    - 34
+    - 35
+  - index: 32
+    name: Bip01 R Toe02
+    parent: 31
+    flags: 1
+    children: []
+  - index: 33
+    name: Bip01 R Toe22
+    parent: 31
+    flags: 1
+    children: []
+  - index: 34
+    name: Bip01 R Toe32
+    parent: 31
+    flags: 1
+    children: []
+  - index: 35
+    name: Bip01 R Toe42
+    parent: 31
+    flags: 1
+    children: []
+sockets:
+- name: Lhand1
+  node: 12
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.7054665684700012
+  - 0.048067640513181686
+  - 0.7054687738418579
+  - 0.04806860163807869
+- name: RHand1
+  node: 19
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.09791699051856995
+  - 0.7002919316291809
+  - 0.09791752696037292
+  - 0.7002968192100525
+- name: RangeAttack
+  node: 12
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.7054665684700012
+  - 0.048067640513181686
+  - 0.7054687738418579
+  - 0.04806860163807869
+- name: u1
+  node: 21
+  translation:
+  - 0.09380172729492188
+  - 66.38848144531251
+  - -13.552281494140626
+  rotation:
+  - -0.14968052506446838
+  - -0.9626867771148682
+  - 0.14685513079166412
+  - -0.171065554022789
+animations:
+- name: static_model
+  durationMs: 66
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand
+  durationMs: 2666
+  keyframes: 7
+  interpolationTimeMs: 200
+  events: []
+- name: search
+  durationMs: 3000
+  keyframes: 22
+  interpolationTimeMs: 200
+  events: []
+- name: aware
+  durationMs: 1100
+  keyframes: 29
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 345
+    event: speakanimsound
+- name: Taunt
+  durationMs: 1800
+  keyframes: 47
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 66
+    event: speakanimsound
+  - timeMs: 644
+    event: playsoundFX
+  - timeMs: 755
+    event: playsoundfx
+  - timeMs: 889
+    event: playsoundFX
+  - timeMs: 1067
+    event: playsoundfx
+- name: walk
+  durationMs: 1200
+  keyframes: 24
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 660
+    event: footstep
+  - timeMs: 1200
+    event: footstep
+- name: run
+  durationMs: 666
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 233
+    event: footstep
+  - timeMs: 533
+    event: footstep
+- name: fidget1
+  durationMs: 1400
+  keyframes: 29
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 439
+    event: speakanimsound
+- name: fidget2
+  durationMs: 3000
+  keyframes: 22
+  interpolationTimeMs: 200
+  events: []
+- name: Hattack1
+  durationMs: 1000
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 166
+    event: speakanimsound
+  - timeMs: 479
+    event: Rattack
+- name: Rattack1
+  durationMs: 1000
+  keyframes: 27
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 52
+    event: playanimsound
+  - timeMs: 105
+    event: DoFX 1
+  - timeMs: 474
+    event: Rangeattack; playsoundFX
+  - timeMs: 948
+    event: EndFX
+- name: wince1
+  durationMs: 1700
+  keyframes: 38
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: EndFX
+  - timeMs: 66
+    event: speakanimsound
+- name: wince2
+  durationMs: 1400
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: EndFX
+  - timeMs: 110
+    event: speakanimsound
+- name: die1_OLD
+  durationMs: 1100
+  keyframes: 29
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 66
+    event: speakanimsound
+- name: die1
+  durationMs: 1100
+  keyframes: 29
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: EndFX
+  - timeMs: 66
+    event: speakanimsound
+  - timeMs: 500
+    event: playdeathsound
+- name: die2
+  durationMs: 2100
+  keyframes: 31
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound;EndFX
+  - timeMs: 1566
+    event: playdeathsound
+- name: resurrect
+  durationMs: 1797
+  keyframes: 34
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 186
+    event: playanimsound
+- name: Backpedal
+  durationMs: 1200
+  keyframes: 24
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: footstep
+  - timeMs: 540
+    event: footstep
+- name: Backpedalrun
+  durationMs: 700
+  keyframes: 24
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: footstep
+  - timeMs: 315
+    event: footstep
+- name: ResurrectSpell
+  durationMs: 2000
+  keyframes: 47
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: DoFX 0
+  - timeMs: 148
+    event: PlayAnimSound
+  - timeMs: 642
+    event: DoResurrection
+  - timeMs: 1852
+    event: EndFX
+animationBindings:
+- name: static_model
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: stand
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: search
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: aware
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: Taunt
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: walk
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: run
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - -79.36
+  - -25.6
+- name: fidget1
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: fidget2
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: Hattack1
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: Rattack1
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: wince1
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: wince2
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: die1_OLD
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: die1
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: die2
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - -2.56
+- name: resurrect
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: Backpedal
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: Backpedalrun
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - 0.0
+- name: ResurrectSpell
+  extents:
+  - 30.72
+  - 76.8
+  - 30.72
+  origin:
+  - 0.0
+  - 20.48
+  - -5.12
+roles:
+- actor_model
+source_model: models/lichking.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: lichking_lichking1
+  source_skins:
+  - skins/lichking1.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 198
+    number: '209'
+    monster_name: Lich King
+    type_picture: Lich C
+    base_name: Lichking
+- id: lichking_lichking1_lichstaff
+  source_skins:
+  - skins/lichking1.dtx
+  - skins/lichstaff.dtx
+  actor_rows:
+  - table: MONSTERS
+    row: 198
+    number: '209'
+    monster_name: Lich King
+    type_picture: Lich C
+    base_name: Lichking

@@ -1,0 +1,49 @@
+;-----------------------------------
+;	LichEngineProp
+;	by SJR
+;	Purpose:have the prop play its
+;			anims
+;-----------------------------------
+
+;-----------------------------------
+:Main
+;-----------------------------------
+	AddTrigger start, PowerUp
+
+	Exit 1
+
+;-----------------------------------
+:PowerUp
+;-----------------------------------
+	RemoveTrigger start
+
+	PlayAnim "startup", Spin
+
+	Exit 1
+
+;-----------------------------------
+:Spin
+;-----------------------------------
+	LoopAnim "spincycle", 0
+
+	AddTrigger finish, PowerDown
+
+	Exit 1
+
+;-----------------------------------
+:PowerDown
+;-----------------------------------
+	RemoveTrigger finish
+
+	PlayAnim "shutdown", Stop
+
+	Exit 1
+
+;-----------------------------------
+:Stop
+;-----------------------------------
+	LoopAnim "static_model", 0
+
+	AddTrigger start, PowerUp
+
+	Exit 1

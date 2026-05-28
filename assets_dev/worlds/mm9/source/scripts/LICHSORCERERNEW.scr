@@ -1,0 +1,50 @@
+#include BaseGlobals.inc
+#include CutSceneActor.inc
+
+#string		sDoorName = ""
+#hobject	hDoor = 0
+
+#hobject	hMe = 0
+
+#string		SPELL_SPIRIT = "spirit"
+
+;---------------------------------
+:Main
+;---------------------------------
+	GetParam 0, sDoorName
+
+	Wait 0, 1, InitLichSorcererNew
+
+	GetMyHandle hMe
+
+	Exit TRUE
+
+;---------------------------------
+:InitLichSorcererNew
+;---------------------------------
+	AddTrigger play, LookMenacing
+
+	Exit TRUE
+
+;---------------------------------
+:LookMenacing
+;---------------------------------
+	gosub EffectLoop
+
+	GetObjectHandle sDoorName, hDoor
+	FaceObject hDoor, 0, DoNothing
+
+	PlayAnim ressurect, DoNothing
+
+	Wait 0, 5, EndScene
+
+	Exit TRUE
+
+;---------------------------------
+:EffectLoop
+;---------------------------------
+	DoClientFX hMe, SPELL_SPIRIT, 0, 1
+
+	Wait 1, .4, EffectLoop
+
+	Exit TRUE

@@ -1,0 +1,1033 @@
+format_version: 1
+source_file: NPC11.rude
+rows:
+  - source:
+      file: NPC11.rude
+      row: 1
+    raw_columns:
+      - 11
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 11
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC11.rude
+      row: 2
+    raw_columns:
+      - 11
+      - 9
+      - 1
+      - We're not here to fix the machine.
+      - Well then, you're wasting my time.  Goodbye.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 11
+      node_id: 9
+      choice_slot: 1
+      prompt: We're not here to fix the machine.
+      response: Well then, you're wasting my time.  Goodbye.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC11.rude
+      row: 3
+    raw_columns:
+      - 11
+      - 8
+      - 1
+      - Goodbye.
+      - Good Luck!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 11
+      node_id: 8
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Good Luck!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC11.rude
+      row: 4
+    raw_columns:
+      - 11
+      - 7
+      - 1
+      - We will find him, and bring him back to fix the machine.
+      - Great news!  You must be great men, if you can convince Hjarrand Fixer to return to work!
+      - 8
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 11
+      node_id: 7
+      choice_slot: 1
+      prompt: We will find him, and bring him back to fix the machine.
+      response: Great news!  You must be great men, if you can convince Hjarrand Fixer to return to work!
+      next: 8
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 5
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 8
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 5
+        status: raw_value_preserved
+  - source:
+      file: NPC11.rude
+      row: 5
+    raw_columns:
+      - 11
+      - 6
+      - 1
+      - Where can we find Hjarrand Fixer?
+      - He's got a small apartment inside Thjorgard City.
+      - 7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 11
+      node_id: 6
+      choice_slot: 1
+      prompt: Where can we find Hjarrand Fixer?
+      response: He's got a small apartment inside Thjorgard City.
+      next: 7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 7
+  - source:
+      file: NPC11.rude
+      row: 6
+    raw_columns:
+      - 11
+      - 5
+      - 1
+      - Someone had to fix it then, right?
+      - Well yeah!  The machine was fixed by Hjarrand Fixer, but he's long since retired!
+      - 6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 11
+      node_id: 5
+      choice_slot: 1
+      prompt: Someone had to fix it then, right?
+      response: Well yeah!  The machine was fixed by Hjarrand Fixer, but he's long since retired!
+      next: 6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 6
+  - source:
+      file: NPC11.rude
+      row: 7
+    raw_columns:
+      - 11
+      - 4
+      - 1
+      - So this has happened before?
+      - Of course it's happened before!  That's what caused the Great Slag Depression!  Weren't you listening?
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 11
+      node_id: 4
+      choice_slot: 1
+      prompt: So this has happened before?
+      response: Of course it's happened before!  That's what caused the Great Slag Depression!  Weren't you listening?
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC11.rude
+      row: 8
+    raw_columns:
+      - 11
+      - 3
+      - 1
+      - What does that mean?
+      - It means the Elemental Thorjad is impure!  If we don't do something, the Thjoradric smiths may go bankrupt like the Great Slag Depression of 485!
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 11
+      node_id: 3
+      choice_slot: 1
+      prompt: What does that mean?
+      response: It means the Elemental Thorjad is impure!  If we don't do something, the Thjoradric smiths may go bankrupt like the Great Slag Depression of 485!
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC11.rude
+      row: 9
+    raw_columns:
+      - 11
+      - 2
+      - 1
+      - What is wrong with it?
+      - The Input Refractor still accepts the Thjoradric ore, which plugs into the Thermosmelter, but the Slag Extractor is not extracting the slag.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 11
+      node_id: 2
+      choice_slot: 1
+      prompt: What is wrong with it?
+      response: The Input Refractor still accepts the Thjoradric ore, which plugs into the Thermosmelter, but the Slag Extractor is not extracting the slag.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC11.rude
+      row: 10
+    raw_columns:
+      - 11
+      - 11
+      - 1
+      - Sven Forkbeard sent us to find out why you've stopped working.
+      - The refining machine is broken!  It's been so long since it broke no one remembers how to fix it!
+      - 2
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 37
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 11
+      node_id: 11
+      choice_slot: 1
+      prompt: Sven Forkbeard sent us to find out why you've stopped working.
+      response: The refining machine is broken!  It's been so long since it broke no one remembers how to fix it!
+      next: 2
+      raw_fields:
+        c07: 3
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 37
+        c22: 5
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 3
+            qbit_id: 9003
+            state_id: mm9.keys.3
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 3
+          qbit_id: 9003
+          state_id: mm9.keys.3
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 37
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c22
+        value: 5
+        status: raw_value_preserved
+  - source:
+      file: NPC11.rude
+      row: 11
+    raw_columns:
+      - 11
+      - 11
+      - 2
+      - What machine?
+      - The Thjoradric Refiner!  Why else would you be here?
+      - 9
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 11
+      node_id: 11
+      choice_slot: 2
+      prompt: What machine?
+      response: The Thjoradric Refiner!  Why else would you be here?
+      next: 9
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 3
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 9
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 3
+        status: raw_value_preserved
+  - source:
+      file: NPC11.rude
+      row: 12
+    raw_columns:
+      - 11
+      - 11
+      - 3
+      - We've fixed the Slag Extractor.
+      - Great!  Thank you!  Now we can get back to work!
+      - 999
+      - 37
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 11
+      node_id: 11
+      choice_slot: 3
+      prompt: We've fixed the Slag Extractor.
+      response: Great!  Thank you!  Now we can get back to work!
+      next: 999
+      raw_fields:
+        c07: 37
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 37
+            qbit_id: 9037
+            state_id: mm9.keys.37
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 37
+          qbit_id: 9037
+          state_id: mm9.keys.37
+  - source:
+      file: NPC11.rude
+      row: 13
+    raw_columns:
+      - 11
+      - 11
+      - 4
+      - Yes, we're here to fix the machine.
+      - Well then get cracking you lazy sod!
+      - 999
+      - 1023
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 11
+      node_id: 11
+      choice_slot: 4
+      prompt: Yes, we're here to fix the machine.
+      response: Well then get cracking you lazy sod!
+      next: 999
+      raw_fields:
+        c07: 1023
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 1023
+            qbit_id: 10023
+            state_id: mm9.keys.1023
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 1023
+          qbit_id: 10023
+          state_id: mm9.keys.1023
+  - source:
+      file: NPC11.rude
+      row: 14
+    raw_columns:
+      - 11
+      - 11
+      - 6
+      - No, Sorry.
+      - Well then, you're wasting my time.  Goodbye.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 11
+      node_id: 11
+      choice_slot: 6
+      prompt: No, Sorry.
+      response: Well then, you're wasting my time.  Goodbye.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999

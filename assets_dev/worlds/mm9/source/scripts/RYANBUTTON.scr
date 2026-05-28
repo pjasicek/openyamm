@@ -1,0 +1,52 @@
+;--------------------------------------------------
+;Ryanbutton.scr
+; timmy
+; Handles ryan's deathmatch button thing 
+;--------------------------------------------------
+
+#include globals.inc 
+
+       
+#Number					counter
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+if ( counter==0,  )
+
+	Playanim OpenBook
+	Add counter, 1
+	exit
+endif
+	
+if (counter==1, )
+	Playanim TurnPage
+	Add counter, 1
+	exit
+endif
+		
+If (counter==2, )
+	Playanim TurnBack
+	Add counter, 1
+	exit
+endif
+			
+If (Counter>=3, )
+	Playanim Closebook
+	Set counter, 0		
+	exit
+endif
+
+
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+
+
+Set counter, 0
+AddTrigger Use, OnUse
+exit
+

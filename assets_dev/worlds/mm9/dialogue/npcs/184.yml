@@ -1,0 +1,1109 @@
+format_version: 1
+source_file: NPC184.rude
+rows:
+  - source:
+      file: NPC184.rude
+      row: 1
+    raw_columns:
+      - 184
+      - 16
+      - 1
+      - Sorry
+      - Well no sense in getting upset over it.  Here's a little bit for your effort.  I appreciate you trying at least.  Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 309
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 16
+      choice_slot: 1
+      prompt: Sorry
+      response: Well no sense in getting upset over it.  Here's a little bit for your effort.  I appreciate you trying at least.  Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 309
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 309
+        status: raw_value_preserved
+  - source:
+      file: NPC184.rude
+      row: 2
+    raw_columns:
+      - 184
+      - 15
+      - 1
+      - 500 gold.
+      - Great!  Tell you what, why don't you keep that.  If they like it, I'm sure they'll want to order more.  Thanks for your help.  I really appreciate it.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 307
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 15
+      choice_slot: 1
+      prompt: 500 gold.
+      response: Great!  Tell you what, why don't you keep that.  If they like it, I'm sure they'll want to order more.  Thanks for your help.  I really appreciate it.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 307
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 307
+        status: raw_value_preserved
+  - source:
+      file: NPC184.rude
+      row: 3
+    raw_columns:
+      - 184
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC184.rude
+      row: 4
+    raw_columns:
+      - 184
+      - 184
+      - 1
+      - We'd like to do business.
+      - Of course!
+      - -7
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 184
+      choice_slot: 1
+      prompt: We'd like to do business.
+      response: Of course!
+      next: -7
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -7
+        service: inn
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -7
+        service: inn
+        status: typed_pending_exact_runtime_behavior
+  - source:
+      file: NPC184.rude
+      row: 5
+    raw_columns:
+      - 184
+      - 10
+      - 1
+      - Do you have any news?
+      - Two of my apprentices have come up with a new concoction, and it's horrible!  Just the thing I can sell to the Guberland Clan.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 10
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: Two of my apprentices have come up with a new concoction, and it's horrible!  Just the thing I can sell to the Guberland Clan.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC184.rude
+      row: 6
+    raw_columns:
+      - 184
+      - 2
+      - 1
+      - We will be happy to do that for you.
+      - Very good.  Once you've sold the keg, return to me for your reward.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 302
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 2
+      choice_slot: 1
+      prompt: We will be happy to do that for you.
+      response: Very good.  Once you've sold the keg, return to me for your reward.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 302
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 302
+        status: raw_value_preserved
+  - source:
+      file: NPC184.rude
+      row: 7
+    raw_columns:
+      - 184
+      - 1
+      - 1
+      - What do you want us to do?
+      - I want you to go to the tavern in Guberland and convince them to purchase this brew.  If they like what you give them, tell them there will be more where that came from!
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 1
+      choice_slot: 1
+      prompt: What do you want us to do?
+      response: I want you to go to the tavern in Guberland and convince them to purchase this brew.  If they like what you give them, tell them there will be more where that came from!
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC184.rude
+      row: 8
+    raw_columns:
+      - 184
+      - 10
+      - 2
+      - What do you know about Guberland?
+      - They're all pretty much suckers.  If I find a brew I've had for too long, or something that's gone bad, I can usually sell it in Guberland for outrageous profits.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 10
+      choice_slot: 2
+      prompt: What do you know about Guberland?
+      response: They're all pretty much suckers.  If I find a brew I've had for too long, or something that's gone bad, I can usually sell it in Guberland for outrageous profits.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC184.rude
+      row: 9
+    raw_columns:
+      - 184
+      - 2
+      - 2
+      - We don't have time to peddle beer.
+      - Alright.  Well I guess I'll hang on to it a little longer then.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 2
+      choice_slot: 2
+      prompt: We don't have time to peddle beer.
+      response: Alright.  Well I guess I'll hang on to it a little longer then.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC184.rude
+      row: 10
+    raw_columns:
+      - 184
+      - 184
+      - 3
+      - Is there anything we can do for you?
+      - As a matter of fact, there is.  You see my apprentices have created a new brew that doesn't seem to be popular here.  It's a strange color, and there's not much of the foam on it, but I have a feeling the Guberlandians will like it.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 302
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 184
+      choice_slot: 3
+      prompt: Is there anything we can do for you?
+      response: As a matter of fact, there is.  You see my apprentices have created a new brew that doesn't seem to be popular here.  It's a strange color, and there's not much of the foam on it, but I have a feeling the Guberlandians will like it.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 302
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 302
+        status: raw_value_preserved
+  - source:
+      file: NPC184.rude
+      row: 11
+    raw_columns:
+      - 184
+      - 184
+      - 4
+      - We'd like to ask you some questions.
+      - Alright.  Ask your questions.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 184
+      choice_slot: 4
+      prompt: We'd like to ask you some questions.
+      response: Alright.  Ask your questions.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC184.rude
+      row: 12
+    raw_columns:
+      - 184
+      - 184
+      - 5
+      - We sold the beer.
+      - That's great news!  How much did you get for it?
+      - 15
+      - 304
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 307
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 184
+      choice_slot: 5
+      prompt: We sold the beer.
+      response: That's great news!  How much did you get for it?
+      next: 15
+      raw_fields:
+        c07: 304
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 307
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 304
+            qbit_id: 9304
+            state_id: mm9.keys.304
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 304
+          qbit_id: 9304
+          state_id: mm9.keys.304
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 307
+        status: raw_value_preserved
+  - source:
+      file: NPC184.rude
+      row: 13
+    raw_columns:
+      - 184
+      - 184
+      - 6
+      - We couldn't sell the beer.
+      - You dolts!  I bet you told them my apprentices made it, didn't you!  Now what am I going to do with all this stuff?  I'll have to throw it out!
+      - 16
+      - 305
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 309
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 184
+      choice_slot: 6
+      prompt: We couldn't sell the beer.
+      response: You dolts!  I bet you told them my apprentices made it, didn't you!  Now what am I going to do with all this stuff?  I'll have to throw it out!
+      next: 16
+      raw_fields:
+        c07: 305
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 309
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 16
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 305
+            qbit_id: 9305
+            state_id: mm9.keys.305
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 305
+          qbit_id: 9305
+          state_id: mm9.keys.305
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 309
+        status: raw_value_preserved
+  - source:
+      file: NPC184.rude
+      row: 14
+    raw_columns:
+      - 184
+      - 10
+      - 7
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 10
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC184.rude
+      row: 15
+    raw_columns:
+      - 184
+      - 184
+      - 7
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 184
+      node_id: 184
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

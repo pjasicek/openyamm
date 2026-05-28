@@ -1,0 +1,147 @@
+schema: openyamm.model3d.v1
+id: training_spindummy1
+model: training_spindummy1.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/TRAINING_SPINDUMMY1.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Flail
+  materialIndex: 0
+  lods:
+  - faces: 82
+    vertices: 60
+  - faces: 74
+    vertices: 56
+- name: Training_Spin-Dummy1
+  materialIndex: 0
+  lods:
+  - faces: 177
+    vertices: 139
+  - faces: 153
+    vertices: 127
+- name: Frame
+  materialIndex: 0
+  lods:
+  - faces: 72
+    vertices: 58
+  - faces: 70
+    vertices: 57
+materials:
+- index: 0
+  texture: skins_preview/props/training_spindummy1.png
+  runtime_texture: skins/props/training_spindummy1.dtx
+  preview_texture: skins_preview/props/training_spindummy1.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/TRAINING_SPINDUMMY1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone04
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: SpinBone
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: flailbone
+    parent: 2
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 750
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Spin
+  durationMs: 750
+  keyframes: 7
+  interpolationTimeMs: 200
+  events: []
+- name: Stop
+  durationMs: 1500
+  keyframes: 11
+  interpolationTimeMs: 200
+  events: []
+- name: Jiggle
+  durationMs: 750
+  keyframes: 13
+  interpolationTimeMs: 200
+  events: []
+- name: JiggleOLD
+  durationMs: 600
+  keyframes: 7
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Spin
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Stop
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Jiggle
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: JiggleOLD
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/training_spindummy1.abc

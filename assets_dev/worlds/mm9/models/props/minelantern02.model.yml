@@ -1,0 +1,78 @@
+schema: openyamm.model3d.v1
+id: minelantern02
+model: minelantern02.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/MINELANTERN02.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Lantern
+  materialIndex: 0
+  lods:
+  - faces: 56
+    vertices: 39
+  - faces: 40
+    vertices: 31
+  - faces: 30
+    vertices: 26
+- name: Hook
+  materialIndex: 0
+  lods:
+  - faces: 34
+    vertices: 23
+  - faces: 28
+    vertices: 20
+  - faces: 16
+    vertices: 14
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 66
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 12.8
+  - 38.4
+  - 12.8
+  origin:
+  - 0.0
+  - 0.0
+  - -12.8
+roles:
+- static_model
+source_model: models/props/minelantern02.abc

@@ -1,0 +1,125 @@
+;--------------------------------------------------
+;NPC184.scr
+; timmy
+; handles Brewmaster Smith voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub givekeg
+gosub Reward
+gosub BadReward
+exit
+
+
+;--------------------------------------------------
+:GiveKeg
+;--------------------------------------------------
+;****************
+;GiveKeg Quest
+;****************
+
+haskey 303 g_ntemp
+if (g_ntemp==0)
+	haskey 302 g_ntemp
+	if (g_ntemp==1)
+		givekey 303
+		giveitem 249
+		exit
+	endif
+endif
+exit
+
+
+;End GiveKeg quest
+;******************
+exit
+
+
+;--------------------------------------------------
+:Reward
+;--------------------------------------------------
+;****************
+;Reward Quest
+;****************
+
+haskey 308 g_ntemp
+if (g_ntemp==0)
+	haskey 307 g_ntemp
+	if (g_ntemp==1)
+		givekey 308
+		giveexp 20000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+exit
+
+
+
+;End Reward Quest
+;******************
+exit
+
+;--------------------------------------------------
+:BadReward
+;--------------------------------------------------
+;****************
+;Reward Quest
+;****************
+
+haskey 310 g_ntemp
+if (g_ntemp==0)
+	haskey 309 g_ntemp
+	if (g_ntemp==1)
+		givekey 310
+		giveexp 2000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		givegold 200
+		takeitem 249
+		exit
+	endif
+endif
+exit
+
+
+
+;End Reward Quest
+;******************
+exit
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_184.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

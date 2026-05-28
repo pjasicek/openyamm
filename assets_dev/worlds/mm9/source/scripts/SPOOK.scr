@@ -1,0 +1,199 @@
+;-------------------
+;	Spook.scr
+;	by SJR
+;	10-15-01
+;	Purpose:play spooky sound
+;			effects behind
+;			the player
+;
+;	Triggers:
+;		"Play"	= play random sound effect behind player
+;		"PlayHere"	= play random sound effect from trigger location
+;		"Off"	= turn all sfx off
+;		"On"	= turn back on (default)
+;		"RandomOff"	= turn off randomly timed sounds
+;		"RandomOn"	= allow randomly timed sounds (default)
+;
+;	note:	for "PlayHere" achieve the desired effect, you will need
+;			to route the stepped-on trigger through another, distant trigger.
+;-------------------
+
+#include BaseGlobals.inc
+
+#hobject	hMe=0
+#hobject	hPlayer=0
+#hobject	hDummy=0
+
+#number		bActive=TRUE
+#number		bRandom=TRUE
+#number		nRandom=1
+
+#number		x=0
+#number		y=0
+#number		z=0
+
+#number		dx=0
+#number		dy=0
+#number		dz=0
+#number		dt=0
+
+#string		sFileName=""
+
+#stringarray spSoundArray[10]
+
+;------------
+:Main
+;------------
+	Wait 0, .1, InitSpook
+
+	gosub InitStrings
+	gosub CacheAllSounds
+
+	Exit TRUE
+
+;------------
+:InitSpook
+;------------
+	bActive = TRUE
+	bRandom = TRUE
+
+	GetMyHandle hMe
+	GetPlayerHandle hPlayer
+
+	AddTrigger Play, PlaySound
+	AddTrigger PlayHere, PlaySoundHere
+	AddTrigger RandomOff, TurnRandomOff
+	AddTrigger RandomOn, TurnRandomOn
+	AddTrigger On, TurnOn
+	AddTrigger Off, TurnOff
+
+	gosub StartPlayLoop
+
+	Exit TRUE
+
+;------------
+:StartPlayLoop
+;------------
+	if( bActive==FALSE )
+		Exit TRUE
+	endif
+	if( bRandom==FALSE )
+		Exit TRUE
+	endif
+	gosub PlaySound
+	GetRandomInt 2, 8, dt
+	dt = dt * 60
+	Wait 0, dt, StartPlayLoop
+	Exit TRUE
+
+;------------
+:PlaySoundHere
+;------------
+	if( bActive==FALSE )
+		Exit TRUE
+	endif
+	;;UpdatePOS will use the trigger as pos
+	GetParam 0, hPlayer
+	gosub UpdatePOS
+	;;reset reference to player
+	GetPlayerHandle hPlayer
+	GetRandomInt 0, 9, nRandom
+	ArrayGet spSoundArray, nRandom, sFilename
+	PlaySound sFileName, OnSoundDone, hDummy, 500, FALSE, 100
+	Exit TRUE
+
+;------------
+:PlaySound
+;------------
+	if( bActive==FALSE )
+		Exit TRUE
+	endif
+	gosub UpdatePOS
+	GetRandomInt 0, 9, nRandom
+	ArrayGet spSoundArray, nRandom, sFilename
+	PlaySound sFileName, OnSoundDone, hDummy, 500, FALSE, 100
+	Exit TRUE
+
+;------------
+:UpdatePOS
+;------------
+	GetFaceDir hPlayer, dx,dy,dz
+	NormalizeVector dx,dy,dz
+	GetPOS hPlayer, x,y,z
+	x = x - dx
+	y = y - dy
+	z = z - dz
+	SetPOS hMe, x,y,z
+	Exit TRUE
+
+;------------
+:TurnOn
+;------------
+	bActive = TRUE
+	Exit TRUE
+
+;------------
+:TurnOff
+;------------
+	bActive = FALSE
+	Exit TRUE
+
+;------------
+:TurnRandomOn
+;------------
+	bRandom = TRUE
+	Exit TRUE
+
+;------------
+:TurnRandomOff
+;------------
+	bRandom = FALSE
+	Exit TRUE
+
+;------------
+:OnSoundDone
+;------------
+	KillSound hDummy
+	Exit TRUE
+
+;------------
+:InitStrings
+;------------
+	sFileName = "sounds\Door\Doorcreak02.wav"
+	ArrayPut spSoundArray, 0, sFileName
+	sFileName = "sounds\Ambient\Owl02.wav"
+	ArrayPut spSoundArray, 1, sFileName
+	sFileName = "sounds\Ambient\Thunderdistant02.wav"
+	ArrayPut spSoundArray, 2, sFileName
+	sFileName = "sounds\Events\rockscrumblingloop.wav"
+	ArrayPut spSoundArray, 3, sFileName
+	sFileName = "sounds\Events\WoodCreak1.wav"
+	ArrayPut spSoundArray, 4, sFileName
+	sFileName = "sounds\AnimSounds\lichkingTaunt.wav"
+	ArrayPut spSoundArray, 5, sFileName
+	sFileName = "sounds\Ambient\cricket.wav"
+	ArrayPut spSoundArray, 6, sFileName
+	sFileName = "sounds\AnimSounds\gopherwince.wav"
+	ArrayPut spSoundArray, 7, sFileName
+	sFileName = "sounds\PickupItems\Shield\Metal01.wav"
+	ArrayPut spSoundArray, 8, sFileName
+	sFileName = "sounds\events\shatterpotterybig02.wav"
+	ArrayPut spSoundArray, 9, sFileName
+	sFileName = ""
+	Exit TRUE
+
+;------------
+:CacheAllSounds
+;------------
+	CacheSound "sounds\Door\Doorcreak02.wav"
+	CacheSound "sounds\Ambient\Owl02.wav"
+	CacheSound "sounds\Ambient\Thunderdistant02.wav"
+	CacheSound "sounds\Events\rockscrumblingloop.wav"
+	CacheSound "sounds\Events\WoodCreak1.wav"
+	CacheSound "sounds\AnimSounds\lichkingTaunt.wav"
+	CacheSound "sounds\Ambient\cricket.wav"
+	CacheSound "sounds\AnimSounds\gopherwince.wav"
+	CacheSound "sounds\PickupItems\Shield\Metal01.wav"
+	CacheSound "sounds\events\shatterpotterybig02.wav"
+
+	Exit TRUE

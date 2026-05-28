@@ -1,0 +1,66 @@
+;-----------------------------------------------------
+;
+;	1000T_FlyingCreature_.scr
+;
+;	Karl Drown 11-20-01
+;	First event in level: Flying creatures
+;	path around the entryway to scare party.
+;	SJR------> scare them with 3 FPS, homes!!!
+;	
+;-----------------------------------------------------
+#include ListTraverse.inc
+
+#hobject	hMe = 0
+
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+
+	gosub InitFlyingCreature
+
+	Exit 1
+
+;-----------------------------------------------------
+:InitFlyingCreature
+;-----------------------------------------------------
+	gosub SetTraverseRun
+
+	SetModelFilenames "models\flyingicky.abc", "textures\leveltextures\misc\black.dtx"
+
+	GetMyHandle hMe
+	SetFlag hMe, 2097152
+	SetStat hMe, FlyVel, 900
+
+	OnStuck RemoveMe
+
+	AddTrigger go, TraverseBegin
+
+	Exit 1
+
+;-----------------------------------------------------
+:OnTraverseDone
+;-----------------------------------------------------
+	if ( LISTINDEX==LISTLAST )
+		Stop
+		RemoveObject hMe
+	else
+		PlaySound "sounds\animsounds\evileyeflap.wav", DoNothing, 500, 2000, 0, 100
+	endif
+
+	Exit 1
+
+;-----------------------------------------------------
+:RemoveMe
+;-----------------------------------------------------
+	Stop
+	RemoveObject hMe
+
+	Exit 1
+
+;-----------------------------------------------------
+:DoNothing
+;-----------------------------------------------------
+	Exit 1

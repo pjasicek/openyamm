@@ -1,0 +1,110 @@
+;--------------------------------------------------
+;NPC142.scr
+; timmy
+; handles Skarphedinn Njallssen voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+#number		nHour
+#number		nMinute
+
+
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub PotionWait
+gosub givePotion
+
+exit
+
+;--------------------------------------------------
+:givePotion
+;--------------------------------------------------
+haskey 210 g_ntemp
+if (g_ntemp==TRUE)
+	haskey 373 g_ntemp
+	if (g_ntemp==FALSE)
+		getobjecthandle RotatingDoor3 g_hobject
+		trigger g_hobject unlock
+		giveitem 558
+		givekey 373
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+	endif
+endif
+exit
+
+;--------------------------------------------------
+:PotionWait
+;--------------------------------------------------
+;****************
+;Nurtigan Quest
+;****************
+
+haskey 208 g_ntemp
+if (g_ntemp==1, )
+
+	takeitem 240
+	GetGameTime nHour nMinute
+	nHour = nHour + 2
+	@m nHour : nMinute Givekey Givekey
+	exit
+endif
+
+; NOTE: this gives the waiting key outright.  
+;The player should have to wait 2 hrs before getting key
+
+;End Nurtigan quest
+;******************
+exit
+
+
+;--------------------------------------------------
+:Givekey
+;--------------------------------------------------
+haskey 209 g_ntemp
+if (g_ntemp==FALSE)
+	givekey 209
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+hasitem 240 g_ntemp
+if (g_ntemp==TRUE)
+	haskey 206 g_ntemp
+	if (g_ntemp==TRUE)
+		givekey 207
+		
+	endif
+endif
+
+Playsound voices\NPC\NPC_142.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

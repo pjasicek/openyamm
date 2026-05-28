@@ -1,0 +1,51 @@
+;----------------------------------------------
+;LichInstructions.scr
+; By Timmy
+; gives the player the Lich Instructions.
+; and the related key
+; Lich Instructions is item 245 and 447
+; Lich Item keys are 296, 371
+;----------------------------------------------
+
+#include globals.inc 
+
+#number		nItem
+#number		nKey
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+haskey 296 g_ntemp
+if (g_ntemp==FALSE)
+	givekey 296
+	giveitem 447
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+exit
+;-------------------------------------
+:Init
+;-------------------------------------
+
+haskey 296 g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+exit
+
+exit
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+wait 1 .1 Init
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+exit

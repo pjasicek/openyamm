@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: tasaracademy
+display_name: Ta'Sar Academy
+source:
+  dat: ../source/worlds/TASARACADEMY.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/TASARACADEMY.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 762cadbd9f2fcfcb266d2d5ebaf52f7949fabbdd0ba1ba4233a20998f43b7c61
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: tasaracademy.dat_world.yml
+  raw_objects: tasaracademy.raw_objects.yml
+  materials: tasaracademy.material_aliases.yml
+  events: tasaracademy.events.yml
+  scene_compat: tasaracademy.scene.yml
+  source_metadata_compat: tasaracademy.mm9.yml
+  bsp_compat: tasaracademy.bsp.yml
+  geometry_compat: tasaracademy.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: tasaracademy.blv
+scripts:
+  level: ../events/tasaracademy.lua
+  script_ir: ../events/tasaracademy.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

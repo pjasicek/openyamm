@@ -1,0 +1,65 @@
+schema: openyamm.model3d.v1
+id: mirror1
+model: mirror1.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/MIRROR1.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: Mirror1
+  materialIndex: 0
+  lods:
+  - faces: 2
+    vertices: 4
+materials:
+- index: 0
+  texture: skins_preview/props/mirror1.png
+  runtime_texture: skins/props/mirror1.dtx
+  preview_texture: skins_preview/props/mirror1.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/MIRROR1.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 51.2
+  - 89.60000000000001
+  - 2.56
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/mirror1.abc

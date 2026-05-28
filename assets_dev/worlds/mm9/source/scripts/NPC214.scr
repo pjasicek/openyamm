@@ -1,0 +1,153 @@
+;--------------------------------------------------
+;NPC214.scr
+; timmy
+; handles Douglas's speech
+;--------------------------------------------------
+#include globals.inc
+
+#number			bSpeak
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+
+
+;--------------------------------------------------
+:OnStart
+;--------------------------------------------------
+
+haskey 111 bSpeak
+IF (bSpeak==TRUE)
+	exit
+endif
+
+getobjecthandle Robert g_hobject
+target g_hobject
+trigger g_hobject Target
+
+givekey 111
+Loopanim conv2 0 DoNothing
+Playsound voices\cinema\BobandDoug\01.wav, DoNothing, 100, 2400, FALSE, 100
+wait 1 2, Trigger2
+exit
+
+
+;--------------------------------------------------
+:Trigger2
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Robert g_hobject
+trigger g_hobject Speak2
+exit
+
+
+;--------------------------------------------------
+:OnSpeak3
+;--------------------------------------------------
+
+Loopanim conv2 0 DoNothing
+Playsound voices\cinema\BobandDoug\03.wav, DoNothing, 100, 2400, FALSE, 100
+wait 1 7.8, Trigger4
+exit
+
+
+;--------------------------------------------------
+:Trigger4
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Robert g_hobject
+trigger g_hobject Speak4
+exit
+
+
+;--------------------------------------------------
+:OnSpeak5
+;--------------------------------------------------
+
+Loopanim conv5 0 DoNothing
+Playsound voices\cinema\BobandDoug\05.wav, DoNothing, 100, 2400, FALSE, 100
+wait 1 6.5, Trigger6
+exit
+
+
+;--------------------------------------------------
+:Trigger6
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Robert g_hobject
+trigger g_hobject Speak6
+exit
+
+
+;--------------------------------------------------
+:OnSpeak7
+;--------------------------------------------------
+
+Loopanim conv4 0 DoNothing
+Playsound voices\cinema\BobandDoug\07.wav, DoNothing, 100, 2400, FALSE, 100
+wait 1 3, Trigger8
+exit
+
+
+;--------------------------------------------------
+:Trigger8
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Robert g_hobject
+trigger g_hobject Speak8
+exit
+
+
+;--------------------------------------------------
+:OnSpeak9
+;--------------------------------------------------
+
+Loopanim conv5 0 DoNothing
+Playsound voices\cinema\BobandDoug\09.wav, DoNothing, 100, 2400, FALSE, 100
+wait 1 3, OnStop
+exit
+
+
+
+;-------------------------------------
+:OnLost
+;-------------------------------------
+
+Exit TRUE
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+OnFoundPlayer OnStart
+OnLosttarget ONLost
+Exit TRUE
+
+;--------------------------------------------------
+:OnStop
+;--------------------------------------------------
+stop
+Loopanim stand 0 DoNothing
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddTrigger Start OnStart
+Addtrigger Speak3 OnSpeak3
+AddTrigger Speak5 OnSpeak5
+Addtrigger Speak7 OnSpeak7
+AddTrigger Speak9 OnSpeak9
+gosub Init
+
+exit

@@ -1,0 +1,174 @@
+;--------------------------------------
+;	DwarvenMiner.scr
+;	by SJR
+;	10-08-01
+;	Purpose:lame-ass dwarven
+;			busy work for Thjorad
+;
+;	ScriptParams are:
+;		p0 = Place to mine
+;		p1 = Place to dump
+;
+;	Triggers:
+;		"On"= Start mining
+;		"Off"= Stop mining
+;--------------------------------------
+#include BaseGlobals.inc
+
+#hobject	hMine = 0
+#hobject	hDump = 0
+#hobject	hProp = 0
+
+#string		sMineName = ""
+#string		sDumpName = ""
+
+#number		bMining = 1
+
+#number		nRandom = 1
+
+;--------------------------------------
+:Main
+;--------------------------------------
+	GetParam 0, sMineName
+	GetParam 1, sDumpName
+
+	OnPostStartWorld InitDwarvenMiner
+	OnPostMiniSaveLoad InitDwarvenMiner
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;--------------------------------------
+:CacheFiles
+;--------------------------------------
+	CacheSound "sounds\animsounds\dwarfwattack1.wav"
+	CacheSound "sounds\animsounds\dwarfwattack2.wav"
+	CacheSound "sounds\weapons\bigswordclang.wav"
+	CacheSound "sounds\weapons\battleaxethump.wav"
+	CacheSound "sounds\weapons\carmorchain.wav"
+	CacheSound "sounds\animsounds\dwarf\aware.wav"
+
+	Exit TRUE
+
+;--------------------------------------
+:InitDwarvenMiner
+;--------------------------------------
+	AddFriend AIBase
+	AddFriend Player
+	AddEnemy Troglodyte
+	AddEnemy Basilisk
+	AddEnemy Nagate
+
+	AddTrigger use, OnRudeEnter
+	OnRudeExit OnRudeExit
+
+	GetObjectHandle sMineName, hMine
+	GetObjectHandle sDumpName, hDump
+
+	gosub GoMine
+
+	Exit TRUE
+
+;--------------------------------------
+:OnRudeEnter
+;--------------------------------------
+	LoopAnim stand, 0
+
+	Exit FALSE
+
+;--------------------------------------
+:OnRudeExit
+;--------------------------------------
+	Wait 0, 1, OnStuck
+
+	Exit TRUE
+
+;--------------------------------------
+:OnStuck
+;--------------------------------------
+	Stop
+
+	if( bMining==TRUE )
+		gosub GoMine
+	else
+		gosub GoDump
+	endif
+
+	Exit TRUE
+
+;--------------------------------------
+:GoMine
+;--------------------------------------
+	bMining = TRUE
+
+	gosub AttachProp
+
+	WalkTo hMine, 10, StartMine
+
+	Exit TRUE
+
+;--------------------------------------
+:StartMine
+;--------------------------------------
+	Stop
+
+	FaceObject hMine, 180, DoNothing
+
+	GetRandomInt 0, 9, nRandom
+	if( nRandom<2 )
+		if( nRandom==0 )
+			PlayAnim "rub_beard", StartMine
+		else
+			PlayAnim "rock", StartMine
+		endif
+		Exit TRUE
+	else
+		if( nRandom==3 )
+			gosub GoDump
+		else
+			PlayAnim "hammer", StartMine
+		endif
+	endif
+
+	Exit TRUE
+
+;--------------------------------------
+:GoDump
+;--------------------------------------
+	bMining = FALSE
+
+	gosub SafeDetachProp
+
+	WalkTo hDump, 10, StartDump
+
+	Exit TRUE
+
+;--------------------------------------
+:StartDump
+;--------------------------------------
+	Stop
+	FaceObject hDump, 180, DoNothing
+	PlaySound "sounds\animsounds\dwarfwattack1.wav", DoNothing, 1, 500, FALSE, 100
+	PlayAnim "dump", GoMine
+
+	Exit TRUE
+
+;--------------------------------------
+:AttachProp
+;--------------------------------------
+	gosub SafeDetachProp
+
+	AttachProp "dwarfaxe.abc", "dwarfaxe.dtx", RHand1, hProp
+
+	Exit TRUE
+
+;--------------------------------------
+:SafeDetachProp
+;--------------------------------------
+	if( hProp!=0 )
+		DetachProp hProp, FALSE
+		RemoveObject hProp
+		hProp = NULL
+	endif
+
+	Exit TRUE

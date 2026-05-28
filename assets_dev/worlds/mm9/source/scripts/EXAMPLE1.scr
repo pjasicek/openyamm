@@ -1,0 +1,122 @@
+;------------------------------------------
+;	example1.scr
+;	Jeff Leggett
+;	
+;	This script uses the base.inc script
+;	but actually just enhances it a little..
+;	This does a few extra things..
+;
+;------------------------------------------
+
+#include base.inc
+
+#number					hHideObject
+#string					sOut
+
+;------------------------------------------
+:TauntDone
+;------------------------------------------
+
+	RunTo g_hTarget
+	Exit
+
+
+;------------------------------------------
+:FoundPlayer
+;
+;	This is called when we currently do not
+;	have a player targeted and one has
+;	appeared within our viewable range
+;
+;------------------------------------------
+
+;
+; Randomly Taunt the player when you first
+; see him
+;
+
+	GetRandomInt 1,100,g_nRandom
+
+	if ( g_nRandom < 80 )
+;
+;		80 % chance we'll just do the base functionality
+;
+		gosub BaseFoundPlayer		; found in base.inc
+	else
+		GetPlayerHandle g_hTarget
+
+		if ( g_hTarget>0 )
+			Target g_hTarget
+			Taunt TauntDone
+		endif
+	endif
+
+	Exit
+
+
+;------------------------------------------
+:FoundHidingPlace
+;------------------------------------------
+	TurnLeft 90
+
+;
+;	Now that we've done our Hide, go back
+;	to using the base damage handler...
+;
+	OnDamageDone	BaseDamageDone
+
+	Exit
+
+;------------------------------------------
+:DamageDone
+;
+; If we are hit, and we can't see the player,
+; Run away to the nearest hiding place...
+;
+;------------------------------------------
+
+	; Call the base version of this first...
+
+	gosub BaseDamageDone
+
+	; If the target is NULL, then we can
+	; assume that we were unable to see the
+	; attacker.  So, let's run to our hiding
+	; place...
+
+	if ( g_hTarget == 0 )
+		GetObjectHandle HideTest1, hHideObject
+		if ( hHideObject > 0 )
+			; we found the hide object, run for it!
+			RunTo hHideObject, FoundHidingPlace
+			Exit
+		endif
+
+		; 0 means that the AI will do it's default response to this event.
+		Exit 0	
+	endif
+
+	Exit
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+
+	gosub InitBase
+
+;
+; Note: we are overwriting some of 
+; base.inc's callbacks here..
+;
+
+	OnFoundPlayer		FoundPlayer
+
+;
+; Here, we want to change the functionality in base.inc and handle
+; damage our own special way....
+;
+	OnDamageDone		DamageDone
+
+	Exit	

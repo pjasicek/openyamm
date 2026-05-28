@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: connectingtunnels
+display_name: Connecting Tunnel
+source:
+  dat: ../source/worlds/CONNECTINGTUNNELS.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/CONNECTINGTUNNELS.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 13cedf8ce2a2ac36663b615d2091d08c774f144eb9f2ff194edadb2db849ae21
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_like
+  classification_confidence: medium
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: connectingtunnels.dat_world.yml
+  raw_objects: connectingtunnels.raw_objects.yml
+  materials: connectingtunnels.material_aliases.yml
+  events: connectingtunnels.events.yml
+  scene_compat: connectingtunnels.scene.yml
+  source_metadata_compat: connectingtunnels.mm9.yml
+  bsp_compat: connectingtunnels.bsp.yml
+  geometry_compat: connectingtunnels.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: connectingtunnels.blv
+scripts:
+  level: ../events/connectingtunnels.lua
+  script_ir: ../events/connectingtunnels.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

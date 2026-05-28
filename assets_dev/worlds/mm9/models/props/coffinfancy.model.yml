@@ -1,0 +1,189 @@
+schema: openyamm.model3d.v1
+id: coffinfancy
+model: coffinfancy.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/COFFINFANCY.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: CoffinFancy
+  materialIndex: 0
+  lods:
+  - faces: 80
+    vertices: 42
+  - faces: 76
+    vertices: 40
+- name: Skeleton
+  materialIndex: 0
+  lods:
+  - faces: 465
+    vertices: 301
+  - faces: 313
+    vertices: 224
+- name: Lid
+  materialIndex: 0
+  lods:
+  - faces: 76
+    vertices: 40
+  - faces: 76
+    vertices: 40
+materials:
+- index: 0
+  texture: skins_preview/props/skeleton.png
+  runtime_texture: skins/props/skeleton.dtx
+  preview_texture: skins_preview/props/skeleton.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SKELETON.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+  - index: 1
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone05
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 1000
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Open
+  durationMs: 1000
+  keyframes: 5
+  interpolationTimeMs: 200
+  events: []
+- name: Close
+  durationMs: 1000
+  keyframes: 5
+  interpolationTimeMs: 200
+  events: []
+- name: static_open
+  durationMs: 1
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: NS
+  durationMs: 1000
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: NS_Open
+  durationMs: 1000
+  keyframes: 5
+  interpolationTimeMs: 200
+  events: []
+- name: NS_Close
+  durationMs: 1000
+  keyframes: 5
+  interpolationTimeMs: 200
+  events: []
+- name: NS_static_open
+  durationMs: 1
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 161.28
+  - 25.6
+  - 61.44
+  origin:
+  - 2.56
+  - 15.36
+  - 0.0
+- name: Open
+  extents:
+  - 161.28
+  - 25.6
+  - 61.44
+  origin:
+  - 2.56
+  - 15.36
+  - 0.0
+- name: Close
+  extents:
+  - 161.28
+  - 25.6
+  - 61.44
+  origin:
+  - 2.56
+  - 15.36
+  - 0.0
+- name: static_open
+  extents:
+  - 161.28
+  - 25.6
+  - 61.44
+  origin:
+  - 2.56
+  - 15.36
+  - 0.0
+- name: NS
+  extents:
+  - 61.44
+  - 25.6
+  - 161.28
+  origin:
+  - 0.0
+  - 15.36
+  - -2.56
+- name: NS_Open
+  extents:
+  - 61.44
+  - 25.6
+  - 161.28
+  origin:
+  - 0.0
+  - 15.36
+  - -2.56
+- name: NS_Close
+  extents:
+  - 61.44
+  - 25.6
+  - 161.28
+  origin:
+  - 0.0
+  - 15.36
+  - -2.56
+- name: NS_static_open
+  extents:
+  - 61.44
+  - 25.6
+  - 161.28
+  origin:
+  - 0.0
+  - 15.36
+  - -2.56
+roles:
+- static_model
+source_model: models/props/coffinfancy.abc

@@ -1,0 +1,74 @@
+#include CutScene.inc
+#include LichSceneTransitions.inc
+;;#include spellnames.inc
+
+;---------------------
+:Main
+;---------------------
+	GetParam 0, sLocationName
+	GetParam 1, sTargetName
+	GetParam 2, sNotifyName
+	GetParam 3, LISTFIRST
+	GetParam 4, LISTLAST
+
+	AddTrigger next, SoftExit
+	AddTrigger zoom, ZoomToTarget
+
+	gosub InitCutScene
+
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;------------------------------------
+:CacheFiles
+;	cache all for scene
+;------------------------------------
+	CacheClientFX SPELL_DARKGRASP
+	CacheClientFX SPELL_PARALYZE
+	CacheClientFX SPELL_ELEMBLAST
+	CacheClientFX SPELL_SPARKLIES
+	CacheClientFX SPELL_TRANSFUSION
+	CacheClientFX SPELL_BLUEFIRE
+
+	Exit TRUE
+
+;---------------------
+:SoftExit
+;---------------------
+	RemoveTrigger next
+	AddTrigger next, StartNextScene
+
+	gosub RemoveCreatures
+
+	ScreenFadeOut 0
+
+	Wait 0, 2, SoftEntrance
+
+	Exit TRUE
+
+;---------------------
+:SoftEntrance
+;---------------------
+	gosub StartNextScene
+	ScreenFadeIn 2
+
+	Exit TRUE
+
+;--------------------
+:OnSceneDone
+;--------------------
+	ScreenFadeOut 0
+	ScreenFadeIn 4
+
+	gosub RemoveActors
+	gosub ReplaceCreatures
+
+	Exit TRUE
+
+;--------------------
+:OnSceneStart
+;--------------------
+	gosub RemoveCreatures
+
+	Exit TRUE

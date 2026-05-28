@@ -1,0 +1,171 @@
+schema: openyamm.model3d.v1
+id: trashpile
+model: trashpile.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/TRASHPILE.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Trashpile
+  materialIndex: 0
+  lods:
+  - faces: 312
+    vertices: 186
+  - faces: 224
+    vertices: 142
+- name: Trash-piece01
+  materialIndex: 0
+  lods:
+  - faces: 16
+    vertices: 10
+  - faces: 10
+    vertices: 7
+- name: Trash-piece02
+  materialIndex: 0
+  lods:
+  - faces: 16
+    vertices: 10
+  - faces: 16
+    vertices: 10
+- name: Trash-piece03
+  materialIndex: 0
+  lods:
+  - faces: 16
+    vertices: 10
+  - faces: 16
+    vertices: 10
+- name: Trash-piece04
+  materialIndex: 0
+  lods:
+  - faces: 16
+    vertices: 10
+  - faces: 10
+    vertices: 7
+- name: Trash-piece05
+  materialIndex: 0
+  lods:
+  - faces: 16
+    vertices: 10
+  - faces: 14
+    vertices: 9
+- name: Trash-piece06
+  materialIndex: 0
+  lods:
+  - faces: 16
+    vertices: 10
+  - faces: 16
+    vertices: 10
+materials:
+- index: 0
+  texture: skins_preview/props/trashpile.png
+  runtime_texture: skins/props/trashpile.dtx
+  preview_texture: skins_preview/props/trashpile.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/TRASHPILE.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone_Piece1
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone_Piece2
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Bone_Piece3
+    parent: 0
+    flags: 1
+    children: []
+  - index: 5
+    name: Bone_Piece4
+    parent: 0
+    flags: 1
+    children: []
+  - index: 6
+    name: Bone_Piece5
+    parent: 0
+    flags: 1
+    children: []
+  - index: 7
+    name: Bone_Piece6
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Start
+  durationMs: 1100
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: Tumble
+  durationMs: 1100
+  keyframes: 9
+  interpolationTimeMs: 200
+  events: []
+- name: Stop
+  durationMs: 1100
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Start
+  extents:
+  - 38.4
+  - 17.92
+  - 38.4
+  origin:
+  - 0.0
+  - -5.12
+  - 0.0
+- name: Tumble
+  extents:
+  - 38.4
+  - 17.92
+  - 38.4
+  origin:
+  - 0.0
+  - -5.12
+  - 0.0
+- name: Stop
+  extents:
+  - 38.4
+  - 17.92
+  - 38.4
+  origin:
+  - 0.0
+  - -5.12
+  - 0.0
+roles:
+- static_model
+source_model: models/props/trashpile.abc

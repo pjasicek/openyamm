@@ -1,0 +1,314 @@
+format_version: 1
+source_file: NPC428.rude
+rows:
+  - source:
+      file: NPC428.rude
+      row: 1
+    raw_columns:
+      - 428
+      - 428
+      - 1
+      - You're not so tough.
+      - I'm the best stones player in all of Thjorgard!
+      - 999
+      - 7002
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 428
+      node_id: 428
+      choice_slot: 1
+      prompt: You're not so tough.
+      response: I'm the best stones player in all of Thjorgard!
+      next: 999
+      raw_fields:
+        c07: 7002
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 7002
+            qbit_id: 16002
+            state_id: mm9.keys.7002
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 7002
+          qbit_id: 16002
+          state_id: mm9.keys.7002
+  - source:
+      file: NPC428.rude
+      row: 2
+    raw_columns:
+      - 428
+      - 999
+      - 1
+      - Goodbye.
+      - asdf
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 428
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: asdf
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC428.rude
+      row: 3
+    raw_columns:
+      - 428
+      - 428
+      - 2
+      - You're Sven's double?
+      - Yeah!  Thanks for helping out like this!
+      - 999
+      - 1034
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1034
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 428
+      node_id: 428
+      choice_slot: 2
+      prompt: You're Sven's double?
+      response: Yeah!  Thanks for helping out like this!
+      next: 999
+      raw_fields:
+        c07: 1034
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 1034
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 1034
+            qbit_id: 10034
+            state_id: mm9.keys.1034
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 1034
+          qbit_id: 10034
+          state_id: mm9.keys.1034
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c26
+        value: 1034
+        status: raw_value_preserved
+  - source:
+      file: NPC428.rude
+      row: 4
+    raw_columns:
+      - 428
+      - 428
+      - 7
+      - Sorry to bother you.
+      - Goodbye.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1034
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 428
+      node_id: 428
+      choice_slot: 7
+      prompt: Sorry to bother you.
+      response: Goodbye.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 1034
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c26
+        value: 1034
+        status: raw_value_preserved

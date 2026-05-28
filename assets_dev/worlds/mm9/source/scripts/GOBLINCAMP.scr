@@ -1,0 +1,588 @@
+;------------------------------------------
+;	Goblincamp.scr
+;	John Machin
+;	
+;	This script uses base.inc and extends
+;	it to allow for this Goblin camp to attack
+;	the Goblin camp nearby
+;
+;------------------------------------------
+
+#include base.inc
+#include aiglobals.inc
+
+#hobject		hAlertedBy 
+#string			sAlertName
+
+#number			g_nObjects
+#numberarray	g_hDwarfArray[5]
+
+#number			g_bOkAttackType = 0	
+#number			g_nLostTime
+
+#hobject		g_hCampDirector	 
+
+;------------------------------------------
+:GoblinGoGetHim
+;------------------------------------------
+
+	if ( g_hTarget==NULL )
+		Exit FALSE
+	endif
+
+	IsAttacking g_bAttacking
+
+	if ( g_bAttacking==TRUE )
+		Exit TRUE
+	endif
+
+	IsTargetInRange g_bInAttackRange
+
+	if ( g_bInAttackRange==TRUE )
+		CanAttack g_bCanAttack
+
+		if ( g_bCanAttack==TRUE )
+			gosub GoblinAttackReady
+		endif
+
+		Exit TRUE
+	endif
+	
+	RunTo g_hTarget
+
+	SetTargetLostTime 30
+			
+	Exit TRUE
+
+
+
+;------------------------------------------
+:OnUse
+;------------------------------------------
+
+	GetParam 0, g_hObject
+
+	FaceObject g_hObject, 180
+
+	Exit
+
+;------------------------------------------
+:GoblinOnAlert
+;------------------------------------------
+	GetParam 0, hAlertedBy
+	GetClassName hAlertedBy, sAlertName
+	
+	if( g_hTarget == NULL )		
+		;Check to see if the alert came from a hen or another rooster
+		if( sAlertName == Goblin )			
+			Set g_bOkAttackType, TRUE
+		endif
+	endif	
+	
+	if( g_bOkAttackType == TRUE )
+		GetClassName g_hTarget, sAlertName
+		
+		;Make sure we don't hit our fellow dwarves
+		if( sAlertName == Goblin )
+			gosub GoblinFindTarget
+		endif
+				
+		GetParam 1, g_hTarget
+		if( g_hTarget != NULL
+			Target g_hTarget
+			gosub GoblinGoGetHim
+		endif
+
+	endif	
+	
+	Exit
+
+;------------------------------------------
+:GoblinFindTarget
+;------------------------------------------
+	GetObjects Dwarf, 50000, 5, g_hDwarfArray, g_nObjects			
+	
+	if( g_nObjects != NULL
+		if( g_hTarget == NULL )
+			;Randomly pick a target from the three
+			Subtract g_nObjects, 1
+			GetRandomInt 0, g_nObjects, g_nRandom
+			ArrayGet g_hDwarfArray, g_nRandom, g_hTarget		
+			Target g_hTarget
+			if( g_hTarget != NULL )
+				Gosub GoblinGoGetHim
+			endif
+			
+		endif
+	else
+		Wait 0, 1, GoblinFindTarget
+	endif
+	
+	Exit
+
+;------------------------------------------
+:GoblinTargetDead
+;------------------------------------------
+
+	GetParam 0, g_nTemp
+
+	Target NULL
+	Set g_hTarget, NULL
+
+	if ( g_nTemp==g_hMyObject )		
+		;	We killed him!	   		
+		; taunt him
+		;Taunt GoblinFindTarget
+		gosub GoblinFindTarget
+	else
+		; just go home...
+		gosub GoblinFindTarget 
+	endif
+
+	Exit TRUE
+
+;------------------------------------------
+:GoblinDamageDone
+;
+;	We were attacked, now we want to run
+;	after whoever attacked us!
+;	
+;------------------------------------------
+
+	if ( g_hAttacker==g_hMyObject )
+		exit FALSE
+	endif
+
+	GetClassName g_hAttacker, sAlertName
+	
+	;Make sure we don't attack fellow dwarves
+	if( sAlertName == Goblin )
+		gosub GoblinFindTarget
+	endif	
+
+	IsActor g_hAttacker, g_nTemp
+
+	if ( g_nTemp==FALSE )
+		; Not an actor, therefore
+		; never go after it...
+		if ( g_hTarget!=NULL )
+			gosub GoblinGoGetHim
+			Exit TRUE
+		else
+			Exit FALSE
+		endif
+	endif
+
+	if ( g_hTarget==NULL )
+		Set g_hTarget, g_hAttacker
+		Set g_bFighting, TRUE
+	else
+		IsTargetInRange g_bInAttackRange
+
+		if ( g_hAttacker!=NULL )
+			if ( g_hAttacker!=g_hTarget )
+				GetClassName g_hAttacker, g_sTemp
+				if ( g_sTemp!=Player )
+					goto GoblinSkipTargetSwitch
+				endif
+				; 70% chance we'll switch to the damager
+				Set g_nTemp, 70
+				if ( g_bInAttackRange==TRUE )
+					; we're already in attack range of our current target
+					; so lower chances of switching
+					Set g_nTemp, 10
+				endif
+
+				AIGetDistance g_hTarget, g_nDist1
+				AIGetDistance g_hAttacker, g_nDist2
+
+				if ( g_nDist2 > g_nDist1 )
+					; reduce odds even further...
+					Divide g_nTemp, 2
+				endif
+
+				GetRandomInt 0, 100, g_nRandom
+				if ( g_nRandom < g_nTemp )
+					; 
+					; Okay, we decided to switch our current target to the 
+					; attacker!
+					;
+					Set g_hTarget, g_hAttacker
+				endif
+			endif
+		endif
+	endif
+
+:GoblinSkipTargetSwitch
+
+	if ( g_hTarget==0 )
+		Exit FALSE		; FALSE means have the AI do its default handling of this event.
+	endif
+
+	; Go after the Target...
+
+	Target g_hTarget
+
+	gosub GoblinGoGetHim
+
+	Exit
+
+
+;------------------------------------------
+:GoblinAttackReady
+;
+;	We are now in attack range (for our
+;	currently selected weapon) and ready
+;	to attack.  So let's do it!
+;------------------------------------------
+	
+	GetClassName g_hTarget, sAlertName
+	if( sAlertName == Goblin )
+		gosub GoblinFindTarget
+	endif
+	
+	Set g_bFighting, TRUE
+
+	GetTime g_nLastAttackTime
+
+	Attack
+
+	Exit
+	
+;------------------------------------------
+:GoblinLostTarget
+;
+;	We lost the target.  Reaquire and attack;
+;------------------------------------------	
+	if( g_hTarget != NULL )
+		Target g_hTarget
+		gosub GoblinGoGetHim
+	else
+		Set g_hTarget, NULL
+		gosub GoblinFindTarget
+	endif
+
+	Exit TRUE
+
+;------------------------------------------
+:GoblinOutOfRangeWait
+;
+;	We don't want to run after target
+;	until it's far enough away or we are
+;	ready to attack...
+;------------------------------------------
+
+	if ( g_hTarget==NULL )
+		Exit TRUE
+	endif
+
+	IsAttacking g_bAttacking
+
+	if ( g_bAttacking==TRUE )
+		Wait 0, 0.5, GoblinOutOfRangeWait
+		Exit TRUE
+	endif
+
+	CanAttack g_bCanAttack
+	if ( g_bCanAttack==TRUE )
+		gosub GoblinMaybeRangeAttack
+
+		IsAttacking g_bAttacking
+
+		if ( g_bAttacking==TRUE )
+			exit TRUE
+		endif
+
+		gosub GoblinGoGetHim
+		Exit TRUE
+	endif
+
+	; randomly play a taunt animation...
+	GetRandomInt 0, 100, g_nRandom
+
+	if ( g_nRandom < 30 )
+		if ( g_nRandom < 15 )
+			Taunt GoblinAttackWaitAnimDone
+		else
+			Aware GoblinAttackWaitAnimDone
+		endif
+		Exit TRUE
+	endif
+
+	;AIGetDistance g_hTarget, g_nDist1
+
+	;if ( g_nDist1 > 200 )		; if they are too far away...
+		WalkTo g_hTarget
+	;	Wait 0, 0.5, GoblinOutOfRangeWalkingWait
+	;	Exit TRUE
+	;endif
+
+	; Continue waiting....
+
+	Wait 0, 0.5, GoblinOutOfRangeWait
+
+	Exit
+
+;------------------------------------------
+:GoblinStuckDone
+;
+;	This is called when a stuck animation
+;	has finished... We'll just re-attempt
+;	to run after our target...
+;------------------------------------------
+
+	if ( g_hTarget==NULL )
+		Exit FALSE
+	endif
+
+
+	; for now, don't wait when stuck..
+
+	gosub GoblinFindTarget
+	Exit TRUE  
+
+	if ( g_nStuckTime==0.0 )
+		GetTime g_nStuckTime
+	else
+		GetTime g_nTemp
+		Sub g_nTemp, g_nStuckTime
+
+		if ( g_nTemp > MIN_STUCK_TIME )
+			Set g_nStuckTime, 0
+			gosub GoblinGoGetHim
+			Exit TRUE
+		endif
+	endif
+	
+	Exit FALSE
+
+
+;------------------------------------------
+:GoblinOutOfRangeWalkingWait
+;
+;	Once we start walking after target,
+;   we want to start running as soon as
+;	we are attack ready...
+;
+;------------------------------------------
+
+	CanAttack g_bCanAttack
+	if ( g_bCanAttack==TRUE )
+		gosub GoblinMaybeRangeAttack
+		IsAttacking g_bAttacking
+
+		if ( g_bAttacking==TRUE )
+			exit TRUE
+		endif
+
+		gosub GoblinGoGetHim
+		Exit TRUE
+	endif
+
+	Wait 0, 0.5, GoblinOutOfRangeWait
+
+	Exit
+
+
+;------------------------------------------
+:GoblinAttackWaitAnimDone
+;------------------------------------------
+
+	gosub GoblinOutOfRangeWait
+
+	Exit
+
+;------------------------------------------
+:GoblinMaybeRangeAttack
+;
+;	If we can range attack, we randomly 
+;	decide to do so here...
+;------------------------------------------
+
+	if ( g_bHasRangeAttack==FALSE )
+		exit FALSE
+	endif
+
+	CanAttack g_bCanAttack
+
+	if ( g_bCanAttack==FALSE )
+		exit FALSE
+	endif
+
+	GetRandomInt 0, 100, g_nRandom
+	Set g_nTemp, 0
+	EstimateRangeAttackHit g_hObject
+	if ( g_hObject==NULL )
+		Add g_nTemp, 20
+	else
+		if ( g_hObject==g_hTarget )
+			Set g_nTemp, 80
+		else
+			IsClass g_hObject,AIBase, g_bTemp
+			if ( g_bTemp==TRUE )
+				Set g_nTemp, 0
+			endif
+		endif
+	endif
+
+	if ( g_nRandom <= g_nTemp )
+		gosub GoblinDoRangeAttack
+	endif
+
+
+	exit TRUE
+
+
+;------------------------------------------
+:GoblinRangeAttackDone
+;------------------------------------------
+
+	if ( g_hTarget==NULL )
+		exit FALSE
+	endif
+
+	gosub GoblinGoGetHim
+
+	Exit TRUE
+
+;------------------------------------------
+:GoblinDoRangeAttack
+;------------------------------------------
+
+	Set g_bFighting, TRUE
+	RangeAttack GoblinRangeAttackDone
+
+	exit TRUE
+
+;------------------------------------------
+:GoblinTargetOutOfRange
+;
+;	Target moved out of our weapon range.
+;	Go after him!
+;	
+;------------------------------------------
+
+	CanAttack g_bCanAttack
+	IsAttacking g_bAttacking
+
+	if ( g_bAttacking==TRUE )
+		Wait 0, 0.5, GoblinOutOfRangeWait
+	endif
+
+	if ( g_bCanAttack==TRUE )
+		gosub GoblinGoGetHim
+	else
+		Wait 0, 0.5, GoblinOutOfRangeWait
+	endif
+
+	Exit
+
+;------------------------------------------
+:GoblinObstacleRange
+;
+;	AI that have range attacks, sometimes
+; fire at the target when they hit an 
+; obstacle...
+;------------------------------------------
+
+	CanAttack g_nTemp
+
+	if ( g_nTemp==FALSE )
+		IsAttacking g_nTemp
+		if ( g_nTemp==FALSE )
+			gosub GoblinObstacle
+			exit
+		endif
+
+		exit FALSE
+	endif
+
+	gosub GoblinMaybeRangeAttack
+
+	Exit TRUE
+
+;------------------------------------------
+:GoblinObstacle
+;
+;------------------------------------------
+
+	;GetRandomInt 0, 100, g_nRandom
+
+	;if ( g_nRandom > 3 )
+	;	Exit FALSE
+	;endif
+
+	; small pct chance we'll taunt him when we hit an obstacle....
+	Taunt GoblinGoGetHim
+	
+	Exit
+
+
+
+;------------------------------------------
+:GoblinDeathDone
+;------------------------------------------	
+	Trigger g_hCampDirector GoblinDeath
+
+	Exit FALSE
+	
+;------------------------------------------
+:Init
+;------------------------------------------
+
+	GetObjectHandle CampDirector, g_hCampDirector	
+
+	GetTarget g_hTarget
+	if ( g_hTarget!=NULL )
+		gosub GoblinGoGetHim
+	else
+		gosub GoblinFindTarget	
+	endif	
+
+	Exit	 
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+
+	GetMyHandle g_hMyObject
+
+;
+;   Setup our event handlers...
+;
+
+	;Base callbacks		
+	
+	OnDamage					BaseDamage	
+	OnPathClear					BasePathClear	
+	OnObstacle					BaseObstacle		
+
+	;Goblin script call backs
+	OnAlert						GoblinOnAlert		
+	OnTargetDead				GoblinTargetDead
+	OnDamageDone				GoblinDamageDone
+	OnAttackReady				GoblinAttackReady
+	OnLostTarget				GoblinLostTarget
+	OnDeathDone					GoblinDeathDone
+	OnTargetOutOfRange			GoblinTargetOutOfRange
+	OnStuckDone					GoblinStuckDone	
+
+	HasRangeAttack g_bHasRangeAttack	
+
+	if ( g_bHasRangeAttack == TRUE )
+		OnObstacle GoblinObstacleRange
+		;OnFoundPlayer BaseFoundPlayerRange
+	endif
+
+
+;
+;	See if we already have a target (this would normally happen if
+;	the ai were running another script and then decided to start running 
+;	this one...
+;	
+	Wait 0, 0.1, Init	
+
+	Exit
+		

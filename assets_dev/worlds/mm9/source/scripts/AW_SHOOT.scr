@@ -1,0 +1,36 @@
+;--------------------------------------------------
+;AW_Shoot.scr
+; timmy
+; handles the Six Fires of Penance stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String			sTarget
+
+
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+if (sTarget==NULL)
+	exit
+endif
+
+getobjecthandle sTarget g_hobject
+target g_hobject
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+getparam 0 sTarget
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+exit

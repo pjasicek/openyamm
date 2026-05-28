@@ -1,0 +1,198 @@
+;--------------------------------------------------
+;NPC186.scr
+; timmy
+; handles Atli Sigmundssen voice and quest stuff
+; 
+; checks to see if player has completed promo quest
+; and gives completion key and reward.
+; Thorfinn's RudeID is 240
+; Atli's RudeID is 186
+; key 125 = player has got Atli
+; Key 126 = player has taken atli where he belongs
+; key 127 = player has completed the quest
+;--------------------------------------------------
+
+#include globals.inc
+
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;promo variables
+
+#number		Fighter = 0
+#number		Mercenary = 1
+#number		Crusader = 2
+#number		Assassin = 3
+#number		Gladiator = 4
+#number		Ranger = 5
+#number		Paladin = 6
+#number		Initiate = 7
+#number		Scholar = 8
+#number		Healer = 9
+#number		Mage = 10
+#number		Lich = 11
+#number		Priest = 12
+#number		Druid = 13
+#number		Char1 = 0
+#number		Char2 = 1
+#number		Char3 = 2
+#number		Char4 = 3
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub mercpromo
+
+
+exit
+
+
+;--------------------------------------------------
+:Mercpromo
+;--------------------------------------------------
+;****************
+;merc promo Quest
+;****************
+
+
+Haskey 126, g_ntemp
+if ( g_ntemp==1, )
+;checks to see if player took atli where he goes
+	Haskey 127 g_ntemp
+	If ( g_ntemp==0, )
+	;checks to see if player has already completed quest
+		givekey 127
+		givegold 1000
+		giveexp 24000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		gosub PromoteMerc
+		;gives key and reward.
+		exit
+	endif
+endif
+exit
+	
+
+
+;End merc promo quest
+;******************
+exit
+
+
+
+;--------------------------------------------------
+:PromoteMerc
+;
+; Player has already completed the quest
+; just check to see who gets promoted
+;--------------------------------------------------
+
+haskey 401 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Mercenary Char1
+	takekey 401
+endif
+
+haskey 402 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Mercenary Char2
+	takekey 402
+endif
+
+haskey 403 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Mercenary Char3
+	takekey 403
+endif
+
+haskey 404 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Mercenary Char4
+	takekey 404
+endif
+exit
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_186.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:OnSummon
+;-------------------------------------
+
+getmyhandle g_hobject
+setflag g_hobject, visible
+setflag g_hobject, solid
+setflag g_hobject, gravity
+getobjecthandle Atlimarker0 g_hobject
+walkto g_hobject 256, DoNothing
+getobjecthandle AtliGuard g_hobject
+trigger g_hobject Return
+getobjecthandle atlidaughter g_hobject
+trigger g_hobject return
+exit
+
+;-------------------------------------
+:OnArrive
+;-------------------------------------
+
+haskey 197 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle AtliMarker g_hobject
+	walkto g_hobject 256, DoNothing
+	exit
+endif
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+haskey 127 g_ntemp
+if (g_ntemp==TRUE)
+
+		getmyhandle g_hobject
+		clearflag g_hobject, visible
+		clearflag g_hobject, solid
+		clearflag g_hobject, gravity
+		exit
+	
+endif	
+	
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+
+OnRudeExit OnRude
+addtrigger Summon, OnSummon
+Addtrigger Use, OnUse
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

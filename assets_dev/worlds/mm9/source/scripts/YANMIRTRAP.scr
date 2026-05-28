@@ -1,0 +1,96 @@
+;--------------------------------
+;	YanmirTrap.scr
+;	by SJR
+;	10-26-01
+;	Purpose:take care of the
+;			giant falling through
+;			the floor.
+;
+;	edited by Bones 10/17/02
+;	TELP Patch 1.3 -- keeps trigger on after re-enter if all beams broken
+;		removes perception brushes for broken beams after re-entering
+;--------------------------------
+
+#string		sTitanTrapName = ""
+#hobject	hTitanTrap = 0
+
+#number		nCounter = 0
+
+;--------------------------------
+:Main
+;--------------------------------
+	GetParam 0, sTitanTrapName
+
+	AddTrigger SupportBroken, CheckCount
+
+	Exit 1
+
+;--------------------------------
+:CheckCount
+;--------------------------------
+	nCounter = nCounter + 1
+	if( nCounter>=6 )
+		RemoveTrigger SupportBroken
+
+		GetObjectHandle sTitanTrapName, hTitanTrap
+		if( hTitanTrap!=0 )
+			Trigger hTitanTrap, on
+		endif
+	endif
+	
+	OnPostMiniSaveLoad Init
+	OnPostSaveLoad Init
+	gosub Init
+
+	Exit 1
+
+
+;-------------------------------------
+:Init
+;	Bones
+;-------------------------------------
+
+	GetObjectHandle DestructableBrush0 hTitanTrap
+	if hTitanTrap == 0
+		GetObjectHandle PerceptionBrush2 hTitanTrap
+		RemoveObject hTitanTrap
+	endif
+
+	GetObjectHandle DestructableBrush1 hTitanTrap
+	if hTitanTrap == 0
+		GetObjectHandle PerceptionBrush5 hTitanTrap
+		RemoveObject hTitanTrap
+	endif
+
+	GetObjectHandle DestructableBrush2 hTitanTrap
+	if hTitanTrap == 0
+		GetObjectHandle PerceptionBrush3 hTitanTrap
+		RemoveObject hTitanTrap
+	endif
+
+	GetObjectHandle DestructableBrush3 hTitanTrap
+	if hTitanTrap == 0
+		GetObjectHandle PerceptionBrush6 hTitanTrap
+		RemoveObject hTitanTrap
+	endif
+
+	GetObjectHandle DestructableBrush4 hTitanTrap
+	if hTitanTrap == 0
+		GetObjectHandle PerceptionBrush4 hTitanTrap
+		RemoveObject hTitanTrap
+	endif
+
+	GetObjectHandle DestructableBrush5 hTitanTrap
+	if hTitanTrap == 0
+		GetObjectHandle PerceptionBrush7 hTitanTrap
+		RemoveObject hTitanTrap
+	endif
+
+	if nCounter < 6
+		exit
+	endif
+
+	GetObjectHandle sTitanTrapName hTitanTrap
+	Trigger hTitanTrap on
+
+	exit

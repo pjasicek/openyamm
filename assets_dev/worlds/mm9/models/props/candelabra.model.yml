@@ -1,0 +1,146 @@
+schema: openyamm.model3d.v1
+id: candelabra
+model: candelabra.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/CANDELABRA.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Flame
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame2
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame3
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Candelabra
+  materialIndex: 0
+  lods:
+  - faces: 381
+    vertices: 235
+  - faces: 285
+    vertices: 187
+  - faces: 189
+    vertices: 139
+materials:
+- index: 0
+  texture: skins_preview/props/candelabra.png
+  runtime_texture: skins/props/candelabra.dtx
+  preview_texture: skins_preview/props/candelabra.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/CANDELABRA.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+  - index: 1
+    name: Flame
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Flame2
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Flame3
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets:
+- name: Flame
+  node: 1
+  translation:
+  - -1.5365645822384976e-09
+  - 1.96
+  - -4.1936324635116765e-10
+  rotation:
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+- name: Flame2
+  node: 2
+  translation:
+  - -1.5366799743787852e-09
+  - 1.36
+  - -4.841512435405093e-10
+  rotation:
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+- name: Flame3
+  node: 3
+  translation:
+  - -1.5363934835477267e-09
+  - 1.56
+  - -1.3657967201652355e-10
+  rotation:
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+animations:
+- name: Static_Model
+  durationMs: 66
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 25.6
+  - 33.28
+  - 25.6
+  origin:
+  - 0.0
+  - -5.12
+  - 0.0
+roles:
+- static_model
+source_model: models/props/candelabra.abc

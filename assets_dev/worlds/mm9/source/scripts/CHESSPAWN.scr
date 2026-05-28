@@ -1,0 +1,58 @@
+;---------------------------------------
+;	ChessPawn.scr
+;	by SJR
+;	Purpose:Pawn
+;---------------------------------------
+#include BaseGlobals.inc
+#include ChessBase.inc
+
+;---------------------------------------
+:Main
+;---------------------------------------
+	GetParam 0, sSquareName
+	GetParam 1, sFloorName
+	GetParam 2, BOARDSIZE
+	GetParam 3, nLocation
+
+	bShouldQueen = TRUE
+
+	OnPostStartWorld InitChessBase
+
+	Exit TRUE
+
+;---------------------------------------
+:PreAttackRoutine
+;---------------------------------------
+	gosub BeginAttack
+
+	Exit TRUE
+
+;---------------------------------------
+:CheckPath
+;	check 2 diag squares in front (front = +zMe)
+;---------------------------------------
+	if( zMe>=BOARDSIZE )
+		Exit TRUE
+	endif
+
+	GetParam 0, hTrigger
+
+	LISTINDEX = zMe + 1 * BOARDSIZE + xMe - 1
+	if( xMe!=0 )
+		gosub GetCurrentObject
+		if( LISTOBJECT==hTrigger )
+			gosub PreAttackRoutine
+			Exit TRUE
+		endif
+	endif
+
+	LISTINDEX = LISTINDEX + 2
+	if( xMe!=SIZEINDEX )
+		gosub GetCurrentObject
+		if( LISTOBJECT==hTrigger )
+			gosub PreAttackRoutine
+			Exit TRUE
+		endif
+	endif
+
+	Exit TRUE

@@ -1,0 +1,202 @@
+format_version: 1
+kind: "mm9_asset_validation_summary"
+scope: "active_two_map_slice"
+report_count: 2
+clean: true
+clean_reports: 2
+dirty_reports: 0
+dat_world_reference_issues: 0
+asset_graph_required_unresolved: 0
+asset_graph_required_ambiguous: 0
+unresolved_required_raw_object_asset_refs: 0
+stale_caches: 0
+mechanism_unresolved_required_targets: 0
+mechanism_incomplete_linear_motion: 0
+mechanism_incomplete_rotation_motion: 0
+mechanism_trigger_outputs: 6
+mechanism_unresolved_trigger_outputs: 0
+script_registered_triggers: 64
+script_trigger_edges: 30
+script_movement_commands: 16
+script_unknown_commands: 837
+script_command_count: 2557
+mechanism_world_model_targets_without_movable_role: 0
+mechanism_world_model_targets_missing_model: 0
+mechanism_world_model_targets_missing_polygon_group: 0
+mechanism_world_model_targets_mismatched_polygon_group: 0
+native_renderable_triangles: 82815
+viewport_native_unresolved_material_triangles: 0
+world_model_overlay_vertices: 26520
+world_model_overlay_pick_candidates: 1105
+selected_polygon_overlay_vertices: 27
+selected_surface_overlay_vertices: 9
+object_source_transforms: 2475
+object_bounds_evidence: 1069
+object_trigger_volumes: 15
+object_overlay_vertices: 1128
+object_overlay_pick_candidates: 47
+asset_issue_marker_source_objects: 2
+asset_issue_marker_candidates: 2
+asset_issue_marker_unpositioned: 0
+asset_issue_marker_required_candidates: 0
+asset_issue_marker_required_unpositioned: 0
+mechanism_target_marker_groups: 529
+mechanism_target_marker_candidates: 529
+mechanism_target_marker_vertices: 16928
+mechanism_target_marker_source_links: 529
+light_objects: 195
+light_overlay_vertices: 7020
+static_render_lights: 195
+light_diagnostics: 0
+sound_objects: 271
+sound_overlay_vertices: 6336
+sound_references: 431
+resolved_sound_references: 431
+unresolved_required_sound_references: 0
+spawn_source_objects: 133
+spawn_overlay_vertices: 798
+spawn_npc_numbers: 76
+model_instances: 1022
+model_instances_in_camera_frame: 1022
+missing_model_instance_assets: 0
+missing_drawable_model_instance_geometry: 0
+actor_variant_candidates: 113
+actor_variant_gameplay_identity_rows: 113
+actor_variant_unresolved: 0
+missing_scripted_object_collision_visuals: 269
+mechanism_preview_candidates: 165
+mechanism_preview_changed_bounds: 165
+diagnostic_errors: 0
+diagnostic_warnings: 25
+diagnostic_info: 0
+reports:
+  - map_id: "thjorgard"
+    display_name: "Thjorgard"
+    level_file: "thjorgard.level.yml"
+    report_file: "thjorgard.asset_validation.yml"
+    clean: true
+    dat_world_reference_issues: 0
+    asset_graph_required_unresolved: 0
+    asset_graph_required_ambiguous: 0
+    unresolved_required_raw_object_asset_refs: 0
+    stale_caches: 0
+    mechanism_unresolved_required_targets: 0
+    mechanism_incomplete_linear_motion: 0
+    mechanism_incomplete_rotation_motion: 0
+    mechanism_trigger_outputs: 6
+    mechanism_unresolved_trigger_outputs: 0
+    script_registered_triggers: 44
+    script_trigger_edges: 29
+    script_movement_commands: 11
+    script_unknown_commands: 465
+    script_command_count: 1417
+    world_model_overlay_vertices: 7608
+    world_model_overlay_pick_candidates: 317
+    selected_polygon_overlay_vertices: 9
+    selected_surface_overlay_vertices: 3
+    object_source_transforms: 704
+    object_bounds_evidence: 273
+    object_trigger_volumes: 12
+    object_overlay_vertices: 984
+    object_overlay_pick_candidates: 41
+    asset_issue_marker_source_objects: 1
+    asset_issue_marker_candidates: 1
+    asset_issue_marker_unpositioned: 0
+    asset_issue_marker_required_candidates: 0
+    asset_issue_marker_required_unpositioned: 0
+    mechanism_target_marker_groups: 124
+    mechanism_target_marker_candidates: 124
+    mechanism_target_marker_vertices: 3968
+    mechanism_target_marker_source_links: 124
+    light_objects: 30
+    light_overlay_vertices: 1080
+    static_render_lights: 30
+    light_diagnostics: 0
+    sound_objects: 69
+    sound_overlay_vertices: 564
+    sound_references: 73
+    resolved_sound_references: 73
+    unresolved_required_sound_references: 0
+    spawn_source_objects: 61
+    spawn_overlay_vertices: 366
+    spawn_npc_numbers: 16
+    model_instances: 232
+    model_instances_in_camera_frame: 232
+    mechanism_world_model_targets_without_movable_role: 0
+    mechanism_world_model_targets_missing_model: 0
+    mechanism_world_model_targets_missing_polygon_group: 0
+    mechanism_world_model_targets_mismatched_polygon_group: 0
+    actor_variant_candidates: 53
+    actor_variant_gameplay_identity_rows: 53
+    actor_variant_unresolved: 0
+    missing_scripted_object_collision_visuals: 62
+    mechanism_preview_candidates: 12
+    mechanism_preview_changed_bounds: 12
+    diagnostic_errors: 0
+    diagnostic_warnings: 14
+    diagnostic_info: 0
+  - map_id: "thjorgardcity"
+    display_name: "Thjorgard City"
+    level_file: "thjorgardcity.level.yml"
+    report_file: "thjorgardcity.asset_validation.yml"
+    clean: true
+    dat_world_reference_issues: 0
+    asset_graph_required_unresolved: 0
+    asset_graph_required_ambiguous: 0
+    unresolved_required_raw_object_asset_refs: 0
+    stale_caches: 0
+    mechanism_unresolved_required_targets: 0
+    mechanism_incomplete_linear_motion: 0
+    mechanism_incomplete_rotation_motion: 0
+    mechanism_trigger_outputs: 0
+    mechanism_unresolved_trigger_outputs: 0
+    script_registered_triggers: 20
+    script_trigger_edges: 1
+    script_movement_commands: 5
+    script_unknown_commands: 372
+    script_command_count: 1140
+    world_model_overlay_vertices: 18912
+    world_model_overlay_pick_candidates: 788
+    selected_polygon_overlay_vertices: 18
+    selected_surface_overlay_vertices: 6
+    object_source_transforms: 1771
+    object_bounds_evidence: 796
+    object_trigger_volumes: 3
+    object_overlay_vertices: 144
+    object_overlay_pick_candidates: 6
+    asset_issue_marker_source_objects: 1
+    asset_issue_marker_candidates: 1
+    asset_issue_marker_unpositioned: 0
+    asset_issue_marker_required_candidates: 0
+    asset_issue_marker_required_unpositioned: 0
+    mechanism_target_marker_groups: 405
+    mechanism_target_marker_candidates: 405
+    mechanism_target_marker_vertices: 12960
+    mechanism_target_marker_source_links: 405
+    light_objects: 165
+    light_overlay_vertices: 5940
+    static_render_lights: 165
+    light_diagnostics: 0
+    sound_objects: 202
+    sound_overlay_vertices: 5772
+    sound_references: 358
+    resolved_sound_references: 358
+    unresolved_required_sound_references: 0
+    spawn_source_objects: 72
+    spawn_overlay_vertices: 432
+    spawn_npc_numbers: 60
+    model_instances: 790
+    model_instances_in_camera_frame: 790
+    mechanism_world_model_targets_without_movable_role: 0
+    mechanism_world_model_targets_missing_model: 0
+    mechanism_world_model_targets_missing_polygon_group: 0
+    mechanism_world_model_targets_mismatched_polygon_group: 0
+    actor_variant_candidates: 60
+    actor_variant_gameplay_identity_rows: 60
+    actor_variant_unresolved: 0
+    missing_scripted_object_collision_visuals: 207
+    mechanism_preview_candidates: 153
+    mechanism_preview_changed_bounds: 153
+    diagnostic_errors: 0
+    diagnostic_warnings: 11
+    diagnostic_info: 0

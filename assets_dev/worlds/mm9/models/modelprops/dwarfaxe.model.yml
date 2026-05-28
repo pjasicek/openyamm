@@ -1,0 +1,82 @@
+schema: openyamm.model3d.v1
+id: dwarfaxe
+model: dwarfaxe.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/MODELPROPS/DWARFAXE.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: pickaxe
+  materialIndex: 0
+  lods:
+  - faces: 92
+    vertices: 48
+  - faces: 68
+    vertices: 36
+  - faces: 46
+    vertices: 25
+materials:
+- index: 0
+  texture: skins_preview/modelprops/dwarfaxe.png
+  runtime_texture: skins/modelprops/dwarfaxe.dtx
+  preview_texture: skins_preview/modelprops/dwarfaxe.png
+  source: mm9/extracted/SKINS/SKINS/MODELPROPS/DWARFAXE.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone19
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: dwarf_axe
+  durationMs: 1033
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: onside
+  durationMs: 1033
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: dwarf_axe
+  extents:
+  - 12.8
+  - 12.8
+  - 12.8
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: onside
+  extents:
+  - 25.6
+  - 2.56
+  - 17.92
+  origin:
+  - 15.36
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/modelprops/dwarfaxe.abc

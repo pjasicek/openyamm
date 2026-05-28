@@ -1,0 +1,95 @@
+;-----------------------------------
+;	by SJR
+;-----------------------------------
+#include BaseGlobals.inc
+#include ListMaker.inc
+
+#number		PRIZE_LEVEL = 0
+
+#string		HIT_TARGET = "sounds\events\hand bell.wav"
+#string		WON_MONEY  = "sounds\events\gold01.wav"
+
+;-----------------------------------
+:Main
+;-----------------------------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+
+	gosub InitTargetMgr
+
+	Exit TRUE
+
+;-----------------------------------
+:InitTargetMgr
+;-----------------------------------
+	SetConsoleNumVar TARGET_LEVEL, 0
+	SetConsoleNumVar TARGET_INDEX, 0
+
+	AddTrigger hit, OnTargetHit
+
+	AddTrigger openall, RaiseTargets
+	AddTrigger closeall,LowerTargets
+
+	Exit TRUE
+
+;-----------------------------------
+:OnTargetHit
+;-----------------------------------
+	GetConsoleNumVar TARGET_LEVEL, PRIZE_LEVEL
+	GetConsoleNumVar TARGET_INDEX, LISTINDEX
+
+	if( PRIZE_LEVEL>0 )
+		PlaySound HIT_TARGET, GiveGold, 1, 5000, FALSE, 100
+	else
+		PlaySound HIT_TARGET, DoNothing, 1, 5000, FALSE, 100
+	endif
+
+	gosub GetCurrentObject
+	if( LISTOBJECT!=0 )
+		Trigger LISTOBJECT, open
+		Trigger LISTOBJECT, lock
+	endif
+
+	Exit TRUE
+
+;-----------------------------------
+:LowerTargets
+;-----------------------------------
+	gosub GetFirstObject
+	while( LISTINDEX<LISTLAST )
+		if( LISTOBJECT!=0 )
+			Trigger LISTOBJECT, open
+		endif
+		gosub GetNextObject
+	endwhile
+	if( LISTOBJECT!=0 )
+		Trigger LISTOBJECT, open
+	endif
+
+	Exit TRUE
+
+;-----------------------------------
+:RaiseTargets
+;-----------------------------------
+	gosub GetFirstObject
+	while( LISTINDEX<LISTLAST )
+		if( LISTOBJECT!=0 )
+			Trigger LISTOBJECT, close
+		endif
+		gosub GetNextObject
+	endwhile
+	if( LISTOBJECT!=0 )
+		Trigger LISTOBJECT, close
+	endif
+
+	Exit TRUE
+
+;-----------------------------------
+:GiveGold
+;-----------------------------------
+	PlaySound WON_MONEY, DoNothing, 1, 5000, FALSE, 100
+
+	GiveGold PRIZE_LEVEL
+
+	Exit TRUE

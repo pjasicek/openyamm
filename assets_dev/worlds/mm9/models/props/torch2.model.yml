@@ -1,0 +1,136 @@
+schema: openyamm.model3d.v1
+id: torch2
+model: torch2.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/TORCH2.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: fire node
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Cylinder01
+  materialIndex: 0
+  lods:
+  - faces: 166
+    vertices: 86
+  - faces: 122
+    vertices: 64
+  - faces: 78
+    vertices: 42
+- name: Hedra01
+  materialIndex: 0
+  lods:
+  - faces: 4
+    vertices: 5
+  - faces: 4
+    vertices: 5
+  - faces: 4
+    vertices: 5
+- name: Hedra02
+  materialIndex: 0
+  lods:
+  - faces: 4
+    vertices: 5
+  - faces: 4
+    vertices: 5
+  - faces: 4
+    vertices: 5
+materials:
+- index: 0
+  texture: skins_preview/props/torch_metal.png
+  runtime_texture: skins/props/torch_metal.dtx
+  preview_texture: skins_preview/props/torch_metal.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/TORCH_METAL.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 2
+  - index: 1
+    name: fire node
+    parent: 0
+    flags: 0
+    children: []
+  - index: 2
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 3
+    - 4
+  - index: 3
+    name: Bone02
+    parent: 2
+    flags: 0
+    children: []
+  - index: 4
+    name: Cylinder01
+    parent: 2
+    flags: 0
+    children:
+    - 5
+    - 6
+  - index: 5
+    name: Hedra01
+    parent: 4
+    flags: 0
+    children: []
+  - index: 6
+    name: Hedra02
+    parent: 4
+    flags: 0
+    children: []
+sockets:
+- name: firenode
+  node: 1
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.5145822167396545
+  - 0.47207111120224
+  - 0.5240519642829895
+  - 0.48756900429725647
+animations:
+- name: static_object
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: static_object
+  extents:
+  - 25.6
+  - 30.72
+  - 25.6
+  origin:
+  - 0.0
+  - 7.68
+  - 7.68
+roles:
+- static_model
+source_model: models/props/torch2.abc

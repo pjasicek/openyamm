@@ -1,0 +1,116 @@
+;---------------------------------------------------------------------
+:	EndDemon.scr
+;	Timmy
+;
+;	This Controls the Demon and tells him to open the last door
+;	 in the Tomb of a Thousand Terrors
+;
+;	
+;
+;---------------------------------------------------------------------
+
+#include globals.inc
+#include baseMelee.inc
+#include range.inc
+#include Flags.inc
+
+
+#number		nHPMod = 10
+#number		nACMod = 1.5
+
+#string		sDoorA = Door1
+#string		sDoorA = Door0
+
+;---------------------------------------------
+:OnDeath
+;---------------------------------------------
+
+CPrint Died!!
+
+Getobjecthandle sDoorA g_hobject
+trigger g_hobject Open
+Getobjecthandle sDoorB g_hobject
+trigger g_hobject Open
+
+
+gosub OnDeath, 1
+exit
+
+
+
+;---------------------------------------------
+:AwareDone
+;---------------------------------------------
+	gosub Begin
+
+	Exit
+
+;---------------------------------------------
+:SpawnDone
+;---------------------------------------------
+	Aware AwareDone
+
+	Exit
+
+;---------------------------------------------
+:DoSpawnAnim
+;---------------------------------------------
+
+	PlayAnim Spawn, SpawnDone
+	SetFlag g_hMyObject,FLAG_VISIBLE
+
+	Exit
+
+;---------------------------------------------
+:SpawnIn
+;
+;	Play our animation and do our special FX
+;
+;---------------------------------------------
+
+	DoClientFX g_hMyObject,GreaterDemon
+
+	Wait 29, 1, DoSpawnAnim
+
+
+	Exit
+	
+
+;---------------------------------------------
+:Begin
+;---------------------------------------------
+	
+	gosub BaseInit
+	gosub RangeInit
+	exit
+
+;---------------------------------------------
+:Main
+;---------------------------------------------
+
+
+
+	getmyhandle g_hmyobject
+
+	getstat g_hmyobject HitPoints g_ntemp
+	g_ntemp = g_ntemp * nHPMod
+	setstat g_hmyobject Hitpoints g_ntemp
+
+	getstat g_hmyobject AC g_ntemp
+	g_ntemp = g_ntemp * nACMod
+	setstat g_hmyobject Hitpoints g_ntemp
+
+	GetParam 0, g_bTemp
+
+	g_bTemp = TRUE
+
+	if ( g_bTemp==TRUE )
+		GetMyHandle g_hMyObject
+		ClearFlag g_hMyObject,FLAG_VISIBLE
+		Wait 0, 0.1, SpawnIn
+	else
+		gosub Begin
+	Endif
+
+
+	Exit

@@ -1,0 +1,152 @@
+;--------------------------------------------------
+;Honkies.scr
+; timmy
+; handles Kira honky quest
+;--------------------------------------------------
+
+#include globals.inc
+#include basewander.inc
+
+
+#number					BeenDone
+#number					HonkyOn
+#NumberArray			HonkyArray[3]
+#Number					counter
+#number					Walk   ;is this guy walking to the dock.
+#number					nNPC_ID
+
+#String			Prop_Name = HonkPamphlet.ABC
+#String			Skin_Name = Pamphlet.dtx
+#String			Socket_Name = pamphlet
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+set g_ncounter, 0
+
+haskey 145, g_ntemp
+if (g_ntemp==TRUE, )
+
+	Haskey 142, g_ntemp
+	if (g_ntemp==1, )
+		Gosub Walk
+		Add g_ncounter, 1
+	endif
+	
+	Haskey 143, g_ntemp
+	if (g_ntemp==1, )
+		Gosub Walk
+		Add g_ncounter, 1
+	endif
+
+	Haskey 144, g_ntemp
+	if (g_ntemp==1, )
+		Gosub Walk
+		Add g_ncounter, 1
+	endif
+endif
+
+if (g_ncounter==3)
+	gosub Reward
+	exit
+endif
+exit
+
+
+;--------------------------------------------------
+:Reward
+;--------------------------------------------------
+;...........success.............
+
+
+
+haskey 77 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+givekey 77
+GiveExp 8000
+Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+set BeenDone, true
+
+exit
+
+;--------------------------------------------------
+:killme
+;--------------------------------------------------
+
+
+exitscript
+exit
+
+
+;--------------------------------------------------
+:Walk
+;--------------------------------------------------
+
+if (walk==0, )
+	;......walk (run!) to dock info goes here!!!
+	stop
+	gosub BaseWanderStop
+	getobjecthandle HonkyMarker g_hobject
+	runto g_hobject 16 OnShanghai
+	Set walk, 1
+	exit
+endif
+
+exit
+
+;-------------------------------------
+:OnShanghai
+;-------------------------------------
+getmyhandle g_hmyobject
+removeobject g_hmyobject
+exit
+
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+Stop
+gosub basewanderstop
+Getparam 0 g_hobject
+FaceObject g_hobject 200 DoNothing
+DoRude nNPC_ID
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+AttachProp Prop_Name Skin_Name Socket_Name g_hobject2
+
+haskey 77 g_ntemp
+if (g_ntemp==TRUE)
+	gosub OnShanghai
+	exit
+endif
+
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+getparam 0 nNPC_ID
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+Gosub BaseWanderInit
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+;OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

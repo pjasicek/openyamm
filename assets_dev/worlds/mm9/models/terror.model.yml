@@ -1,0 +1,671 @@
+schema: openyamm.model3d.v1
+id: terror
+model: terror.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/TERROR.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 4.023306898564917e+25
+pieces:
+- name: The Terror
+  materialIndex: 0
+  lods:
+  - faces: 906
+    vertices: 501
+  - faces: 680
+    vertices: 388
+materials:
+- index: 0
+  texture: skins_preview/terror1.png
+  runtime_texture: skins/terror1.dtx
+  preview_texture: skins_preview/terror1.png
+  source: mm9/extracted/SKINS/SKINS/TERROR1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 43
+    - 47
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+    - 41
+    - 42
+  - index: 5
+    name: Bip01 Head
+    parent: 4
+    flags: 1
+    children:
+    - 6
+    - 14
+    - 22
+    - 30
+  - index: 6
+    name: Bone26
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Bone27
+    parent: 6
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Bone28
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bone29
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bone30
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bone31
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Bone32
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bone33
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Bone01
+    parent: 5
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bone02
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bone03
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bone04
+    parent: 16
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Bone21
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bone22
+    parent: 18
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Bone23
+    parent: 19
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bone24
+    parent: 20
+    flags: 1
+    children: []
+  - index: 22
+    name: Bone37
+    parent: 5
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bone38
+    parent: 22
+    flags: 1
+    children:
+    - 24
+    - 27
+  - index: 24
+    name: Bone05
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bone06
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: Bone07
+    parent: 25
+    flags: 1
+    children: []
+  - index: 27
+    name: Bone14
+    parent: 23
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Bone15
+    parent: 27
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Bone16
+    parent: 28
+    flags: 1
+    children: []
+  - index: 30
+    name: Bone35
+    parent: 5
+    flags: 1
+    children:
+    - 31
+    - 38
+  - index: 31
+    name: Bone36
+    parent: 30
+    flags: 1
+    children:
+    - 32
+    - 35
+  - index: 32
+    name: Bone13
+    parent: 31
+    flags: 1
+    children:
+    - 33
+  - index: 33
+    name: Bone18
+    parent: 32
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: Bone19
+    parent: 33
+    flags: 1
+    children: []
+  - index: 35
+    name: Bone09
+    parent: 31
+    flags: 1
+    children:
+    - 36
+  - index: 36
+    name: Bone10
+    parent: 35
+    flags: 1
+    children:
+    - 37
+  - index: 37
+    name: Bone11
+    parent: 36
+    flags: 1
+    children: []
+  - index: 38
+    name: Bone39
+    parent: 30
+    flags: 1
+    children:
+    - 39
+  - index: 39
+    name: Bone40
+    parent: 38
+    flags: 1
+    children:
+    - 40
+  - index: 40
+    name: Bone41
+    parent: 39
+    flags: 1
+    children: []
+  - index: 41
+    name: Bip01 R Clavicle
+    parent: 4
+    flags: 1
+    children: []
+  - index: 42
+    name: Bip01 L Clavicle
+    parent: 4
+    flags: 1
+    children: []
+  - index: 43
+    name: Bip01 L Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 44
+  - index: 44
+    name: Bip01 L Calf
+    parent: 43
+    flags: 1
+    children:
+    - 45
+  - index: 45
+    name: Bip01 L Foot
+    parent: 44
+    flags: 1
+    children:
+    - 46
+  - index: 46
+    name: Bip01 L Toe0
+    parent: 45
+    flags: 1
+    children: []
+  - index: 47
+    name: Bip01 R Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 48
+  - index: 48
+    name: Bip01 R Calf
+    parent: 47
+    flags: 1
+    children:
+    - 49
+  - index: 49
+    name: Bip01 R Foot
+    parent: 48
+    flags: 1
+    children:
+    - 50
+  - index: 50
+    name: Bip01 R Toe0
+    parent: 49
+    flags: 1
+    children: []
+sockets:
+- name: RHand1
+  node: 12
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.596490740776062
+  - -0.1378733068704605
+  - -0.1780661642551422
+  - 0.7703779935836792
+- name: LHand1
+  node: 21
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.688909649848938
+  - -0.15938399732112885
+  - 0.1593841016292572
+  - 0.6889098882675171
+animations:
+- name: static_model
+  durationMs: 66
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand
+  durationMs: 1333
+  keyframes: 26
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 1050
+  keyframes: 23
+  interpolationTimeMs: 100
+  events:
+  - timeMs: 473
+    event: footstep
+  - timeMs: 1050
+    event: footstep
+- name: run
+  durationMs: 666
+  keyframes: 18
+  interpolationTimeMs: 100
+  events:
+  - timeMs: 100
+    event: footstep
+  - timeMs: 433
+    event: footstep
+- name: fidget1
+  durationMs: 2300
+  keyframes: 41
+  interpolationTimeMs: 200
+  events: []
+- name: fidget2
+  durationMs: 1233
+  keyframes: 18
+  interpolationTimeMs: 200
+  events: []
+- name: Hattack1
+  durationMs: 1200
+  keyframes: 35
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 309
+    event: playanimsound
+  - timeMs: 491
+    event: Rattack
+- name: Hattack2
+  durationMs: 1013
+  keyframes: 27
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 160
+    event: playanimsound
+  - timeMs: 506
+    event: Lattack
+- name: wince1
+  durationMs: 1400
+  keyframes: 27
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 233
+    event: playanimsound
+- name: wince2
+  durationMs: 1400
+  keyframes: 34
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 100
+    event: playanimsound
+- name: die1
+  durationMs: 1300
+  keyframes: 45
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 192
+    event: playanimsound
+  - timeMs: 575
+    event: playdeathsound
+- name: die2
+  durationMs: 1300
+  keyframes: 30
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 296
+    event: playanimsound
+  - timeMs: 906
+    event: playdeathsound
+- name: Taunt
+  durationMs: 900
+  keyframes: 18
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 219
+    event: speakanimsound
+- name: Backpedal
+  durationMs: 1333
+  keyframes: 23
+  interpolationTimeMs: 100
+  events:
+  - timeMs: 0
+    event: footstep
+  - timeMs: 733
+    event: footstep
+- name: BackpedalRun
+  durationMs: 600
+  keyframes: 23
+  interpolationTimeMs: 100
+  events:
+  - timeMs: 0
+    event: footstep
+  - timeMs: 330
+    event: footstep
+animationBindings:
+- name: static_model
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+- name: stand
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+- name: walk
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+- name: run
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -128.0
+  - 0.0
+- name: fidget1
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+- name: fidget2
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+- name: Hattack1
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+- name: Hattack2
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+- name: wince1
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+- name: wince2
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+- name: die1
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+- name: die2
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+- name: Taunt
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+- name: Backpedal
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+- name: BackpedalRun
+  extents:
+  - 64.0
+  - 128.0
+  - 64.0
+  origin:
+  - 0.0
+  - -122.88
+  - 0.0
+roles:
+- actor_model
+source_model: models/terror.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: terror_terror1
+  source_skins:
+  - skins/terror1.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 218
+    number: '237'
+    monster_name: Amphibious Terror
+    type_picture: Tunnel Terror A
+    base_name: ''
+  - table: MONSTERS
+    row: 218
+    number: '237'
+    monster_name: Amphibious Terror
+    type_picture: Tunnel Terror A
+    base_name: Terror
+- id: terror_terror2
+  source_skins:
+  - skins/terror2.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 219
+    number: '238'
+    monster_name: Desert Terror
+    type_picture: Tunnel Terror B
+    base_name: ''
+  - table: MONSTERS
+    row: 219
+    number: '238'
+    monster_name: Desert Terror
+    type_picture: Tunnel Terror B
+    base_name: Terror
+- id: terror_terror3
+  source_skins:
+  - skins/terror3.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 220
+    number: '239'
+    monster_name: Reptilian Terror
+    type_picture: Tunnel Terror C
+    base_name: ''
+  - table: MONSTERS
+    row: 220
+    number: '239'
+    monster_name: Reptilian Terror
+    type_picture: Tunnel Terror C
+    base_name: Terror

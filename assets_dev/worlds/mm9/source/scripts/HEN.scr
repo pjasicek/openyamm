@@ -1,0 +1,275 @@
+;----------------------------------------------------------------
+;	hen.scr
+;	John Machin
+;
+;		Default script for wanderers
+;---------------------------------------------------------------- 
+#include globals.inc
+#include wander.inc
+
+#hobject	hAttacker
+#string		sAttacker
+#hobject	hTouchedBy
+#hobject	g_hFeeder
+
+#number		g_nDistance
+#number		g_bIsSitting		= 0
+#number		g_bIsPlayer			= 0
+#number		g_nAngle			= 0
+
+#number		g_nLastDamage		= 0
+
+
+;----------------------------------------------------------------
+:OnSpecial
+;----------------------------------------------------------------
+	GetRandomInt 1, 10, g_nRandom
+	if( g_nRandom < 8 )
+		PlayAnim Fidget2, OnPeck1Done
+	else	
+		GetRandomInt 5, 15, g_nRandom
+		LoopAnim sit, g_nRandom, OnSpecialDone	
+		Set g_bIsSitting, TRUE
+	endif
+
+	Wait 0, 0, DoNothing 
+
+	Exit
+
+;----------------------------------------------------------------
+:OnPeck1Done
+;----------------------------------------------------------------
+	PlayAnim Fidget2, OnPeck2Done
+
+	Exit
+
+;----------------------------------------------------------------
+:OnPeck2Done
+;----------------------------------------------------------------
+	PlayAnim Fidget3, OnPeck3Done
+
+	Exit
+
+;----------------------------------------------------------------
+:OnPeck3Done
+;----------------------------------------------------------------
+	PlayAnim Fidget2
+
+	Wait 0, 2, WanderTick
+
+	Exit
+
+
+;----------------------------------------------------------------
+:OnSpecialDone
+;----------------------------------------------------------------
+	;Were done startup the ticker again...
+	Set g_bIsSitting, FALSE
+	gosub WanderTick	   		
+																
+	Exit
+
+;----------------------------------------------------------------
+:DoNothing
+;----------------------------------------------------------------
+	;Do nothing here...
+
+	Exit
+
+;----------------------------------------------------------------
+:OnRun
+;----------------------------------------------------------------
+	
+	GetFaceDir hAttacker, g_posX, g_posY, g_posZ	
+
+	FaceDir g_PosX, g_PosY, g_PosZ, 180
+
+	;This will cause a more erratic running behavior
+	Set g_IdleCheckMin, 1
+	Set g_IdleCheckMax, 1
+
+	;Set turn degree min max for more erratic movement
+	Set g_TurnDegreeMin, 60
+	Set g_TurnDegreeMax, 90
+	
+	Run		
+
+	Set g_IsRunning, TRUE
+									
+	Exit
+
+;----------------------------------------------------------------
+:OnRunning
+;----------------------------------------------------------------
+	;We want to continue sending Alerts to nearby AI while running
+	SendAlert hAttacker		
+
+	Exit
+
+;----------------------------------------------------------------
+:OnStopRunning
+;----------------------------------------------------------------
+	;Setup our stuff back to normal
+	Set g_IdleCheckMin, 7
+	Set g_IdleCheckMax, 7
+
+	Set g_TurnDegreeMin 15
+	Set g_TurnDegreeMax 90
+
+	Set g_IsRunning, FALSE
+	
+	Exit
+
+;----------------------------------------------------------------
+:HenOnDamage
+;----------------------------------------------------------------		
+	;Figure out who hit us
+	GetParam 0, hAttacker
+
+	GetClassName hAttacker, sAttacker	
+
+	;Get last amount of damage done
+	GetParam 1, g_nLastDamage	
+
+	;Alert nearby AI	
+	SendAlert hAttacker		
+
+	GetTime g_StopRunTime
+	Add g_StopRunTime, 15
+
+	if( g_nLastDamage == 0 )
+		gosub HenOnDamageDone
+	endif
+																	
+	Exit FALSE				 
+
+;----------------------------------------------------------------
+:HenOnDamageDone
+;----------------------------------------------------------------
+	gosub OnRun	
+																	
+	Exit
+
+;----------------------------------------------------------------
+:HenOnTouchNotify
+;----------------------------------------------------------------		
+	;Figure out who hit us
+	GetParam 0, hTouchedBy
+
+	IsPlayer hTouchedBy, g_bIsPlayer
+
+	if( g_bIsPlayer == TRUE )				
+		;Get the direction player is facing
+		GetFaceDir hTouchedBy, g_posX, g_posY, g_posZ
+
+		;HACK randomly change the way the hen will turn
+		GetRandomFloat -0.30, 0.30, g_nRandom
+		Add g_rotX, g_nRandom
+
+		GetRandomFloat -0.30, 0.30, g_nRandom
+		Add g_rotZ, g_nRandom
+
+		;Face the modified opposite direction of player
+		FaceDir g_posX, g_posY, g_posZ, 180
+
+		Run
+
+		Wait 0, 2, HenOnTouchRunDone
+
+	endif
+
+	Exit
+
+;----------------------------------------------------------------
+:HenOnTouchRunDone
+;----------------------------------------------------------------
+	if( g_bIsRunning == TRUE )
+		Run
+	else
+		Walk
+	endif	
+
+	Exit
+
+;----------------------------------------------------------------
+:OnFeeding
+;----------------------------------------------------------------
+	if( g_IsRunning == FALSE )
+		GetParam 0, g_hFeeder
+
+		RunTo g_hFeeder, 100, OnAtFeeder
+	endif
+
+	Exit
+
+;----------------------------------------------------------------
+:OnAtFeeder
+;----------------------------------------------------------------
+	SetIdle
+
+	;Wait 0, 6, WanderTick
+
+	Exit
+
+
+;----------------------------------------------------------------
+:OnWalk
+;----------------------------------------------------------------
+	
+	Walk
+
+	exit
+
+
+;----------------------------------------------------------------
+:InitHen
+;----------------------------------------------------------------
+	;Set the hens roaming distance
+	GetParam 1, g_nDistance
+	
+	if( g_nDistance != 0 )
+		Set MAX_DIST_FROM_STARTPOINT, g_nDistance
+	else
+		Set MAX_DIST_FROM_STARTPOINT, 350
+	endif
+
+	;Set how often we stop at an obstacle
+	Set g_nStopAtObstacle, 2
+
+	;Set how often hen is idle 1 equals 10% valid numbers are 1 to 10
+	Set g_IdleFrequency, 5
+
+	;Set max time in seconds before idle check
+	Set g_IdleCheckMin, 4
+	Set g_IdleCheckMax, 4
+
+	;Set how often special anim is played valid numbers are 1 to 10
+	Set g_SpecialAnimFrequency, 8
+
+	; Set how fast to turn around when we hit an obstacle
+	Set g_wanderObstacleRotRate, 180
+	
+	Exit		
+
+;----------------------------------------------------------------
+:Main
+;----------------------------------------------------------------
+	
+	;Initialize Hen vars
+	gosub InitHen	
+
+	;Monitor these callbacks
+	OnTouchNotify	HenOnTouchNotify
+	OnDamageDone	HenOnDamageDone
+	OnDamage		HenOnDamage
+	
+	;Handle these triggers
+	AddTrigger SpecialAnim,		OnSpecial
+	AddTrigger StopRunning,		OnStopRunning
+	AddTrigger Running,			OnRunning  	
+	AddTrigger Walk,			OnWalk
+	;AddTrigger Feeding,		OnFeeding		
+	
+	gosub WanderInit	
+
+	Exit

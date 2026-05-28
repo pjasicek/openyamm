@@ -1,0 +1,51 @@
+;-------------------------------------
+;	TeleporterMulti.scr
+;	by SJR
+;	01-01-02
+;	Purpose:function as a switchable
+;			destination teleporter.
+;-------------------------------------
+
+#string		DESTINATION_NAME = ""
+
+#hobject	hMe = 0
+
+#hobject	hContact = 0
+#number		bIsPlayer = 0
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	AddTrigger update, UpdateDestination
+
+	GetMyHandle hMe
+
+	OnTouchNotify OnTouchNotify
+
+	Exit 1
+
+;-------------------------------------
+:UpdateDestination
+;-------------------------------------
+	GetConsoleStrVar TELEPORTER_DESTINATION, DESTINATION_NAME
+	SetPropString TeleportDestination, DESTINATION_NAME
+
+	Exit 1
+
+;-------------------------------------
+:OnTouchNotify
+;-------------------------------------
+	GetParam 0, hContact
+	IsPlayer hContact, bIsPlayer
+	if( bIsPlayer==1 )
+		Wait 0, .5, ResetDestination
+	endif
+
+	Exit 0
+
+;-------------------------------------
+:ResetDestination
+;-------------------------------------
+	Trigger hMe, off
+
+	Exit 1

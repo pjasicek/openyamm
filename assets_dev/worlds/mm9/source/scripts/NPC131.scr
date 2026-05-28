@@ -1,0 +1,85 @@
+;--------------------------------------------------
+;NPC131.scr
+; timmy
+; handles Nutty Nurtigan voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include Basewander.inc
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub Healed
+
+
+exit
+
+
+;--------------------------------------------------
+:Healed
+;--------------------------------------------------
+Haskey 211 g_ntemp
+if (g_ntemp==TRUE)
+	hasitem 558 g_ntemp
+	if (g_ntemp==TRUE)
+		takeitem 558
+		getobjecthandle Marker0 g_hobject
+		walkto g_hobject 16 OnWander
+		exit
+	endif
+endif
+exit
+
+
+;--------------------------------------------------
+:OnWander
+;--------------------------------------------------
+gosub BaseWanderInit
+exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_131.wav, DoNothing, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+haskey 211 g_ntemp
+if (g_ntemp==TRUE)
+	getobjecthandle RotatingDoor3 g_hobject
+	trigger g_hobject Unlock
+	trigger g_hobject Open
+	getobjecthandle Marker0 g_hobject
+	walkto g_hobject 16 OnWander
+	exit
+endif
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+gosub Init
+exit
+

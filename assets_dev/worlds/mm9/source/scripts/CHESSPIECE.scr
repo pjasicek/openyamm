@@ -1,0 +1,373 @@
+;--------------------------------------------
+;	ChessPiece.scr
+;	by SJR
+;	11-14-01
+;
+;	Purpose:pieces attack you when
+;			when you walk on a square
+;			that they are guarding.
+;			Works for any N x N board
+;
+;	ScriptParams:
+;		p0 = root name of square script objects
+;		p1 = root name of square world objects
+;		p2 = size of board (N in NxN)
+;		p3 = index of starting square
+;		p4 = type of piece (0 pawn,1 knight,2 bishop)
+;--------------------------------------------
+#include	ListMaker.inc
+#include	BaseGlobals.inc
+#include	flags.inc
+
+#hobject	hMe = 0
+#hobject	hTrigger = 0
+#hobject	hPlayer = 0
+#hobject	hCamera = 0
+
+#number		nLocation = 0
+
+#number		nPieceType = 0
+#number		nCheckDir = 1
+#number		nSquares = 0
+
+#number		xMe = 0
+#number		zMe = 0
+#number		xTemp = 0
+#number		zTemp = 0
+
+#number		yMe = 0
+#number		nTemp = 0
+
+#string		sSquareName = ""
+#string		sFloorName = ""
+
+#number		BOARDSIZE = 8
+#number		SIZEINDEX = 7
+#number		TYPE_PAWN = 0
+#number		TYPE_KNIGHT = 1
+#number		TYPE_BISHOP = 2
+;-----------------
+:Main
+;-----------------
+	GetParam 0, sSquareName
+	GetParam 1, sFloorName
+	GetParam 2, BOARDSIZE
+	GetParam 3, nLocation
+	GetParam 4, nPieceType
+
+	;;convert 1-D coordinates to 2-D
+	while( nLocation>=BOARDSIZE )
+		nLocation = nLocation - BOARDSIZE
+		zMe = zMe + 1
+	endwhile
+	xMe = nLocation
+	nLocation = BOARDSIZE * zMe + xMe
+
+	LISTNAME = sSquareName
+	LISTFIRST = 0
+	LISTLAST  = BOARDSIZE * BOARDSIZE - 1
+	SIZEINDEX = BOARDSIZE - 1
+
+	OnPostStartWorld InitChessPiece
+
+	Exit TRUE
+
+#number		cx = 0
+#number		cy = 0
+#number		cz = 0
+;-----------------
+:InitChessPiece
+;-----------------
+	SetCallback TYPE_PAWN  , CheckPawnPath
+	SetCallback TYPE_KNIGHT, CheckKnightPath
+	SetCallback TYPE_BISHOP, CheckBishopPath
+
+	SetConsoleNumVar CLAIM_ATTACK, FALSE
+
+	;;message to check our danger zones
+	AddTrigger Ping, CheckBoard
+
+	GetObjectHandle CinemaMgr, hCamera
+	GetMyHandle hMe
+	GetPOS hMe, nTemp,cy,nTemp
+
+	Exit TRUE
+
+;-----------------
+:CheckBoard
+;-----------------
+	GetParam 0, hTrigger
+	DoCallback nPieceType
+
+	Exit TRUE
+
+;-----------------
+:HostileMove
+;	attack hTrigger pos,
+;	update xMe,zMe,nLocation
+;-----------------
+	;;check to see if someone else is attacking already
+	GetConsoleNumVar CLAIM_ATTACK, nTemp
+	if( nTemp==TRUE )
+		;;somebody else is attacking
+		Exit TRUE
+	else
+		;;register as the attacker
+		SetConsoleNumVar CLAIM_ATTACK, TRUE
+	endif
+	RemoveTrigger Ping
+	gosub StartAttack
+	nLocation = LISTINDEX
+	zMe = 0
+	;;convert 1-D coordinates to 2-D
+	while( nLocation>=BOARDSIZE )
+		nLocation = nLocation - BOARDSIZE
+		zMe = zMe + 1
+	endwhile
+	xMe = nLocation
+	nLocation = LISTINDEX
+
+	Exit TRUE
+
+;-----------------
+:StartAttack
+;-----------------
+	Trigger hCamera, StartPanHere
+	ClearFlag hMe, FLAG_SOLID
+	SetFlag hMe, FLAG_GOTHRUWORLD
+	PlaySound sounds\door\doorslidestone.wav, DoNothing, 1000, 2000, FALSE, 100
+	if( hPlayer==0 )
+		GetPlayerHandle hPlayer
+	endif
+	GetPOS hPlayer, cx,nTemp,cz
+	MoveToPOS cx,cy,cz, 128, FinishAttack
+	gosub RemoveFloor
+	Exit TRUE
+
+;-----------------
+:RemoveFloor
+;-----------------
+	LISTNAME = sFloorName
+	gosub GetCurrentObject
+	hTrigger = LISTOBJECT
+	ClearFlag hTrigger, FLAG_SOLID
+	Exit TRUE
+
+;-----------------
+:FinishAttack
+;-----------------
+	SetVelocity hPlayer, 0, -1, 0
+	Trigger hCamera, TurnOff
+	SetFlag hMe, FLAG_SOLID
+	ClearFlag hMe, FLAG_GOTHRUWORLD
+	LISTNAME = sSquareName
+	GetPOS hTrigger, cx,nTemp,cz
+	SetPOS hMe, cx,cy,cz
+	AddTrigger Ping, CheckBoard
+	SetFlag hTrigger, FLAG_SOLID
+	if( nPieceType==TYPE_PAWN )
+		gosub CheckForQueen
+	endif
+	;;allow attacks again
+	SetConsoleNumVar CLAIM_ATTACK, FALSE
+	Exit TRUE
+
+;-----------------
+:CheckPawnPath
+;	check 2 diag squares in front (front = +z)
+;-----------------
+	if( zMe>=BOARDSIZE )
+		Exit TRUE
+	endif
+
+	;;;(((( zMe + 1 ) * BOARDSIZE ) + xMe ) - 1 )
+	LISTINDEX = zMe + 1 * BOARDSIZE + xMe - 1
+	if( xMe!=0 )
+		gosub GetCurrentObject
+		if( LISTOBJECT==hTrigger )
+			gosub HostileMove
+			;;if we dont exit here, a different LISTOBJECT may
+			;;be made solid\nonsolid than the one we move to
+			;;by the time we get to that point
+			Exit TRUE
+		endif
+	endif
+	if( xMe!=SIZEINDEX )
+		LISTINDEX = LISTINDEX + 2
+		gosub GetCurrentObject
+		if( LISTOBJECT==hTrigger )
+			gosub HostileMove
+			Exit TRUE
+		endif
+	endif
+	Exit TRUE
+
+#number		dx = 0
+#number		dz = 0
+;-----------------
+:CheckKnightPath
+;	check 8 knight squares
+;-----------------
+	nSquares = 8
+	dx = 1
+	dz = 2
+
+	;;4 passes checking 2 squares at a time
+	while( nSquares>0 )
+		;;change to second z after we checked
+		;;all 4 x's for the first z
+		if( nSquares==4 )
+			dx = 2
+			dz = 1
+		endif
+
+		zTemp = zMe + dz
+		;;check z boundaries of board
+		if( zTemp<BOARDSIZE )
+		if( zTemp>=0		)
+		;;ping the first x square at this z
+			xTemp = xMe + dx
+			;;check x boundaries of board
+			if( xTemp<BOARDSIZE )
+			if( xTemp >= 0		)
+				;;change index coords to plane coords
+				LISTINDEX = BOARDSIZE * zTemp + xMe + dx
+				gosub GetCurrentObject
+				if( LISTOBJECT==hTrigger )
+					gosub HostileMove
+					Exit TRUE
+				endif
+			endif
+			endif
+
+			xTemp = xMe - dx
+			;;ping the second x square at this z
+			;;check x boundaries of board
+			if( xTemp<BOARDSIZE )
+			if( xTemp>=0		)
+				;;change index coords to plane coords
+				LISTINDEX = BOARDSIZE * zTemp + xMe - dx
+				gosub GetCurrentObject
+				if( LISTOBJECT==hTrigger )
+					gosub HostileMove
+					Exit TRUE
+				endif
+			endif
+			endif
+		endif
+		endif
+		
+		;;check the same x's, but on the other side
+		dz = dz * -1
+
+		nSquares = nSquares - 2
+
+	endwhile
+
+	Exit TRUE
+
+;-----------------
+:CheckBishopPath
+;	calls CheckDiagonal twice
+;-----------------
+	;;check the (0,0)->(N,N) direction
+	nCheckDir = 1
+	gosub CheckDiagonal
+
+	;;check the (0,N)->(N,0) direction
+	nCheckDir = -1
+	gosub CheckDiagonal
+
+	Exit TRUE
+
+#number		DIAGSIZE = 0
+;-----------------
+:CheckDiagonal
+;	shifts pos of piece to
+;	sides of board and checks
+;	diagonal from there
+;-----------------
+	gosub NormalizeDiagonal
+
+	;;diagonal boardlength adjusted for direction
+	DIAGSIZE = BOARDSIZE * nCheckDir + 1
+	LISTINDEX = zTemp * BOARDSIZE + xTemp
+
+	while( nSquares>0 )
+		nSquares = nSquares - 1
+
+		if( LISTINDEX!=nLocation )
+			gosub GetCurrentObject
+			if( LISTOBJECT==hTrigger )
+				gosub HostileMove
+			endif
+		endif
+
+		;;shift to next diagonal
+		LISTINDEX = LISTINDEX + DIAGSIZE
+	endwhile
+
+	Exit TRUE
+
+;-----------------
+:NormalizeDiagonal
+;	shifts the pos of the piece
+;	to the sides of the board
+;-----------------
+	xTemp = xMe
+	zTemp = zMe
+
+	if( nCheckDir>0 )
+		if( xTemp==zTemp )
+			xTemp = 0
+			zTemp = 0
+		endif
+		if( xTemp>zTemp )
+			xTemp = xTemp - zTemp
+			zTemp = 0
+		endif
+		if( xTemp<zTemp )
+			zTemp = zTemp - xTemp
+			xTemp = 0
+		endif
+	endif
+	if( nCheckDir<0 )
+		nTemp =	SIZEINDEX - xTemp - zTemp
+		if( nTemp == 0 )
+			xTemp = 0
+			zTemp = SIZEINDEX
+		endif
+		if( nTemp<0 )
+			xTemp = xTemp - BOARDSIZE + zTemp + 1
+			zTemp = SIZEINDEX
+		endif
+		if( nTemp>0 )
+			zTemp = xTemp + zTemp
+			if( zTemp<0 )
+				zTemp = zTemp * -1
+			endif
+			xTemp = 0
+		endif
+	endif
+	if( xTemp==0 )
+		nSquares = BOARDSIZE - zTemp
+	endif
+	if( zTemp==0 )
+		nSquares = BOARDSIZE - xTemp
+	endif
+	if( zTemp==SIZEINDEX )
+		nSquares = BOARDSIZE - xTemp
+	endif
+
+	Exit TRUE
+
+#hobject	hDummy = 0
+;-----------------
+:CheckForQueen
+;-----------------
+	if( zMe==SIZEINDEX )
+		GetPOS hMe, xMe,yMe,zMe
+		Spawn hDummy, xMe,yMe,zMe, Eye
+		RemoveObject hMe
+	endif
+	Exit TRUE

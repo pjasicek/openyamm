@@ -1,0 +1,210 @@
+;--------------------------------------------------------
+;	ILShealerroom.scr
+;	Timmy
+;
+;	This script Handles the lich promo
+;
+;
+;	Parameters:
+;
+
+;promo variables
+
+#number		Fighter = 0
+#number		Mercenary = 1
+#number		Crusader = 2
+#number		Assassin = 3
+#number		Gladiator = 4
+#number		Ranger = 5
+#number		Paladin = 6
+#number		Initiate = 7
+#number		Scholar = 8
+#number		Healer = 9
+#number		Mage = 10
+#number		Lich = 11
+#number		Priest = 12
+#number		Druid = 13
+#number		Char1 = 0
+#number		Char2 = 1
+#number		Char3 = 2
+#number		Char4 = 3
+;
+;--------------------------------------------------------
+#include globals.inc
+
+
+#Number					counter=0
+#Number					closed=1
+#Number					Broken=0
+#number					nWorking = FALSE
+
+;Volume Dims Variables
+#number					VolumeMinX
+#number					VolumeMinY
+#Number					VolumeMinZ
+#number					VolumeMaxX
+#Number					VolumeMaxY
+#Number					VolumeMaxZ
+
+
+;Player dim Variables
+
+#Number					PlayerX
+#Number					PlayerY
+#Number					PlayerZ
+
+
+
+
+			
+;--------------------------------------------------------
+:Onclickon
+;--------------------------------------------------------
+
+if (nWorking==FALSE)
+	exit
+endif
+
+If (closed==false)
+	exit
+Endif
+	;gets the dims of volume brush
+
+
+
+	getobjecthandle PromoVol1 g_hobject
+	GetObjectMinMax g_hobject, VolumeMinX, VolumeMinY, VolumeMinZ, VolumeMaxX, VolumeMaxY, VolumeMaxZ
+	Gosub CheckPlayer
+
+wait 1 2 Open
+getobjecthandle Lightning0 g_hobject
+trigger g_hobject Off
+
+	exit
+
+
+	
+;--------------------------------------------------------
+:CheckPlayer
+;--------------------------------------------------------
+
+		
+
+
+	;Gets the dims of Player
+	getplayerhandle g_hPlayer
+	GetPos g_hPlayer PlayerX, PlayerY, PlayerZ
+
+	If (PlayerX>=VolumeMinX )
+		If (PlayerX<=VolumeMaxX )
+			If (PlayerY>=VolumeMinY )
+				If (PlayerY<=VolumeMaxY )
+					If (PlayerZ>=VolumeMinZ )
+						If (Playerz<=VolumeMaxZ )
+							Gosub OnPromo
+;							DEBUGOUT healed Player
+;							DEBUGOUT loopcounter
+						EndIf
+					Endif			
+				EndIf
+			Endif
+		Endif
+	Endif
+
+exit
+
+;--------------------------------------------------------
+:OnPromo
+;--------------------------------------------------------
+haskey 299 g_ntemp
+if (g_ntemp==FALSE)
+	giveexp 63000
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+endif
+
+haskey 433 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Lich Char1
+	takekey 433
+	givekey 299
+endif
+
+haskey 434 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Lich Char2
+	takekey 434
+	givekey 299
+endif
+
+haskey 435 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Lich Char3
+	takekey 435
+	givekey 299
+endif
+
+haskey 436 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Lich Char4
+	takekey 436
+	givekey 299
+endif
+
+
+exit
+
+exit
+
+;--------------------------------------------------------
+:Open
+;--------------------------------------------------------
+
+set closed, false
+getobjecthandle Enginedoor1 g_hobject
+trigger g_hobject use
+exit
+
+;--------------------------------------------------------
+:Onopen
+;--------------------------------------------------------
+
+set closed, false
+exit
+
+;--------------------------------------------------------
+:Onclose
+;--------------------------------------------------------
+
+set closed, true
+wait 1 3 OnClickOn
+exit
+
+
+;--------------------------------------------------------
+:OnFix
+;--------------------------------------------------------
+
+set nWorking, true
+wait 1 3, Lightning
+exit
+
+;--------------------------------------------------------
+:Lightning
+;--------------------------------------------------------
+
+;getobjecthandle Lightning0 g_hobject
+;trigger g_hobject ON
+exit
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+;TRACEON
+
+;Addtrigger use, Onclickon
+Addtrigger open, Onopen
+Addtrigger close, Onclose
+Addtrigger Fix, OnFix
+
+	exit

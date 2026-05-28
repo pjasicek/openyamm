@@ -1,0 +1,74 @@
+#include BaseGlobals.inc
+#include CutSceneActor.inc
+#include LichLabScenes.inc
+
+#hobject	h = 0
+#number		nCounter = 0
+#number	x = 0
+#number	y = 0
+#number	z = 0
+#number		MESSAGE_INDEX = 250
+
+;---------------------
+:Main
+;---------------------
+	Wait 0, 3, Init
+
+	Exit 1
+
+;---------------------
+:Init
+;---------------------
+	gosub InitLichLabScenes
+	GetObjectHandle MarkerTarget2, h
+	FaceObject h, 180, DoNothing
+	AddTrigger finish, OnTurn
+
+	Exit 1
+
+;---------------------
+:OnScene0
+;---------------------
+	gosub OnScene2
+	Exit 1
+
+;---------------------
+:OnScene2
+;---------------------
+	Stop
+	nCounter = nCounter + 1
+	if( nCounter>5 )
+		nCounter = 0
+		gosub EndScene
+	else
+		PlaySound sounds\magic\cast02.wav, DoNothing, 1, 500, 0, 100
+		PlayAnim hattack1, Pause
+	endif
+
+	Exit 1
+
+;---------------------
+:Pause
+;---------------------
+	MESSAGE_INDEX = MESSAGE_INDEX + 1
+	Wait 0, 3, OnScene2
+
+	Exit 1
+
+;---------------------
+:OnTurn
+;---------------------
+	PlayAnim wince1, RunAway
+
+	Exit 1
+
+;---------------------
+:RunAway
+;---------------------
+	GetMyHandle h
+	GetForwardDir h, x,y,z
+	VecScale x,y,z, -1
+	FaceDir x,y,z, 720, DoNothing
+	Die
+
+	Exit 1

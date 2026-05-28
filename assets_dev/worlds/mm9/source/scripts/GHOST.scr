@@ -1,0 +1,19 @@
+;---------------------------------------------
+;	Ghost.scr
+;	
+;	Handles Ghost who doesn't have any animations!
+;---------------------------------------------
+
+#include baseMelee.inc
+#include range.inc
+
+
+;---------------------------------------------
+:Main
+;---------------------------------------------
+
+	gosub BaseCrawlInit
+	gosub RangeInit
+
+	Exit
+

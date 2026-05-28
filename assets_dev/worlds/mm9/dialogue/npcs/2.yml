@@ -1,0 +1,2869 @@
+format_version: 1
+source_file: NPC2.rude
+rows:
+  - source:
+      file: NPC2.rude
+      row: 1
+    raw_columns:
+      - 2
+      - 21
+      - 1
+      - We could never rule alongside a traitor!
+      - Very well.  If you intend to stand in the way of the Beldonian conquest, then there is nothing more we have to say to each other.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 21
+      choice_slot: 1
+      prompt: We could never rule alongside a traitor!
+      response: Very well.  If you intend to stand in the way of the Beldonian conquest, then there is nothing more we have to say to each other.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC2.rude
+      row: 2
+    raw_columns:
+      - 2
+      - 4
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 4
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC2.rude
+      row: 3
+    raw_columns:
+      - 2
+      - 5
+      - 1
+      - She has charged us with a quest, and we need your help.
+      - A quest?  What sort of quest?
+      - 6
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 5
+      choice_slot: 1
+      prompt: She has charged us with a quest, and we need your help.
+      response: A quest?  What sort of quest?
+      next: 6
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 6
+  - source:
+      file: NPC2.rude
+      row: 4
+    raw_columns:
+      - 2
+      - 7
+      - 1
+      - We are ready to go now.
+      - Climb Aboard!
+      - -10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 7
+      choice_slot: 1
+      prompt: We are ready to go now.
+      response: Climb Aboard!
+      next: -10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 29
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -10
+        service: hire
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -10
+        service: hire
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c16
+        value: 29
+        status: raw_value_preserved
+  - source:
+      file: NPC2.rude
+      row: 5
+    raw_columns:
+      - 2
+      - 2
+      - 1
+      - Our boat crashed on its way to Mendossus.
+      - Have you seen Yrsa the Troll?  You may want to speak to her.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 371
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 2
+      choice_slot: 1
+      prompt: Our boat crashed on its way to Mendossus.
+      response: Have you seen Yrsa the Troll?  You may want to speak to her.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 371
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 371
+        status: raw_value_preserved
+  - source:
+      file: NPC2.rude
+      row: 6
+    raw_columns:
+      - 2
+      - 10
+      - 1
+      - What do you know about Chedian
+      - I am a sailor who has traveled much.  I am new to Chedian.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 10
+      choice_slot: 1
+      prompt: What do you know about Chedian
+      response: I am a sailor who has traveled much.  I am new to Chedian.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC2.rude
+      row: 7
+    raw_columns:
+      - 2
+      - 1
+      - 1
+      - Yes, Kira!  Great thinking, Forad!
+      - You're welcome.  I am here to help.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 1
+      choice_slot: 1
+      prompt: Yes, Kira!  Great thinking, Forad!
+      response: You're welcome.  I am here to help.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC2.rude
+      row: 8
+    raw_columns:
+      - 2
+      - 3
+      - 1
+      - Yes.  Yrsa sent us to find you
+      - She did?  What for?
+      - 5
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 3
+      choice_slot: 1
+      prompt: Yes.  Yrsa sent us to find you
+      response: She did?  What for?
+      next: 5
+      raw_fields:
+        c07: 1
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 1
+            qbit_id: 9001
+            state_id: mm9.keys.1
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 1
+          qbit_id: 9001
+          state_id: mm9.keys.1
+  - source:
+      file: NPC2.rude
+      row: 9
+    raw_columns:
+      - 2
+      - 20
+      - 1
+      - Not without killing us, he hasn't!
+      - Why waste your time on such things?  Join us!  We can rule all of Chedian together!
+      - 21
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 20
+      choice_slot: 1
+      prompt: Not without killing us, he hasn't!
+      response: Why waste your time on such things?  Join us!  We can rule all of Chedian together!
+      next: 21
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 21
+  - source:
+      file: NPC2.rude
+      row: 10
+    raw_columns:
+      - 2
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC2.rude
+      row: 11
+    raw_columns:
+      - 2
+      - 17
+      - 1
+      - What is that?
+      - There is only one lane in which boats can reach this dock.  Unfortunately, Bone Thrashers have been coming from one of those islands and are preventing the boat from leaving.  If we are to get off this island, we'll have to take care of them first.
+      - 18
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 17
+      choice_slot: 1
+      prompt: What is that?
+      response: There is only one lane in which boats can reach this dock.  Unfortunately, Bone Thrashers have been coming from one of those islands and are preventing the boat from leaving.  If we are to get off this island, we'll have to take care of them first.
+      next: 18
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 18
+  - source:
+      file: NPC2.rude
+      row: 12
+    raw_columns:
+      - 2
+      - 18
+      - 1
+      - Fair enough.  We'll take care of them then.
+      - Great.  I would be more than happy to come with you on this quest.  And you know what?  I bet there's something behind that locked door that will help us!
+      - 998
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 18
+      choice_slot: 1
+      prompt: Fair enough.  We'll take care of them then.
+      response: Great.  I would be more than happy to come with you on this quest.  And you know what?  I bet there's something behind that locked door that will help us!
+      next: 998
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 998
+  - source:
+      file: NPC2.rude
+      row: 13
+    raw_columns:
+      - 2
+      - 998
+      - 1
+      - Welcome Aboard.
+      - asdf
+      - -10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 29
+      - 371
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 998
+      choice_slot: 1
+      prompt: Welcome Aboard.
+      response: asdf
+      next: -10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 29
+        c17: 371
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -10
+        service: hire
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -10
+        service: hire
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c16
+        value: 29
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c17
+        value: 371
+        status: raw_value_preserved
+  - source:
+      file: NPC2.rude
+      row: 14
+    raw_columns:
+      - 2
+      - 10
+      - 2
+      - What do you know about Beldonia?
+      - It is not as bad a place as people make it out.  In the summer time, it's actually quite nice.
+      - 10
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 10
+      choice_slot: 2
+      prompt: What do you know about Beldonia?
+      response: It is not as bad a place as people make it out.  In the summer time, it's actually quite nice.
+      next: 10
+      raw_fields:
+        c07: 29
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+  - source:
+      file: NPC2.rude
+      row: 15
+    raw_columns:
+      - 2
+      - 3
+      - 2
+      - No.  Who is that?
+      - She is the sage who lives on one of these islands.  She may want to speak to you.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 477
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 3
+      choice_slot: 2
+      prompt: No.  Who is that?
+      response: She is the sage who lives on one of these islands.  She may want to speak to you.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 477
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 1
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 477
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 1
+        status: raw_value_preserved
+  - source:
+      file: NPC2.rude
+      row: 16
+    raw_columns:
+      - 2
+      - 6
+      - 2
+      - It is our destiny to unite the six clans against Tamur Leng.
+      - Tamur Leng?  The leader of the Beldonian Hordes sweeping across Rysh?  If it is your job to kill him, then I am at your disposal.  I would like to leave as soon as you are ready, however, there is something that must be done first.
+      - 17
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 6
+      choice_slot: 2
+      prompt: It is our destiny to unite the six clans against Tamur Leng.
+      response: Tamur Leng?  The leader of the Beldonian Hordes sweeping across Rysh?  If it is your job to kill him, then I am at your disposal.  I would like to leave as soon as you are ready, however, there is something that must be done first.
+      next: 17
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 17
+  - source:
+      file: NPC2.rude
+      row: 17
+    raw_columns:
+      - 2
+      - 7
+      - 2
+      - We have a few things to do first.
+      - See you soon.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 7
+      choice_slot: 2
+      prompt: We have a few things to do first.
+      response: See you soon.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC2.rude
+      row: 18
+    raw_columns:
+      - 2
+      - 2
+      - 3
+      - Can we ask you some questions?
+      - Sure.
+      - 10
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 104
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 2
+      choice_slot: 3
+      prompt: Can we ask you some questions?
+      response: Sure.
+      next: 10
+      raw_fields:
+        c07: 29
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 104
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 104
+        status: raw_value_preserved
+  - source:
+      file: NPC2.rude
+      row: 19
+    raw_columns:
+      - 2
+      - 10
+      - 3
+      - What do you know about Tamur Leng?
+      - Not much, really.  He is the Prince of Beldonia.
+      - 10
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 10
+      choice_slot: 3
+      prompt: What do you know about Tamur Leng?
+      response: Not much, really.  He is the Prince of Beldonia.
+      next: 10
+      raw_fields:
+        c07: 29
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+  - source:
+      file: NPC2.rude
+      row: 20
+    raw_columns:
+      - 2
+      - 2
+      - 4
+      - Where are we going to find someone to write a treaty?
+      - As I recall, Bjarni is quite taken with Kira the Cold.  If she asked, I'm certain that he would put his sword into his own chest, and smile while doing it.
+      - 1
+      - 86
+      - 0
+      - 87
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 88
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 2
+      choice_slot: 4
+      prompt: Where are we going to find someone to write a treaty?
+      response: As I recall, Bjarni is quite taken with Kira the Cold.  If she asked, I'm certain that he would put his sword into his own chest, and smile while doing it.
+      next: 1
+      raw_fields:
+        c07: 86
+        c08: 0
+        c09: 87
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 88
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 86
+            qbit_id: 9086
+            state_id: mm9.keys.86
+          - column: c09
+            raw_id: 87
+            qbit_id: 9087
+            state_id: mm9.keys.87
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 86
+          qbit_id: 9086
+          state_id: mm9.keys.86
+        - domain: mm9.keys
+          raw_id: 87
+          qbit_id: 9087
+          state_id: mm9.keys.87
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 88
+        status: raw_value_preserved
+  - source:
+      file: NPC2.rude
+      row: 21
+    raw_columns:
+      - 2
+      - 10
+      - 4
+      - What do you know about this place?
+      - This is Thjorgard, the seat of power for Clan Thjorgard.  Without at doubt, they are the most powerful clan in Chedian.  Their Jarl, Sven Forkbeard makes most of his money off of taxing the production, refining, and smithing of Elemental Thjorad.
+      - 999
+      - 1025
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 10
+      choice_slot: 4
+      prompt: What do you know about this place?
+      response: This is Thjorgard, the seat of power for Clan Thjorgard.  Without at doubt, they are the most powerful clan in Chedian.  Their Jarl, Sven Forkbeard makes most of his money off of taxing the production, refining, and smithing of Elemental Thjorad.
+      next: 999
+      raw_fields:
+        c07: 1025
+        c08: 0
+        c09: 29
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 1025
+            qbit_id: 10025
+            state_id: mm9.keys.1025
+          - column: c09
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 1025
+          qbit_id: 10025
+          state_id: mm9.keys.1025
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+  - source:
+      file: NPC2.rude
+      row: 22
+    raw_columns:
+      - 2
+      - 10
+      - 5
+      - What do you know about this place?
+      - This is Sturmford, the seat for Clan Sturmford.  The Jarl of this region is named Bjarni Thorvaldssen, a straightforward, if a bit simple man.  Sturmford and their neighbor Drangheim have been fighting for centuries.
+      - 999
+      - 1026
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 10
+      choice_slot: 5
+      prompt: What do you know about this place?
+      response: This is Sturmford, the seat for Clan Sturmford.  The Jarl of this region is named Bjarni Thorvaldssen, a straightforward, if a bit simple man.  Sturmford and their neighbor Drangheim have been fighting for centuries.
+      next: 999
+      raw_fields:
+        c07: 1026
+        c08: 0
+        c09: 29
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 1026
+            qbit_id: 10026
+            state_id: mm9.keys.1026
+          - column: c09
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 1026
+          qbit_id: 10026
+          state_id: mm9.keys.1026
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+  - source:
+      file: NPC2.rude
+      row: 23
+    raw_columns:
+      - 2
+      - 2
+      - 5
+      - There you are, Traitor!!!
+      - I think you have misjudged me.  In the eyes of my master, Tamur Leng, I have just done a great service to my nation!  He has rewarded me by making me Lord of Chedian!
+      - 20
+      - 104
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 2
+      choice_slot: 5
+      prompt: There you are, Traitor!!!
+      response: I think you have misjudged me.  In the eyes of my master, Tamur Leng, I have just done a great service to my nation!  He has rewarded me by making me Lord of Chedian!
+      next: 20
+      raw_fields:
+        c07: 104
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 20
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 104
+            qbit_id: 9104
+            state_id: mm9.keys.104
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 104
+          qbit_id: 9104
+          state_id: mm9.keys.104
+  - source:
+      file: NPC2.rude
+      row: 24
+    raw_columns:
+      - 2
+      - 2
+      - 6
+      - What do you know about that big tower?
+      - Those are the Verhoffin Ruins.  I wouldn't advise you to enter them.  All that's in there for you is your death.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 2
+      choice_slot: 6
+      prompt: What do you know about that big tower?
+      response: Those are the Verhoffin Ruins.  I wouldn't advise you to enter them.  All that's in there for you is your death.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 29
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 29
+        status: raw_value_preserved
+  - source:
+      file: NPC2.rude
+      row: 25
+    raw_columns:
+      - 2
+      - 10
+      - 6
+      - What do you know about this place?
+      - This is the seat for Clan Drangheim.  Their Jarl, Sigmund the Stressed while perhaps not the most elegant of men is a competent ruler.  They have been at odds with Sturmford ever since they broke off from them to start their own clan centuries ago.
+      - 999
+      - 1027
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 10
+      choice_slot: 6
+      prompt: What do you know about this place?
+      response: This is the seat for Clan Drangheim.  Their Jarl, Sigmund the Stressed while perhaps not the most elegant of men is a competent ruler.  They have been at odds with Sturmford ever since they broke off from them to start their own clan centuries ago.
+      next: 999
+      raw_fields:
+        c07: 1027
+        c08: 0
+        c09: 29
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 1027
+            qbit_id: 10027
+            state_id: mm9.keys.1027
+          - column: c09
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 1027
+          qbit_id: 10027
+          state_id: mm9.keys.1027
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+  - source:
+      file: NPC2.rude
+      row: 26
+    raw_columns:
+      - 2
+      - 2
+      - 7
+      - What was that you said about a locked door?
+      - I bet that there's a way to beat the skeletoids behind it.  Maybe we should ask Yrsa.
+      - 2
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 28
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 2
+      choice_slot: 7
+      prompt: What was that you said about a locked door?
+      response: I bet that there's a way to beat the skeletoids behind it.  Maybe we should ask Yrsa.
+      next: 2
+      raw_fields:
+        c07: 29
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 28
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 28
+        status: raw_value_preserved
+  - source:
+      file: NPC2.rude
+      row: 27
+    raw_columns:
+      - 2
+      - 10
+      - 7
+      - What do you know about this place?
+      - This is Guberland, probably the most unpopular Clan in Chedian.  Their Jarl, a man named Markel, chose for himself the nickname "the Great" however unproven that title may be.  He is a somewhat abrasive man with a flair for self-flattery.
+      - 999
+      - 1028
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 10
+      choice_slot: 7
+      prompt: What do you know about this place?
+      response: This is Guberland, probably the most unpopular Clan in Chedian.  Their Jarl, a man named Markel, chose for himself the nickname "the Great" however unproven that title may be.  He is a somewhat abrasive man with a flair for self-flattery.
+      next: 999
+      raw_fields:
+        c07: 1028
+        c08: 0
+        c09: 29
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 1028
+            qbit_id: 10028
+            state_id: mm9.keys.1028
+          - column: c09
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 1028
+          qbit_id: 10028
+          state_id: mm9.keys.1028
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+  - source:
+      file: NPC2.rude
+      row: 28
+    raw_columns:
+      - 2
+      - 10
+      - 8
+      - What do you know about this place?
+      - Frosgard is in bad shape.  Their ruler, Tryygva Ravenlocks, has been unable to cope with the region's problems no matter how hard he tries.  I'm fairly certain that it would take little effort to encourage the citizens to revolt.
+      - 999
+      - 1029
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 10
+      choice_slot: 8
+      prompt: What do you know about this place?
+      response: Frosgard is in bad shape.  Their ruler, Tryygva Ravenlocks, has been unable to cope with the region's problems no matter how hard he tries.  I'm fairly certain that it would take little effort to encourage the citizens to revolt.
+      next: 999
+      raw_fields:
+        c07: 1029
+        c08: 0
+        c09: 29
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 1029
+            qbit_id: 10029
+            state_id: mm9.keys.1029
+          - column: c09
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 1029
+          qbit_id: 10029
+          state_id: mm9.keys.1029
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+  - source:
+      file: NPC2.rude
+      row: 29
+    raw_columns:
+      - 2
+      - 10
+      - 9
+      - What do you know about this place?
+      - Thronheim is probably the second most powerful clan in Chedian, after Thjorgard.  Kira the Cold is a competent, no-nonsense ruler.  She has it in her the potential to make Thronheim more successful than it has been in a hundred years.
+      - 999
+      - 1030
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 10
+      choice_slot: 9
+      prompt: What do you know about this place?
+      response: Thronheim is probably the second most powerful clan in Chedian, after Thjorgard.  Kira the Cold is a competent, no-nonsense ruler.  She has it in her the potential to make Thronheim more successful than it has been in a hundred years.
+      next: 999
+      raw_fields:
+        c07: 1030
+        c08: 0
+        c09: 29
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 1030
+            qbit_id: 10030
+            state_id: mm9.keys.1030
+          - column: c09
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 1030
+          qbit_id: 10030
+          state_id: mm9.keys.1030
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+  - source:
+      file: NPC2.rude
+      row: 30
+    raw_columns:
+      - 2
+      - 10
+      - 10
+      - What do you know about this place?
+      - Lindisfarne is a remote monastic village that is technically part of the Nation of Framon.  Its seclusion from the mainland and ready sea access has made it a popular target for the Chedian raiders.
+      - 999
+      - 1031
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 10
+      choice_slot: 10
+      prompt: What do you know about this place?
+      response: Lindisfarne is a remote monastic village that is technically part of the Nation of Framon.  Its seclusion from the mainland and ready sea access has made it a popular target for the Chedian raiders.
+      next: 999
+      raw_fields:
+        c07: 1031
+        c08: 0
+        c09: 29
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 1031
+            qbit_id: 10031
+            state_id: mm9.keys.1031
+          - column: c09
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 1031
+          qbit_id: 10031
+          state_id: mm9.keys.1031
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+  - source:
+      file: NPC2.rude
+      row: 31
+    raw_columns:
+      - 2
+      - 10
+      - 11
+      - What do you know about this place?
+      - This is the region of Yorwick, the most easterly part of the Nation of Framon.  There has been increasing emigration from Thronheim to this region, and the mixing of cultures has created tension between the residents.
+      - 999
+      - 1032
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 10
+      choice_slot: 11
+      prompt: What do you know about this place?
+      response: This is the region of Yorwick, the most easterly part of the Nation of Framon.  There has been increasing emigration from Thronheim to this region, and the mixing of cultures has created tension between the residents.
+      next: 999
+      raw_fields:
+        c07: 1032
+        c08: 0
+        c09: 29
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 1032
+            qbit_id: 10032
+            state_id: mm9.keys.1032
+          - column: c09
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 1032
+          qbit_id: 10032
+          state_id: mm9.keys.1032
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+  - source:
+      file: NPC2.rude
+      row: 32
+    raw_columns:
+      - 2
+      - 10
+      - 12
+      - What do you know about this place?
+      - This is the Isle of Ashes.  This is where Verhoffin's Tower stood.  Now it is all a mess of ruins, and a dangerous place to boot.
+      - 999
+      - 1024
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 10
+      choice_slot: 12
+      prompt: What do you know about this place?
+      response: This is the Isle of Ashes.  This is where Verhoffin's Tower stood.  Now it is all a mess of ruins, and a dangerous place to boot.
+      next: 999
+      raw_fields:
+        c07: 1024
+        c08: 0
+        c09: 29
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 1024
+            qbit_id: 10024
+            state_id: mm9.keys.1024
+          - column: c09
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 1024
+          qbit_id: 10024
+          state_id: mm9.keys.1024
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+  - source:
+      file: NPC2.rude
+      row: 33
+    raw_columns:
+      - 2
+      - 10
+      - 13
+      - What do you know about this place?
+      - I don't know anything.  I've never been here before.
+      - 999
+      - 1033
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 10
+      choice_slot: 13
+      prompt: What do you know about this place?
+      response: I don't know anything.  I've never been here before.
+      next: 999
+      raw_fields:
+        c07: 1033
+        c08: 0
+        c09: 29
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 1033
+            qbit_id: 10033
+            state_id: mm9.keys.1033
+          - column: c09
+            raw_id: 29
+            qbit_id: 9029
+            state_id: mm9.keys.29
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 1033
+          qbit_id: 10033
+          state_id: mm9.keys.1033
+        - domain: mm9.keys
+          raw_id: 29
+          qbit_id: 9029
+          state_id: mm9.keys.29
+  - source:
+      file: NPC2.rude
+      row: 34
+    raw_columns:
+      - 2
+      - 10
+      - 15
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 10
+      choice_slot: 15
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC2.rude
+      row: 35
+    raw_columns:
+      - 2
+      - 2
+      - 15
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 104
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 2
+      choice_slot: 15
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 104
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 104
+        status: raw_value_preserved
+  - source:
+      file: NPC2.rude
+      row: 36
+    raw_columns:
+      - 2
+      - 1
+      - 998
+      - Welcome aboard.
+      - asdf
+      - -10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 29
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 2
+      node_id: 1
+      choice_slot: 998
+      prompt: Welcome aboard.
+      response: asdf
+      next: -10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 29
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -10
+        service: hire
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -10
+        service: hire
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c16
+        value: 29
+        status: raw_value_preserved

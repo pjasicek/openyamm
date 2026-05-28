@@ -1,0 +1,1232 @@
+schema: openyamm.model3d.v1
+id: colloidalwarrior
+model: colloidalwarrior.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/COLLOIDALWARRIOR.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 4.023306898564917e+25
+pieces:
+- name: Bip01
+  materialIndex: 0
+  lods:
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 Footsteps
+  materialIndex: 0
+  lods:
+  - faces: 8
+    vertices: 9
+  - faces: 8
+    vertices: 9
+  - faces: 8
+    vertices: 9
+- name: Bip01 Pelvis
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+- name: Bip01 Spine
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 16
+  - faces: 16
+    vertices: 12
+  - faces: 8
+    vertices: 8
+- name: Bip01 Spine1
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 16
+  - faces: 16
+    vertices: 12
+  - faces: 8
+    vertices: 8
+- name: Bip01 Spine2
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 16
+  - faces: 16
+    vertices: 12
+  - faces: 8
+    vertices: 8
+- name: Bip01 Spine3
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 16
+  - faces: 16
+    vertices: 12
+  - faces: 8
+    vertices: 8
+- name: Bip01 Neck
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 Head
+  materialIndex: 0
+  lods:
+  - faces: 70
+    vertices: 37
+  - faces: 36
+    vertices: 20
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Clavicle
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L UpperArm
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 16
+  - faces: 28
+    vertices: 16
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Forearm
+  materialIndex: 0
+  lods:
+  - faces: 20
+    vertices: 12
+  - faces: 20
+    vertices: 12
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Hand
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger0
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger01
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger02
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger1
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger11
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger12
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger2
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger21
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger22
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger3
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger31
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger32
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger4
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger41
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Finger42
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Clavicle
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R UpperArm
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 16
+  - faces: 28
+    vertices: 16
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Forearm
+  materialIndex: 0
+  lods:
+  - faces: 20
+    vertices: 12
+  - faces: 20
+    vertices: 12
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Hand
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger0
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger01
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger02
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger1
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger11
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger12
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger2
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger21
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger22
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger3
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger31
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger32
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger4
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger41
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Finger42
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Thigh
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 16
+  - faces: 28
+    vertices: 16
+  - faces: 16
+    vertices: 10
+- name: Bip01 L Calf
+  materialIndex: 0
+  lods:
+  - faces: 20
+    vertices: 12
+  - faces: 20
+    vertices: 12
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Foot
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 L Toe0
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Thigh
+  materialIndex: 0
+  lods:
+  - faces: 28
+    vertices: 16
+  - faces: 28
+    vertices: 16
+  - faces: 16
+    vertices: 10
+- name: Bip01 R Calf
+  materialIndex: 0
+  lods:
+  - faces: 20
+    vertices: 12
+  - faces: 20
+    vertices: 12
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Foot
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Bip01 R Toe0
+  materialIndex: 0
+  lods:
+  - faces: 12
+    vertices: 8
+  - faces: 8
+    vertices: 6
+  - faces: 8
+    vertices: 6
+- name: Box06
+  materialIndex: 0
+  lods:
+  - faces: 660
+    vertices: 332
+  - faces: 504
+    vertices: 254
+  - faces: 300
+    vertices: 152
+materials:
+- index: 0
+  texture: skins_preview/colloidal1.png
+  runtime_texture: skins/colloidal1.dtx
+  preview_texture: skins_preview/colloidal1.png
+  source: mm9/extracted/SKINS/SKINS/COLLOIDAL1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 3
+  - index: 2
+    name: Bip01 Footsteps
+    parent: 1
+    flags: 1
+    children: []
+  - index: 3
+    name: Bip01 Pelvis
+    parent: 1
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine
+    parent: 3
+    flags: 1
+    children:
+    - 5
+    - 48
+    - 52
+  - index: 5
+    name: Bip01 Spine1
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Bip01 Spine2
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Bip01 Spine3
+    parent: 6
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Bip01 Neck
+    parent: 7
+    flags: 1
+    children:
+    - 9
+    - 10
+    - 29
+  - index: 9
+    name: Bip01 Head
+    parent: 8
+    flags: 1
+    children: []
+  - index: 10
+    name: Bip01 L Clavicle
+    parent: 8
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bip01 L UpperArm
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Bip01 L Forearm
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bip01 L Hand
+    parent: 12
+    flags: 1
+    children:
+    - 14
+    - 17
+    - 20
+    - 23
+    - 26
+  - index: 14
+    name: Bip01 L Finger0
+    parent: 13
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 L Finger01
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bip01 L Finger02
+    parent: 15
+    flags: 1
+    children: []
+  - index: 17
+    name: Bip01 L Finger1
+    parent: 13
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Bip01 L Finger11
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bip01 L Finger12
+    parent: 18
+    flags: 1
+    children: []
+  - index: 20
+    name: Bip01 L Finger2
+    parent: 13
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bip01 L Finger21
+    parent: 20
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Bip01 L Finger22
+    parent: 21
+    flags: 1
+    children: []
+  - index: 23
+    name: Bip01 L Finger3
+    parent: 13
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bip01 L Finger31
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bip01 L Finger32
+    parent: 24
+    flags: 1
+    children: []
+  - index: 26
+    name: Bip01 L Finger4
+    parent: 13
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Bip01 L Finger41
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Bip01 L Finger42
+    parent: 27
+    flags: 1
+    children: []
+  - index: 29
+    name: Bip01 R Clavicle
+    parent: 8
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Bip01 R UpperArm
+    parent: 29
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: Bip01 R Forearm
+    parent: 30
+    flags: 1
+    children:
+    - 32
+  - index: 32
+    name: Bip01 R Hand
+    parent: 31
+    flags: 1
+    children:
+    - 33
+    - 36
+    - 39
+    - 42
+    - 45
+  - index: 33
+    name: Bip01 R Finger0
+    parent: 32
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: Bip01 R Finger01
+    parent: 33
+    flags: 1
+    children:
+    - 35
+  - index: 35
+    name: Bip01 R Finger02
+    parent: 34
+    flags: 1
+    children: []
+  - index: 36
+    name: Bip01 R Finger1
+    parent: 32
+    flags: 1
+    children:
+    - 37
+  - index: 37
+    name: Bip01 R Finger11
+    parent: 36
+    flags: 1
+    children:
+    - 38
+  - index: 38
+    name: Bip01 R Finger12
+    parent: 37
+    flags: 1
+    children: []
+  - index: 39
+    name: Bip01 R Finger2
+    parent: 32
+    flags: 1
+    children:
+    - 40
+  - index: 40
+    name: Bip01 R Finger21
+    parent: 39
+    flags: 1
+    children:
+    - 41
+  - index: 41
+    name: Bip01 R Finger22
+    parent: 40
+    flags: 1
+    children: []
+  - index: 42
+    name: Bip01 R Finger3
+    parent: 32
+    flags: 1
+    children:
+    - 43
+  - index: 43
+    name: Bip01 R Finger31
+    parent: 42
+    flags: 1
+    children:
+    - 44
+  - index: 44
+    name: Bip01 R Finger32
+    parent: 43
+    flags: 1
+    children: []
+  - index: 45
+    name: Bip01 R Finger4
+    parent: 32
+    flags: 1
+    children:
+    - 46
+  - index: 46
+    name: Bip01 R Finger41
+    parent: 45
+    flags: 1
+    children:
+    - 47
+  - index: 47
+    name: Bip01 R Finger42
+    parent: 46
+    flags: 1
+    children: []
+  - index: 48
+    name: Bip01 L Thigh
+    parent: 4
+    flags: 1
+    children:
+    - 49
+  - index: 49
+    name: Bip01 L Calf
+    parent: 48
+    flags: 1
+    children:
+    - 50
+  - index: 50
+    name: Bip01 L Foot
+    parent: 49
+    flags: 1
+    children:
+    - 51
+  - index: 51
+    name: Bip01 L Toe0
+    parent: 50
+    flags: 1
+    children: []
+  - index: 52
+    name: Bip01 R Thigh
+    parent: 4
+    flags: 1
+    children:
+    - 53
+  - index: 53
+    name: Bip01 R Calf
+    parent: 52
+    flags: 1
+    children:
+    - 54
+  - index: 54
+    name: Bip01 R Foot
+    parent: 53
+    flags: 1
+    children:
+    - 55
+  - index: 55
+    name: Bip01 R Toe0
+    parent: 54
+    flags: 1
+    children: []
+sockets:
+- name: Lhand1
+  node: 25
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.8406195044517517
+  - 0.005098297260701656
+  - -0.5355314016342163
+  - 0.003261813661083579
+- name: RHand1
+  node: 44
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.005105892196297646
+  - 0.8433758020401001
+  - -0.00325264991261065
+  - 0.537290096282959
+- name: RangeAttack
+  node: 44
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.005105892196297646
+  - 0.8433758020401001
+  - -0.00325264991261065
+  - 0.537290096282959
+animations:
+- name: static_model
+  durationMs: 66
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand
+  durationMs: 2000
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 1200
+  keyframes: 26
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 540
+    event: footstep
+  - timeMs: 1140
+    event: footstep
+- name: run
+  durationMs: 666
+  keyframes: 15
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 166
+    event: footstep
+  - timeMs: 533
+    event: footstep
+- name: fidget1
+  durationMs: 3366
+  keyframes: 17
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 733
+    event: playanimsound
+- name: fidget2
+  durationMs: 1500
+  keyframes: 18
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 290
+    event: playanimsound
+- name: Hattack1
+  durationMs: 900
+  keyframes: 8
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 294
+    event: playanimsound
+  - timeMs: 489
+    event: Rattack
+- name: Hattack2
+  durationMs: 900
+  keyframes: 22
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 88
+    event: playanimsound
+  - timeMs: 483
+    event: Rattack; Lattack
+- name: Rattack1
+  durationMs: 1800
+  keyframes: 32
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 200
+    event: playanimsound
+  - timeMs: 1333
+    event: RangeAttack
+- name: wince1
+  durationMs: 1533
+  keyframes: 15
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 166
+    event: speakanimsound
+- name: wince2
+  durationMs: 1200
+  keyframes: 14
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 78
+    event: speakanimsound
+- name: die1
+  durationMs: 1700
+  keyframes: 11
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 333
+    event: playanimsound
+  - timeMs: 1000
+    event: playdeathsound
+- name: die2
+  durationMs: 1300
+  keyframes: 20
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 185
+    event: playanimsound
+  - timeMs: 557
+    event: playdeathsound
+- name: Taunt
+  durationMs: 800
+  keyframes: 18
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 155
+    event: speakanimsound
+  - timeMs: 206
+    event: playanimsound
+- name: BackPedal
+  durationMs: 1200
+  keyframes: 26
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 60
+    event: footstep
+  - timeMs: 660
+    event: footstep
+- name: BackPedalRun
+  durationMs: 800
+  keyframes: 26
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 40
+    event: footstep
+  - timeMs: 440
+    event: footstep
+animationBindings:
+- name: static_model
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: stand
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - -7.68
+  - -102.4
+  - 0.0
+- name: walk
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - -102.4
+  - 0.0
+- name: run
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - -89.60000000000001
+  - -43.52
+- name: fidget1
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - -102.4
+  - 0.0
+- name: fidget2
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - -102.4
+  - 0.0
+- name: Hattack1
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - -102.4
+  - 0.0
+- name: Hattack2
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - -102.4
+  - 0.0
+- name: Rattack1
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - -102.4
+  - 0.0
+- name: wince1
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - -102.4
+  - 0.0
+- name: wince2
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - -102.4
+  - 0.0
+- name: die1
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - -102.4
+  - 0.0
+- name: die2
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - -102.4
+  - 0.0
+- name: Taunt
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - -102.4
+  - 0.0
+- name: BackPedal
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - -102.4
+  - 0.0
+- name: BackPedalRun
+  extents:
+  - 89.60000000000001
+  - 102.4
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - -102.4
+  - 0.0
+roles:
+- actor_model
+source_model: models/colloidalwarrior.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: colloidalwarrior_colloidal1
+  source_skins:
+  - skins/colloidal1.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 215
+    number: '234'
+    monster_name: Colloidal Soldier
+    type_picture: Strange Beast A
+    base_name: Colloidal
+  - table: MONSTERS
+    row: 215
+    number: '234'
+    monster_name: Colloidal Soldier
+    type_picture: Strange Beast A
+    base_name: Colloidal
+- id: colloidalwarrior_colloidal2
+  source_skins:
+  - skins/colloidal2.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 216
+    number: '235'
+    monster_name: Colloidal Warrior
+    type_picture: Strange Beast B
+    base_name: Colloidal
+  - table: MONSTERS
+    row: 216
+    number: '235'
+    monster_name: Colloidal Warrior
+    type_picture: Strange Beast B
+    base_name: Colloidal
+- id: colloidalwarrior_colloidal3
+  source_skins:
+  - skins/colloidal3.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 217
+    number: '236'
+    monster_name: Colloidal Guardian
+    type_picture: Strange Beast C
+    base_name: Colloidal
+  - table: MONSTERS
+    row: 217
+    number: '236'
+    monster_name: Colloidal Guardian
+    type_picture: Strange Beast C
+    base_name: Colloidal

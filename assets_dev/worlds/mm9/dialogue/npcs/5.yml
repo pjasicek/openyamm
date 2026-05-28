@@ -1,0 +1,1306 @@
+format_version: 1
+source_file: NPC5.rude
+rows:
+  - source:
+      file: NPC5.rude
+      row: 1
+    raw_columns:
+      - 5
+      - 999
+      - 1
+      - Goodbye.
+      - blank
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: blank
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC5.rude
+      row: 2
+    raw_columns:
+      - 5
+      - 11
+      - 1
+      - Sold!
+      - Great!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 464
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 11
+      choice_slot: 1
+      prompt: Sold!
+      response: Great!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 464
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 464
+        status: raw_value_preserved
+  - source:
+      file: NPC5.rude
+      row: 3
+    raw_columns:
+      - 5
+      - 2
+      - 1
+      - Thanks for the tip!
+      - Bye!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 2
+      choice_slot: 1
+      prompt: Thanks for the tip!
+      response: Bye!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC5.rude
+      row: 4
+    raw_columns:
+      - 5
+      - 15
+      - 1
+      - We need a replacement Slag Extractor.
+      - That old thing broke again?  As I recall, the last time I made one for Hjarrand, I made two.  Why don't I trade that broken one you have for a fresh clean one?
+      - 16
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 15
+      choice_slot: 1
+      prompt: We need a replacement Slag Extractor.
+      response: That old thing broke again?  As I recall, the last time I made one for Hjarrand, I made two.  Why don't I trade that broken one you have for a fresh clean one?
+      next: 16
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 16
+  - source:
+      file: NPC5.rude
+      row: 5
+    raw_columns:
+      - 5
+      - 16
+      - 1
+      - Sounds like a deal!
+      - Great!  Here you go!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 9513
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 16
+      choice_slot: 1
+      prompt: Sounds like a deal!
+      response: Great!  Here you go!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 9513
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 9513
+        status: raw_value_preserved
+  - source:
+      file: NPC5.rude
+      row: 6
+    raw_columns:
+      - 5
+      - 10
+      - 1
+      - We've got a small piece.
+      - I'll give you 700 gold for it.
+      - 11
+      - 396
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 399
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 10
+      choice_slot: 1
+      prompt: We've got a small piece.
+      response: I'll give you 700 gold for it.
+      next: 11
+      raw_fields:
+        c07: 396
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 399
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 396
+            qbit_id: 9396
+            state_id: mm9.keys.396
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 396
+          qbit_id: 9396
+          state_id: mm9.keys.396
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 399
+        status: raw_value_preserved
+  - source:
+      file: NPC5.rude
+      row: 7
+    raw_columns:
+      - 5
+      - 5
+      - 1
+      - Perhaps.  Show us what you have
+      - Here you go.
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 5
+      choice_slot: 1
+      prompt: Perhaps.  Show us what you have
+      response: Here you go.
+      next: -2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5017
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -2
+        service: shop
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -2
+        service: shop
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5017
+        status: raw_value_preserved
+  - source:
+      file: NPC5.rude
+      row: 8
+    raw_columns:
+      - 5
+      - 5
+      - 2
+      - We'd like to do business
+      - We're closed.  Come back tomorrow.
+      - 999
+      - 5017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 5
+      choice_slot: 2
+      prompt: We'd like to do business
+      response: We're closed.  Come back tomorrow.
+      next: 999
+      raw_fields:
+        c07: 5017
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 5017
+            qbit_id: 14017
+            state_id: mm9.keys.5017
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 5017
+          qbit_id: 14017
+          state_id: mm9.keys.5017
+  - source:
+      file: NPC5.rude
+      row: 9
+    raw_columns:
+      - 5
+      - 11
+      - 2
+      - Maybe some other time.
+      - Alright then.  Anything else I can do for you?
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 11
+      choice_slot: 2
+      prompt: Maybe some other time.
+      response: Alright then.  Anything else I can do for you?
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC5.rude
+      row: 10
+    raw_columns:
+      - 5
+      - 10
+      - 2
+      - We've got a medium piece.
+      - I'll give you 1500 gold for it.
+      - 11
+      - 397
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 400
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 10
+      choice_slot: 2
+      prompt: We've got a medium piece.
+      response: I'll give you 1500 gold for it.
+      next: 11
+      raw_fields:
+        c07: 397
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 400
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 397
+            qbit_id: 9397
+            state_id: mm9.keys.397
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 397
+          qbit_id: 9397
+          state_id: mm9.keys.397
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 400
+        status: raw_value_preserved
+  - source:
+      file: NPC5.rude
+      row: 11
+    raw_columns:
+      - 5
+      - 16
+      - 2
+      - Maybe later.
+      - Whatever you want.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 16
+      choice_slot: 2
+      prompt: Maybe later.
+      response: Whatever you want.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC5.rude
+      row: 12
+    raw_columns:
+      - 5
+      - 5
+      - 3
+      - We've got some Thjorad to sell
+      - Great!  What size piece do you have?
+      - 10
+      - 395
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 5
+      choice_slot: 3
+      prompt: We've got some Thjorad to sell
+      response: Great!  What size piece do you have?
+      next: 10
+      raw_fields:
+        c07: 395
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 395
+            qbit_id: 9395
+            state_id: mm9.keys.395
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 395
+          qbit_id: 9395
+          state_id: mm9.keys.395
+  - source:
+      file: NPC5.rude
+      row: 13
+    raw_columns:
+      - 5
+      - 10
+      - 3
+      - We've got a large piece.
+      - I'll give you 3000 gold for it.
+      - 11
+      - 398
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 463
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 10
+      choice_slot: 3
+      prompt: We've got a large piece.
+      response: I'll give you 3000 gold for it.
+      next: 11
+      raw_fields:
+        c07: 398
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 463
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 398
+            qbit_id: 9398
+            state_id: mm9.keys.398
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 398
+          qbit_id: 9398
+          state_id: mm9.keys.398
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 463
+        status: raw_value_preserved
+  - source:
+      file: NPC5.rude
+      row: 14
+    raw_columns:
+      - 5
+      - 10
+      - 4
+      - Maybe some other time.
+      - Alright
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 10
+      choice_slot: 4
+      prompt: Maybe some other time.
+      response: Alright
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC5.rude
+      row: 15
+    raw_columns:
+      - 5
+      - 5
+      - 4
+      - No, but perhaps we can do a job for you.
+      - I am interested in purchasing any Elemental Thjorad you bring me.  The larger the size, the more I will pay.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 359
+      - 0
+      - 0
+      - 0
+      - 0
+      - 5017
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 5
+      choice_slot: 4
+      prompt: No, but perhaps we can do a job for you.
+      response: I am interested in purchasing any Elemental Thjorad you bring me.  The larger the size, the more I will pay.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 359
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 5017
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 359
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 5017
+        status: raw_value_preserved
+  - source:
+      file: NPC5.rude
+      row: 16
+    raw_columns:
+      - 5
+      - 5
+      - 5
+      - We were wondering if you could help us.
+      - How is that?  What sort of help did you need?
+      - 15
+      - 9512
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 9513
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 5
+      choice_slot: 5
+      prompt: We were wondering if you could help us.
+      response: How is that?  What sort of help did you need?
+      next: 15
+      raw_fields:
+        c07: 9512
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 9513
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 15
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 9512
+            qbit_id: 18512
+            state_id: mm9.keys.9512
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 9512
+          qbit_id: 18512
+          state_id: mm9.keys.9512
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 9513
+        status: raw_value_preserved
+  - source:
+      file: NPC5.rude
+      row: 17
+    raw_columns:
+      - 5
+      - 5
+      - 7
+      - No.
+      - Come back when you're ready to do business.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 5
+      node_id: 5
+      choice_slot: 7
+      prompt: No.
+      response: Come back when you're ready to do business.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

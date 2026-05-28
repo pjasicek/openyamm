@@ -1,0 +1,57 @@
+;----------------------------------------------
+;ryanteleporter.scr
+; By Timmy
+; sets damage for water
+;
+;
+;----------------------------------------------
+
+
+#number          Damage_Amount
+
+;-------------------------------------
+:OnTele1
+;-------------------------------------
+
+SetPropString TeleportDestination, tele1
+exit
+
+
+;-------------------------------------
+:OnTele2
+;-------------------------------------
+
+SetPropString TeleportDestination, tele2
+exit
+
+
+;-------------------------------------
+:OnTele3
+;-------------------------------------
+
+SetPropString TeleportDestination, tele3
+exit
+
+;-------------------------------------
+:OnTele4
+;-------------------------------------
+
+SetPropString TeleportDestination, tele4
+exit
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+
+;TRACEON
+
+
+
+AddTrigger tele1, OnTele1
+AddTrigger tele2, OnTele2
+AddTrigger tele3, OnTele3
+AddTrigger tele4, OnTele4
+exit

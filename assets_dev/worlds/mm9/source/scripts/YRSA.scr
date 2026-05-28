@@ -1,0 +1,140 @@
+;----------------------------------------------
+;yrsa.scr
+; By Timmy
+; handles Yrsa's stuff
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+#include basewander.inc
+
+#number                         Talking  
+
+;-------------------------------------
+:OnRude
+;-------------------------------------
+
+gosub Key
+gosub dragonfly
+gosub Mainline
+exit
+
+;-------------------------------------
+:Key
+;-------------------------------------
+hasitem 568 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+haskey 469 g_ntemp
+if (g_ntemp==TRUE)
+	giveitem 568
+	exit
+endif
+
+exit
+;-------------------------------------
+:Mainline
+;-------------------------------------
+
+
+haskey 367 g_ntemp
+if (g_ntemp==FALSE)
+	haskey 1 g_ntemp
+	if (g_ntemp==TRUE)
+		giveexp 2000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		givekey 367
+		exit
+	endif
+endif
+exit
+
+;-------------------------------------
+:dragonfly
+;-------------------------------------
+
+
+haskey 366 g_ntemp
+if (g_ntemp==FALSE)
+	haskey 27 g_ntemp
+	if (g_ntemp==TRUE)
+		giveexp 2000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		givekey 366
+		exit
+	endif
+endif
+exit
+
+
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+givekey 480
+
+
+haskey 365 g_ntemp
+if (g_ntemp==FALSE)
+	givekey 365
+	giveexp 800
+	Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+	; found Yrsa for the first time
+endif
+
+	 
+	
+	
+	Set Talking, TRUE
+	Stop
+	Gosub BasewanderStop
+	getparam 0 g_hobject
+	FaceObject g_hobject 200 DoNothing
+;	DoRude 1	
+	Playsound voices\NPC\NPC_001.wav, Onexit, 100, 240, FALSE, 100
+
+
+
+exit
+
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+haskey 29 g_ntemp
+if (g_ntemp==TRUE)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+
+
+loopanim stand 0 DoNothing
+exit
+
+
+
+;-------------------------------------
+:Onexit
+;-------------------------------------
+
+set talking, false
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+
+AddTrigger Use, OnUse 
+gosub basewanderinit
+OnRudeExit OnRude
+Gosub Init
+wait 1 .1 Init
+exit

@@ -1,0 +1,17 @@
+
+#include globals.inc
+
+:MyTest
+	DebugOut I'm here!!!!!!!!!!!!!!!!!!!!!!!!
+
+	GetObjectHandle ScriptObject0, g_hObject
+	Trigger g_hObject, Test 5 6 7
+
+	Exit	
+
+
+
+:Main
+;TraceOn
+	Wait 0.5, MyTest
+	Exit

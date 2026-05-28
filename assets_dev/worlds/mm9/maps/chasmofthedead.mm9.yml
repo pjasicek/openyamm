@@ -1,0 +1,51 @@
+format_version: 1
+kind: "mm9_indoor_source_metadata"
+source:
+  source_kind: "mm9_dat"
+  source_dat: "mm9/extracted/WORLDS/WORLDS/CHASMOFTHEDEAD.dat"
+  coordinate_scale: 2.56
+target:
+  classification: "indoor_like"
+  strategy: "sectorized_blv_prototype"
+  geometry_file: "chasmofthedead.blv"
+  scene_file: "chasmofthedead.scene.yml"
+  source_glb: "chasmofthedead.source.glb"
+  geometry_metadata: "chasmofthedead.geometry.yml"
+  bsp_diagnostics: "chasmofthedead.bsp.yml"
+  bitmap_alias_dir: "assets_dev/worlds/mm9/textures"
+source_world_models: 1028
+source_objects: 1707
+layout:
+  sector_mode: "leaf_grid"
+  grid_size: 4
+  visbsp_leaves: 1211
+  visbsp_leaf_polygon_entries: 12358
+  valid_leaf_polygon_refs: 12358
+  matched_leaf_polygon_refs: 12358
+  invalid_leaf_model_refs: 0
+  invalid_leaf_poly_refs: 0
+  leaves_with_geometry: 1207
+  unassigned_source_triangles: 19808
+  source_triangles: 48259
+  rooms: 13
+  portals: 31
+  synthetic_bridge_portals: 12
+  dat_user_portals: 20
+  dat_user_portals_emitted: 20
+  dat_user_portals_skipped: 0
+  dat_user_portal_duplicate_pairs: 0
+  synthetic_portals_replaced_by_dat_user_portals: 7
+stats:
+  source_models: 1028
+  source_polies: 18808
+  emitted_faces: 48259
+  skipped_polies: 0
+  triangulated_polies: 16933
+  skipped_degenerate_triangles: 10795
+  source_plane_orientation_flips: 8149
+  clamped_plane_distances: 0
+  source_glb_vertices: 65575
+  source_glb_triangles: 48321
+  source_glb_materials: 49
+  source_glb_rooms: 13
+  source_glb_portals: 31

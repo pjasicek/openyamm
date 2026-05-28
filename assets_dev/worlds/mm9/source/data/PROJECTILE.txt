@@ -1,0 +1,72 @@
+projectileName	Class Name	range (ft)	damageRadius (ft)	velocity (ft/sec)	lifetime (sec)	Gravity	Explosion	Explosion Sound	Player Explosion Backoff	In-flight sound	PushBackVel (in)	PushBackTime	Can Detonate	Add Actor Vel	Low Bandwidth	EQ Radius (in)	EQ Max Shake	EQ Min Shake	EQ Duration	EQ Decay Rate	HS Dist	HS Angle	HS Straight Dist	HS Turn Rate	HS Seek Interval	HS Use LOS	Min Radius Pct	Can Hurt Self	One Shot	Spell	Bounce Count	Bounce Dampen	Launch Sound
+Arrow	Arrow	1000	0	200	5	0		ArrowImpact.wav	35	InFlightArrow.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	ArrowLaunch.wav
+ArrowBlue	Arrow	1000	0	200	5	0		ArrowImpact.wav	35	InFlightArrow.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	ArrowLaunch.wav
+ArrowEye	Arrow	1000	0	200	5	0		ArrowImpact.wav	35	InFlightArrow.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	ArrowLaunch.wav
+ArrowFire	Arrow	1000	0	200	5	0		ArrowImpact.wav	35	InFlightArrow.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	ArrowLaunch.wav
+ArrowGreen	Arrow	1000	0	200	5	0		ArrowImpact.wav	35	InFlightArrow.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	ArrowLaunch.wav
+ArrowIce	Arrow	1000	0	200	5	0		ArrowImpact.wav	35	InFlightArrow.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	ArrowLaunch.wav
+ArrowOrange	Arrow	1000	0	200	5	0		ArrowImpact.wav	35	InFlightArrow.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	ArrowLaunch.wav
+Axe	Axe	500	0	100	5	0		AxeImpact.wav	35	Axeswoosh.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	AxeLaunch.wav
+BlueLine	BlueLine	200	0	100	2	0	BlueLine	BlueLineImpact.wav	35		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	BlueLineLaunch.wav
+BlueThingy	BlueThingy	400	0	200	2	0	BlueRing		35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	Fireboltlaunch.wav
+BlueThingy2	BlueThingy2	400	0	200	2	0	BlueRing	BlueThingy2Impact.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	BlueThingy2Launch.wav
+BlueYellowThingy	BlueYellowThingy	400	10	200	2	0	FireExplosion	BlueYellowThingyImpact.wav	60	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.2	1	0	0	0	1	BlueYellowThingyLaunch.wav
+BounceAxe	BounceAxe	500	0	100	5	1		BounceAxeImpact.wav	35	Axeswoosh.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	1	0.75	BounceAxeLaunch.wav
+BounceHammer	BounceHammer	500	0	100	5	0			35		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	1	0.75	HammerLaunch.wav
+ChargedShotgun	ChargedShotgun	500	0	100	5	0		ChargedShotgunImpact.wav	35		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	ChargedShotgunLaunch.wav
+CrossBowBolt	CrossBowBolt	1000	0	200	5	0		CrossBowBoltImpact.wav	35	InFlightArrow.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	CrossbowBoltLaunch.wav
+DeathBlossom	DeathBlossom	200	0	100	2	1	None	DeathBlossomImpact.wav	35	Sparks.wav	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	DeathBlossomLaunch.wav
+DeathBlossomShard	DeathBlossomShard	60	10	15	4	1	RedRing	DeathBlossomShardImpact.wav	35	Sparks.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.1	1	0	0	0	1	
+DragonBreath	DragonBreath	20	5	20	1	0	None		35	DragonBreathLoop.wav	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	1	0	0	0	0	1	
+DragonBreath2	DragonBreath2	90	30	45	2	0	None		35	DragonBreathLoop.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	1	0	0	0	0	1	
+DragonFireBolt	FireBolt	625	25	125	5	0	FireExplosion	DragonFireBoltImpact.wav	60		300	0.5	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.2	1	0	0	0	1	DragonFireBoltLaunch.wav
+EQHammer	EQHammer	500	40	100	5	1		EQHammerImpact.wav	35		0	0	0	0	0	360	4	2	1	10	0	0	0	0	0	1	0.33	1	0	0	0	1	EQHammerLaunch.wav
+FeatherFall	FeatherFall	0	10	0	60	0	None		35		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	1	1	0	1	
+FireBolt	FireBolt	625	25	125	5	0	FireExplosion	DragonFireBoltImpact.wav	60		300	0.5	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.2	1	0	0	0	1	DragonFireBoltLaunch.wav
+Flare	Flare	1000	0	100	10	0	Flare		35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	0.5	FlareLaunch.wav
+GreenThingy	GreenThingy	400	0	200	2	0	GreenOrangeRing	GreenThingyImpact.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	GreenThingyLaunch.wav
+GreenYellowThingy	GreenYellowThingy	400	0	200	2	0	GreenOrangeRing	GreenYellowThingyImpact.wav	60	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	GreenYellowThingyLaunch.wav
+HandGrenade	HandGrenade	150	40	50	3	1	Grenade	EQHammerImpact.wav	35		0	0	0	0	0	360	4	2	1	10	0	0	0	0	0	1	0.1	1	1	0	3	0.5	
+Haste	Haste	0	10	0	20	0	None		35		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	1	1	0	1	
+HSCrossBowBolt	CrossBowBolt	300	0	200	1.5	0		HSCrossBowBoltImpact.wav	35		0	0	0	0	0	0	0	0	0	0	1500	60	100	90	0.15	1	0.5	1	0	0	0	1	HSCrossBowBoltLaunch.wav
+Iceblast	Iceblast	300	0	150	2	0	None	IceblastImpact.wav	35		0	0	1	0	0	0	0	0	0	0	1500	60	100	90	0.15	1	0.5	1	0	0	0	1	IceBlastLaunch.wav
+IceblastShard	IceblastShard	200	0	100	2	0	Ice		35		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	
+Invisibility	Invisibility	0	10	0	20	0	None		35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	1	0	0	1	
+Jump	Jump	0	10	0	60	0	None		35		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	1	1	0	1	
+KBYellowLine	YellowLine	200	0	100	2	0	YellowLine	KBYellowLineImpact.wav	35		600	0.5	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	KBYellowLineLaunch.wav
+Knife	Knife	500	0	100	5	0		KnifeImpact.wav	35	KnifeSwish.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	KnifeLaunch.wav
+LandMine	LandMine	750	10	75	100	1	Grenade	mine02.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.2	1	0	0	0	1	mine01.wav
+LavaProtection	LavaProtection	0	10	0	60	0	None		35		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	1	0	0	1	
+LightningBolt	BlueThingy2	1000	0	200	5	0	BlueRing	BlueThingy2Impact.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	3	1	ElectricalPop01.wav
+LobExArrow	Arrow	500	10	100	5	1	FireExplosion	LobExArrowImpact.wav	60	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.2	1	0	0	0	1	LobExArrowLaunch.wav
+Magnet	Magnet	750	30	75	10	0	FireExplosion	MagnetImpact.wav	60	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	MagnetLaunch.wav
+PoisonCloud	PoisonCloud	50	10	5	10	0	PoisonCloud	pcloud03.wav	35	DragonBreathLoop.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	Pcloud01.wav
+PoisonThingy	GreenThingy	400	10	200	2	0	Poison	PoisonThingyImpact.wav	60	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	PoisonThingyLaunch.wav
+PurpleThingy	PurpleThingy	200	0	100	2	0	PurpleRing	PurpleThingyImpact.wav	35		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	PurpleThingyLaunch.wav
+PurpleThingy2	PurpleThingy2	200	0	100	2	0	None		35	PurpleThingy2Launch.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	
+RedLine	RedLine	200	0	100	2	0	RedLine	RedLineImpact.wav	35		0	0	0	0	0	35	3	2	0.5	10	0	0	0	0	0	1	0.5	1	0	0	0	1	RedLineLaunch.wav
+RedThingy	RedThingy	400	0	200	2	0	RedRing	RedThingyImpact.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	1500	60	100	90	0.15	1	0.5	1	0	0	0	1	RedThingyLaunch.wav
+RedYellowThingy	RedYellowThingy	400	10	200	2	0	FireExplosion	DragonFireBoltImpact.wav	60	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0.2	1	0	0	0	1	Fireboltlaunch.wav
+RingOfFire	RingOfFire	0	10	0	10	0	None		35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	1	0	0	0	0	1	Fireboltlaunch.wav
+ScreamingSkull	ScreamingSkull	250	10	100	2.5	0	Sparks	DragonFireBoltImpact.wav	35	Axeswoosh.wav	0	0	0	0	0	0	0	0	0	0	1500	90	100	120	0.1	1	0.33	1	0	0	0	1	fear.wav
+Shotgun	Shotgun	80	0	100	0.8	0	RedRing	ShotgunImpact.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	ShotgunLaunch.wav
+Sparks	Sparks	100	0	50	2	1	BlueRing	sparks03.wav	35	Sparks.wav	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0.5	1	0	0	3	1	sparks01.wav
+Teleport	Teleport	0	10	0	60	0	None		35		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	1	0	0	1	
+TripleBolt	TripleBolt	1000	0	200	5	0			35		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	Crossbow01.wav
+WizardEye	WizardEye	1125	20	75	15	0	FireExplosion		60	FireMedium.wav	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	1	0.33	1	0	0	0	1	WizardEyeLaunch.wav
+WizardEyeSpell	WizardEyeSpell	0	10	0	20	0	None		35		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	1	1	0	1	
+YellowLine	YellowLine	200	0	100	2	0	YellowLine	YellowLineImpact.wav	35		0	0	0	0	0	35	3	2	0.5	10	0	0	0	0	0	1	0.5	1	0	0	0	1	YellowLineLaunch.wav
+YellowThingy	YellowThingy	400	0	200	2	0	YellowRing	YellowThingyImpact.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	YellowThingyLaunch.wav
+Lightning	Lightning	200	0	100	2	0	Sparks	chainlight03.wav	35		0	0	0	0	0	35	3	2	0.5	10	0	0	0	0	0	1	0.5	1	0	0	0	1	chainlight01.wav
+Goo1	Goo1	200	0	100	2	0	None	RedThingyImpact.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	1500	60	100	90	0.15	1	0.5	1	0	0	0	1	RedThingyLaunch.wav
+Goo2	Goo2	200	0	100	2	0	None	RedThingyImpact.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	1500	60	100	90	0.15	1	0.5	1	0	0	0	1	RedThingyLaunch.wav
+Goo3	Goo3	200	0	100	2	0	None	RedThingyImpact.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	1500	60	100	90	0.15	1	0.5	1	0	0	0	1	RedThingyLaunch.wav
+PurpleThingy3	PurpleThingy3	400	0	200	2	0	PurpleRing	wound03.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	1500	60	100	90	0.15	1	0.5	1	0	0	0	1	Wound.wav
+ElementalWater	ElementalWater	400	0	200	2	0	BlueRing	ebolt03.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	1500	60	100	90	0.15	1	0.5	1	0	0	0	1	ebolt01.wav
+ElementalFire	ElementalFire	400	0	200	2	0	YellowRing	ebolt03.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	1500	60	100	90	0.15	1	0.5	1	0	0	0	1	ebolt01.wav
+ElementalEarth	ElementalEarth	400	0	200	2	0	GreenOrangeRing	ebolt03.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	1500	60	100	90	0.15	1	0.5	1	0	0	0	1	ebolt01.wav
+ElementalAir	ElementalAir	400	0	200	2	0	BlueRing	ebolt03.wav	35	FireMedium.wav	0	0	0	0	0	0	0	0	0	0	1500	60	100	90	0.15	1	0.5	1	0	0	0	1	ebolt01.wav
+Spell	Arrow	1000	0	200	5	0			35		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	
+Stone	Stone	250	0	50	5	0		DeathBlossomShardImpact.wav	35	InFlightArrow.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	Fireball01.wav
+Skull	Skull	250	0	50	5	0		SpearThwack.wav	35	InFlightArrow.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	swordswing03.wav
+Egg	Egg	250	0	50	5	0	Egg	eggimpact.wav 	35	InFlightArrow.wav	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0.5	1	0	0	0	1	swordswing03.wav

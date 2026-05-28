@@ -1,0 +1,53 @@
+Coordinates for Sound Options
+
+-----------------------------------------------------------------------------------
+Note: Coordinates are based on full-screen.  For coordinates relative to the
+	options background, subtract 250 from any given column number (except,
+	of course, the placement of the background itself)
+-----------------------------------------------------------------------------------
+
+OptionsSoundBG.pcx	250x   0y	550x600	Background
+
+SoundFX Volume Handle	281x 102y	9x30	Left-Most Position (Minimum)
+			678x 102y		Right-Most Position (Maximum)
+
+Music Volume Handle	281x 162y	9x30	Left-most Position (Minimum)
+			678x 162y		Right-Most Position (Maximum)
+
+Voice Volume Handle	281x 222y	9x30	Left-most Position (Minimum)
+			678x 222y		Right-Most Position (Maximum)
+
+EAX Checkbox		282x 266y	20x20
+
+-----------------------------------------------------------------------------------
+
+Pure Text Items:
+
+"SOUND OPTIONS"		282x  44y	260x20	Arial 16 Pixel Left
+"Sound Effects Volume"	282x  80y	260x20  Arial 16 Pixel Left
+"Music Volume"		282x 140y	260x20	Arial 16 Pixel Left
+"Voice Volume"		282x 200y	260x20	Arial 16 Pixel Left
+"Environmental Audio"	388x 266y	260x20	Arial 16 Pixel Left
+
+Sound FX Value 0-100%	689x 107y	57x20
+Music Value 0-100%	689x 167y	57x20
+Voice Value 0-100%	689x 227y	57x20
+
+Note: All printed text should be Arial about 16 point (Full Basic capital letter
+	should be around 16 Pixels tall)  Color rgb(220,200,150) With a 1-pixel
+	outline of color rgb(53,27,4)  All printed text should be in "Small Caps"
+	format, with no descenders from lower-case letters such as g or p.
+
+-----------------------------------------------------------------------------------
+
+Text As Buttons:
+
+"Restore Default"	546x  44y	200x20	Arial 16 Pixel Right
+"Cancel"		543x 533y	96x20	Arial 16 Pixel Center
+"Apply"			647x 533y	96x20	Arial 16 Pixel Center
+
+Note: Button Text should be the same color as above, but when mouse-overed should 
+	highlight in color rgb(250,240,220)  And when pressed should cause a sound
+	effect and flash dark color rgb(110,100,75)
+
+----------------------------------------------------------------------------------

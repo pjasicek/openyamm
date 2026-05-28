@@ -1,0 +1,37 @@
+********************************************************************************
+                     Notes Screen Coordinates
+********************************************************************************
+
+Graphic Elements:
+
+CharacterNotesBG.pcx	  0x   0y	800x600	Background
+
+Map Page Tab		644x   9y	75x148
+Notes Page Tab		644x 158y	75x148
+Character Sheet Button	690x 436y	110x105
+Exit Button		690x 548y	110x52
+
+********************************************************************************
+
+Note Title (If Any)	180x  79y	320x18	Main Font Center
+Note: If there's An Appropriate title to put in this space, put it. Or date
+	auto notes or journal entries in this spot, if possible.
+
+Note Text Region	 55x 101y	572x400	Main Font Format As Needed
+
+Note: Lines should be 20 pixels spaced (Start at 121, 141, 161, etc.)  Can use
+	Tiny font or space as needed, of course.
+
+Rollover Text	 44x 570y	596x18	Main Font Center
+
+Note Page Graphics:
+
+Quests Button		 51x  37y	58x52
+Autonotes Button	111x  37y	58x52
+Journal Button		513x  37y	58x52
+Awards Button		573x  37y	58x52
+	
+Back Button		 55x 503y	52x52
+Next Button		575x 503y	52x52
+------------------------------------------------------------------------------------
+

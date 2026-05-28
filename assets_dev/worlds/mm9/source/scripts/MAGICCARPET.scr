@@ -1,0 +1,109 @@
+;-----------------------------
+;	MagicCarpet.scr
+;	by SJR
+;	11-08-01
+;	Purpose:to add something cool
+;			to DarkPassageway
+;-----------------------------
+#include BaseGlobals.inc
+
+#hobject	hMe = 0
+#hobject	hPlayer = 0
+#hobject	hDummy = 0
+
+#number		nHeight = 0
+#number		nVel = 0
+#number		nTemp = 0
+
+#number		xMe = 0
+#number		yMe = 0
+#number		zMe = 0
+
+#number		nLiftSpeed = 500
+;----------------
+:Main
+;----------------
+	GetParam 0, nHeight
+;;	GetParam 1, nLiftSpeed
+
+	OnPostStartWorld InitMagicCarpet
+	OnPostMiniSaveLoad InitMagicCarpet
+
+	Exit TRUE
+
+;----------------
+:InitMagicCarpet
+;----------------
+	AddTrigger Use, StartRising
+
+	GetPlayerHandle hPlayer
+	GetMyHandle hMe
+
+	GetPOS hMe, xMe,yMe,zMe
+
+	Exit TRUE
+
+#number		nVelx = 0
+#number		nVely = 0
+#number		nVelz = 0
+;----------------
+:StartRising
+;----------------
+	RemoveTrigger Use
+	nVel = 800
+	nVely = 500
+	gosub RiseLoop
+	Exit TRUE
+
+;----------------
+:RiseLoop
+;----------------
+	;;check height and obstacle
+	if( nVel>0 )
+		gosub CheckPOS
+	endif
+	GetFaceDir hPlayer, nVelx,nTemp,nVelz
+	VecNorm nVelx,nTemp,nVelz
+	VecScale nVelx,nTemp,nVelz, nVel
+	SetVelocity hMe, nVelx,nVely,nVelz
+	;;tick direction
+	Wait 0, .1, RiseLoop
+
+	Exit TRUE
+
+#number		xPrev = 0
+#number		yPrev = 0
+#number		zPrev = 0
+#number		xNow = 0
+#number		yNow = 0
+#number		zNow = 0
+#number		dist = 0
+;----------------
+:CheckPOS
+;----------------
+	GetPOS hMe, xNow, yNow, zNow
+	;;if we got too high, drop
+	if( yNow>=nHeight )
+		gosub ResetLift
+		Exit TRUE
+	endif
+	CalcDist xNow,yNow,zNow, xPrev,yPrev,zPrev, dist
+	;;if now~prev, then must be stuck, so drop
+	if( dist<4 )
+		gosub ResetLift
+	endif
+	;;make prev = now
+	VecScale xPrev,yPrev,zPrev, 0
+	VecAdd   xPrev,yPrev,zPrev, xNow,yNow,zNow
+
+	Exit TRUE
+
+;----------------
+:ResetLift
+;----------------
+	PlaySound sounds\default.wav, DoNothing, 1, 500, FALSE, 100
+	nVely = -4096
+	nVel = 0
+	AddTrigger Use, StartRising
+
+	Exit TRUE

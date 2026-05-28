@@ -1,0 +1,52 @@
+;--------------------------------
+;	ChessRook.scr
+;	by SJR
+;	Purpose:Rook
+;--------------------------------
+#include BaseGlobals.inc
+#include ChessBase.inc
+
+;-----------------
+:Main
+;-----------------
+	GetParam 0, sSquareName
+	GetParam 1, sFloorName
+	GetParam 2, BOARDSIZE
+	GetParam 3, nLocation
+
+	OnPostStartWorld InitChessBase
+
+	Exit TRUE
+
+#number		nTemp = 0
+;-----------------
+:CheckPath
+;-----------------
+	GetParam 0, hTrigger
+
+	;;check vertical
+	LISTINDEX = xMe
+	while( LISTINDEX<=LISTLAST )
+		gosub GetCurrentObject
+		if( LISTOBJECT==hTrigger )
+			gosub BeginAttack
+			Exit TRUE
+		endif
+
+		LISTINDEX = LISTINDEX + BOARDSIZE
+	endwhile
+
+	;;check horizontal
+	LISTINDEX = nLocation - xMe
+	nTemp = LISTINDEX + BOARDSIZE
+	while( LISTINDEX<nTemp )
+		gosub GetCurrentObject
+		if( LISTOBJECT==hTrigger )
+			gosub BeginAttack
+			Exit TRUE
+		endif
+
+		LISTINDEX = LISTINDEX + 1
+	endwhile
+
+	Exit TRUE

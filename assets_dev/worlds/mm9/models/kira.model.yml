@@ -1,0 +1,1022 @@
+schema: openyamm.model3d.v1
+id: kira
+model: kira.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/KIRA.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: Lhand1
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Rhand1
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: kira
+  materialIndex: 0
+  lods:
+  - faces: 782
+    vertices: 393
+  - faces: 586
+    vertices: 295
+  - faces: 390
+    vertices: 197
+  - faces: 194
+    vertices: 99
+materials:
+- index: 0
+  texture: skins_preview/kiraplate.png
+  runtime_texture: skins/kiraplate.dtx
+  preview_texture: skins_preview/kiraplate.png
+  source: mm9/extracted/SKINS/SKINS/KIRAPLATE.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 42
+    - 46
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bip01 Spine3
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Bip01 Neck
+    parent: 5
+    flags: 1
+    children:
+    - 7
+    - 22
+    - 32
+  - index: 7
+    name: Bip01 Head
+    parent: 6
+    flags: 1
+    children:
+    - 8
+    - 14
+    - 20
+  - index: 8
+    name: Yponybase
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Ypony
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Yponypiv
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: YpA
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: YpB
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: YpC
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Yhairbase
+    parent: 7
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Yhair
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Yhpiv
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: YhA
+    parent: 16
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: YhB
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: YhC
+    parent: 18
+    flags: 1
+    children: []
+  - index: 20
+    name: Ybangbase
+    parent: 7
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Ybangpiv
+    parent: 20
+    flags: 1
+    children: []
+  - index: 22
+    name: Bip01 L Clavicle
+    parent: 6
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bip01 L UpperArm
+    parent: 22
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bip01 L Forearm
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bip01 L Hand
+    parent: 24
+    flags: 1
+    children:
+    - 26
+    - 28
+    - 31
+  - index: 26
+    name: Bip01 L Finger0
+    parent: 25
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Bip01 L Finger01
+    parent: 26
+    flags: 1
+    children: []
+  - index: 28
+    name: Bip01 L Finger1
+    parent: 25
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Bip01 L Finger11
+    parent: 28
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Bip01 L Finger12
+    parent: 29
+    flags: 1
+    children: []
+  - index: 31
+    name: Lhand1
+    parent: 25
+    flags: 1
+    children: []
+  - index: 32
+    name: Bip01 R Clavicle
+    parent: 6
+    flags: 1
+    children:
+    - 33
+  - index: 33
+    name: Bip01 R UpperArm
+    parent: 32
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: Bip01 R Forearm
+    parent: 33
+    flags: 1
+    children:
+    - 35
+  - index: 35
+    name: Bip01 R Hand
+    parent: 34
+    flags: 1
+    children:
+    - 36
+    - 38
+    - 41
+  - index: 36
+    name: Bip01 R Finger0
+    parent: 35
+    flags: 1
+    children:
+    - 37
+  - index: 37
+    name: Bip01 R Finger01
+    parent: 36
+    flags: 1
+    children: []
+  - index: 38
+    name: Bip01 R Finger1
+    parent: 35
+    flags: 1
+    children:
+    - 39
+  - index: 39
+    name: Bip01 R Finger11
+    parent: 38
+    flags: 1
+    children:
+    - 40
+  - index: 40
+    name: Bip01 R Finger12
+    parent: 39
+    flags: 1
+    children: []
+  - index: 41
+    name: Rhand1
+    parent: 35
+    flags: 1
+    children: []
+  - index: 42
+    name: Bip01 L Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 43
+  - index: 43
+    name: Bip01 L Calf
+    parent: 42
+    flags: 1
+    children:
+    - 44
+  - index: 44
+    name: Bip01 L Foot
+    parent: 43
+    flags: 1
+    children:
+    - 45
+  - index: 45
+    name: Bip01 L Toe0
+    parent: 44
+    flags: 1
+    children: []
+  - index: 46
+    name: Bip01 R Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 47
+  - index: 47
+    name: Bip01 R Calf
+    parent: 46
+    flags: 1
+    children:
+    - 48
+  - index: 48
+    name: Bip01 R Foot
+    parent: 47
+    flags: 1
+    children:
+    - 49
+  - index: 49
+    name: Bip01 R Toe0
+    parent: 48
+    flags: 1
+    children: []
+sockets:
+- name: LHand1
+  node: 31
+  translation:
+  - -0.05648921489715576
+  - -0.04526463985443115
+  - 0.8577664184570313
+  rotation:
+  - 0.3939109742641449
+  - 0.9189622402191162
+  - 0.017463065683841705
+  - -0.006128532811999321
+- name: RHand1
+  node: 41
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+- name: sheath
+  node: 42
+  translation:
+  - -11.099984130859376
+  - -8.242991333007813
+  - -2.1755857849121094
+  rotation:
+  - -0.17517845332622528
+  - 0.4024881422519684
+  - -0.7831725478172302
+  - 0.44040459394454956
+animations:
+- name: kirasetup02
+  durationMs: 1700
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: stand
+  durationMs: 1700
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: fidget1
+  durationMs: 3000
+  keyframes: 12
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 1100
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 268
+    event: footstep
+  - timeMs: 805
+    event: footstep
+- name: stand1
+  durationMs: 1700
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: taunt
+  durationMs: 1800
+  keyframes: 9
+  interpolationTimeMs: 200
+  events: []
+- name: fidget2
+  durationMs: 2500
+  keyframes: 11
+  interpolationTimeMs: 200
+  events: []
+- name: walk1
+  durationMs: 1100
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 403
+    event: footstep
+  - timeMs: 805
+    event: footstep
+- name: run
+  durationMs: 500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 183
+    event: footstep
+  - timeMs: 427
+    event: footstep
+- name: wattack1
+  durationMs: 700
+  keyframes: 8
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 233
+    event: playanimsound
+  - timeMs: 373
+    event: Rattack
+- name: wattack2
+  durationMs: 700
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 171
+    event: playanimsound
+  - timeMs: 341
+    event: Rattack
+- name: wattack3
+  durationMs: 600
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 292
+    event: playanimsound
+  - timeMs: 366
+    event: Rattack
+- name: block
+  durationMs: 900
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 329
+    event: playanimsound
+- name: dodgeleft
+  durationMs: 900
+  keyframes: 11
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 110
+    event: playanimsound
+- name: dodgeright
+  durationMs: 900
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 110
+    event: playanimsound
+- name: dodgeback
+  durationMs: 600
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 115
+    event: playanimsound
+- name: wince1
+  durationMs: 1000
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 244
+    event: speakanimsound
+- name: wince2
+  durationMs: 1000
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 166
+    event: speakanimsound
+- name: Backpedal
+  durationMs: 1100
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 295
+    event: footstep
+  - timeMs: 697
+    event: footstep
+- name: Backpedal_run
+  durationMs: 650
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 174
+    event: footstep
+  - timeMs: 412
+    event: footstep
+- name: static_die1
+  durationMs: 166
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: sit
+  durationMs: 1700
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: Applause
+  durationMs: 3166
+  keyframes: 18
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 666
+    event: Clap
+  - timeMs: 1000
+    event: Clap
+  - timeMs: 1333
+    event: Clap
+  - timeMs: 1666
+    event: Clap
+  - timeMs: 2000
+    event: Clap
+  - timeMs: 2333
+    event: Clap
+- name: Sc2_KIRA5
+  durationMs: 8700
+  keyframes: 66
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Voice5
+  - timeMs: 8700
+    event: Done
+- name: Sc2_Kira7
+  durationMs: 14766
+  keyframes: 262
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Voice7
+  - timeMs: 14166
+    event: Done
+- name: Sc2_Kira9b
+  durationMs: 6700
+  keyframes: 36
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Voice10
+  - timeMs: 6700
+    event: Done
+- name: Sc2_KIRA12
+  durationMs: 3433
+  keyframes: 47
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Voice12
+  - timeMs: 3433
+    event: Done
+- name: Sc2_KIRA14
+  durationMs: 3533
+  keyframes: 28
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Voice14
+  - timeMs: 3533
+    event: Done
+- name: Sc2_KIRAshot16a
+  durationMs: 1900
+  keyframes: 11
+  interpolationTimeMs: 200
+  events: []
+- name: Sc2_KIRA16b
+  durationMs: 2500
+  keyframes: 39
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 721
+    event: Done2
+- name: Sc2_Kira17
+  durationMs: 2033
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 966
+    event: attach
+- name: Sc2_Kira19
+  durationMs: 8033
+  keyframes: 63
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Voice19
+  - timeMs: 8000
+    event: Done2
+- name: Sc2_KIRA20-23
+  durationMs: 1500
+  keyframes: 43
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 995
+    event: KillMarkel
+  - timeMs: 1500
+    event: Witty
+- name: Sc2_KIRA22
+  durationMs: 2433
+  keyframes: 32
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Speak17
+  - timeMs: 2433
+    event: Done2
+- name: Sc2_KIRA23
+  durationMs: 2333
+  keyframes: 25
+  interpolationTimeMs: 200
+  events: []
+- name: Sc2_KIRA24
+  durationMs: 8033
+  keyframes: 73
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: kirasetup02
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: stand
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: fidget1
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: walk
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: stand1
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: taunt
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: fidget2
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: walk1
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: run
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: wattack1
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: wattack2
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: wattack3
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: block
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: dodgeleft
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: dodgeright
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: dodgeback
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: wince1
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: wince2
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 2.56
+  - 0.0
+- name: Backpedal
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Backpedal_run
+  extents:
+  - 30.72
+  - 87.04
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: static_die1
+  extents:
+  - 38.4
+  - 12.8
+  - 89.60000000000001
+  origin:
+  - 0.0
+  - 79.36
+  - 0.0
+- name: sit
+  extents:
+  - 30.72
+  - 71.68
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: Applause
+  extents:
+  - 30.72
+  - 71.68
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: Sc2_KIRA5
+  extents:
+  - 30.72
+  - 71.68
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: Sc2_Kira7
+  extents:
+  - 30.72
+  - 71.68
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: Sc2_Kira9b
+  extents:
+  - 30.72
+  - 71.68
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: Sc2_KIRA12
+  extents:
+  - 30.72
+  - 71.68
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: Sc2_KIRA14
+  extents:
+  - 30.72
+  - 71.68
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: Sc2_KIRAshot16a
+  extents:
+  - 30.72
+  - 71.68
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: Sc2_KIRA16b
+  extents:
+  - 30.72
+  - 71.68
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: Sc2_Kira17
+  extents:
+  - 30.72
+  - 89.60000000000001
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Sc2_Kira19
+  extents:
+  - 30.72
+  - 89.60000000000001
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Sc2_KIRA20-23
+  extents:
+  - 30.72
+  - 89.60000000000001
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Sc2_KIRA22
+  extents:
+  - 30.72
+  - 89.60000000000001
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Sc2_KIRA23
+  extents:
+  - 30.72
+  - 89.60000000000001
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Sc2_KIRA24
+  extents:
+  - 30.72
+  - 89.60000000000001
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- actor_model
+source_model: models/kira.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: kira_kiraplate
+  source_skins:
+  - skins/kiraplate.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 232
+    number: '251'
+    monster_name: Kira the Cold
+    type_picture: Kira the Cold
+    base_name: ''
+  - table: MONSTERS
+    row: 232
+    number: '251'
+    monster_name: Kira the Cold
+    type_picture: Kira the Cold
+    base_name: Kira

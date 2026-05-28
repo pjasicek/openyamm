@@ -1,0 +1,96 @@
+;--------------------------------------------------
+;WG_NjamCam.scr
+; timmy
+; tells a prop to run it's animation
+;
+;Note: if the first parameter is the word
+; OnUse, the second parameter becomes
+; the animation name and the script will wait until being used
+; to play the animation.  Otherwise it will just
+; loop an anim for time specified
+;
+; edited by Bones 9/10/02
+; TELP Patch 1.3 -- givekey 109 moved here from WINMAN.SCR
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#number		Xpos
+#number		Ypos
+#number		Zpos
+
+#number		MyX
+#number		MyY
+#Number		MyZ
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+;--------------------------------------------------
+:OnPlay
+;--------------------------------------------------
+
+gosub StartFilm
+Getobjecthandle NjamCamMk1 g_hobject
+getpos g_hobject Xpos Ypos Zpos
+MoveToPos xpos Ypos Zpos 100 OnArrive1
+exit 
+
+;--------------------------------------------------
+:OnArrive1
+;--------------------------------------------------
+
+getmyhandle g_hmyobject
+getpos g_hmyobject MyX MyY MyZ
+Getobjecthandle NjamCamMk2 g_hobject
+getpos g_hobject Xpos Ypos Zpos
+FaceDir Xpos Ypos Zpos 70 DoNothing
+MoveToPos xpos Ypos Zpos 130 OnArrive2
+exit
+
+;--------------------------------------------------
+:OnArrive2
+;--------------------------------------------------
+
+
+
+getobjecthandle WinMan g_hobject
+ScreenFadeOut 1
+trigger g_hobject NjamCamDone
+exit
+
+;--------------------------------------------------
+:OnMove
+;--------------------------------------------------
+
+exit
+
+;--------------------------------------------------
+:StartFilm
+;--------------------------------------------------
+
+LetterBox True
+givekey 109
+Getmyhandle g_hmyobject
+Trigger g_hmyobject On
+ScreenFadeIn 1
+GetobjectHandle Njam g_htarget
+;Target g_htarget
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddTrigger Play OnPlay
+
+
+
+exit
+

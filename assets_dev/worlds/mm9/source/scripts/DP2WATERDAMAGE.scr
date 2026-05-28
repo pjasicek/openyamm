@@ -1,0 +1,40 @@
+;----------------------------------------------
+;DP2waterdamage.scr
+; By Timmy
+; sets damage for water
+;
+;parameters
+;
+;  p0  amount of damage
+;----------------------------------------------
+
+
+#number          Damage_Amount
+
+;-------------------------------------
+:DamageOn
+;-------------------------------------
+
+SetPropString Damagetype, DT_BURN
+SetPropNumber Damage, Damage_Amount
+exit
+
+
+;-------------------------------------
+:DamageOff
+;-------------------------------------
+
+SetPropString Damagetype, DT_UNSPECIFIED
+SetPropNumber Damage, 0
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+
+GetParam 0, Damage_Amount
+AddTrigger DamageOn, DamageOn
+AddTrigger DamageOff, DamageOff
+exit

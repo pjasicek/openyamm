@@ -1,0 +1,171 @@
+;--------------------------------------------------
+;song.scr
+; timmy
+; Handles the book's multiple animation
+;--------------------------------------------------
+
+#include globals.inc 
+
+       
+#Number					counter
+;--------------------------------------------------
+:OnPlay
+;--------------------------------------------------
+
+getobjecthandle C1, g_hobject
+trigger g_hobject use
+Wait .5, D
+exit
+
+;--------------------------------------------------
+:D
+;--------------------------------------------------
+
+getobjecthandle F2, g_hobject
+trigger g_hobject use
+Wait 1, G
+
+exit
+
+;--------------------------------------------------
+:G
+;--------------------------------------------------
+
+getobjecthandle G2, g_hobject
+trigger g_hobject use
+Wait 1, G#
+
+exit
+
+;--------------------------------------------------
+:G#
+;--------------------------------------------------
+
+getobjecthandle G#2, g_hobject
+trigger g_hobject use
+Wait .25, A
+
+exit
+
+;--------------------------------------------------
+:A
+;--------------------------------------------------
+
+getobjecthandle A#2, g_hobject
+trigger g_hobject use
+Wait .25, G#2
+
+exit
+
+
+;--------------------------------------------------
+:G#2
+;--------------------------------------------------
+
+getobjecthandle G#2, g_hobject
+trigger g_hobject use
+Wait 1, C
+
+exit
+
+;--------------------------------------------------
+:C
+;--------------------------------------------------
+
+getobjecthandle C1, g_hobject
+trigger g_hobject use
+Wait 1, C2
+exit
+
+; ----phrase 2
+
+
+;--------------------------------------------------
+:C2
+;--------------------------------------------------
+
+getobjecthandle C1, g_hobject
+trigger g_hobject use
+Wait .5, F
+exit
+
+;--------------------------------------------------
+:F
+;--------------------------------------------------
+
+getobjecthandle F2, g_hobject
+trigger g_hobject use
+Wait 1, G2
+exit
+;--------------------------------------------------
+:G2
+;--------------------------------------------------
+
+getobjecthandle G2, g_hobject
+trigger g_hobject use
+Wait .5, G#3
+exit
+
+;--------------------------------------------------
+:G#3
+;--------------------------------------------------
+
+getobjecthandle G#2, g_hobject
+trigger g_hobject use
+Wait .5, F2
+exit
+;--------------------------------------------------
+:F2
+;--------------------------------------------------
+
+getobjecthandle F2, g_hobject
+trigger g_hobject use
+Wait .25, G#4
+exit
+
+;--------------------------------------------------
+:G#4
+;--------------------------------------------------
+
+getobjecthandle G#2, g_hobject
+trigger g_hobject use
+Wait .25, F3
+exit
+;--------------------------------------------------
+:F3
+;--------------------------------------------------
+
+getobjecthandle F2, g_hobject
+trigger g_hobject use
+Wait .25, C3
+exit
+
+
+;--------------------------------------------------
+:C3
+;--------------------------------------------------
+
+getobjecthandle C2, g_hobject
+trigger g_hobject use
+Wait .25, F4
+exit
+;--------------------------------------------------
+:F4
+;--------------------------------------------------
+
+getobjecthandle A#2, g_hobject
+trigger g_hobject use
+;Wait .25, F
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+
+;TRACEON
+Set counter, 0
+AddTrigger Play, OnPlay
+exit
+

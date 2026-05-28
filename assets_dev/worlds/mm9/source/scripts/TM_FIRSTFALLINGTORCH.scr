@@ -1,0 +1,65 @@
+;-----------------------------------------------------
+;	TM_FirstFallingTorch.scr
+;	kd
+;	11-6-01
+;	Makes the torch fall to the ground.
+;	Nothing slick or fancy
+;
+;
+;-----------------------------------------------------
+#include Globals.inc
+#include Flags.inc
+
+#hObject	hFTMarker
+#hObject	hBlocker
+#hObject	hDummy
+#hObject	hFire
+#hObject	hMe
+
+#number		nVarX
+#number		nVarY
+#number		nVarZ
+
+;-----------------------------------------------------
+:KillMe
+;-----------------------------------------------------
+	RemoveObject hMe
+	Exit TRUE
+;-----------------------------------------------------
+:StopHere
+;-----------------------------------------------------
+	;RemoveTrigger OnDamage
+	;RemoveTrigger KnockedLoose
+	Wait 0, 3, KillMe
+	Exit TRUE
+;-----------------------------------------------------
+:MoveToMarker
+;-----------------------------------------------------
+	GetMyHandle hMe
+	SetFlag hMe, FLAG_GOTHRUWORLD
+	GetObjectHandle TorchHolder1, hBlocker
+	Trigger hBlocker, Destroy
+	Trigger hFire, Fall
+	Rotate 0, 0, 1, -90, 90, DoNothing
+	MoveToPos nVarX, nVarY, nVarZ, 180, StopHere
+	Exit
+;-----------------------------------------------------
+:ShortDelay
+;-----------------------------------------------------
+	Wait 0, .6, MoveToMarker
+	Exit TRUE
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	GetObjectHandle FallingTorchFire1, hFire
+	GetObjectHandle FallingTorchMarker1, hFTMarker
+	GetPos hFTMarker, nVarX, nVarY, nVarZ
+	AddTrigger KnockedLoose, ShortDelay
+	OnDamage MoveToMarker
+	Exit TRUE
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	Wait 0 .1 main2
+	Exit TRUE
+;------------- E n d - O f - F i l e -------------------

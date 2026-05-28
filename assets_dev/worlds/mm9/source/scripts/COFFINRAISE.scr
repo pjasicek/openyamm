@@ -1,0 +1,53 @@
+;-----------------------------------
+;	CoffinRaise.scr
+;	by SJR
+;	11-08-01
+;	Purpose:
+;-----------------------------------
+
+#string		sMonsterName = ""
+#hobject	hMonster = 0
+
+
+;------------------
+:Main
+;------------------
+	GetParam 0, sMonsterName
+
+	AddTrigger raise, OnRaise
+	AddTrigger open,  OnRaise
+
+	OnCacheFiles CacheFiles
+
+	Exit 1
+
+;------------------
+:DoNothing
+;------------------
+
+;------------------
+:CacheFiles
+;------------------
+	CacheSound Sounds\Door\stone_door02.wav
+	Exit
+
+;------------------
+:OnRaise
+;------------------
+	RemoveTrigger raise
+	RemoveTrigger open
+
+	PlayAnim open, TriggerMonster
+	PlaySound Sounds\Door\stone_door02.wav,DoNothing,500,1000
+
+	Exit 1
+
+;------------------
+:TriggerMonster
+;------------------
+	GetObjectHandle sMonsterName, hMonster
+	if( hMonster!=0 )
+		Trigger hMonster, Awaken
+	endif
+
+	Exit 1

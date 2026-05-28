@@ -1,0 +1,99 @@
+;---------------------------------
+;	TheThing.scr (john carpenter's)
+;	by SJR
+;	11-04-01
+;	Purpose:turn into a weirdo lookin
+;			rastafied evil terror eye
+;			thing with big pointy teeth
+;---------------------------------
+#include baseMelee.inc
+
+#stringarray	spSockets[8]
+#stringarray	spAnimations[8]
+
+#string			sSocket = ""
+#string			sAttachment = ""
+#string			sAnimation = ""
+#string			sSkin = ""
+
+#hobject		hAttachment = 0
+#number			nCounter = 0
+
+;---------------
+:Main
+;---------------
+	gosub InitStrings
+
+	Wait 0, 3, InitTheThingerizer
+
+	Exit TRUE
+
+;---------------
+:InitTheThingerizer
+;---------------
+	SetModelFilenames models\socketskeleton.abc, skins\skeleton1.dtx
+
+	nCounter = 0
+	AddTrigger Mutate, AttachThing
+
+	GetPlayerHandle g_hPlayer
+	gosub BaseInit
+
+	Exit TRUE
+
+;---------------
+:AttachThing
+;---------------
+	gosub SetupTarget
+	gosub AggressiveStart
+
+	PlaySound "sounds\animsounds\pig\wince01.wav", DoNothing, 1, 500, FALSE, 100
+
+	ArrayGet spSockets,		nCounter, sSocket
+	ArrayGet spAnimations,	nCounter, sAnimation
+
+	AttachProp sAttachment, sSkin, sSocket, hAttachment
+	Trigger hAttachment, sAnimation
+
+	if( nCounter>=7 )
+		RunScript baseMelee.scr
+	else
+		nCounter = nCounter + 1
+	endif
+
+	Exit TRUE
+
+#string		ANIMCOMMAND = "LOOPANIM "
+;---------------
+:InitStrings
+;---------------
+	ArrayPut spAnimations, 0, "hattack1"
+	ArrayPut spAnimations, 1, "rattack1"
+	ArrayPut spAnimations, 2, "wince1"
+	ArrayPut spAnimations, 3, "wince2"
+	ArrayPut spAnimations, 4, "land"
+	ArrayPut spAnimations, 5, "hattack1"
+	ArrayPut spAnimations, 6, "walk"
+	ArrayPut spAnimations, 7, "fidget"
+
+	nCounter = 7
+	while( nCounter>=0 )
+		ArrayGet spAnimations, nCounter, sAnimation
+		sAnimation = ANIMCOMMAND + sAnimation
+		ArrayPut spAnimations, nCounter, sAnimation
+		nCounter = nCounter - 1
+	endwhile
+
+	sAttachment = "..\lobberpod.abc"
+	sSkin = "..\skeleton1.dtx"
+
+	ArrayPut spSockets, 0, Head1
+	ArrayPut spSockets, 1, SpineMiddle
+	ArrayPut spSockets, 2, ThighR
+	ArrayPut spSockets, 3, ThighL
+	ArrayPut spSockets, 4, CalfR
+	ArrayPut spSockets, 5, CalfL
+	ArrayPut spSockets, 6, RHand1
+	ArrayPut spSockets, 7, LHand1
+
+	Exit TRUE

@@ -1,0 +1,92 @@
+;--------------------------------------------------
+;NPC436.scr
+; timmy
+; handles Boot Camp stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+#number			bSpokeTo
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+haskey 475 g_ntemp
+if (g_ntemp==TRUE)
+	haskey 496 g_ntemp
+	if (g_ntemp==FALSE)
+		giveitem 589
+		giveitem 298
+		giveitem 302
+		givekey 496
+		exit
+	endif
+endif
+
+hasitem 579 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+giveitem 579
+giveitem 580
+
+exit
+
+
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+exit
+
+;--------------------------------------------------
+:DoRude
+;--------------------------------------------------
+
+if (bSpokeTo==FALSE)
+	set bSpokeTo, TRUE
+	DoRude 436
+	Playsound \voices\npc\NPC_249.wav, DoNothing, 100, 240, FALSE, 100
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+OnFoundPlayer DoRude
+
+exit
+
+;--------------------------------------------------
+:OnLeave
+;--------------------------------------------------
+
+Givekey 473
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+AddTrigger Leave, OnLeave
+Addtrigger Use, OnUse
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

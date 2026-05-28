@@ -1,0 +1,91 @@
+schema: openyamm.model3d.v1
+id: penancequest
+model: penancequest.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/PENANCEQUEST.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: RuneStone
+  materialIndex: 0
+  lods:
+  - faces: 151
+    vertices: 112
+  - faces: 151
+    vertices: 112
+  - faces: 151
+    vertices: 112
+- name: Crown-of-Swords
+  materialIndex: 1
+  lods:
+  - faces: 770
+    vertices: 425
+  - faces: 540
+    vertices: 310
+  - faces: 310
+    vertices: 195
+materials:
+- index: 0
+  texture: skins_preview/props/runestone.png
+  runtime_texture: skins/props/runestone.dtx
+  preview_texture: skins_preview/props/runestone.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/RUNESTONE.dtx
+- index: 1
+  texture: skins_preview/props/penancequest1.png
+  runtime_texture: skins/props/penancequest1.dtx
+  preview_texture: skins_preview/props/penancequest1.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/PENANCEQUEST1.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 33.28
+  - 66.56
+  - 33.28
+  origin:
+  - 5.12
+  - 0.0
+  - 7.68
+roles:
+- static_model
+source_model: models/props/penancequest.abc

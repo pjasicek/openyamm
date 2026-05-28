@@ -1,0 +1,137 @@
+;--------------------------------------------------
+;NPC88.scr
+; timmy
+; handles Atli the Quick voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;promo variables
+
+#number		Fighter = 0
+#number		Mercenary = 1
+#number		Crusader = 2
+#number		Assassin = 3
+#number		Gladiator = 4
+#number		Ranger = 5
+#number		Paladin = 6
+#number		Initiate = 7
+#number		Scholar = 8
+#number		Healer = 9
+#number		Mage = 10
+#number		Lich = 11
+#number		Priest = 12
+#number		Druid = 13
+#number		Char1 = 0
+#number		Char2 = 1
+#number		Char3 = 2
+#number		Char4 = 3
+
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub Promo
+
+
+exit
+
+
+;--------------------------------------------------
+:PromoteAssassin
+;
+; Player has already completed the quest
+; just check to see who gets promoted
+;--------------------------------------------------
+
+Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+
+haskey 405 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Assassin Char1
+	takekey 405
+endif
+
+haskey 406 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Assassin Char2
+	takekey 406
+endif
+
+haskey 407 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Assassin Char3
+	takekey 407
+endif
+
+haskey 408 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Assassin Char4
+	takekey 408
+endif
+exit
+;--------------------------------------------------
+:promo
+;--------------------------------------------------
+;*************
+; Mercenary to assassin promo quest
+;*************
+
+Haskey 227, keycheck
+if (keycheck==0, )
+; checks to see if they already have got the reward.
+	Haskey 226, g_ntemp
+	if (g_ntemp==1, )
+	; checks to see if they've rescued Ivsar
+		GiveKey 227
+		giveexp 63000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		Givegold 5000
+		; gives reward
+		gosub PromoteAssassin
+
+		exit
+	endif
+endif
+
+exit
+
+;End Mercenary to assassin promo quest
+;***************
+;-----------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_088.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

@@ -1,0 +1,68 @@
+schema: openyamm.model3d.v1
+id: prismatic
+model: prismatic.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROJECTILES/PRISMATIC.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: d_Sphere01
+  materialIndex: 0
+  lods:
+  - faces: 120
+    vertices: 62
+- name: d_Sphere02
+  materialIndex: 0
+  lods:
+  - faces: 120
+    vertices: 62
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 2
+  - index: 1
+    name: d_Sphere01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 2
+    name: d_Sphere02
+    parent: 0
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: baseAnim
+  durationMs: 333
+  keyframes: 11
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: baseAnim
+  extents:
+  - 5.12
+  - 10.24
+  - 156.16
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/projectiles/prismatic.abc

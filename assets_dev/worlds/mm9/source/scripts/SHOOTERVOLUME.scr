@@ -1,0 +1,165 @@
+;--------------------------------------------------------
+;	ShooterVolume.scr
+;	Tony Evans
+;
+;	This script turns a shooter on if you are inside a 
+;	volume brush and turns it off if you are outside
+;
+;	Parameters:
+;		p0 = The name of the Shooter object
+;		p1 = The name of the Volume Brush object
+;
+;--------------------------------------------------------
+#include globals.inc
+
+#numberArray				PlayerIds[8]
+#number					Playercount
+
+#number					loopcounter=0
+#number					outside=0
+
+#number					g_nPlayerId
+#number					g_nPlayerNbr
+
+;Volume Dims Variables
+#number					VolumeMinX
+#number					VolumeMinY
+#number					VolumeMinZ
+#number					VolumeMaxX
+#number					VolumeMaxY
+#number					VolumeMaxZ
+
+;Volume Object Variables
+#number					VolumeX
+#number					VolumeY
+#number					VolumeZ
+
+;Player dim Variables
+#number					PlayerX
+#number					PlayerY
+#number					PlayerZ
+
+;Name of Shooter object and Volume Brush
+
+#string					Shooter
+#string					ShooterVolumeBrush
+
+;--------------------------------------------------------
+:Init
+;--------------------------------------------------------
+
+; Get coords for Volume brush
+GetObjectHandle ShooterVolumeBrush, g_hobject
+GetObjectMinMax g_hobject, VolumeMinX, VolumeMinY, VolumeMinZ, VolumeMaxX, VolumeMaxY, VolumeMaxZ
+GetPos g_hobject VolumeX, VolumeY, VolumeZ 
+exit
+
+;--------------------------------------------------------
+:CheckPlayerLoop
+;--------------------------------------------------------
+
+	; Get the coordinates of all nearby players and store them in an array
+	GetPlayersWithinDist VolumeX, VolumeY, VolumeZ, 512, PlayerIds, 8, Playercount
+
+	if (Playercount==0 )
+		gosub ShutOff
+		exit
+	Endif
+	
+	set loopcounter, 0
+
+;--------------------------------------------------------
+:CheckPlayerLoop2	
+;--------------------------------------------------------
+
+	Arrayget PlayerIds, loopCounter, g_hobject
+	gosub CheckPlayer
+	Add loopcounter, 1
+	if (loopcounter<Playercount)
+		goto CheckPlayerLoop2	
+	endif
+exit
+
+;--------------------------------------------------------
+:CheckPlayer
+;--------------------------------------------------------
+
+	;Gets the dims of Player
+
+	GetPos g_hobject, PlayerX, PlayerY, PlayerZ
+	set outside FALSE
+
+	If (PlayerX<VolumeMinX)
+		set outside TRUE
+	Endif
+	If (PlayerX>VolumeMaxX)
+		set outside TRUE
+	Endif
+	If (PlayerY<VolumeMinY)
+		set outside TRUE
+	Endif
+	If (PlayerY>VolumeMaxY)
+		set outside TRUE
+	Endif
+	If (PlayerZ<VolumeMinZ)
+		set outside TRUE
+	Endif
+	If (PlayerZ>VolumeMaxZ)
+		set outside TRUE
+	Endif
+	If (outside==TRUE)
+		gosub ShutOff
+		exit
+	Endif
+
+	wait 1, CheckPlayerLoop
+
+exit
+
+;--------------------------------------------------------
+:HandleTouchNotify
+;--------------------------------------------------------
+
+	gosub TurnOn
+exit
+
+;--------------------------------------------------------
+:TurnOn
+;--------------------------------------------------------
+
+	gosub Init
+
+	; turn shooter on
+	GetObjectHandle Shooter, g_hobject
+	Trigger g_hobject on
+
+	;turn touchnotify off
+	OnTouchNotify
+
+	wait 1, CheckplayerLoop
+
+exit
+
+;--------------------------------------------------------
+:ShutOff
+;--------------------------------------------------------
+
+		GetObjectHandle Shooter, g_hobject
+		Trigger g_hobject off
+		OnTouchNotify HandleTouchNotify .5
+
+exit
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+Wait 0.1, init
+
+; Get parameters
+GetParam 0, Shooter
+GetParam 1, ShooterVolumeBrush
+
+OnTouchNotify HandleTouchNotify .5
+
+exit

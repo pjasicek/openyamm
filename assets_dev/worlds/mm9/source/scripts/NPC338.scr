@@ -1,0 +1,107 @@
+;--------------------------------------------------
+;NPC338.scr
+; timmy
+; handles Igrid voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub darkpass
+
+exit
+
+
+;--------------------------------------------------
+:darkpass
+;--------------------------------------------------
+;****************
+;darkpass Quest
+;****************
+
+haskey 476 g_ntemp
+if (g_ntemp==TRUE)
+	gosub activate
+endif
+
+
+haskey 188 g_ntemp
+if (g_ntemp==FALSE)
+	hasitem 396 g_ntemp
+	if (g_ntemp==TRUE)
+		givekey, 188
+		GiveExp 146000
+	endif
+endif
+
+
+
+haskey 187 g_ntemp
+if (g_ntemp==0, )
+		givekey 476
+		givekey 187
+		giveEXP 92000
+		gosub activate 
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		exit
+endif
+exit
+
+
+;End darkpass quest
+;******************
+exit
+
+
+
+;--------------------------------------------------
+:activate
+;--------------------------------------------------
+
+	getobjecthandle FlameCage g_hobject
+	trigger g_hobject open
+	getobjecthandle ExitPoint g_hobject
+	trigger g_hobject on
+	;this is where the exit it turned on!!
+	exit
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

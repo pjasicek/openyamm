@@ -1,0 +1,141 @@
+;------------------------
+;	BaseGlobals.inc
+;	by SJR
+;	11-12-01
+;	Purpose:be a genie
+;------------------------
+#include BaseGlobals.inc
+
+#string		sAppearName = ""
+#hobject	hAppear = 0
+
+#hobject	hMe = 0
+
+#number		bHasKey = 0
+
+#number		x = 0
+#number		y = 0
+#number		z = 0
+
+#string		SPELL_MIST = "mist"
+#string		SPELL_BLACKSMOKE = "blacksmoke"
+
+;------------------------
+:Main
+;------------------------
+	GetParam 0, sAppearName
+
+	OnCacheFiles CacheFiles
+
+	gosub InitColloidalGenie
+
+	Exit TRUE
+
+;------------------------
+:CacheFiles
+;------------------------
+	CacheClientFX SPELL_MIST
+	CacheClientFX SPELL_BLACKSMOKE
+
+	CacheSound "sounds\animsounds\dragon\fidget1.wav"
+	CacheSound "sounds\animsounds\zombie\ressurect2.wav"
+
+	Exit TRUE
+
+;------------------------
+:InitColloidalGenie
+;------------------------
+	SetModelFileNames "models\ColloidalWarrior.abc", "skins\spells\Shockwave.dtx"
+
+	GetMyHandle hMe
+
+	AddEnemy AIBase
+	AddFriend Player
+
+	AddTrigger appear, AppearWait
+
+	OnRudeExit GrantWish
+
+	Exit TRUE
+
+;------------------------
+:AppearWait
+;------------------------
+	GetObjectHandle sAppearName, hAppear
+	GetPOS hAppear, x,y,z
+	y = y + 36
+
+	if( hAppear!=0 )
+		DoClientFX hAppear, SPELL_BLACKSMOKE, FALSE, TRUE
+		Wait 0, 2, Appear
+	endif
+
+	Exit TRUE
+
+;------------------------
+:Appear
+;------------------------
+	DoClientFX hAppear, SPELL_MIST, FALSE, TRUE
+
+	SetPOS hMe, x,y,z
+
+	PlaySound "sounds\animsounds\dragon\fidget1.wav", DoNothing, 1, 1000, FALSE, 100
+	PlaySound "sounds\animsounds\zombie\ressurect2.wav", DoNothing, 1, 1000, FALSE, 100
+
+	Wait 0, 3, OfferWish
+
+	Exit TRUE
+
+;------------------------
+:OfferWish
+;------------------------
+	RemoveTrigger use
+	DoRude 435
+
+	Exit TRUE
+
+;------------------------
+:GrantWish
+;------------------------
+	AddTrigger use, BlockRUDE
+	OnRudeExit DoNothing
+
+	HasKey 5022, bHasKey
+	if( bHasKey==TRUE )
+		GiveGold 5000
+	else
+	HasKey 5023, bHasKey
+	if( bHasKey==TRUE )
+		GiveExp 5000
+	else
+	HasKey 5024, bHasKey
+	if( bHasKey==TRUE )
+		GetRandomInt 234, 238, x
+		GiveItem x
+	else
+	HasKey 5025, bHasKey
+	if( bHasKey==TRUE )
+		GiveAttribute 0, 10, TRUE, 0
+	endif
+	endif
+	endif
+	endif
+
+	Wait 0, 3, Disappear
+
+	Exit TRUE
+
+;------------------------
+:Disappear
+;------------------------
+	DoClientFX hAppear, SPELL_MIST, FALSE, TRUE
+	DoClientFX hAppear, SPELL_BLACKSMOKE, FALSE, TRUE
+
+	RemoveObject hMe
+
+	Exit TRUE
+
+;------------------------
+:BlockRUDE
+;------------------------
+	Exit TRUE

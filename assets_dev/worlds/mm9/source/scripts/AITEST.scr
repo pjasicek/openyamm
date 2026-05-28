@@ -1,0 +1,63 @@
+;--------------------------------------------------------
+;	AITEST.SCR
+;
+;
+;--------------------------------------------------------
+
+#include aiglobals.inc
+
+#string			g_sDefaultScript
+
+#hobject		g_hMarker1
+#hobject		g_hMarker2
+
+
+;--------------------------------------------------------
+:Test2
+;--------------------------------------------------------
+
+	WalkTo g_hMarker2,0,Test1
+	Exit TRUE
+
+;--------------------------------------------------------
+:Test1
+;--------------------------------------------------------
+
+	WalkTo g_hMarker1,0,Test2
+	Exit TRUE
+	
+
+;--------------------------------------------------------
+:init
+;--------------------------------------------------------
+
+	GetObjectHandle TerrorMarker0, g_hMarker1
+	GetObjectHandle TerrorMarker1, g_hMarker2
+
+	gosub Test1
+
+	exit
+
+;--------------------------------------------------------
+:OnDamage
+;--------------------------------------------------------
+
+	GetParam 0, g_hObject
+	Target g_hObject
+	RunScript g_sDefaultScript
+	Exit
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+	OnDamage OnDamage
+	GetMyHandle g_hMyObject
+	GetStatStr g_hMyObject,ScriptName,g_sDefaultScript
+	CacheScript g_sDefaultScript
+
+	wait 0,1,init
+	
+
+
+	Exit

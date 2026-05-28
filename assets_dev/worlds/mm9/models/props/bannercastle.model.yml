@@ -1,0 +1,135 @@
+schema: openyamm.model3d.v1
+id: bannercastle
+model: bannercastle.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/BANNERCASTLE.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 1536.0
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: CastleBanner
+  materialIndex: 0
+  lods:
+  - faces: 108
+    vertices: 56
+  - faces: 82
+    vertices: 43
+  - faces: 54
+    vertices: 29
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Dummy04
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 6
+    - 10
+  - index: 2
+    name: Bone01
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Bone02
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bone03
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bone04
+    parent: 4
+    flags: 1
+    children: []
+  - index: 6
+    name: Bone05
+    parent: 1
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Bone06
+    parent: 6
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Bone07
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bone08
+    parent: 8
+    flags: 1
+    children: []
+  - index: 10
+    name: Bone09
+    parent: 1
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bone10
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Bone11
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bone12
+    parent: 12
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Sway
+  durationMs: 2033
+  keyframes: 5
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Sway
+  extents:
+  - 154.88
+  - 1410.56
+  - 179.20000000000002
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/bannercastle.abc

@@ -1,0 +1,60 @@
+;---------------------------------------------------------------------
+;	CameraTest.scr
+;	Jeff Leggett
+;
+;	Parameters:
+;		none
+;
+;---------------------------------------------------------------------
+
+; #include FollowPath.inc
+#include globals.inc
+
+#number				nVelX
+#number				nVelY
+#number				nVelZ
+
+#number				nPosX
+#number				nPosY
+#number				nPosZ
+
+#number				nStartPosX
+#number				nStartPosY
+#number				nStartPosZ
+
+#number				hMyObject
+#number				hPlayerObject
+
+
+
+
+;---------------------------------------------------------------------
+:Trigger_ON
+;---------------------------------------------------------------------
+
+	Set nFollowPathCount, 1
+	Set sFollowPathTemp,CameraPath
+	Add sFollowPathTemp,nFollowPathCount
+
+	Set g_sOut, [
+	Add g_sOut, sFollowPathTemp
+	Add g_sOut, ]-->was not found! Total marker count=>
+	Add g_sOut, nFollowPathCount
+
+	DebugOut g_sOut
+
+	Exit 1
+;---------------------------------------------------------------------
+:Main
+;---------------------------------------------------------------------
+
+	AddTrigger ON, Trigger_ON
+
+	GetMyHandle hMyObject
+
+	GetPos hMyObject,nStartPosX,nStartPosY,nStartPosZ
+
+;;	ConsoleCommand ShowFrameRate 1
+
+
+	Exit

@@ -1,0 +1,57 @@
+schema: openyamm.model3d.v1
+id: xroot
+model: xroot.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/GIBS/LOBBERPOD/XROOT.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: root
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 17
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Xroot
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: root-die
+  durationMs: 1700
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: root-die
+  extents:
+  - 20.48
+  - 10.24
+  - 20.48
+  origin:
+  - 0.0
+  - -69.12
+  - 16.895999755859375
+roles:
+- static_model
+source_model: models/gibs/lobberpod/xroot.abc

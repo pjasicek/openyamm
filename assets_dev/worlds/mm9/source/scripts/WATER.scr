@@ -1,0 +1,24 @@
+;---------------------------------------------------------------------
+:	Water.scr
+;	Jeff Leggett
+;
+;	This script can be used to sink and fill water...
+;
+;
+;	Parameters:
+;
+;	p1	- How many inches of water to leave (when sinking)
+;	p2	- Sink Rate
+;	p3	- Fill Rate
+;
+;---------------------------------------------------------------------
+
+#include water.inc
+
+;---------------------------------------------------------------------
+:main
+;
+;---------------------------------------------------------------------
+
+gosub waterinit
+exit

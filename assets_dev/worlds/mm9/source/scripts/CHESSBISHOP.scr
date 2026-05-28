@@ -1,0 +1,145 @@
+;---------------------------------------
+;	ChessBishop.scr
+;	by SJR
+;	Purpose:Bishop
+;---------------------------------------
+#include BaseGlobals.inc
+#include ChessBase.inc
+
+;---------------------------------------
+:Main
+;---------------------------------------
+	GetParam 0, sSquareName
+	GetParam 1, sFloorName
+	GetParam 2, BOARDSIZE
+	GetParam 3, nLocation
+
+	OnPostStartWorld InitChessBase
+
+	Exit TRUE
+
+#number		DIAG_SIZE = 0
+#number		DIAG_DIR = 1
+#number		xTemp = 0
+#number		zTemp = 0
+#number		nSquares = 0
+#number		bAttacked = 0
+;---------------------------------------
+:PreAttackRoutine
+;---------------------------------------
+	gosub BeginAttack
+
+	Exit TRUE
+
+;---------------------------------------
+:CheckPath
+;	check the (0,0)->(N,N) direction
+;	check the (0,N)->(N,0) direction
+;---------------------------------------
+	bAttacked = FALSE
+	GetParam 0, hTrigger
+
+	DIAG_DIR = 1
+	gosub CheckDiagonal
+
+	if( bAttacked==FALSE )
+		DIAG_DIR = -1
+		gosub CheckDiagonal
+	endif
+
+	Exit TRUE
+
+;---------------------------------------
+:CheckDiagonal
+;	shifts pos of piece to
+;	sides of board and checks
+;	diagonal from there
+;---------------------------------------
+	gosub NormalizeDiagonal
+
+	;;diagonal boardlength adjusted for direction
+	DIAG_SIZE = BOARDSIZE * DIAG_DIR + 1
+	LISTINDEX = zTemp * BOARDSIZE + xTemp
+
+	while( nSquares>0 )
+		nSquares = nSquares - 1
+
+		if( LISTINDEX!=nLocation )
+			gosub GetCurrentObject
+			if( LISTOBJECT==hTrigger )
+				gosub PreAttackRoutine
+				bAttacked = TRUE
+				Exit TRUE
+			endif
+		endif
+
+		;;shift to next diagonal
+		LISTINDEX = LISTINDEX + DIAG_SIZE
+	endwhile
+
+	Exit TRUE
+
+;---------------------------------------
+:NormalizeDiagonal
+;	shifts the pos of the piece
+;	to the sides of the board
+;---------------------------------------
+	xTemp = xMe
+	zTemp = zMe
+
+	if( DIAG_DIR>0 )
+		if( xTemp==zTemp )
+			xTemp = 0
+			zTemp = 0
+		endif
+		if( xTemp>zTemp )
+			xTemp = xTemp - zTemp
+			zTemp = 0
+		endif
+		if( xTemp<zTemp )
+			zTemp = zTemp - xTemp
+			xTemp = 0
+		endif
+	endif
+	if( DIAG_DIR<0 )
+		nTemp =	SIZEINDEX - xTemp - zTemp
+		if( nTemp == 0 )
+			xTemp = 0
+			zTemp = SIZEINDEX
+		endif
+		if( nTemp<0 )
+			xTemp = xTemp - BOARDSIZE + zTemp + 1
+			zTemp = SIZEINDEX
+		endif
+		if( nTemp>0 )
+			zTemp = xTemp + zTemp
+			if( zTemp<0 )
+				zTemp = zTemp * -1
+			endif
+			xTemp = 0
+		endif
+	endif
+	if( xTemp==0 )
+		nSquares = BOARDSIZE - zTemp
+	endif
+	if( zTemp==0 )
+		nSquares = BOARDSIZE - xTemp
+	endif
+	if( zTemp==SIZEINDEX )
+		nSquares = BOARDSIZE - xTemp
+	endif
+
+	Exit TRUE
+
+;--------------------------------
+:CheckCollision
+;	checks for pieces in the way
+;--------------------------------
+;	GetPOS hTrigger, xSpace, nTemp, zSpace
+;	VecDist xSpace, 0, zSpace, xMe, 0, zMe, nTemp
+;	dx = 
+;
+;	CastRay <dirX>,0,<dirZ>,<dist>,<hHit>,<nHitdist>
+;	nTemp = 0
+
+	Exit 1

@@ -1,0 +1,143 @@
+;----------------------------------------------------------------
+;	Director.scr
+;	John Machin
+;
+;		This script handles all camera movement and cut scenes
+;----------------------------------------------------------------
+#hobject	hCamera0
+
+#number		start = 0
+
+;------------------------------------------
+:OnStartPendulumPath
+;------------------------------------------
+	if start = 1
+		Exit
+	endif
+
+	GetObjectHandle camera0,hCamera0
+	Trigger hCamera0,StartPendulum 
+
+	Set start,1
+
+	Exit
+
+;------------------------------------------
+:OnStartThronePath
+;------------------------------------------
+	GetObjectHandle camera0,hCamera0
+	Trigger hCamera0,StartThrone	
+
+	Exit
+
+;------------------------------------------
+:OnStartScythePath
+;------------------------------------------
+	GetObjectHandle camera0,hCamera0
+	Trigger hCamera0,StartScythe	
+
+	Exit
+
+;------------------------------------------
+:OnStartSawPath
+;------------------------------------------	
+	GetObjectHandle camera0,hCamera0
+	Trigger hCamera0,StartSaw			   	
+
+	Exit
+
+;------------------------------------------
+:OnStartWardrobePath
+;------------------------------------------	
+	GetObjectHandle camera0,hCamera0
+	Trigger hCamera0,StartWardrobe
+	
+	Exit
+	
+;------------------------------------------
+:OnStartWardrobe2Path
+;------------------------------------------	
+	GetObjectHandle camera0,hCamera0
+	Trigger hCamera0,StartWardrobe2		   	
+
+	Exit
+
+;------------------------------------------
+:OnStartSconcePath
+;------------------------------------------	
+	GetObjectHandle camera0,hCamera0
+	Trigger hCamera0,StartSconce
+
+	Exit													  
+
+;------------------------------------------
+:OnStartTreasurePath
+;------------------------------------------	
+	GetObjectHandle camera0,hCamera0
+	Trigger hCamera0,StartTreasure			   	
+
+	Exit
+
+;------------------------------------------
+:OnStartPitPath
+;------------------------------------------	
+	GetObjectHandle camera0,hCamera0
+	Trigger hCamera0,StartPit
+
+	Exit
+
+;------------------------------------------
+:OnStartPit2Path
+;------------------------------------------	
+	GetObjectHandle camera0,hCamera0
+	Trigger hCamera0,StartPit2	   	
+
+	Exit
+
+;------------------------------------------
+:OnStartTrapDoorPath
+;------------------------------------------	
+	GetObjectHandle camera0,hCamera0
+	Trigger hCamera0,StartTrapDoor
+
+	Exit
+
+;------------------------------------------
+:OnStartChasmPath
+;------------------------------------------	
+	GetObjectHandle camera0,hCamera0
+	Trigger hCamera0,StartChasm
+
+	Exit
+
+;------------------------------------------
+:OnStartLichPath
+;------------------------------------------	
+	GetObjectHandle camera0,hCamera0
+	Trigger hCamera0,StartLich
+
+	Exit
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+	
+	;TraceOn
+	
+	AddTrigger StartPendulumPath,	OnStartPendulumPath
+	AddTrigger StartThronePath,		OnStartThronePath
+	AddTrigger StartScythePath,		OnStartScythePath
+	AddTrigger StartSawPath,		OnStartSawPath
+	AddTrigger StartWardrobePath,	OnStartWardrobePath
+	AddTrigger StartWardrobe2Path,	OnStartWardrobe2Path
+	AddTrigger StartSconcePath,		OnStartSconcePath
+	AddTrigger StartTreasurePath,	OnStartTreasurePath
+	AddTrigger StartPitPath,		OnStartPitPath
+	AddTrigger StartPit2Path,		OnStartPit2Path
+	AddTrigger StartTrapDoorPath,	OnStartTrapDoorPath
+	AddTrigger StartChasmPath,		OnStartChasmPath
+	AddTrigger StartLichPath,		OnStartLichPath
+
+	Exit		

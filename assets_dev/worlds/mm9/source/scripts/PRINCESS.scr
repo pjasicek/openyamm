@@ -1,0 +1,326 @@
+;-----------------------------------------------------------
+;	Princess.Scr
+;	Jeff Leggett
+;	09/28/2000
+;
+;		The princess follows the last player to 
+;	press the "use" key on her...
+;
+;-----------------------------------------------------------
+
+#include aiglobals.inc
+#include globals.inc
+#include basedoor.inc
+
+#number		MAX_RUN_ANGLE=50
+;#number		WALK_RADIUS=120
+#number		WALK_RADIUS=120
+#number		STOP_RADIUS=80
+#number		RUN_RADIUS=360
+
+#number		distance=0
+#hobject	hCrown=NULL
+
+#hobject	hLastTarget = 0
+
+#number		bAvoidingObstacle = 0
+#number		bRescued = 0
+
+
+;-----------------------------------------------------------
+:Stop
+;
+;  Stop moving, and prepare to start walking again...
+;
+;-----------------------------------------------------------
+
+	Stop
+
+	Set bAvoidingObstacle, FALSE
+
+	if ( g_hTarget!=NULL )
+		OnTargetBeyondDist WALK_RADIUS, StartWalking
+	endif
+
+	Exit
+
+;-----------------------------------------------------------
+:WalkAfterTarget
+;
+;	Walk to target...
+;
+;-----------------------------------------------------------
+
+	RunTo g_hTarget, STOP_RADIUS, Stop
+
+	Exit
+
+;-----------------------------------------------------------
+:RunAfterTarget
+;-----------------------------------------------------------
+
+	RunTo g_hTarget, WALK_RADIUS, WalkAfterTarget
+	
+	Exit
+
+;-----------------------------------------------------------
+:StartWalking
+;-----------------------------------------------------------
+
+	OnTargetBeyondDist RUN_RADIUS, StartRunning
+	OnTargetWithinDist 0
+	gosub WalkAfterTarget
+
+	Exit
+
+;-----------------------------------------------------------
+:StartRunning
+;-----------------------------------------------------------
+
+	if ( bAvoidingObstacle==TRUE )
+		exit
+	endif
+
+	OnTargetBeyondDist 0
+	OnTargetWithinDist WALK_RADIUS, StartWalking
+
+	gosub RunAfterTarget
+
+	Exit
+
+;-----------------------------------------------------------
+:FollowTarget
+;-----------------------------------------------------------
+
+	if ( g_hTarget==NULL )
+		Exit
+	endif
+
+	AIGetDistance g_hTarget, distance
+
+	if ( distance > RUN_RADIUS )
+		gosub StartRunning
+	else
+		if ( distance > WALK_RADIUS )
+			gosub StartWalking
+		else
+			; We're close enough to just hang out...
+			; Make sure we're notified when they get too far away..
+			gosub Stop
+		endif
+	endif
+	
+
+	Exit TRUE
+
+;-----------------------------------------------------------
+:FoundTarget
+;-----------------------------------------------------------
+
+	GetParam 0, g_hObject
+
+	if ( g_hTarget!=NULL )
+		; Why is this callback set... Get rid of it!
+		OnFoundTarget
+		Exit
+	endif
+
+	if ( g_hObject==hLastTarget )
+		; We found him again, start walking after him...
+		OnFoundTarget
+		Set g_hTarget, g_hObject
+		Target g_hTarget, FALSE
+		gosub FollowTarget
+	endif
+
+	Exit
+
+;-----------------------------------------------------------
+:LostTarget
+;
+;	Keep his handle around for a little while...
+;-----------------------------------------------------------
+
+	Exit TRUE
+
+	if ( g_hTarget!=NULL )
+		Trigger g_hTarget,PrincessLost
+	endif
+
+	Set hLastTarget, g_hTarget
+	Set g_hTarget, NULL
+	
+	Trigger g_hTarget,PrincessLost
+
+	Target NULL
+	gosub Stop
+
+	OnFoundTarget FoundTarget
+
+	Exit TRUE
+
+;-----------------------------------------------------------
+:StopFollowingTarget
+;
+;	Send a trigger to that target to notify him that
+;	we're no longer with him....
+;
+;-----------------------------------------------------------
+	if ( g_hTarget!=NULL )
+		Trigger g_hTarget,PrincessLost
+	endif
+		
+	Target NULL
+	Set g_hTarget, NULL
+
+	Exit
+
+;-----------------------------------------------------------
+:TargetDead
+;-----------------------------------------------------------
+
+	Target NULL
+	Set g_hTarget, NULL
+
+	gosub Stop
+
+	Exit
+
+;-----------------------------------------------------------
+:OnUse
+;
+;	If that player is already our target, then 
+;	we want to stop following them....
+;-----------------------------------------------------------
+
+	if ( bRescued==TRUE )
+		; Already rescued thank you!
+		Exit
+	endif
+
+	GetParam 0, g_hObject
+
+	Set hLastTarget, NULL
+
+	if ( g_hTarget==g_hObject )
+		gosub StopFollowingTarget
+		Exit TRUE
+	endif
+
+	if ( g_hTarget!=NULL )
+		gosub StopFollowingTarget
+	endif
+
+	Set g_hTarget, g_hObject
+
+	Target g_hTarget, FALSE
+	OnLostTarget LostTarget
+
+	gosub FollowTarget
+
+	FaceObject g_hTarget, 180
+
+	Exit TRUE
+	
+;-----------------------------------------------------------
+:Init
+;-----------------------------------------------------------
+
+	GetMyHandle g_hMyObject
+
+	Exit
+
+;-----------------------------------------------------------
+:ObstacleAvoided
+;-----------------------------------------------------------
+
+	Set bAvoidingObstacle, FALSE
+
+	gosub FollowTarget
+	OnObstacleAvoided
+
+	Exit
+
+;-----------------------------------------------------------
+:OnAvoidingObstacle
+;
+;	p0	= obstacle
+;	p1	= avoid turn angle
+;-----------------------------------------------------------
+	GetParam 0, g_hObject
+	GetParam 1, g_nTemp
+
+	if ( g_nTemp > MAX_RUN_ANGLE )
+		; Let's walk around it...
+		gosub StartWalking
+		OnObstacleAvoided	ObstacleAvoided
+		Set bAvoidingObstacle, TRUE
+	endif
+
+	Exit TRUE
+
+;-----------------------------------------------------------
+:OnStuckDone
+;
+;	Keep on truck'n
+;-----------------------------------------------------------
+	gosub FollowTarget
+
+	Exit TRUE
+
+
+;-----------------------------------------------------------
+:OnRescued
+;-----------------------------------------------------------
+
+	if ( g_hTarget!=NULL )
+		Trigger g_hTarget,PrincessRescued
+	endif
+
+	Set bRescued, TRUE
+
+	Target NULL
+	Set g_hTarget, NULL
+
+	gosub Stop
+
+	Exit
+
+;-----------------------------------------------------------
+:ComeToMe
+;-----------------------------------------------------------
+	gosub OnUse
+
+	Exit
+
+
+;-----------------------------------------------------------
+:OnTargetTeleport
+;-----------------------------------------------------------
+
+	Target NULL
+	Set g_hTarget, NULL
+	gosub Stop
+
+	Exit
+
+;-----------------------------------------------------------
+:Main
+;-----------------------------------------------------------
+
+;;	TraceON
+	SetIdle
+
+	AddTrigger Use, OnUse
+	AddTrigger HostageRescued, OnRescued
+	AddTrigger ComeToMe, ComeToMe
+	AddTrigger TargetTeleported, OnTargetTeleport
+	OnAvoidingObstacle		OnAvoidingObstacle
+	OnStuckDone				OnStuckDone
+	OnTargetDead			TargetDead
+
+	gosub BaseDoorInit
+
+	Wait 0, 0.1, Init
+
+	Exit

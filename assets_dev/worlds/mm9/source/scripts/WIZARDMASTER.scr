@@ -1,0 +1,245 @@
+;------------------------------------
+;	WizardMaster.scr
+;	01-01-02
+;	by SJR
+;	Purpose:
+;------------------------------------
+#include BaseGlobals.inc
+#include CutSceneActor.inc
+
+#string		sLocationName = ""
+#hobject	hLocation = 0
+
+#hobject	hMe = 0
+
+#number		x = 0
+#number		y = 0
+#number		z = 0
+#number		nCounter = 0
+
+#hobject	g_hObject = 0
+#number		g_bTemp = 0
+#number		g_nTemp = 0
+
+#string		SPAWN_PARAM = "GreaterDemon ScriptName WizardDemon.scr"
+
+;------------------------------------
+:Main
+;------------------------------------
+	GetParam 1, sLocationName
+
+	OnPostStartWorld InitWizardMaster
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;------------------------------------
+:InitWizardMaster
+;------------------------------------
+	SetConsoleNumVar PLAYER_FRIEND, TRUE
+
+	AddFriend GreaterDemon
+
+	GetMyHandle hMe
+	GetObjectHandle sLocationName, hLocation
+	GetPOS hLocation, x,y,z
+
+	AddTrigger start, ConjureSpell
+	AddTrigger finish, BanishDemon
+
+	OnTargetDead OnTargetDead
+
+	Exit TRUE
+
+#string		SPELL_GREENDOTS = "greenyeldots"
+#string		SPELL_BUGS = "bugs"
+#string		SPELL_BLUEDOTS = "bluedots"
+#string		SPELL_SPELLREAVER = "spell-spell reaver"
+#string		SPELL_DARKGRASP = "spell-dark grasp"
+#string		SPELL_PARALYZE = "spell-paralyze"
+#string		SPELL_ELEMBLAST = "elemental blast"
+#string		SPELL_COLUMNOFFIRE = "spell-column of fire"
+#string		SPELL_SPARKLIES = "sparklies"
+#string		SPELL_TOWNPORTAL = "spell-town portal"
+#string		SPELL_METEOR = "spell-meteor shower"
+#string		SPELL_BLUEFIRE = "fireblue"
+;------------------------------------
+:CacheFiles
+;	cache all for scene
+;------------------------------------
+	CacheClientFX SPELL_GREENDOTS
+	CacheClientFX SPELL_BUGS
+	CacheClientFX SPELL_BLUEDOTS
+	CacheClientFX SPELL_SPELLREAVER
+	CacheClientFX SPELL_DARKGRASP
+	CacheClientFX SPELL_PARALYZE
+	CacheClientFX SPELL_ELEMBLAST
+	CacheClientFX SPELL_COLUMNOFFIRE
+	CacheClientFX SPELL_SPARKLIES
+	CacheClientFX SPELL_TOWNPORTAL
+	CacheClientFX SPELL_METEOR
+	CacheClientFX SPELL_BLUEFIRE
+
+	CacheSound "sounds\animsounds\dragon\hattack1.wav"
+	CacheSound "sounds\animsounds\dragon\wingattack.wav"
+	CacheSound "sounds\animsounds\dragon\rattack1.wav"
+	CacheSound "sounds\animsounds\dragon\die1.wav"
+	CacheSound "sounds\animsounds\dragon\fidget2.wav"
+	CacheSound "sounds\magic\cast01.wav"
+	CacheSound "sounds\magic\cast03.wav"
+	CacheSound "sounds\magic\wizardeyeloop.wav"
+	CacheSound "sounds\ambient\thunder\thunderlong.wav"
+	CacheSound "sounds\animsounds\evilsorcerer\rattack1.wav"
+	CacheSound "sounds\animsounds\evilsorcerer\wince2.wav"
+	CacheSound "sounds\animsounds\evilsorcerer\die1.wav"
+
+	Exit TRUE
+
+;------------------------------------
+:OnDeath
+;------------------------------------
+	GetParam 0, g_hObject
+	IsPlayer g_hObject, g_bTemp
+	if( g_bTemp==TRUE )
+		SetConsoleNumVar PLAYER_FRIEND, FALSE
+	endif
+
+	Exit TRUE
+;------------------------------------
+:OnDamage
+;------------------------------------
+	GetParam 0, g_hObject
+	IsPlayer g_hObject, g_bTemp
+	if( g_bTemp==TRUE )
+		SetConsoleNumVar PLAYER_FRIEND, FALSE
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:ConjureSpell
+;------------------------------------
+	LoopAnim fidget2, 0
+
+	DoClientFX hLocation, SPELL_METEOR, FALSE, TRUE
+	DoClientFX hLocation, SPELL_TOWNPORTAL, FALSE, TRUE
+	DoClientFX hLocation, SPELL_SPARKLIES, FALSE, TRUE
+	DoClientFX hLocation, SPELL_COLUMNOFFIRE, FALSE, TRUE
+
+	Wait 0, 1.5, CastSpell
+
+	Exit TRUE
+
+;------------------------------------
+:CastSpell
+;------------------------------------
+	PlayAnim rattack1, DoNothing
+
+	PlaySound "sounds\magic\cast03.wav", DoNothing, 1, 5000, FALSE, 200
+	Wait 0, 1, Summon
+
+	Exit TRUE
+
+;------------------------------------
+:Summon
+;------------------------------------
+	PlaySound "sounds\animsounds\dragon\fidget2.wav", DoNothing, 1, 5000, FALSE, 200
+	Spawn hLocation, x,y,z, SPAWN_PARAM
+	CreateObjectLink hLocation
+
+	DoClientFX hLocation, SPELL_ELEMBLAST, FALSE, TRUE
+	DoClientFX hLocation, SPELL_PARALYZE, FALSE, TRUE
+
+	PlayAnim taunt, Backup
+
+	Exit TRUE
+
+;------------------------------------
+:Backup
+;------------------------------------
+	Wait 0, 1, EndScene
+	GetReverseDir x,y,z
+	Strafe x,y,z, FALSE
+	OnObstacle BeginBanish
+
+	Exit TRUE
+
+;------------------------------------
+:OnTargetDead
+;------------------------------------
+	hLocation = NULL
+	GetConsoleNumVar PLAYER_FRIEND, g_nTemp
+	if( g_nTemp==FALSE )
+		AddEnemy Player
+		RunScript "EvilSorcerer.scr"
+	else
+		gosub PassOut
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:BeginBanish
+;------------------------------------
+	Stop
+
+	DoClientFX hMe, SPELL_SPARKLIES, TRUE, TRUE
+	DoClientFX hMe, SPELL_BLUEFIRE, TRUE, TRUE
+
+	LoopAnim fidget2, 0
+
+	Exit TRUE
+
+;------------------------------------
+:BanishDemon
+;------------------------------------
+	nCounter = nCounter + 1
+	if( nCounter<6 )
+		Exit TRUE
+	endif
+
+	PlaySound "sounds\magic\wizardeyeloop.wav", DoNothing, 1, 5000, FALSE, 200
+	if( hLocation!=0 )
+		Target hLocation, TRUE
+		DoClientFX hLocation, SPELL_DARKGRASP, TRUE, TRUE
+		Trigger hLocation, finish
+		SetStat hLocation, Gravity, FALSE
+		SetVelocity hLocation, 0, 25, 0
+		Wait 0, 4, PerformBanish
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:PerformBanish
+;------------------------------------
+	PlaySound "sounds\magic\wizardeyeloop.wav", DoNothing, 1, 5000, FALSE, 200
+	if( hLocation!=0 )
+		SetVelocity hLocation, 0, -50, 0
+		Wait 0, 2, RemoveDemon
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:RemoveDemon
+;------------------------------------
+	PlayAnim fidget3, DoNothing
+	PlaySound "sounds\magic\cast01.wav", DoNothing, 1, 5000, FALSE, 200
+	PlaySound "sounds\animsounds\evilsorcerer\rattack1.wav", DoNothing, 1, 5000, FALSE, 200
+	PlaySound "sounds\animsounds\dragon\fidget2.wav", DoNothing, 1, 5000, FALSE, 200
+	if( hLocation!=0 )
+		DoClientFX hLocation, SPELL_SPELLREAVER, FALSE, TRUE
+		DoClientFX hLocation, SPELL_ELEMBLAST, FALSE, TRUE
+		Trigger hLocation, destroy
+	endif
+
+	Exit TRUE
+
+;------------------------------------
+:PassOut
+;------------------------------------
+	PlaySound "sounds\animsounds\evilsorcerer\wince2.wav", DoNothing, 1, 5000, FALSE, 200
+	Die
+
+	Exit TRUE

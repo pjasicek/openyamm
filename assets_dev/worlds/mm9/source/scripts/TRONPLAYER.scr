@@ -1,0 +1,73 @@
+;--------------------------------
+;	TronPlayer.scr
+;	by SJR
+;	12-12-01
+;	Purpose:play the TronGame like
+;			a total loser.
+;--------------------------------
+#include BaseGlobals.inc
+
+#string		sMyName = ""
+
+#string		sPieceName = ""
+#hobject	hPiece = 0
+#string		sTronName = ""
+#hobject	hTron = 0
+
+#string		sTemp = ""
+
+#number		nTemp = 0
+#number		NUMSQUARES = 0
+#number		STALL_MIN = 0
+#number		STALL_MAX = 5
+
+;---------------
+:Main
+;---------------
+	GetParam 0, sPieceName
+	GetParam 1, nTemp
+
+	;;register this name
+	GetMyHandle hTron
+	GetObjectName hTron, sMyName
+	SetConsoleStrVar TRON_PLAYER, sMyName
+
+	NUMSQUARES = nTemp * nTemp - 1
+
+	OnPostStartWorld InitTronPlayer
+
+	Exit TRUE
+
+;---------------
+:InitTronPlayer
+;---------------
+	GetConsoleStrVar TRON_NAME, sTronName
+	GetObjectHandle sTronName, hTron
+
+	AddTrigger PlacePiece, SelectPiece
+
+	Exit TRUE
+
+;---------------
+:SelectPiece
+;---------------
+	GetRandomInt 0, NUMSQUARES, nTemp
+	sTemp = sPieceName + nTemp
+	GetObjectHandle sTemp, hPiece
+
+;;	if( hPiece!=0 )
+;;		GetRandomInt STALL_MIN, STALL_MAX, nTemp
+;;		Wait 0, nTemp, PlacePiece
+;;	endif
+
+	gosub PlacePiece
+
+	Exit TRUE
+
+;---------------
+:PlacePiece
+;	use a piece like the player would
+;---------------
+	Trigger hPiece, use
+
+	Exit TRUE

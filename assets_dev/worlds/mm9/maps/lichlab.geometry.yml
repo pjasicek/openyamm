@@ -1,0 +1,938 @@
+format_version: 2
+kind: "indoor_geometry"
+map_file: "lichlab.blv"
+source:
+  asset_path: "lichlab.source.glb"
+  coordinate_system: "openyamm_mm9_lithtech_dat"
+  unit_scale: 1
+import:
+  source_format: "glb"
+  merge_vertices_epsilon: 0
+  merge_coplanar_faces: true
+  triangulate_ngons: true
+  generate_bsp: false
+  generate_outlines: false
+  generate_portals: false
+materials:
+  - id: "bronzebat"
+    source_material: "BRONZEBAT"
+    texture: "BRONZEBAT"
+  - id: "bronzeceil"
+    source_material: "BRONZECEIL"
+    texture: "BRONZECEIL"
+  - id: "bronzef000"
+    source_material: "BRONZEF000"
+    texture: "BRONZEF000"
+  - id: "bronzef001"
+    source_material: "BRONZEF001"
+    texture: "BRONZEF001"
+  - id: "bronzeface"
+    source_material: "BRONZEFACE"
+    texture: "BRONZEFACE"
+  - id: "bronzeg000"
+    source_material: "BRONZEG000"
+    texture: "BRONZEG000"
+  - id: "bronzeg001"
+    source_material: "BRONZEG001"
+    texture: "BRONZEG001"
+  - id: "bronzeg002"
+    source_material: "BRONZEG002"
+    texture: "BRONZEG002"
+  - id: "bronzew000"
+    source_material: "BRONZEW000"
+    texture: "BRONZEW000"
+  - id: "bronzewall"
+    source_material: "BRONZEWALL"
+    texture: "BRONZEWALL"
+  - id: "bullsey000"
+    source_material: "BULLSEY000"
+    texture: "BULLSEY000"
+  - id: "bullseye"
+    source_material: "BULLSEYE"
+    texture: "BULLSEYE"
+  - id: "carpeto000"
+    source_material: "CARPETO000"
+    texture: "CARPETO000"
+  - id: "castlew000"
+    source_material: "CASTLEW000"
+    texture: "CASTLEW000"
+  - id: "ceiling000"
+    source_material: "CEILING000"
+    texture: "CEILING000"
+  - id: "coals"
+    source_material: "COALS"
+    texture: "COALS"
+  - id: "default"
+    source_material: "DEFAULT"
+    texture: "DEFAULT"
+  - id: "dungbeam01"
+    source_material: "DUNGBEAM01"
+    texture: "DUNGBEAM01"
+  - id: "extwall00a"
+    source_material: "EXTWALL00A"
+    texture: "EXTWALL00A"
+  - id: "firethr000"
+    source_material: "FIRETHR000"
+    texture: "FIRETHR000"
+  - id: "greensc000"
+    source_material: "GREENSC000"
+    texture: "GREENSC000"
+  - id: "invisib000"
+    source_material: "INVISIB000"
+    texture: "INVISIB000"
+  - id: "invisib001"
+    source_material: "INVISIB001"
+    texture: "INVISIB001"
+  - id: "invisible"
+    source_material: "INVISIBLE"
+    texture: "INVISIBLE"
+  - id: "jigsawf000"
+    source_material: "JIGSAWF000"
+    texture: "JIGSAWF000"
+  - id: "lichwindow"
+    source_material: "LICHWINDOW"
+    texture: "LICHWINDOW"
+  - id: "mtndown"
+    source_material: "MTNDOWN"
+    texture: "MTNDOWN"
+  - id: "outerwa000"
+    source_material: "OUTERWA000"
+    texture: "OUTERWA000"
+  - id: "outerwa001"
+    source_material: "OUTERWA001"
+    texture: "OUTERWA001"
+  - id: "prmetal"
+    source_material: "PRMETAL"
+    texture: "PRMETAL"
+  - id: "rail"
+    source_material: "RAIL"
+    texture: "RAIL"
+  - id: "refiner000"
+    source_material: "REFINER000"
+    texture: "REFINER000"
+  - id: "refiner001"
+    source_material: "REFINER001"
+    texture: "REFINER001"
+  - id: "refiner002"
+    source_material: "REFINER002"
+    texture: "REFINER002"
+  - id: "refiner003"
+    source_material: "REFINER003"
+    texture: "REFINER003"
+  - id: "rivet128a"
+    source_material: "RIVET128A"
+    texture: "RIVET128A"
+  - id: "skullwa000"
+    source_material: "SKULLWA000"
+    texture: "SKULLWA000"
+  - id: "skullwa001"
+    source_material: "SKULLWA001"
+    texture: "SKULLWA001"
+  - id: "skymarker"
+    source_material: "SKYMARKER"
+    texture: "SKYMARKER"
+  - id: "snowmtn000"
+    source_material: "SNOWMTN000"
+    texture: "SNOWMTN000"
+  - id: "snowmtnse"
+    source_material: "SNOWMTNSE"
+    texture: "SNOWMTNSE"
+  - id: "snowmtnsn"
+    source_material: "SNOWMTNSN"
+    texture: "SNOWMTNSN"
+  - id: "snowmtnss"
+    source_material: "SNOWMTNSS"
+    texture: "SNOWMTNSS"
+  - id: "snowmtnsup"
+    source_material: "SNOWMTNSUP"
+    texture: "SNOWMTNSUP"
+  - id: "snowmtnsw"
+    source_material: "SNOWMTNSW"
+    texture: "SNOWMTNSW"
+  - id: "starfield"
+    source_material: "STARFIELD"
+    texture: "STARFIELD"
+  - id: "thjorad000"
+    source_material: "THJORAD000"
+    texture: "THJORAD000"
+  - id: "tubes02000"
+    source_material: "TUBES02000"
+    texture: "TUBES02000"
+  - id: "tubes02001"
+    source_material: "TUBES02001"
+    texture: "TUBES02001"
+  - id: "tubes02002"
+    source_material: "TUBES02002"
+    texture: "TUBES02002"
+  - id: "tubesworn"
+    source_material: "TUBESWORN"
+    texture: "TUBESWORN"
+  - id: "verdoor000"
+    source_material: "VERDOOR000"
+    texture: "VERDOOR000"
+  - id: "wainsco000"
+    source_material: "WAINSCO000"
+    texture: "WAINSCO000"
+  - id: "wainsco001"
+    source_material: "WAINSCO001"
+    texture: "WAINSCO001"
+  - id: "wainsco002"
+    source_material: "WAINSCO002"
+    texture: "WAINSCO002"
+  - id: "wainsco003"
+    source_material: "WAINSCO003"
+    texture: "WAINSCO003"
+  - id: "water"
+    source_material: "WATER"
+    texture: "WATER"
+  - id: "woodcei000"
+    source_material: "WOODCEI000"
+    texture: "WOODCEI000"
+  - id: "yanmirs000"
+    source_material: "YANMIRS000"
+    texture: "YANMIRS000"
+rooms:
+  - id: "room_0"
+    name: "MM9 DAT sector 0"
+    room_id: 1
+    source_nodes:
+      - "ROOM_0"
+    runtime_sector_index: 0
+  - id: "room_1"
+    name: "MM9 DAT sector 1"
+    room_id: 2
+    source_nodes:
+      - "ROOM_1"
+    runtime_sector_index: 1
+  - id: "room_2"
+    name: "MM9 DAT sector 2"
+    room_id: 3
+    source_nodes:
+      - "ROOM_2"
+    runtime_sector_index: 2
+  - id: "room_3"
+    name: "MM9 DAT sector 3"
+    room_id: 4
+    source_nodes:
+      - "ROOM_3"
+    runtime_sector_index: 3
+  - id: "room_4"
+    name: "MM9 DAT sector 4"
+    room_id: 5
+    source_nodes:
+      - "ROOM_4"
+    runtime_sector_index: 4
+  - id: "room_5"
+    name: "MM9 DAT sector 5"
+    room_id: 6
+    source_nodes:
+      - "ROOM_5"
+    runtime_sector_index: 5
+  - id: "room_6"
+    name: "MM9 DAT sector 6"
+    room_id: 7
+    source_nodes:
+      - "ROOM_6"
+    runtime_sector_index: 6
+  - id: "room_7"
+    name: "MM9 DAT sector 7"
+    room_id: 8
+    source_nodes:
+      - "ROOM_7"
+    runtime_sector_index: 7
+  - id: "room_8"
+    name: "MM9 DAT sector 8"
+    room_id: 9
+    source_nodes:
+      - "ROOM_8"
+    runtime_sector_index: 8
+  - id: "room_9"
+    name: "MM9 DAT sector 9"
+    room_id: 10
+    source_nodes:
+      - "ROOM_9"
+    runtime_sector_index: 9
+  - id: "room_10"
+    name: "MM9 DAT sector 10"
+    room_id: 11
+    source_nodes:
+      - "ROOM_10"
+    runtime_sector_index: 10
+  - id: "room_11"
+    name: "MM9 DAT sector 11"
+    room_id: 12
+    source_nodes:
+      - "ROOM_11"
+    runtime_sector_index: 11
+  - id: "room_12"
+    name: "MM9 DAT sector 12"
+    room_id: 13
+    source_nodes:
+      - "ROOM_12"
+    runtime_sector_index: 12
+  - id: "room_13"
+    name: "MM9 DAT sector 13"
+    room_id: 14
+    source_nodes:
+      - "ROOM_13"
+    runtime_sector_index: 13
+portals:
+  - id: "portal_0_0_4"
+    source_node: "PORTAL_0_0_4"
+    front_room: "room_0"
+    back_room: "room_4"
+    portal_id: 1
+    source_kind: "synthetic"
+  - id: "portal_1_1_5"
+    source_node: "PORTAL_1_1_5"
+    front_room: "room_1"
+    back_room: "room_5"
+    portal_id: 2
+    source_kind: "synthetic"
+  - id: "portal_2_4_5"
+    source_node: "PORTAL_2_4_5"
+    front_room: "room_4"
+    back_room: "room_5"
+    portal_id: 3
+    source_kind: "synthetic"
+  - id: "portal_3_4_8"
+    source_node: "PORTAL_3_4_8"
+    front_room: "room_4"
+    back_room: "room_8"
+    portal_id: 4
+    source_kind: "synthetic"
+  - id: "portal_4_5_9"
+    source_node: "PORTAL_4_5_9"
+    front_room: "room_5"
+    back_room: "room_9"
+    portal_id: 5
+    source_kind: "synthetic"
+  - id: "portal_5_7_8"
+    source_node: "PORTAL_5_7_8"
+    front_room: "room_7"
+    back_room: "room_8"
+    portal_id: 6
+    source_kind: "synthetic"
+  - id: "portal_6_8_9"
+    source_node: "PORTAL_6_8_9"
+    front_room: "room_8"
+    back_room: "room_9"
+    portal_id: 7
+    source_kind: "synthetic"
+  - id: "portal_7_8_11"
+    source_node: "PORTAL_7_8_11"
+    front_room: "room_8"
+    back_room: "room_11"
+    portal_id: 8
+    source_kind: "synthetic"
+  - id: "portal_8_9_10"
+    source_node: "PORTAL_8_9_10"
+    front_room: "room_9"
+    back_room: "room_10"
+    portal_id: 9
+    source_kind: "synthetic"
+  - id: "portal_9_9_12"
+    source_node: "PORTAL_9_9_12"
+    front_room: "room_9"
+    back_room: "room_12"
+    portal_id: 10
+    source_kind: "synthetic"
+  - id: "portal_10_2_6"
+    source_node: "PORTAL_10_2_6"
+    front_room: "room_2"
+    back_room: "room_6"
+    portal_id: 11
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal0"
+    source_model_index: 717
+    source_portal_index: 0
+  - id: "portal_11_8_13"
+    source_node: "PORTAL_11_8_13"
+    front_room: "room_8"
+    back_room: "room_13"
+    portal_id: 12
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal146"
+    source_model_index: 717
+    source_portal_index: 1
+  - id: "portal_12_12_13"
+    source_node: "PORTAL_12_12_13"
+    front_room: "room_12"
+    back_room: "room_13"
+    portal_id: 13
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal131"
+    source_model_index: 717
+    source_portal_index: 2
+  - id: "portal_13_12_13"
+    source_node: "PORTAL_13_12_13"
+    front_room: "room_12"
+    back_room: "room_13"
+    portal_id: 14
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal130"
+    source_model_index: 717
+    source_portal_index: 3
+  - id: "portal_14_8_13"
+    source_node: "PORTAL_14_8_13"
+    front_room: "room_8"
+    back_room: "room_13"
+    portal_id: 15
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal166"
+    source_model_index: 717
+    source_portal_index: 4
+  - id: "portal_15_8_13"
+    source_node: "PORTAL_15_8_13"
+    front_room: "room_8"
+    back_room: "room_13"
+    portal_id: 16
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal165"
+    source_model_index: 717
+    source_portal_index: 5
+  - id: "portal_16_8_13"
+    source_node: "PORTAL_16_8_13"
+    front_room: "room_8"
+    back_room: "room_13"
+    portal_id: 17
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal189"
+    source_model_index: 717
+    source_portal_index: 6
+  - id: "portal_17_8_13"
+    source_node: "PORTAL_17_8_13"
+    front_room: "room_8"
+    back_room: "room_13"
+    portal_id: 18
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal188"
+    source_model_index: 717
+    source_portal_index: 7
+  - id: "portal_18_10_13"
+    source_node: "PORTAL_18_10_13"
+    front_room: "room_10"
+    back_room: "room_13"
+    portal_id: 19
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal136"
+    source_model_index: 717
+    source_portal_index: 8
+  - id: "portal_19_10_13"
+    source_node: "PORTAL_19_10_13"
+    front_room: "room_10"
+    back_room: "room_13"
+    portal_id: 20
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal137"
+    source_model_index: 717
+    source_portal_index: 9
+  - id: "portal_20_8_13"
+    source_node: "PORTAL_20_8_13"
+    front_room: "room_8"
+    back_room: "room_13"
+    portal_id: 21
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal135"
+    source_model_index: 717
+    source_portal_index: 10
+  - id: "portal_21_8_13"
+    source_node: "PORTAL_21_8_13"
+    front_room: "room_8"
+    back_room: "room_13"
+    portal_id: 22
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal134"
+    source_model_index: 717
+    source_portal_index: 11
+  - id: "portal_22_10_13"
+    source_node: "PORTAL_22_10_13"
+    front_room: "room_10"
+    back_room: "room_13"
+    portal_id: 23
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal152"
+    source_model_index: 717
+    source_portal_index: 12
+  - id: "portal_23_10_13"
+    source_node: "PORTAL_23_10_13"
+    front_room: "room_10"
+    back_room: "room_13"
+    portal_id: 24
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal151"
+    source_model_index: 717
+    source_portal_index: 13
+  - id: "portal_24_6_10"
+    source_node: "PORTAL_24_6_10"
+    front_room: "room_6"
+    back_room: "room_10"
+    portal_id: 25
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal154"
+    source_model_index: 717
+    source_portal_index: 14
+  - id: "portal_25_6_10"
+    source_node: "PORTAL_25_6_10"
+    front_room: "room_6"
+    back_room: "room_10"
+    portal_id: 26
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal153"
+    source_model_index: 717
+    source_portal_index: 15
+  - id: "portal_26_5_6"
+    source_node: "PORTAL_26_5_6"
+    front_room: "room_5"
+    back_room: "room_6"
+    portal_id: 27
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal173"
+    source_model_index: 717
+    source_portal_index: 16
+  - id: "portal_27_5_6"
+    source_node: "PORTAL_27_5_6"
+    front_room: "room_5"
+    back_room: "room_6"
+    portal_id: 28
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal174"
+    source_model_index: 717
+    source_portal_index: 17
+  - id: "portal_28_2_6"
+    source_node: "PORTAL_28_2_6"
+    front_room: "room_2"
+    back_room: "room_6"
+    portal_id: 29
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal156"
+    source_model_index: 717
+    source_portal_index: 18
+  - id: "portal_29_2_6"
+    source_node: "PORTAL_29_2_6"
+    front_room: "room_2"
+    back_room: "room_6"
+    portal_id: 30
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal155"
+    source_model_index: 717
+    source_portal_index: 19
+  - id: "portal_30_2_6"
+    source_node: "PORTAL_30_2_6"
+    front_room: "room_2"
+    back_room: "room_6"
+    portal_id: 31
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal148"
+    source_model_index: 717
+    source_portal_index: 20
+  - id: "portal_31_2_6"
+    source_node: "PORTAL_31_2_6"
+    front_room: "room_2"
+    back_room: "room_6"
+    portal_id: 32
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal147"
+    source_model_index: 717
+    source_portal_index: 21
+  - id: "portal_32_5_13"
+    source_node: "PORTAL_32_5_13"
+    front_room: "room_5"
+    back_room: "room_13"
+    portal_id: 33
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal191"
+    source_model_index: 717
+    source_portal_index: 22
+  - id: "portal_33_5_13"
+    source_node: "PORTAL_33_5_13"
+    front_room: "room_5"
+    back_room: "room_13"
+    portal_id: 34
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal190"
+    source_model_index: 717
+    source_portal_index: 23
+  - id: "portal_34_1_2"
+    source_node: "PORTAL_34_1_2"
+    front_room: "room_1"
+    back_room: "room_2"
+    portal_id: 35
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal162"
+    source_model_index: 717
+    source_portal_index: 24
+  - id: "portal_35_1_2"
+    source_node: "PORTAL_35_1_2"
+    front_room: "room_1"
+    back_room: "room_2"
+    portal_id: 36
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal161"
+    source_model_index: 717
+    source_portal_index: 25
+  - id: "portal_36_0_1"
+    source_node: "PORTAL_36_0_1"
+    front_room: "room_0"
+    back_room: "room_1"
+    portal_id: 37
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal163"
+    source_model_index: 717
+    source_portal_index: 26
+  - id: "portal_37_0_1"
+    source_node: "PORTAL_37_0_1"
+    front_room: "room_0"
+    back_room: "room_1"
+    portal_id: 38
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal164"
+    source_model_index: 717
+    source_portal_index: 27
+  - id: "portal_38_0_9"
+    source_node: "PORTAL_38_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 39
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal203"
+    source_model_index: 717
+    source_portal_index: 28
+  - id: "portal_39_0_9"
+    source_node: "PORTAL_39_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 40
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal202"
+    source_model_index: 717
+    source_portal_index: 29
+  - id: "portal_40_2_6"
+    source_node: "PORTAL_40_2_6"
+    front_room: "room_2"
+    back_room: "room_6"
+    portal_id: 41
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal194"
+    source_model_index: 717
+    source_portal_index: 30
+  - id: "portal_41_0_9"
+    source_node: "PORTAL_41_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 42
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal187"
+    source_model_index: 717
+    source_portal_index: 31
+  - id: "portal_42_5_6"
+    source_node: "PORTAL_42_5_6"
+    front_room: "room_5"
+    back_room: "room_6"
+    portal_id: 43
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal192"
+    source_model_index: 717
+    source_portal_index: 32
+  - id: "portal_43_3_4"
+    source_node: "PORTAL_43_3_4"
+    front_room: "room_3"
+    back_room: "room_4"
+    portal_id: 44
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal177"
+    source_model_index: 717
+    source_portal_index: 33
+  - id: "portal_44_3_4"
+    source_node: "PORTAL_44_3_4"
+    front_room: "room_3"
+    back_room: "room_4"
+    portal_id: 45
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal175"
+    source_model_index: 717
+    source_portal_index: 34
+  - id: "portal_45_3_4"
+    source_node: "PORTAL_45_3_4"
+    front_room: "room_3"
+    back_room: "room_4"
+    portal_id: 46
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal185"
+    source_model_index: 717
+    source_portal_index: 35
+  - id: "portal_46_0_9"
+    source_node: "PORTAL_46_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 47
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal149"
+    source_model_index: 717
+    source_portal_index: 36
+  - id: "portal_47_0_9"
+    source_node: "PORTAL_47_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 48
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal150"
+    source_model_index: 717
+    source_portal_index: 37
+  - id: "portal_48_3_4"
+    source_node: "PORTAL_48_3_4"
+    front_room: "room_3"
+    back_room: "room_4"
+    portal_id: 49
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal182"
+    source_model_index: 717
+    source_portal_index: 38
+  - id: "portal_49_3_4"
+    source_node: "PORTAL_49_3_4"
+    front_room: "room_3"
+    back_room: "room_4"
+    portal_id: 50
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal184"
+    source_model_index: 717
+    source_portal_index: 39
+  - id: "portal_50_3_4"
+    source_node: "PORTAL_50_3_4"
+    front_room: "room_3"
+    back_room: "room_4"
+    portal_id: 51
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal183"
+    source_model_index: 717
+    source_portal_index: 40
+  - id: "portal_51_3_7"
+    source_node: "PORTAL_51_3_7"
+    front_room: "room_3"
+    back_room: "room_7"
+    portal_id: 52
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal193"
+    source_model_index: 717
+    source_portal_index: 41
+  - id: "portal_52_2_6"
+    source_node: "PORTAL_52_2_6"
+    front_room: "room_2"
+    back_room: "room_6"
+    portal_id: 53
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal172"
+    source_model_index: 717
+    source_portal_index: 42
+  - id: "portal_53_2_6"
+    source_node: "PORTAL_53_2_6"
+    front_room: "room_2"
+    back_room: "room_6"
+    portal_id: 54
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal171"
+    source_model_index: 717
+    source_portal_index: 43
+  - id: "portal_54_7_10"
+    source_node: "PORTAL_54_7_10"
+    front_room: "room_7"
+    back_room: "room_10"
+    portal_id: 55
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal170"
+    source_model_index: 717
+    source_portal_index: 44
+  - id: "portal_55_7_10"
+    source_node: "PORTAL_55_7_10"
+    front_room: "room_7"
+    back_room: "room_10"
+    portal_id: 56
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal169"
+    source_model_index: 717
+    source_portal_index: 45
+  - id: "portal_56_7_10"
+    source_node: "PORTAL_56_7_10"
+    front_room: "room_7"
+    back_room: "room_10"
+    portal_id: 57
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal176"
+    source_model_index: 717
+    source_portal_index: 46
+  - id: "portal_57_3_4"
+    source_node: "PORTAL_57_3_4"
+    front_room: "room_3"
+    back_room: "room_4"
+    portal_id: 58
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal138"
+    source_model_index: 717
+    source_portal_index: 47
+  - id: "portal_58_3_4"
+    source_node: "PORTAL_58_3_4"
+    front_room: "room_3"
+    back_room: "room_4"
+    portal_id: 59
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal139"
+    source_model_index: 717
+    source_portal_index: 48
+  - id: "portal_59_7_10"
+    source_node: "PORTAL_59_7_10"
+    front_room: "room_7"
+    back_room: "room_10"
+    portal_id: 60
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal186"
+    source_model_index: 717
+    source_portal_index: 49
+  - id: "portal_60_0_9"
+    source_node: "PORTAL_60_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 61
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal200"
+    source_model_index: 717
+    source_portal_index: 50
+  - id: "portal_61_0_9"
+    source_node: "PORTAL_61_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 62
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal201"
+    source_model_index: 717
+    source_portal_index: 51
+  - id: "portal_62_0_9"
+    source_node: "PORTAL_62_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 63
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal199"
+    source_model_index: 717
+    source_portal_index: 52
+  - id: "portal_63_0_9"
+    source_node: "PORTAL_63_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 64
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal198"
+    source_model_index: 717
+    source_portal_index: 53
+  - id: "portal_64_0_9"
+    source_node: "PORTAL_64_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 65
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal179"
+    source_model_index: 717
+    source_portal_index: 54
+  - id: "portal_65_0_9"
+    source_node: "PORTAL_65_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 66
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal178"
+    source_model_index: 717
+    source_portal_index: 55
+  - id: "portal_66_0_9"
+    source_node: "PORTAL_66_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 67
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal181"
+    source_model_index: 717
+    source_portal_index: 56
+  - id: "portal_67_0_9"
+    source_node: "PORTAL_67_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 68
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal180"
+    source_model_index: 717
+    source_portal_index: 57
+  - id: "portal_68_0_9"
+    source_node: "PORTAL_68_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 69
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal197"
+    source_model_index: 717
+    source_portal_index: 58
+  - id: "portal_69_0_9"
+    source_node: "PORTAL_69_0_9"
+    front_room: "room_0"
+    back_room: "room_9"
+    portal_id: 70
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal196"
+    source_model_index: 717
+    source_portal_index: 59
+  - id: "portal_70_8_13"
+    source_node: "PORTAL_70_8_13"
+    front_room: "room_8"
+    back_room: "room_13"
+    portal_id: 71
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal157"
+    source_model_index: 717
+    source_portal_index: 60
+  - id: "portal_71_8_13"
+    source_node: "PORTAL_71_8_13"
+    front_room: "room_8"
+    back_room: "room_13"
+    portal_id: 72
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal158"
+    source_model_index: 717
+    source_portal_index: 61
+  - id: "portal_72_11_12"
+    source_node: "PORTAL_72_11_12"
+    front_room: "room_11"
+    back_room: "room_12"
+    portal_id: 73
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal128"
+    source_model_index: 717
+    source_portal_index: 62
+  - id: "portal_73_11_12"
+    source_node: "PORTAL_73_11_12"
+    front_room: "room_11"
+    back_room: "room_12"
+    portal_id: 74
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal129"
+    source_model_index: 717
+    source_portal_index: 63
+  - id: "portal_74_8_13"
+    source_node: "PORTAL_74_8_13"
+    front_room: "room_8"
+    back_room: "room_13"
+    portal_id: 75
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal160"
+    source_model_index: 717
+    source_portal_index: 64
+  - id: "portal_75_8_13"
+    source_node: "PORTAL_75_8_13"
+    front_room: "room_8"
+    back_room: "room_13"
+    portal_id: 76
+    source_kind: "mm9_user_portal"
+    source_name: "Doorportal159"
+    source_model_index: 717
+    source_portal_index: 65
+surfaces: []
+mechanisms: []
+entities: []
+lights: []
+spawns: []

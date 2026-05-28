@@ -1,0 +1,121 @@
+;----------------------------------------------
+;tryggvaspeech.scr
+; By Timmy
+; handles tryggva the hammers audio stuff
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+
+#number							anim  ; number of animation to play
+#number							bSpeak = 0
+
+;-------------------------------------
+:Onblabber
+;-------------------------------------
+; pick and play a soundfile
+
+if (bSpeak==0, )
+	GetRandomInt 1, 4, g_ntemp
+	set bSpeak, 1
+	if (g_ntemp==1, )
+		Playsound \voices\cinema\Tryygva01.wav, OnDrink, 100, 512, FALSE, 100
+		LoopAnim conv1, 0 DoNothing
+		exit
+	endif
+
+	if (g_ntemp==2, )
+
+		Playsound \voices\cinema\Tryygva02.wav, OnDrink, 100, 512, FALSE, 100
+		LoopAnim conv1, 0 DoNothing
+		exit
+	endif
+
+	if (g_ntemp==3, )
+
+		Playsound \voices\cinema\Tryygva03.wav, OnDrink, 100, 512, FALSE, 100
+		LoopAnim conv1, 0 DoNothing
+		exit
+	endif
+
+	if (g_ntemp==4, )
+
+		Playsound \voices\cinema\Tryygva04.wav, OnDrink, 100, 512, FALSE, 100
+		LoopAnim conv1, 0 DoNothing
+		exit
+	endif
+endif
+exit
+
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:Ondrink
+;-------------------------------------
+
+;takes a drink (adds an extra 5 second wait)
+
+LoopAnim poundfist, 1 DoNothing
+set bSpeak, 0
+Wait 1 5, DoNothing
+exit
+
+
+;-------------------------------------
+:Off
+;-------------------------------------
+
+GetRandomInt 1, 4, anim
+
+if ( anim==1, )
+	playAnim fidget1, Anim
+	exit
+endif
+
+if ( anim==2, )
+	PlayAnim fidget2, Anim
+	exit
+endif
+
+if ( anim==3, )
+	playAnim fidget3, Anim
+	exit
+endif
+
+if ( anim==4, )
+	playAnim fidget4, Anim
+	exit
+endif
+
+exit
+
+
+
+;-------------------------------------
+:Anim
+;-------------------------------------
+
+LoopAnim listen, 0 Donothing
+
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger blabber, Onblabber
+
+
+set anim, 1
+set g_ntemp, 0
+goto anim
+exit

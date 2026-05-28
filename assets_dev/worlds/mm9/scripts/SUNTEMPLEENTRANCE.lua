@@ -1,0 +1,66 @@
+-- generated from MM9 script source; do not edit by hand
+local mm9 = mm9ScriptRuntime
+local script = {}
+script.source = "SUNTEMPLEENTRANCE.scr"
+script.includes = {}
+script.labels = {}
+
+script.includes[#script.includes + 1] = { line = 11, path = "globals.inc" }
+
+-- SunTemplePrison.scr
+-- Tony Evans
+-- This script controls the Altar Doors in the
+-- Grand Temple of the Sun
+-- Parameters: none
+script.labels["HandleMoon"] = function(ctx)
+    -- SUNTEMPLEENTRANCE.scr:17
+    if ctx:condition("MoonBut==TRUE") then -- SUNTEMPLEENTRANCE.scr:20
+        ctx:command("set", "MoonBut, FALSE") -- SUNTEMPLEENTRANCE.scr:21
+    else -- SUNTEMPLEENTRANCE.scr:22
+        ctx:command("set", "MoonBut, TRUE") -- SUNTEMPLEENTRANCE.scr:23
+    end -- SUNTEMPLEENTRANCE.scr:24
+    if ctx:condition("MoonBut==TRUE") then -- SUNTEMPLEENTRANCE.scr:26
+        if ctx:condition("StarBut==TRUE") then -- SUNTEMPLEENTRANCE.scr:27
+            mm9.gosub(script, ctx, "HandleDoorsOpen") -- SUNTEMPLEENTRANCE.scr:28
+            ctx:command("set", "MoonBut, FALSE") -- SUNTEMPLEENTRANCE.scr:29
+            ctx:command("set", "StarBut, FALSE") -- SUNTEMPLEENTRANCE.scr:30
+        end -- SUNTEMPLEENTRANCE.scr:31
+    end -- SUNTEMPLEENTRANCE.scr:32
+    do return ctx:exit("") end -- SUNTEMPLEENTRANCE.scr:34
+end
+
+script.labels["HandleStar"] = function(ctx)
+    -- SUNTEMPLEENTRANCE.scr:37
+    if ctx:condition("StarBut==TRUE") then -- SUNTEMPLEENTRANCE.scr:40
+        ctx:command("set", "StarBut, FALSE") -- SUNTEMPLEENTRANCE.scr:41
+    else -- SUNTEMPLEENTRANCE.scr:42
+        ctx:command("set", "StarBut, TRUE") -- SUNTEMPLEENTRANCE.scr:43
+    end -- SUNTEMPLEENTRANCE.scr:44
+    if ctx:condition("StarBut==TRUE") then -- SUNTEMPLEENTRANCE.scr:46
+        if ctx:condition("MoonBut==TRUE") then -- SUNTEMPLEENTRANCE.scr:47
+            mm9.gosub(script, ctx, "HandleDoorsOpen") -- SUNTEMPLEENTRANCE.scr:48
+            ctx:command("set", "MoonBut, FALSE") -- SUNTEMPLEENTRANCE.scr:49
+            ctx:command("set", "StarBut, FALSE") -- SUNTEMPLEENTRANCE.scr:50
+        end -- SUNTEMPLEENTRANCE.scr:51
+    end -- SUNTEMPLEENTRANCE.scr:52
+    do return ctx:exit("") end -- SUNTEMPLEENTRANCE.scr:54
+end
+
+script.labels["HandleDoorsOpen"] = function(ctx)
+    -- SUNTEMPLEENTRANCE.scr:58
+    -- make Doors open
+    ctx:command("getobjecthandle", "AltarDoorLeft, g_hobject") -- SUNTEMPLEENTRANCE.scr:62
+    ctx:trigger("g_hobject", "unlock") -- SUNTEMPLEENTRANCE.scr:63
+    ctx:command("getobjecthandle", "AltarDoorRight, g_hobject") -- SUNTEMPLEENTRANCE.scr:64
+    ctx:trigger("g_hobject", "unlock") -- SUNTEMPLEENTRANCE.scr:65
+    do return ctx:exit("") end -- SUNTEMPLEENTRANCE.scr:66
+end
+
+script.labels["Main"] = function(ctx)
+    -- SUNTEMPLEENTRANCE.scr:70
+    ctx:addTrigger("Moon", "HandleMoon") -- SUNTEMPLEENTRANCE.scr:73
+    ctx:addTrigger("Star", "HandleStar") -- SUNTEMPLEENTRANCE.scr:74
+    do return ctx:exit("") end -- SUNTEMPLEENTRANCE.scr:76
+end
+
+return script

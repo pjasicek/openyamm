@@ -1,0 +1,141 @@
+;---------------------------------
+;	BoneLimb.scr
+;	by SJR
+;	11-06-01
+;	Purpose:act as a limb in
+;			BoneDragon.scr
+;---------------------------------
+
+#include BaseGlobals.inc
+
+#hobject	hMe=0
+#hobject	hParentSocket=0
+#hobject	hChildSocket=0
+#hobject	hChildLimb=0
+
+#number		xMe=0
+#number		yMe=0
+#number		zMe=0
+
+#number		dx=0
+#number		dy=0
+#number		dz=0
+
+#string		sParentSocketName="Marker"
+#string		sChildSocketName="Marker"
+#string		sChildName="Skeleton"
+#number		nIndex=0
+#number		nChildIndex=0
+
+#number		nHeight=0
+
+#number		nDummy=0
+
+#string		sCommand="update"
+
+;----------------
+:Main
+;----------------
+	GetParam 0, nChildIndex
+	nIndex = nChildIndex * 2 + 1
+	nChildIndex = nChildIndex + 1
+
+	Wait 0, 1, InitBoneLimb
+	Exit TRUE
+
+;----------------
+:InitBoneLimb
+;----------------
+	AddTrigger sCommand, UpdateLimb
+
+	sChildName = sChildName + nChildIndex
+	sChildSocketName = sChildSocketName + nIndex
+
+	GetMyHandle hMe
+	GetObjectHandle sChildSocketName, hChildSocket
+	GetObjectHandle sChildName, hChildLimb
+
+	;;Trigger hMe, sCommand
+	gosub UpdateLimb
+	;;gosub GetUpDir
+
+	Exit TRUE
+
+
+;*****************************************
+;private
+;*****************************************
+#number		dx1=0
+#number		dy1=0
+#number		dz1=0
+#number		dx2=0
+#number		dy2=0
+#number		dz2=0
+;----------------
+:UpdateLimb
+;----------------
+;;	GetParam 0, hParentSocket
+
+;;	gosub ParentUpdateLimb
+	gosub LimbUpdateChild
+;;GetDistance hParentSocket, hChildSocket, nDummy
+;;cprint nDummy
+	Exit TRUE
+
+;;;static direction
+;----------------
+:ParentUpdateLimb
+;----------------
+	GetDims hMe, nDummy, nHeight, nDummy
+	nHeight = nHeight / 2
+	gosub GetUpDir
+	VecScale dx,dy,dz, nHeight
+	GetPOS hParentSocket, xMe,yMe,zMe
+	xMe = xMe + dx
+	xMe = yMe + dy
+	xMe = zMe + dz
+	SetPOS hMe, xMe,yMe,zMe
+	Exit TRUE
+
+;----------------
+:LimbUpdateChild
+;	scales head direction by half-length
+;	and moves child socket 
+;----------------
+	GetDims hMe, nDummy, nHeight, nDummy
+	nHeight = nHeight / 2
+	gosub GetUpDir
+cprint nHeight
+	VecScale dx,dy,dz, nHeight
+	GetPOS hMe, xMe,yMe,zMe
+	xMe = xMe + dx
+	xMe = yMe + dy
+	xMe = zMe + dz
+	SetPOS hChildSocket, xMe,yMe,zMe
+	Trigger hChildLimb, sCommand
+	Exit TRUE
+
+;----------------
+:GetUpDir
+;----------------
+;	GetForwardDir hMe, dx2,dy2,dz2
+;	GetRightDir hMe, dx1,dy1,dz1
+dx1 = 1
+dz2 = 1
+VecScale dy2,dy1,dz1,0
+VecScale dy2,dx2,dz1,0
+	VecCross dx1,dy1,dz1, dx2,dy2,dz2, dx,dy,dz
+;	VecCross 0,0,1, 1,0,0, dx,dy,dz
+cprint dx
+cprint dy
+cprint dz
+	VecNorm dx,dy,dz
+	Exit TRUE
+
+;----------------
+:GetDownDir
+;----------------
+;;	save computation, always call GetUpDir first
+;;	gosub GetUpDir
+	VecScale dx,dy,dz, -1
+	Exit TRUE

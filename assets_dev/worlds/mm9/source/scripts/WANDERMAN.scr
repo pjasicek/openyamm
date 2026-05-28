@@ -1,0 +1,26 @@
+; WanderMan.scr
+;
+;	Test script...
+;
+;
+
+#include Base.Inc
+
+
+:OnUse
+
+	gosub BaseWanderGo
+	Exit
+
+
+
+:Main
+
+;;	gosub InitBase
+	gosub BaseWanderInit
+
+	AddTrigger Use OnUse
+
+	;; TraceON
+
+	Exit

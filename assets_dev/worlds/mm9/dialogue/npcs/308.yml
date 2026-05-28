@@ -1,0 +1,682 @@
+format_version: 1
+source_file: NPC308.rude
+rows:
+  - source:
+      file: NPC308.rude
+      row: 1
+    raw_columns:
+      - 308
+      - 4
+      - 1
+      - Alright, you're hired!
+      - You won't be sorry.
+      - -10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 308
+      node_id: 4
+      choice_slot: 1
+      prompt: Alright, you're hired!
+      response: You won't be sorry.
+      next: -10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -10
+        service: hire
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -10
+        service: hire
+        status: typed_pending_exact_runtime_behavior
+  - source:
+      file: NPC308.rude
+      row: 2
+    raw_columns:
+      - 308
+      - 3
+      - 1
+      - How much are we talking about here?
+      - It's a bargain!  For 2000 gold to start, 1000 gold per month plus 20% of all the gold we find I will heal your parties injuries and conditions once per day!
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 308
+      node_id: 3
+      choice_slot: 1
+      prompt: How much are we talking about here?
+      response: It's a bargain!  For 2000 gold to start, 1000 gold per month plus 20% of all the gold we find I will heal your parties injuries and conditions once per day!
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC308.rude
+      row: 3
+    raw_columns:
+      - 308
+      - 2
+      - 1
+      - What do you mean?
+      - Well, I am ready to leave this place.  I have learned all I am going to but I cannot travel alone.  If you will take me with you, I will heal your party for a portion of the gold you find along the way.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 308
+      node_id: 2
+      choice_slot: 1
+      prompt: What do you mean?
+      response: Well, I am ready to leave this place.  I have learned all I am going to but I cannot travel alone.  If you will take me with you, I will heal your party for a portion of the gold you find along the way.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC308.rude
+      row: 4
+    raw_columns:
+      - 308
+      - 308
+      - 1
+      - Yes please.
+      - Perhaps I can help you then.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 462
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 308
+      node_id: 308
+      choice_slot: 1
+      prompt: Yes please.
+      response: Perhaps I can help you then.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 462
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 462
+        status: raw_value_preserved
+  - source:
+      file: NPC308.rude
+      row: 5
+    raw_columns:
+      - 308
+      - 4
+      - 2
+      - No thank you.
+      - Maybe some other time.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 308
+      node_id: 4
+      choice_slot: 2
+      prompt: No thank you.
+      response: Maybe some other time.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC308.rude
+      row: 6
+    raw_columns:
+      - 308
+      - 3
+      - 2
+      - No thanks. Maybe some other time.
+      - As you wish.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 308
+      node_id: 3
+      choice_slot: 2
+      prompt: No thanks. Maybe some other time.
+      response: As you wish.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC308.rude
+      row: 7
+    raw_columns:
+      - 308
+      - 308
+      - 3
+      - We'd like to be healed
+      - blank
+      - -15
+      - 462
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 308
+      node_id: 308
+      choice_slot: 3
+      prompt: We'd like to be healed
+      response: blank
+      next: -15
+      raw_fields:
+        c07: 462
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -15
+        service: town_portal
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 462
+            qbit_id: 9462
+            state_id: mm9.keys.462
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 462
+          qbit_id: 9462
+          state_id: mm9.keys.462
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -15
+        service: town_portal
+        status: typed_pending_exact_runtime_behavior
+  - source:
+      file: NPC308.rude
+      row: 8
+    raw_columns:
+      - 308
+      - 308
+      - 4
+      - We no longer need your services.
+      - Very well.  Farewell.
+      - -11
+      - 462
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 462
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 308
+      node_id: 308
+      choice_slot: 4
+      prompt: We no longer need your services.
+      response: Very well.  Farewell.
+      next: -11
+      raw_fields:
+        c07: 462
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 462
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -11
+        service: dismiss
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 462
+            qbit_id: 9462
+            state_id: mm9.keys.462
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 462
+          qbit_id: 9462
+          state_id: mm9.keys.462
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -11
+        service: dismiss
+        status: typed_pending_exact_runtime_behavior
+      - kind: unknown_sparse_field
+        column: c26
+        value: 462
+        status: raw_value_preserved
+  - source:
+      file: NPC308.rude
+      row: 9
+    raw_columns:
+      - 308
+      - 308
+      - 5
+      - No thank you.
+      - You are welcome.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 308
+      node_id: 308
+      choice_slot: 5
+      prompt: No thank you.
+      response: You are welcome.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

@@ -1,0 +1,129 @@
+;------------------------------------------
+;	campdirector.inc
+;	John Machin
+;	
+;	This script keeps track of the goblins
+;	and dwarfs.  Will respawn monsters as
+;	needed to keep battle going.
+;
+;------------------------------------------
+ 
+#include aiglobals.inc
+#include globals.inc
+
+#stringarray	g_sDwarfSpawn[5]
+#stringarray	g_sZombieSpawn[5]
+
+#numberarray	g_hZombieArray[10]
+#numberarray	g_hDwarfArray[10]
+#number			g_nObjects
+
+#string			g_sSpawn
+#hobject		g_hSpawn
+
+#number			g_nLastDwarfSpawn	= 0
+#number			g_nLastZombieSpawn  = 0
+
+;------------------------------------------
+:DirectorDwarfDeath
+;------------------------------------------
+	;Report a dwarf death and respawn the bad boy
+	gosub DirectorSpawnDwarf
+
+	Exit
+
+;------------------------------------------
+:DirectorSpawnDwarf
+;------------------------------------------
+	;first lets make sure we don't spawn too many
+	GetObjects Dwarf, 20000, 10, g_hDwarfArray, g_nObjects		
+	if( g_nObjects >= 5 )
+		Exit
+	endif
+
+	ArrayGet g_sDwarfSpawn, g_nLastDwarfSpawn, g_sSpawn
+	Add g_nLastDwarfSpawn, 1
+
+	if ( g_nLastDwarfSpawn > 4 )
+		Set g_nLastDwarfSpawn, 0
+	endif
+	
+	if( g_sDwarfSpawn != NULL )
+		GetObjectHandle, g_sSpawn, g_hSpawn
+	endif	
+
+	;Trigger the spawn dot
+	if( g_hSpawn != NULL )	
+		Trigger g_hSpawn, trigger
+	endif
+
+	Exit				
+
+;------------------------------------------
+:DirectorZombieDeath
+;------------------------------------------	
+	;Report a goblin death and respawn the bad boy	
+	gosub DirectorSpawnZombie
+
+	Exit
+
+
+;------------------------------------------
+:DirectorSpawnZombie
+;------------------------------------------	
+	;first lets make sure we don't spawn too many
+	GetObjects Zombie, 20000, 10, g_hZombieArray, g_nObjects		
+	if( g_nObjects >= 5 )
+		Exit
+	endif
+
+	ArrayGet g_sZombieSpawn, g_nLastZombieSpawn, g_sSpawn	
+	Add g_nLastZombieSpawn, 1
+
+	if ( g_nLastZombieSpawn > 4 )
+		Set g_nLastZombieSpawn, 0
+	endif
+	
+	if( g_sSpawn != NULL )
+		GetObjectHandle, g_sSpawn, g_hSpawn
+	endif	
+
+	;Trigger the spawn dot
+	if( g_hSpawn != NULL )	
+		Trigger g_hSpawn, trigger
+	endif
+
+	Exit
+
+
+;------------------------------------------
+:DirectorSetupSpawns
+;------------------------------------------
+	;Setup Goblins first	
+	ArrayPut g_sZombieSpawn, 0, AISpawn16
+	ArrayPut g_sZombieSpawn, 1, AISpawn17
+	ArrayPut g_sZombieSpawn, 2, AISpawn18
+	ArrayPut g_sZombieSpawn, 3, AISpawn19
+	ArrayPut g_sZombieSpawn, 4, AISpawn20
+
+	;Setup Dwarfs
+	ArrayPut g_sDwarfSpawn, 0, AISpawn11
+	ArrayPut g_sDwarfSpawn, 1, AISpawn12
+	ArrayPut g_sDwarfSpawn, 2, AISpawn13
+	ArrayPut g_sDwarfSpawn, 3, AISpawn14
+	ArrayPut g_sDwarfSpawn, 4, AISpawn15
+		
+	Exit
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+
+	gosub DirectorSetupSpawns	
+	
+	AddTrigger DwarfDeath,DirectorDwarfDeath	
+	AddTrigger ZombieDeath, DirectorZombieDeath
+
+	Exit

@@ -1,0 +1,104 @@
+schema: openyamm.model3d.v1
+id: coatrack2
+model: coatrack2.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/COATRACK2.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Coat-Rack2
+  materialIndex: 0
+  lods:
+  - faces: 364
+    vertices: 242
+  - faces: 232
+    vertices: 176
+- name: Coat3
+  materialIndex: 0
+  lods:
+  - faces: 88
+    vertices: 48
+  - faces: 78
+    vertices: 43
+- name: Coat4
+  materialIndex: 0
+  lods:
+  - faces: 44
+    vertices: 24
+  - faces: 44
+    vertices: 24
+- name: Hat2
+  materialIndex: 0
+  lods:
+  - faces: 136
+    vertices: 82
+  - faces: 120
+    vertices: 74
+materials:
+- index: 0
+  texture: skins_preview/props/coatrack2.png
+  runtime_texture: skins/props/coatrack2.dtx
+  preview_texture: skins_preview/props/coatrack2.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/COATRACK2.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone05
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Bone07
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 700
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 25.6
+  - 104.96000000000001
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/coatrack2.abc

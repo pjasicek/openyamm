@@ -1,0 +1,68 @@
+schema: openyamm.model3d.v1
+id: tree03
+model: tree03.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/PLANTSANDTREES/TREE03.abc
+  commandString: NoAnimation;FadeRangeMin 1500;FadeRangeMax 2048;FadeSpriteTex skins\props\plantsandtrees\treespr3.dtx;FadeSpriteSize
+    384 384;VisRadius 256
+  internalRadius: 1280.0
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 5120.0
+  - 4.023306898564917e+25
+pieces:
+- name: Trunk
+  materialIndex: 0
+  lods:
+  - faces: 100
+    vertices: 55
+  - faces: 72
+    vertices: 41
+- name: Branches
+  materialIndex: 1
+  lods:
+  - faces: 172
+    vertices: 173
+  - faces: 172
+    vertices: 173
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 89.60000000000001
+  - 716.8000000000001
+  - 89.60000000000001
+  origin:
+  - 23.04
+  - -20.48
+  - 5.12
+roles:
+- static_model
+source_model: models/props/plantsandtrees/tree03.abc

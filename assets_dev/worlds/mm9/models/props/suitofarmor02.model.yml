@@ -1,0 +1,80 @@
+schema: openyamm.model3d.v1
+id: suitofarmor02
+model: suitofarmor02.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/SUITOFARMOR02.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 4.023306898564917e+25
+pieces:
+- name: HalberdMagic
+  materialIndex: 1
+  lods:
+  - faces: 124
+    vertices: 150
+  - faces: 84
+    vertices: 123
+- name: suitofarmor
+  materialIndex: 0
+  lods:
+  - faces: 542
+    vertices: 321
+  - faces: 416
+    vertices: 258
+materials:
+- index: 0
+  texture: skins_preview/props/amoredsuitgold.png
+  runtime_texture: skins/props/amoredsuitgold.dtx
+  preview_texture: skins_preview/props/amoredsuitgold.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/AMOREDSUITGOLD.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+- index: 1
+  texture: skins_preview/props/amoredsuithalberd.png
+  runtime_texture: skins/props/amoredsuithalberd.dtx
+  preview_texture: skins_preview/props/amoredsuithalberd.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/AMOREDSUITHALBERD.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: suitofarmor
+  durationMs: 1033
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: suitofarmor
+  extents:
+  - 38.4
+  - 97.28
+  - 38.4
+  origin:
+  - 0.0
+  - 5.12
+  - -23.04
+roles:
+- static_model
+source_model: models/props/suitofarmor02.abc

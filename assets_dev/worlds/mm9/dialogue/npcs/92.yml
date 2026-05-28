@@ -1,0 +1,677 @@
+format_version: 1
+source_file: NPC92.rude
+rows:
+  - source:
+      file: NPC92.rude
+      row: 1
+    raw_columns:
+      - 92
+      - 1
+      - 1
+      - Do you have any news?
+      - I hate those Yobboes!  Who among us has the nerve to stand up to them?
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 131
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 92
+      node_id: 1
+      choice_slot: 1
+      prompt: Do you have any news?
+      response: I hate those Yobboes!  Who among us has the nerve to stand up to them?
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 131
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 131
+        status: raw_value_preserved
+  - source:
+      file: NPC92.rude
+      row: 2
+    raw_columns:
+      - 92
+      - 92
+      - 1
+      - We'll find your herbs for you.
+      - You will?  Thank you!
+      - 92
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 131
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 92
+      node_id: 92
+      choice_slot: 1
+      prompt: We'll find your herbs for you.
+      response: You will?  Thank you!
+      next: 92
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 131
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 92
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 131
+        status: raw_value_preserved
+  - source:
+      file: NPC92.rude
+      row: 3
+    raw_columns:
+      - 92
+      - 1
+      - 2
+      - What happened to your herbs?
+      - Those Yobboes took them from me because I refused to heal one of them.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 134
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 92
+      node_id: 1
+      choice_slot: 2
+      prompt: What happened to your herbs?
+      response: Those Yobboes took them from me because I refused to heal one of them.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 134
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 134
+        status: raw_value_preserved
+  - source:
+      file: NPC92.rude
+      row: 4
+    raw_columns:
+      - 92
+      - 92
+      - 2
+      - Can we ask you a few questions?
+      - Of course!
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 92
+      node_id: 92
+      choice_slot: 2
+      prompt: Can we ask you a few questions?
+      response: Of course!
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC92.rude
+      row: 5
+    raw_columns:
+      - 92
+      - 92
+      - 3
+      - We've got your bag of herbs.
+      - You have?  Wonderful!  Thank you so much!
+      - 92
+      - 131
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 134
+      - 0
+      - 0
+      - 0
+      - 0
+      - 134
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 92
+      node_id: 92
+      choice_slot: 3
+      prompt: We've got your bag of herbs.
+      response: You have?  Wonderful!  Thank you so much!
+      next: 92
+      raw_fields:
+        c07: 131
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 134
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 134
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 92
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 131
+            qbit_id: 9131
+            state_id: mm9.keys.131
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 131
+          qbit_id: 9131
+          state_id: mm9.keys.131
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 134
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 134
+        status: raw_value_preserved
+  - source:
+      file: NPC92.rude
+      row: 6
+    raw_columns:
+      - 92
+      - 1
+      - 3
+      - What do you know about Lindisfarne?
+      - That's some monastery to the south.  We get a lot of pilgrims stopping here on their way down there.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 92
+      node_id: 1
+      choice_slot: 3
+      prompt: What do you know about Lindisfarne?
+      response: That's some monastery to the south.  We get a lot of pilgrims stopping here on their way down there.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC92.rude
+      row: 7
+    raw_columns:
+      - 92
+      - 1
+      - 5
+      - Do you have any news?
+      - Thank you for bringing my herbs back!
+      - 1
+      - 134
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 92
+      node_id: 1
+      choice_slot: 5
+      prompt: Do you have any news?
+      response: Thank you for bringing my herbs back!
+      next: 1
+      raw_fields:
+        c07: 134
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 134
+            qbit_id: 9134
+            state_id: mm9.keys.134
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 134
+          qbit_id: 9134
+          state_id: mm9.keys.134
+  - source:
+      file: NPC92.rude
+      row: 8
+    raw_columns:
+      - 92
+      - 1
+      - 7
+      - Thanks for your time.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 92
+      node_id: 1
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC92.rude
+      row: 9
+    raw_columns:
+      - 92
+      - 92
+      - 7
+      - Thanks for your time.
+      - Bye!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 92
+      node_id: 92
+      choice_slot: 7
+      prompt: Thanks for your time.
+      response: Bye!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

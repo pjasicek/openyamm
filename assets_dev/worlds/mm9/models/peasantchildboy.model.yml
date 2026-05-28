@@ -1,0 +1,409 @@
+schema: openyamm.model3d.v1
+id: peasantchildboy
+model: peasantchildboy.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PEASANTCHILDBOY.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: ngon
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 270
+- name: Boy_1
+  materialIndex: 0
+  lods:
+  - faces: 530
+    vertices: 265
+- name: Boy_1a
+  materialIndex: 0
+  lods:
+  - faces: 18
+    vertices: 14
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 22
+    - 26
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bip01 Neck
+    parent: 4
+    flags: 1
+    children:
+    - 6
+    - 7
+    - 14
+  - index: 6
+    name: Bip01 Head
+    parent: 5
+    flags: 1
+    children: []
+  - index: 7
+    name: Bip01 L Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Bip01 L UpperArm
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bip01 L Forearm
+    parent: 8
+    flags: 1
+    children:
+    - 10
+    - 12
+  - index: 10
+    name: Bip01 L Finger0
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bip01 L Finger01
+    parent: 10
+    flags: 1
+    children: []
+  - index: 12
+    name: Bip01 L Finger1
+    parent: 9
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bip01 L Finger11
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Bip01 R Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 R UpperArm
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bip01 R Forearm
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bip01 R Hand
+    parent: 16
+    flags: 1
+    children:
+    - 18
+    - 20
+  - index: 18
+    name: Bip01 R Finger0
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bip01 R Finger01
+    parent: 18
+    flags: 1
+    children: []
+  - index: 20
+    name: Bip01 R Finger1
+    parent: 17
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bip01 R Finger11
+    parent: 20
+    flags: 1
+    children: []
+  - index: 22
+    name: Bip01 L Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bip01 L Calf
+    parent: 22
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bip01 L Foot
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bip01 L Toe0
+    parent: 24
+    flags: 1
+    children: []
+  - index: 26
+    name: Bip01 R Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Bip01 R Calf
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Bip01 R Foot
+    parent: 27
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Bip01 R Toe0
+    parent: 28
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: stand
+  durationMs: 1400
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 1366
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 100
+    event: footstep
+  - timeMs: 800
+    event: footstep
+- name: run
+  durationMs: 966
+  keyframes: 20
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 200
+    event: footstep
+  - timeMs: 633
+    event: footstep
+- name: conv1
+  durationMs: 3066
+  keyframes: 24
+  interpolationTimeMs: 200
+  events: []
+- name: Fidget1
+  durationMs: 2033
+  keyframes: 9
+  interpolationTimeMs: 200
+  events: []
+- name: hattack1
+  durationMs: 1033
+  keyframes: 16
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 500
+    event: playanimsound
+  - timeMs: 700
+    event: Rattack
+- name: wince
+  durationMs: 2300
+  keyframes: 36
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 200
+    event: playanimsound
+- name: die1
+  durationMs: 1700
+  keyframes: 11
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 200
+    event: playanimsound
+  - timeMs: 1200
+    event: playdeathsound
+- name: cowerstart
+  durationMs: 533
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: cower
+  durationMs: 533
+  keyframes: 6
+  interpolationTimeMs: 200
+  events: []
+- name: cowerstop
+  durationMs: 533
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+- name: hattack2
+  durationMs: 2033
+  keyframes: 40
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: stand
+  extents:
+  - 25.6
+  - 66.56
+  - 25.6
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: walk
+  extents:
+  - 25.6
+  - 66.56
+  - 25.6
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: run
+  extents:
+  - 25.6
+  - 66.56
+  - 25.6
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: conv1
+  extents:
+  - 25.6
+  - 66.56
+  - 25.6
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: Fidget1
+  extents:
+  - 25.6
+  - 66.56
+  - 25.6
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: hattack1
+  extents:
+  - 25.6
+  - 66.56
+  - 25.6
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: wince
+  extents:
+  - 25.6
+  - 66.56
+  - 25.6
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: die1
+  extents:
+  - 25.6
+  - 66.56
+  - 25.6
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: cowerstart
+  extents:
+  - 25.6
+  - 66.56
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: cower
+  extents:
+  - 25.6
+  - 66.56
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: cowerstop
+  extents:
+  - 25.6
+  - 66.56
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: hattack2
+  extents:
+  - 25.6
+  - 66.56
+  - 25.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/peasantchildboy.abc

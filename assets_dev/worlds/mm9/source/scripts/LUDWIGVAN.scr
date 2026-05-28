@@ -1,0 +1,68 @@
+;----------------------------------------------
+;LudwigVan.scr
+; By Timmy
+; gives the player reward for finding Ludwig's mauscript
+; and the related key
+; Ludwig's RudeID is 47
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+;-------------------------------------
+:OnRude
+;-------------------------------------
+
+Gosub Init
+
+Haskey 116, keycheck
+if (keycheck==0, )
+; checks to see if they already have got the reward.
+	Haskey 19, g_ntemp
+	if (g_ntemp==1, )
+	; checks to see if they've got the mauscript
+		GiveKey 116
+		GiveExp 12000
+		Givegold 2000
+		takeitem 248
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		; gives reward
+		; *** this is where the manuscript should be removed from inventory***
+		exit
+	endif
+endif
+exit
+
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+stop
+Playsound voices\NPC\NPC_047.wav, DoNothing, 100, 240, FALSE, 100
+PlayAnim Ludwig_Lookup Donothing
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+Loopanim Ludwig_writting 0 DoNothing
+
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit

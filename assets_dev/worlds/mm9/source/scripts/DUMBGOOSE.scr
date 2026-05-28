@@ -1,0 +1,43 @@
+;-----------------------------------
+;	DumbGoose.scr
+;	by SJR
+;	10-08-01
+;	Purpose:run around like an idiot
+;-----------------------------------
+#include HonkHostility.inc
+
+;-----------------------------------
+:Main
+;-----------------------------------
+;;	OnPostStartWorld InitDumbGoose
+Wait 0, 5, InitDumbGoose
+
+	Exit 1
+
+;-----------------------------------
+:InitDumbGoose
+;-----------------------------------
+	GetMyHandle g_hMyObject
+	GetStat g_hMyObject, RunVel, g_nTemp
+	SetStat g_hMyObject, RunVel, g_nTemp
+	SetStat g_hMyObject, WalkVel, g_nTemp
+
+	gosub InitHonkHostility
+
+	gosub RunLoop
+
+	Exit 1
+
+
+
+;-----------------------------------
+:RunLoop
+;-----------------------------------
+	GetRandomInt -5000, 5000, g_nTemp
+
+	RunToPOS g_nTemp, g_nTemp, g_nTemp
+
+
+	Wait 0, 2, RunLoop
+
+	Exit TRUE

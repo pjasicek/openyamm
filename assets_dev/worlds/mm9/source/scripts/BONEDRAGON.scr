@@ -1,0 +1,34 @@
+;--------------------------------------------
+;	BoneDragon.scr
+;	by SJR
+;	11-06-01
+;	Purpose:build and animate a dragon-shaped
+;			creature, made entirely out of
+;			Skeletons.
+;--------------------------------------------
+
+#include BaseGlobals.inc
+#include ListMaker.inc
+
+#hobject	hMe=0
+
+#number		xMe=0
+#number		yMe=0
+#number		zMe=0
+
+;------------
+:Main
+;------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+
+	Wait 0, 1, InitBoneDragon
+
+	Exit TRUE
+
+;------------
+:InitBoneDragon
+;------------
+	GetMyHandle hMe
+	Exit TRUE

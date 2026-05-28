@@ -1,0 +1,93 @@
+;--------------------------------------------------
+;NPC245.scr
+; timmy
+; handles Byri the Scarred voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include basedoor.inc
+
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+haskey 231 g_ntemp
+if (g_ntemp==TRUE)
+	wait 1 2 Run
+endif
+exit
+
+;--------------------------------------------------
+:Run
+;--------------------------------------------------
+
+	getobjecthandle RotatingDoor0 g_hobject
+	trigger g_hobject use
+	getobjecthandle Marker6 g_hobject
+	runto g_hobject 128 OnVanish
+	exit
+
+;--------------------------------------------------
+:OnVanish
+;--------------------------------------------------
+
+getmyhandle g_hmyobject
+removeobject g_hmyobject
+exitscript
+exit
+
+;--------------------------------------------------
+:OnEnter
+;--------------------------------------------------
+gosub basedoorinit
+getmyhandle g_hobject
+setflag g_hobject, visible
+setflag g_hobject, solid
+setflag g_hobject, gravity
+getobjecthandle Marker2 g_hobject
+walkto g_hobject 16 DoNothing
+exit
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+
+getmyhandle g_hobject
+clearflag g_hobject, visible
+clearflag g_hobject, solid
+clearflag g_hobject, gravity
+exit
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+stop
+Playsound voices\NPC\NPC_245.wav, DoNothing, 100, 240, FALSE, 100
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+Addtrigger Enter, OnEnter
+gosub Init
+
+exit
+

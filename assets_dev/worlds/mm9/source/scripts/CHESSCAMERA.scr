@@ -1,0 +1,96 @@
+;-----------------------------------
+;	ChessCamera.scr
+;	by SJR
+;-----------------------------------
+#include	BaseGlobals.inc
+
+#hobject	hMe = 0
+#string		sMyName = ""
+#hobject	hPlayer = 0
+#hobject	hPan = 0
+
+#number		x = 0
+#number		y = 0
+#number		z = 0
+
+#number		dx = 1
+#number		dy = 1
+#number		dz = 1
+
+;-----------------------------------
+:Main
+;-----------------------------------
+	AddTrigger Look,	ViewChessPiece
+	AddTrigger TurnOff, CameraOff
+
+	GetMyHandle hMe
+	GetObjectName hMe, sMyName
+	SetConsoleStrVar CHESS_CAM, sMyName
+
+	Exit TRUE
+
+;-----------------------------------
+:GetPlayerWet
+;
+;	jsl-->Added 2/16/02
+;	The SetPos command will now set the position of the player...
+;	This makes sure the player falls into the water.....
+;
+;-----------------------------------
+	GetPlayerHandle hPlayer
+	GetPos hPlayer,x,y,z
+
+	y = y - 160
+
+	SetPos hPlayer,x,y,z
+	Exit
+
+
+;-----------------------------------
+:ViewChessPiece
+;	pans from hPanNode0 to hPanNode1
+;-----------------------------------
+	GetParam 0, hPan
+
+	gosub AlignCamera
+	gosub CameraOn
+	gosub GetPlayerWet
+
+	FaceObject hPan, 360, DoNothing
+
+	Exit TRUE
+
+;-----------------------------------
+:AlignCamera
+;	sets pos and dir to player's
+;-----------------------------------
+	if( hPlayer==0 )
+		GetPlayerHandle hPlayer
+	endif
+	GetPOS hPlayer, x,y,z
+	GetFaceDir hPlayer, dx,dy,dz
+	VecNorm dx,dy,dz
+	y = y + 38
+	SetPOS hMe, x,y,z
+
+	FaceDir dx,dy,dz, 0, DoNothing
+
+	Exit TRUE
+
+;-----------------------------------
+:CameraOn
+;-----------------------------------
+	Trigger hMe, on
+	LetterBox TRUE
+
+	Exit TRUE
+
+;-----------------------------------
+:CameraOff
+;-----------------------------------
+	hPan = NULL
+	Target NULL
+	Trigger hMe, off
+	LetterBox FALSE
+
+	Exit TRUE

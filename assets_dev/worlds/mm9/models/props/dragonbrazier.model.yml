@@ -1,0 +1,84 @@
+schema: openyamm.model3d.v1
+id: dragonbrazier
+model: dragonbrazier.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/DRAGONBRAZIER.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: FireNode
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+- name: DragonBrazier
+  materialIndex: 0
+  lods:
+  - faces: 240
+    vertices: 355
+materials:
+- index: 0
+  texture: skins_preview/props/dragonbrazier.png
+  runtime_texture: skins/props/dragonbrazier.dtx
+  preview_texture: skins_preview/props/dragonbrazier.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/DRAGONBRAZIER.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+  - index: 1
+    name: FireNode
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets:
+- name: Firenode
+  node: 1
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.7071066498756409
+  - 0.00037685903953388333
+  - -0.0002511878847144544
+  - 0.7071067094802856
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 43.52
+  - 43.52
+  - 43.52
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/dragonbrazier.abc

@@ -1,0 +1,69 @@
+;-----------------------------------
+;	by SJR
+;-----------------------------------
+#include BaseGlobals.inc
+
+#hobject	hMe = 0
+#hobject	hMgr = 0
+
+#number		PRIZE_LEVEL = 0
+#number		RING_INDEX = 0
+
+#number		KEY_WON = 7009
+#number		bHasKey = 0
+
+;-----------------------------------
+:Main
+;-----------------------------------
+	GetParam 0, RING_INDEX
+	GetParam 1, PRIZE_LEVEL
+
+	KEY_WON = KEY_WON + RING_INDEX
+
+	GetMyHandle hMe
+
+	OnDamage OnDamage
+
+	AddTrigger on, TurnOn
+	AddTrigger off,TurnOff
+
+	Exit TRUE
+
+;-----------------------------------
+:OnDamage
+;-----------------------------------
+	HasKey KEY_WON, bHasKey
+	if( bHasKey==TRUE )
+		SetConsoleNumVar TARGET_LEVEL, 0
+	else
+		GiveKey KEY_WON
+		SetConsoleNumVar TARGET_LEVEL, PRIZE_LEVEL
+	endif
+
+	SetConsoleNumVar TARGET_INDEX, RING_INDEX
+
+	GetObjectHandle "TargetMgr", hMgr
+
+	if( hMgr!=0 )
+		Trigger hMgr, hit
+	endif
+
+	Exit TRUE
+
+;-----------------------------------
+:TurnOn
+;-----------------------------------
+	SetFlag hMe, 8192
+
+	OnDamage OnDamage
+
+	Exit TRUE
+
+;-----------------------------------
+:TurnOff
+;-----------------------------------
+	ClearFlag hMe, 8192
+
+	OnDamage DoNothing
+
+	Exit TRUE

@@ -1,0 +1,66 @@
+;----------------------------------------------
+;Relic.scr
+; By Timmy
+; gives the player Saint's Relic
+; item 368
+;----------------------------------------------
+
+#include globals.inc 
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+Haskey 338 g_ntemp
+if (g_ntemp==1)
+	haskey 340 g_ntemp
+	if (g_ntemp==0)
+		giveitem 368
+		givekey 340
+		getmyhandle g_hmyobject
+		removeobject g_hmyobject
+		Playsound sounds\events\quest.wav, DoNothing, 100, 50000, FALSE, 100
+		exit
+	endif
+else
+	haskey 339 g_ntemp
+	if (g_ntemp==0)
+		giveitem 368
+		givekey 339
+		getmyhandle g_hmyobject
+		removeobject g_hmyobject
+		Playsound sounds\events\quest.wav, DoNothing, 100, 50000, FALSE, 100
+		exit
+	endif
+endif
+
+exit
+
+;-------------------------------------
+:DeleteCheck
+;-------------------------------------
+
+Haskey 340 g_ntemp
+if (g_ntemp==1)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+
+haskey 339 g_ntemp
+if (g_ntemp==1)
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit	
+endif
+exit
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+Gosub DeleteCheck
+exit

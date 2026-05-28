@@ -1,0 +1,71 @@
+;-----------------------------------------------------
+;	DarkP_RaisingBridge.scr
+;	kd
+;	11-8-01
+;	Moves Bridge Section to markers 
+;	Trigger activated
+;	
+;-----------------------------------------------------
+#include Globals.inc
+#include Flags.inc
+
+#hObject	hMarker
+#hObject	hMe
+#string		sTopMarker
+#string		sDownMarker
+
+
+#number		nVarX
+#number		nVarY
+#number		nVarZ
+#number		nDown
+
+;--------------------------------------------------------------
+:StopHere
+;--------------------------------------------------------------
+	hMarker = NULL
+	Exit TRUE
+;--------------------------------------------------------------
+:DownMarker
+;--------------------------------------------------------------
+	nDown = 1
+	playsound Sounds\Spells\eshield.wav DoNothing 500 1000 FALSE 100
+	GetObjectHandle sDownMarker, hMarker
+	GetPos hMarker, nVarX, nVarY, nVarZ
+	MoveToPos nVarX, nVarY, nVarZ, 180, StopHere
+	Exit TRUE
+;--------------------------------------------------------------
+:UpMarker
+;--------------------------------------------------------------
+	nDown = 0
+	playsound Sounds\Spells\eshield.wav DoNothing 500 1000 FALSE 100
+	GetObjectHandle sTopMarker, hMarker
+	GetPos hMarker, nVarX, nVarY, nVarZ
+	MoveToPos nVarX, nVarY, nVarZ, 180, StopHere
+	Exit TRUE
+;--------------------------------------------------------------
+:MoveMe
+;--------------------------------------------------------------
+	If (nDown==1)
+		Gosub UpMarker
+	else
+		Gosub DownMarker
+	endif
+	Exit
+
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	GetMyHandle hMe
+	SetFlag hMe, FLAG_GOTHRUWORLD
+	AddTrigger Move, MoveMe
+	Exit TRUE
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	GetParam 0, sTopMarker
+	GetParam 1, sDownMarker
+	GetParam 2, nDown
+	Wait 0 .1 main2
+	Exit TRUE
+;------------- E n d - O f - F i l e -------------------

@@ -1,0 +1,87 @@
+;--------------------------------------------------
+;NPC130.scr
+; timmy
+; handles Ivan the Smart voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub Trivia
+
+exit
+
+
+;--------------------------------------------------
+:Trivia
+;--------------------------------------------------
+;****************
+;Trivia Quest
+;****************
+
+Haskey 164, keycheck
+if (keycheck==0, )
+; checks to see if they already have got the reward.
+	Haskey 60, g_ntemp
+	if (g_ntemp==1, )
+	; checks to see if they've Beat Ivan the Smart
+		GiveKey 164
+		GiveExp 5000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		GiveItem 400
+		; gives reward
+
+		exit
+	endif
+endif
+
+exit
+
+
+;End trivia quest
+;******************
+exit
+
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_130.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+;Addtrigger Use, OnUse
+
+exit
+

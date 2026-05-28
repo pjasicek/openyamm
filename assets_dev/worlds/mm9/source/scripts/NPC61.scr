@@ -1,0 +1,175 @@
+;----------------------------------------------
+;NPC61.scr
+; By Timmy
+; gives the player reward for all of Bjarni's quest madness.
+; and the related key
+; Bjarni's RudeID is 45
+; Love Letter is item 247
+;----------------------------------------------
+
+#include globals.inc 
+
+
+#number                         KeyCheck
+#number							Keydata
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+;promo variables
+
+#number		Fighter = 0
+#number		Mercenary = 1
+#number		Crusader = 2
+#number		Assassin = 3
+#number		Gladiator = 4
+#number		Ranger = 5
+#number		Paladin = 6
+#number		Initiate = 7
+#number		Scholar = 8
+#number		Healer = 9
+#number		Mage = 10
+#number		Lich = 11
+#number		Priest = 12
+#number		Druid = 13
+#number		Char1 = 0
+#number		Char2 = 1
+#number		Char3 = 2
+#number		Char4 = 3
+
+#number			bVanish
+
+
+
+;-------------------------------------
+:OnRude
+;-------------------------------------
+
+
+gosub Gladiator
+Gosub Shield
+exit
+
+
+;-------------------------------------
+:Shield
+;-------------------------------------
+
+haskey 219 g_ntemp
+if (g_ntemp==TRUE)
+	hasitem 375 g_ntemp
+	if (g_ntemp==TRUE)
+		takeitem 375
+		exit
+	endif
+endif
+exit
+
+
+;-------------------------------------
+:Gladiator
+;-------------------------------------
+;*************
+; Mercenary to Gladiator promo quest
+;*************
+
+Haskey 221, keycheck
+if (keycheck==0, )
+; checks to see if they already have got the reward.
+	Haskey 26, g_ntemp
+	if (g_ntemp==1, )
+	; checks to see if they've rescued Ivsar
+		GiveKey 221
+		GiveExp 63000
+		Givegold 5000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		; gives reward
+		gosub PromoteGladiator
+
+		exit
+	endif
+endif
+
+exit
+
+;End Mercenary to Gladiator promo quest
+;***************
+
+
+;--------------------------------------------------
+:PromoteGladiator
+;
+; Player has already completed the quest
+; just check to see who gets promoted
+;--------------------------------------------------
+
+
+
+haskey 409 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Gladiator Char1
+	takekey 409
+endif
+
+haskey 410 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Gladiator Char2
+	takekey 410
+endif
+
+haskey 411 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Gladiator Char3
+	takekey 411
+endif
+
+haskey 412 g_ntemp
+if (g_ntemp==TRUE)
+	GivePromo Gladiator Char4
+	takekey 412
+endif
+exit
+
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+hasitem 380 g_ntemp
+if (g_ntemp==TRUE)
+	haskey 214 g_ntemp
+	if (g_ntemp==TRUE)
+		givekey 215
+	endif
+endif
+ 
+
+hasitem 591 g_ntemp
+if (g_ntemp==TRUE)
+	haskey 214 g_ntemp
+	if (g_ntemp==TRUE)
+		givekey 215
+	endif
+endif
+
+;Playsound voices\NPC\NPC_045.wav, Onexit, 100, 240, FALSE, 100
+
+
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+
+exit

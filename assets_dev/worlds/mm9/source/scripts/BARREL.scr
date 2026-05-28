@@ -1,0 +1,41 @@
+;--------------------------------------------------
+;NPC88.scr
+; timmy
+; handles colored barrel bonuses.
+;
+;
+;
+;Barrel	Large or small	
+;		40% Empty			
+;		10% Red liquid, +1 Might perm			
+;		10% Yellow liquid, +1 Accuracy perm			
+;		10% Blue liquid, +1 Personality perm			
+;			
+;		10% Green liquid, +1 Endurance perm			
+;		10% Purple liquid, +1 Speed perm			
+;		10% White liquid, +1 Luck perm			
+;
+;
+;
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#string			Color
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

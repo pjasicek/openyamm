@@ -1,0 +1,95 @@
+Create Character Coordinates
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                             Graphics Coordinates
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Current Character Face		 65x 144y	60x80
+
+Might Button			137x 175y	72x47
+Magic Button			211x 175y	72x47 
+
+Note: Selected class button should display "Inactive" Version.
+
+Face Scroll Left Arrow		 59x 230y	35x24
+Face Scroll Right Arrow		 96x 230y	35x24
+
+Voice Scroll Left Arrow		132x 277y	28x24
+Voice Scroll Right Arrow	260x 277y	28x24 
+
+Might "+" Button		284x 358y	20x20
+Might "-" Button		304x 358y	20x20
+Magic "+" Button		284x 384y	20x20
+Magic "-" Button		304x 384y	20x20
+Endurance "+" Button		284x 410y	20x20
+Endurance "-" Button		304x 410y	20x20
+Accuracy "+" Button		284x 436y	20x20
+Accuracy "-" Button		304x 436y	20x20
+Speed "+" Button		284x 462y	20x20
+Speed "-" Button		304x 462y	20x20
+Luck "+" Button			284x 488y	20x20
+Luck "-" Button			304x 488y	20x20
+
+-------------------------------------------------------------------------------
+
+Menu Section (Right-Hand Edge)
+
+Character 1 Portrait	703x  13y	60x80
+Character 2 Portrait	703x 113y	60x80
+Character 3 Portrait	703x 213y	60x80
+Character 4 Portrait	703x 313y	60x80
+
+View Party	690x 436y	110x105
+Accept Party	690x 548y	110x52
+
+Note: Portraits should be of the party.  Unfinished characters should display
+	the graphic "NoPortrait.pcx"
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                               TEXT COORDINATES
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Character Name (Title)		 44x  19y	350x96	Title Font
+
+"Choose Class"		136x 146y	148x18	Main Font E Centered
+Race			 60x 257y	69x18	Main Font E Centered
+Gender			 60x 279y	69x18	Main Font E Centered
+"Voice"			136x 257y	148x18	Main Font E Centered
+Voice File		161x 279y	98x18	Main Font E Centered
+
+"MIGHT"			 91x 358y	148x18	Main Font E Left
+"MAGIC"			 91x 384y	148x18	Main Font E Left
+"ENDURANCE"		 91x 410y	148x18	Main Font E Left
+"ACCURACY"		 91x 436y	148x18	Main Font E Left
+"SPEED"			 91x 462y	148x18	Main Font E Left
+"LUCK"			 91x 488y	148x18	Main Font E Left
+
+Might ###		243x 358y	32x18	Main Font E Center
+Magic ###		243x 384y	32x18	Main Font E Center
+Endurance ###		243x 410y	32x18	Main Font E Center
+Accuracy ###		243x 436y	32x18	Main Font E Center
+Speed ###		243x 462y	32x18	Main Font E Center
+Luck ###		243x 488y	32x18	Main FonT E Center
+
+"POINTS AVAILABLE"	 91x 527y	148x18	Main Font E Left
+Points Available ###	243x 527y	32x18	Main Font E Centered
+
+Preset Skill #1		337x 146y	253x18	Main Font E Left
+Preset Skill #2		337x 173y	253x18	Main Font E Left
+"SLOT" Skill #1		337x 215y	253x18	Main Font E Left
+"SLOT" Skill #2		337x 242y	253x18	Main Font E Left
+
+"Choose Two Skills"	337x 274y	253x16	Small Font (Do you have this?)
+
+Skill Slot #1		351x 292y	253x18	Main Font E Left
+Skill Slot #2		351x 319y	253x18	Main Font E Left
+Skill Slot #3		351x 344y	253x18	Main Font E Left
+Skill Slot #4		351x 371y	253x18	Main Font E Left
+Skill Slot #5		351x 396y	253x18	Main Font E Left
+Skill Slot #6		351x 423y	253x18	Main Font E Left
+Skill Slot #7		351x 448y	253x18	Main Font E Left
+Skill Slot #8		351x 475y	253x18	Main Font E Left
+Skill Slot #9		351x 500y	253x18	Main Font E Left
+Skill Slot #10		351x 527y	253x18	Main Font E Left
+
+-------------------------------------------------------------------------------

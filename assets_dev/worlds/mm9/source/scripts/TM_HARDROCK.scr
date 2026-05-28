@@ -1,0 +1,67 @@
+;------------------------------------------------------------------
+;	tm_Hardrock.scr
+;	Brett Yagi
+;
+;	This script is used to award the hard rock quest
+;	to the player if they destroy all the hard rock
+;
+;	Parameters
+;
+;	0 - number of destructable brushes before quest is complete
+;   1 - number of key to give
+;	2 - amount of experience to give for successful completion.
+;
+;-----------------------------------------------------
+
+#include globals.inc
+
+#number nHardRockPieces = 0
+#number	nHardRockKey = 0
+#number	count = 0
+#number	nExperience = 0
+
+:dn
+
+exit 1
+
+
+;--------------------------------------------------------------
+:OneDown
+;
+;	Callback to "OneDown" trigger which counts the amount of
+;	Destructable brushes destroyed until it gets to 
+;	nHardRockPieces upon which quest is complete
+;--------------------------------------------------------------
+
+	count = count + 1
+	if ( count == nHardRockPieces )
+		GiveKey nHardRockKey
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240000, FALSE, 100
+		
+
+		if (nHardRockKey==36 )
+			; LDG ebora addition
+			; send a message to ebora
+			GetObjectHandle Ebora, g_hMyObject
+			Trigger g_hMyObject, FreeAtLast
+		endif
+
+		if (nExperience!=0)
+			giveexp nExperience
+			
+		endif
+	endif
+exit 1
+
+
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+
+;	Traceon
+	GetParam 0 nHardRockPieces
+	GetParam 1 nHardRockKey
+	getparam 2 nExperience
+	AddTrigger OneDown OneDown
+
+Exit 1

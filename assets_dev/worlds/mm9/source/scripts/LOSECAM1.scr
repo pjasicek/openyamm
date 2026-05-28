@@ -1,0 +1,74 @@
+;----------------------------------------------
+;Losecam1.scr
+; By Timmy
+; 12/20
+;handles losegame cutscene
+;----------------------------------------------
+
+#include globals.inc 
+
+
+
+
+#number		Xpos
+#number		Ypos
+#number		Zpos
+
+#number		MyX
+#number		MyY
+#Number		MyZ
+
+#hObject	hTriggeredMe
+
+;--------------------------------------------------
+:OnPlay
+;--------------------------------------------------
+
+getparam 0 hTriggeredMe
+
+getmyhandle g_hmyobject
+getpos g_hmyobject MyX MyY MyZ
+
+LetterBox True
+Getmyhandle g_hmyobject
+Trigger g_hmyobject On
+ScreenFadeIn 1
+GetobjectHandle CameraMarker1 g_htarget
+Target g_htarget
+wait 1 .2 OnPan
+;gosub OnPan
+exit
+
+;--------------------------------------------------
+:OnPan
+;--------------------------------------------------
+
+Getobjecthandle CameraMarker0 g_hobject
+getpos g_hobject Xpos Ypos Zpos
+MoveToPos xpos Ypos Zpos 100 OnArrive1
+exit
+
+;--------------------------------------------------
+:OnArrive1
+;--------------------------------------------------
+
+;getobjecthandle hTriggeredMe g_hobject
+trigger hTriggeredMe Cam2
+wait 1 2 Reset
+exit
+
+;--------------------------------------------------
+:Reset
+;--------------------------------------------------
+
+SetPos g_hmyobject MyX MyY MyZ DoNothing
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+
+AddTrigger Play OnPlay
+exit

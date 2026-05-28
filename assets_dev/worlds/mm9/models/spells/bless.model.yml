@@ -1,0 +1,142 @@
+schema: openyamm.model3d.v1
+id: bless
+model: bless.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/SPELLS/BLESS.abc
+  commandString: ''
+  internalRadius: 742.4
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: d_box09
+  materialIndex: 0
+  lods:
+  - faces: 4
+    vertices: 8
+- name: d_box10
+  materialIndex: 0
+  lods:
+  - faces: 4
+    vertices: 8
+- name: d_box11
+  materialIndex: 0
+  lods:
+  - faces: 4
+    vertices: 8
+- name: d_box12
+  materialIndex: 0
+  lods:
+  - faces: 4
+    vertices: 8
+- name: d_box13
+  materialIndex: 0
+  lods:
+  - faces: 4
+    vertices: 8
+- name: d_box14
+  materialIndex: 0
+  lods:
+  - faces: 4
+    vertices: 8
+- name: d_box7
+  materialIndex: 0
+  lods:
+  - faces: 4
+    vertices: 8
+- name: d_box08
+  materialIndex: 0
+  lods:
+  - faces: 4
+    vertices: 8
+materials:
+- index: 0
+  texture: skins_preview/spells/bless.png
+  runtime_texture: skins/spells/bless.dtx
+  preview_texture: skins_preview/spells/bless.png
+  source: mm9/extracted/SKINS/SKINS/SPELLS/BLESS.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: 'null'
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+  - index: 1
+    name: d_box09
+    parent: 0
+    flags: 0
+    children: []
+  - index: 2
+    name: d_box10
+    parent: 0
+    flags: 0
+    children: []
+  - index: 3
+    name: d_box11
+    parent: 0
+    flags: 0
+    children: []
+  - index: 4
+    name: d_box12
+    parent: 0
+    flags: 0
+    children: []
+  - index: 5
+    name: d_box13
+    parent: 0
+    flags: 0
+    children: []
+  - index: 6
+    name: d_box14
+    parent: 0
+    flags: 0
+    children: []
+  - index: 7
+    name: d_box7
+    parent: 0
+    flags: 0
+    children: []
+  - index: 8
+    name: d_box08
+    parent: 0
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: baseAnim
+  durationMs: 2133
+  keyframes: 65
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: baseAnim
+  extents:
+  - 327.68
+  - 40.96
+  - 40.96
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/spells/bless.abc

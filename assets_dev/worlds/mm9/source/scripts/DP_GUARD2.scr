@@ -1,0 +1,131 @@
+;------------------------------------------------------------------
+;	DP_Guard2.scr
+;	Brett Yagi
+;
+;	Works in conjunction with IS_fickyflock.scr.
+;	Generic function moves object randomly between markers in parameters
+;	When given the "scatter" trigger, it will trigger the "birds"
+;	specified in parameters.
+;
+;	Parameters
+;
+;	0 - Marker Root name  (ie for Markers Mrk0, Mrk1, Mrk2  "Mrk" is the root name)
+;	1 - Number of Markers
+;	2 - Bird Root name  (ie for Birds Bird0, Bird01, Bird02  "Bird0" is the root name)
+;	3 - Number of Birds
+;
+;
+;-----------------------------------------------------
+
+
+#string		sGuardNameRoot
+#string		sPrisonerNameRoot
+#string		sMarkerNameRoot
+#number		nNumPrisoners
+#string		sMarker
+#number		nCount = 0
+#number		nMarker = 0
+#hobject	hMarker
+
+#string		sGuard
+#hobject	hGuard
+#string		sPrisoner
+#hobject	hPrisoner
+
+#string		sDoor
+#hobject	hDoor
+#hobject	NULL = 0
+
+
+:dn
+
+exit 1
+
+
+:StopMoving
+
+	SetIdle
+
+exit 1
+
+;--------------------------------------------------------------
+:LockDown
+;--------------------------------------------------------------
+
+	Target NULL 1
+	SetIdle
+
+	nMarker = nCount * 3 + 2
+	sMarker = sMarkerNameRoot + nMarker
+	GetObjectHandle sMarker hMarker
+	WalkTo hMarker 50 StopMoving
+	nCount = nCount + 1
+
+Exit 1
+
+;--------------------------------------------------------------
+:Follow
+;--------------------------------------------------------------
+
+	WalkTo hPrisoner 50 dn
+	OnTargetBeyondDist 50 Follow
+
+Exit 1
+
+;--------------------------------------------------------------
+:GoToCell
+;--------------------------------------------------------------
+
+	Target NULL 0
+
+	nMarker = nCount * 3 + 4
+	sMarker = sMarkerNameRoot + nMarker
+	GetObjectHandle sMarker hMarker
+	WalkTo hMarker 30 dn
+
+	sPrisoner = sPrisonerNameRoot + nCount
+	GetObjectHandle sPrisoner hPrisoner
+	Target hPrisoner 1
+
+
+Exit 1
+
+
+
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+
+	sPrisoner = sPrisonerNameRoot + nCount
+	GetObjectHandle sPrisoner hPrisoner
+	Target hPrisoner 1
+	Gosub follow
+
+Exit 1
+
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+
+	GetParam 0 sGuardNameRoot
+	GetParam 1 sPrisonerNameRoot
+	GetParam 2 nNumPrisoners
+	GetParam 3 sMarkerNameRoot
+	
+	AddTrigger GoToCell GoToCell
+	AddTrigger Follow Follow
+	AddTrigger LockDown LockDown
+
+	Wait 0 .1 main2
+
+
+Exit 1
+
+
+
+
+
+
+
+
+

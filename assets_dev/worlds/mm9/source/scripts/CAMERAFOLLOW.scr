@@ -1,0 +1,46 @@
+;	CameraFollow.scr
+;	Jeff Leggett
+;	Test...
+
+#include aiglobals.inc
+
+:FollowTick
+	GetVelocity g_hObject, g_posX, g_posY, g_posZ
+	SetVelocity g_hMyObject, g_posX, g_posY, g_posZ
+	wait 0,0.01,FollowTick
+	exit
+
+:FollowStart
+	gosub FollowTick
+	exit
+
+:GoCinematic
+;;	LetterBox TRUE
+	ScreenFadeIn 1
+	Exit
+
+:TurnOn
+	GetParam 0, g_hObject
+
+	Target g_hObject
+;;	Trigger g_hMyObject,ON
+
+;;	gosub FollowStart
+
+	ScreenFadeOut 1
+	Wait 1,1,GoCinematic
+
+	exit FALSE
+
+:TurnOff
+;;	LetterBox FALSE
+	Exit FALSE
+
+:Main
+	GetMyHandle g_hMyObject
+
+	AddTrigger On, TurnOn
+	AddTrigger Off, TurnOff
+
+	Exit
+

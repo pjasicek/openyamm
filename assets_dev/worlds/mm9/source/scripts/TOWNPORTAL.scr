@@ -1,0 +1,111 @@
+;--------------------------------------------------
+;TownPortal.scr
+;10/4
+; timmy
+; gives party specific item
+
+;--------------------------------------------------
+
+#include globals.inc
+
+
+
+
+#String			SLocation
+#number			nKey
+
+
+
+; Parameters
+;P0 Item number of item to give
+
+
+;--------------------------------------------------
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+haskey nKey g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+givekey nKey
+SetModelFilenames models\Props\Portal-Whole.ABC Skins\Props\PortalClean.dtx
+Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;--------------------------------------------------
+:FixCheck
+;--------------------------------------------------
+haskey nKey g_ntemp
+if (g_ntemp==TRUE)
+	SetModelFilenames models\Props\Portal-Whole.ABC Skins\Props\PortalClean.dtx
+	exit
+endif
+
+exit
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+if (sLocation==Thjorgard)
+	set nKey 5011
+	gosub FixCheck
+	exit
+endif
+
+
+if (sLocation==Sturmford)
+	set nKey 5012
+	gosub FixCheck
+	exit
+endif
+
+
+if (sLocation==Drangheim)
+	set nKey 5013
+	gosub FixCheck
+	exit
+endif
+
+
+if (sLocation==Guberland)
+	set nKey 5014
+	gosub FixCheck
+	exit
+endif
+
+
+if (sLocation==Frosgard)
+	set nKey 5015
+	gosub FixCheck
+	exit
+endif
+
+
+if (sLocation==Thronheim)
+	set nKey 5016
+	gosub FixCheck
+	exit
+endif
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Use OnUse
+Getparam 0 sLocation
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+
+

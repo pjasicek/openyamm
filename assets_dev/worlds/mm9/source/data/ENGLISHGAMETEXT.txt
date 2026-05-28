@@ -1,0 +1,547 @@
+Party overview
+Might
+Magic
+Endurance
+Accuracy
+Speed
+Luck
+H.P.
+S.P.
+Choose Two of the Following Skills
+Choose Class
+Voice
+Select
+You have entered an invalid player name.  Please change the name.
+Angry
+Arrogant
+Assertive
+Cowardly
+Dim
+Happy
+Sarcastic
+Might
+Magic
+Endurance
+Accuracy
+Speed
+Luck
+Points Available
+ELEMENTAL
+DARK
+LIGHT
+SPIRIT
+PHYSICAL
+Skill Points
+Melee
+Ranged
+Damage
+On
+Off
+High
+Medium
+Low
+Graphic
+Numeric
+Are you sure you want to exit?
+Going to the main menu will remove you from the game.  Are you sure you wish to continue?
+Launch game Error!  There are no maps to launch!
+(Error Code=%d)
+Keyboard Setup
+Game Options
+Video Options
+Sound Options
+Command
+Primary
+Secondary
+Save Game
+Load Game
+Level
+Load
+Save
+Delete File
+You do not have sufficient skill in %s to equip this item
+This item cannot be placed in this slot
+You already have an item equipped in this slot.  Please remove the item and try again.
+You cannot switch between characters while in combat.
+Quick Spell
+Dmg
+Special
+Value
+AC
+Gold
+Party
+Party Formation
+Rank
+Front
+Middle
+Rear
+"Drag and drop, front line must be covered."
+Attack:
+Spell 1:
+Spell 2:
+Hit Points:
+Melee Attack:
+Ranged Attack:
+None
+Wait 5 Minutes
+Wait 1 Hour
+Wait Until Dawn
+"Rest Until Healed, 8 Hours"
+Lloyd's Beacon
+Set
+Clear
+Recall
+Town Portal
+Quests
+Auto Notes
+Journal
+Awards
+Repair this item for %d gold pieces?
+Identify this item for %d gold pieces?
+Remap Controls
+Controls
+None
+Turn Right 
+Turn Left 
+Move Backward 
+Move Forward 
+Strafe 
+Run/Walk 
+Look Up 
+Look Down 
+Crouch 
+Jump 
+Sidestep Left 
+Sidestep Right 
+Range/Melee Attack 
+Spell/Range Attack
+Center View 
+Use/Open  
+Show Scores
+Change Team
+Toggle HUD
+Inventory
+Notes
+Journal
+Map
+Spell Book
+Quest
+Rest
+ID Monster
+Quick Reference
+Calendar
+Yell
+Quick Save
+Quick Load
+Party Formation
+Toggle Mouse Look
+Toggle Turn Base
+Keyboard Remap
+Attack/Use/Open
+UnKnown Command 
+This key is reserved and cannot be bound.
+Force 1 Pass
+Detailed Textures
+Light Map
+Network Type
+Shadows
+Environment Map
+Trilinear Buffering
+Weapon Impacts
+Debris
+Optimize Surfaces
+Forces the renderer to do all rendering in 1 pass.  Detail Textures will not work when this is on.
+Gives the world a more realistic less blurry look.  Requires Force 1 Pass to be off and Light Map to be on.
+Gives more realistic lighting.  Required for Detail Textures to function correctly.
+Will optimize your network settings based on your connection speed.
+Not really sure what this does but it's usually off anyway so I don't worry about it too much.
+Again not sure what it does but it sounds like it speeds things up when you enable it.
+Toggles the amount of graphical data you want to display when projectiles are exploding all over the place.
+Allows you to select how much debris you really want to see.
+Toggles model shadows on and off.
+Allows you to have semi-transparent graphics.
+There is no description for this item at this time.
+Sound Effects Volume
+Voice Volume
+Music Volume
+Environmental Audio
+Team Voice
+Display Adapter
+Always Run
+Blood Splats
+Invert Mouse
+Head Bob
+Choose Crosshair
+Turn Speed
+Mouse Sensitivity
+Restore Default
+Cancel
+Apply
+Classic Controls
+%s needs %d more experience to train to level %d.
+It will cost %s %d gold to train to level %d.
+"Yes, I will train..."
+Who shall train?
+It will cost %s %d gold to become %s %s.
+%s can learn nothing further from me...
+%s cannot be taught %s
+Who shall learn?
+%s needs skill level %d to become %s
+%s needs more mastery to become %s
+%s must be promoted to become %s
+Expert
+Master
+Grandmaster
+You have %d gold.
+Deposit
+Withdraw
+View items in safety deposit box?
+It will cost %s %d gold to be healed.
+"%s is %s, it will cost %d gold to be healed."
+Who shall heal?
+Whom of you is interested in promotion?
+%s is interested in promotion to %s...
+%s cannot be promoted to %s...
+%s is now a candidate for promotion to %s...
+"Nevermind, maybe later..."
+Map
+Notable Places
+Add Pin
+Delete Pin
+Zoom In
+Zoom Out
+Notes
+It will take %d day(s) to sail to %s and will cost you %d gold!
+Isle of Ashes
+Thronheim
+Sturmford
+Drangheim
+Frosgard
+Guberland
+Lindisfarne
+Thjorgard
+"Aye, landlubber the boat, she is leaving!"
+"Sorry traveller, 'tis no boat today.  Come back tomorrow."
+Undefined
+Elemental
+Dark
+Light
+Spirit
+Physical
+Immobolized
+Stunned
+Sleep
+Unconscious
+Dead
+Eradicated
+Human
+Elf
+Dwarf
+HalfOrc
+Fighter
+Mercenary
+Crusader
+Assassin
+Gladiator
+Ranger
+Paladin
+Initiate
+Scholar
+Healer
+Mage
+Lich
+Priest
+Druid
+Invalid Class
+Male
+Female
+Might
+Magic
+Endurance
+Accuracy
+Speed
+Luck
+Blade
+Cudgel
+Bow
+Spear
+Thrown
+Unarmed Combat
+Armor
+Dodge
+Shield
+Elemental
+Dark
+Light
+Spirit
+Armsmaster
+Disarm Trap
+Merchant
+Perception
+Item Repair
+Identify Item
+Identify Monster
+Body Building
+Learning
+Meditation
+None
+Normal
+Expert
+Master
+Grand Master
+You must be a %s in %s to learn this spell
+You already have the %s spell
+You already have the %s skill
+A %s cannot learn the %s skill
+Error saving game!
+Error loading save game!
+It will take %d days to travel.
+Are you sure you want to go to %s?
+%s takes %d trap damage!
+"Sorry, you cannot save your game right now."
+This item cannot be equipped by %ss
+This item requires at least %d %s to equip.
+This item type cannot be equipped.
+Initializing resolution...
+Unknown Error
+Unknown Error
+An unexpected error has occurred.
+An unexpected error has occurred.
+You are missing a required file.
+You are missing a required model.
+Your model file is invalid.
+An unexpected error has occurred.
+An unexpected error has occurred.
+Your game resource file is corrupt.
+Can't initialize input controls.
+Your cshell.dll file is missing.
+Your cshell.dll file is invalid.
+Your cshell.dll file is invalid.
+An unexpected error has occurred.
+Unable to initialize sounds.
+Your music.dll file is missing.
+Your music.dll file is invalid.
+Unable to initialize music.
+Unable to initialize DirectPlay.
+An unexpected error has occurred.
+Your map file is missing.
+Your map file is invalid or does not match the server's.
+Your map file is invalid or does not match the server's.
+You have been disconnected due to a network error.
+Your data file is missing.
+Your data file is invalid or does not match the server's.
+You are missing a required model.
+Unable to return to the game.  Please quit and re-launch Legends.
+You have been disconnected due to a server error.
+Unable to create game server.
+Unable to initialize render.dll.
+Your Legends version differs from the server's.
+Unable to create server shell.
+Your object.lto file is invalid or does not match the server's.
+Your object.lto version differs from the server's.
+Unable to initialize network driver.
+Unable to load game resources.
+An unexpected error has occurred.
+An unexpected error has occurred.
+An unexpected error has occurred.
+An unexpected error has occurred.
+An unexpected error has occurred.
+"System error, not connected."
+An unexpected error has occurred.
+An unexpected error has occurred.
+An unexpected error has occurred.
+"System error, out of memory."
+An unexpected error has occurred.
+This is an invalid version of Might and Magic IX(tm).  Please run GameUpdate.
+An unexpected error has occurred.
+An unexpected error has occurred.
+An unexpected error has occurred.
+An unexpected error has occurred.
+Unexpected initialization error.
+An unexpected error has occurred.
+An unexpected error has occurred.
+An unexpected error has occurred.
+An unexpected error has occurred.
+This is an invalid network version of Might and Magic IX(tm).  Please run GameUpdate.
+Can not connect to server (timeout).
+Unable to bind to winsock port.
+"Can not join, server is full."
+Demo and Retail versions are not compatible with each other.
+An unexpected error has occurred.
+An unexpected error has occurred.
+No 3D sound provider.
+An unexpected error has occurred.
+An unexpected error has occurred.
+You are missing a required cursor resource.
+Cannot equip 2 handed weapon while an item is in the left hand
+Cannot equip an item in the left hand while a 2 handed weapon is equipped in the right.
+Cannot equip a 2 handed blade in the left hand.
+Cannot equip an item in the left hand with a 2 handed blade weapon in the right.
+You don't have that much gold to deposit
+You don't have that much gold in the bank to withdraw
+Skills:
+Cost:
+Dur:
+Tgt:
+Player
+Party
+Monster
+Party
+Area
+Item
+Weapon
+Target
+On Screen
+You must select a character portrait to cast this spell on.
+You must select an item to enchant.  Spell cancelled.
+This spell cannot be cast on this item.
+This save game slot is reserved.  Please choose any slot after the 2nd.
+You must enter a name for this save game.
+You cannot rest during combat.
+You must have the armor skill to wear any armor.
+You must be at least an Expert in Armor skill to wear Chain Armor.
+You must be at least a Master in Armor skill to wear Plate Armor.
+This item cannot be enchanted by potion or spell.
+Quick Information
+"Nevermind, maybe later..."
+Quality
+Normal
+Good
+Excellent
+Knowledge Required:
+Has special properties
+Quicksave Saved...
+Quicksave Loaded...
+Experience
+You can train to level %d.
+You are not yet ready to train.
+You need %d experience to train to level %d
+Skill:
+Charges:
+Room for the night?
+Our finest room for %d gold!
+MISS
+MAX
+Effect:
+Buy this item for %d gold pieces?
+Sell this item for %d gold pieces?
+Buy Item
+Sell Item
+Repair Item
+Identify Item
+Withdraw money from the bank
+Deposit money to the bank
+Exit the bank
+Show Weapons
+Show Armor
+"Show Gloves, Boots, and Belts"
+Show Jewelry
+Show Potions and other Misc items
+Show Quest items
+Buy Cost
+Sell Price
+Party Gold
+Bank Gold
+Deposit Amount
+Withdraw Amount
+Exit the store
+Character Conditions:
+Cursed
+Diseased
+Enraged
+Afraid
+Insane
+Poisoned
+Weak
+%s takes %d damage!
+ Radius %d feet.
+ Lasts %d minutes.
+ Lasts 1 hour and %d minutes.
+ Lasts 1 hour.
+ Lasts 1 week.
+ Lasts %d hours and %d minutes.
+ Lasts %d hours.
+%s casts %s on 
+party.
+" for %d, "
+%s's %s spell fizzles.
+Display your characters skills
+Display your characters stats
+Display your characters inventory
+Display your characters spell book
+Display the map page
+Display the notes page
+Ranged weapon slot
+Helm armor slot
+Amulet/neck piece slot
+Chest armor slot
+Glove armor slot
+Boot armor slot
+Primary weapon hand slot
+Secondary weapon or shield slot
+Belt slot
+Ring slot
+Show only offensive spells
+Show only defensive spells
+Show only healing spells
+Show all spells
+Set the quick spell
+Exit the Character Information screen.
+Next spell book page
+Previous spell book page
+Armor Class
+Dmg:
+Mercenary Quest
+Assassin Quest
+Gladiator Quest
+Crusader Quest
+Ranger Quest
+Paladin Quest
+Scholar Quest
+Mage Quest
+Lich Quest
+Healer Quest
+Priest Quest
+Druid Quest
+Gamma Correction
+Type:
+You still have items left in the chest.  If you exit now they will be lost forever.  Do you really wish to exit?
+You already have a save game in this slot continuing will overwrite the current save.  Do you wish to continue?
+Are you sure you wish to delete this save file?
+You cannot use an unidentified item.
+You cannot use this item.
+Are you sure you wish to delete this item?  Press OK to confirm.  Cancel to cancel.
+You cannot save the game at this time.  There are monsters nearby!
+You cannot load the game at this time.  There are monsters nearby!
+%s hits %s for %s
+You have been attacked in your sleep!
+You must enter at least one valid character to save this game.
+"You have not selected all of your starting skills or have spent all of your attribute points.  Press OK to use the generated Default party, or Cancel to continue working on your characters."
+You do not have enough mana!
+Wand is out of charges!
+%s can cast this but once per day!
+A save file of the same name already exists in a different slot.  Please use a different name and try again.
+"%s becomes diseased, but gains an item!"
+%s gains +%d %s!
+%s gains +%d %s temporarily…
+Hit Points
+Spell Points
+Resistance												
+%s gains an item!												
+The party												
+%s misses %s...%s												
+Letter												
+Combat History												
+Master Volume												
+ Lasts 1 minute.												
+ Radius 1 foot.												
+You cannot equip a broken item.												
+Congratulations!												
+%s the Level %d %s %s												
+"By imprisoning Njam in the Tomb of a Thousand Terrors, you have finally fulfilled your destiny!  For years to come skalds and poets will sing songs of your heroism and glory.  By uniting the six clans of Chedian against a common foe, you've encouraged them to stop fighting amongst themselves and rise to become a single prosperous nation."												
+"Total Time: %d Years, %d Months, %d Days"												
+Your Score: %d												
+Broken												
+You need %d skill points to advance this skill
+A two handed weapon cannot be duel wielded unless the weapons are spears.
+You cannot equip a 1 handed weapon with a 2 handed weapon that is not a spear.

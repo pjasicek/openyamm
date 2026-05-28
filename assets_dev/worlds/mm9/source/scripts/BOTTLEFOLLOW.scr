@@ -1,0 +1,136 @@
+;-----------------------------------
+;	BottleFollow.scr
+;	by SJR
+;	11-08-01
+;	Purpose:bottle floats away and leads
+;			the player somewhere
+;-----------------------------------
+#include BaseGlobals.inc
+#include ListTraverseNONAI.inc
+#include flags.inc
+
+#number		FLOAT_DIST = 10
+#number		FLOAT_RATE = 10
+
+#number		ANGLE_DIST = 180
+#number		ANGLE_RATE = 90
+
+#string		FINISHNAME = 0
+#number		FINISHLAST = 0
+#number		FINISHFIRST = 0
+
+#string		STARTNAME = 0
+#number		STARTLAST = 0
+#number		STARTFIRST = 0
+
+#number		bFinishing = 0
+
+#number		nDir = 1
+#number		nAngle = 0
+#number		nSpeed = 0
+#number		nCounter = 0
+
+#hobject	hMe = 0
+#number		xMe = 0
+#number		yMe = 0
+#number		zMe = 0
+
+;-----------------------------------
+:Main
+;-----------------------------------
+	GetParam 0, STARTNAME
+	GetParam 1, STARTFIRST
+	GetParam 2, STARTLAST
+
+	GetParam 3, FINISHNAME
+	GetParam 4, FINISHFIRST
+	GetParam 5, FINISHLAST
+
+	LISTNAME = STARTNAME
+	LISTFIRST = STARTFIRST
+	LISTLAST = STARTLAST
+
+	gosub SetTraverseOnce
+	TRAVERSE_SPEED = 40
+
+	GetMyHandle hMe
+
+	gosub FloatLoop
+
+	Exit TRUE
+
+;-----------------------------------
+:OnTraverseDone
+;-----------------------------------
+	if( bFinishing==FALSE )
+
+		if( LISTINDEX==LISTLAST )
+			bFinishing = TRUE
+			gosub TraversePause
+			gosub GotoFinishing
+			gosub TraverseResume
+			bContinue = 1
+		endif
+
+	else
+
+		if( LISTINDEX==LISTLAST )
+			bFinishing = FALSE
+			gosub TraversePause
+			gosub GotoBeginning
+			gosub TraverseResume
+			bContinue = 1
+		endif
+
+	endif
+
+	Exit TRUE
+
+;-----------------------------------
+:FloatLoop
+;	bob and rotate the bottle
+;-----------------------------------
+	if( nCounter>=6 )
+		nCounter = 0
+		bFinishing = FALSE
+		gosub TraverseBegin
+		Exit TRUE
+	endif
+
+	Rotate 0,1,0, ANGLE_DIST, ANGLE_RATE, DoNothing
+
+	nDir = nDir * -1
+
+	MoveDir 0,nDir,0, FLOAT_DIST, FLOAT_RATE, FloatLoop
+
+	nCounter = nCounter + 1
+
+	Exit TRUE
+
+;-----------------------------------
+:GotoBeginning
+;-----------------------------------
+	LISTNAME = STARTNAME
+	LISTFIRST = STARTFIRST
+	LISTLAST = STARTLAST
+
+	gosub GetFirstObject
+
+	GetPOS LISTOBJECT, xMe,yMe,zMe
+	SetPOS hMe, xMe,yMe,zMe
+
+	Exit TRUE
+
+;-----------------------------------
+:GotoFinishing
+;-----------------------------------
+	LISTNAME = FINISHNAME
+	LISTFIRST = FINISHFIRST
+	LISTLAST = FINISHLAST
+
+	gosub GetFirstObject
+
+	GetPOS LISTOBJECT, xMe,yMe,zMe
+	SetPOS hMe, xMe,yMe,zMe
+
+	Exit TRUE

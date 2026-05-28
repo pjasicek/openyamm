@@ -1,0 +1,135 @@
+;--------------------------------------------------------
+;	SunTempleButtons.scr
+;	Tony Evans
+;
+;	This script controls the buttons that operate the 
+;	elevator in the Grand Temple of the Sun
+;
+;	Parameters:
+;
+;--------------------------------------------------------
+#include globals.inc
+
+; variables for handling the buttons
+#number					StarBut1=0
+#number					StarBut2=0
+#number					DiamondBut1=0
+#number					DiamondBut2=0
+#number					MoonBut1=0
+#number					MoonBut2=0
+
+;--------------------------------------------------------
+:HandleStar1
+;--------------------------------------------------------
+
+	if (StarBut1==TRUE)
+		set StarBut1, FALSE
+	else 
+		set StarBut1, TRUE
+	endif
+
+exit
+
+;--------------------------------------------------------
+:HandleStar2
+;--------------------------------------------------------
+
+	if (StarBut2==TRUE)
+		set StarBut2, FALSE
+	else 
+		set StarBut2, TRUE
+	endif
+
+exit
+
+;--------------------------------------------------------
+:HandleDiamond1
+;--------------------------------------------------------
+
+	if (DiamondBut1==TRUE)
+		set DiamondBut1, FALSE
+	else 
+		set DiamondBut1, TRUE
+	endif
+
+exit
+
+;--------------------------------------------------------
+:HandleDiamond2
+;--------------------------------------------------------
+
+	if (DiamondBut2==TRUE)
+		set DiamondBut2, FALSE
+	else 
+		set DiamondBut2, TRUE
+	endif
+
+exit
+
+;--------------------------------------------------------
+:HandleMoon1
+;--------------------------------------------------------
+
+	if (MoonBut1==TRUE)
+		set MoonBut1, FALSE
+	else 
+		set MoonBut1, TRUE
+	endif
+
+exit
+
+;--------------------------------------------------------
+:HandleMoon2
+;--------------------------------------------------------
+
+	if (MoonBut2==TRUE)
+		set MoonBut2, FALSE
+	else 
+		set MoonBut2, TRUE
+	endif
+
+exit
+
+;--------------------------------------------------------
+:HandleMainButton
+;--------------------------------------------------------
+
+	if (StarBut1==TRUE)
+		if (StarBut2==FALSE)
+			if (DiamondBut1==FALSE)
+				if (DiamondBut2=TRUE)
+					if (MoonBut1=FALSE)
+						if (MoonBut2=FALSE)
+							gosub HandleElevator
+						endif
+					endif
+				endif
+			endif
+		endif
+	endif
+
+exit FALSE
+
+;--------------------------------------------------------
+:HandleElevator
+;--------------------------------------------------------
+
+	; make elevator descend
+	GetObjectHandle MainElevator, g_hobject
+	Trigger g_hobject open
+
+exit
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+Addtrigger Star1, HandleStar1
+Addtrigger Star2, HandleStar2
+Addtrigger Diamond1, HandleDiamond1
+Addtrigger Diamond2, HandleDiamond2
+Addtrigger Moon1, HandleMoon1
+Addtrigger Moon2, HandleMoon2
+Addtrigger Use, HandleMainButton
+
+exit

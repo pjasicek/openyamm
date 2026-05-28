@@ -1,0 +1,75 @@
+schema: openyamm.model3d.v1
+id: gopherbody1
+model: gopherbody1.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/GIBS/GOPHER/GOPHERBODY1.abc
+  commandString: NoAnimation
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: gopherbody
+  materialIndex: 0
+  lods:
+  - faces: 48
+    vertices: 26
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 4
+  - index: 2
+    name: Bone02
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Bone03
+    parent: 2
+    flags: 1
+    children: []
+  - index: 4
+    name: Bone05
+    parent: 1
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: gopherbody1
+  durationMs: 33
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: gopherbody1
+  extents:
+  - 7.68
+  - 10.24
+  - 7.68
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/gibs/gopher/gopherbody1.abc

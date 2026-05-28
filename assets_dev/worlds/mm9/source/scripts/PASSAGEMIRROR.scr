@@ -1,0 +1,104 @@
+;-------------------------------
+;	PassageMirror.scr
+;	by SJR
+;	11-06-01
+;	Purpose:puzzle reflector
+;			mirrors in desert
+;-------------------------------
+#include BaseGlobals.inc
+
+#string		sNextMirror = ""
+#string		sLightName = ""
+
+#hobject	hMirror = 0
+#hobject	hLight = 0
+#hobject	hMe = 0
+
+#number		dA = 10
+
+#number		nTargetAngle = 0
+#number		nCounter = 0
+#number		nMod = 0
+#number		bOff = 1
+#number		nTemp = 0
+
+#number		dx = 0
+#number		dy = 0
+#number		dz = 0
+
+;-------------------------------
+:Main
+;-------------------------------
+	;;angle in clockwise degrees to target mirror
+	GetParam 0, nTargetAngle
+	GetParam 1, sNextMirror
+	GetParam 2, sLightName
+
+	OnPostStartWorld InitPassageMirror
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;-------------------------------
+:CacheFiles
+;-------------------------------
+	Exit TRUE
+
+;-------------------------------
+:InitPassageMirror
+;-------------------------------
+	nTargetAngle = nTargetAngle / dA
+	nMod = 360 / dA
+
+	AddTrigger use, Rotate
+	AddTrigger off, TakeFocus
+	AddTrigger trigger, GiveFocus
+
+	GetMyHandle hMe
+	GetObjectHandle sNextMirror, hMirror
+	GetObjectHandle sLightName, hLight
+
+	Trigger hLight, on
+
+	Exit TRUE
+
+;-------------------------------
+:Rotate
+;-------------------------------
+	nCounter = nCounter + 1
+	Mod nCounter, nMod
+	
+	Rotate 0,1,0, dA, 180, DoNothing
+
+	if( nCounter!=nTargetAngle )
+		Trigger hMirror, off
+	endif
+
+	Exit TRUE
+
+;-------------------------------
+:TakeFocus
+;-------------------------------
+	bOff = TRUE
+
+	Trigger hMirror, off
+
+	Exit TRUE
+
+;-------------------------------
+:GiveFocus
+;-------------------------------
+	if( nCounter<30 )
+		if( nCounter>6 )
+			Exit TRUE
+		endif
+	endif
+
+	Trigger hLight, rotate
+
+	if( nCounter==nTargetAngle )
+		bOff = FALSE
+		Trigger hMirror, trigger
+	endif
+
+	Exit TRUE

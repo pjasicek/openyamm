@@ -1,0 +1,36 @@
+;----------------------------------------------
+;NjamFreeze.scr
+; By Timmy
+; 11/16
+; Manager for Njam in 1000 terrors;
+
+;----------------------------------------------
+
+
+#include njam1000.inc
+#include basemelee.inc
+#include range.inc
+
+
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+
+getplayerhandle g_hplayer
+target g_hplayer
+
+Addenemy Player
+
+OnPostMiniSaveLoad Vanish2c
+
+gosub baseinit
+gosub RangeInit
+gosub Init
+
+
+exit

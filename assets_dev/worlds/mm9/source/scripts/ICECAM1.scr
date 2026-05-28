@@ -1,0 +1,56 @@
+;----------------------------------------------
+;IceCam1.scr
+; By Timmy
+; Controls the Ice Camera movement
+;
+; 1/2/02
+;----------------------------------------------
+
+#include globals.inc 
+
+#string			sCamera
+
+#number		Xpos
+#number		Ypos
+#number		Zpos
+
+;-------------------------------------
+:OnStart
+;-------------------------------------
+
+wait 1 1 OnPan
+exit
+
+;-------------------------------------
+:OnPan
+;-------------------------------------
+
+Getobjecthandle IceMarker1 g_hobject
+target g_hobject
+exit
+
+;-------------------------------------
+:OnMove
+;-------------------------------------
+
+getparam 0 g_hTarget
+getobjecthandle IceMarker2 g_hobject
+getpos g_hobject Xpos Ypos Zpos
+MoveToPos xpos Ypos Zpos 150 OnArrive
+exit
+
+;-------------------------------------
+:OnArrive
+;-------------------------------------
+
+trigger g_htarget Cam3
+exit
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Start OnStart
+AddTrigger Move OnMove
+GetParam 0 sCamera
+exit

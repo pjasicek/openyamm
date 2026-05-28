@@ -1,0 +1,85 @@
+;--------------------------------------------------------
+;	DP3fireelemental.scr
+;	Timmy
+;
+;	This script makes a fire elemental throw a switch
+;
+;	Parameters:
+;
+
+
+;
+;--------------------------------------------------------
+#include globals.inc
+#include base.inc
+
+
+
+#Number					Aware
+#Number					Lever
+
+
+;--------------------------------------------------------
+:Nav1
+;--------------------------------------------------------
+
+If (Aware==True)
+	goto Attack
+	exit
+Endif
+
+
+set Aware, true
+GetObjectHandle Trigger0, g_hobject
+Trigger g_hobject, off
+getobjecthandle Switch2, g_hobject
+Runto g_hobject 32 Fidget1
+exit
+
+
+;--------------------------------------------------------
+:Fidget1
+;--------------------------------------------------------
+
+
+Trigger g_hobject, use
+wait 3, OnAware
+
+exit
+
+;--------------------------------------------------------
+:OnAware
+;--------------------------------------------------------
+
+
+
+GetObjectHandle Trigger0, g_hobject
+FaceObject g_hobject, 100, Attack
+exit
+
+;--------------------------------------------------------
+:Attack
+;--------------------------------------------------------
+
+goto InitBase
+exit
+;--------------------------------------------------------
+:Stuck
+;--------------------------------------------------------
+
+
+goto Nav1
+exit
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+;TRACEON
+
+
+OnStuck Stuck
+Addtrigger Aware, OnAware
+Addtrigger Start, Nav1
+OnDamage Nav1
+	exit

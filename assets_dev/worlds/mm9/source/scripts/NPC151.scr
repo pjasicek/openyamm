@@ -1,0 +1,169 @@
+;--------------------------------------------------
+;NPC150.scr
+; timmy
+; handles Broccan A'Norta's speech
+;--------------------------------------------------
+
+#include globals.inc
+#include basewander.inc
+
+#string			Sound
+#number			nKey
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:OnStop
+;--------------------------------------------------
+stop
+;Loopanim stand 0 DoNothing
+exit
+
+;--------------------------------------------------
+:OnSpeak2
+;--------------------------------------------------
+
+SetPropNumber DoRude False
+Loopanim conv1 0 DoNothing
+Playsound voices\cinema\NewGame\02.wav, DoNothing, 100, 768, FALSE, 100
+wait 1 .5, Trigger3
+exit
+
+
+;--------------------------------------------------
+:Trigger3
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Scandlan g_hobject
+trigger g_hobject Speak3
+exit
+
+
+;--------------------------------------------------
+:OnSpeak4
+;--------------------------------------------------
+
+Loopanim conv1 0 DoNothing
+Playsound voices\cinema\NewGame\04.wav, DoNothing, 100, 768, FALSE, 100
+wait 1 .5, Trigger5
+exit
+
+
+;--------------------------------------------------
+:Trigger5
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Scandlan g_hobject
+trigger g_hobject Speak5
+exit
+
+
+
+;--------------------------------------------------
+:OnSpeak6
+;--------------------------------------------------
+
+Loopanim conv1 0 DoNothing
+Playsound voices\cinema\NewGame\06.wav, DoNothing, 100, 768, FALSE, 100
+wait 1 1, Trigger7
+exit
+
+
+;--------------------------------------------------
+:Trigger7
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Scandlan g_hobject
+trigger g_hobject Speak7
+exit
+
+;--------------------------------------------------
+:OnSpeak8
+;--------------------------------------------------
+
+Loopanim conv1 0 DoNothing
+Playsound voices\cinema\NewGame\08.wav, DoNothing, 100, 768, FALSE, 100
+wait 1 .5, Trigger9
+exit
+
+
+;--------------------------------------------------
+:Trigger9
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Scandlan g_hobject
+trigger g_hobject Speak9
+exit
+
+;--------------------------------------------------
+:OnSpeak10
+;--------------------------------------------------
+
+Loopanim conv1 0 DoNothing
+Playsound voices\cinema\NewGame\10.wav, DoNothing, 100, 768, FALSE, 100
+wait 1 1, Trigger11
+exit
+
+
+;--------------------------------------------------
+:Trigger11
+;--------------------------------------------------
+
+gosub Onstop
+getobjecthandle Scandlan g_hobject
+trigger g_hobject Speak11
+exit
+
+;--------------------------------------------------
+:OnWalkAway
+;--------------------------------------------------
+SetPropNumber DoRude TRUE
+target NULL
+getobjecthandle CommonerHalfOrcMaleA0 g_hobject
+walkto g_hobject 10 OnWander 
+exit
+
+;--------------------------------------------------
+:OnWander
+;--------------------------------------------------
+
+haskey 5020 g_ntemp
+if (g_ntemp==TRUE)
+	gosub BasewanderInit
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:OnTarget
+;--------------------------------------------------
+SetPropNumber DoRude False
+getparam 0 g_hTarget
+target g_htarget
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+Addtrigger Speak2 OnSpeak2
+AddTrigger Speak4 OnSpeak4
+Addtrigger Speak6 OnSpeak6
+AddTrigger Speak8 OnSpeak8
+AddTrigger Speak10 OnSpeak10
+AddTrigger Speak12 OnWalkAway
+Addtrigger Target OnTarget
+gosub OnWander
+exit
+

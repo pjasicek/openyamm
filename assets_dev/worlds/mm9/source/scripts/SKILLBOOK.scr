@@ -1,0 +1,201 @@
+;--------------------------------------------------
+;SkillBook.scr
+;9/21
+; timmy
+; Gives the Player a SkillBook
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#number Item_ID
+#String Skill_Name
+
+
+; Parameters
+;P0 the NAME of the skill book to give
+
+;--------------------------------------------------
+:OnUse
+; this opens the book
+;--------------------------------------------------
+
+
+GiveItem Item_Id
+GetMyHandle g_hmyobject
+RemoveObject g_hmyobject
+exit
+
+
+
+;--------------------------------------------------
+:SkillInit
+; This assigns the Item_ID based on Skill_Name
+
+
+
+;ItemID	ItemName
+;285	Blade Skill
+;286	Bow Skill
+;287	Cudgel Skill
+;288	Spear Skill
+;289	Armsmaster Skill
+;290	Unarmed Skill
+;291	Armor Skill
+;292	Shield Skill
+;293	Dodge Skill
+;294	Elemental Skill
+;295	Light Skill
+;296	Dark Skill
+;297	Spirit Skill
+;298	Disarm Trap Skill
+;299	Merchant Skill
+;300	Perception Skill
+;301	Repair Item Skill
+;302	Identify Item Skill
+;303	Identify Monster Skill
+;304	Body Building Skill
+;305	Learning Skill
+;306	Meditation Skill
+;--------------------------------------------------
+
+if (Skill_Name==0)
+	GetRandomInt 285, 306, g_ntemp
+	Set Item_ID g_ntemp
+	exit
+endif
+
+If (Skill_Name==Random)
+	GetRandomInt 285, 306, g_ntemp
+	Set Item_ID g_ntemp
+	exit
+endif
+
+
+If (Skill_Name==Blade)
+	Set Item_Id 285
+	exit
+endif
+
+If (Skill_Name==Bow)
+	Set Item_Id 286
+	exit
+endif
+
+If (Skill_Name==Cudgel)
+	Set Item_Id 287
+	exit
+endif
+
+If (Skill_Name==Spear)
+	Set Item_Id 288
+	exit
+endif
+
+If (Skill_Name==Armsmaster)
+	Set Item_Id 289
+	exit
+endif
+
+If (Skill_Name==Unarmed)
+	Set Item_Id 290
+	exit
+endif
+
+If (Skill_Name==Armor)
+	Set Item_Id 291
+	exit
+endif
+
+If (Skill_Name==Shield)
+	Set Item_Id 292
+	exit
+endif
+
+If (Skill_Name==Dodge)
+	Set Item_Id 293
+	exit
+endif
+
+If (Skill_Name==Elemental)
+	Set Item_Id 294
+	exit
+endif
+
+If (Skill_Name==Light)
+	Set Item_Id 295
+	exit
+endif
+
+If (Skill_Name==Dark)
+	Set Item_Id 296
+	exit
+endif
+
+If (Skill_Name==Sprit)
+	Set Item_Id 297
+	exit
+endif
+
+If (Skill_Name==Disarm)
+	Set Item_Id 298
+	exit
+endif
+
+If (Skill_Name==Merchant)
+	Set Item_Id 299
+	exit
+endif
+
+If (Skill_Name==Perception)
+	Set Item_Id 300
+	exit
+endif
+
+If (Skill_Name==Repair)
+	Set Item_Id 301
+	exit
+endif
+
+If (Skill_Name==ID_Item)
+	Set Item_Id 302
+	exit
+endif
+
+If (Skill_Name==ID_Monster)
+	Set Item_Id 303
+	exit
+endif
+
+If (Skill_Name==Body)
+	Set Item_Id 304
+	exit
+endif
+
+If (Skill_Name==Learning)
+	Set Item_Id 305
+	exit
+endif
+
+If (Skill_Name==Meditation)
+	Set Item_Id 306
+	exit
+endif
+
+exit
+
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Use OnUse
+Getparam 0 Skill_Name
+Gosub SkillInit
+
+exit
+
+

@@ -1,0 +1,54 @@
+;---------------------------------------------
+;	LesserDemon.scr
+;	Jeff Leggett
+;
+;	p0 - pass a 1 if you want to spawn a 
+;		 greater demon out when we die...
+;
+;---------------------------------------------
+
+#include baseMelee.inc
+#include range.inc
+
+#number				bSpawnGreaterDemon = 0
+#string				sSpawnCmd=GreaterDemon ScriptParams 1
+	
+
+;---------------------------------------------
+:OnDeathDone
+;---------------------------------------------
+
+	if ( bSpawnGreaterDemon==TRUE )
+		GetPos g_hMyObject, g_posX, g_posY, g_posZ
+		Spawn g_hMyObject, g_posX, g_posY, g_posZ, sSpawnCmd
+	endif
+
+	Exit FALSE
+
+
+;---------------------------------------------
+:CacheFiles
+;---------------------------------------------
+
+	CacheClientFX GreaterDemon
+	Exit
+
+
+;---------------------------------------------
+:Main
+;---------------------------------------------
+
+	GetParam 0, bSpawnGreaterDemon
+
+	gosub BaseInit
+	gosub RangeInit
+
+	OnDeathDone OnDeathDone
+
+	if ( bSpawnGreatherDemon==TRUE )
+		OnCacheFiles CacheFiles
+		gosub CacheFiles
+	Endif
+
+	Exit
+

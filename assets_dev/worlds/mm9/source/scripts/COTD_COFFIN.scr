@@ -1,0 +1,53 @@
+;--------------------------------------------------
+;SkillBook.scr
+;10/4
+; timmy
+; Triggers one prop with another
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#string Target
+#String Message
+#Number	nOpened
+
+
+; Parameters
+;P0 The object name of the target
+;P1 the trigger message to send
+
+;--------------------------------------------------
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+if (nOpened==False)
+	PlayAnim Open DoNothing
+	set nOpened, True
+	exit
+endif
+
+Getobjecthandle Target g_hobject
+if (g_hobject!=null)
+	trigger g_hobject message
+	exit
+endif
+exit
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Use OnUse
+Getparam 0 Target
+getParam 1 Message
+
+exit
+
+

@@ -1,0 +1,35 @@
+#include followpath.inc
+
+#hobject	hCamera1
+#hobject	hGoblin0
+
+#number		start = 0
+
+;------------------------------------------
+:BeginMovie
+;------------------------------------------
+	if start = 1
+		Exit
+	endif
+
+	GetObjectHandle c0,hCamera1
+	GetObjectHandle Goblin0, hGoblin0
+	
+	Trigger hGoblin0,BeginScene
+	Trigger hCamera1,Zoom 
+
+	Set start,1
+
+	Exit
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+	
+	;TraceOn
+	
+	AddTrigger Movie BeginMovie		
+
+	Exit		

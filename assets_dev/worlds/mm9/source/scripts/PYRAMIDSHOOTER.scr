@@ -1,0 +1,48 @@
+;-------------------------------
+;	LameScript.scr
+;	by SJR
+;	Purpose:shoots player. for some
+;			reason DEdit shooter
+;			doesn't work, hence- script
+;-------------------------------
+
+#hobject	hPlayer = 0
+#hobject	hMe = 0
+
+;---------------
+:Main
+;---------------
+	GetMyHandle hMe
+
+	SetPropNumber ShootInterval, 3000
+
+	AddTrigger shoot, ShootPlayer
+
+	Exit 1
+
+;---------------
+:ShootPlayer
+;---------------
+	if( hPlayer==0 )
+		GetPlayerHandle hPlayer
+		if( hPlayer==0 )
+			Exit 1
+		endif
+	endif
+
+	FaceObject hPlayer, 1440, TurnOn
+
+	Exit 1
+
+;---------------
+:TurnOn
+;---------------
+	Trigger hMe, on
+	Wait 0, 1, TurnOff
+	Exit 1
+
+;---------------
+:TurnOff
+;---------------
+	Trigger hMe, off
+	Exit 1

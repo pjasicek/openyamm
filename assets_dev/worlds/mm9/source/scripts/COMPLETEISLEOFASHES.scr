@@ -1,0 +1,7 @@
+#include TestingStuff.inc
+
+:Main
+	AddTrigger win, CompleteIsleOfAshes
+	AddTrigger max, MaxOutAll
+	AddTrigger min, ZeroOutAll
+	exit 1

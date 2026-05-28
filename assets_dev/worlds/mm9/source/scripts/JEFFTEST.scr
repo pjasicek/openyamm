@@ -1,0 +1,35 @@
+
+#include globals.inc
+
+#number		axis_x
+#number		axis_y
+#number		axis_z
+#number		rate
+
+
+:DoRotate
+	Rotate axis_x,axis_y,axis_z,180,rate,DoRotate
+	Exit
+
+:Rotate
+	GetParam 0, axis_x
+	GetParam 1, axis_y
+	GetParam 2, axis_z
+	GetParam 3, rate
+	gosub DoRotate
+	Exit
+	
+
+:Main
+
+
+	AddTrigger Rotate, Rotate
+
+	GetParam 0, axis_x
+	GetParam 1, axis_y
+	GetParam 2, axis_z
+	GetParam 3, rate
+
+	gosub DoRotate
+
+	Exit

@@ -1,0 +1,65 @@
+;------------------------------------------------------------------
+;	SpawnMgr.scr
+;	by SJR
+;	09-21-01
+;	Purpose:
+;
+;	ScriptParams are:
+;		p0 = LISTNAME
+;		p1 = LISTFIRST
+;		p2 = LISTLAST
+;------------------------------------------------------------------
+#include BaseGlobals.inc
+#include ListMaker.inc
+
+#hobject	hDummy = 0
+
+#number		x = 0
+#number		y = 0
+#number		z = 0
+
+#string		SPAWN_PARAM = "Apparition ScriptName ghost.scr"
+
+#string		SPELL_BLUEFIRE = "fireblue"
+
+;-------------------
+:Main
+;-------------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+
+	OnCacheFiles CacheFiles
+
+	LISTINDEX = LISTLAST
+
+	AddTrigger spawn, SpawnCreature
+
+	Exit TRUE
+
+;-------------------
+:CacheFiles
+;-------------------
+	CacheScript "ghost.scr"
+
+	CacheClientFX SPELL_BLUEFIRE
+
+	Exit TRUE
+
+;-------------------
+:SpawnCreature
+;-------------------
+	gosub GetNextObject
+
+	GetPOS LISTOBJECT, x,y,z
+	Spawn hDummy, x,y,z, SPAWN_PARAM
+
+	if( hDummy!=0 )
+		DoClientFX hDummy, SPELL_BLUEFIRE, FALSE, TRUE
+	endif
+
+	if( LISTINDEX==LISTLAST )
+		RemoveTrigger spawn
+	endif
+
+	Exit TRUE

@@ -1,0 +1,355 @@
+;----------------------------------------------------------------
+;	Camera0.scr
+;	John Machin
+;
+;		This script will move a camera down a designated marker 
+;		path.
+;----------------------------------------------------------------	 
+#include followpath.inc
+#include globals.inc
+
+;------------------------------------------
+:OnTurnOn
+;------------------------------------------
+	gosub OnStartPendulum
+
+	Exit FALSE
+
+;------------------------------------------
+:OnStartPendulum
+;------------------------------------------	
+	SetCallBack 0, OnPendulumDone
+
+	Set g_sFollowPathName			PendulumPath
+	Set	g_nFollowPathSpeed			175
+	Set g_nFollowPathDoneCallback	0
+	Set g_nFollowPathLoops			1
+	gosub FollowPath	
+
+	;AddTrigger StartPendulum, DoNothing
+
+	Exit 
+
+;------------------------------------------
+:OnStartThrone
+;------------------------------------------
+	SetCallBack 0, OnThroneDone
+
+	Set g_sFollowPathName			ThronePath
+	Set	g_nFollowPathSpeed			175
+	Set g_nFollowPathDoneCallback	0
+	Set g_nFollowPathLoops			1
+	gosub FollowPath
+	
+	AddTrigger StartThrone, DoNothing	
+
+	Exit 
+
+;------------------------------------------
+:OnStartScythe
+;------------------------------------------
+	SetCallBack 0, OnScytheDone
+
+	Set g_sFollowPathName			ScythePath
+	Set	g_nFollowPathSpeed			175
+	Set g_nFollowPathDoneCallback	0
+	Set g_nFollowPathLoops			1
+	gosub FollowPath	
+
+	AddTrigger StartScythe, DoNothing
+
+	Exit 
+
+;------------------------------------------
+:OnStartSaw
+;------------------------------------------
+	SetCallBack 0, OnSawDone
+
+	Set g_sFollowPathName			SawPath
+	Set	g_nFollowPathSpeed			175
+	Set g_nFollowPathDoneCallback	0
+	Set g_nFollowPathLoops			1
+	gosub FollowPath	
+
+	AddTrigger StartSaw, DoNothing
+
+	Exit 
+
+;------------------------------------------
+:OnStartWardrobe
+;------------------------------------------	
+	SetCallBack 0, OnWardrobeDone
+
+	Set g_sFollowPathName			WardrobePath
+	Set	g_nFollowPathSpeed			175
+	Set g_nFollowPathDoneCallback	0
+	Set g_nFollowPathLoops			1
+	gosub FollowPath	
+
+	AddTrigger StartWardrobe, DoNothing
+
+	Exit 
+
+;------------------------------------------
+:OnStartWardrobe2
+;------------------------------------------
+	SetCallBack 0, OnWardrobe2Done
+
+	Set g_sFollowPathName			Wardrobe2Path
+	Set	g_nFollowPathSpeed			175
+	Set g_nFollowPathDoneCallback	0
+	Set g_nFollowPathLoops			1
+	gosub FollowPath	
+
+	AddTrigger StartWardrobe2, DoNothing
+
+	Exit 
+
+;------------------------------------------
+:OnStartSconce
+;------------------------------------------
+	SetCallBack 0, OnSconceDone
+
+	Set g_sFollowPathName			SconcePath
+	Set	g_nFollowPathSpeed			175
+	Set g_nFollowPathDoneCallback	0
+	Set g_nFollowPathLoops			1
+	gosub FollowPath	
+
+	AddTrigger StartSconce, DoNothing
+
+	Exit 
+
+;------------------------------------------
+:OnStartTreasure
+;------------------------------------------
+	SetCallBack 0, OnTreasureDone
+
+	Set g_sFollowPathName			TreasurePath
+	Set	g_nFollowPathSpeed			175
+	Set g_nFollowPathDoneCallback	0
+	Set g_nFollowPathLoops			1
+	gosub FollowPath	
+
+	AddTrigger StartTreasure, DoNothing
+
+	Exit 
+
+;------------------------------------------
+:OnStartPit
+;------------------------------------------
+	SetCallBack 0, OnPitDone
+	
+	Set g_sFollowPathName			PitPath
+	Set	g_nFollowPathSpeed			175
+	Set g_nFollowPathDoneCallback	0
+	Set g_nFollowPathLoops			1
+	gosub FollowPath	
+
+	AddTrigger StartPit, DoNothing
+
+	Exit 
+
+;------------------------------------------
+:OnStartPit2
+;------------------------------------------
+	SetCallBack 0, OnPit2Done
+
+	Set g_sFollowPathName			Pit2Path
+	Set	g_nFollowPathSpeed			175
+	Set g_nFollowPathDoneCallback	0
+	Set g_nFollowPathLoops			1
+	gosub FollowPath	
+
+	AddTrigger StartPit2, DoNothing
+
+	Exit 
+
+;------------------------------------------
+:OnStartTrapDoor
+;------------------------------------------
+	SetCallBack 0, OnTrapDoorDone
+
+	Set g_sFollowPathName			TrapDoorPath
+	Set	g_nFollowPathSpeed			175
+	Set g_nFollowPathDoneCallback	0
+	Set g_nFollowPathLoops			1
+	gosub FollowPath
+	
+	AddTrigger StartTrapDoor, DoNothing	
+
+	Exit 
+
+;------------------------------------------
+:OnStartChasm
+;------------------------------------------
+	SetCallBack 0, OnChasmDone
+
+	Set g_sFollowPathName			ChasmPath
+	Set	g_nFollowPathSpeed			175
+	Set g_nFollowPathDoneCallback	0
+	Set g_nFollowPathLoops			1
+	gosub FollowPath	
+
+	AddTrigger StartChasm, DoNothing
+
+	Exit 
+
+;------------------------------------------
+:OnStartLich
+;------------------------------------------
+	SetCallBack 0, OnLichDone
+
+	Set g_sFollowPathName			LichPath
+	Set	g_nFollowPathSpeed			175
+	Set g_nFollowPathDoneCallback	0
+	Set g_nFollowPathLoops			1
+	gosub FollowPath	
+
+	AddTrigger StartLich, DoNothing
+
+	Exit   
+
+
+;------------------------------------------
+:OnPendulumDone
+;------------------------------------------
+	 ;do whatever here then continue
+	 DebugOut In OnPendulum Done
+	 gosub OnStartThrone
+
+	 Exit
+
+;------------------------------------------
+:OnThroneDone
+;------------------------------------------
+	 ;do whatever here then continue
+	 gosub OnStartScythe
+
+	 Exit
+
+;------------------------------------------
+:OnScytheDone
+;------------------------------------------
+	 ;do whatever here then continue	 
+	 gosub OnStartSaw
+
+	 Exit
+
+;------------------------------------------
+:OnSawDone
+;------------------------------------------
+	 ;do whatever here then continue
+	 gosub OnStartWardrobe	 
+
+	 Exit
+
+;------------------------------------------
+:OnWardrobeDone
+;------------------------------------------
+	 ;do whatever here then continue
+	 gosub OnStartWardrobe2	
+
+	 Exit
+
+;------------------------------------------
+:OnWardrobe2Done
+;------------------------------------------
+	 ;do whatever here then continue	 
+	 gosub OnStartSconce
+
+	 Exit
+
+;------------------------------------------
+:OnSconceDone
+;------------------------------------------
+	 ;do whatever here then continue 
+	 gosub OnStartTreasure
+
+	 Exit	 
+
+;------------------------------------------
+:OnTreasureDone
+;------------------------------------------
+	 ;do whatever here then continue	 
+	 gosub OnStartPit
+
+	 Exit
+
+;------------------------------------------
+:OnPitDone
+;------------------------------------------
+	 ;do whatever here then continue	 
+	 gosub OnStartPit2
+
+	 Exit
+
+;------------------------------------------
+:OnPit2Done
+;------------------------------------------
+	 ;do whatever here then continue	 
+	 gosub OnStartTrapDoor
+
+	 Exit
+
+;------------------------------------------
+:OnTrapDoorDone
+;------------------------------------------
+	 ;do whatever here then continue	 
+	 gosub OnStartChasm
+
+	 Exit
+
+;------------------------------------------
+:OnChasmDone
+;------------------------------------------
+	 ;do whatever here then continue	 
+	 gosub OnStartLich
+
+	 Exit
+
+
+;------------------------------------------
+:OnLichDone
+;------------------------------------------
+	 ;do whatever here then continue
+	 Trigger g_hMyObject, OFF
+
+	 Exit
+
+;------------------------------------------
+:DoNothing
+;------------------------------------------
+	Exit
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+	
+	;TraceOn
+
+	gosub FollowPathInit
+
+	GetMyHandle g_hMyObject
+	
+	AddTrigger StartPendulum,	OnStartPendulum
+	AddTrigger StartThrone,		OnStartThrone
+	AddTrigger StartScythe,		OnStartScythe
+	AddTrigger StartSaw,		OnStartSaw
+	AddTrigger StartWardrobe,	OnStartWardrobe
+	AddTrigger StartWardrobe2,	OnStartWardrobe2
+	AddTrigger StartSconce,		OnStartSconce
+	AddTrigger StartTreasure,	OnStartTreasure
+	AddTrigger StartPit,		OnStartPit
+	AddTrigger StartPit2,		OnStartPit2
+	AddTrigger StartTrapDoor,	OnStartTrapDoor
+	AddTrigger StartChasm,		OnStartChasm
+	AddTrigger StartLich,		OnStartLich	
+
+	AddTrigger On,				OnTurnOn
+
+	;AddTrigger FollowPathDone OnFollowPathDone
+
+	Exit

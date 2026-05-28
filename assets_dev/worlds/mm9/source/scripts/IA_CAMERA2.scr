@@ -1,0 +1,62 @@
+;--------------------------------------------------
+;WG_NjamCam.scr
+; timmy
+; tells a prop to run it's animation
+;
+;Note: if the first parameter is the word
+; OnUse, the second parameter becomes
+; the animation name and the script will wait until being used
+; to play the animation.  Otherwise it will just
+; loop an anim for time specified
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#number		Xpos
+#number		Ypos
+#number		Zpos
+
+#number		MyX
+#number		MyY
+#Number		MyZ
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:OnPlay
+;--------------------------------------------------
+
+getobjecthandle Camera3 g_hobject
+getpos g_hobject Xpos Ypos Zpos
+MoveToPos xpos Xpos Zpos 100 DoNothing
+getobjecthandle Boat g_hobject
+FaceObject g_hobject 20 DoNothing
+wait 1 3.5 CraneShot
+;Target g_hobject
+exit
+
+;--------------------------------------------------
+:CraneShot
+;--------------------------------------------------
+;target g_hobject
+;exit
+getobjecthandle Book g_hobject
+trigger g_hobject Crane
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddTrigger Pan OnPlay
+
+
+
+exit
+

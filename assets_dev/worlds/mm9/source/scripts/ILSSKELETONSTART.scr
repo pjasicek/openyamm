@@ -1,0 +1,95 @@
+;--------------------------------------------------
+;ILSskeletonstart.scr
+; timmy
+;drops 4 skeletons into the skeleton pit
+;--------------------------------------------------
+
+#include globals.inc 
+
+       
+#Number					open
+        
+#Number					On
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+GetObjectHandle skeletondoora, g_hobject
+Trigger g_hobject, Close
+
+wait 3, Spawn
+exit
+
+;--------------------------------------------------
+:Spawn
+;--------------------------------------------------
+
+if (On==true)
+
+	
+	GetObjecthandle spawnskeleton, g_hobject
+	
+	if g_hobject (!=NULL)
+		trigger g_hobject, default
+	
+
+		GetObjecthandle spawnskeleton1, g_hobject
+	
+		if g_hobject (!=NULL)
+			trigger g_hobject, default
+
+
+			GetObjecthandle spawnskeleton2, g_hobject
+	
+			if g_hobject (!=NULL)
+				trigger g_hobject, default
+
+				GetObjecthandle spawnskeleton3, g_hobject
+				if g_hobject (!=NULL)
+					trigger g_hobject, default
+
+				GetObjecthandle skeletonlever2, g_hobject
+					if g_hobject (!=NULL)
+						Trigger G_hobject, TurnOn
+						Set On, False
+
+
+					endif
+				endif
+			endif
+		endif
+	endif
+	exit
+
+endif
+
+exit
+
+;--------------------------------------------------
+:OnTurnOn
+;--------------------------------------------------
+
+Set On, True
+
+exit
+	
+
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+
+;traceon
+; don't ferget to delete me
+
+
+AddTrigger Use, OnUse
+AddTrigger TurnOn, OnTurnOn
+Set On, True
+
+exit
+

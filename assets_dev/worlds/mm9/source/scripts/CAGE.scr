@@ -1,0 +1,139 @@
+;------------------------------------------
+;	cage.scr
+;	John Machin
+;	
+;	This script will swing a cage when used
+;	It will also have a models leg fall off
+;	when the cage is swung.;
+;------------------------------------------
+
+#include	globals.inc
+
+;Rotation vars
+#number		g_rotX
+#number		g_rotY
+#number		g_rotZ
+#number		g_nSpin
+
+#hobject	g_hUsedBy
+#number		g_faceX
+#number		g_faceY
+#number		g_faceZ
+
+#number		g_upX			= 0
+#number		g_upY			= 1
+#number		g_upZ			= 0
+
+#number		g_nRotDegrees
+#number		g_nRotPerSec
+
+#number		g_bRotating		= 0
+#number		g_bFirstRot
+
+
+;----------------------------------------------------------------
+:DoFirstRotate
+;----------------------------------------------------------------
+
+	if( g_bRotating == TRUE )
+		Exit
+	endif	
+
+	Set g_nRotDegrees, 30
+	Set g_nRotPerSec, 30
+	Set g_bFirstRot, TRUE
+
+	Set g_faceY, 0
+
+	NormalizeVector( g_faceX, g_faceY, g_faceZ )
+	GetCrossProduct( g_faceX, g_faceY, g_faceZ, g_upX, g_upY, g_upZ, g_rotX, g_rotY, g_rotZ )
+	Rotate( g_rotX, g_rotY, g_rotZ, g_nRotDegrees, g_nRotPerSec, SwingDone )	
+
+	Set g_bRotating, TRUE
+
+	Exit
+
+;----------------------------------------------------------------
+:OnUse
+;----------------------------------------------------------------
+	if( g_bRotating == TRUE )
+		Exit
+	endif	
+	
+	GetParam 0, g_hUsedBy
+
+	
+	;Get the players forward vector drop the Y and normalize
+	;We assume the the force always comes from the X,Z plane
+	;so there is no upward motion
+	GetFaceDir( g_hUsedBy, g_faceX, g_faceY, g_faceZ )
+
+	gosub DoFirstRotate
+
+	Exit
+
+;----------------------------------------------------------------
+:SwingDone
+;----------------------------------------------------------------			
+	Multiply g_nRotDegrees, -1
+	
+	if( g_bFirstRot == TRUE )		
+		Multiply g_nRotDegrees, 2
+		Set g_bFirstRot, FALSE
+	endif
+		
+	if( g_nRotDegrees < 0 )		
+		Add g_nRotDegrees, 5
+	else		
+		Subtract g_nRotDegrees, 5
+	endif
+
+	Subtract g_nRotPerSec, 2
+	
+	if( g_nRotDegrees != 0 )
+		Rotate( g_rotX, g_rotY, g_rotZ, g_nRotDegrees, g_nRotPerSec, SwingDone )
+	else
+		Set g_bRotating, FALSE
+		Set g_bFirstRot, FALSE
+	endif
+
+	Exit
+
+;------------------------------------------
+:OnDamage
+;
+;	p0 - Who did the damage
+;	p1 - How much damage
+;	p2 - Damage Type code
+;	p3 - DamageDirX
+;	p4 - DamageDirY
+;	p5 - DamageDirZ
+;
+;------------------------------------------
+
+	GetParam 3,g_faceX
+	GetParam 4,g_faceY
+	GetParam 5,g_faceZ
+
+	gosub DoFirstRotate	
+
+	Exit
+
+;------------------------------------------
+:Main
+;------------------------------------------	
+	;First Get my objects handle
+	GetMyHandle g_hMyObject
+
+	;Get the position of the object
+	GetPos( g_hMyObject, g_posX, g_posY, g_posZ )
+
+	;Get the rotation of the object
+	GetRotation( g_hMyObject, g_rotX, g_rotY, g_rotZ, g_nSpin )
+	
+	;Monitor these triggers
+	AddTrigger Use,				OnUse
+	OnDamage OnDamage
+
+	Exit
+

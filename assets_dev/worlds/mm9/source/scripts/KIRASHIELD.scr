@@ -1,0 +1,51 @@
+;----------------------------------------------
+;Kirashield.scr
+; By Timmy
+; gives the player ludwig's manuscript
+; and the related key
+; Kira's Shield is item 375
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+haskey 216 g_ntemp
+if (g_ntemp==0, )
+	Haskey 214 g_ntemp
+	if (g_ntemp==1, )
+		givekey 216
+		giveitem 375
+		getmyhandle g_hmyobject
+		removeobject g_hmyobject
+		exit
+	endif
+endif
+exit
+
+
+;-------------------------------------
+:OnDelete
+;-------------------------------------
+
+haskey 216 g_ntemp
+if (g_ntemp==1, )
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+gosub OnDelete
+exit

@@ -1,0 +1,64 @@
+;-----------------------------------------------------
+;
+;	TH_TrainingOrcCommander.scr
+;
+;	Karl Drown 11-17-01
+;	
+;	Orc Warrior trainer and motivator.
+;	
+;-----------------------------------------------------
+#include TrainingHostility.inc
+#include Globals.inc
+
+#number	bIsTraining = 0
+
+;-----------------------------------------------------
+:Start
+;-----------------------------------------------------
+	bIsTraining = TRUE
+	Gosub StartTraining
+	Exit TRUE
+;-----------------------------------------------------
+:TurnOff
+;-----------------------------------------------------
+	Wait 1, 1, DoNothing
+	bIsTraining = FALSE
+	Exit TRUE
+;-----------------------------------------------------
+:CommandTwo
+;-----------------------------------------------------
+	playsound Sounds\AnimSounds\LizardOrcwince1.wav DoNothing 1000 1500 FALSE 100
+	PlayAnim Taunt, StartTraining
+	Exit TRUE
+;-----------------------------------------------------
+:Relax
+;-----------------------------------------------------
+	PlayAnim Stand, CommandTwo
+	Exit TRUE
+;-----------------------------------------------------
+:CommandOne
+;-----------------------------------------------------
+	playsound Sounds\AnimSounds\LizardOrcfidget3.wav DoNothing 1000 1500 FALSE 100
+	PlayAnim Fidget2, Relax
+	Exit TRUE
+;-----------------------------------------------------
+:StartTraining
+;-----------------------------------------------------
+	if (bIsTraining==FALSE)
+		exit
+	endif
+	PlayAnim Stand, CommandOne
+	Exit TRUE
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+	AddTrigger Train, Start
+	AddTrigger Stop, TurnOff
+	gosub InitTrainingHostility
+	Exit TRUE
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	OnPostStartWorld Main2
+	Exit
+;------------- E n d - O f - F i l e -------------------

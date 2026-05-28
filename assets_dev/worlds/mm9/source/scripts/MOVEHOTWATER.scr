@@ -1,0 +1,52 @@
+;-----------------------------------------------------
+;
+;	MoveHotWater.scr
+;
+;	Karl Drown 10-11-01
+;	Super simple "Move My World Object" script.
+;	
+;	
+;-----------------------------------------------------
+
+#include Globals.inc
+
+#hObject	hMCMarker
+
+#number		nVarX
+#number		nVarY
+#number		nVarZ
+
+#string		sMarker
+
+
+;-----------------------------------------------------
+:StopHere
+;-----------------------------------------------------
+	hMCMarker = NULL
+
+	Exit TRUE
+
+;-----------------------------------------------------
+:MoveToMarker
+;-----------------------------------------------------
+	
+
+	GetObjectHandle sMarker, hMCMarker
+
+	GetPos hMCMarker, nVarX, nVarY, nVarZ
+
+	MoveToPos nVarX, nVarY, nVarZ, 10, StopHere
+
+	Exit
+	
+
+
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+
+	GetParam 0, sMarker
+	AddTrigger MoveMe, MoveToMarker
+
+	Exit
+

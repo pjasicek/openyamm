@@ -1,0 +1,140 @@
+;------------------------------------------------------------------
+;	SpawnMgr.scr
+;	by SJR
+;	09-21-01
+;	Purpose:Used in conjunction with SourceCreature.scr
+;			to spawn out of sight and unlock doors
+;			when enough have been killed
+;------------------------------------------------------------------
+;------------------------------------------------------------------
+;-DEDIT INFO-
+;	ScriptParams are:
+;		p0 = How many to kill before respawn
+;		p1 = How many to spawn each time
+;		p2 = String name of creature type
+;
+;	Trigger to change spawn location: SetLocation
+;	Trigger to force a spawn: ForceSpawn
+;	Trigger to shut off completely: Off
+;	Trigger to turn back on: On
+;------------------------------------------------------------------
+#include BaseGlobals.inc
+
+#number		NumKilled = 0
+#number		NumOnScreen = 0
+
+#number		SpawnCycle = 1
+#number		SpawnSize = 1
+
+#hobject	hSpawnMarker = 0
+#hobject	hDummy = 0
+
+#number		Spawnx = 0
+#number		Spawny = 0
+#number		Spawnz = 0
+
+#number		IsNotDivisible = 0
+#number		nTemp = 0
+
+;;parameter builder stuff
+#string		sCreatureName = ""
+#string		SCRIPT = " ScriptName Isle_SpawnCreature.scr"
+#string		NAME = "Skeleton"
+
+;-------------------
+:Main
+;-------------------
+	GetParam 0, SpawnCycle
+	GetParam 1, SpawnSize
+	GetParam 2, NAME
+
+	OnPostStartWorld InitSpawnMgr
+
+	Exit TRUE
+
+;-------------------
+:InitSpawnMgr
+;-------------------
+	AddTrigger setlocation, SetLocation
+	AddTrigger respawn, OnCreatureDied
+	AddTrigger forcespawn, SpawnCreature
+	AddTrigger off, TurnOff
+	AddTrigger on, TurnOn
+
+	sCreatureName = NAME + SCRIPT
+
+	Exit TRUE
+
+;-------------------
+:OnCreatureDied
+;	when creature dies, check
+;	if can respawn, then do it
+;-------------------
+	if( NumKilled>=9 )
+		RemoveTrigger respawn
+		RemoveTrigger forcespawn
+	endif
+
+	gosub AdjustTotals
+	IsNotDivisible = NumKilled
+	Mod IsNotDivisible, SpawnCycle
+	;;only spawn every time X are killed
+	if(IsNotDivisible==0)
+		gosub SpawnCreature
+	endif
+	Exit TRUE
+
+;-------------------
+:SpawnCreature
+;	spawn a batch of creatures at
+;	the current point
+;-------------------
+	;;check creature quantity cap
+	if( NumKilled>=10 )
+		Exit TRUE
+	endif
+
+	;;add these guys to total
+	NumOnScreen = NumOnScreen + SpawnSize
+	nTemp = SpawnSize
+	;;loop spawning to spawn whole batch
+	while(nTemp>0)
+		Spawn hDummy, Spawnx,Spawny,Spawnz, sCreatureName
+		nTemp = nTemp - 1
+	endwhile
+	Exit TRUE
+
+;-------------------
+:AdjustTotals
+;	keep track of deaths
+;-------------------
+	NumKilled = NumKilled + 1
+	NumOnScreen = NumOnScreen - 1
+	Exit TRUE
+
+;-------------------
+:TurnOn
+;	enable OnDeath respawning
+;-------------------
+	RemoveTrigger Respawn
+	AddTrigger Respawn, OnCreatureDied
+	Exit TRUE
+
+;-------------------
+:TurnOff
+;	disable OnDeath respawning
+;	can still forcespawn though
+;-------------------
+	RemoveTrigger Respawn
+	;;keep track of deaths to avoid
+	;;going over the cap
+	AddTrigger Respawn, AdjustTotals
+	Exit TRUE
+
+;-------------------
+:SetLocation
+;	set spawn location to triggerer
+;-------------------
+	GetParam 0, hSpawnMarker
+	GetPOS hSpawnMarker, Spawnx,Spawny,Spawnz
+	Exit TRUE

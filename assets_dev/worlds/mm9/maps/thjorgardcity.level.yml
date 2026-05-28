@@ -1,0 +1,39 @@
+format_version: 1
+kind: mm9_level
+map_id: thjorgardcity
+display_name: Thjorgard City
+source:
+  dat: ../source/worlds/THJORGARDCITY.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/THJORGARDCITY.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: a180590a8bb7a6e1369c3f3af9d476b6f3e43e646c87028b7adeb8e485e33013
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: thjorgardcity.dat_world.yml
+  raw_objects: thjorgardcity.raw_objects.yml
+  materials: thjorgardcity.material_aliases.yml
+  events: thjorgardcity.events.yml
+  source_asset_aliases: ../import/overrides/mm9_active_slice.source_asset_aliases.yml
+  scene_compat: thjorgardcity.scene.yml
+  source_metadata_compat: thjorgardcity.mm9.yml
+  bsp_compat: null
+  geometry_compat: null
+  model_assets_compat: thjorgardcity.model_assets.yml
+  odm_compat: thjorgardcity.odm
+  blv_compat: null
+scripts:
+  level: ../events/thjorgardcity.lua
+  script_ir: ../events/thjorgardcity.script_ir.yml
+compatibility:
+  legacy_target_format: odm
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

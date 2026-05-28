@@ -1,0 +1,1404 @@
+format_version: 1
+source_file: NPC4.rude
+rows:
+  - source:
+      file: NPC4.rude
+      row: 1
+    raw_columns:
+      - 4
+      - 999
+      - 1
+      - Goodbye.
+      - goodbye
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: goodbye
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC4.rude
+      row: 2
+    raw_columns:
+      - 4
+      - 2
+      - 1
+      - We have one of those.
+      - Somewhere on the Isle of Ashes, inside the ruins of Verhoffin's Tower is his diary.  We are very interested in what the diary might contain regarding what he did.  Retrieve this for us, and you shall become Mages.
+      - 13
+      - 205
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 2
+      choice_slot: 1
+      prompt: We have one of those.
+      response: Somewhere on the Isle of Ashes, inside the ruins of Verhoffin's Tower is his diary.  We are very interested in what the diary might contain regarding what he did.  Retrieve this for us, and you shall become Mages.
+      next: 13
+      raw_fields:
+        c07: 205
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 13
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 205
+            qbit_id: 9205
+            state_id: mm9.keys.205
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 205
+          qbit_id: 9205
+          state_id: mm9.keys.205
+  - source:
+      file: NPC4.rude
+      row: 3
+    raw_columns:
+      - 4
+      - 5
+      - 1
+      - Sorry to bother you.
+      - You are not sorry, but certainly bothersome.  Good day.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 5
+      choice_slot: 1
+      prompt: Sorry to bother you.
+      response: You are not sorry, but certainly bothersome.  Good day.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC4.rude
+      row: 4
+    raw_columns:
+      - 4
+      - 4
+      - 1
+      - We wish to become Mages.
+      - Our tasks are reserved for those Scholars who would become Mages.
+      - 2
+      - 205
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2082
+      - 0
+      - 0
+      - 0
+      - 0
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 4
+      choice_slot: 1
+      prompt: We wish to become Mages.
+      response: Our tasks are reserved for those Scholars who would become Mages.
+      next: 2
+      raw_fields:
+        c07: 205
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2082
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 4
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 205
+            qbit_id: 9205
+            state_id: mm9.keys.205
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 205
+          qbit_id: 9205
+          state_id: mm9.keys.205
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2082
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 4
+        status: raw_value_preserved
+  - source:
+      file: NPC4.rude
+      row: 5
+    raw_columns:
+      - 4
+      - 3
+      - 1
+      - We will take this quest.
+      - Then do not dally.  Good luck.
+      - 997
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 285
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 3
+      choice_slot: 1
+      prompt: We will take this quest.
+      response: Then do not dally.  Good luck.
+      next: 997
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 4
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 285
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 997
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 4
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 285
+        status: raw_value_preserved
+  - source:
+      file: NPC4.rude
+      row: 6
+    raw_columns:
+      - 4
+      - 997
+      - 1
+      - Goodbye.
+      - asdf
+      - -14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 997
+      choice_slot: 1
+      prompt: Goodbye.
+      response: asdf
+      next: -14
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -14
+        service: quest_handoff
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -14
+        service: quest_handoff
+        status: typed_pending_exact_runtime_behavior
+  - source:
+      file: NPC4.rude
+      row: 7
+    raw_columns:
+      - 4
+      - 20
+      - 1
+      - We found a silver one.
+      - Oh my!  This is terribly interesting.  We better get to work on this right away!
+      - 4
+      - 281
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 286
+      - 0
+      - 0
+      - 0
+      - 0
+      - 286
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 20
+      choice_slot: 1
+      prompt: We found a silver one.
+      response: Oh my!  This is terribly interesting.  We better get to work on this right away!
+      next: 4
+      raw_fields:
+        c07: 281
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 286
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 286
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 281
+            qbit_id: 9281
+            state_id: mm9.keys.281
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 281
+          qbit_id: 9281
+          state_id: mm9.keys.281
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 286
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 286
+        status: raw_value_preserved
+  - source:
+      file: NPC4.rude
+      row: 8
+    raw_columns:
+      - 4
+      - 13
+      - 1
+      - You want us to get it for you?
+      - Yes.  There are some reports that it may not be in the Verhoffin Ruins at all, and that it is actually in Drangheim.  Wherever it is, find it and bring it here.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 13
+      choice_slot: 1
+      prompt: You want us to get it for you?
+      response: Yes.  There are some reports that it may not be in the Verhoffin Ruins at all, and that it is actually in Drangheim.  Wherever it is, find it and bring it here.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC4.rude
+      row: 9
+    raw_columns:
+      - 4
+      - 2
+      - 2
+      - We don't have one of those, but perhaps we could work for you.
+      - Our tasks are reserved for Scholars only.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 2
+      choice_slot: 2
+      prompt: We don't have one of those, but perhaps we could work for you.
+      response: Our tasks are reserved for Scholars only.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC4.rude
+      row: 10
+    raw_columns:
+      - 4
+      - 20
+      - 2
+      - We found a gold one.
+      - This is it!!  This is the book!
+      - 4
+      - 283
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 289
+      - 0
+      - 0
+      - 0
+      - 0
+      - 289
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 20
+      choice_slot: 2
+      prompt: We found a gold one.
+      response: This is it!!  This is the book!
+      next: 4
+      raw_fields:
+        c07: 283
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 289
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 289
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 283
+            qbit_id: 9283
+            state_id: mm9.keys.283
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 283
+          qbit_id: 9283
+          state_id: mm9.keys.283
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 289
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 289
+        status: raw_value_preserved
+  - source:
+      file: NPC4.rude
+      row: 11
+    raw_columns:
+      - 4
+      - 2
+      - 3
+      - Sorry to bother you
+      - You were as bothersome as you are uncultured.  Good day.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 2
+      choice_slot: 3
+      prompt: Sorry to bother you
+      response: You were as bothersome as you are uncultured.  Good day.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC4.rude
+      row: 12
+    raw_columns:
+      - 4
+      - 4
+      - 4
+      - What do you know about the Great Cataclysm?
+      - The Great Cataclysm tore the Old Ursanian Empire apart, and killed thousands of its inhabitants.  Who knows what wondrous things we lost?
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 4
+      choice_slot: 4
+      prompt: What do you know about the Great Cataclysm?
+      response: The Great Cataclysm tore the Old Ursanian Empire apart, and killed thousands of its inhabitants.  Who knows what wondrous things we lost?
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC4.rude
+      row: 13
+    raw_columns:
+      - 4
+      - 3
+      - 4
+      - Perhaps later.
+      - Why must you bother me then?  Be off with you!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 3
+      choice_slot: 4
+      prompt: Perhaps later.
+      response: Why must you bother me then?  Be off with you!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC4.rude
+      row: 14
+    raw_columns:
+      - 4
+      - 4
+      - 5
+      - About that book you were looking for.
+      - Yes, what is it?
+      - 20
+      - 290
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 493
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 4
+      choice_slot: 5
+      prompt: About that book you were looking for.
+      response: Yes, what is it?
+      next: 20
+      raw_fields:
+        c07: 290
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 493
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 20
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 290
+            qbit_id: 9290
+            state_id: mm9.keys.290
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 290
+          qbit_id: 9290
+          state_id: mm9.keys.290
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 493
+        status: raw_value_preserved
+  - source:
+      file: NPC4.rude
+      row: 15
+    raw_columns:
+      - 4
+      - 20
+      - 5
+      - Nevermind.
+      - blank
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 20
+      choice_slot: 5
+      prompt: Nevermind.
+      response: blank
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC4.rude
+      row: 16
+    raw_columns:
+      - 4
+      - 4
+      - 6
+      - So did that book work for you?
+      - No!  This is the wrong book!  But it does say that the right one is locked in some building in Drangheim Village.  Take this key, hopefully it will unlock the right door.  The book says something about being underneath a floor.
+      - 999
+      - 286
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 293
+      - 0
+      - 0
+      - 0
+      - 0
+      - 293
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 4
+      choice_slot: 6
+      prompt: So did that book work for you?
+      response: No!  This is the wrong book!  But it does say that the right one is locked in some building in Drangheim Village.  Take this key, hopefully it will unlock the right door.  The book says something about being underneath a floor.
+      next: 999
+      raw_fields:
+        c07: 286
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 293
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 293
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 286
+            qbit_id: 9286
+            state_id: mm9.keys.286
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 286
+          qbit_id: 9286
+          state_id: mm9.keys.286
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 293
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 293
+        status: raw_value_preserved
+  - source:
+      file: NPC4.rude
+      row: 17
+    raw_columns:
+      - 4
+      - 4
+      - 7
+      - Did that book work out for you?
+      - Oh yes, it worked out wonderfully.  A very intriguing volume that is.  You were here for something, weren't you.  Oh yes!  The promotion.  Very well.  You are now promoted to Mages.  Congratulations.  Now go away!  I have work to do!
+      - 999
+      - 289
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 493
+      - 0
+      - 0
+      - 0
+      - 0
+      - 493
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 4
+      choice_slot: 7
+      prompt: Did that book work out for you?
+      response: Oh yes, it worked out wonderfully.  A very intriguing volume that is.  You were here for something, weren't you.  Oh yes!  The promotion.  Very well.  You are now promoted to Mages.  Congratulations.  Now go away!  I have work to do!
+      next: 999
+      raw_fields:
+        c07: 289
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 493
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 493
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 289
+            qbit_id: 9289
+            state_id: mm9.keys.289
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 289
+          qbit_id: 9289
+          state_id: mm9.keys.289
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 493
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 493
+        status: raw_value_preserved
+  - source:
+      file: NPC4.rude
+      row: 18
+    raw_columns:
+      - 4
+      - 4
+      - 9
+      - Nothing.  Sorry to bother you.
+      - You are not sorry, but certainly bothersome.  Be on your way!
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 4
+      node_id: 4
+      choice_slot: 9
+      prompt: Nothing.  Sorry to bother you.
+      response: You are not sorry, but certainly bothersome.  Be on your way!
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999

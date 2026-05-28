@@ -1,0 +1,61 @@
+;----------------------------------------------
+;NPC94.scr
+; By Timmy
+; Handles Lord Kluso voice and stuff
+
+
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+gosub herbs
+exit
+
+;-------------------------------------
+:Herbs
+;-------------------------------------
+
+
+Haskey 128, g_ntemp
+if ( g_ntemp==1, )
+;checks to see if player is on the yobboe promo quest
+	Haskey 131 g_ntemp
+	If ( g_ntemp==0, )
+	;checks to see if player has already done this
+		givekey 131
+		;gives herbs key.
+		exit
+	endif
+endif
+exit
+	
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_094.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+Addtrigger Use, Onuse
+OnRudeExit OnRude
+
+exit

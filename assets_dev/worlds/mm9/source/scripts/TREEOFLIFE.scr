@@ -1,0 +1,53 @@
+;----------------------------------------------
+;TreeofLife.scr
+; By Timmy
+; gives the player the Tree of Life
+; and the related key
+; tree of life is item 241
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+;-------------------------------------
+:Onuse
+;-------------------------------------
+
+
+haskey 256 g_ntemp
+if (g_ntemp==0, )
+	giveitem 241
+	givekey 256
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	getobjecthandle TriggerCaveIn1 g_hobject
+	trigger g_hobject on
+	exit
+endif
+
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+AddTrigger Use, Onuse
+
+;;;SJR
+getobjecthandle TriggerCaveIn1 g_hobject
+trigger g_hobject off
+;;;endSJR
+
+Haskey 256 keycheck
+if ( g_ntemp==1, )
+	GetMyHandle g_hmyobject
+	removeobject g_hmyobject 
+	exitscript	
+	exit
+endif
+
+exit

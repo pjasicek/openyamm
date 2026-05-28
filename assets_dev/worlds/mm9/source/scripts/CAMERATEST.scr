@@ -1,0 +1,320 @@
+;---------------------------------------------------------------------
+;	CameraTest.scr
+;	Jeff Leggett
+;
+;	Parameters:
+;		none
+;
+;---------------------------------------------------------------------
+
+#include FollowPath.inc
+
+#number				nVelX
+#number				nVelY
+#number				nVelZ
+
+#number				nPosX
+#number				nPosY
+#number				nPosZ
+
+#number				nStartPosX
+#number				nStartPosY
+#number				nStartPosZ
+
+#hobject			hPlayerObject
+
+#string				Test1
+#number				Test2
+
+#hobject			hTestObject
+
+#numberArray		hDoorArray[20]
+#number				nDoorArrayCount=0
+
+;---------------------------------------------------------------------
+:VelocityTest1
+;---------------------------------------------------------------------
+
+	SetVelocity g_hMyObject, 200, 0, 0
+
+	Wait 5, VelocityTest2
+
+	Exit
+
+;---------------------------------------------------------------------
+:VelocityTest2
+;---------------------------------------------------------------------
+
+	SetVelocity g_hMyObject, 0, 0, 100
+
+	Wait 5, VelocityTest3
+
+	Exit
+
+;---------------------------------------------------------------------
+:VelocityTest3
+;---------------------------------------------------------------------
+
+	SetVelocity g_hMyObject, -100, 0, 0
+
+	Wait 5, VelocityTest4
+
+	Exit
+
+;---------------------------------------------------------------------
+:VelocityTest4
+;---------------------------------------------------------------------
+
+	SetVelocity g_hMyObject, 0, 0, -100
+
+	Wait 5, StopCamera
+
+	Exit
+
+;---------------------------------------------------------------------
+:StopCamera
+;---------------------------------------------------------------------
+
+	SetVelocity g_hMyObject, 0,0,0
+	Trigger g_hMyObject, OFF
+
+	Exit
+
+;---------------------------------------------------------------------
+:RotationTest1
+;---------------------------------------------------------------------
+
+	DebugOut RotationTest1 executing!!
+
+	;; FaceDir 0,1,0,45
+;;	Rotate 1,0,1,90,45
+	Rotate 0,1,0,90,45
+
+	Wait 5, RotationTest2
+
+	Exit
+
+;---------------------------------------------------------------------
+:RotationTest2
+;---------------------------------------------------------------------
+
+	DebugOut RotationTest2 executing!!
+
+	;; FaceDir 0,0,1,45
+;;	Rotate -1,0,-1,90,45
+	Rotate 0,1,0,-90,45
+
+	Wait 5, StopCamera
+
+	Exit
+
+;---------------------------------------------------------------------
+:FollowPlayerTest
+;---------------------------------------------------------------------
+
+	GetPlayerHandle hPlayerObject, 2000
+
+	if ( hPlayerObject!=0 )
+		Target hPlayerObject
+;;		Wait 20, StopCamera
+	endif
+	
+
+	Exit
+
+;---------------------------------------------------------------------
+:FollowPlayerTest2
+;---------------------------------------------------------------------
+
+	gosub FollowPlayerTest2Tick
+	Wait 0.01, FollowPlayerTest2Tick
+	Exit
+
+;---------------------------------------------------------------------
+:FollowPlayerTest2Tick
+;---------------------------------------------------------------------
+
+	FaceObject hPlayerObject, 45	
+	Wait 0.01, FollowPlayerTest2Tick
+
+	Exit
+
+
+
+;---------------------------------------------------------------------
+:MoveTest
+;---------------------------------------------------------------------
+
+	GetPos g_hMyObject, nPosX,nPosY,nPosZ
+	Add nPosY, 100
+
+	MoveToPos nPosX,nPosY,nPosZ,100,MoveTest2
+
+	Exit
+	
+;---------------------------------------------------------------------
+:MoveTest2
+;---------------------------------------------------------------------
+	
+;	Sub nPosY, 100
+;	MoveToPos nPosX,nPosY,nPosZ,100,MoveTest
+
+	gosub StopCamera
+
+	Exit 0
+	
+
+;---------------------------------------------------------------------
+:FollowPathDone
+;---------------------------------------------------------------------
+
+	DebugOut Follow Path Done! Stopping Camera!
+
+	gosub StopCamera
+
+	Exit 0
+
+;---------------------------------------------------------------------
+:OpenDoor
+;
+;	Parameters:
+;		p1	- name of door
+;---------------------------------------------------------------------
+
+	GetParam 0, g_sTemp
+
+	GetObjectHandle g_sTemp, hTestObject
+
+	if ( hTestObject!=0 )
+		Trigger hTestObject, UNLOCK
+		Trigger hTestObject, USE
+	endif
+
+	Exit
+
+;---------------------------------------------------------------------
+:OpenDoors
+;---------------------------------------------------------------------
+
+	GetObjects Door, 500, 20, hDoorArray, nDoorArrayCount
+
+	DebugOut OpeningDoors!!!!
+
+	if ( nDoorArrayCount==0 )
+		DebugOut What? NO DOORS?????
+		Exit
+	Endif
+
+	DebugOut Total of:
+	DebugOut nDoorArrayCount
+	DebugOut doors
+
+	Set g_nCounter, 0
+
+:OpenDoorLoop
+
+	ArrayGet hDoorArray, g_nCounter, hTestObject
+
+	if ( hTestObject==0 )
+		Exit
+	endif
+
+	Trigger hTestObject, UNLOCK
+	Trigger hTestObject, USE
+
+	Add g_nCounter, 1
+
+	if (g_nCounter >= nDoorArrayCount )
+		Exit
+	endif
+
+	goto OpenDoorLoop
+
+
+
+	SetParam 0, Door0
+	gosub OpenDoor
+
+	SetParam 0, RotatingDoor0
+	gosub OpenDoor
+
+	exit
+
+;---------------------------------------------------------------------
+:FollowPathWayPoint
+;---------------------------------------------------------------------
+
+	if ( g_nFollowPathNbr==1 )
+		gosub OpenDoors
+	endif
+
+	Exit
+
+;---------------------------------------------------------------------
+:FollowPathTest
+;---------------------------------------------------------------------
+
+	gosub FollowPathInit
+
+	Set g_sFollowPathName, CameraPath
+	Set g_nFollowPathSpeed, 120
+	Set g_nFollowPathCallback, 0
+	Set g_nFollowPathDoneCallback, 1
+
+	SetCallback g_nFollowPathCallback, FollowPathWayPoint
+	SetCallback g_nFollowPathDoneCallback, FollowPathDone
+
+	gosub FollowPath
+	
+	Exit
+
+;---------------------------------------------------------------------
+:Trigger_ON
+;---------------------------------------------------------------------
+
+	SetPos g_hMyObject,nStartPosX,nStartPosY,nStartPosZ
+
+
+	; gosub VelocityTest1
+
+	; gosub RotationTest1
+
+	; gosub FollowPlayerTest
+
+	GetParam 0, hPlayerObject
+
+;	gosub FollowPlayerTest2
+
+;	if ( hPlayerObject==0 )
+;		Exit 1
+;	endif
+
+	;;Wait 10, StopCamera
+;	gosub MoveTest
+
+	gosub FollowPathTest
+
+	Exit 0
+
+;---------------------------------------------------------------------
+:Trigger_OFF
+;---------------------------------------------------------------------
+
+	DebugOut TriggerOFF!!!
+	Exit 0
+
+;---------------------------------------------------------------------
+:Main
+;---------------------------------------------------------------------
+
+	AddTrigger ON, Trigger_ON
+	AddTrigger OFF, Trigger_OFF
+
+	GetMyHandle g_hMyObject
+
+	GetPos g_hMyObject,nStartPosX,nStartPosY,nStartPosZ
+
+;;	ConsoleCommand ShowFrameRate 1
+
+
+	Exit

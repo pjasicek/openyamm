@@ -1,0 +1,172 @@
+;----------------------------------------------
+;NPC48.scr
+; By Timmy
+; handles Hat'lati's theivery stuff
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+#include basewander.inc
+#include followplayer.inc
+
+#number                         bStealing
+
+
+#number			xPos
+#number			yPos
+#number			zPos
+
+;-------------------------------------
+:Onblabber
+;-------------------------------------
+; erccs blabber
+
+
+Stop
+Gosub BasewanderStop
+Getparam 0 g_hobject
+FaceObject g_hobject 200 DoNothing
+
+Playsound voices\NPC\NPC_048.wav, DoNothing, 100, 240, FALSE, 100
+
+
+
+
+exit
+
+
+;-------------------------------------
+:OnRude
+;-------------------------------------
+
+haskey 5009 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+if (bStealing==TRUE)
+	Gosub Basewanderstart
+	exit
+endif
+
+
+
+haskey 154 g_ntemp
+if (g_ntemp==TRUE)
+	stop
+	gosub Followstart
+	exit
+endif
+exit
+
+;-------------------------------------
+:OnWander
+;-------------------------------------
+haskey 154 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+set bStealing, True
+gosub basewanderinit
+exit
+
+;-------------------------------------
+:StopStealing
+;-------------------------------------
+
+set bStealing, false
+exit
+
+;-------------------------------------
+:OnHome
+;-------------------------------------
+
+if (bStealing==TRUE)
+	exit
+endif
+
+Stop
+Gosub BasewanderStop
+getobjecthandle HatlatiHome g_hobject
+walkto g_hobject 8 DoNothing
+
+exit
+
+;-------------------------------------
+:OnJail
+;-------------------------------------
+
+gosub followstop
+getobjecthandle PrisonMarker g_hobject
+walkto g_hobject 8 close
+exit
+
+;-------------------------------------
+:Close
+;-------------------------------------
+
+getobjecthandle Jaildoor g_hobject
+trigger g_hobject close
+trigger g_hobject lock
+getobjecthandle Chair9 g_hobject
+FaceObject g_hobject 200 DoNothing
+
+stop
+gosub BaseWanderStop
+
+
+getmyhandle g_hmyobject
+setstat g_hmyobject WanderON false
+;setparam 0 \voices\npc\NPC_048.wav
+;runscript shopkeeper.scr
+;exitscript
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+
+haskey 154 g_ntemp
+if (g_ntemp==TRUE)
+	stop
+	getobjecthandle PrisonMarker g_hobject
+	getpos g_hobject xPos Ypos Zpos
+	getmyhandle g_hmyobject
+	setpos g_hmyobject xPos yPos zPos
+	getobjecthandle Chair9 g_hobject
+	FaceObject g_hobject 200 DoNothing
+	givekey 5009
+
+	stop
+	gosub BaseWanderStop
+
+	getmyhandle g_hmyobject
+	setstat g_hmyobject WanderON false
+;	setparam 0 \voices\npc\NPC_048.wav
+;	runscript shopkeeper.scr
+;	exitscript
+	exit
+endif
+
+exit
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Use, Onblabber
+Addtrigger Start, OnWander
+Addtrigger GoHome OnHome
+AddTrigger GotoJail OnJail
+OnRudeexit OnRude
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+@m 12 : 00 OnWander OnWander
+@m 4 : 00 StopStealing StopStealing
+
+exit

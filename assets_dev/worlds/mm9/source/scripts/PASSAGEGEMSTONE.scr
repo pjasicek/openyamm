@@ -1,0 +1,102 @@
+;----------------------------------
+;	PassageGemstone.scr
+;	by SJR
+;	11-07-01
+;	Purpose:shoot the light that
+;			fuels the mirror puzzle
+;----------------------------------
+#include BaseGlobals.inc
+#include ListMaker.inc
+
+#hobject	hLaser = 0
+
+#hobject	hMirror = 0
+
+;----------------------------------
+:Main
+;----------------------------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+
+	OnPostStartWorld InitPassageGemstone
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;----------------------------------
+:CacheFiles
+;----------------------------------
+	CacheSound "sounds\spells\enchantitem.wav"
+	CacheSound "sounds\door\doorslidestone.wav"
+
+	Exit TRUE
+
+;----------------------------------
+:InitPassageGemstone
+;----------------------------------
+	AddTrigger use, ShineLight
+	AddTrigger trigger, ReleaseMonsters
+
+	GetObjectHandle Mirror0, hMirror
+	GetObjectHandle GemLight0, hLaser
+
+	Exit TRUE
+
+;----------------------------------
+:ReleaseMonsters
+;----------------------------------
+	RemoveTrigger release
+
+	PlaySound "sounds\spells\enchantitem.wav", SoundCallback, 1, 1000, FALSE, 100
+
+	gosub GetFirstObject
+	while( LISTINDEX<LISTLAST )
+		Trigger LISTOBJECT, go
+		gosub GetNextObject
+	endwhile
+	Trigger LISTOBJECT, go
+
+	GetObjectHandle DesertDoor0, LISTOBJECT
+	Trigger LISTOBJECT, unlock
+	Trigger LISTOBJECT, open
+
+	Exit TRUE
+
+;----------------------------------
+:SoundCallback
+;----------------------------------
+	PlaySound "sounds\door\doorslidestone.wav", DoNothing, 1, 1000, FALSE, 100
+
+	Exit TRUE
+
+;----------------------------------
+:ShineLight
+;----------------------------------
+	gosub RemoveInterface
+
+	if( hLight!=0 )
+		Trigger hLaser, shoot
+	endif
+
+	if( hMirror!=0 )
+		Trigger hMirror, trigger
+	endif
+
+	Wait 0, 1, RestoreInterface
+
+	Exit TRUE
+
+;----------------------------------
+:RemoveInterface
+;----------------------------------
+	RemoveTrigger use
+
+	Exit TRUE
+
+;----------------------------------
+:RestoreInterface
+;----------------------------------
+	AddTrigger use, ShineLight
+
+	Exit TRUE

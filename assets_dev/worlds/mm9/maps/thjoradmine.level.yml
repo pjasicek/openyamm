@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: thjoradmine
+display_name: Thjorad Mine
+source:
+  dat: ../source/worlds/THJORADMINE.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/THJORADMINE.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 0c6b931509cf71d0d893de750398554e6455eaa8bddf3df2832f30cd0a76f458
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_like
+  classification_confidence: medium
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: thjoradmine.dat_world.yml
+  raw_objects: thjoradmine.raw_objects.yml
+  materials: thjoradmine.material_aliases.yml
+  events: thjoradmine.events.yml
+  scene_compat: thjoradmine.scene.yml
+  source_metadata_compat: thjoradmine.mm9.yml
+  bsp_compat: thjoradmine.bsp.yml
+  geometry_compat: thjoradmine.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: thjoradmine.blv
+scripts:
+  level: ../events/thjoradmine.lua
+  script_ir: ../events/thjoradmine.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

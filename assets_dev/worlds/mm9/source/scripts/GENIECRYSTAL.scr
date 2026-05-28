@@ -1,0 +1,34 @@
+;-------------------------------------
+;	BaseGlobals.inc
+;	by SJR
+;	11-12-01
+;	Purpose:be a genie crystal
+;
+;	ScriptParams:
+;		p0 = name of genie
+;-------------------------------------
+
+#string		sGenieName = 0
+#hobject	hGenie = 0
+
+;-------------------------------------
+:Main
+;-------------------------------------
+	GetParam 0, sGenieName
+
+	AddTrigger use, CallGenie
+
+	Exit 1
+
+;-------------------------------------
+:CallGenie
+;-------------------------------------
+	RemoveTrigger use
+
+	GetObjectHandle sGenieName, hGenie
+
+	if( hGenie!=0 )
+		Trigger hGenie, appear
+	endif
+
+	Exit 1

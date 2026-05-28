@@ -1,0 +1,53 @@
+;--------------------------------------------------
+;WG_NjamCam.scr
+; timmy
+; tells a prop to run it's animation
+;
+;Note: if the first parameter is the word
+; OnUse, the second parameter becomes
+; the animation name and the script will wait until being used
+; to play the animation.  Otherwise it will just
+; loop an anim for time specified
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#number		Xpos
+#number		Ypos
+#number		Zpos
+
+#number		MyX
+#number		MyY
+#Number		MyZ
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;--------------------------------------------------
+:OnPlay
+;--------------------------------------------------
+
+
+getobjecthandle WinMan g_hobject
+target g_hobject
+;facedir 3476.0 1172.0 -3596.0 0 DoNothing
+Screenfadein 1
+trigger g_hobject switch
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddTrigger Play OnPlay
+
+
+
+exit
+

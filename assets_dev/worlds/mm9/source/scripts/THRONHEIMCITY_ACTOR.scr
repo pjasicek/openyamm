@@ -1,0 +1,181 @@
+;----------------------------------------------------------
+;	ThronHeimCity_Actor.scr
+;	Jeff Leggett
+;	12/18/2001
+;
+;	Handles:
+;		Various NPCs.
+;
+;----------------------------------------------------------
+
+#include NPCBase.Inc
+
+#string		sMyName
+#string		sMarker
+
+
+;------------------------------------------------
+:RunNormalScript
+;------------------------------------------------
+	Stop
+
+	SetStat g_hMyObject,WalkRunMode,WALKRUNMODE_FORWARD
+	GetStatStr g_hMyObject,ScriptName,g_sTemp
+	RunScript g_sTemp
+
+	Exit
+
+;----------------------------------------------------------
+:ShmoeDamage
+;----------------------------------------------------------
+	Die
+
+	GetFaceDir g_hMyObject,g_dirX,g_dirY,g_dirZ
+	VecScale g_dirX,g_dirY,g_dirZ,-1
+	g_dirY = 0.45
+	SetPushBack g_dirX,g_dirY,g_dirZ,1
+
+	Exit TRUE
+
+;----------------------------------------------------------
+:OnHereComesBadAssShmoe
+;----------------------------------------------------------
+	gosub DisableWandering
+	gosub DisableChat
+	stop
+
+	GetParam 0, g_hObject
+	Target g_hObject,TRUE
+
+;	SetStat g_hMyObject,WalkRunMode,WALKRUNMODE_TARGET
+;	GetFaceDir g_hObject,g_dirX,g_dirY,g_dirZ
+;	Walk g_dirX,g_dirY,g_dirZ
+
+
+	Exit
+
+;----------------------------------------------------------
+:SetupShmoe
+;----------------------------------------------------------
+	gosub NPCBaseInit
+
+	g_bSocializeEnabled = FALSE
+
+	AddTrigger HereComesBadAss,OnHereComesBadAssShmoe
+	OnDamage ShmoeDamage
+
+	Exit
+
+;----------------------------------------------------------
+:BenDamage
+;----------------------------------------------------------
+	Die
+	Exit TRUE
+
+;----------------------------------------------------------
+:YellForHelp
+;----------------------------------------------------------
+	Help g_hTarget
+	Wait 0, 1, YellForHelp
+
+	Exit
+
+
+;----------------------------------------------------------
+:BenAtGuard
+;----------------------------------------------------------
+	stop
+	gosub YellForHelp
+	Wait 0, 0, DoNothing
+	gosub RunNormalScript
+
+	exit TRUE
+
+;----------------------------------------------------------
+:RunAwayFromBadAss
+;----------------------------------------------------------
+
+	GetObjectHandle BadAss, g_hObject
+
+	if ( g_hObject==NULL )
+		exit
+	endif
+
+	g_hRunAwayTrigger = g_hObject
+	g_hTarget = g_hObject
+
+	GetObjectHandle Guard1,g_hObject
+
+	Target g_hTarget, FALSE
+
+	RunTo g_hObject,0,BenAtGuard
+	Wait 0, 1, YellForHelp
+
+	Exit
+
+;----------------------------------------------------------
+:BenAtMarker
+;----------------------------------------------------------
+	Stop
+
+	SetStat g_hMyObject,WalkRunMode,WALKRUNMODE_FORWARD
+
+	Exit
+
+;----------------------------------------------------------
+:OnHereComesBadAssBen
+;----------------------------------------------------------
+
+	gosub DisableWandering
+	gosub DisableChat
+
+	Stop
+
+	GetParam 0, g_hObject
+	Target g_hObject,TRUE
+
+	SetStat g_hMyObject,WalkRunMode,WALKRUNMODE_TARGET
+
+	GetObjectHandle BenMarker,g_hObject
+
+	RunTo g_hObject,0,BenAtMarker
+	
+
+	Exit
+
+;----------------------------------------------------------
+:SetupBen
+;----------------------------------------------------------
+
+	gosub NPCBaseInit
+
+	RemoveTrigger RunAwayFromMe
+	AddTrigger RunAwayFromMe,RunAwayFromBadAss
+	AddTrigger HereComesBadAss,OnHereComesBadAssBen
+
+	g_bSocializeEnabled = FALSE
+
+	Exit
+
+
+;----------------------------------------------------------
+:Main
+;----------------------------------------------------------
+	GetMyHandle g_hMyObject
+
+	GetObjectName g_hMyObject,sMyName
+
+	if ( sMyName==Shmoe )
+		goto SetupShmoe
+	endif
+
+	if ( sMyName==Ben )
+		goto SetupBen
+	endif
+
+;
+;	If we're here, then we are a NPC that needs to
+;	
+
+	Exit
+

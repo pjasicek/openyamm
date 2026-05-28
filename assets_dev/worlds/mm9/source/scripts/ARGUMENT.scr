@@ -1,0 +1,763 @@
+;----------------------------------------------
+;Argument.scr
+; By Timmy
+; handles XP for stopping the war
+;
+; edited by Bones 7/16/02, 5/29/03
+; TELP Patch 1.3 -- Ensures Yrsa's errand is given.
+;		Prevents proceeding to cutscene in TB mode.
+;----------------------------------------------
+
+#include globals.inc 
+
+
+#number  keycheck
+
+#number			nCamCount
+#number			nStarted = 0
+
+#hobject		hSven
+#hobject		hBjarni
+#hobject		hSigmund
+#hobject		hMarkel
+#hobject		hTryygva
+#hobject		hKira
+#hobject		hForad
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+Haskey 184 g_ntemp
+if (g_ntemp==1, )
+	DoRude 1
+	Playsound voices\NPC\NPC_001.wav, DoNothing, 100, 24000, FALSE, 100
+	exit
+endif
+gosub War
+
+exit
+
+
+;-------------------------------------
+:War
+; gives reward for viewing cutscene
+;-------------------------------------
+
+
+Haskey 184 g_ntemp
+if (g_ntemp==0, )
+	GiveKey 184
+	GiveKey 40
+	givekey 85
+	GiveExp 26500
+	Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+	takeitem 401
+	; gives reward
+
+	givekey 93
+	; Yrsa's errand
+
+	exit
+endif
+exit
+
+
+;-------------------------------------
+:OnRude
+; this is for Yrsa after the arguement
+;-------------------------------------
+
+Haskey 185 g_ntemp
+if (G_ntemp==0, )
+	Haskey 93 g_ntemp
+	if (g_ntemp==1, )
+		;this is where Forad is removed from the party
+;		GiveExp 16000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+		givekey 185
+
+		exit
+	endif
+endif
+exit
+
+
+;-------------------------------------
+:ForceStart
+;-------------------------------------
+
+if (nStarted==TRUE)
+	exit
+endif
+
+	getobjecthandle Sven hSven
+	getobjecthandle Bjarni hBjarni
+	getobjecthandle Sigmund hSigmund
+	getobjecthandle Markel hMarkel
+	getobjecthandle Tryygva hTryygva
+	getobjecthandle Kira hKira
+	getobjecthandle Forad hForad
+;letterbox true
+;set ncamcount 18
+;gosub Bjarni16
+	gosub OnStart
+	exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+haskey 40 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+
+set g_ncounter, 0
+
+
+
+haskey 90 g_ntemp
+if (g_ntemp==TRUE)
+	add g_ncounter, 1
+endif
+
+haskey 91 g_ntemp
+if (g_ntemp==TRUE)
+	add g_nCounter, 1
+endif
+
+if (g_nCounter==2)
+
+	if (nStarted==TRUE)
+		exit
+	endif
+
+	getobjecthandle Sven hSven
+	getobjecthandle Bjarni hBjarni
+	getobjecthandle Sigmund hSigmund
+	getobjecthandle Markel hMarkel
+	getobjecthandle Tryygva hTryygva
+	getobjecthandle Kira hKira
+	getobjecthandle Forad hForad
+
+	gosub OnStart
+	exit
+endif
+
+exit
+
+
+;-------------------------------------
+:OnStart
+;-------------------------------------
+
+IsTurnBased g_nTemp
+if g_nTemp == TRUE
+	ScreenFadeOut 1
+	RollOverText 18 0
+	wait 0 1 OnStart
+	Exit
+endif
+
+set nStarted, TRUE
+removetrigger start
+set nCamCount, 0
+screenfadeout 1
+wait 1 1 FadeIn
+exit
+
+;-------------------------------------
+:FadeIn
+;-------------------------------------
+
+letterbox true
+getobjecthandle Camera0 g_hobject
+trigger g_hobject On
+Trigger g_hobject Play
+screenfadein 1
+;wait 1 1 ShootOn
+exit
+
+;-------------------------------------
+:Cam1
+;-------------------------------------
+
+screenfadeout .5
+wait 1 .5 Cam2B
+exit
+
+;-------------------------------------
+:Cam2b
+;-------------------------------------
+
+getobjecthandle Camera0 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera1 g_hobject
+trigger g_hobject On
+screenfadein .5
+
+getobjecthandle KiraCold g_hobject
+trigger g_hobject KillMarkel
+RemoveNPC 2 g_hobject
+
+trigger hBjarni Shot1A
+
+exit
+
+;-------------------------------------
+:Cam2
+;-------------------------------------
+
+getobjecthandle Camera1 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera11 g_hobject
+trigger g_hobject On
+
+trigger hSigmund Shot1A
+wait 1 4 Cam2c
+exit
+
+;-------------------------------------
+:Cam2c
+;-------------------------------------
+
+getobjecthandle Camera11 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera2 g_hobject
+trigger g_hobject On
+
+;itrigger hSigmund Shot1A
+;wait 1 2 Cam2b
+exit
+
+
+
+;-------------------------------------
+:Cam3
+;-------------------------------------
+
+getobjecthandle Camera2 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera3 g_hobject
+trigger g_hobject On
+
+;trigger Bjarni and Sigmund to Shake hands
+
+trigger hBjarni Shake
+trigger hSigmund Shake
+Trigger hKira Clap
+trigger hMarkel Clap
+trigger hSven Clap
+trigger hForad Clap
+trigger htryygva clap
+gosub war
+wait 1 4 OnMarkel
+
+exit
+
+;-------------------------------------
+:Cam4
+;-------------------------------------
+
+getobjecthandle Camera4 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera1 g_hobject
+trigger g_hobject On
+
+;trigger Bjarni and Sigmund to Shake hands
+
+trigger hBjarni Speak2
+
+exit
+
+;-------------------------------------
+:OnMarkel
+;-------------------------------------
+
+
+getobjecthandle Camera3 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera4 g_hobject
+trigger g_hobject On
+trigger hMarkel Scene2
+
+exit
+
+;-------------------------------------
+:Sigmund3
+;-------------------------------------
+
+getobjecthandle Camera1 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera2 g_hobject
+trigger g_hobject On
+
+trigger hSigmund Speak3
+exit
+
+;-------------------------------------
+:Markel4
+;-------------------------------------
+
+
+getobjecthandle Camera2 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera4 g_hobject
+trigger g_hobject On
+trigger hMarkel Speak4
+
+exit
+
+;-------------------------------------
+:Kira5
+;-------------------------------------
+
+
+getobjecthandle Camera4 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera5 g_hobject
+trigger g_hobject On
+trigger hKira Speak5
+
+exit
+
+
+
+;-------------------------------------
+:Forad6
+;-------------------------------------
+
+
+getobjecthandle Camera5 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera6 g_hobject
+trigger g_hobject On
+trigger hForad Speak6
+
+exit
+
+
+;-------------------------------------
+:Kira7
+;-------------------------------------
+
+
+getobjecthandle Camera6 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera5 g_hobject
+trigger g_hobject On
+trigger hKira Speak7
+exit
+
+
+;-------------------------------------
+:Markel8
+;-------------------------------------
+
+
+getobjecthandle Camera5 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera4 g_hobject
+trigger g_hobject On
+trigger hMarkel Speak8
+
+exit
+
+
+;-------------------------------------
+:Bjarni9
+;-------------------------------------
+
+
+getobjecthandle Camera4 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera7 g_hobject
+trigger g_hobject On
+trigger hBjarni Speak9
+
+exit
+
+
+;-------------------------------------
+:Kira10
+;-------------------------------------
+
+
+;getobjecthandle Camera1 g_hobject
+;trigger g_hobject Off
+;getobjecthandle Camera5 g_hobject
+;trigger g_hobject On
+trigger hKira Speak10
+
+exit
+
+
+;-------------------------------------
+:Markel11
+;-------------------------------------
+
+
+getobjecthandle Camera7 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera4 g_hobject
+trigger g_hobject On
+trigger hMarkel Speak11
+
+exit
+
+
+
+;-------------------------------------
+:Kira12
+;-------------------------------------
+
+
+getobjecthandle Camera4 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera5 g_hobject
+trigger g_hobject On
+trigger hKira Speak12
+
+exit
+
+
+
+;-------------------------------------
+:Markel13
+;-------------------------------------
+
+
+getobjecthandle Camera5 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera4 g_hobject
+trigger g_hobject On
+trigger hMarkel Speak13
+
+exit
+
+;-------------------------------------
+:Kira14
+;-------------------------------------
+
+
+getobjecthandle Camera4 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera5 g_hobject
+trigger g_hobject On
+trigger hKira Speak14
+
+exit
+
+;-------------------------------------
+:Markel15
+;-------------------------------------
+
+
+getobjecthandle Camera5 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera4 g_hobject
+trigger g_hobject On
+trigger hMarkel Speak15
+
+exit
+
+;-------------------------------------
+:Bjarni16
+;-------------------------------------
+
+
+getobjecthandle Camera4 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera7 g_hobject
+trigger g_hobject On
+trigger hBjarni Speak16
+;wait 1 2 KiraStand
+exit
+
+;-------------------------------------
+:KiraStand
+;-------------------------------------
+
+trigger hKira Stand
+exit
+
+;-------------------------------------
+:OnKiraStand
+;-------------------------------------
+
+getobjecthandle Camera7 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera8 g_hobject
+trigger g_hobject On
+exit
+
+
+;-------------------------------------
+:OnKiraStand2
+;-------------------------------------
+
+getobjecthandle Camera9 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera8 g_hobject
+trigger g_hobject On
+;trigger g_hobject play
+exit
+
+;-------------------------------------
+:Agree
+;-------------------------------------
+
+getobjecthandle Camera10 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera0 g_hobject
+trigger g_hobject On
+
+trigger hsven Agree
+Trigger hBjarni Agree
+trigger hsigmund Agree
+Trigger hForad Agree
+Trigger hTryygva Agree
+wait 1 2 Kira19
+exit
+
+;-------------------------------------
+:KiraCam
+;-------------------------------------
+
+getobjecthandle Camera8 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera9 g_hobject
+trigger g_hobject On
+exit
+
+;-------------------------------------
+:KiraCam2
+;-------------------------------------
+
+getobjecthandle Camera9 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera10 g_hobject
+trigger g_hobject On
+trigger hKira Speak18
+exit
+
+;-------------------------------------
+:Kira19
+;-------------------------------------
+
+getobjecthandle Camera0 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera10 g_hobject
+trigger g_hobject On
+trigger hKira Speak19
+exit
+
+;-------------------------------------
+:Forad20
+;-------------------------------------
+
+getobjecthandle Camera10 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera6 g_hobject
+trigger g_hobject On
+trigger hForad Speak20
+exit
+
+
+;--------------------------------------------------
+:OnDone
+;--------------------------------------------------
+
+nCamCount = nCamCount + 1
+
+if (nCamCount==1)
+	;Bjarni signs
+	Gosub Cam1
+	exit
+endif
+
+
+if (nCamCount==2)
+	;sigmund signs
+	Gosub Cam2
+	exit
+endif
+
+
+if (nCamCount==3)
+	; shake hands and clap
+	Gosub Cam3
+	exit
+endif
+
+if (nCamCount==4)
+	Gosub Cam4
+	; Bjarni "Who gives a damn..."
+	exit
+endif
+
+if (nCamCount==5)
+	Gosub Sigmund3
+	; "...I Agree with you..."
+	exit
+endif
+
+if (nCamCount==6)
+	Gosub Markel4
+	; "What do you know about fighting..."
+	exit
+endif
+
+
+if (nCamCount==7)
+	Gosub Kira5
+	; "...please go..."
+	exit
+endif
+
+if (nCamCount==8)
+	Gosub Forad6
+	;"Don't go, we need you to stay"
+	exit
+endif
+
+if (nCamCount==9)
+	Gosub Kira7
+;	"If he would shut up about that book of his..."
+	exit
+endif
+
+if (nCamCount==10)
+	Gosub Markel8
+	; "Maybe it's not me.."
+	exit
+endif
+
+if (nCamCount==11)
+	Gosub Bjarni9
+	; "watch your mouth, boy"
+	exit
+endif
+
+if (nCamCount==12)
+	Gosub Kira10
+	;"Bjarni please,...Yesterday's beef"
+	exit
+endif
+
+if (nCamCount==13)
+	Gosub Markel11
+	;"Is that what you think...what do you do..."
+	exit
+endif
+
+if (nCamCount==14)
+	Gosub Kira12
+	; "I will not play this game with you..."
+	exit
+endif
+
+if (nCamCount==15)
+	Gosub Markel13
+;	"Of course you won't...Don't know the answer..."
+	exit
+endif
+
+if (nCamCount==16)
+	Gosub Kira14
+	;"Why don't I put my sword in your belly?"
+	exit
+endif
+
+if (nCamCount==17)
+	Gosub Markel15
+	;"always the violence...rotten brains"
+	exit
+endif
+
+if (nCamCount==18)
+	Gosub Bjarni16
+	; "You've done it now..."
+	exit
+endif
+
+if (nCamCount==19)
+	Gosub KiraStand
+	; wave off Bjarni and stand
+	exit
+endif
+
+if (nCamCount==20)
+	Gosub OnKiraStand
+	; switch to behind Kira cam wide
+	exit
+endif
+
+if (nCamCount==21)
+	Gosub KiraCam
+	; switch to behind Markel Cam
+	exit
+endif
+
+if (nCamCount==22)
+	Gosub KiraCam2
+	; "now may we get down to business?"
+	exit
+endif
+
+if (nCamCount==23)
+	Gosub Agree
+	; The Jarls Agree
+	exit
+endif
+
+if (nCamCount==24)
+;	Gosub Forad20
+	gosub end
+	; "very well...a week's time"
+	exit
+endif
+
+
+if (nCamCount==25)
+	Gosub End
+	; thank you for playing, and good night!
+	exit
+endif
+
+exit
+;-------------------------------------
+:End
+;-------------------------------------
+
+gosub war
+screenfadeout 1
+wait 1 1 End2
+exit
+
+
+;-------------------------------------
+:End2
+;-------------------------------------
+
+
+getobjecthandle Camera10 g_hobject
+trigger g_hobject Off
+getobjecthandle YrsatheTroll0 g_hobject
+trigger g_hobject appear
+letterbox false
+screenfadein 1
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+
+AddTrigger Done, OnDone
+addtrigger ForceStart ForceStart
+Addtrigger Start Init
+
+exit

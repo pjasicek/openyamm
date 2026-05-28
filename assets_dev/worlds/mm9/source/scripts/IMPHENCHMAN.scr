@@ -1,0 +1,36 @@
+;----------------------------------------
+;	ImpHenchman.scr
+;	by SJR
+;	10/12/01
+;	Purpose:wrapper for base.scr
+;			with one extra feature
+;----------------------------------------
+#include baseMelee.inc
+
+;--------------
+:Main
+;--------------
+;;	OnPostStartWorld InitImpHenchman
+Wait 0, 5, InitImpHenchman
+
+	Exit TRUE
+
+;--------------
+:InitImpHenchman
+;--------------
+	AddTrigger Help, DefendImp
+
+	gosub BaseInit
+	gosub BaseWanderStartup
+
+	Exit TRUE
+
+;--------------
+:DefendImp
+;--------------
+	gosub BaseWanderStop
+	GetPlayerHandle g_hTarget
+	gosub SetupTarget
+	RunTo g_hTarget, 10, AggressiveStart
+
+	Exit TRUE

@@ -1,0 +1,102 @@
+;--------------------------------------------------
+;DP3Lavashooter.scr
+; timmy
+;--------------------------------------------------
+
+#include globals.inc
+
+;--------------------------------------------------
+:shutoff
+;--------------------------------------------------
+
+getparam 0, g_hObject
+IsPlayer g_hObject, g_ntemp
+
+if (g_ntemp==true)
+
+
+SetModelFilenames models\props\LavaFountain.abc,skins\props\LavaFountain.dtx
+wait .5 anim
+goto anim
+endif
+
+exit
+;--------------------------------------------------
+:anim
+;--------------------------------------------------
+
+set g_stemp, off
+GetObjectHandle Shoot1, g_hObject
+if ( g_hObject!=NULL )
+	
+	Trigger g_hObject, g_stemp
+endif
+
+GetObjectHandle Shoot2, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, g_stemp
+endif
+
+GetObjectHandle Shoot3, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, g_stemp
+endif
+
+GetObjectHandle Shoot4, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, g_stemp
+endif
+
+GetObjectHandle Shoot5, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, g_stemp
+endif
+
+GetObjectHandle Shoot6, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, g_stemp
+endif
+
+GetObjectHandle Shoot7, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, g_stemp
+endif
+
+GetObjectHandle Shoot8, g_hObject
+if ( g_hObject!=NULL )
+	Trigger g_hObject, g_stemp
+endif
+
+
+
+
+
+Set g_stemp,loopanim 
+add g_stemp,idle
+GetMyHandle, g_hObject
+Trigger g_hObject, g_stemp 
+
+Wait 3 OpenDoor
+
+OnDamage
+
+exit
+
+
+;--------------------------------------------------
+:OpenDoor
+;--------------------------------------------------
+
+
+GetObjectHandle Door6, g_hObject
+Trigger g_hObject, unlock
+Trigger g_hObject, use
+
+exit
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;TRACEON
+OnDamage shutoff
+exit

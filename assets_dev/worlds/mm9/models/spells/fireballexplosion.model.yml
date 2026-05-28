@@ -1,0 +1,62 @@
+schema: openyamm.model3d.v1
+id: fireballexplosion
+model: fireballexplosion.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/SPELLS/FIREBALLEXPLOSION.abc
+  commandString: DrawIndexedDist 5000
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: GeoSphere02
+  materialIndex: 0
+  lods:
+  - faces: 80
+    vertices: 42
+- name: GeoSphere01
+  materialIndex: 0
+  lods:
+  - faces: 80
+    vertices: 42
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: FireBallExplosion
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: FireBallExplosion
+  extents:
+  - 12.8
+  - 12.8
+  - 12.8
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/spells/fireballexplosion.abc

@@ -1,0 +1,157 @@
+***********************************************************************************
+                  Create Character View Party Coordinates
+***********************************************************************************
+
+CreateCharacterViewPartyBG.pcx	  0x   0y	800x600
+
+-----------------------------------------------------------------------------------
+                    Menu Section (Right-Hand Edge)
+-----------------------------------------------------------------------------------
+
+Accept Party Button	680x 508y	118x90
+	
+Character 1 Portrait	709x 108y	60x80
+Character 2 Portrait	709x 208y	60x80
+Character 3 Portrait	709x 308y	60x80
+Character 4 Portrait	709x 408y	60x80
+
+Note: Use "Accept Party" Button from main Create Character Screen
+
+Back Button		680x   5y	118x90
+
+-----------------------------------------------------------------------------------
+
+Portrait #1		 76x  63y 	60x80	
+Portrait #2		226x  63y	60x80
+Portrait #3		376x  63y	60x80
+Portrait #4		526x  63y	60x80
+
+-----------------------------------------------------------------------------------
+
+"Party overview"	 38x  15y 	599x42	Title Font Left Justify
+
+Note: Title font should have first letter ONLY upper case. All others lower
+	case.  Note, no drop-cap on this screen.
+
+Character 1 Name	 37x 151y	138x27	Main Font A Centered
+          2 		187x 
+          3 		338x 
+          4 		488x 
+
+Character 1 Race	 37x 186y	138x18	Main Font B Centered
+	  2		187x
+	  3		338x
+	  4		488x
+
+Character 1 Class	 37x 208y	138x18	Main Font B Centered
+          2		187x
+	  3		338x
+	  4		488x
+
+-----------------------------------------------------------------------------------
+
+Character 1 "MGT."	 54x 240y	58x18	Main Font B Left Justify
+          2		204x
+          3		354x
+          4		504x
+
+Character 1 "MAG."	 54x 260y	58x18	Main font B Left Justify
+          2             204x
+          3             354x
+          4             504x
+
+Character 1 "END."	 54x 280y	58x18	Main Font B Left Justify
+          2             204x
+          3             354x
+          4             504x
+
+Character 1 "ACC."	 54x 300y	58x18	Main Font B Left Justify
+          2		204x
+          3		354x
+          4		504x
+
+Character 1 "SPD."	 54x 320y	58x18	Main Font B left Justify
+          2		204x
+          3		354x
+          4 		504x
+
+Character 1 "LUK."	 54x 340y	58x18	Main Font B Left Justify
+          2		204x
+          3		354x
+          4		504x
+
+Character 1 Mgt ###	114x 240y	44x18	Main Font B Centered
+          2		264x
+          3		414x
+          4		564x
+
+Character 1 Mag ###	114x 260y	44x18	Main Font B Centered
+	  2		264x
+	  3		414x
+	  4		564x
+
+Character 1 End ###	114x 280y	44x18	Main Font B Centered
+	  2		264x
+	  3		414x
+	  4		564x
+
+Character 1 Acc ###	114x 300y	44x18	Main Font B Centered
+	  2		264x
+	  3		414x
+	  4		564x
+
+Character 1 Spd ###	114x 320y	44x18	Main font B Centered
+	  2		264x
+	  3		414x
+	  4		564x
+
+Character 1 Luk ###	114x 340y	44x18	Main Font B Centered
+	  2		264x
+	  3		414x
+	  4		564x
+
+----------------------------------------------------------------------------------
+
+Character 1 "H.P."	 44x 370y	38x18	Main Font B Left Justify
+	  2  		194x
+	  3		344x
+	  4		494x
+
+Character 1 "S.P."	 44x 390y	38x18	Main Font B Left Justify
+	  2		194x
+	  3		344x
+	  4		494x
+
+Character 1 HP ###/###	 84x 370y	80x18	Main Font B Centered
+	  2		234x
+	  3		384x
+	  4		534x
+
+Character 1 SP ###/###	 84x 390y	80x18	Main Font B Centered
+	  2		234x
+	  3		384x
+	  4		534x
+
+----------------------------------------------------------------------------------
+
+Character 1 Skill A	 37x 420y	138x18	Main Font B Centered
+	  2		187x
+	  3		338x
+	  4		487x
+
+Character 1 Skill B	 37x 440y	138x18	Main Font B Centered
+	  2		187x
+	  3		338x
+	  4		487x
+
+Character 1 Skill C	 37x 460y	138x18  Main Font B Centered
+	  2		187x
+	  3		338x
+	  4		487x
+
+Character 1 Skill D	 37x 480y	138x18	Main Font B Centered
+	  2		187x
+	  3		338x
+	  4 		487x
+
+-----------------------------------------------------------------------------------

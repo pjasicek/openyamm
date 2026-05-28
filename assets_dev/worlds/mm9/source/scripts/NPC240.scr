@@ -1,0 +1,56 @@
+;--------------------------------------------------
+;shopkeeper.scr
+; timmy
+; handles shopkeeper voice and anims
+;--------------------------------------------------
+
+#include globals.inc
+
+#String    Params          
+#String    sound
+
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:Off
+;--------------------------------------------------
+
+
+debugout Done!!
+exit
+; Delete this when the script works the way it's supposed to!!!
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound \voices\npc\NPC_240.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+GetParam 0, sound
+GetParam 1, Params
+GetParam 2, g_ntemp
+LoopAnim Params,g_ntemp Off
+
+
+Addtrigger Use, OnUse
+
+exit
+

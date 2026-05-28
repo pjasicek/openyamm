@@ -1,0 +1,603 @@
+;----------------------------------------------
+;BreakIce.scr
+; By Timmy
+; handles break the ice quest
+;
+; edited by Bones -- 6/12/03
+; TELP Patch 1.3 -- prevents accessing objects before they are loaded
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+
+;-------------------------------------
+:OnStart
+;-------------------------------------
+wait 1 2 Start
+exit
+
+;-------------------------------------
+:Start
+;-------------------------------------
+
+screenfadeout 1
+wait 1 1 FadeIn
+exit
+
+
+;-------------------------------------
+:FadeIn
+;-------------------------------------
+
+letterbox true
+getobjecthandle Camera0 g_hobject
+trigger g_hobject On
+screenfadein 1
+
+
+getobjecthandle DestructableBrush27 g_hobject
+trigger g_hobject DamageOn
+
+wait 1 1 ShootOn
+exit
+
+;-------------------------------------
+:ShootOn
+;-------------------------------------
+
+getobjecthandle Shooter1 g_hobject
+trigger g_hobject On
+
+wait 1 .5 LetterboxOff
+exit
+
+;-------------------------------------
+:LetterboxOff
+;-------------------------------------
+getobjecthandle Camera0 g_hobject
+trigger g_hobject Start
+wait 1 1.5 Shooter2
+wait 2 1.7 Shooter3
+wait 3 1.8 Shooter4
+wait 4 2.5 UnderCam
+exit
+
+;-------------------------------------
+:Shooter2
+;-------------------------------------
+
+getobjecthandle DestructableBrush6 g_hobject
+trigger g_hobject DamageOn
+getobjecthandle DestructableBrush17 g_hobject
+trigger g_hobject DamageOn
+getobjecthandle DestructableBrush18 g_hobject
+trigger g_hobject DamageOn
+getobjecthandle DestructableBrush16 g_hobject
+trigger g_hobject DamageOn
+
+getobjecthandle Shooter2 g_hobject
+trigger g_hobject On
+exit
+
+;-------------------------------------
+:Shooter3
+;-------------------------------------
+
+getobjecthandle Shooter3 g_hobject
+trigger g_hobject On
+exit
+
+;-------------------------------------
+:Shooter4
+;-------------------------------------
+
+getobjecthandle Shooter4 g_hobject
+trigger g_hobject On
+exit
+
+
+;-------------------------------------
+:UnderCam
+;-------------------------------------
+
+getobjecthandle Camera0 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera1 g_hobject
+trigger g_hobject On
+trigger g_hobject Move
+wait 1 .7 Destroy15
+wait 2 1.5 Destroy16
+wait 3 2 Destroy25
+exit
+
+
+;-------------------------------------
+:Destroy15
+;-------------------------------------
+
+getobjecthandle DestructableBrush15 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+Playsound Sounds\Events\iceimpact.wav, DoNothing, 100, 9000, FALSE, 100
+exit
+
+;-------------------------------------
+:Destroy16
+;-------------------------------------
+
+getobjecthandle DestructableBrush26 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+Playsound Sounds\Events\iceimpact.wav, DoNothing, 100, 9000, FALSE, 100
+exit
+
+;-------------------------------------
+:Destroy25
+;-------------------------------------
+
+getobjecthandle DestructableBrush25 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+Playsound Sounds\Events\iceimpact.wav, DoNothing, 100, 9000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnCam3
+;-------------------------------------
+
+getobjecthandle Camera1 g_hobject
+trigger g_hobject Off
+getobjecthandle Camera2 g_hobject
+trigger g_hobject On
+wait 1 1.1 Group1
+wait 2 1.11 Group2
+wait 3 1.12 Group3
+wait 4 3 OnDone
+exit
+
+;-------------------------------------
+:Group1
+;-------------------------------------
+
+Playsound Sounds\Events\iceimpact.wav, DoNothing, 100, 9000, FALSE, 100
+getobjecthandle DestructableBrush17 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush18 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush27 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush16 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+
+getobjecthandle DestructableBrush14 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush21 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush24 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush30 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush33 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush36 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush39 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush42 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush45 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush9 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+exit
+
+;-------------------------------------
+:Group2
+;-------------------------------------
+
+Playsound Sounds\Events\iceimpact.wav, DoNothing, 100, 9000, FALSE, 100
+getobjecthandle DestructableBrush19 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush22 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush28 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush31 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush34 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush37 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush40 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush43 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush7 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+exit
+
+;-------------------------------------
+:Group3
+;-------------------------------------
+
+Playsound Sounds\Events\iceimpact.wav, DoNothing, 100, 9000, FALSE, 100
+getobjecthandle DestructableBrush20 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush23 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush29 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush32 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush35 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush38 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush41 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush44 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush8 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+exit
+
+;-------------------------------------
+:OnDone
+;-------------------------------------
+
+screenfadeout 1
+gosub GivePoints
+wait 1 1.5 Done
+exit
+
+;-------------------------------------
+:Done
+;-------------------------------------
+
+letterbox false
+getobjecthandle Camera2 g_hobject
+trigger g_hobject Off
+screenfadein 1
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+haskey 72 g_ntemp
+if (g_ntemp==FALSE)
+	exit
+endif
+
+
+getobjecthandle DestructableBrush20 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush23 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush29 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush32 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush35 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush38 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush41 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush44 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush8 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush19 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush22 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush28 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush31 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush34 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush37 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush40 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush43 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush7 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush14 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush21 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush24 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush30 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush33 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush36 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush39 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush42 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush45 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush9 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush25 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush26 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush15 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush6 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush17 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush18 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableBrush16 g_hobject
+trigger g_hobject DamageOn
+trigger g_hobject destroy
+getobjecthandle DestructableProp0 g_hobject
+removeobject g_hobject
+exit
+
+
+;-------------------------------------
+:GivePoints
+;NOTE this script just completes the quest right now.
+; this is the routine where additional functionality should go
+;-------------------------------------
+haskey 72 g_ntemp ;checks to see if player has done this yet
+
+if (g_ntemp==0,  )
+
+	Haskey 71 keycheck ;checks to see if player is on kill anskram keep Quest
+	if ( keycheck==1,  )
+	
+		givekey, 72 ;gives player finished quest key
+		GiveEXP 8000
+		exit
+	endif
+endif
+
+Haskey 174 keycheck ;checks to see if player is on kill anskram keep Quest
+if ( keycheck==0,  )
+	
+	givekey, 174 ;gives player finished quest key
+	GiveEXP 8000
+	exit
+	endif
+exit
+
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Start OnStart
+AddTrigger Cam3 OnCam3
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+
+
+;-------------------------------------
+:Init
+;	overloaded -- Bones
+;-------------------------------------
+
+;kills competing waits
+wait 1 0 DoNothing
+
+haskey 72 g_ntemp
+if (g_ntemp==FALSE)
+	haskey 174 g_ntemp
+	if (g_ntemp==FALSE)
+		exit
+	endif
+endif
+
+set g_nPad2 1
+;timer overloaded intentionally
+wait 1 1 OnStart
+exit
+
+;-------------------------------------
+:OnStart
+;	overloaded -- Bones
+;-------------------------------------
+
+if g_nPad2 == 0
+	wait 1 2 Start
+	exit
+endif
+
+set g_nPad2 0
+
+getobjecthandle DestructableBrush20 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush23 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush29 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush32 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush35 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush38 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush41 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush44 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush8 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush19 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush22 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush28 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush31 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush34 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush37 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush40 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush43 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush7 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush14 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush21 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush24 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush30 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush33 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush36 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush39 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush42 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush45 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush9 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush25 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush26 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush15 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush6 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush17 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush18 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableBrush16 g_hobject
+removeobject g_hobject
+
+getobjecthandle DestructableProp0 g_hobject
+removeobject g_hobject
+
+exit
+
+

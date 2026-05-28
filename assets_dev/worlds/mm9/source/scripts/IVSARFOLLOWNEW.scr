@@ -1,0 +1,161 @@
+;-----------------------------------------------------------
+;	IvsarfollowNew.Scr
+;	SJR
+;	10-26-01
+;
+;	The Ivsar follows the player to 
+;	press the "use" key on her...
+;
+;-----------------------------------------------------------
+
+#include aiglobals.inc
+#include globals.inc
+#include basedoor.inc
+#include BaseGlobals.inc
+
+#number		MAX_RUN_ANGLE=50
+#number		WALK_RADIUS=120
+#number		STOP_RADIUS=80
+#number		RUN_RADIUS=360
+
+#number		distance=0
+#number		radius=0
+
+#hobject	hWaterfall=0
+#hobject	hRadius=0
+#hobject	hEscape=0
+
+#number		bAvoidingObstacle = 0
+
+;-----------------------------------------------------------
+:GoEscape
+;-----------------------------------------------------------
+	RunTo hEscape, 25, Disappear
+	Exit TRUE
+
+;-----------------------------------------------------------
+:Disappear
+;-----------------------------------------------------------
+	GetMyHandle hRadius
+	RemoveObject hRadius
+	Exit TRUE
+
+;-----------------------------------------------------------
+:Stop
+;-----------------------------------------------------------
+	Stop
+	bAvoidingObstacle = FALSE
+	if ( g_hTarget!=NULL )
+		OnTargetBeyondDist WALK_RADIUS, StartWalking
+	endif
+	Exit TRUE
+
+;-----------------------------------------------------------
+:WalkAfterTarget
+;-----------------------------------------------------------
+;	cprint WalkAfterTarget
+	RunTo g_hTarget, STOP_RADIUS, Stop
+	Exit TRUE
+
+;-----------------------------------------------------------
+:RunAfterTarget
+;-----------------------------------------------------------
+;	cprint RunAfterTarget
+	RunTo g_hTarget, WALK_RADIUS, WalkAfterTarget	
+	Exit TRUE
+
+;-----------------------------------------------------------
+:StartWalking
+;-----------------------------------------------------------
+	OnTargetBeyondDist RUN_RADIUS, StartRunning
+	OnTargetWithinDist 0
+	gosub WalkAfterTarget
+	Exit TRUE
+
+;-----------------------------------------------------------
+:StartRunning
+;-----------------------------------------------------------
+	if ( bAvoidingObstacle==TRUE )
+		Exit TRUE
+	endif
+
+	OnTargetBeyondDist 0
+	OnTargetWithinDist WALK_RADIUS, StartWalking
+
+	gosub RunAfterTarget
+
+	Exit TRUE
+
+;-----------------------------------------------------------
+:OnFollowStart
+;-----------------------------------------------------------
+	GetParam 0, g_hObject
+	g_hTarget = g_hObject
+	AIGetDistance hWaterfall, distance
+	if( distance<radius )
+		gosub GoEscape
+	endif
+	Target g_hTarget, FALSE
+
+	OnLostTarget StopMoving
+
+	FaceObject g_hTarget, 180, FollowTarget
+
+	Exit TRUE
+
+;-----------------------------------------------------------
+:FollowTarget
+;-----------------------------------------------------------
+	AIGetDistance g_hTarget, distance
+	if ( distance > RUN_RADIUS )
+		gosub StartRunning
+	else
+		if ( distance > WALK_RADIUS )
+			gosub StartWalking
+		else
+			gosub Stop
+		endif
+	endif
+	Exit TRUE
+
+;-----------------------------------------------------------
+:InitIvsar
+;-----------------------------------------------------------
+	GetMyHandle g_hMyObject
+	GetObjectHandle MarkerWaterfall, hWaterfall
+	GetObjectHandle MarkerRadius, hRadius
+	GetObjectHandle EscapeMarker, hEscape
+	GetDistance hWaterfall, hRadius, radius
+	gosub BaseDoorInit
+	Exit TRUE
+
+;-----------------------------------------------------------
+:ObstacleAvoided
+;-----------------------------------------------------------
+	bAvoidingObstacle = FALSE
+	gosub FollowTarget
+	OnObstacleAvoided
+	Exit TRUE
+
+;-----------------------------------------------------------
+:OnAvoidingObstacle
+;-----------------------------------------------------------
+	GetParam 0, g_hObject
+	GetParam 1, g_nTemp
+	if ( g_nTemp > MAX_RUN_ANGLE )
+		; Let's walk around it...
+		gosub StartWalking
+		OnObstacleAvoided	ObstacleAvoided
+		bAvoidingObstacle = TRUE
+	endif
+	Exit TRUE
+
+;-----------------------------------------------------------
+:FollowInit
+;-----------------------------------------------------------
+	SetIdle
+	AddTrigger Use, OnUse
+	OnAvoidingObstacle		OnAvoidingObstacle
+	OnStuckDone				FollowTarget
+	Wait 0, .1, InitIvsar
+	Exit TRUE

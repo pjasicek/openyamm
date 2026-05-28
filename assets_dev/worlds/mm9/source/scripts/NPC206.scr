@@ -1,0 +1,77 @@
+;--------------------------------------------------
+;NPC206.scr
+; timmy
+; handles Fiachna A'Lanth voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include bankorb.inc
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+
+
+getobjecthandle bankdoor g_hobject
+trigger g_hobject toggle
+gosub OnRude, 1
+exit
+
+
+
+
+
+
+;--------------------------------------------------
+:OnBank
+;--------------------------------------------------
+
+
+haskey 322 g_ntemp
+if (g_ntemp==TRUE)
+	hasitem 252 g_ntemp
+	if (g_ntemp==TRUE)
+		givekey 330
+	endif
+endif
+
+
+DoRude 206
+Playsound voices\NPC\NPC_206.wav, Onexit, 100, 240, FALSE, 100
+
+
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+Addtrigger bank, OnBank
+set sLocation, Frosgard
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+OnPostSaveLoad Init
+wait 1 .1 Init
+exit
+

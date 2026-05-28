@@ -1,0 +1,325 @@
+;----------------------------------------------------------
+;	ThronHeimCity_BadAss.scr
+;	Jeff Leggett
+;	12/18/2001
+;
+;	BadAss is a DesertTerror who is locked away
+;	He breaks out of prison and chases NPCs
+;	Guards eventually take him down...
+;
+;
+;	Note:
+;		It is designed that we do this the 2nd time we're
+;		in the level and AFTER the silly speech....
+;
+;	edited by Bones 3/30/03
+;	TELP Patch 1.3 -- prevents stalling at the broken wall
+;----------------------------------------------------------
+
+
+#include BaseMelee.inc
+
+#hobject	hPrisonWall
+#hobject	hWallMarker
+
+#number		runAwayDist = 1000
+#number		toldBen = 0
+#number		bBreakoutTriggered = 0
+
+#hobject	g_hDestroyed = 0
+
+
+;----------------------------------------------------------
+:GetExtraGuard
+;----------------------------------------------------------
+	GetObjectHandle GuardSpawn1,g_hObject
+	Trigger g_hObject,Default
+
+	GetObjectHandle Guard1,g_hObject
+	Trigger g_hObject,OpenEyes
+	
+	Exit
+
+;----------------------------------------------------------
+:Taunt3Done
+;----------------------------------------------------------
+	GetObjectHandle Ben,g_hObject
+
+	Target g_hObject, TRUE
+
+	bWanderEnabled	= TRUE
+
+	gosub BaseInit
+
+	Wait 26, 1.5, SendRunAway2
+	Wait 27, 6, GetExtraGuard
+
+	Exit TRUE
+
+;----------------------------------------------------------
+:TellBenToRunAway
+;----------------------------------------------------------
+	toldBen	= TRUE
+	GetObjectHandle Ben,g_hObject
+	trigger g_hObject,RunAwayFromMe
+	Exit
+
+;----------------------------------------------------------
+:DoTaunt3
+;----------------------------------------------------------
+	Wait 26,0.3,TellBenToRunAway
+
+	Taunt Taunt3Done
+
+	exit TRUE
+
+;----------------------------------------------------------
+:Taunt2Done
+;----------------------------------------------------------
+	GetFaceDir g_hMyObject,g_dirX,g_dirY,g_dirZ
+	RotateDir g_dirX,g_dirY,g_dirZ,180
+	FaceDir g_dirX,g_dirY,g_dirZ,360,DoTaunt3
+	Exit TRUE
+
+;----------------------------------------------------------
+:DoTaunt2
+;----------------------------------------------------------
+	Taunt Taunt2Done
+	Exit TRUE
+
+;----------------------------------------------------------
+:DoTaunts
+;----------------------------------------------------------
+
+	Stop
+	GetFaceDir hWallMarker,g_dirX,g_dirY,g_dirZ
+	RotateDir g_dirX,g_dirY,g_dirZ,-90
+	FaceDir g_dirX,g_dirY,g_dirZ,360,DoTaunt2
+	
+	Exit TRUE
+
+;----------------------------------------------------------
+:OnObstacle
+;----------------------------------------------------------
+
+	stop
+
+	OnObstacle
+	Wait 0,0,DoNothing
+
+	gosub DoTaunts
+
+	exit TRUE
+
+;----------------------------------------------------------
+:KillShmoeDone
+;----------------------------------------------------------
+
+	gosub SendRunAway
+
+	GetFaceDir hWallMarker,g_dirX,g_dirY,g_dirZ
+	FaceDir g_dirX,g_dirY,g_dirZ,360
+	OnObstacle OnObstacle
+	Run
+	Wait 0,2.5,DoTaunts
+
+	Exit TRUE
+
+;----------------------------------------------------------
+:KillShmoe
+;----------------------------------------------------------
+
+	Run
+	Attack KillShmoeDone
+
+	Exit TRUE
+
+;----------------------------------------------------------
+:SendRunAway2
+;
+;	this is done every second or so once we're on our 
+;	rampage...	
+;----------------------------------------------------------
+
+	runAwayDist	= 500
+	gosub SendRunAway
+	Wait 21, 1.5, SendRunAway2
+	Exit
+
+
+;----------------------------------------------------------
+:SendRunAway
+;----------------------------------------------------------
+#numberArray	hRunAway[20]
+#number			counter
+
+	GetObjects NPC,runAwayDist,20,hRunAway,g_nTemp
+
+	counter = 0
+
+	if ( g_nTemp==0 )
+		Exit
+	endif
+
+	while ( counter < g_nTemp )
+		ArrayGet hRunAway,counter,g_hObject
+		GetObjectName g_hObject,g_sTemp
+		if ( g_sTemp!=Ben )
+			trigger g_hObject,RunAwayFromMe
+		else
+			if ( toldBen==TRUE )
+				trigger g_hObject,RunAwayFromMe
+			endif
+		endif
+		Add counter,1
+	endwhile
+
+	Exit
+
+
+;----------------------------------------------------------
+:Taunt1Done
+;----------------------------------------------------------
+
+	GetObjectHandle Shmoe,g_hTarget
+
+	Target g_hTarget,TRUE
+
+	RunTo g_hTarget, 75, KillShmoe
+
+	Exit TRUE
+
+
+;----------------------------------------------------------
+:WallBroken
+;----------------------------------------------------------
+	GetObjectHandle Shmoe,g_hObject
+	Trigger g_hObject,HereComesBadAss
+
+	GetObjectHandle Ben,g_hObject
+	Trigger g_hObject,HereComesBadAss
+
+	Taunt Taunt1Done
+
+	Exit TRUE
+
+;----------------------------------------------------------
+:DestroyWall
+;----------------------------------------------------------
+	RemoveModelKey Rattack
+
+	GetObjectHandle PrisonWall, hPrisonWall
+
+	if (hPrisonWall==NULL)
+		DebugOut ASSERT!! No prison wall?
+		Exit
+	Endif
+	
+	Trigger hPrisonWall,Destroy
+
+	Exit
+
+;----------------------------------------------------------
+:AttackWall
+;----------------------------------------------------------
+
+	AddModelKey Rattack,DestroyWall
+	Attack WallBroken
+
+	Exit
+
+;----------------------------------------------------------
+:AtWallMarker
+;----------------------------------------------------------
+	Stop
+	GetFaceDir hWallMarker,g_dirX,g_dirY,g_dirZ
+	FaceDir g_dirX,g_dirY,g_dirZ,360,AttackWall
+
+	Exit TRUE
+
+;----------------------------------------------------------
+:BreakoutCheck
+;----------------------------------------------------------
+
+
+	Wait 17,1,BreakoutCheck
+	exit
+
+;----------------------------------------------------------
+:OnBreakOut
+;----------------------------------------------------------
+
+	RemoveTrigger BreakOut
+
+	GetObjectHandle PrisonWall, hPrisonWall
+
+	if (hPrisonWall==NULL)
+		DebugOut ASSERT!! No prison wall?
+	Endif
+
+	Stop
+
+	GetObjectHandle BadAssWander1,hWallMarker
+	WalkTo hWallMarker,0,AtWallMarker
+
+	SetStat g_hMyObject,HitPoints,250
+	SetStat g_hMyObject,GaveTreasure,1
+
+
+	Exit
+
+;----------------------------------------------------------
+:OnDamage
+;	p0 - hHeHitMe
+;	p1 - how much damage..
+;----------------------------------------------------------
+
+	GetParam 0,g_hObject
+	IsPlayer g_hObject,g_bTemp
+	GetParam 1,g_nRandom
+	GetStat g_hMyObject,HitPoints,g_nTemp
+	
+	if ( g_bTemp==TRUE )
+		; Don't let the player kill us...
+		Add g_nTemp,g_nRandom
+		SetStat g_hMyObject,HitPoints,g_nTemp
+	endif
+
+	gosub OnDamage,1
+
+	exit
+
+
+;----------------------------------------------------------
+:OnTest
+;----------------------------------------------------------
+	gosub OnBreakOut
+
+	exit
+
+;----------------------------------------------------------
+:SetupBadAss
+;----------------------------------------------------------
+
+	AddTrigger BreakOut, OnBreakOut
+	AddTrigger test,OnTest
+	RemoveEnemy NPC
+	AddFriend NPC
+
+	SetStat g_hMyObject,GaveTreasure,TRUE
+	SetStat g_hMyObject,AC,20
+
+;;;;;	OnDamage OnDamage
+
+	Exit
+
+
+;----------------------------------------------------------
+:Main
+;----------------------------------------------------------
+	
+	GetMyHandle g_hMyObject
+
+	wait 0 1 SetupBadAss
+
+	Exit

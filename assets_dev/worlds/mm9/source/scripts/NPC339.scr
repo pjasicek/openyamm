@@ -1,0 +1,82 @@
+;--------------------------------------------------
+;NPC339.scr
+; timmy
+; handles Jokull the Ugly voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+
+#String    Params          
+#String    sound
+#number                         KeyCheck
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub Bathhouse
+
+
+exit
+
+
+;--------------------------------------------------
+:Bathhouse
+;--------------------------------------------------
+;****************
+;Bathhouse Quest
+;****************
+
+haskey 352 g_ntemp
+if (g_ntemp==0)
+	haskey 351 g_ntemp
+	if (g_ntemp==1)
+		giveexp 80000
+		givegold 5000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		givekey 352
+		exit
+	endif
+endif
+
+
+;End Bathhouse quest
+;******************
+exit
+
+
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_339.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+exit
+

@@ -1,0 +1,163 @@
+;--------------------------------------------------
+;givetake.scr
+;10/4
+; timmy
+; gives party specific item
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#number			Item_ID
+#number			nGiveOnce = FALSE
+
+
+
+
+
+; Parameters
+;P0 Item number of item to give
+
+
+;--------------------------------------------------
+
+
+;--------------------------------------------------
+:OnStart
+;--------------------------------------------------
+SetPropNumber DoRude False
+getobjecthandle Wilam1 g_hobject
+walkto g_hobject 2 DoNothing
+exit
+
+;--------------------------------------------------
+:OnSpeak9
+;--------------------------------------------------
+
+;start speaking
+LoopAnim conv2 0 DoNothing
+Playsound voices\cinema\guberlandplay\10.wav, DoNothing, 100, 512, FALSE, 100
+wait 1 1 WalkTo
+wait 2 6.4 Trigger11
+exit
+
+
+
+;--------------------------------------------------
+:Walkto
+;--------------------------------------------------
+Blendanim Conv1 Donothing
+getobjecthandle Wilam2 g_hobject
+Walkto g_hobject 1 LoopAnim
+exit
+
+;--------------------------------------------------
+:LoopAnim
+;--------------------------------------------------
+
+getobjecthandle ralof g_hobject
+target g_hobject
+wait 1 .1 Animate
+exit
+
+;--------------------------------------------------
+:Animate
+;--------------------------------------------------
+LoopAnim conv3 0 DoNothing
+exit
+
+
+
+;--------------------------------------------------
+:Trigger11
+;--------------------------------------------------
+
+stop
+loopanim stand 0 DoNothing
+getobjecthandle ralof g_hobject
+trigger g_hobject speak11
+exit
+
+;--------------------------------------------------
+:OnTarget
+;--------------------------------------------------
+getparam 0 g_hobject
+target g_hobject
+exit
+
+;--------------------------------------------------
+:OnAttention
+;--------------------------------------------------
+stop
+Loopanim stand 0 DoNothing
+exit
+
+
+;--------------------------------------------------
+:OnExit
+;--------------------------------------------------
+SetPropNumber DoRude TRUE
+target NULL
+getobjecthandle Wilam3 g_hobject
+walkto g_hobject 1 FaceStage
+exit
+
+
+;--------------------------------------------------
+:FaceStage
+;--------------------------------------------------
+
+getobjecthandle trislan g_hobject
+target g_hobject
+exit
+
+
+;--------------------------------------------------
+:OnWalk2
+;--------------------------------------------------
+getobjecthandle trislan g_hobject
+target g_hobject
+getobjecthandle Ralof1 g_hobject
+walkto g_hobject 1 DoNothing
+exit
+
+;--------------------------------------------------
+:OnCastCall
+;--------------------------------------------------
+
+getobjecthandle Wilam4 g_hobject
+walkto g_hobject 1 FaceDoor
+exit
+
+;--------------------------------------------------
+:FaceDoor
+;--------------------------------------------------
+
+getobjecthandle peasant2 g_hobject
+target g_hobject
+exit
+
+;--------------------------------------------------
+:OnBow
+;--------------------------------------------------
+
+PlayAnim Bow DoNothing
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+AddTrigger Start OnStart
+Addtrigger Speak9 OnSpeak9
+Addtrigger target OnTarget
+Addtrigger Attention OnAttention
+Addtrigger Exit OnExit
+Addtrigger walk2 OnWalk2
+AddTrigger CastCall OnCastCall
+AddTrigger Bow OnBow
+exit
+
+

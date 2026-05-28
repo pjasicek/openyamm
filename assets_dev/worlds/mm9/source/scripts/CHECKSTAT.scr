@@ -1,0 +1,61 @@
+;-----------------------------------
+;	CheckStat.inc
+;	by SJR
+;	Purpose:basic stat comparisons
+;
+;	ScriptParams:
+;		p0 = type of stat (ie strength)
+;			0=might, 1=magic, 2=endurance
+;			3=accuracy, 4=speed, 5=luck
+;		p1 = comparison type (-1,0,1) for (<,==,>)
+;		p2 = number to compare with
+;		p3 = object to trigger OnSuccess
+;		p4 = object to trigger OnFailure
+;
+;	Trigger this thing when you want to check a stat
+;	and it will trigger either p3 or p4 when finished.
+;-----------------------------------
+#include CheckStat.inc
+
+#number		opComparison
+
+#hobject	hTrigger = 0
+#string		sSuccessName = ""
+#string		sFailureName = ""
+
+;--------------------
+:Main
+;--------------------
+	GetParam 0, STATINDEX
+	GetParam 1, opComparison
+	GetParam 2, STATCOMPARE
+
+	GetParam 3, sSuccessName
+	GetParam 4, sFailureName
+
+;;	OnPostStartWorld InitCheckStat
+Wait 0, 5, InitCheckStat
+
+	Exit 1
+
+;--------------------
+:InitCheckStat
+;--------------------
+	AddTrigger trigger, CheckThisStat
+
+	Exit 1
+
+;--------------------
+:CheckThisStat
+;--------------------
+	gosub CheckStat
+
+	if( STATRESULT == opComparison )
+		GetObjectHandle sSuccessName, hTrigger
+	else
+		GetObjectHandle sFailureName, hTrigger
+	endif
+
+	Trigger hTrigger, trigger
+
+	Exit 1

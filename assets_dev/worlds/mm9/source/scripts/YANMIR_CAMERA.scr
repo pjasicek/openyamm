@@ -1,0 +1,68 @@
+;-------------------------------------------
+;	Yanmir_Camera.Scr
+;	Jeff Leggett
+;	01/06/2002
+;
+;
+;
+;-------------------------------------------
+
+#hobject	hYanmir
+#hobject	hTemp
+#hobject	NULL=0
+
+
+;-------------------------------------------
+:TurnOn
+;-------------------------------------------
+	
+	LetterBox 1
+
+	GetObjectHandle Yanmir0,hYanmir
+
+	Target hYanmir
+	CreateObjectLink hYanmir
+
+	Exit 0
+
+;-------------------------------------------
+:TurnOff
+;-------------------------------------------
+#hobject	hMe
+
+	GetMyHandle hMe
+	Trigger hMe,OFF
+
+	Exit
+
+;-------------------------------------------
+:OnLinkBroken
+;-------------------------------------------
+
+	GetParam 0,hTemp
+
+	if ( hTemp==hYanmir )
+		Target NULL
+		hYanmir	= NULL
+	Endif
+
+	Wait 0,3,TurnOff
+	Exit
+	
+
+;-------------------------------------------
+:OnTurnOff
+;-------------------------------------------
+	LetterBox 0
+
+	Exit 0
+
+;-------------------------------------------
+:Main
+;-------------------------------------------
+	AddTrigger ON,TurnOn
+	AddTrigger OFF,OnTurnOff
+	OnObjectLinkBroken OnLinkBroken
+
+	Exit
+

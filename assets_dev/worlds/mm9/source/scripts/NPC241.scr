@@ -1,0 +1,74 @@
+;--------------------------------------------------
+;NPC241.scr
+; timmy
+; handles Ea;isaid A'Norta voice and quest stuff
+;--------------------------------------------------
+
+;#include globals.inc
+#include NPCBase.Inc
+
+
+
+;--------------------------------------------------
+:OnRUDEExit
+;--------------------------------------------------
+
+Gosub BlackOrb
+gosub OnRUDEExit, 1
+exit
+
+
+;--------------------------------------------------
+:BlackOrb
+;--------------------------------------------------
+;****************
+;BlackOrb Quest
+;****************
+haskey 315 g_ntemp
+if (g_ntemp==0)
+	haskey 314 g_ntemp
+	if (g_ntemp==1)
+		givekey 315
+		giveexp 50000
+		givegold 10000
+		Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+		takeitem 250
+		exit
+	endif
+endif
+exit
+
+
+;End BlackOrb quest
+;******************
+exit
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_241.wav, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+; traceon 
+
+;OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+
+gosub NPCBaseInit
+
+exit
+

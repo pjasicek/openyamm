@@ -1,0 +1,704 @@
+schema: openyamm.model3d.v1
+id: sheep
+model: sheep.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/SHEEP.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: body
+  materialIndex: 0
+  lods:
+  - faces: 360
+    vertices: 178
+  - faces: 264
+    vertices: 130
+  - faces: 170
+    vertices: 83
+  - faces: 76
+    vertices: 36
+- name: ear1
+  materialIndex: 0
+  lods:
+  - faces: 9
+    vertices: 7
+  - faces: 9
+    vertices: 7
+  - faces: 7
+    vertices: 6
+  - faces: 7
+    vertices: 6
+- name: tail
+  materialIndex: 0
+  lods:
+  - faces: 9
+    vertices: 7
+  - faces: 9
+    vertices: 7
+  - faces: 9
+    vertices: 7
+  - faces: 7
+    vertices: 6
+- name: ear
+  materialIndex: 0
+  lods:
+  - faces: 9
+    vertices: 7
+  - faces: 9
+    vertices: 7
+  - faces: 7
+    vertices: 6
+  - faces: 7
+    vertices: 6
+materials:
+- index: 0
+  texture: skins_preview/sheep1.png
+  runtime_texture: skins/sheep1.dtx
+  preview_texture: skins_preview/sheep1.png
+  source: mm9/extracted/SKINS/SKINS/SHEEP1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: XCENTER
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 23
+  - index: 2
+    name: XbackA
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Xback
+    parent: 2
+    flags: 1
+    children:
+    - 4
+    - 14
+  - index: 4
+    name: Xneckbase
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Xneckpiv
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Xneck
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Xheadpiv
+    parent: 6
+    flags: 1
+    children:
+    - 8
+    - 10
+    - 12
+  - index: 8
+    name: Xhead
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Xjawpiv
+    parent: 8
+    flags: 3
+    children: []
+  - index: 10
+    name: Xearpiv
+    parent: 7
+    flags: 3
+    children:
+    - 11
+  - index: 11
+    name: Xear
+    parent: 10
+    flags: 3
+    children: []
+  - index: 12
+    name: Xearpiv01
+    parent: 7
+    flags: 3
+    children:
+    - 13
+  - index: 13
+    name: Xear01
+    parent: 12
+    flags: 3
+    children: []
+  - index: 14
+    name: Xfrontleg
+    parent: 3
+    flags: 3
+    children:
+    - 15
+    - 19
+  - index: 15
+    name: Xflegpiv
+    parent: 14
+    flags: 3
+    children:
+    - 16
+  - index: 16
+    name: Xfleg
+    parent: 15
+    flags: 3
+    children:
+    - 17
+  - index: 17
+    name: Xfankle
+    parent: 16
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Xffoot
+    parent: 17
+    flags: 1
+    children: []
+  - index: 19
+    name: Xflegpiv01
+    parent: 14
+    flags: 3
+    children:
+    - 20
+  - index: 20
+    name: Xfleg01
+    parent: 19
+    flags: 3
+    children:
+    - 21
+  - index: 21
+    name: Xfankle01
+    parent: 20
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Xffoot01
+    parent: 21
+    flags: 1
+    children: []
+  - index: 23
+    name: XbackB
+    parent: 1
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: XbackC
+    parent: 23
+    flags: 3
+    children:
+    - 25
+    - 26
+    - 31
+  - index: 25
+    name: Xtail
+    parent: 24
+    flags: 3
+    children: []
+  - index: 26
+    name: Xblegpiv
+    parent: 24
+    flags: 3
+    children:
+    - 27
+  - index: 27
+    name: Xbleg
+    parent: 26
+    flags: 3
+    children:
+    - 28
+  - index: 28
+    name: Xblegmid
+    parent: 27
+    flags: 3
+    children:
+    - 29
+  - index: 29
+    name: Xbankle
+    parent: 28
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Xbfoot
+    parent: 29
+    flags: 1
+    children: []
+  - index: 31
+    name: Xblegpiv01
+    parent: 24
+    flags: 3
+    children:
+    - 32
+  - index: 32
+    name: Xbleg01
+    parent: 31
+    flags: 3
+    children:
+    - 33
+  - index: 33
+    name: Xblegmid01
+    parent: 32
+    flags: 3
+    children:
+    - 34
+  - index: 34
+    name: Xbankle01
+    parent: 33
+    flags: 1
+    children:
+    - 35
+  - index: 35
+    name: Xbfoot01
+    parent: 34
+    flags: 1
+    children: []
+sockets:
+- name: RHand1
+  node: 8
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.07079775631427765
+  - 0.997048020362854
+  - 0.029637305065989494
+  - -0.0021220918279141188
+- name: ramhorn
+  node: 7
+  translation:
+  - 0.07998284816741943
+  - -3.5125503540039062
+  - 6.68759033203125
+  rotation:
+  - -0.015270514413714409
+  - 0.0
+  - 0.0
+  - 0.9998834133148193
+animations:
+- name: sheepsetup01
+  durationMs: 366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand
+  durationMs: 1300
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: fidget1
+  durationMs: 2000
+  keyframes: 12
+  interpolationTimeMs: 200
+  events: []
+- name: fidget2
+  durationMs: 2000
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 333
+    event: playanimsound
+- name: walk
+  durationMs: 1000
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 244
+    event: footstep
+  - timeMs: 366
+    event: footstep
+  - timeMs: 732
+    event: footstep
+  - timeMs: 976
+    event: footstep
+- name: run
+  durationMs: 300
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 74
+    event: footstep
+  - timeMs: 110
+    event: footstep
+  - timeMs: 257
+    event: footstep
+  - timeMs: 293
+    event: footstep
+- name: Hattack1
+  durationMs: 500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 122
+    event: playanimsound
+  - timeMs: 244
+    event: Rattack
+- name: Hattack2
+  durationMs: 300
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: wince1
+  durationMs: 600
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 146
+    event: speakanimsound
+- name: wince2
+  durationMs: 600
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 220
+    event: speakanimsound
+- name: die1
+  durationMs: 1600
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0 0 -11
+  - timeMs: 156
+    event: speakanimsound
+  - timeMs: 313
+    event: Velocity  58 0 -38
+  - timeMs: 471
+    event: Velocity  49 0 -19
+  - timeMs: 627
+    event: Velocity  30 0 -7
+  - timeMs: 784
+    event: Velocity  0 0 -2; playdeathsound
+  - timeMs: 941
+    event: Velocity  0 0  0
+  - timeMs: 1255
+    event: Velocity  0 0 -2
+  - timeMs: 1412
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: die2
+  durationMs: 1300
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  2 0 -28
+  - timeMs: 127
+    event: speakanimsound
+  - timeMs: 254
+    event: Velocity -39 0 -17
+  - timeMs: 383
+    event: Velocity -43 0 -17
+  - timeMs: 510
+    event: Velocity -42 0 -16
+  - timeMs: 637
+    event: Velocity -30 0 -11
+  - timeMs: 764
+    event: Velocity -15 0 -5; playdeathsound
+  - timeMs: 891
+    event: Velocity -3 0 -1
+  - timeMs: 1020
+    event: Velocity -9 0 -4
+  - timeMs: 1147
+    event: Velocity 0 0 0; DeadDims 1 0 1
+animationBindings:
+- name: sheepsetup01
+  extents:
+  - 56.32
+  - 51.2
+  - 56.32
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: stand
+  extents:
+  - 56.32
+  - 51.2
+  - 56.32
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: fidget1
+  extents:
+  - 56.32
+  - 51.2
+  - 56.32
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: fidget2
+  extents:
+  - 56.32
+  - 51.2
+  - 56.32
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: walk
+  extents:
+  - 56.32
+  - 51.2
+  - 56.32
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: run
+  extents:
+  - 56.32
+  - 51.2
+  - 56.32
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: Hattack1
+  extents:
+  - 56.32
+  - 51.2
+  - 56.32
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: Hattack2
+  extents:
+  - 56.32
+  - 51.2
+  - 56.32
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: wince1
+  extents:
+  - 56.32
+  - 51.2
+  - 56.32
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: wince2
+  extents:
+  - 56.32
+  - 51.2
+  - 56.32
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: die1
+  extents:
+  - 56.32
+  - 51.2
+  - 56.32
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+- name: die2
+  extents:
+  - 56.32
+  - 51.2
+  - 56.32
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+roles:
+- actor_model
+source_model: models/sheep.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: sheep
+  source_skins: []
+  actor_rows:
+  - table: ACTOR
+    row: 58
+    number: '57'
+    monster_name: Commoner
+    type_picture: Peasant Half-Orc Male A
+    base_name: ''
+  - table: ACTOR
+    row: 59
+    number: '58'
+    monster_name: Town
+    type_picture: Peasant Half-Orc Male B
+    base_name: ''
+  - table: ACTOR
+    row: 60
+    number: '59'
+    monster_name: Shopkeeper
+    type_picture: Peasant Half-Orc Male C
+    base_name: ''
+  - table: ACTOR
+    row: 61
+    number: '60'
+    monster_name: Prisoner
+    type_picture: Peasant Half-Orc Male D
+    base_name: ''
+  - table: ACTOR
+    row: 62
+    number: '61'
+    monster_name: Commoner
+    type_picture: Peasant Half-Orc Female A
+    base_name: ''
+  - table: ACTOR
+    row: 63
+    number: '62'
+    monster_name: Town
+    type_picture: Peasant Half-Orc Female B
+    base_name: ''
+  - table: ACTOR
+    row: 64
+    number: '63'
+    monster_name: Shopkeeper
+    type_picture: Peasant Half-Orc Female C
+    base_name: ''
+  - table: ACTOR
+    row: 65
+    number: '64'
+    monster_name: Prisoner
+    type_picture: Peasant Half-Orc Female D
+    base_name: ''
+  - table: ACTOR
+    row: 66
+    number: '65'
+    monster_name: Commoner Child
+    type_picture: Peasant Half-Orc Child A
+    base_name: ''
+  - table: ACTOR
+    row: 67
+    number: '66'
+    monster_name: Townsfolk Child
+    type_picture: Peasant Half-Orc Child B
+    base_name: ''
+  - table: ACTOR
+    row: 68
+    number: '67'
+    monster_name: Commoner Child
+    type_picture: Peasant Dwarf Child A
+    base_name: ''
+  - table: ACTOR
+    row: 69
+    number: '68'
+    monster_name: Townsfolk Child
+    type_picture: Peasant Dwarf Child B
+    base_name: ''
+  - table: ACTOR
+    row: 239
+    number: '258'
+    monster_name: Bori
+    type_picture: Bori
+    base_name: ''
+  - table: ACTOR
+    row: 240
+    number: '259'
+    monster_name: Ratatosk
+    type_picture: Ratatosk
+    base_name: ''
+  - table: ACTOR
+    row: 241
+    number: '260'
+    monster_name: Hanndl
+    type_picture: Gate Keeper
+    base_name: ''
+  - table: ACTOR
+    row: 244
+    number: '263'
+    monster_name: Wyrde of the Known (Igrid)
+    type_picture: Young Fate
+    base_name: ''
+  - table: ACTOR
+    row: 245
+    number: '264'
+    monster_name: Wyrde of the Knowing (Verdandi)
+    type_picture: Middle Fate
+    base_name: ''
+  - table: ACTOR
+    row: 246
+    number: '265'
+    monster_name: Wyrde of the Unknown (Morgan)
+    type_picture: Old Fate
+    base_name: ''
+  - table: MONSTERS
+    row: 239
+    number: '258'
+    monster_name: Bori
+    type_picture: Bori
+    base_name: PeasantMale
+  - table: MONSTERS
+    row: 240
+    number: '259'
+    monster_name: Ratatosk
+    type_picture: Ratatosk
+    base_name: PeasantMale
+- id: sheep_sheep1
+  source_skins:
+  - skins/sheep1.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 253
+    number: '272'
+    monster_name: Ewe
+    type_picture: Ewe
+    base_name: sheep
+  - table: MONSTERS
+    row: 253
+    number: '272'
+    monster_name: Ewe
+    type_picture: Ewe
+    base_name: sheep
+- id: sheep_sheep2_ramhornblack
+  source_skins:
+  - skins/sheep2.dtx
+  - skins/ramhornblack.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 254
+    number: '273'
+    monster_name: Ram
+    type_picture: Ram
+    base_name: sheep

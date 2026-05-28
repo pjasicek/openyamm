@@ -1,0 +1,103 @@
+;==============================================================
+;	YF_FallingFloor.scr
+;	kd 11-2-01
+;	Parameters
+;
+;	CaveIn Trap: Move large floor chunks to marker below.
+;	
+;	
+;	
+;==============================================================
+
+#include Globals.inc
+#include flags.inc
+
+#hObject	hMe
+#hObject	hMarker
+#hObject	hYanmir
+#hobject	hObject
+
+#number		nVarX = 0
+#number		nVarY = 0
+#number		nVarZ = 0
+
+
+;--------------------------------------------------------------
+:dn
+;--------------------------------------------------------------
+	Exit 1
+
+;-----------------------------------------------------
+:RemoveMe
+;-----------------------------------------------------
+
+	RemoveObject hMe
+	;;Trigger hMe, Destroy
+
+	exit
+
+;--------------------------------------------------------------
+:OnTouchNotify
+;--------------------------------------------------------------
+
+#string name
+
+	GetParam 0, hObject
+
+	GetObjectName hObject,name
+
+	if ( name==Planks0 )
+		OnTouchNotify
+		gosub StopHere
+	endif
+
+
+	Exit
+
+;-----------------------------------------------------
+:StopHere
+;-----------------------------------------------------
+	;;playsound Sounds\Door\doorslammetal01.wav DoNothing hDummy 400 FALSE 100
+;;	RemoveObject hYanmir
+
+	GetObjectHandle Planks0,hObject
+	Trigger hObject,destroy
+
+	GetObjectHandle Xbeams0,g_hObject
+	Trigger g_hObject,destroy
+
+	wait 0,0.1,RemoveMe
+
+	Exit TRUE
+;-----------------------------------------------------
+:GoAway
+;-----------------------------------------------------
+	MoveToPos nVarX, nVarY, nVarZ, 1000, StopHere
+	Exit TRUE
+
+;-----------------------------------------------------
+:DelayAction
+;-----------------------------------------------------
+; Let us go thru world when we fall...
+	SetFlag hMe,FLAG_GOTHRUWORLD
+	goto GoAway
+;;	Wait 0, 1, GoAway
+	Exit TRUE
+
+
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	GetMyHandle hMe
+	GetObjectHandle Yanmir0, hYanmir
+	GetObjectHandle CaveInMarker0, hMarker
+	GetPos hMarker, nVarX, nVarY, nVarZ
+	AddTrigger Disappear, DelayAction
+	OnTouchNotify OnTouchNotify
+	Exit TRUE
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	Wait 0 .1 main2
+	Exit TRUE
+;------------- E n d - O f - F i l e -------------------

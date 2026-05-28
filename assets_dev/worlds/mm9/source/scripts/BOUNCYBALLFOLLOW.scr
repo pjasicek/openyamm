@@ -1,0 +1,163 @@
+;---------------------------------------------------------------------
+:	BouncyBallFollow.scr
+;	Tony Evans
+;
+;	This script is used to make the Bouncy Ball Trap follow the 
+;	nearest player.
+;
+;
+;	Parameters:
+;
+;	p1 - Velocity of Bouncy Ball
+;	
+;
+;---------------------------------------------------------------------
+
+#include globals.inc
+
+#number			velocity=100
+#number			chasearea=1024
+#number			bounceheight=128
+
+#number			heightcounter=0
+#number			up=1
+#number			xstart
+#number			ystart
+#number			zstart
+
+#number			xball
+#number			yball
+#number			zball
+
+#number			xplayer
+#number			yplayer
+#number			zplayer
+
+#hobject		PlayerToChase
+#number			Chasing=0
+
+
+
+;--------------------------------------------------------
+:CheckPlayer
+;--------------------------------------------------------
+	
+
+GetPlayerHandle PlayerToChase, chasearea
+
+	if (PlayerToChase==NULL)
+		Set Chasing, 0
+		gosub ReturnToCenter
+	endif
+
+GetPos PlayerToChase, xplayer, yplayer, zplayer
+
+; Get the position of the Bouncy Ball
+	GetMyHandle g_hMyObject
+	GetPos g_hMyObject, xball, yball, zball
+
+		Set Chasing, 1
+
+; MoveToPos xplayer, yball, zplayer, velocity
+
+FaceObject PlayerToChase, 90
+
+gosub Bounce
+
+Wait .1, CheckPlayer
+
+exit
+
+;--------------------------------------------------------
+:Bounce
+;--------------------------------------------------------
+
+if (xplayer > xball)
+	sub xball, 1
+endif
+
+if (zplayer > xball)
+	sub xball, 1
+endif
+
+if (xplayer < xball)
+	add xball, 1
+endif
+
+if (zplayer < xball)
+	add xball, 1
+endif
+
+if (up==TRUE)
+	add heightcounter, 16
+	add yball, 16
+	if (heightcounter > bounceheight)
+		set up, 0
+	endif
+endif
+if (up=FALSE)
+	sub heightcounter, 16
+	sub yball, 16
+	if (heightcounter < 0)
+		set up, 1
+	endif
+endif
+
+MoveToPos xball, yball, zball, 1000
+
+DEBUGOUT heightcounter
+DEBUGOUT xball
+DEBUGOUT xplayer
+DEBUGOUT yball
+DEBUGOUT yplayer
+DEBUGOUT zball
+DEBUGOUT zplayer
+
+
+exit
+
+
+;--------------------------------------------------------
+:ReturnToCenter
+;--------------------------------------------------------
+
+
+
+;	MoveToPos xstart, ystart, zstart, velocity
+
+exit
+
+;---------------------------------------------------------------------
+:Main
+;---------------------------------------------------------------------
+
+;TRACEON
+
+; Get the starting position of the Bouncy Ball
+	GetMyHandle g_hMyObject
+	GetPos g_hMyObject, xstart, ystart, zstart
+
+; set up the triggers
+	AddTrigger ChasePlayer, CheckPlayer
+	AddTrigger PlayerGone, ReturnToCenter
+
+; get the parameters
+	GetParam 0, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set velocity, g_nTemp
+	endif
+
+	GetParam 1, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set chasearea, g_nTemp
+	endif
+
+	GetParam 2, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set bounceheight, g_nTemp
+	endif
+
+exit

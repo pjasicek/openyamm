@@ -1,0 +1,80 @@
+;-------------------------------------------
+; NavTest.scr
+;
+;	NavPoint testing script...
+;
+;-------------------------------------------
+
+#include aiglobals.inc
+
+
+;-------------------------------------------
+:GoGetHim
+;-------------------------------------------
+
+	if ( g_hTarget!=NULL )
+		Target g_hTarget
+		WalkTo g_hTarget
+	endif
+
+	exit
+
+;-------------------------------------------
+:OnReset
+;-------------------------------------------
+
+	Target NULL
+	Set g_hTarget, NULL
+
+	exit
+
+;-------------------------------------------
+:OnUse
+;-------------------------------------------
+
+	GetParam 0, g_hObject
+	FaceObject g_hObject, 180
+
+	SetInt g_sOut, g_hObject
+
+	exit
+
+;-------------------------------------------
+:OnDisable
+;-------------------------------------------
+
+
+	exit
+
+;-------------------------------------------
+:OnEnable
+;-------------------------------------------
+
+	gosub OnReset
+
+	exit
+
+
+;-------------------------------------------
+:Damage
+;-------------------------------------------
+	GetParam 0, g_hTarget
+	gosub GoGetHim
+	exit
+
+;-------------------------------------------
+:main
+;-------------------------------------------
+
+
+	OnDamageDone				GoGetHim
+	OnDamage					Damage
+
+	AddTrigger Reset, OnReset
+	AddTrigger Use, OnUse
+	AddTrigger Disable, OnDisable
+	AddTrigger Enable, OnEnable
+
+	exit
+
+

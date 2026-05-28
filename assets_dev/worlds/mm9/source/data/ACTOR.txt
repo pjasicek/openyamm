@@ -1,0 +1,2100 @@
+Number	Monster Name	ModelName	SkinName	SkinName2	SkinName3	Type/Picture	LVL	HP	AC	EXP	SPD	TreasureType	Quest	Fly	Move	WalkVelocity	RunVelocity	FlyVelocity	LungeVelocity	AttackReach	AttackRange	Recovery	Target Pref	Bonus	AlertRadius	Accuracy	Type1	Damage1	DmgDie	DmgDieType	DmgBonus	Projectile1	Att%	Type2	Damage2	DmgDie2	DmgDieType2	DmgBonus2	Projectile2	SpellUse%1	"Spl,Mas,Skil1"	SpellUse%2	"Spl,Mas,Skil2"	Always Wince?	WinceThreshold	WinceTrackTime	ElemRes	SpiritRes	DarkRes	LightRes	PhysRes	ScriptName	FootSound	FootRadius	Transparent	HeadTurn	Special	Scale	Evade Chance	Strafe Attack Pct	IsMonster	ConcatAttk	Hostility Group	Treasure Level	BaseName	Projectile2	Att%	Type3	Damage3	DmgDie3	DmgDieType3	DmgBonus3
+1	Commoner	PeasantDF1.abc	PeasantDF1a.dtx			Peasant Dwarf FemaleA A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+2	Commoner	PeasantDF2.abc	PeasantDF2b.dtx			Peasant Dwarf FemaleA B	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+3	Town	PeasantDF4.abc	PeasantDF4b.dtx			Peasant Dwarf FemaleB A	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+4	Town	PeasantDF3.abc	PeasantDF3a.dtx			Peasant Dwarf FemaleB B	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+5	Shopkeeper	PeasantDF1.abc	PeasantDF1b.dtx			Peasant Dwarf FemaleC A	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+6	Shopkeeper	PeasantDF4.abc	PeasantDF4a.dtx			Peasant Dwarf FemaleC B	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+7	Prisoner	PeasantDF3.abc	PeasantDF3b.dtx			Peasant Dwarf FemaleD A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+8	Commoner	PeasantDM1.abc	PeasantDM1a.dtx			Peasant Dwarf MaleA A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+9	Commoner	PeasantDM2.abc	PeasantDM2a.dtx			Peasant Dwarf MaleA B	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+10	Town	PeasantDM4.abc	PeasantDM4a.dtx			Peasant Dwarf MaleB A	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+11	Town	PeasantDM3.abc	PeasantDM3b.dtx			Peasant Dwarf MaleB B	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+12	Shopkeeper	PeasantDM3.abc	PeasantDM3a.dtx			Peasant Dwarf MaleC A	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+13	Shopkeeper	PeasantDM1.abc	PeasantDM1b.dtx			Peasant Dwarf MaleC B	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+13	Shopkeeper	PeasantDM1.abc	PeasantDM1b.dtx			Peasant Dwarf MaleC B	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+15	Commoner	PeasantF8.abc	PeasantF8b.dtx			Peasant Elf FemaleA A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+16	Commoner	PeasantF8.abc	PeasantF8a.dtx			Peasant Elf FemaleA B	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+17	Town	PeasantF6.abc	PeasantF6a.dtx			Peasant Elf FemaleB A	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+18	Town	PeasantF7.abc	PeasantF7a.dtx			Peasant Elf FemaleB B	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+19	Shopkeeper	PeasantF6.abc	PeasantF6b.dtx			Peasant Elf FemaleC A	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+20	Shopkeeper	PeasantF7.abc	PeasantF7b.dtx			Peasant Elf FemaleC B	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+21	Prisoner	PeasantF8.abc	PeasantF8b.dtx			Peasant Elf FemaleD A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	1	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+22	Commoner	PeasantM1d.abc	PeasantM1c.dtx			Peasant Elf MaleA A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+23	Commoner	PeasantM8d.abc	PeasantM8d.dtx			Peasant Elf MaleA B	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+24	Town	PeasantM2d.abc	PeasantM2c.dtx			Peasant Elf MaleB A	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+25	Town	PeasantM7d.abc	PeasantM7d.dtx			Peasant Elf MaleB B	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+26	Shopkeeper	PeasantM2d.abc	PeasantM2d.dtx			Peasant Elf MaleC A	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+27	Shopkeeper	PeasantM7d.abc	PeasantM7c.dtx			Peasant Elf MaleC B	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+28	Prisoner	PeasantM1d.abc	PeasantM1d.dtx			Peasant Elf MaleD A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+29	Commoner	PeasantF1.abc	PeasantF1b.dtx			Peasant Human1 FemaleA A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+30	Commoner	PeasantF4.abc	PeasantF4a.dtx			Peasant Human1 FemaleA B	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+31	Town	PeasantF2.abc	PeasantF2a.dtx			Peasant Human1 FemaleB A	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+32	Town	PeasantF2.abc	PeasantF2b.dtx			Peasant Human1 FemaleB B	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+33	Shopkeeper	PeasantF1.abc	PeasantF1a.dtx			Peasant Human1 FemaleC A	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+34	Shopkeeper	PeasantF5.abc	PeasantF5a.dtx			Peasant Human1 FemaleC B	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+35	Prisoner	PeasantF3.abc	PeasantF3b.dtx			Peasant Human1 FemaleD A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	1	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+36	Commoner	PeasantF5.abc	PeasantF5b.dtx			Peasant Human2 FemaleA A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+37	Commoner	0	0			Peasant Human2 FemaleA B	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+38	Town	0	0			Peasant Human2 FemaleB A	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+39	Town	0	0			Peasant Human2 FemaleB B	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+40	Shopkeeper	PeasantF3.abc	PeasantF3a.dtx			Peasant Human2 FemaleC A	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+41	Shopkeeper	0	0			Peasant Human2 FemaleC B	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+42	Prisoner	PeasantF4.abc	PeasantF4b.dtx			Peasant Human2 FemaleD A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	1	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+43	Commoner	PeasantM1.abc	PeasantM1a.dtx			Peasant Human1 MaleA A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+44	Commoner	PeasantM2.abc	PeasantM2b.dtx			Peasant Human1 MaleA B	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+45	Town	PeasantM3.abc	PeasantM3b.dtx			Peasant Human1 MaleB A	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+46	Town	PeasantM5.abc	PeasantM5b.dtx			Peasant Human1 MaleB B	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+47	Shopkeeper	PeasantM6.abc	PeasantM6a.dtx			Peasant Human1 MaleC A	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+48	Shopkeeper	PeasantM5.abc	PeasantM5a.dtx			Peasant Human1 MaleC B	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+49	Prisoner	PeasantM4.abc	PeasantM4a.dtx			Peasant Human1 MaleD A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+50	Commoner	PeasantM2.abc	PeasantM2a.dtx			Peasant Human2 MaleA A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+51	Commoner	PeasantM7.abc	PeasantM7b.dtx			Peasant Human2 MaleA B	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+52	Town	PeasantM3.abc	PeasantM3a.dtx			Peasant Human2 MaleB A	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+53	Town	PeasantM7.abc	PeasantM7a.dtx			Peasant Human2 MaleB B	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+54	Shopkeeper	PeasantM6.abc	PeasantM6b.dtx			Peasant Human2 MaleC A	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+55	Shopkeeper	PeasantM8.abc	PeasantM8a.dtx			Peasant Human2 MaleC B	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+56	Prisoner	PeasantM1.abc	PeasantM1b.dtx			Peasant Human2 MaleD A	1	3	3	11	9	None	0	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+57	Commoner	sheep.abc				Peasant Half-Orc Male A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+58	Town	sheep.abc				Peasant Half-Orc Male B	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+59	Shopkeeper	sheep.abc				Peasant Half-Orc Male C	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+60	Prisoner	sheep.abc				Peasant Half-Orc Male D	1	3	3	11	9	None	0	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+61	Commoner	sheep.abc				Peasant Half-Orc Female A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+62	Town	sheep.abc				Peasant Half-Orc Female B	2	6	5	24	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+63	Shopkeeper	sheep.abc				Peasant Half-Orc Female C	3	9	6	39	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+64	Prisoner	sheep.abc				Peasant Half-Orc Female D	1	3	3	11	9	None	0	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+65	Commoner Child	sheep.abc				Peasant Half-Orc Child A	1	3	3	11	5	None	1	0	3	50	150	0	100	24	25	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+66	Townsfolk Child	sheep.abc				Peasant Half-Orc Child B	2	6	5	24	5	None	1	0	3	50	150	0	100	24	25	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+67	Commoner Child	sheep.abc				Peasant Dwarf Child A	1	3	3	11	5	None	1	0	3	50	150	0	100	24	25	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+68	Townsfolk Child	sheep.abc				Peasant Dwarf Child B	1	3	5	11	5	None	1	0	3	50	150	0	100	24	25	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+69	Commoner Child	Peasantboy1.ABC	Peasantboy1.dtx			Peasant Human Child A	1	3	3	11	5	None	1	0	3	50	150	0	100	24	25	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+70	Townsfolk Child	Peasantboy2.ABC	Peasantboy3.dtx			Peasant Human Child B	1	3	5	11	5	None	1	0	3	50	150	0	100	24	25	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+71	Commoner Child	PeasantGirl2.ABC	Peasantgirl2.dtx			Peasant Human2 Child A	1	3	5	11	5	None	0	0	3	50	150	0	100	24	25	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+72	Townsfolk Child	PeasantGirl3.ABC	Peasantgirl3.dtx			Peasant Human2 Child B	1	3	5	11	5	None	0	0	3	50	150	0	100	24	25	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+73	Commoner Child	Peasantboy1e.ABC	Peasantboy2.dtx			Peasant Elf Child A	1	3	3	11	5	None	1	0	3	50	150	0	100	24	25	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+74	Townsfolk Child	PeasantGirl1e.ABC	Peasantgirl1.dtx			Peasant Elf Child B	1	3	5	11	5	None	1	0	3	50	150	0	100	24	25	10	0	0	1000		Phys	2D2	2	2	0	0	0	Phys	2D2	2	2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	NPCbase.scr	dirt	100	0	1	0	1	40	0	0	0	1	1		0	0	Phys	2D2	2	2	0
+75	Dragonfly Mite	Dragonfly.abc	dragonfly1.dtx			Dragonfly A	2	6	4	24	8	None	1	1	6	100	250	250	215	36	50	5	0	0	1000		Phys	2D2	2	2	0	BlueThingy	0	Elem	2D2	2	2	0	0	100	"46,N,1,1 (Elemental Bolt)"	0	0	0	40	0.5	10	0	0	0	0	flyrange.scr	0	100	1	0	0	1	40	80	1	0	4	1	Dragonfly	0	0	Elem	0	0	0	0
+76	Dragonfly	Dragonfly.abc	dragonfly2.dtx			Dragonfly B	4	13	8	56	10	None	1	1	6	100	250	250	215	36	50	5	0	0	1000		Phys	3D2+1	3	2	1	YellowThingy	0	Elem	3D2+1	3	2	1	0	100	"46,N,2,2 (Elemental Bolt)"	0	0	0	40	0.5	20	0	0	0	0	flyrange.scr	0	100	1	0	0	1	40	80	1	0	4	1	Dragonfly	0	0	Elem	0	0	0	0
+77	Fire Dragonfly	Dragonfly.abc	dragonfly3.dtx			Dragonfly C	8	30	12	144	12	Item	1	1	6	100	250	250	215	36	50	5	0	0	1000		Phys	4D2+2	4	2	2	RedThingy	0	Elem	4D2+2	4	2	2	0	100	"46,N,4,4  (Elemental Bolt)"	0	0	0	40	0.5	30	0	0	0	0	flyrange.scr	0	100	1	0	0	1	40	80	1	0	4	1	Dragonfly	0	0	Elem	0	0	0	0
+78	Imply	Imp.abc	Imp1.dtx	ImpTrident.dtx		Imp A	3	9	12	39	11	Weapon	1	0	3	50	150	0	100	36	42	9	X	Drunk	1000		Phys	2D7+2	2	7	2	0	0	Phys	2D7+2	2	7	2	0	0	0	0	0	0	40	0.5	5	5	5	5	5	basemelee.scr	impstep	100	0	1	0	1	40	20	1	0	4	1	Imp	0	0	Phys	0	0	0	0
+79	Imp	Imp.abc	Imp2.dtx	ImpTrident.dtx		Imp B	6	21	14	96	11	Weapon	1	0	3	50	150	0	100	36	42	9	X	Cursex2	1000		Phys	2D7+5	2	7	5	0	0	Phys	2D7+5	2	7	5	0	0	0	0	0	0	40	0.5	5	5	5	5	10	basemelee.scr	impstep	100	0	1	0	1	40	20	1	0	4	1	Imp	0	0	Phys	0	0	0	0
+80	Imp Elder	Imp.abc	Imp3.dtx	ImpTrident.dtx		Imp C	9	35	16	171	11	Weapon	1	0	3	50	150	0	100	36	42	8	X	0	1000		Phys	2D7+10	2	7	10	0	0	Phys	2D7+10	2	7	10	0	0	0	0	0	0	40	0.5	10	10	10	10	15	basemelee.scr	impstep	100	0	1	0	1	40	20	1	0	4	1	Imp	0	0	Phys	0	0	0	0
+81	Nagate Hatchling	nagate.abc	nagate1.dtx			Nagate A	5	17	10	75	10	Item	1	0	3	50	150	0	100	30	36	9	0	Poison1	1000		Phys	3D2	3	2	0	0	0	Phys	3D2	3	2	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basecrawl.scr	spiderstep	100	0	0	0	1	40	0	1	0	4	1	Nagate	0	0	Phys	0	0	0	0
+82	Nagate	nagate.abc	nagate2.dtx			Nagate B	8	30	12	144	12	Item	1	0	3	50	150	0	100	30	36	9	0	Poison2	1000		Phys	3D2+3	3	2	3	0	0	Phys	3D2+3	3	2	3	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basecrawl.scr	spiderstep	100	0	0	0	1.5	40	0	1	0	4	1	Nagate	0	0	Phys	0	0	0	0
+83	Nagate Elder	nagate.abc	nagate3.dtx			Nagate C	12	50	16	264	13	Item	1	0	3	50	150	0	100	30	36	9	0	Poison3	1000		Phys	3D2+6	3	2	6	Redline	0	Elem	3D2+6	3	2	6	0	100	"23,M,7,1 (Wrath of the Bugs)"	0	0	0	40	0.5	0	0	0	0	0	crawlrange.scr	spiderstep	100	0	0	0	3	40	0	1	0	4	1	Nagate	0	0	Elem	0	0	0	0
+84	Lobber Pod	LobberPod.ABC	lobberpod.dtx			Lobber A	6	21	5	96	12	None	0	0	4	50	225	0	275	30	36	15	0	0	1000		Phys	2D7+2	2	7	2	GreenThingy	0	Dark	2D7+2	2	7	2	0	0	0	0	0	0	40	0.5	0	0	0	0	0	lobberpod.scr	spiderstep	100	0	0	0	1	40	100	1	0	4	1	lobber	0	0	Dark	0	0	0	0
+85	Lobber Pod	LobberPod.ABC	lobberpod.dtx			Lobber B	9	35	8	171	14	None	0	0	4	50	225	0	275	40	55	15	0	Poison1	1000		Phys	2D7+5	2	7	5	GreenThingy	0	Dark	2D7+5	2	7	5	0	0	0	0	0	0	40	0.5	0	0	0	0	0	lobberpod.scr	spiderstep	100	0	0	0	2	40	100	1	0	4	1	lobber	0	0	Dark	0	0	0	0
+86	Lobber	lobber.abc	lobber.dtx			Lobber C	13	55	10	299	16	Item	0	0	4	0	0	0	0	0	100	9	0	Poison2	1000		Phys	2D7+10	2	7	10	GreenYellowThingy	0	Dark	2D7+10	2	7	10	0	100	"11, E, 6,2 (Poison)"	0	0	0	40	0.5	0	0	0	0	0	lobber.scr	0	100	0	0	0	1	40	0	1	0	4	1	lobber	0	0	Dark	0	0	0	0
+87	Airborne Icky	flyingicky.abc	flyingicky.dtx			Flying Icky A	6	21	5	96	12	None	1	1	6	100	300	300	230	36	50	5	0	Disease1	1000		Phys	1D3	1	3	0	0	0	Phys	1D3	1	3	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	FlyingIcky.scr	0	100	0	0	0	0.5	40	80	1	0	4	1		0	0	Phys	0	0	0	0
+88	Flying Icky	flyingicky.abc	flyingicky.dtx			Flying Icky B	9	35	8	171	14	None	1	1	6	100	300	300	230	36	50	5	0	Disease1	1000		Phys	1D3+2	1	3	2	0	0	Phys	1D3+2	1	3	2	0	0	0	0	0	0	40	0.5	0	0	0	0	0	FlyingIcky.scr	0	100	0	0	0	1	40	80	1	0	4	1		0	0	Phys	0	0	0	0
+89	Astral Icky	flyingicky.abc	flyingicky.dtx			Flying Icky C	13	55	10	299	16	Item	1	1	6	100	300	300	230	36	50	5	0	Disease2	1000		Phys	2D3+2	2	3	2	0	0	Phys	2D3+2	2	3	2	Fire	0	0	0	0	0	40	0.5	0	0	0	0	0	FlyingIcky.scr	0	100	0	0	0	2	40	80	1	0	4	1		0	0	Phys	0	0	0	0
+90	Field Thrall	Thrall.abc	Thrall1.dtx			Thrall A	9	35	8	171	8	None	0	0	2	50	150	0	100	36	42	11	0	Disease1	1000		Phys	1D7	1	7	0	0	0	Phys	1D7	1	7	0	0	0	0	0	0	0	40	0.5	5	5	5	5	10	basemelee.scr	dirt	100	0	1	0	1	40	20	1	0	1	1		0	0	Phys	0	0	0	0
+91	Thrall	Thrall.abc	Thrall2.dtx			Thrall B	13	55	14	299	10	None	0	0	2	50	150	0	100	36	42	10	0	Disease2	1000		Phys	2D7+2	2	7	2	0	0	Phys	2D7+2	2	7	2	0	0	0	0	0	0	40	0.5	10	10	10	10	20	basemelee.scr	dirt	100	0	1	0	1	40	20	1	0	1	1		0	0	Phys	0	0	0	0
+92	Thrall Master	Thrall.abc	Thrall3.dtx			Thrall C	17	79	20	459	12	Item	0	0	2	50	150	0	100	36	42	9	0	Disease2	1000		Phys	3D7+4	3	7	4	0	0	Phys	3D7+4	3	7	4	0	0	0	0	0	0	40	0.5	15	15	15	15	30	basemelee.scr	dirt	100	0	1	0	1	40	20	1	0	1	1		0	0	Phys	0	0	0	0
+93	Bird	crow.abc	crow.dtx			Bird A	9	35	4	171	10	None	1	1	4	0	0	200	150	36	42	7	0	0	1000		Phys	1D8	1	8	0	0	0	Phys	1D8	1	8	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basefly.scr	0	100	0	0	0	1	40	0	1	0	2	1		0	0	Phys	0	0	0	0
+94	Bird	crow.abc	crow.dtx			Bird B	13	55	5	299	11	None	1	1	4	0	0	200	150	36	42	7	0	0	1000		Phys	1D8+2	1	8	2	0	0	Phys	1D8+2	1	8	2	Air	0	0	0	0	0	40	0.5	0	0	0	0	0	basefly.scr	0	100	0	0	0	1.25	40	0	1	0	2	1		0	0	Phys	0	0	0	0
+95	Bird	crow.abc	drow.dtx			Bird C	17	79	8	459	12	None	1	1	4	0	0	200	150	36	42	7	0	0	1000		Phys	1D8+6	1	8	6	0	0	Phys	1D8+6	1	8	6	Fire	0	0	0	0	0	40	0.5	0	0	0	0	0	basefly.scr	0	100	0	0	0	1.5	40	0	1	0	2	1		0	0	Phys	0	0	0	0
+96	Troglodyte	troglodyte.abc	troglodyte1.dtx			Troglodyte A	10	40	5	200	10	Random	1	0	3	50	150	0	150	36	42	10	0	0	1000		Phys	2D4	2	4	0	GreenThingy	0	Spirit	2D4	2	4	0	0	0	0	0	0	0	40	0.5	5	10	10	10	5	baserange.scr	Troglodytestep	100	0	0	0	0.8	40	60	1	0	4	1	Troglodyte	0	0	Spirit	0	0	0	0
+97	Troglodyte Wren	troglodyte.abc	troglodyte2.dtx			Troglodyte B	15	67	9	375	11	Random	1	0	3	50	150	0	150	36	42	9	0	0	1000		Phys	2D4+2	2	4	2	GreenThingy	0	Elem	2D4+2	2	4	2	0	100	"11, N, 3, 1 (Poison)"	0	0	0	40	0.5	10	20	20	20	10	baserange.scr	Troglodytestep	100	0	0	0	1	40	60	1	0	4	1	Troglodyte	0	0	Elem	0	0	0	0
+98	Troglodyte Gnoll	troglodyte.abc	troglodyte3.dtx			Troglodyte C	20	100	14	600	12	Random	1	0	3	50	150	0	150	36	42	8	0	Poison1	1000		Phys	2D4+6	2	4	6	PoisonCloud	0	Dark	2D4+6	2	4	6	0	100	"14, E, 6,1(Disease)"	0	0	0	40	0.5	15	30	30	30	15	baserange.scr	Troglodytestep	100	0	0	0	1.25	40	60	1	0	4	2	Troglodyte	0	0	Dark	0	0	0	0
+99	Cutpurse	highwayman.abc	highwayman1.dtx	HighwaymanSS.dtx	highwaymandagger.dtx	Raider A	12	50	12	264	10	Random	1	0	4	50	150	0	100	36	42	10	E	Stealx1	1000		Phys	2D4+1	2	4	1	0	0	Phys	2D4+1	2	4	1	0	0	0	0	0	0	40	0.5	5	5	5	5	5	basemelee.scr	dirt	100	0	1	0	1	40	0	1	0	5	1		0	0	Phys	0	0	0	0
+100	Burgler	highwayman.abc	highwayman2.dtx	HighwaymanSS.dtx	highwaymandagger.dtx	Raider B	16	73	14	416	11	Random	1	0	4	50	150	0	100	36	42	9	E	Stealx2	1000		Phys	2D4+5	2	4	5	0	0	Phys	2D4+5	2	4	5	0	0	0	0	0	0	40	0.5	10	10	10	10	10	basemelee.scr	dirt	100	0	1	0	1	40	0	1	0	5	1		0	0	Phys	0	0	0	0
+101	Bandit	highwayman.abc	highwayman3.dtx	HighwaymanSS.dtx	highwaymandagger.dtx	Raider C	25	137	16	875	12	Random	1	0	4	50	150	0	100	36	42	8	E	Stealx2	1000		Phys	2D4+10	2	4	10	0	0	Phys	2D4+10	2	4	10	0	0	0	0	0	0	40	0.5	15	15	15	15	15	basemelee.scr	dirt	100	0	1	0	1	40	0	1	0	5	2		0	0	Phys	0	0	0	0
+102	Half Orc Recruit	dookmilitia.abc	DookMilitia1.dtx	dooksword.dtx		Militiaman A	14	61	15	336	10	Weapon	1	0	4	50	150	0	100	36	42	8	H	0	1000		Phys	2D4+4	2	4	4	0	0	Phys	2D4+4	2	4	4	0	0	0	0	0	0	40	0.5	10	10	10	10	5	basemelee.scr	dirt	100	0	1	0	1	40	30	1	0	3	1		0	0	Phys	0	0	0	0
+103	Half Orc Soldier	dookmilitia.abc	DookMilitia1.dtx	dooksword.dtx		Militiaman B	22	114	20	704	11	Weapon	1	0	4	50	150	0	100	36	42	7	H	0	1000		Phys	3D4+6	3	4	6	0	0	Phys	3D4+6	3	4	6	0	0	0	0	0	0	40	0.5	15	15	15	15	10	basemelee.scr	dirt	100	0	1	0	1	40	30	1	0	3	1		0	0	Phys	0	0	0	0
+104	Half Orc Captain	dookmilitia.abc	DookMilitia2.dtx	dooksword.dtx		Militiaman C	30	180	28	1200	12	Weapon	1	0	4	50	150	0	100	36	42	6	H	0	1000		Phys	4D4+8	4	4	8	0	0	Phys	4D4+8	4	4	8	0	0	0	0	0	0	40	0.5	20	20	20	20	15	basemelee.scr	dirt	100	0	1	0	1	40	30	1	0	3	2		0	0	Phys	0	0	0	0
+105	Ice Lobbercicle	LobberPod.ABC	icelobberpod.dtx			Lobber2 A	9	35	8	171	14	None	0	0	4	50	225	0	125	24	36	9	0	Poison1	1000		Phys	2D7+5	2	7	5	BlueThingy	0	Elem	2D7+5	2	7	5	0	0	0	0	0	1	0	0	0	0	0	0	0	lobberpod.scr	spiderstep	100	0	0	0	2	40	100	1	0	4	1	lobber	0	0	Elem	0	0	0	0
+106	Ice Lobber	lobber.abc	icelobber.dtx			Lobber2 B	13	55	10	299	16	Item	0	0	4	0	0	0	0	0	100	9	0	Poison2	1000		Phys	2D7+10	2	7	10	BlueThingy2	0	Elem	2D7+10	2	7	10	0	100	"46, E, 6,1(Elemental Bolt)"	0	0	1	0	0	0	0	0	0	0	lobber.scr	0	100	0	0	0	1	40	0	1	0	4	1	lobber	0	0	Elem	0	0	0	0
+107	Poor-Town Guard	guard.abc	Guard1.dtx	guardpole.dtx		Guard A	20	100	18	600	10	Weapon	1	0	4	50	150	0	100	36	42	9	XE	0	1000		Phys	3D3+6	3	3	6	0	0	Phys	3D3+6	3	3	6	0	0	0	0	0	0	40	0.5	10	10	10	10	10	policeman.scr	dirt	100	0	1	0	1	40	20	0	0	1	2	Guard	0	0	Phys	0	0	0	0
+108	Poor-Town Guard	dookmilitia.abc	DookMilitia1.dtx	dooksword.dtx		Militiaman A	14	61	15	336	10	Weapon	1	0	4	50	150	0	100	36	42	8	H	0	1000		Phys	2D4+4	2	4	4	0	0	Phys	2D4+4	2	4	4	0	0	0	0	0	0	40	0.5	10	10	10	10	5	policeman.scr	dirt	100	0	1	0	1	40	20	0	0	1	1	Guard	0	0	Phys	0	0	0	0
+109	Wealthy-Town Guard	guard.abc	Guard3.dtx	guardpole2.dtx		Guard C	37	247	30	1739	13	Armor	1	0	4	50	150	0	100	36	42	7	XE	Brkweapon	1000		Phys	3D3+14	3	3	14	0	0	Phys	3D3+14	3	3	14	0	0	0	0	0	0	40	0.5	30	30	30	30	30	policeman.scr	dirt	100	0	1	0	1	40	20	0	0	1	2	Guard	0	0	Phys	0	0	0	0
+110	Wealthy-Town Guard	ClanSoldier.abc	ClanSoldier2.dtx	sword.dtx	Clanshieldguard.dtx	Clan SoldierA	34	217	16	1496	13	Armor	1	0	4	50	150	0	100	36	42	10	M	0	1000		Phys	2D8+4	2	8	4	0	0	Phys	2D8+4	2	8	4	0	0	0			0	40	0.5	5	5	5	5	5	policeman.scr	dirt	100	0	1	0	1	40	20	0	0	1	2	Guard	0	0	Phys	0	0	0	0
+111	Guard	guard.abc	Guard1.dtx	guardpole.dtx		Guard A	20	100	18	600	10	Weapon	1	0	4	50	150	0	100	36	42	9	XE	0	1000		Phys	3D3+6	3	3	6	0	0	Phys	3D3+6	3	3	6	0	0	0	0	0	0	40	0.5	10	10	10	10	10	Guardbase.scr	GuardStep	100	0	1	0	1	40	80	1	0	3	1	Guard	0	0	Phys	0	0	0	0
+112	Guard Segeant	guard.abc	Guard2.dtx	guardpole.dtx		Guard B	28	162	24	1064	11	Weapon	1	0	4	50	150	0	100	36	42	8	XE	0	1000		Phys	3D3+10	3	3	10	0	0	Phys	3D3+10	3	3	10	0	0	0	0	0	0	40	0.5	20	20	20	20	20	Guardbase.scr	GuardStep	100	0	1	0	1	40	80	1	0	3	2	Guard	0	0	Phys	0	0	0	0
+113	Guard Captain	guard.abc	Guard3.dtx	guardpole2.dtx		Guard C	37	247	30	1739	13	Armor	1	0	4	50	150	0	100	36	42	7	XE	Brkweapon	1000		Phys	3D3+14	3	3	14	0	0	Phys	3D3+14	3	3	14	0	0	0	0	0	0	40	0.5	30	30	30	30	30	Guardbase.scr	GuardStep	100	0	1	0	1	40	80	1	0	3	2	Guard	0	0	Phys	0	0	0	0
+114	Grey Wolf	wolf.abc	wolf.dtx			Wolf A	24	129	6	816	11	None	1	0	5	65	190	0	210	36	42	9	S	0	1000		Phys	1D10+2	1	10	2	0	0	Phys	1D10+2	1	10	2	0	concat	"11, N, 2,2 (Poison bite)"	0	0	1	0	0	100	10	10	10	10	basecrawl.scr	dirt	100	0	0	0	0.4	40	80	1	10	2	1		0	0	Phys	0	0	0	0
+115	Red Wolf	wolf.abc	Wolfred.dtx			Wolf B	34	217	10	1496	13	None	1	0	5	75	200	0	210	36	42	8	S	0	1000		Phys	1D10+6	1	10	6	0	0	Phys	1D10+6	1	10	6	0	concat	"14, E, 4,3 (Disease bite)"	0	0	1	0	0	100	15	15	15	15	basecrawl.scr	dirt	100	0	0	0	0.5	40	80	1	10	2	2		0	0	Phys	0	0	0	0
+116	Black Wolf	wolf.abc	wolfblack.dtx			Wolf C	50	400	14	3000	17	Item	1	0	5	75	200	0	210	36	42	7	S	0	1000		Phys	2D10+8	2	10	8	0	0	Phys	2D10+8	2	10	8	0	concat	"38, E, 7,1 (Paralyze bite)"	0	0	1	0	0	100	20	20	20	20	basecrawl.scr	dirt	100	0	0	0	0.5	40	80	1	20	2	3		0	0	Phys	0	0	0	0
+120	Dwarven Guard	dwarf.abc	dwarf.dtx			Dwarf A	30	180	6	1200	11	Armor	1	0	4	60	115	0	85	30	36	7	G	0	1000		Phys	4D2+4	4	2	4	Axe	0	Phys	4D2+4	4	2	4	0	0	0	0	0	1	0	0	10	20	20	30	30	basemelee.scr	dwarfstep	100	0	1	0	1	40	80	1	0	3	2	Dwarf	0	0	Phys	0	0	0	0
+121	Dwarven Soldier	dwarf.abc	dwarf.dtx			Dwarf B	39	269	12	1911	12	Weapon	1	0	4	60	115	0	85	30	36	8	G	0	1000		Phys	4D2+8	4	2	8	Axe	0	Phys	4D2+8	4	2	8	0	0	0	0	0	1	0	0	20	30	30	40	40	basemelee.scr	dwarfstep	100	0	1	0	1	40	80	1	0	3	2	Dwarf	0	0	Phys	0	0	0	0
+122	Dwarven Commander	dwarf.abc	dwarf.dtx			Dwarf C	52	426	20	3224	15	Weapon	1	0	4	60	115	0	85	30	36	8	G	Brkarmor	1000		Phys	4D2+16	4	2	16	Axe	0	Phys	4D2+16	4	2	16	0	0	0	0	0	1	0	0	30	40	40	50	50	basemelee.scr	dwarfstep	100	0	1	0	1	40	80	1	0	3	3	Dwarf	0	0	Phys	0	0	0	0
+123	Initiate	monk.abc	Monk1.dtx			Cleric  A	31	189	10	1271	15	Item	1	0	4	50	150	0	100	36	42	9	CP	0	1000		Phys	2D4	2	4	0	0	0	0	0	0	0	0	0	100	"41,N,4,1 (Sparks)"	0	0	1	0	0	5	5	5	5	10	MonkBase.scr	monkstep	100	0	1	0	1	40	80	0	0	1	2	Monk	0	0	0	0	0	0	0
+124	Monk	monk.abc	Monk2.dtx			Cleric  B	40	280	15	2000	18	Item	1	0	4	50	150	0	100	36	42	9	CP	0	1000		Phys	2D4+4	2	4	4	0	0	0	0	0	0	0	0	95	"41,E,6,1 (Sparks)"	0	"26,E,7,3 (Bless)"	1	0	0	10	10	10	10	15	MonkBase.scr	monkstep	100	0	1	0	1	40	80	0	0	1	2	Monk	0	0	0	0	0	0	0
+125	Reverend Monk	monk.abc	Monk3.dtx			Cleric  C	53	439	25	3339	19	Item	1	0	4	50	150	0	100	36	42	8	CP	0	1000		Phys	2D4+8	2	4	8	0	0	0	0	0	0	0	0	85	"3,M,10,2 (Natural Armor)"	0	"33, M, 10,1 (Shared Life)"	1	0	0	15	15	15	15	20	MonkBase.scr	monkstep	100	0	1	0	1	40	80	0	0	1	3	Monk	0	0	0	0	0	0	0
+129	Horde Grunt	ClanSoldier.abc	Beldonian1.dtx	BeldSword.dtx	Beldshield1.dtx	Beldonian HordesA	34	217	14	1496	13	Weapon	1	0	4	50	150	0	100	36	42	9	AR	0	1000		Phys	2D6+2	2	6	2	0	0	Phys	2D6+2	2	6	2	FireAr	0	0	0	0	0	40	0.5	5	5	5	5	5	basemelee.scr	soldierstep	100	0	1	0	1	40	80	1	0	5	2	Soldier	0	0	Phys	0	0	0	0
+130	Horde Warrior	ClanSoldier.abc	Beldonian2.dtx	BeldSword.dtx	Beldshield2.dtx	Beldonian HordesB	44	325	16	2376	15	Weapon	1	0	4	50	150	0	100	36	42	9	AR	0	1000		Phys	3D6+3	3	6	3	0	0	Phys	3D6+3	3	6	3	FireAr	0	0	0	0	0	40	0.5	10	10	10	10	10	basemelee.scr	soldierstep	100	0	1	0	1	40	80	1	0	5	2	Soldier	0	0	Phys	0	0	0	0
+131	Horde Leader	ClanSoldier.abc	Beldonian3.dtx	BeldSwordOld.dtx	Beldshield3.dtx	Beldonian HordesC	54	453	22	3456	18	Armor	1	0	4	50	150	0	100	36	42	8	AR	0	1000		Phys	3D7+3	3	7	3	0	0	Phys	3D7+3	3	7	3	FireAr	0	0	0	0	0	40	0.5	15	15	15	15	15	basemelee.scr	soldierstep	100	0	1	0	1	40	80	1	0	5	3	Soldier	0	0	Phys	0	0	0	0
+132	Clan Soldier	ClanSoldier.abc	ClanSoldier1.dtx	sword.dtx	Clanshield1.dtx	Clan SoldierA	34	217	16	1496	13	Armor	1	0	4	50	150	0	100	36	42	10	M	0	1000		Phys	2D8+4	2	8	4	0	0	Phys	2D8+4	2	8	4	0	0	0	0	0	0	40	0.5	5	5	5	5	5	basemelee.scr	soldierstep	100	0	1	0	1	40	80	0	0	1	2	Soldier	0	0	Phys	0	0	0	0
+133	Clan Corporal	ClanSoldier.abc	ClanSoldier6.dtx	sword.dtx	Clanshield2.dtx	Clan SoldierB	44	325	19	2376	15	Armor	1	0	4	50	150	0	100	36	42	9	M	0	1000		Phys	2D8+12	2	8	12	0	0	Phys	2D8+12	2	8	12	0	0	0	0	0	0	40	0.5	10	10	10	10	10	basemelee.scr	soldierstep	100	0	1	0	1	40	80	0	0	1	2	Soldier	0	0	Phys	0	0	0	0
+134	Clan Sergeant	ClanSoldier.abc	ClanSoldier9.dtx	sword.dtx	Clanshield3.dtx	Clan SoldierC	54	453	28	3456	18	Weapon	1	0	4	50	150	0	100	36	42	8	M	0	1000		Phys	2D8+20	2	8	20	0	0	Phys	2D8+20	2	8	20	0	0	0	0	0	0	40	0.5	15	15	15	15	15	basemelee.scr	soldierstep	100	0	1	0	1	40	80	0	0	1	3	Soldier	0	0	Phys	0	0	0	0
+135	Skeleton	skeleton.abc	Skeleton2.dtx	skeletondagger.dtx		Skeleton Warrior A	35	227	8	1575	14	Weapon	0	0	4	50	150	0	180	36	42	10	0	0	1000		Phys	3D4	3	4	0	0	0	Phys	3D4	3	4	0	0	0	0	0	0	0	40	0.5	0	0	0	0	5	basemelee.scr	skeletonstep	100	0	1	0	1	40	80	1	0	6	2	skeleton	0	0	Phys	0	0	0	0
+136	Skeleton Warrior	skeletonwarrior.abc	SkeletonWar2.dtx	skeletonscimitar.dtx		Skeleton Warrior B	45	337	10	2475	16	Weapon	0	0	4	50	150	0	180	36	42	9	0	Afraid	1000		Phys	3D4+2	3	4	2	Knife	0	Phys	3D4+2	3	4	2	0	0	0	0	0	0	40	0.5	0	0	0	0	5	basemelee.scr	skeletonstep	100	0	1	0	1	40	80	1	0	6	3	skeleton	0	0	Phys	0	0	0	0
+137	Skeleton Master	skeletonwarrior.abc	SkeletonWar1.dtx	skeletonscimitar.dtx		Skeleton Warrior C	55	467	14	3575	20	Weapon	0	0	4	50	150	0	180	36	42	8	0	Curse	1000		Phys	3D4+4	3	4	4	Axe	0	Phys	3D4+4	3	4	4	0	0	0	0	0	0	40	0.5	0	0	0	0	5	basemelee.scr	skeletonstep	100	0	1	0	1	40	80	1	0	6	3	skeleton	0	0	Phys	0	0	0	0
+138	Shadow	ghost.abc	ghost.dtx			Ghost A	36	237	25	1656	14	Item	0	1	7	50	150	150	200	36	42	10	CP	Afraid	1000		Dark	1D6+6	1	6	6	0	0	Dark	1D6+6	1	6	6	0	0	0	0	0	0	40	0.5	10	10	100	10	10	ghost.scr	0	100	1	0	0	1.8	40	80	1	0	6	2		0	0	Dark	0	0	0	0
+139	Apparition	ghost.abc	ghost.dtx			Ghost B	46	349	30	2576	16	Item	0	1	7	50	150	150	200	36	42	9	CP	Agex2	1000		Dark	2D6+6	2	6	6	0	0	Dark	2D6+6	2	6	6	0	0	0	0	0	0	40	0.5	15	15	100	15	15	ghost.scr	0	100	1	0	0	1.8	40	80	1	0	6	2		0	0	Dark	0	0	0	0
+140	Specter	ghost.abc	ghost.dtx			Ghost C	56	481	35	3696	20	Item	0	1	7	50	150	150	200	36	42	9	CP	Uncon	1000		Dark	3D6+6	3	6	6	0	0	Dark	3D6+6	3	6	6	0	100	"4,M,10,4 (DarkGrasp)"	0	0	0	40	0.5	20	20	100	20	20	ghost.scr	0	100	1	0	0	1.8	40	80	1	0	6	3		0	0	Dark	0	0	0	0
+144	Canopic Mummy	Mummy.abc	mummy1.dtx			Mummy A	40	280	14	2000	13	Random	1	0	5	40	125	0	75	36	42	9	0	0	1000		Dark	9D4	9	4	0	0	0	Dark	9D4	9	4	0	0	concat	"14, N, 2,1  (Disease)"	0	0	0	40	0.5	20	20	20	20	10	basemelee.scr	dirt	100	0	1	0	1	40	80	1	0	6	3	mummy	0	0	Dark	0	0	0	0
+145	Embalmed Mummy	Mummy.abc	mummy2.dtx			Mummy B	50	400	18	3000	15	Random	1	0	5	40	125	0	75	36	42	8	0	0	1000		Dark	12D4	12	4	0	0	0	Dark	12D4	12	4	0	0	concat	"14, E, 5,1  (Disease)"	0	0	0	40	0.5	30	30	30	30	20	basemelee.scr	dirt	100	0	1	0	1	40	80	1	15	6	3	mummy	0	0	Dark	0	0	0	0
+146	Petrified Mummy	Mummy.abc	mummy3.dtx			Mummy C	60	540	30	4200	18	Random	1	0	5	40	125	0	75	36	42	7	0	0	1000		Dark	16D4	16	4	0	0	0	Dark	16D4	16	4	0	0	95	"10,M,12,3 (Curse)"	0	"34, G,12,1 (Resurrection)"	0	40	0.5	40	40	40	40	30	basemelee.scr	dirt	100	0	1	0	1	40	80	1	20	6	3	mummy	0	0	Dark	0	0	0	0
+147	Dagrell	dagrell.abc	dagrell1.dtx			Dagrell A	42	302	8	2184	15	Item	0	0	6	125	400	0	350	36	42	10	0	Brkweapon	1000		Phys	1D6	1	6	0	0	0	Phys	1D6	1	6	0	0	0	0	0	0	0	40	0.5	0	0	0	0	100	dagrell.scr	dagrellstep	100	1	1	0	1	40	80	1	0	7	2	Dagrell	0	0	Phys	0	0	0	0
+148	Venomous Dagrell	dagrell.abc	dagrell2.dtx			Dagrell B	52	426	10	3224	18	Item	0	0	6	125	400	0	350	36	42	10	0	Brkarmor	1000		Phys	3D6	3	6	0	0	0	Phys	3D6	3	6	0	0	concat	"9,E,5,1 (fear)"	0	0	0	40	0.5	0	0	0	0	100	dagrell.scr	dagrellstep	100	1	1	0	1	40	80	1	10	7	3	Dagrell	0	0	Phys	0	0	0	0
+149	Spectre Dagrell	dagrell.abc	dagrell3.dtx			Dagrell C	62	570	12	4464	22	Item	0	0	6	125	400	0	350	36	42	10	0	Brkitem	1000		Phys	5D6	5	6	0	0	0	Phys	5D6	5	6	0	0	concat	"32,E,7,1 (Paralyze)"	0	0	0	40	0.5	0	0	0	0	100	dagrell.scr	dagrellstep	100	1	1	0	1	40	80	1	15	7	4	Dagrell	0	0	Phys	0	0	0	0
+150	Basilisk	basilisk.abc	basilisk.dtx			Basilisk A	44	325	18	2376	15	Item	1	0	6	75	150	0	200	36	42	9	DR	Poison2	1000		Phys	1D12+4	1	12	4	GreenYellowThingy	0	Phys	1D12+4	1	12	4	0	concat	"11, N, 2,1 (Poison)"	0	0	0	40	0.5	10	10	10	10	10	basecrawl.scr	basiliskstep	100	0	0	0	1	40	80	1	0	7	3	Basilisk	0	0	Phys	0	0	0	0
+151	Fibrase Basilisk	basilisk.abc	basilisk.dtx			Basilisk B	54	453	25	3456	18	Item	1	0	6	75	150	0	200	36	42	8	DR	Poison3	1000		Phys	1D12+8	1	12	8	GreenYellowThingy	0	Phys	1D12+8	1	12	8	0	concat	"11, N, 5,3 (Poison)"	0	0	0	40	0.5	20	20	20	20	20	basecrawl.scr	basiliskstep	100	0	0	0	1	40	80	1	0	7	3	Basilisk	0	0	Phys	0	0	0	0
+152	King Basilisk	basilisk.abc	basilisk.dtx			Basilisk C	64	601	32	4736	22	Item	1	0	6	75	150	0	200	36	42	7	DR	Poison3x2	1000		Phys	2D12+10	2	12	10	GreenYellowThingy	0	Dark	2D12+10	2	12	10	0	concat	"11, E, 8,5 (Poison)"	0	0	0	40	0.5	30	30	30	30	30	basecrawl.scr	basiliskstep	100	0	0	0	1	40	80	1	0	7	4	Basilisk	0	0	Dark	0	0	0	0
+153	Baron	Nobleman.abc	Nobleman1.dtx			Nobleman A	45	337	14	2475	18	Random	1	0	5	50	150	0	100	36	42	9	P	0	1000		Phys	9D4	9	4	0	Arrow	0	Phys	9D4	9	4	0	0	0	0	0	0	1	0	0	20	20	20	20	10	baserange.scr	dirt	100	0	1	0	1	40	80	1	0	1	3	Nobleman	0	0	Phys	0	0	0	0
+154	Viscount	Nobleman.abc	Nobleman2.dtx			Nobleman B	55	467	18	3575	22	Random	1	0	5	50	150	0	100	36	42	8	P	0	1000		Phys	12D4	12	4	0	Arrow	0	Phys	12D4	12	4	0	0	0	0	0	0	1	0	0	30	30	30	30	20	baserange.scr	dirt	100	0	1	0	1	40	80	1	0	1	3	Nobleman	0	0	Phys	0	0	0	0
+155	Count	Nobleman.abc	Nobleman4.dtx			Nobleman C	65	617	30	4875	28	Random	1	0	5	50	150	0	100	36	42	7	P	0	1000		Phys	16D4	16	4	0	Arrow	0	Phys	16D4	16	4	0	0	0	0	0	0	1	0	0	40	40	40	40	30	baserange.scr	dirt	100	0	1	0	1	40	80	1	0	1	4	Nobleman	0	0	Phys	0	0	0	0
+156	Evil Apprentice	EvilSorcerer.abc	EvilSorcerer1.dtx			EvilSorcerer A	45	337	25	2475	18	Random	1	0	5	50	150	0	100	36	42	6	0	0	1000		Phys	2D8+10	2	8	10	Arrow	0	Phys	2D8+10	2	8	10	0	100	"10, M, 8,5 (Curse)"	0	0	1	0	0	20	20	20	20	20	EvilSorcerer.scr	dirt	100	0	1	0	1	40	80	1	0	5	4		0	0	Phys	0	0	0	0
+157	Evil Sorcerer	EvilSorcerer.abc	EvilSorcerer2.dtx			EvilSorcerer B	55	467	35	3575	22	Random	1	0	5	50	150	0	100	36	42	5	0	0	1000		Phys	2D8+15	2	8	15	Arrow	0	Phys	2D8+15	2	8	15	0	85	"19,E,6,1 (Elemental Blast)"	0	"1,E,7,2 (Pain Reflection)"	1	0	0	30	30	30	30	20	EvilSorcerer.scr	dirt	100	0	1	0	1	40	80	1	0	5	3		0	0	Phys	0	0	0	0
+158	Evil Grand Sorcerer	EvilSorcerer.abc	EvilSorcerer3.dtx			EvilSorcerer C	65	617	45	4875	28	Random	1	0	5	50	150	0	100	36	42	4	2	0	1000		Phys	2D8+20	2	8	20	Arrow	0	Phys	2D8+20	2	8	20	0	75	"22,M,10,1 (Elemental Sheild)"	0	"17,M,10,1 (Chain Lightning)"	1	0	0	40	40	40	40	20	EvilSorcerer.scr	dirt	100	0	1	0	1	40	80	1	0	5	4		0	0	Phys	0	0	0	0
+159	Winged Oddity	WingedMutant.abc	WingedMutant1.dtx			Winged Mutant A	67	649	20	5159	16	Item	1	1	7	75	350	350	200	36	42	8	0	0	1000		Phys	3D10+20	3	10	20	Arrow	0	Phys	3D10+20	3	10	20	0	100	"41, N, 3,2 (Sparks)"	0	0	0	40	0.5	10	10	10	10	20	flyrange.scr	0	100	0	1	0	1	40	80	1	0	7	4		0	0	Phys	0	0	0	0
+160	Winged Mutant	WingedMutant.abc	WingedMutant2.dtx			Winged Mutant B	77	823	30	6699	22	Item	1	1	7	75	350	350	200	36	42	7	0	0	1000		Phys	4D10+25	4	10	25	Arrow	0	Phys	4D10+25	4	10	25	0	100	"41, E, 6,4 (Sparks)"	0	0	0	40	0.5	20	20	20	20	30	flyrange.scr	0	100	0	1	0	1	40	80	1	0	7	4		0	0	Phys	0	0	0	0
+161	Winged Aberration	WingedMutant.abc	WingedMutant3.dtx			Winged Mutant C	87	1017	40	8439	27	Item	1	1	7	75	350	350	200	36	42	6	0	BrkArmor	1000		Phys	5D10+30	5	10	30	Arrow	0	Phys	5D10+30	5	10	30	0	100	"41, M, 9,7 (Sparks)"	0	0	0	40	0.5	30	100	30	30	40	flyrange.scr	0	100	0	1	0	1	40	80	1	0	7	5		0	0	Phys	0	0	0	0
+162	Fright	banshee.abc	bansheeA.dtx			Banshee A	70	700	10	5600	25	Item	0	0	7	75	200	200	225	0	0	9	0	0	1000		Dark	3D12	3	12	0	Arrow	0	Dark	3D12	3	12	0	0	100	"9, E, 4,1 (fear)"	0	0	0	40	0.5	10	10	100	10	50	Banshee.scr	0	100	1	0	0	1	40	40	1	0	6	5	Banshee	0	0	Dark	0	0	0	0
+163	Dread	banshee.abc	bansheeA.dtx			Banshee B	80	880	13	7200	30	Item	0	0	7	75	200	200	225	0	0	9	0	0	1000		Dark	4D12	4	12	0	Arrow	0	Dark	4D12	4	12	0	0	100	"9, E, 8,1 (fear)"	0	0	0	40	0.5	15	15	100	15	60	Banshee.scr	0	100	1	0	0	1	40	40	1	0	6	5	Banshee	0	0	Dark	0	0	0	0
+164	Terror	banshee.abc	bansheeA.dtx			Banshee C	90	1080	16	9000	40	Item	0	0	7	75	200	200	225	0	0	8	0	0	1000		Dark	6D12	6	12	0	Arrow	0	Dark	6D12	6	12	0	0	100	"9, M, 10,1 (fear)"	0	0	0	40	0.5	20	20	100	20	70	Banshee.scr	0	100	1	0	0	1	40	40	1	0	6	5	Banshee	0	0	Dark	0	0	0	0
+165	Trellborg	trellborg.abc	Trellborg1.dtx	trellborgclub.dtx		Trellborg A	70	700	18	5600	16	Weapon	1	0	5	75	200	200	150	36	50	9	W	0	1000		Phys	2D10+4	2	10	4	0	0	Phys	2D10+4	2	10	4	0	0	0	0	0	0	40	0.5	5	10	10	100	10	basemelee.scr	dirt	100	0	1	0	1	40	80	1	0	7	5	Trellborg	0	0	Phys	0	0	0	0
+166	Kin Trellborg	trellborg.abc	Trellborg2.dtx	trellborgclub.dtx		Trellborg B	80	880	28	7200	22	Weapon	1	0	5	75	200	200	150	36	50	8	W	0	1000		Phys	3D10+6	3	10	6	0	0	Phys	3D10+6	3	10	6	0	0	0	0	0	0	40	0.5	10	20	20	100	20	basemelee.scr	dirt	100	0	1	0	1	40	80	1	0	7	5	Trellborg	0	0	Phys	0	0	0	0
+167	Ancient Trellborg	trellborg.abc	Trellborg3.dtx	trellborgclub.dtx		Trellborg C	90	1080	38	9000	27	Weapon	1	0	5	75	200	200	150	36	50	7	W	0	1000		Phys	4D10+10	4	10	10	0	0	Phys	4D10+10	4	10	10	0	0	0	0	0	0	40	0.5	15	30	30	100	30	basemelee.scr	dirt	100	0	1	0	1	40	80	1	0	7	5	Trellborg	0	0	Phys	0	0	0	0
+168	Jellyspore	jellyspore.abc	jellyspore1.dtx			JellysporeA	15	67	9	375	14	none	0	1	5	75	200	200	225	36	50	7	0	0	1000		Phys	3D6	3	6	0	0	0	Phys	2D4	2	4	0	0	0	0	0	0	0	40	0.5	10	5	5	5	10	BaseSwim.scr	0	0	1	0	0	1	40	80	1	0	7	1	Jellyspore	0	0	Phys	0	0	0	0
+169	Gelatinous Spore	jellyspore.abc	jellyspore2.dtx			JellysporeB	20	100	15	600	16	none	0	1	6	75	200	200	225	36	50	7	0	0	1000		Phys	3D6+2	3	6	2	0	0	Phys	2D6	2	6	0	0	0	0	0	0	0	40	0.5	30	10	10	15	30	BaseSwim.scr	0	0	1	0	0	1	40	80	1	0	7	2	Jellyspore	0	0	Phys	0	0	0	0
+170	Nettle Spore	jellyspore.abc	jellyspore4.dtx			JellysporeC	25	137	21	875	20	none	0	1	7	75	200	200	225	36	50	7	0	0	1000		Phys	3D6+4	3	6	4	0	0	Phys	2D6+3	2	6	3	0	0	0	0	0	0	40	0.5	45	15	10	15	45	BaseSwim.scr	0	0	1	0	0	1	40	80	1	0	7	2	Jellyspore	0	0	Phys	0	0	0	0
+171	Gezzamptling	gezzampt.abc	Gezzampt.dtx			Gezzampt A	72	734	35	5904	25	Item	1	0	4	75	200	0	150	36	50	8	2	BrkArmor	1000		Phys	3D10+20	3	10	20	0	0	Phys	3D10+20	3	10	20	0	0	0	0	0	0	40	0.5	30	30	30	30	20	basemelee.scr	dirt	100	0	1	0	1	40	80	1	0	7	4	Gezzampt	0	0	Phys	0	0	0	0
+172	Gezzampt	gezzampt.abc	Gezzampt2.dtx			Gezzampt B	82	918	50	7544	30	Item	1	0	4	75	200	0	150	36	50	7	2	BrkArmor	1000		Phys	4D10+30	4	10	30	0	0	Phys	4D10+30	4	10	30	0	0	0	0	0	0	40	0.5	40	40	40	40	25	basemelee.scr	dirt	100	0	1	0	1	40	80	1	0	7	5	Gezzampt	0	0	Phys	0	0	0	0
+173	Gezzampt Elder	gezzampt.abc	Gezzampt3.dtx			Gezzampt C	92	1122	80	9384	35	Item	1	0	4	75	200	0	150	36	50	6	3	BrkArmor	1000		Phys	5D10+40	5	10	40	0	0	Phys	5D10+40	5	10	40	0	0	0	0	0	0	40	0.5	50	50	50	50	30	basemelee.scr	dirt	100	0	1	0	1	40	80	1	0	7	5	Gezzampt	0	0	Phys	0	0	0	0
+174	Ghast	ghoul.abc	ghoul1.dtx			Ghoul A	73	751	8	6059	25	Item	1	0	7	75	200	0	150	36	50	11	CP	Disease1/Afraid	1000		Phys	1D7	1	7	0	0	0	Phys	1D7	1	7	0	0	concat	"9,N,2,1 (fear)"	0	0	0	40	0.5	0	0	100	0	0	basemelee.scr	Wightstep	100	0	1	0	1	40	80	1	0	6	4	Ghoul	0	0	Phys	0	0	0	0
+175	Ghoul	ghoul.abc	ghoul2.dtx			Ghoul B	83	937	14	7719	30	Item	1	0	7	75	200	0	150	36	50	10	CP	Paralyze/Afraid	1000		Phys	2D7+2	2	7	2	0	0	Phys	2D7+2	2	7	2	0	concat	"9, E, 6,1 (fear)"	0	0	0	40	0.5	0	0	100	0	0	basemelee.scr	Wightstep	100	0	1	0	1	40	80	1	0	6	5	Ghoul	0	0	Phys	0	0	0	0
+176	Revenant	ghoul.abc	ghoul3.dtx			Ghoul C	93	1143	20	9579	35	Item	1	0	7	75	200	0	150	36	50	9	CP	Paralyze/Afraid	1000		Phys	3D7+4	3	7	4	0	0	Phys	3D7+4	3	7	4	0	concat	"9, M, 10,1 (fear)"	0	"32, E, 5,1 (Paralyze)"	0	40	0.5	0	0	100	0	0	basemelee.scr	Wightstep	100	0	1	0	1	40	80	1	0	6	5	Ghoul	0	0	Phys	0	0	0	0
+177	Sea Monster Male	seamonster.abc	SeaCreatureF.dtx			Sea Monster A	25	137	16	875	35	Item	0	0	8	100	100	200	225	36	50	7	0		1000		Phys	2d12	3	12	0			Phys	2d6	2	6	0						0	40	0.5	15	0	15	0	10	BaseSwim.scr		0	1	0	0	1	40	80	1	0	4	2		0		Phys	0	0	0	0
+178	Sea Monster Female	seamonster.abc	SeaCreatureM.dtx			Sea Monster B	28	162	20	1064	45	Item	0	0	8	100	100	200	225	36	50	5	0				Phys	4d12	4	12	0			Phys	4d6	4	6	0						0	40	0.5	35	0	35	0	20	BaseSwim.scr		0	1	0	0	1.2	40	80	1	0	4	3		0		Phys	0	0	0	0
+179																																																											40	80		0				0			0	0	0	0
+180	Rotter	Zombie.abc	Zombie1.dtx			Zombie A	75	787	25	6375	25	Random	1	0	4	50	150	0	200	0	0	6	0	Disease2	1000		Phys	2D6+8	2	6	8	0	0	Phys	2D6+8	2	6	8	0	0	0	0	0	0	40	0.5	100	20	20	20	20	basemelee.scr	zombiestep	100	0	1	0	1	40	80	1	0	6	4	Zombie	0	0	Phys	0	0	0	0
+181	Dripper	Zombie.abc	Zombie2.dtx			Zombie B	85	977	35	8075	35	Random	1	0	4	50	150	0	200	0	0	5	0	Disease3	1000		Phys	2D6+14	2	6	14	0	0	Phys	2D6+14	2	6	14	0	concat	"14, E, 5,1 (Disease)"	0	"5, E, 6,1 (Wound)"	0	40	0.5	100	30	30	30	30	basemelee.scr	zombiestep	100	0	1	0	1	40	80	1	10	6	5	Zombie	0	0	Phys	0	0	0	0
+182	Zombie	Zombie.abc	Zombie3.dtx			Zombie C	95	1187	45	9975	45	Random	1	0	4	50	150	0	200	0	0	4	0	DrainSP	1000		Phys	2D6+20	2	6	20	0	0	Phys	2D6+20	2	6	20	0	95	"6,M,10,1 (SpellReaver)"	0	"34, G,12,1 (Resurrection)"	0	40	0.5	100	40	40	40	40	basemelee.scr	zombiestep	100	0	1	0	1	40	80	1	15	6	5	Zombie	0	0	Phys	0	0	0	0
+183	Skeletoid	skeleton.abc	Skeleton1.dtx	skeletondagger.dtx		Skeleton Warriorlet A	2	6	8	24	14	Weapon	0	0	4	50	150	0	100	36	42	10	0	0	1000		Phys	3D4	3	4	0	0	0	Phys	3D4	3	4	0	0	0	0	0	0	0	40	0.5	0	0	0	0	5	basemelee.scr	skeletonstep	100	0	1	0	0.5	40	80	1	0	6	1	skeleton	0	0	Phys	0	0	0	0
+184	Bone Thrasher	skeleton.abc	Skeleton2.dtx	skeletondagger.dtx		Skeleton Warriorlet B	4	13	8	56	14	Weapon	0	0	4	50	150	0	100	36	42	10	0	0	1000		Phys	3D4	3	4	0	0	0	Phys	3D4	3	4	0	0	10	"9,N,2,1 (fear)"	20	"46,N,2,1 (Elemental Bolt)"	0	40	0.5	0	0	0	0	5	basemelee.scr	skeletonstep	100	0	1	0	0.5	40	80	1	0	6	1	skeleton	0	0	Phys	0	0	0	0
+185																																																											40	80		0				0			0	0	0	0
+186	Honk	honkfemale.abc	honkf1.dtx			Honk Worshipper A	15	67	10	375	20	Random	1	0	5	50	150	0	100	36	38	9	CP	0	1000		Phys	2D4	2	4	0	0	0	Phys	2D4	2	4	0	0	0	0	0	0	1	0	0	5	5	5	5	10	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	1		0	0	Phys	0	0	0	0
+187	Elder Honk	honkmale.abc	honkm3.dtx	honkhat.dtx		Honk Worshipper B	24	129	15	816	30	Random	1	0	5	50	150	0	100	36	38	9	CP	0	1000		Phys	2D4+4	2	4	4	0	0	Phys	2D4+4	2	4	4	0	0	0	0	0	1	0	0	10	10	10	10	15	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	1		0	0	Phys	0	0	0	0
+188	Honk Seer	honkmale.abc	honkleader.dtx	elderhonkhat.dtx		Honk Worshipper C	30	180	25	1200	35	Random	1	0	5	50	150	0	100	36	38	8	CP	0	1000		Phys	2D4+8	2	4	8	0	0	Phys	2D4+8	2	4	8	0	0	0	0	0	1	0	0	15	15	15	15	20	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	2		0	0	Phys	0	0	0	0
+189	Lizard-Orc	lizardorc.abc	LizardOrc.dtx	LizOrcCutlass.dtx		Lizard-Orc A	78	842	8	6864	20	Weapon	0	0	4	75	200	0	150	36	60	10	D	0	1000		Phys	2D10	2	10	0	0	0	Phys	2D6	2	6	0	Earth	0	0	0	0	0	40	0.5	0	20	20	100	20	basemelee.scr	LizardOrcstep	100	0	1	0	1	40	80	1	0	7	4	LizardOrc	0	0	Phys	0	0	0	0
+190	Lizard-Orc Warrior	lizardorc.abc	LizardOrc.dtx	LizOrcCutlass.dtx		Lizard-Orc B	88	1038	10	8624	30	Weapon	0	0	4	75	200	0	150	36	60	10	D	0	1000		Phys	4D10	4	10	0	0	0	Phys	4D6	4	6	0	Earth	0	0	0	0	0	40	0.5	0	30	30	100	30	basemelee.scr	LizardOrcstep	100	0	1	0	1	40	80	1	0	7	4	LizardOrc	0	0	Phys	0	0	0	0
+191	Lizard-Orc Mage	lizardorc.abc	LizardOrc.dtx	LizOrcCutlass.dtx		Lizard-Orc C	98	1254	12	10584	35	Weapon	0	0	4	75	200	0	150	36	60	10	D	BrkItem	1000		Phys	6D10	6	10	0	0	0	Phys	6D6	6	6	0	Earth	0	0	0	0	0	40	0.5	0	40	40	100	40	basemelee.scr	LizardOrcstep	100	0	1	0	1	40	80	1	0	7	5	LizardOrc	0	0	Phys	0	0	0	0
+192																																																																		0			0	0	0	0
+193																																																																		0			0	0	0	0
+194																																																																		0			0	0	0	0
+195	Bloodsucker	nosferatu.abc	Nosferatu.dtx			Vampire A	77	823	25	6699	30	Random	1	0	5	75	200	0	150	36	60	8	OC	Disease2	1000		Dark	3D8+15	3	8	15	Arrow	0	Dark	3D8	3	8	0	0	100	"5,E,5,1 (Wound)"	0	0	1	0	0	5	10	100	10	10	baserange.scr	dirt	100	0	1	0	1	40	80	1	25	6	5	Nosferatu	0	0	Dark	0	0	0	0
+196	Annelid	nosferatu.abc	Nosferatu.dtx			Vampire B	88	1038	35	8624	38	Random	1	0	5	75	200	0	150	36	60	7	OC	DrainSP	1000		Dark	3D8+25	3	8	25	Arrow	0	Dark	3D8+25	3	8	25	0	100	"4,M,7,1 (DarkGrasp)"	0	0	1	0	0	10	20	100	20	20	baserange.scr	dirt	100	0	1	0	1	40	80	1	0	6	5	Nosferatu	0	0	Dark	0	0	0	0
+197	Vampir	nosferatu.abc	Nosferatu.dtx			Vampire C	98	1254	45	10584	45	Random	1	0	5	75	200	0	150	36	60	6	OC	DrainSP	1000		Dark	3D8+35	3	8	35	Arrow	0	Dark	3D8+35	3	8	35	0	100	"40,G,12,4, (Souldrinker)"	0	0	1	0	0	15	30	100	30	30	baserange.scr	dirt	100	0	1	0	1	40	80	1	0	6	5	Nosferatu	0	0	Dark	0	0	0	0
+198	Bigfoot	bigfoot.abc	BigFoot1.dtx			Bigfoot A	78	842	20	6864	17	Random	1	0	4	100	300	0	250	40	60	8	0	Stun	1000		Phys	4D4+8	4	4	8	0	0	Phys	4D4+8	4	4	8	0	0	0	0	0	0	40	0.5	100	100	100	100	0	basemelee.scr	dirt	100	0	1	0	1	40	80	1	0	7	5	Bigfoot	0	0	Phys	0	0	0	0
+199	Sasquatch	bigfoot.abc	BigFoot2.dtx			Bigfoot B	88	1038	25	8624	18	Random	1	0	4	100	300	0	250	40	60	8	0	Stun	1000		Phys	5D4+10	5	4	10	0	0	Phys	5D4+10	5	4	10	0	0	0	0	0	0	40	0.5	100	100	100	100	0	basemelee.scr	dirt	100	0	1	0	1	40	80	1	0	7	5	Bigfoot	0	0	Phys	0	0	0	0
+200	Yeti	bigfoot.abc	BigFoot3.dtx			Bigfoot C	98	1254	30	10584	19	Random	1	0	4	100	300	0	250	40	60	7	0	Stun	1000		Phys	6D4+12	6	4	12	0	0	Phys	6D4+12	6	4	12	0	0	0	0	0	0	40	0.5	100	100	100	100	0	basemelee.scr	dirt	100	0	1	0	1	40	80	1	0	7	5	Bigfoot	0	0	Phys	0	0	0	0
+204	Plain Giant	Giant.ABC	giant2.dtx	GiantMallet.dtx		Giant A	79	861	30	7031	17	0	0	0	6	125	300	0	250	100	150	9	0	0	1000		Elem	1D20+25	1	20	25	LightningBolt	0	Elem	1D20+25	1	20	25	0	0	0	0	0	0	40	0.5	0	0	100	0	30	titan.scr	titanstep	100	0	1	0	1	40	80	1	0	7	5	Giant	0	0	Elem	0	0	0	0
+205	Forest Giant	Giant.ABC	giant3.dtx	YanmirMallet.dtx		Giant B	89	1059	35	8811	18	0	0	0	6	125	300	0	250	100	150	9	0	0	1000		Elem	1D20+35	1	20	35	LightningBolt	0	Elem	1D20+35	1	20	35	0	0	0	0	0	0	40	0.5	0	0	100	0	40	titan.scr	titanstep	100	0	1	0	1	40	80	1	0	7	5	Giant	0	0	Elem	0	0	0	0
+206	Yanmir	Yanmir.ABC	yanmir.dtx			Giant C	99	1277	40	10791	19	Random	0	0	6	125	300	0	250	100	150	8	0	Afraid	1000		Elem	1D20+45	1	20	45	0	0	Elem	1D20+45	1	20	45	0	0	0	0	0	0	40	0.5	0	0	100	0	50	titan.scr	titanstep	100	0	1	0	1	40	80	1	0	7	5	Yanmir	0	0	Elem	0	0	0	0
+207	Lich	lich.abc	lich1.dtx			Lich A	80	880	15	7200	17	Random	0	0	5	75	200	0	150	36	60	9	DC	0	1000		Spirit	3D8+6	3	8	6	0	0	Spirit	3D8+6	3	8	6	0	100	"9,E,6,1 (fear)"	0	0	0	40	0.5	20	20	20	20	20	basemelee.scr	skeletonstep	100	1	1	0	1	40	80	1	0	6	5	Lich	0	0	Spirit	0	0	0	0
+208	Power Lich	lich.abc	lich2.dtx			Lich B	90	1080	20	9000	18	Random	0	0	5	75	200	0	150	36	60	8	DC	0	1000		Dark	4D8+12	4	8	12	0	0	Dark	4D8+12	4	8	12	0	85	"15,M,8,5 (Poison Cloud)"	0	"10, E, 7,5 (Curse)"	0	40	0.5	25	25	25	25	25	basemelee.scr	skeletonstep	100	1	1	0	1	40	80	1	0	6	5	Lichking	0	0	Dark	0	0	0	0
+209	Lich King	lichking.abc	lichking1.dtx			Lich C	100	1300	25	11000	19	Random	0	0	5	75	200	0	150	36	60	7	DC	Insane	1000		Dark	5D8+20	5	8	20	0	0	Dark	5D8+20	5	8	20	0	95	"4,M,10,1 (DarkGrasp)"	0	"34, G,12,1 (Resurrection)"	0	40	0.5	30	30	30	30	30	basemelee.scr	skeletonstep	100	1	1	0	1	40	80	1	0	6	5	Lichking	0	0	Dark	0	0	0	0
+212	Dragon King	dragon.abc	greendragon.dtx			Dragon 	100	1300	100	11000	30	0	1	1	8	50	450	500	300	100	150	6	4	BrkArmor	1000		Elem	16D8	16	8	0	DragonFireBolt	0	Elem	16D8	16	8	0	0	90	"18,G,15,5 (Column-of-Fire)"	0	"32, E, 5,1 (Paralyze)"	0	40	0.5	100	70	70	70	70	dragon.scr	dragonstep	100	1	0	0	1	40	80	1	0	7	5	Dragon	DragonBreath2	0	Elem	16d10	16	10	0
+216	Honk	honkmale.abc	honkm2.dtx			Honk Worshipper2 A	15	67	10	375	20	Random	1	0	5	50	150	0	100	36	38	9	CP	0	1000		Phys	2D4	2	4	0	0	0	Phys	2D4	2	4	0	0	0	0	0	0	1	0	0	5	5	5	5	10	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	1		0	0	Phys	0	0	0	0
+217	Elder Honk	honkfemale.abc	honkf3.dtx	honkhat.dtx		Honk Worshipper2 B	24	129	15	816	30	Random	1	0	5	50	150	0	100	36	38	9	CP	0	1000		Phys	2D4+4	2	4	4	0	0	Phys	2D4+4	2	4	4	0	0	0	0	0	1	0	0	10	10	10	10	15	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	2		0	0	Phys	0	0	0	0
+218																																																											40	80		0				0						
+219																																																											40	80		0				0						
+220																																																											40	80		0				0						
+221																																																											40	80		0				0						
+222																																																											40	80		0				0						
+223																																																											40	80		0				0						
+224																																																											40	80		0				0						
+225																																																											40	80		0				0						
+226																																																											40	80		0				0						
+227	Fish	fish.abc	fish.dtx			Fish	1	3	1	11	30	none	0	0	0	50	100	75	75	0	0	0	0	0	1000																			0	50	0.5	25	0	0	0	0	fish.scr	0	0	1	0	0	1	40	80	0	0		1		0						
+228	Eye	EvileyeTerror.abc	Orbus1.dtx			Beholder A	83	937	20	7719	30	Item	1	1	8	0	0	250	200	40	60	7	S	Asleep	1000		Spirit	5D6	5	6	0	0	0	Spirit	5D6	5	6	0	0	100	"9,E,4,1 (fear)"	0	0	0	40	0.5	30	30	100	30	30	basefly.scr	0	100	0	0	0	1	40	80	1	0	7	4	Beholder	0	0	Spirit	5D6	5	6	0
+229	Orbus	EvileyeTerror.abc	Orbus2.dtx			Beholder B	93	1143	30	9579	38	Item	1	1	8	0	0	250	200	40	60	6	SD	Afraid	1000		Spirit	6D6	6	6	0	0	0	Spirit	6D6	6	6	0	0	100	"9,E,7,1 (Fear)"	0	0	0	40	0.5	100	40	30	40	40	basefly.scr	0	100	0	0	0	1	40	80	1	0	7	5	Beholder	0	0	Spirit	6D6	6	6	0
+230	Oculus	EvileyeTerror.abc	Orbus3.dtx			Beholder C	103	1369	40	11639	40	Item	1	1	8	0	0	250	200	40	60	5	0	Insane	1000		Spirit	7D6	7	6	0	0	0	Spirit	7D6	7	6	0	0	100	"32,E,10,1 (Paralyze)"	0	0	0	40	0.5	40	100	40	50	50	basefly.scr	0	100	0	0	0	1	40	80	1	0	7	5	Beholder	0	0	Spirit	7D6	7	6	0
+234	Colloidal Soldier	ColloidalWarrior.abc	Colloidal1.dtx			Strange Beast A	84	957	30	7896	30	Weapon	1	0	5	50	200	0	175	36	42	8	0	0	1000		Phys	3D7+25	3	7	25	Goo1	0	Phys	3D7+25	3	7	25	0	0	0	0	0	0	40	0.5	10	10	10	10	10	baserange.scr	ColloidalWarriorstep	100	0	1	0	1.5	40	80	1	0	7	5	Colloidal	0	0	Phys	3D7+25	3	7	25
+235	Colloidal Warrior	ColloidalWarrior.abc	Colloidal2.dtx			Strange Beast B	94	1165	35	9776	38	Weapon	1	0	6	50	200	0	175	36	42	7	0	Insane	1000		Phys	3D7+40	3	7	40	Goo2	0	Phys	3D7+40	3	7	40	0	0	0	0	0	0	40	0.5	20	20	20	20	20	baserange.scr	ColloidalWarriorstep	100	0	1	0	1.75	40	80	1	0	7	5	Colloidal	0	0	Phys	3D7+40	3	7	40
+236	Colloidal Guardian	ColloidalWarrior.abc	Colloidal3.dtx			Strange Beast C	104	1393	40	11856	45	Armor	1	0	7	50	200	0	175	36	42	6	0	Dead	1000		Phys	3D7+60	3	7	60	Goo3	0	Phys	3D7+60	3	7	60	0	0	0	0	0	0	40	0.5	30	30	30	30	30	baserange.scr	ColloidalWarriorstep	100	0	1	0	2	40	80	1	0	7	5	Colloidal	0	0	Phys	3D7+60	3	7	60
+237	Amphibious Terror	Terror.abc	Terror1.dtx			Tunnel Terror A	84	957	18	7896	38	item	0	0	5	75	150	0	125	100	125	8	0	Afraid	1000		Phys	2D12	2	12	0	0	0	Phys	2D12	2	12	0	0	0	0	0	0	0	40	0.5	20	20	20	40	20	basemelee.scr	dirt	100	0	0	0	1	40	95	1	0	7	5		0	0	Phys	2D12	2	12	0
+238	Desert Terror	Terror.abc	Terror2.dtx			Tunnel Terror B	94	1165	22	9776	45	weapon	0	0	5	75	150	0	125	100	125	7	0	Paralyze	1000		Phys	2D12+4	2	12	4	0	0	Phys	2D12+4	2	12	4	0	0	0	0	0	0	40	0.5	30	30	30	50	40	basemelee.scr	dirt	100	0	0	0	1	40	95	1	0	7	5		0	0	Phys	2D12+4	2	12	4
+239	Reptilian Terror	Terror.abc	Terror3.dtx			Tunnel Terror C	104	1393	26	11856	50	armor	0	0	6	75	150	0	125	100	125	6	0	Paralyze	1000		Phys	2D12+8	2	12	8	0	0	Phys	2D12+8	2	12	8	0	0	0	0	0	0	40	0.5	50	50	50	70	100	basemelee.scr	dirt	100	0	0	0	1	40	95	1	0	7	5		0	0	Phys	2D12+8	2	12	8
+240																																																											40	80		0				0						
+241	Lesser Demon	stage1demon.abc	lesserdemon.dtx			DoubleDemon A	85	977	60	8075	40	Item	0	0	7	75	200	0	225	40	60	5	0	0	1000		Elem	10D5+10	10	5	10	Arrow	0	Elem	10D5+10	10	5	10	0	0	0	0	0	0	40	0.5	30	10	10	30	20	LesserDemon.scr	dirt	100	0	0	0	1	40	80	1	0	7	5		0	0	Elem	10D5+10	10	5	10
+242	Greater Demon	stage2demon.abc	greaterdemon.dtx			DoubleDemon B	95	1187	80	9975	50	Item	0	0	8	75	200	0	225	40	60	5	0	0	1000		Elem	12D5+15	12	5	15	Arrow	0	Elem	12D5+15	12	5	15	0	0	0	0	0	0	40	0.5	40	20	20	40	30	GreaterDemon.scr	dirt	100	1	0	0	1	40	80	1	0	7	5		0	0	Elem	12D5+15	12	5	15
+243																																																																		0						
+244																																																																		0						
+245																																																																		0						
+246	Bjarni Thorvaldssen	Bjarni.abc	bjarni.dtx			Bjarni Thorvaldssen	80	880	80	7200	0	None	1	0	0	50	150	0	100	36	42	4	0	0	1000		Phys	5D5	5	5	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	60	60	60	60	60	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	5		0	0	0	0	0	0	0
+247	Sigmund the Stressed	sigmund.abc	sigmund.dtx			Sigmund the Stressed	80	880	80	7200	0	None	1	0	0	50	150	0	100	36	42	4	0	0	1000		Phys	5D5	5	5	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	60	60	60	60	60	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	5		0	0	0	0	0	0	0
+248	Markel the Great	Markel.abc	Markel.dtx			Markel the Great	80	880	80	7200	0	None	1	0	0	50	150	0	100	36	42	4	0	0	1000		Phys	5D5	5	5	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	60	60	60	60	60	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	5		0	0	0	0	0	0	0
+249	Sven Svenssen	Sven.abc	sven.dtx			Sven Svenssen	100	1300	100	11000	0	None	1	0	0	50	150	0	100	36	42	3	4	0	1000		Phys	20D8	20	8	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	100	70	70	70	70	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	5		0	0	0	0	0	0	0
+250	Tryggva Ravenlocks	Tryggva.abc	tryggva.dtx			Tryggva Ravenlocks	100	1300	100	11000	0	None	1	0	0	50	150	0	100	36	42	3	4	0	1000		Phys	20D8	20	8	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	100	70	70	70	70	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	5		0	0	0	0	0	0	0
+251	Kira the Cold	Kira.abc	Kiraplate.dtx			Kira the Cold	110	1540	100	13200	0	None	1	0	0	50	150	0	100	36	42	3	4	0	1000		Phys	20D8	20	8	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	100	70	70	70	70	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	5		0	0	0	0	0	0	0
+252	Forad Darre	ForadDarre.abc	ForadDarre.dtx			Forad Darre	34	217	10	1496	13	Random	1	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	5		0	0	0	0	0	0	0
+253	Ivsar Forktooth					Imprisoned General	1	3	3	11	0	None	1	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+254	Yrsa the Troll	Yrsa.abc	Yrsa.dtx			Troll-female	1	3	3	11	0	None	1	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+255	Krohn	Krohn.abc	Krohn.dtx	KrohnSword.dtx	KrohnSpear.dtx	Krohn	1	3	3	11	0	None	1	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+256	Fre	Fre.abc	Fre.dtx			Fre	1	3	3	11	0	None	1	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+257	Skraelos	Skraelos.abc	skraelos.dtx			Skraelos	1	3	3	11	0	None	1	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+258	Bori	sheep.abc				Bori	1	3	3	11	0	None	1	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+259	Ratatosk	sheep.abc				Ratatosk	1	3	3	11	0	None	1	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+260	Hanndl	sheep.abc				Gate Keeper	1	3	3	11	0	None	1	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+261	Njam the Meddler	Njam.abc	Njam.dtx			Njam the Meddler	1	3	3	11	0	None	1	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	7	0		0	0	0	0	0	0	0
+262	The Great Honk	goose.abc	goosebrown.dtx			God's Pet	1	3	3	11	0	None	1	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	basemelee.scr	henstep	100	0	1	0	3	40	80	0	0	1	0		0	0	0	0	0	0	0
+263	Wyrde of the Known (Igrid)	sheep.abc				Young Fate	1	3	3	11	0	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+264	Wyrde of the Knowing (Verdandi)	sheep.abc				Middle Fate	0	0	0	0	0	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+265	Wyrde of the Unknown (Morgan)	sheep.abc				Old Fate	0	0	0	0	0	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+266	Green Man	greenman.abc	greenman.dtx	Greenmanstaff.dtx		Green Man	0	0	0	0	0	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	GreenMan.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+267	Cow	cow.abc	cow.dtx			Cow	1	3	3	11	9	None	0	0	0	25	75	0	50	36	42	10	0	0	1000		Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	cow.scr	cowstep	100	0	0	0	1	40	80	0	0	2	0	cow	0	0	0	0	0	0	0
+268	Goat	goat.abc	goat.dtx			Goat	1	3	3	11	9	None	0	0	0	25	75	0	50	36	42	10	0	0	1000		Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	base.scr	goatstep	100	0	0	0	1	40	80	0	0	2	0	goat	0	0	0	0	0	0	0
+269	Hen	hen.abc	hen.dtx			Hen	1	3	3	11	9	None	0	0	0	25	75	0	50	36	42	10	0	0	1000		Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	hen.scr	henstep	100	0	0	0	1	40	80	0	0	2	0	hen	0	0	0	0	0	0	0
+270	Rooster	rooster.abc	rooster.dtx			Rooster	1	3	3	11	9	None	0	0	0	25	75	0	50	36	42	10	0	0	1000		Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	rooster.scr	henstep	100	1	0	0	1	40	80	0	0	2	0	rooster	0	0	0	0	0	0	0
+271	Pig	pig.abc	pig.dtx			Pig	1	3	3	11	9	None	0	0	0	25	75	0	50	36	42	10	0	0	1000		Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	pig.scr	pigstep	100	0	0	0	1	40	80	0	0	2	0	pig	0	0	0	0	0	0	0
+272	Ewe	sheep.abc	sheep1.dtx			Ewe	1	3	1	11	9	None	0	0	0	25	75	0	50	36	42	10	0	0	1000		Phys	0	0	0	0	0	0	0	0	0	0	0	0		0	0	0	1	0	0	0	0	0	0	0	basecrawl.scr	goatstep	100	0	0	0	1	40	80	0	0	2	0	sheep	0	0	0	0	0	0	0
+273	Ram	sheep.abc	sheep2.dtx	ramhornblack.dtx		Ram	1	3	3	11	9	None	0	0	0	25	125	0	75	36	42	10	0	0	1000		Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	basecrawl.scr	goatstep	100	0	0	0	1	40	80	0	0	2	0	sheep	0	0	0	0	0	0	0
+274	Scholar	scholar.abc	scholar1.dtx			Bembridge ScholarA	20	100	18	600	10	Random	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D4	2	4	0	0	0	Phys	2D4	2	4	0	0	0	0	0	0	1	0	0	0	0	0	0	0	basecrawl.scr	dirt	100	0	1	0	1	40	80	0	0	1	2		0	0	Phys	2D4	2	4	0
+275	Master Scholar	scholar.abc	scholar3.dtx			Bembridge Scholar B	28	162	24	1064	11	Random	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D4+4	2	4	4	0	0	Phys	2D4+4	2	4	4	0	0	0	0	0	1	0	0	0	0	0	0	0	basecrawl.scr	dirt	100	0	1	0	1	40	80	0	0	1	2		0	0	Phys	2D4+4	2	4	4
+276	Magreeb Spawn	Magreeb.abc	magreeb1.dtx			mantis monster	40	280	14	2000	13	Random	0	0	0	50	150	0	0	36	42	10	0	0	1000		Phys	2D10	2	10	0	0	0	Phys	2D6	2	6	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basecrawl.scr	dirt	100	0	0	0	1	40	80	1	0	7	3		0	0	Phys	2D6	2	6	0
+277	Magreeb	Magreeb.abc	magreeb1.dtx			mantis monster	50	400	18	3000	15	Random	0	0	0	50	150	0	0	36	42	10	0	0	1000		Phys	4D10	4	10	0	0	0	Phys	4D6	4	6	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basecrawl.scr	dirt	100	0	0	0	1	40	80	1	0	7	3		0	0	Phys	4D6	4	6	0
+278	Armored Magreeb	Magreeb.abc	magreeb2.dtx			mantis monster	60	540	30	4200	18	Random	0	0	0	50	150	0	0	36	42	10	0	0	1000		Phys	6D10	6	10	0	0	0	Phys	6D6	6	6	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basecrawl.scr	dirt	100	0	0	0	1	40	80	1	0	7	4		0	0	Phys	6D6	6	6	0
+279	Hrolf Spearmaster	n/a				NPC-01	34	217	10	1496	13	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	3d4+10	3	4	10	0	20	Phys	5d3+10	5	3	10	arrow	0	0	0	0	1	0	0	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	Phys	5d3+10	5	3	10
+280	Tesar Olin	n/a				NPC-02	15	67	9	375	11	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	4D4+5	4	4	5	0	20	Phys	5D3+10	5	3	10	arrow	0	0	0	0	1	0	0	10	10	10	10	20	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	Phys	5D3+10	5	3	10
+281	Arienh A’Klindor	n/a				NPC-03	20	100	14	600	14	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	60	"19,E,6,1 (Elemental Blast)"	0	"15,M,7,4 (Poison Cloud)"	1	0	0	20	20	20	20	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+282	Randver Headcrusher	n/a				NPC-04	40	280	15	2000	18	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	6D4+15	5	4	15	0	20	Phys	5D3+25	5	3	25	Arrow	0	0	0	0	1	0	0	10	10	10	10	30	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	Phys	5D3+25	5	3	25
+283	Ake the Righteous	n/a				NPC-05	50	400	18	3000	15	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2d10+3	2	10	3	0	0	0	0	0	0	0	0	60	"41,N,3,2 (Sparks)"	0	"46,N,3,1 (Elemental Bolt)"	1	0	0	10	20	10	10	30	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+284	Beagan A’Ghrie	n/a				NPC-06	50	400	18	3000	15	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2d8+2	2	8	2	0	0	0	0	0	0	0	0	0		0	0	1	0	0	30	30	30	30	30	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+285	Edina A’Mor	n/a				NPC-07	1	3	3	11	9	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2d2+1	2	2	1	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	5	5	5	5	5	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+286	Alberik Gusmundssen	n/a				NPC-08	1	3	3	11	9	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2d2+2	2	2	1	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	5	5	5	5	5	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+287	Alvar the Clumsy	n/a				NPC-09	1	3	3	11	9	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2d2+3	2	2	1	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	5	5	5	5	5	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+288	Ehwaz	n/a				NPC-10	1	3	3	11	9	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2d2+4	2	2	1	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	5	5	5	5	5	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+289	Sowelu Axeldotir 	n/a				NPC-11	1	3	3	11	9	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2d2+5	2	2	1	0	0	0	0	0	0	0	0	100	"27,M,7,6 (Heal)"	0	0	1	0	10	10	30	10	10	20	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+290	Cleirach A’Lyrae	n/a				NPC-12	9	35	4	171	10	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2d4+5	2	4	5	0	0	0	0	0	0	0	0	0	0	0	0	1	0	20	20	20	20	20	20	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+291	Florie de Latharna A’Washadi	n/a				NPC-13	25	137	16	875	12	None	0	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	2d10+3	2	10	3	0	0	0	0	0	0	0	0	100	"27,G,10,8 (Heal)"	0	0	1	0	20	20	20	20	20	20	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+292	Tamur Leng	ClanSoldier.abc	BeldonianDragon.dtx	BeldDragnSword.dtx	Beldshield3.dtx	NPC-14	60	540	30	4200	18	None	1	0	0	50	150	0	100	36	42	10	0	0	1000		Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	40	0.5	0	0	0	0	0	basemelee.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+293	Goose	goose.abc	goose.dtx			goose	1	3	1	11	9	None	0	0	0	25	75	0	50	36	42		0	0	1000		Phys	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	duck.scr	henstep	100	0	0	0	1	40	80	0	0	2	0		0	0	0	0	0	0	0
+294	cat	cat.abc	cat.dtx			Cat	1	3	1	11	9	None	0	0	0	45	175	0	50	36	42		0	0	1000		Phys	2	0	0	0	0	0	0	0	0	0	0	0	0	"46,N,1,1 (Elemental Bolt)"	0	0	1	0	0	0	0	0	0	0	cat.scr	pigstep	120	0	0	0	2.5	40	80	0	0	2	0		0	0	0	0	0	0	0
+295	dog	dog.abc	dog.dtx			Dog	1	3	1	11	9	None	0	0	0	60	200	0	50	36	42		0	0	1000		Phys	3	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	dog.scr	pigstep	120	0	0	0	1	40	80	0	0	2	0		0	0	0	0	0	0	0
+296	RailTest	PeasantM1.abc	PeasantM1a.dtx			Peasant Human1 MaleA A	1	3	3	11	9	None	1	0	3	50	150	0	100	36	40	10	0	0	1000		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	Princess.scr	dirt	100	0	1	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+297	Brown Cow	cow.abc	cowbrown.dtx			Brown Cow	1	3	3	11	9	None	0	0	0	25	75	0	50	36	42	10	0	0	1000		Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	cow.scr	cowstep	100	0	0	0	1	40	80	0	0	2	0	cow	0	0	0	0	0	0	0
+298	Huber Carryall	n/a				porter	1	3	3	11	9	None	0	0	0	25	75	0	50	36	42	10	0	0	1001		Phys	2D2	2	2	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	5	5	5	5	5	5	base.scr	dirt	100	0	0	0	1	40	80	0	0	1	0		0	0	0	0	0	0	0
+299	mouse	mouse.abc	mouse1.dtx			mouse A	1	3	1	11	9	None	0	0	0	45	175	0	50	36	42		0	0	1000		Phys	2D3	2	3	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	cat.scr		50	0	0	0	1	40	80	0	0	2	0		0	0	0	0	0	0	0
+300	evil mouse	mouse.abc	mouse3.dtx			mouse C	1	3	1	11	9	None	0	0	0	45	175	0	50	36	42		0	0	1001		Phys	2D4	2	4	0	0	0	0	0	0	0	0	1	0	0	0	0	1	0	0	0	0	0	0	0	cat.scr		50	0	0	1	1	40	80	0	0	2	0		0	0	0	0	0	0	0
+																																																																								
+																																																																								
+																																																																								
+																																																																								
+																																																																								
+																																																																								
+																																																																								
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								

@@ -1,0 +1,810 @@
+schema: openyamm.model3d.v1
+id: dragonfly
+model: dragonfly.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/DRAGONFLY.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 4.023306898564917e+25
+pieces:
+- name: tailnode
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: headnode
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: d_wingb
+  materialIndex: 0
+  lods:
+  - faces: 16
+    vertices: 10
+  - faces: 16
+    vertices: 10
+  - faces: 16
+    vertices: 10
+- name: d_wingd
+  materialIndex: 0
+  lods:
+  - faces: 16
+    vertices: 10
+  - faces: 16
+    vertices: 10
+  - faces: 16
+    vertices: 10
+- name: d_wingc
+  materialIndex: 0
+  lods:
+  - faces: 16
+    vertices: 10
+  - faces: 16
+    vertices: 10
+  - faces: 16
+    vertices: 10
+- name: d_winga
+  materialIndex: 0
+  lods:
+  - faces: 16
+    vertices: 10
+  - faces: 16
+    vertices: 10
+  - faces: 16
+    vertices: 10
+- name: d_body
+  materialIndex: 0
+  lods:
+  - faces: 356
+    vertices: 228
+  - faces: 250
+    vertices: 175
+  - faces: 144
+    vertices: 122
+materials:
+- index: 0
+  texture: skins_preview/dragonfly1.png
+  runtime_texture: skins/dragonfly1.dtx
+  preview_texture: skins_preview/dragonfly1.png
+  source: mm9/extracted/SKINS/SKINS/DRAGONFLY1.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: XCENTER
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 15
+  - index: 2
+    name: Xback
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: XbackA
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: XbackB
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: XbackC
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: XbackD
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: XbackE
+    parent: 6
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Xtail
+    parent: 7
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: XtailA
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: XtailB
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: XtailC
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: XtailD
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: XtailE
+    parent: 12
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: tailnode
+    parent: 13
+    flags: 1
+    children: []
+  - index: 15
+    name: Xwingbase
+    parent: 1
+    flags: 1
+    children:
+    - 16
+    - 21
+    - 24
+    - 27
+    - 29
+  - index: 16
+    name: Xneck
+    parent: 15
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Xheadpiv
+    parent: 16
+    flags: 1
+    children:
+    - 18
+    - 20
+  - index: 18
+    name: Xhead
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: headnode
+    parent: 18
+    flags: 1
+    children: []
+  - index: 20
+    name: Xjawpiv
+    parent: 17
+    flags: 1
+    children: []
+  - index: 21
+    name: XwingApiv01
+    parent: 15
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: XwingA01
+    parent: 21
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: XwingAend01
+    parent: 22
+    flags: 1
+    children: []
+  - index: 24
+    name: XwingApiv02
+    parent: 15
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: XwingA02
+    parent: 24
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: XwingAend02
+    parent: 25
+    flags: 1
+    children: []
+  - index: 27
+    name: XwingA
+    parent: 15
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: XwingAend
+    parent: 27
+    flags: 1
+    children: []
+  - index: 29
+    name: XwingA03
+    parent: 15
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: XwingAend03
+    parent: 29
+    flags: 1
+    children: []
+sockets:
+- name: RFoot
+  node: 14
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.09985128045082092
+  - -0.9006270170211792
+  - 0.34135007858276367
+  - -0.24976152181625366
+- name: Mouth
+  node: 19
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.884030282497406
+  - -0.10415942221879959
+  - 0.2370525598526001
+  - 0.3891623914241791
+- name: Jaw
+  node: 20
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 1.1560814527911134e-08
+  - 0.8486461639404297
+  - -0.5289609432220459
+  - 1.854776066068098e-08
+- name: RangeAttack
+  node: 20
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 1.1560814527911134e-08
+  - 0.8486461639404297
+  - -0.5289609432220459
+  - 1.854776066068098e-08
+animations:
+- name: static_model
+  durationMs: 333
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: StandAir
+  durationMs: 1400
+  keyframes: 9
+  interpolationTimeMs: 20
+  events:
+  - timeMs: 174
+    event: flap
+- name: AwareAir
+  durationMs: 1400
+  keyframes: 11
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: playanimsound
+  - timeMs: 170
+    event: flap
+  - timeMs: 683
+    event: speakanimsound
+- name: FidgetAir1
+  durationMs: 1400
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 170
+    event: flap
+- name: FidgetAir2
+  durationMs: 1400
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 170
+    event: flap
+- name: Flap
+  durationMs: 1300
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: playanimsound
+  - timeMs: 158
+    event: flap
+- name: Glide
+  durationMs: 1200
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+- name: oldFlap
+  durationMs: 900
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: playanimsound
+- name: SearchAir
+  durationMs: 2200
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 183
+    event: flap
+- name: TauntAir
+  durationMs: 1400
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: playanimsound
+  - timeMs: 174
+    event: flap
+  - timeMs: 525
+    event: speakanimsound
+- name: HAttackair1
+  durationMs: 1400
+  keyframes: 17
+  interpolationTimeMs: 20
+  events:
+  - timeMs: 0
+    event: Velocity  0  0  0; playanimsound; lunge
+  - timeMs: 170
+    event: flap
+  - timeMs: 341
+    event: Velocity  0  8 -15
+  - timeMs: 512
+    event: Velocity -4  36 -38
+  - timeMs: 615
+    event: Velocity -4  7 -25
+  - timeMs: 649
+    event: Velocity -4  7 -25;Bite
+  - timeMs: 683
+    event: speakanimsound
+  - timeMs: 854
+    event: Velocity  3  78  175
+  - timeMs: 922
+    event: Velocity -2 -26 -4
+  - timeMs: 1195
+    event: Velocity -1  13 -57
+  - timeMs: 1366
+    event: Velocity  0  0  0
+- name: HAttackair2
+  durationMs: 1400
+  keyframes: 11
+  interpolationTimeMs: 20
+  events:
+  - timeMs: 0
+    event: Velocity  0  0  0; playanimsound; lunge
+  - timeMs: 170
+    event: flap
+  - timeMs: 512
+    event: RKick; speakanimsound
+- name: Rattack1
+  durationMs: 1200
+  keyframes: 16
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0  0  0; playanimsound
+  - timeMs: 146
+    event: flap
+  - timeMs: 673
+    event: rangeattack
+- name: WinceAir1
+  durationMs: 1400
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0  0  0; playanimsound
+  - timeMs: 170
+    event: flap
+  - timeMs: 341
+    event: speakanimsound
+  - timeMs: 1400
+    event: Velocity 0 0 0
+- name: WinceAir2
+  durationMs: 1400
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0  0  0
+  - timeMs: 170
+    event: flap
+  - timeMs: 341
+    event: Velocity -5  22 -7
+  - timeMs: 512
+    event: Velocity -1  14 -48
+  - timeMs: 683
+    event: Velocity  32  55 -25; speakanimsound
+  - timeMs: 854
+    event: Velocity  5 -101 -81
+  - timeMs: 1195
+    event: Velocity -82  210 -120
+  - timeMs: 1366
+    event: Velocity 0 0 0
+- name: DieAir1
+  durationMs: 900
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity -5 0 -7
+  - timeMs: 149
+    event: Velocity -5 0 -43
+  - timeMs: 300
+    event: Velocity -7 0 -24; speakanimsound
+  - timeMs: 450
+    event: Velocity  10 0 -9
+  - timeMs: 599
+    event: Velocity  4 0 -4
+  - timeMs: 750
+    event: Velocity  3 0 -3
+  - timeMs: 900
+    event: Velocity 0 0 0
+- name: fall1
+  durationMs: 700
+  keyframes: 6
+  interpolationTimeMs: 0
+  events: []
+- name: FallDOwn1
+  durationMs: 1100
+  keyframes: 9
+  interpolationTimeMs: 0
+  events:
+  - timeMs: 0
+    event: Velocity  0 0  0
+  - timeMs: 275
+    event: Velocity  12 0 -3
+  - timeMs: 413
+    event: Velocity -4 0 -3
+  - timeMs: 687
+    event: Velocity -8 0  0
+  - timeMs: 825
+    event: Velocity -6 0 -4
+  - timeMs: 962
+    event: Velocity 0 0 0; DeadDims 1 0 1
+- name: DieAir2
+  durationMs: 1000
+  keyframes: 7
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: Velocity  0 0 -19
+  - timeMs: 166
+    event: Velocity  29 0 -31
+  - timeMs: 333
+    event: Velocity -2 0 -22; speakanimsound
+  - timeMs: 500
+    event: Velocity -18 0 -14
+  - timeMs: 666
+    event: Velocity -25 0 -5
+  - timeMs: 833
+    event: Velocity -21 0 -1
+  - timeMs: 1000
+    event: Velocity 0 0 0
+- name: fall2
+  durationMs: 700
+  keyframes: 6
+  interpolationTimeMs: 0
+  events: []
+- name: FallDown2
+  durationMs: 1200
+  keyframes: 13
+  interpolationTimeMs: 0
+  events:
+  - timeMs: 0
+    event: Velocity -1 0 -9
+  - timeMs: 149
+    event: Velocity -6 0 -21
+  - timeMs: 300
+    event: Velocity -12 0 -5
+  - timeMs: 450
+    event: Velocity -1 0 -2
+  - timeMs: 600
+    event: Velocity -6 0 -3
+  - timeMs: 900
+    event: Velocity -3 0 -5
+  - timeMs: 1050
+    event: Velocity 0 0 0; DeadDims 1 0 1
+animationBindings:
+- name: static_model
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: StandAir
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: AwareAir
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: FidgetAir1
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: FidgetAir2
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Flap
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Glide
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: oldFlap
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: SearchAir
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: TauntAir
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: HAttackair1
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: HAttackair2
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Rattack1
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: WinceAir1
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: WinceAir2
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: DieAir1
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fall1
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: FallDOwn1
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+- name: DieAir2
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fall2
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: FallDown2
+  extents:
+  - 30.72
+  - 46.08
+  - 30.72
+  origin:
+  - 0.0
+  - 10.24
+  - 0.0
+roles:
+- actor_model
+source_model: models/dragonfly.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: dragonfly_dragonfly1
+  source_skins:
+  - skins/dragonfly1.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 76
+    number: '75'
+    monster_name: Dragonfly Mite
+    type_picture: Dragonfly A
+    base_name: Dragonfly
+  - table: MONSTERS
+    row: 76
+    number: '75'
+    monster_name: Dragonfly Mite
+    type_picture: Dragonfly A
+    base_name: Dragonfly
+- id: dragonfly_dragonfly2
+  source_skins:
+  - skins/dragonfly2.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 77
+    number: '76'
+    monster_name: Dragonfly
+    type_picture: Dragonfly B
+    base_name: Dragonfly
+  - table: MONSTERS
+    row: 77
+    number: '76'
+    monster_name: Dragonfly
+    type_picture: Dragonfly B
+    base_name: Dragonfly
+- id: dragonfly_dragonfly3
+  source_skins:
+  - skins/dragonfly3.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 78
+    number: '77'
+    monster_name: Fire Dragonfly
+    type_picture: Dragonfly C
+    base_name: Dragonfly
+  - table: MONSTERS
+    row: 78
+    number: '77'
+    monster_name: Fire Dragonfly
+    type_picture: Dragonfly C
+    base_name: Dragonfly

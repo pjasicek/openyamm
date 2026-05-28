@@ -1,0 +1,82 @@
+;-----------------------------------------------------
+;
+;	TH_OrcsGossip.scr
+;
+;	Karl Drown 11-17-01
+;	
+;	Orc's script in RightHall.
+;	
+;-----------------------------------------------------
+#include TrainingHostility.inc
+#include Globals.inc
+
+#hObject	hAnimation
+
+#string		sAnimA
+#string		sAnimB
+#string		sAnimC
+#string		sAnimD
+#string		sAnimE
+#string		sAnimF
+
+#number	bIsGossiping = 0
+
+;-----------------------------------------------------
+:Start
+;-----------------------------------------------------
+cprint "TurnOn"
+	bIsGossiping = TRUE
+	Gosub DoTheTalk
+	Exit TRUE
+;-----------------------------------------------------
+:TurnOff
+;-----------------------------------------------------
+cprint "TurnOff"
+	Wait 1, 1, DoNothing
+	bIsGossiping = FALSE
+	Exit TRUE
+;-----------------------------------------------------
+:DoTheTalk
+;-----------------------------------------------------
+	if (bIsGossiping==FALSE)
+		exit
+	endif
+	PlayAnim sAnimA, AnimationB
+	Exit TRUE
+;-----------------------
+:AnimationB
+	playsound Sounds\AnimSounds\LizardOrcfidget3.wav DoNothing 1000 1500 FALSE 100
+	PlayAnim sAnimB, AnimationC
+	Exit TRUE
+:AnimationC
+	PlayAnim sAnimC, AnimationD
+	Exit TRUE
+:AnimationD
+	;;playsound Sounds\AnimSounds\LizardOrcwince1.wav DoNothing 1000 1500 FALSE 100
+	PlayAnim sAnimD, AnimationE
+	Exit TRUE
+:AnimationE
+	PlayAnim sAnimE, AnimationF
+	Exit TRUE
+:AnimationF
+	PlayAnim sAnimF, DoTheTalk
+	Exit TRUE
+;-----------------------------------------------------
+:Main2
+;-----------------------------------------------------
+	AddTrigger Go, Start
+	AddTrigger Stop, TurnOff
+	gosub InitTrainingHostility
+	Exit TRUE
+;-----------------------------------------------------
+:Main
+;-----------------------------------------------------
+	GetParam 0, sAnimA
+	GetParam 1, sAnimB
+	GetParam 2, sAnimC
+	GetParam 3, sAnimD
+	GetParam 4, sAnimE
+	GetParam 5, sAnimF
+	OnPostStartWorld Main2
+	Exit
+;------------- E n d - O f - F i l e -------------------

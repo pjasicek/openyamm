@@ -1,0 +1,48 @@
+;----------------------------------------------
+;deantest.scr
+; By Timmy
+; handles forad's stuff
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         sound   ; checks to see if a sound is currently playing
+#number							soundhandle ; handler for sounds
+#number							sounddur ; duration of sound
+#number							sounddone ; if sound is done this is true
+#number							soundhandle2 ; handler for second actor
+
+
+;-------------------------------------
+:Onblabber
+;-------------------------------------
+; erccs blabber
+
+
+
+DoRUDE 400
+
+
+
+exit
+
+
+
+
+;-------------------------------------
+:Onexit
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+@M 00:15 Onblabber
+
+
+exit

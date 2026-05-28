@@ -1,0 +1,175 @@
+schema: openyamm.model3d.v1
+id: chandeliernochain
+model: chandeliernochain.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/CHANDELIERNOCHAIN.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: Flame
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame2
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame3
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Flame4
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+  - faces: 1
+    vertices: 3
+- name: Chandelier
+  materialIndex: 0
+  lods:
+  - faces: 258
+    vertices: 156
+  - faces: 192
+    vertices: 123
+  - faces: 126
+    vertices: 90
+materials:
+- index: 0
+  texture: skins_preview/props/chandelier.png
+  runtime_texture: skins/props/chandelier.dtx
+  preview_texture: skins_preview/props/chandelier.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/CHANDELIER.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+  - index: 1
+    name: Flame
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Flame2
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Flame3
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Flame4
+    parent: 0
+    flags: 1
+    children: []
+  - index: 5
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets:
+- name: Firenode1
+  node: 1
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.20062774419784546
+  - 0.6787552237510681
+  - 0.20108769834041595
+  - 0.6772027611732483
+- name: Firenode2
+  node: 2
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.2000434398651123
+  - -0.6789258122444153
+  - -0.20050030946731567
+  - 0.67737877368927
+- name: Firenode3
+  node: 3
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.0005070149200037122
+  - 0.9573793411254883
+  - 0.2845141887664795
+  - 0.0017046191496774554
+- name: Firenode4
+  node: 3
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.0005070149200037122
+  - 0.9573793411254883
+  - 0.2845141887664795
+  - 0.0017046191496774554
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 76.8
+  - 46.08
+  - 76.8
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/chandeliernochain.abc

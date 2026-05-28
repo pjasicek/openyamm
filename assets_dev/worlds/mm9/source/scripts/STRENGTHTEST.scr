@@ -1,0 +1,80 @@
+;----------------------------------------------
+;strengthtest.scr
+; By Timmy
+; handles the strength game the the thing and the gathering.
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+
+#number  dingbell
+#number	 TimingVal
+#number	 Player_Strength
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+haskey 1002 g_ntemp
+if (g_ntemp==FALSE)
+	exit
+endif
+
+takekey 1002
+takeitem 557
+
+GetRandomInt 80, 125, dingbell
+Getrandomint 1, 100, TimingVal
+GetAttribute 0, Player_Strength
+
+Add TimingVal, Player_Strength
+;...................
+;delete this
+;
+Add TimingVal, 50
+; 
+;..................
+if (timingVal>=dingbell, )
+	
+	Haskey 94 g_ntemp
+	If (g_ntemp==0, )
+		giveitem 395
+		givekey 94
+		givekey 1003
+
+		exit
+	endif
+else
+
+endif
+
+exit
+
+
+;-------------------------------------
+:OnRing
+;-------------------------------------
+if (timingVal>=dingbell, )
+	Playsound Sounds\Events\dingbell.wav, Onexit, 100, 2400, FALSE, 100
+	RollOverText 6 1 3 2
+	exit
+endif
+	RollOverText 7 1 3 2
+exit
+;-------------------------------------
+:Onexit
+;-------------------------------------
+
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Use, OnUse
+Addtrigger ring, OnRing
+
+exit

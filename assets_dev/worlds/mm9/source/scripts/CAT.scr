@@ -1,0 +1,312 @@
+;----------------------------------------------------------
+;	Cat.Scr
+;	Jeff Leggett
+;	08/03/2001
+;
+;	Behavior:
+;
+;		- Go from actor to actor and hang out with them
+;		- When a dog comes after me, run away in various
+;		directions
+;
+;----------------------------------------------------------
+
+#Include baseWander.inc
+#Include baseRun.inc
+
+#number				HANGOUT_WAIT			= 10
+#number				SITTING_WAIT			= 11
+#number				RUN_AWAY_STOP_WAIT		= 13
+
+#number				g_bSitting = 0
+
+
+;----------------------------------------------------------
+:OnHangoutObstacle
+;----------------------------------------------------------
+
+	gosub DoneHangingOut
+
+	exit TRUE
+
+;----------------------------------------------------------
+:OnHangoutStuckDone
+;----------------------------------------------------------
+
+	gosub DoneHangingOut
+
+	exit TRUE
+
+
+;----------------------------------------------------------
+:DisableWandering
+;
+;	Do all things necessary to disable
+;	Wandering...
+;
+;----------------------------------------------------------
+
+	gosub BaseWanderStop
+
+	OnObstacle					OnHangoutObstacle
+	OnStuckDone					OnHangoutStuckDone
+	OnStuck
+
+	Exit
+
+;----------------------------------------------------------
+:LookForPerson
+;
+;	Just turn on the OnFoundPlayer again..
+;
+;----------------------------------------------------------
+
+	OnFoundTarget FoundTarget
+
+	Exit
+
+;----------------------------------------------------------
+:DoneHangingOut
+;
+;	Time to move on from this guy... (ie: stop following)
+;----------------------------------------------------------
+
+; Cancel out some timers...
+	Wait HANGOUT_WAIT, 0, DoNothing
+	Wait SITTING_WAIT, 0, DoNothing
+	OnTargetBeyondDist 0, DoNothing
+
+	g_bSitting = FALSE
+	g_hTarget = NULL
+	Target NULL
+	Stop
+
+	gosub BaseWanderStart
+
+	OnFoundTarget DoNothing
+
+	GetRandomInt 10, 20, g_nRandom
+
+	Wait HANGOUT_WAIT, g_nRandom, LookForPerson
+
+	Exit
+
+;----------------------------------------------------------
+:FoundTarget
+;
+;	Note: Target for cat is all NPCs and player.
+;
+;----------------------------------------------------------
+
+	if ( g_hTarget!=NULL )
+		Exit
+	endif
+
+	if ( g_bRunning==TRUE )
+		Exit
+	endif
+
+	GetParam 0, g_hTarget
+	Target g_hTarget, FALSE
+
+	gosub DisableWandering
+
+	WalkTo g_hTarget, 0, OnHangoutArrival
+	Exit
+
+
+;----------------------------------------------------------
+:SitDownFidget
+;----------------------------------------------------------
+
+	GetRandomInt 0,1,g_nRandom
+
+	if ( g_nRandom==0 )
+		PlayAnim fidgetdown1, HaveASeat
+	else
+		PlayAnim fidgetdown2, HaveASeat
+	endif
+
+	exit
+
+;----------------------------------------------------------
+:HaveASeat
+;----------------------------------------------------------
+
+	if ( g_bSitting==FALSE )
+		Exit
+	endif
+
+	LoopAnim StandDown, 0
+
+	GetRandomFloat 1, 4, g_nRandom
+
+	Wait SITTING_WAIT, g_nRandom, SitDownFidget
+
+	exit
+
+;----------------------------------------------------------
+:OnHangoutArrival
+;----------------------------------------------------------
+
+	GetRandomFloat 8, 15, g_nRandom
+
+	Wait HANGOUT_WAIT, g_nRandom, DoneHangingOut
+	Stop
+
+	OnTargetBeyondDist 120, GoAfterHim
+	g_bSitting = TRUE
+	gosub HaveASeat
+	Trigger g_hTarget,LookAtMe
+
+	Exit TRUE
+
+;----------------------------------------------------------
+:GoAfterHim
+;----------------------------------------------------------
+
+	OnTargetBeyondDist 0
+	Wait SITTING_WAIT, 0, DoNothing
+
+	g_bSitting = FALSE
+
+	Stop
+	SetIdle
+	
+	WalkTo g_hTarget, 0, OnHangoutArrival
+
+	Exit
+
+;----------------------------------------------------------
+:DogChase
+;
+;	p0 - handle of the DOG...
+;----------------------------------------------------------
+	GetParam 0, g_hTarget
+	Target g_hTarget
+	gosub RunAway
+
+	GetRandomInt 12,18,g_nRandom
+
+	Wait RUN_AWAY_STOP_WAIT, g_nRandom, BaseRunCancel
+
+	Exit
+
+;----------------------------------------------------------
+:DogGiveUp
+;
+;	Dog gave up, keep running for a little while longer..
+;----------------------------------------------------------
+
+	GetRandomInt 5, 8, g_nRandom
+	Wait RUN_AWAY_STOP_WAIT, g_nRandom, BaseRunCancel
+
+	Exit
+
+;----------------------------------------------------------
+:StartUp
+;----------------------------------------------------------
+
+	g_bUseHidingPlaces = FALSE
+	
+	SetIdle
+	gosub BaseWanderForceStartup
+
+	Exit
+
+
+;----------------------------------------------------------
+:RunAway
+;
+;	Run Away from our target...
+;
+;----------------------------------------------------------
+
+	if ( g_hTarget==NULL )
+		Exit
+	endif
+
+	gosub DisableWandering
+
+	Stop
+	SetIdle
+
+;
+; Cancel some timers...
+;
+	Wait HANGOUT_WAIT, 0, DoNothing
+	Wait SITTING_WAIT, 0, DoNothing
+	Wait RUN_AWAY_WAIT, 0, DoNothing
+
+;	Not sitting anymore...
+	g_bSitting = FALSE
+
+	gosub BaseRunAway
+
+	Exit
+
+;----------------------------------------------------------
+:BaseRunCancel
+;
+;	We're overloading the function here....
+;
+;----------------------------------------------------------
+
+	gosub BaseRunCancel,1
+
+	Wait RUN_AWAY_STOP_WAIT, 0, DoNothing
+	gosub DoneHangingOut
+	gosub BaseWanderGo
+
+	Exit
+
+;----------------------------------------------------------
+:OnProjectile
+;----------------------------------------------------------
+	if ( g_bRunning==TRUE )
+		Exit TRUE
+	endif
+
+	GetParam 1, g_hObject
+
+	g_hTarget = g_hObject
+
+	Target g_hTarget, FALSE
+
+	if ( g_hTarget!=NULL )
+		gosub RunAway
+		GetRandomInt 10, 20, g_nRandom
+		Wait RUN_AWAY_STOP_WAIT, g_nRandom, BaseRunCancel
+	endif
+
+	Exit TRUE
+
+;----------------------------------------------------------
+:BaseShouldRun
+;----------------------------------------------------------
+	g_bTemp	= TRUE
+
+	Exit
+
+;----------------------------------------------------------
+:Main
+;
+;
+;----------------------------------------------------------
+
+	GetMyHandle g_hMyObject
+	OnFoundTarget FoundTarget
+	AddTrigger DogChase, DogChase
+	AddTrigger DogGiveUp, DogGiveUp
+
+	OnProjectile OnProjectile, 500
+
+	gosub BaseWanderInit
+	Wait 0, 1.0, StartUp
+
+	RUN_AWAY_TURN_MIN = 15
+	RUN_AWAY_TURN_MAX = 85
+
+	SetIdle
+
+	Exit

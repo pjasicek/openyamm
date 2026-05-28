@@ -1,0 +1,62 @@
+schema: openyamm.model3d.v1
+id: blacksheart
+model: blacksheart.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/WEAPONS/BLACKSHEART.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: BlacksHeart
+  materialIndex: 0
+  lods:
+  - faces: 152
+    vertices: 93
+materials:
+- index: 0
+  texture: skins_preview/weapons/blacksheart.png
+  runtime_texture: skins/weapons/blacksheart.dtx
+  preview_texture: skins_preview/weapons/blacksheart.png
+  source: mm9/extracted/SKINS/SKINS/WEAPONS/BLACKSHEART.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 2.56
+  - 25.6
+  - 2.56
+  origin:
+  - 0.0
+  - -2.56
+  - 0.0
+roles:
+- static_model
+source_model: models/weapons/blacksheart.abc

@@ -1,0 +1,123 @@
+;--------------------------------
+;	BoatJudge.scr
+;	by SJR
+;	12-12-01
+;	Purpose:
+;		a.) start the contest
+;		b.) decide the winner
+;--------------------------------
+#include BaseGlobals.inc
+#include ListMaker.inc
+#include ThjorgardGamesCommon.inc
+
+#string		sMyName = ""
+
+#number		KEY_BOATRACE = 7004
+#number		KEY_BOATTEXT = 7003
+#number		bWantsRace = 0
+
+;--------------------------------
+:Main
+;--------------------------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+
+	GetMyHandle LISTOBJECT
+	GetObjectName LISTOBJECT, sMyName
+	SetConsoleStrVar BOAT_JUDGE, sMyName
+
+	OnRudeExit StartRace
+	AddTrigger use, OnUse
+
+	Exit TRUE
+
+;--------------------------------
+:OnUse
+;--------------------------------
+	GiveKey KEY_BOATTEXT
+
+	Exit FALSE
+
+;--------------------------------
+:StartRace
+;--------------------------------
+	TakeKey KEY_BOATTEXT
+	HasKey KEY_BOATRACE, bWantsRace
+	if( bWantsRace==FALSE )
+		Exit TRUE
+	else
+		TakeKey KEY_BOATRACE
+	endif
+
+	gosub CheckGameTicket
+	if( THJORGARD_RESULT==0 )
+		Exit TRUE
+	else
+		gosub TakeGameTicket
+	endif
+
+	AddTrigger CPUArrival, AIWon
+	AddTrigger PlayerArrival, PlayerWon
+
+	Wait 0, 5, SignalAiBoats
+	gosub Countdown5
+
+	Exit TRUE
+
+;--------------------------------
+:SignalAiBoats
+;--------------------------------
+	gosub GetFirstObject
+
+	while( LISTINDEX<LISTLAST )
+		Trigger LISTOBJECT, on
+		gosub GetNextObject
+	endwhile
+
+	Trigger LISTOBJECT, on
+
+	Exit TRUE
+
+;--------------------------------
+:DisableWinning
+;--------------------------------
+	RemoveTrigger CPUArrival
+	RemoveTrigger PlayerArrival
+
+	gosub SignalSubmerge
+
+	Exit TRUE
+
+;--------------------------------
+:AIWon
+;--------------------------------
+	gosub DisableWinning
+
+	RolloverText TEXT_DEFEAT, 1, 3000, 2000
+
+	Exit TRUE
+
+;--------------------------------
+:PlayerWon
+;--------------------------------
+	PlaySound "sounds\events\trumpets02.wav", DoNothing, 1, 5000, FALSE, 100
+
+	gosub DisableWinning
+	gosub RecordBoatWin
+
+	Exit TRUE
+
+;--------------------------------
+:SignalSubmerge
+;--------------------------------
+	gosub GetFirstObject
+
+	while( LISTINDEX<LISTLAST )
+		Trigger LISTOBJECT, submerge
+		gosub GetNextObject
+	endwhile
+
+	Trigger LISTOBJECT, submerge
+
+	Exit TRUE

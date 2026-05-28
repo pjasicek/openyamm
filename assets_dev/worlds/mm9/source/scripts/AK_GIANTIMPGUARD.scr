@@ -1,0 +1,49 @@
+;---------------------------------------
+;	AK_GiantImp.scr
+;	by SJR
+;	Purpose:
+;---------------------------------------
+#include baseMelee.inc
+#include flags.inc
+
+;---------------------------------------
+:Main
+;---------------------------------------
+	AddFriend Player
+	AddEnemy Imp
+
+	GetMyHandle g_hMyObject
+
+	SetStat g_hMyObject, gravity, FALSE
+	ClearFlag g_hMyObject, FLAG_SOLID
+	ClearFlag g_hMyObject, FLAG_VISIBLE
+
+	AddTrigger appear, Appear
+
+	Exit TRUE
+
+;---------------------------------------
+:Appear
+;	appear, run to impy, fight, and die
+;---------------------------------------
+	GetParam 0, g_hTarget
+
+	SetFlag g_hMyObject, FLAG_SOLID
+	SetFlag g_hMyObject, FLAG_VISIBLE
+	SetStat g_hMyObject, gravity, TRUE
+
+	gosub BaseInit
+	GetObjectHandle GiantImp, g_hTarget
+	gosub SetupTarget
+	gosub AggressiveStart
+	OnDamage OnDamage
+
+	Exit TRUE
+
+;---------------------------------------
+:OnDamage
+;	die as soon as impy hits us
+;---------------------------------------
+	Die
+
+	Exit TRUE

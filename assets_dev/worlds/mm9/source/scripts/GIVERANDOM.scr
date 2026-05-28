@@ -1,0 +1,207 @@
+;-----------------------------------
+;	GiveRandom.inc
+;	by SJR
+;	11-03-01
+;	Purpose:give the player a random
+;			bonus or detriment
+;	Triggers:
+;		'use' = give out random thing
+;	ScriptParams:
+;		p0 = name of smoke to trigger
+;		p1 = number of "wishes" (0=infinite)
+;-----------------------------------
+#include BaseGlobals.inc
+#include pickmon.inc
+
+#string		sSmokeName = ""
+#hobject	hSmoke = 0
+#hobject	hPlayer = 0
+#number		nQuantity = 0
+
+#number		nTemp = 0
+
+#number		MAX_GOLD = 1000
+#number		MAX_EXP = 1000
+#number		MAX_HEALTH = 1000
+#number		MAX_ATTRIBUTE = 2
+
+#number		MIN_GOLD = 100
+#number		MIN_EXP = 100
+#number		MIN_HEALTH = 100
+#number		MIN_ATTRIBUTE = 1
+
+#number		NUM_ITEMS = 60
+#number		NUM_MONSTERS = 90
+#number		NUM_ATTRIBUTES = 5
+
+;-------------------
+:Main
+;-------------------
+	GetParam 0, sSmokeName
+
+;;	OnPostStartWorld InitGiveRandom
+Wait 0, 5, InitGiveRandom
+
+	gosub InitItemList
+
+	Exit TRUE
+
+;-------------------
+:InitGiveRandom
+;-------------------
+	AddTrigger use, ProduceRandomEffect
+
+	SetCallback 0, GiveRandomGold
+	SetCallback 1, GiveRandomExp
+	SetCallback 2, GiveRandomItem
+	SetCallback 3, GiveRandomHealth
+	SetCallback 4, GiveRandomAttribute
+
+	GetPlayerHandle hPlayer
+
+	Exit TRUE
+
+#number		nRandom = 0
+;-------------------
+:ProduceRandomEffect
+;-------------------
+	RemoveTrigger use
+
+	if( hSmoke==0 )
+		GetObjectHandle sSmokeName, hSmoke
+	endif
+	if( hSmoke!=0 )
+		Trigger hSmoke, trigger
+	endif
+
+	GetRandomInt 0, 5, nRandom
+
+	DoCallback nRandom
+
+	Exit TRUE
+
+;****************************
+;private
+;****************************
+#number		nMin = 0
+#number		nMax = 0
+
+#numberarray	npItems[61]
+#string			sName = ""
+
+:GetRandomQuantity
+	GetRandomInt nMin, nMax, nQuantity
+
+	Exit TRUE
+
+:GiveRandomGold
+	nMin = MIN_GOLD
+	nMax = MAX_GOLD
+	gosub GetRandomQuantity
+
+	GiveGold nQuantity
+
+	Exit TRUE
+
+:GiveRandomExp
+	nMin = MIN_EXP
+	nMax = MAX_EXP
+	gosub GetRandomQuantity
+
+	GiveExp nQuantity
+
+	Exit TRUE
+
+:GiveRandomHealth
+	nMin = MIN_HEALTH
+	nMax = MAX_HEALTH
+	gosub GetRandomQuantity
+
+	Heal hPlayer, nQuantity
+
+	Exit TRUE
+
+:GiveRandomAttribute
+	nMin = MIN_ATTRIBUTE
+	nMax = MAX_ATTRIBUTE
+	gosub GetRandomQuantity
+
+	GetRandomInt 0, NUM_ATTRIBUTES, nTemp
+	;;numattribute, howmuch, everyone, gameseconds (5 real mins)
+	GiveAttribute nTemp, nQuantity, TRUE, 3000
+
+	Exit TRUE
+
+:GiveRandomItem
+	GetRandomInt 0, NUM_ITEMS, nTemp
+	ArrayGet npItems, nTemp, nQuantity
+
+	GiveItem nQuantity
+
+	Exit TRUE
+
+;;should be named "SuperFunToWriteRoutine"
+:InitItemList
+	ArrayPut npItems, 0 ,2
+	ArrayPut npItems, 1 ,359
+	ArrayPut npItems, 2 ,81
+	ArrayPut npItems, 3 ,420
+	ArrayPut npItems, 4 ,86
+	ArrayPut npItems, 5 ,510
+	ArrayPut npItems, 6 ,285
+	ArrayPut npItems, 7 ,318
+	ArrayPut npItems, 8 ,71
+	ArrayPut npItems, 9 ,319
+	ArrayPut npItems, 10,96
+	ArrayPut npItems, 11,97
+	ArrayPut npItems, 12,320
+	ArrayPut npItems, 13,26
+	ArrayPut npItems, 14,519
+	ArrayPut npItems, 15,76
+	ArrayPut npItems, 16,87
+	ArrayPut npItems, 17,61
+	ArrayPut npItems, 18,36
+	ArrayPut npItems, 19,18
+	ArrayPut npItems, 20,41
+	ArrayPut npItems, 21,297
+	ArrayPut npItems, 22,296
+	ArrayPut npItems, 23,295
+	ArrayPut npItems, 24,2
+	ArrayPut npItems, 25,56
+	ArrayPut npItems, 26,421
+	ArrayPut npItems, 27,66
+	ArrayPut npItems, 28,292
+	ArrayPut npItems, 29,291
+	ArrayPut npItems, 30,290
+	ArrayPut npItems, 31,415
+	ArrayPut npItems, 32,288
+	ArrayPut npItems, 33,287
+	ArrayPut npItems, 34,294
+	ArrayPut npItems, 35,155
+	ArrayPut npItems, 36,332
+	ArrayPut npItems, 37,518
+	ArrayPut npItems, 38,150
+	ArrayPut npItems, 39,547
+	ArrayPut npItems, 40,538
+	ArrayPut npItems, 41,333
+	ArrayPut npItems, 42,142
+	ArrayPut npItems, 43,334
+	ArrayPut npItems, 44,552
+	ArrayPut npItems, 45,553
+	ArrayPut npItems, 46,554
+	ArrayPut npItems, 47,335
+	ArrayPut npItems, 48,160
+	ArrayPut npItems, 49,548
+	ArrayPut npItems, 50,346
+	ArrayPut npItems, 51,349
+	ArrayPut npItems, 52,134
+	ArrayPut npItems, 53,327
+	ArrayPut npItems, 54,133
+	ArrayPut npItems, 55,422
+	ArrayPut npItems, 56,126
+	ArrayPut npItems, 57,127
+	ArrayPut npItems, 58,530
+	ArrayPut npItems, 59,350
+	ArrayPut npItems, 60,254
+
+	Exit TRUE

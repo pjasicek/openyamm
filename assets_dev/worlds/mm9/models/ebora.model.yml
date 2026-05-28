@@ -1,0 +1,830 @@
+schema: openyamm.model3d.v1
+id: ebora
+model: ebora.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/EBORA.abc
+  commandString: FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 4.023306898564917e+25
+pieces:
+- name: Ebora
+  materialIndex: 0
+  lods:
+  - faces: 964
+    vertices: 499
+  - faces: 722
+    vertices: 378
+materials:
+- index: 0
+  texture: skins_preview/ebora.png
+  runtime_texture: skins/ebora.dtx
+  preview_texture: skins_preview/ebora.png
+  source: mm9/extracted/SKINS/SKINS/EBORA.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 60
+    - 64
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+    - 36
+    - 48
+  - index: 5
+    name: Bip01 Spine3
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Bip01 Neck
+    parent: 5
+    flags: 1
+    children:
+    - 7
+    - 8
+    - 22
+  - index: 7
+    name: Bip01 Head
+    parent: 6
+    flags: 1
+    children: []
+  - index: 8
+    name: Bip01 L Clavicle
+    parent: 6
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bip01 L UpperArm
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bip01 L Forearm
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bip01 L Hand
+    parent: 10
+    flags: 1
+    children:
+    - 12
+    - 14
+    - 16
+    - 18
+    - 20
+  - index: 12
+    name: Bip01 L Finger0
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bip01 L Finger01
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Bip01 L Finger1
+    parent: 11
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 L Finger11
+    parent: 14
+    flags: 1
+    children: []
+  - index: 16
+    name: Bip01 L Finger2
+    parent: 11
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bip01 L Finger21
+    parent: 16
+    flags: 1
+    children: []
+  - index: 18
+    name: Bip01 L Finger3
+    parent: 11
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bip01 L Finger31
+    parent: 18
+    flags: 1
+    children: []
+  - index: 20
+    name: Bip01 L Finger4
+    parent: 11
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Bip01 L Finger41
+    parent: 20
+    flags: 1
+    children: []
+  - index: 22
+    name: Bip01 R Clavicle
+    parent: 6
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Bip01 R UpperArm
+    parent: 22
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bip01 R Forearm
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bip01 R Hand
+    parent: 24
+    flags: 1
+    children:
+    - 26
+    - 28
+    - 30
+    - 32
+    - 34
+  - index: 26
+    name: Bip01 R Finger0
+    parent: 25
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: Bip01 R Finger01
+    parent: 26
+    flags: 1
+    children: []
+  - index: 28
+    name: Bip01 R Finger1
+    parent: 25
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: Bip01 R Finger11
+    parent: 28
+    flags: 1
+    children: []
+  - index: 30
+    name: Bip01 R Finger2
+    parent: 25
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: Bip01 R Finger21
+    parent: 30
+    flags: 1
+    children: []
+  - index: 32
+    name: Bip01 R Finger3
+    parent: 25
+    flags: 1
+    children:
+    - 33
+  - index: 33
+    name: Bip01 R Finger31
+    parent: 32
+    flags: 1
+    children: []
+  - index: 34
+    name: Bip01 R Finger4
+    parent: 25
+    flags: 1
+    children:
+    - 35
+  - index: 35
+    name: Bip01 R Finger41
+    parent: 34
+    flags: 1
+    children: []
+  - index: 36
+    name: Bone48
+    parent: 4
+    flags: 1
+    children:
+    - 37
+  - index: 37
+    name: Bone49
+    parent: 36
+    flags: 1
+    children:
+    - 38
+    - 46
+    - 47
+  - index: 38
+    name: Bone50
+    parent: 37
+    flags: 1
+    children:
+    - 39
+    - 42
+    - 44
+  - index: 39
+    name: Bone53
+    parent: 38
+    flags: 1
+    children:
+    - 40
+  - index: 40
+    name: Bone54
+    parent: 39
+    flags: 1
+    children:
+    - 41
+  - index: 41
+    name: Bone55
+    parent: 40
+    flags: 1
+    children: []
+  - index: 42
+    name: Bone58
+    parent: 38
+    flags: 1
+    children:
+    - 43
+  - index: 43
+    name: Bone59
+    parent: 42
+    flags: 1
+    children: []
+  - index: 44
+    name: Bone62
+    parent: 38
+    flags: 1
+    children:
+    - 45
+  - index: 45
+    name: Bone63
+    parent: 44
+    flags: 1
+    children: []
+  - index: 46
+    name: Bone66
+    parent: 37
+    flags: 1
+    children: []
+  - index: 47
+    name: Bone69
+    parent: 37
+    flags: 1
+    children: []
+  - index: 48
+    name: Bone13
+    parent: 4
+    flags: 1
+    children:
+    - 49
+  - index: 49
+    name: Bone14
+    parent: 48
+    flags: 1
+    children:
+    - 50
+    - 58
+    - 59
+  - index: 50
+    name: Bone15
+    parent: 49
+    flags: 1
+    children:
+    - 51
+    - 54
+    - 56
+  - index: 51
+    name: Bone18
+    parent: 50
+    flags: 1
+    children:
+    - 52
+  - index: 52
+    name: Bone19
+    parent: 51
+    flags: 1
+    children:
+    - 53
+  - index: 53
+    name: Bone20
+    parent: 52
+    flags: 1
+    children: []
+  - index: 54
+    name: Bone26
+    parent: 50
+    flags: 1
+    children:
+    - 55
+  - index: 55
+    name: Bone27
+    parent: 54
+    flags: 1
+    children: []
+  - index: 56
+    name: Bone10
+    parent: 50
+    flags: 1
+    children:
+    - 57
+  - index: 57
+    name: Bone11
+    parent: 56
+    flags: 1
+    children: []
+  - index: 58
+    name: Bone46
+    parent: 49
+    flags: 1
+    children: []
+  - index: 59
+    name: Bone34
+    parent: 49
+    flags: 1
+    children: []
+  - index: 60
+    name: Bip01 L Thigh
+    parent: 1
+    flags: 1
+    children:
+    - 61
+  - index: 61
+    name: Bip01 L Calf
+    parent: 60
+    flags: 1
+    children:
+    - 62
+  - index: 62
+    name: Bip01 L Foot
+    parent: 61
+    flags: 1
+    children:
+    - 63
+  - index: 63
+    name: Bip01 L Toe0
+    parent: 62
+    flags: 1
+    children: []
+  - index: 64
+    name: Bip01 R Thigh
+    parent: 1
+    flags: 1
+    children:
+    - 65
+  - index: 65
+    name: Bip01 R Calf
+    parent: 64
+    flags: 1
+    children:
+    - 66
+  - index: 66
+    name: Bip01 R Foot
+    parent: 65
+    flags: 1
+    children:
+    - 67
+  - index: 67
+    name: Bip01 R Toe0
+    parent: 66
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: static_model00
+  durationMs: 66
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand
+  durationMs: 1333
+  keyframes: 9
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 1000
+  keyframes: 27
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 500
+    event: footstep
+  - timeMs: 1000
+    event: footstep
+- name: backpedal
+  durationMs: 1100
+  keyframes: 26
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 550
+    event: footstep
+  - timeMs: 1100
+    event: footstep
+- name: run
+  durationMs: 700
+  keyframes: 15
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 233
+    event: footstep
+  - timeMs: 500
+    event: footstep
+- name: backpedalrun
+  durationMs: 700
+  keyframes: 26
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 350
+    event: footstep
+  - timeMs: 700
+    event: footstep
+- name: fly
+  durationMs: 500
+  keyframes: 18
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 286
+    event: flap
+- name: Castspell
+  durationMs: 1500
+  keyframes: 20
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 588
+    event: speakanimsound
+- name: Hattack1
+  durationMs: 900
+  keyframes: 49
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 300
+    event: speakanimsound
+  - timeMs: 407
+    event: rattack
+- name: fidget1
+  durationMs: 4500
+  keyframes: 43
+  interpolationTimeMs: 200
+  events: []
+- name: fidget2
+  durationMs: 3366
+  keyframes: 20
+  interpolationTimeMs: 200
+  events: []
+- name: taunt
+  durationMs: 2215
+  keyframes: 19
+  interpolationTimeMs: 200
+  events: []
+- name: land
+  durationMs: 900
+  keyframes: 28
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 180
+    event: speakanimsound
+  - timeMs: 450
+    event: footstep
+- name: launch
+  durationMs: 900
+  keyframes: 28
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 360
+    event: speakanimsound
+  - timeMs: 495
+    event: Launch
+  - timeMs: 517
+    event: launch
+- name: wince1
+  durationMs: 1555
+  keyframes: 24
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 239
+    event: speakanimsound
+- name: wince2
+  durationMs: 1500
+  keyframes: 23
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 150
+    event: speakanimsound
+- name: WinceAir1
+  durationMs: 1400
+  keyframes: 36
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 248
+    event: speakanimsound
+  - timeMs: 1120
+    event: flap
+- name: DieAir1
+  durationMs: 1400
+  keyframes: 36
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 248
+    event: speakanimsound
+  - timeMs: 1120
+    event: flap
+- name: fall1
+  durationMs: 666
+  keyframes: 21
+  interpolationTimeMs: 200
+  events: []
+- name: FallDown1
+  durationMs: 1533
+  keyframes: 39
+  interpolationTimeMs: 200
+  events: []
+- name: flap
+  durationMs: 500
+  keyframes: 18
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 190
+    event: playanimsound
+  - timeMs: 286
+    event: flap
+- name: die2
+  durationMs: 1100
+  keyframes: 25
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 198
+    event: speakanimsound
+animationBindings:
+- name: static_model00
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: stand
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: walk
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: backpedal
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: run
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -89.60000000000001
+  - -23.04
+- name: backpedalrun
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -12.8
+  - 0.0
+- name: fly
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: Castspell
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: Hattack1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: fidget1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: fidget2
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: taunt
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: land
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: launch
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: wince1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: wince2
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: WinceAir1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 0.0
+- name: DieAir1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fall1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -48.64
+  - 43.52
+- name: FallDown1
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 40.96
+- name: flap
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: die2
+  extents:
+  - 38.4
+  - 92.16
+  - 38.4
+  origin:
+  - 0.0
+  - -10.24
+  - 38.4
+roles:
+- actor_model
+source_model: models/ebora.abc
+source_tables:
+- MONSTERS
+skin_bindings:
+- id: ebora_ebora
+  source_skins:
+  - skins/ebora.dtx
+  actor_rows:
+  - table: MONSTERS
+    row: 282
+    number: '301'
+    monster_name: Ebora
+    type_picture: Ebora
+    base_name: PeasantFemale
+- id: ebora_siren1
+  source_skins:
+  - skins/siren1.dtx
+  actor_rows:
+  - table: MONSTERS
+    row: 283
+    number: '302'
+    monster_name: Concubine
+    type_picture: Concubine
+    base_name: PeasantFemale

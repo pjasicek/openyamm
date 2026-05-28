@@ -1,0 +1,51 @@
+;----------------------------------------------
+;NPC49.scr
+; By Timmy
+; handles In'jorg's giving It'lor a job
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         sound   ; checks to see if a sound is currently playing
+#number							soundhandle ; handler for sounds
+#number							sounddur ; duration of sound
+#number							sounddone ; if sound is done this is true
+#number							soundhandle2 ; handler for second actor
+
+
+;-------------------------------------
+:Onblabber
+;-------------------------------------
+; erccs blabber
+
+
+
+
+	Playsound voices\NPC\NPC_050.wav, Onexit, 100, 240, FALSE, 100
+
+
+
+
+exit
+
+
+
+
+;-------------------------------------
+:Onexit
+;-------------------------------------
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger Use, Onblabber
+;AddTrigger Use, OnUse ; ADD THIS BACK IN WHEN PROPS CAN REACT TO WAIT COMMAND
+CacheSound voices\NPC\NPC_050.wav
+
+
+exit

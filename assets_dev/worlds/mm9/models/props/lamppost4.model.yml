@@ -1,0 +1,87 @@
+schema: openyamm.model3d.v1
+id: lamppost4
+model: lamppost4.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/LAMPPOST4.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: Flame
+  materialIndex: 0
+  lods:
+  - faces: 1
+    vertices: 3
+- name: Lamppost4
+  materialIndex: 0
+  lods:
+  - faces: 283
+    vertices: 197
+materials:
+- index: 0
+  texture: skins_preview/props/lamppost3.png
+  runtime_texture: skins/props/lamppost3.dtx
+  preview_texture: skins_preview/props/lamppost3.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/LAMPPOST3.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+  - index: 1
+    name: Flame
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets:
+- name: Flame
+  node: 1
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.28609341382980347
+  - 0.6465573310852051
+  - 0.2859962582588196
+  - 0.6467769145965576
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 25.6
+  - 189.44
+  - 25.6
+  origin:
+  - -58.88
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/lamppost4.abc

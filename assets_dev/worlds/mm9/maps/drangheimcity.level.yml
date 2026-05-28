@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: drangheimcity
+display_name: Drangheim City
+source:
+  dat: ../source/worlds/DRANGHEIMCITY.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/DRANGHEIMCITY.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 25816b686ffa570decf8bf0d0a78e8b81f3b42d98d237e35e448529306e1f636
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: drangheimcity.dat_world.yml
+  raw_objects: drangheimcity.raw_objects.yml
+  materials: drangheimcity.material_aliases.yml
+  events: drangheimcity.events.yml
+  scene_compat: drangheimcity.scene.yml
+  source_metadata_compat: drangheimcity.mm9.yml
+  bsp_compat: null
+  geometry_compat: null
+  model_assets_compat: drangheimcity.model_assets.yml
+  odm_compat: drangheimcity.odm
+  blv_compat: null
+scripts:
+  level: ../events/drangheimcity.lua
+  script_ir: ../events/drangheimcity.script_ir.yml
+compatibility:
+  legacy_target_format: odm
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

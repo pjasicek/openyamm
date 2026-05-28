@@ -1,0 +1,131 @@
+;--------------------------------------------------
+;NPC9.scr
+; timmy
+; handles Ketil Strongpick's voice and quest stuff.
+;--------------------------------------------------
+
+#include globals.inc
+#include basemelee.inc
+
+#String    Params          
+#String    sound
+#Number		Walking
+#number		Marker_Dist1
+#number		Marker_Dist2
+#number		panic
+
+#String		L_Marker
+#hobject	L_htarget
+
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+exit
+
+; removed because it wasn't working correctly.
+
+Haskey 9509 g_ntemp
+if (g_ntemp==1)
+	removetrigger use
+	Walking = TRUE
+	Target L_htarget
+	L_Marker = "Marker0"
+	wait 1 .5 OnWalkTo
+	exit
+endif
+	 
+exit
+
+;--------------------------------------------------
+:OnWalkTo
+;--------------------------------------------------
+
+if (Walking==TRUE)
+	OnTargetBeyondDist 256 OnStop
+	GetObjectHandle L_Marker g_hobject
+	Walkto g_hobject 8 OnExit
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+
+GetParam 0 L_hTarget
+Playsound sound, Onexit, 100, 240, FALSE, 100
+exit
+
+;-------------------------------------
+:OnStop
+;-------------------------------------
+if (panic==TRUE)
+	exit
+endif
+
+Stop
+Target L_HTarget
+FaceObject L_HTarget 200 DoNothing
+OnTargetWithinDist 256 OnWalkTo
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+stop
+panic = FALSE
+walking = FALSE
+exit
+
+
+;-------------------------------------
+:OnRunAway
+; finds the closest safe marker
+; and runs to it
+;-------------------------------------
+stop
+Panic = TRUE
+GetObjectHandle Marker0 g_hobject
+AIGetDistance g_hobject Marker_Dist1
+GetObjectHandle Marker1 g_hobject
+AIGetDistance g_hobject Marker_Dist2
+
+if (Marker_Dist1<Marker_Dist2)
+	GetObjectHandle Marker0 g_hobject
+	Runto g_hobject 8 OnExit
+	exit
+else
+	GetObjectHandle Marker1 g_hobject
+	Runto g_hobject 8 OnExit
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+GetParam 0, sound
+GetParam 1, Params
+GetParam 2, g_ntemp
+if( Params!="" )
+if( g_ntemp>0 )
+	LoopAnim Params, g_ntemp ONExit
+endif
+endif
+OnRudeExit OnRude
+Addtrigger Use, OnUse
+AttachProp MonkHammer.ABC MonkHammer.dtx RHand1 g_hobject2
+Gosub BaseWanderInit
+OnDamage OnRunAway
+exit
+

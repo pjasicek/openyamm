@@ -1,0 +1,67 @@
+;	FollowCam.scr
+;
+;
+;	Just hovers over the passed object
+;
+
+#include globals.inc
+
+#string			sObjName
+#hobject		hFollowObj
+#number			nHeight=120 ; 10 feet
+
+
+
+:Tick
+	GetPos hFollowObj, g_posX, g_posY, g_posZ
+	
+	Add g_posY, nHeight
+
+	SetPos g_hMyObject, g_posX, g_posY, g_posZ
+	
+	Wait 0.01, Tick
+
+	Exit
+
+:Dummy
+	Exit
+
+:TurnOn
+;	TraceON
+	GetParam 1, sObjName
+	GetParam 2, g_nTemp
+
+	if ( g_nTemp > 0 )
+		Set nHeight, g_nTemp
+	endif
+
+	GetObjectHandle sObjName, hFollowObj
+
+	if ( hFollowObj==NULL )
+		Set g_sOut, sObjName
+		Add g_sOut, <--- is an invalid object name...
+		DebugOut g_sOut
+		Exit TRUE
+	endif
+
+	gosub Tick
+
+	traceOFF
+
+	Exit FALSE
+
+:TurnOff
+	Wait 0, Dummy
+	Exit FALSE
+
+
+:Main
+
+	GetMyHandle g_hMyObject
+
+	AddTrigger Off, TurnOff
+	AddTrigger ON, TurnOn
+
+
+	Exit
+

@@ -1,0 +1,75 @@
+;--------------------------------------------------
+;ArenaCreature.scr
+; timmy
+; handles scholar promo stuff
+;--------------------------------------------------
+
+#include globals.inc
+
+#string			sMonster_ID
+
+
+;--------------------------------------------------
+:Face
+;--------------------------------------------------
+
+SetPropNumber CanDamage, FALSE
+getobjecthandle marker5 g_hobject
+faceobject g_hobject 0 DoNothing
+getobjecthandle ArenaFight g_hobject
+trigger g_hobject Hello
+exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+haskey 1017 g_ntemp
+if (g_ntemp==TRUE)
+	haskey 1019 g_ntemp
+	if (g_ntemp==TRUE)
+		exit
+	endif
+	getobjecthandle ShopkeeperElfMaleB0 g_hobject
+	trigger g_hobject sMonster_ID
+	givekey 1019
+	Attack, DoNothing
+	wait 1 3 Fight
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:Fight
+;--------------------------------------------------
+
+getobjecthandle ShopkeeperElfMaleB0 g_hobject
+Trigger g_hobject Fight
+
+exit
+
+;--------------------------------------------------
+:OnAttack
+;--------------------------------------------------
+	Exit TRUE
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+
+;traceon 
+;Don't Forget to Delete this!
+wait 1 1 Face
+getparam 0 sMonster_ID
+Addtrigger use, OnUse
+OnDamage OnUse
+OnDeath, OnUse
+
+AddModelKey rAttack,OnAttack
+AddModelKey lAttack,OnAttack
+AddModelKey RangeAttack,OnAttack
+AddModelKey Bite,OnAttack
+
+exit
+

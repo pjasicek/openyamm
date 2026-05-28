@@ -1,0 +1,91 @@
+schema: openyamm.model3d.v1
+id: shelfitem09
+model: shelfitem09.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/SHELFITEM09.abc
+  commandString: NoAnimation; FadeRangeMax 5000; FadeRangeMin 4500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: SkullCaps
+  materialIndex: 0
+  lods:
+  - faces: 80
+    vertices: 50
+  - faces: 80
+    vertices: 50
+- name: Daggers
+  materialIndex: 0
+  lods:
+  - faces: 348
+    vertices: 468
+  - faces: 220
+    vertices: 398
+- name: Gloves
+  materialIndex: 0
+  lods:
+  - faces: 97
+    vertices: 56
+  - faces: 93
+    vertices: 54
+materials:
+- index: 0
+  texture: skins_preview/props/shelfitem09.png
+  runtime_texture: skins/props/shelfitem09.dtx
+  preview_texture: skins_preview/props/shelfitem09.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/SHELFITEM09.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone05
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 46.08
+  - 5.12
+  - 15.36
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/shelfitem09.abc

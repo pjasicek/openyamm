@@ -1,0 +1,570 @@
+;-----------------------------------------------------
+;	ButtonPad.scr
+;	Brett Yagi/Ed Campos/Karl Drown
+;	11/16/2001
+;
+;	Script is arranged as the main Trigger that relays
+;	activation commands to each individual moveable
+;	piece of a 16 piece puzzle door controlled by 
+;	a script named ButtonPuzzle.scr
+;
+;-----------------------------------------------------
+
+;-----------------------------------------------------
+;	-DEDIT NOTES-
+;	ScriptParams are:
+;		p0 = The Base Root name of all the Puzzle Doors
+;		p1 = The Name of the ResetSwitch Trigger Object
+:			 (Note: this is not the ButtonPad Trigger Object)
+;
+;-----------------------------------------------------
+
+
+#number			nNumButtons = 16
+#numberArray 	aButtons[16]
+#numberArray 	aValid[16]
+
+#number		nButtonPushed
+#number		nRow
+#number		nNumRow = 4
+#number		nCol
+#number		nNumCol = 4
+
+#number		nWrapStop
+#number		nTemp
+#number		nReset = 0
+
+#string		sButtonNameRoot = ""
+#string		sButtonName = ""
+#string		sResetSwitch = ""
+#string		sLock = ""
+#string		sAIRail = ""
+
+#hobject	hButton
+#hobject	hResetSwitch
+#hobject	hLock
+#hobject	hAIRail
+
+#number		nOpen
+#number		nDone
+#number		nLoop
+#number		nButton
+#number		nValidPos
+#number		nOk
+#number		nLockLoop
+
+#number		TRUE = 1
+#number		FALSE = 0
+
+#string sLockButtons
+
+
+;-----------------------------------------------
+:DoNothing
+;-----------------------------------------------
+
+
+exit 1
+
+;-----------------------------------------------
+:InitalizeArrays
+;-----------------------------------------------
+
+	ArrayPut aButtons 0 0
+	ArrayPut aButtons 1 0
+	ArrayPut aButtons 2 0
+	ArrayPut aButtons 3 0
+	ArrayPut aButtons 4 0
+	ArrayPut aButtons 5 0
+	ArrayPut aButtons 6 0
+	ArrayPut aButtons 7 0
+	ArrayPut aButtons 8 0
+	ArrayPut aButtons 9 0
+	ArrayPut aButtons 10 0
+	ArrayPut aButtons 11 0
+	ArrayPut aButtons 12 0
+	ArrayPut aButtons 13 0
+	ArrayPut aButtons 14 0
+	ArrayPut aButtons 15 0
+
+	
+	ArrayPut aValid 0 1
+	ArrayPut aValid 1 1
+	ArrayPut aValid 2 1
+	ArrayPut aValid 3 1
+	ArrayPut aValid 4 1
+	ArrayPut aValid 5 1
+	ArrayPut aValid 6 1
+	ArrayPut aValid 7 1
+	ArrayPut aValid 8 1
+	ArrayPut aValid 9 1
+	ArrayPut aValid 10 1
+	ArrayPut aValid 11 1
+	ArrayPut aValid 12 1
+	ArrayPut aValid 13 1
+	ArrayPut aValid 14 1
+	ArrayPut aValid 15 1
+
+
+exit 1
+
+;-----------------------------------------------
+:CheckDone
+;-----------------------------------------------
+
+	nLoop = 0
+	nDone = 0
+	nOk = 1
+
+	while ( nDone != 1 )
+		ArrayGet aButtons nLoop nButton
+		ArrayGet aValid nLoop nValidPos
+		if ( nButton != nValidPos )
+			nOk = 0
+			nDone = 1
+		else
+			nLoop = nLoop + 1
+			if ( nLoop = nNumButtons )
+				nDone = 1
+			endif
+		endif
+	endwhile
+
+	if ( nOk = 1 )
+		Wait 0, .8,MoveAway
+	endif
+	
+exit 1	
+
+;-----------------------------------------------
+:MoveAway
+;-----------------------------------------------
+	Stop
+	GetObjectHandle sResetSwitch hResetSwitch
+		Trigger hResetSwitch, Lock
+
+	sButtonName = sButtonNameRoot + nReset
+	
+		GetObjectHandle sButtonName hButton
+		Trigger hButton, MoveDoor
+
+	if ( nReset == 15 )
+		nReset = 0
+		exit 1
+
+	else
+		nReset = nReset + 1
+		Gosub MoveAway
+	endif
+	GetObjectHandle sAIRail, hAIRail
+	Trigger hAIRail, On
+	Gosub EndScript
+
+Exit 1
+
+;-----------------------------------------------
+:EndScript
+;-----------------------------------------------
+	
+	SetConsoleNumVar LockButtons FALSE
+
+Exit 1
+
+;-----------------------------------------------
+:ToggleButton
+;-----------------------------------------------
+
+	sButtonName = sButtonNameRoot + nTemp
+	GetObjectHandle sButtonName hButton
+	Trigger hButton, unlock
+	Trigger hButton, TriggerMe
+	ArrayGet aButtons nTemp nOpen
+	
+	if ( nOpen = 0 )
+		ArrayPut aButtons nTemp 1
+
+	else
+		ArrayPut aButtons nTemp 0
+
+	endif
+	
+exit 1	
+
+;-----------------------------------------------
+:unlockall
+;-----------------------------------------------
+
+	SetConsoleNumVar LockButtons FALSE
+	nLockLoop = 0
+	while ( nLockLoop < nNumButtons )
+		sLock = sButtonNameRoot	+ nLockLoop
+		GetObjectHandle sLock hLock
+		Trigger hLock unlock
+		nLockLoop = nLockLoop + 1
+	endwhile
+
+exit 1
+
+;-----------------------------------------------
+:Lockdown
+;-----------------------------------------------
+
+	SetConsoleNumVar LockButtons TRUE
+
+	nLockLoop = 0
+	while ( nLockLoop < nNumButtons )
+		sLock = sButtonNameRoot	+ nLockLoop
+		GetObjectHandle sLock hLock
+		Trigger hLock Lock
+		nLockLoop = nLockLoop + 1
+	endwhile
+
+exit 1
+
+;-----------------------------------------------
+:ButtonPushed
+;-----------------------------------------------
+
+	nCol = nButtonPushed
+	nTemp = nButtonPushed
+	Gosub Lockdown
+	ArrayGet aButtons nTemp nOpen
+	if ( nOpen = 0 )
+		ArrayPut aButtons nTemp 1
+	else
+		ArrayPut aButtons nTemp 0
+	endif
+
+	Mod nCol nNumCol
+	nRow = nButtonPushed - nCol / nNumCol
+
+	if ( nCol > 0 )
+		nTemp = nRow * nNumCol + nCol - 1
+		Gosub ToggleButton
+	endif
+	nWrapStop = nNumCol - 1
+	if ( nCol < nWrapStop )
+		nTemp = nRow * nNumCol + nCol + 1
+		Gosub ToggleButton
+	endif
+
+	if ( nRow > 0 )
+		nTemp = nRow - 1 * nNumCol + nCol
+		Gosub ToggleButton
+	endif
+
+	if ( nRow < nWrapStop )
+		nTemp = nRow + 1 * nNumCol + nCol
+		Gosub ToggleButton
+	endif
+
+
+	Wait 1,.5, Unlockall
+	Gosub CheckDone
+
+exit 1
+
+;-----------------------------------------------
+:Button0
+;-----------------------------------------------
+
+	nButtonPushed = 0
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button1
+;-----------------------------------------------
+
+	nButtonPushed = 1
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button2
+;-----------------------------------------------
+
+	nButtonPushed = 2
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button3
+;-----------------------------------------------
+
+	nButtonPushed = 3
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button4
+;-----------------------------------------------
+
+	nButtonPushed = 4
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button5
+;-----------------------------------------------
+
+	nButtonPushed = 5
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button6
+;-----------------------------------------------
+
+	nButtonPushed = 6
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button7
+;-----------------------------------------------
+
+	nButtonPushed = 7
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button8
+;-----------------------------------------------
+
+	nButtonPushed = 8
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button9
+;-----------------------------------------------
+
+	nButtonPushed = 9
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button10
+;-----------------------------------------------
+
+	nButtonPushed = 10
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button11
+;-----------------------------------------------
+
+	nButtonPushed = 11
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button12
+;-----------------------------------------------
+
+	nButtonPushed = 12
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button13
+;-----------------------------------------------
+
+	nButtonPushed = 13
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button14
+;-----------------------------------------------
+
+	nButtonPushed = 14
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:Button15
+;-----------------------------------------------
+
+	nButtonPushed = 15
+	Gosub ButtonPushed
+
+exit 1
+
+;-----------------------------------------------
+:SetTrap
+;-----------------------------------------------
+
+	sButtonName = sButtonNameRoot + nReset
+	GetObjectHandle sButtonName hButton
+	Trigger hButton, TriggerTrap
+	Wait 2 .6 SlamSound
+
+	if ( nReset == 15 )
+		nReset = 0
+
+		Wait 3,.5, SetTrap2
+		exit 1
+
+	else
+		nReset = nReset + 1
+		Gosub SetTrap
+
+	endif
+
+exit 1
+
+;-----------------------------------------------
+:SlamSound
+;-----------------------------------------------
+	
+	PlaySound sounds\Door\stonedoorslam.wav, DoNothing, 0, 1000, 0, 100
+	Wait 4,.3, LockSound
+
+Exit 1
+
+;-----------------------------------------------
+:LockSound
+;-----------------------------------------------
+
+	PlaySound sounds\Door\doorlatch02.wav, DoNothing, 0, 1000, 0, 100
+
+Exit 1
+
+;-----------------------------------------------
+:SetTrap2
+;-----------------------------------------------
+
+	sButtonName = sButtonNameRoot + nReset
+	GetObjectHandle sButtonName hButton
+	Trigger hButton, UseStart
+
+	if ( nReset == 15 )
+		nReset = 0
+		Wait 5,.5, SetTrap3
+		exit 1
+
+	else
+		nReset = nReset + 1
+
+		Gosub SetTrap2
+	endif
+
+
+
+Exit 1
+
+;-----------------------------------------------
+:SetTrap3
+;-----------------------------------------------
+
+	Gosub Reset2
+
+exit 1
+
+;-----------------------------------------------
+:Reset
+;-----------------------------------------------
+
+	sButtonName = sButtonNameRoot + nReset
+	GetObjectHandle sButtonName hButton
+	Trigger hButton, close
+	ArrayPut aButtons nReset 0
+
+	if ( nReset == 15 )
+		nReset = 0
+		exit 1
+
+	else
+		nReset = nReset + 1
+		Gosub Reset
+	endif
+
+	
+exit 1
+	
+;-----------------------------------------------
+:Reset2
+;-----------------------------------------------
+
+
+
+	sButtonName = sButtonNameRoot + nReset
+	GetObjectHandle sButtonName hButton
+	Trigger hButton Unlock
+	Trigger hButton close
+	ArrayPut aButtons nReset 0
+
+	if ( nReset == 15 )
+		nReset = 0
+		exit 1
+
+	else
+		nReset = nReset + 1
+		Gosub Reset2
+
+	endif
+
+	
+
+exit 1
+
+;-----------------------------------------------
+:Main2
+;-----------------------------------------------
+	
+	SetConsoleNumVar LockButtons FALSE
+	Gosub InitalizeArrays
+	sLockButtons = "LockButtons"
+
+exit 1
+;-----------------------------------------------
+:Main
+;-----------------------------------------------
+
+
+
+	GetParam 0 sButtonNameRoot
+	GetParam 1 sResetSwitch
+	GetParam 2 sAIRail
+
+	AddTrigger Button0 Button0
+	AddTrigger Button1 Button1
+	AddTrigger Button2 Button2
+	AddTrigger Button3 Button3
+	AddTrigger Button4 Button4
+	AddTrigger Button5 Button5
+	AddTrigger Button6 Button6
+	AddTrigger Button7 Button7
+	AddTrigger Button8 Button8
+	AddTrigger Button9 Button9
+	AddTrigger Button10 Button10
+	AddTrigger Button11 Button11
+	AddTrigger Button12 Button12
+	AddTrigger Button13 Button13
+	AddTrigger Button14 Button14
+	AddTrigger Button15 Button15
+	AddTrigger Reset Reset
+	AddTrigger SetTrap SetTrap
+
+; AddTrigger MoveAway MoveAway
+	Wait 0, 1, Main2
+
+exit 1			

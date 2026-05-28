@@ -1,0 +1,527 @@
+schema: openyamm.model3d.v1
+id: peasantfemaledwarf
+model: peasantfemaledwarf.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PEASANTFEMALEDWARF.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: ngon
+  materialIndex: 0
+  lods:
+  - faces: 3
+    vertices: 288
+- name: dwarflady07
+  materialIndex: 0
+  lods:
+  - faces: 526
+    vertices: 285
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 18
+    - 45
+    - 49
+  - index: 1
+    name: Bone22
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 4
+    - 6
+    - 8
+    - 10
+    - 12
+    - 14
+    - 16
+  - index: 2
+    name: Bone11
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Bone20
+    parent: 2
+    flags: 1
+    children: []
+  - index: 4
+    name: Bone35
+    parent: 1
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bone38
+    parent: 4
+    flags: 1
+    children: []
+  - index: 6
+    name: Bone10
+    parent: 1
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Bone21
+    parent: 6
+    flags: 1
+    children: []
+  - index: 8
+    name: Bone02
+    parent: 1
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bone24
+    parent: 8
+    flags: 1
+    children: []
+  - index: 10
+    name: Bone08
+    parent: 1
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bone19
+    parent: 10
+    flags: 1
+    children: []
+  - index: 12
+    name: Bone06
+    parent: 1
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bone23
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Bone32
+    parent: 1
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bone36
+    parent: 14
+    flags: 1
+    children: []
+  - index: 16
+    name: Bone34
+    parent: 1
+    flags: 1
+    children:
+    - 17
+  - index: 17
+    name: Bone37
+    parent: 16
+    flags: 1
+    children: []
+  - index: 18
+    name: Bip01 Spine1
+    parent: 0
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bip01 Spine2
+    parent: 18
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Bip01 Neck
+    parent: 19
+    flags: 1
+    children:
+    - 21
+    - 29
+    - 37
+  - index: 21
+    name: Bip01 Head
+    parent: 20
+    flags: 1
+    children:
+    - 22
+    - 23
+    - 26
+  - index: 22
+    name: Bip01 Ponytail1
+    parent: 21
+    flags: 1
+    children: []
+  - index: 23
+    name: LF_tail
+    parent: 21
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: LF_tail2
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: LF_tail3
+    parent: 24
+    flags: 1
+    children: []
+  - index: 26
+    name: RF_tail
+    parent: 21
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: RF_tail2
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: RF_tail3
+    parent: 27
+    flags: 1
+    children: []
+  - index: 29
+    name: Bip01 L Clavicle
+    parent: 20
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Bip01 L UpperArm
+    parent: 29
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: Bip01 L Forearm
+    parent: 30
+    flags: 1
+    children:
+    - 32
+  - index: 32
+    name: Bip01 L Hand
+    parent: 31
+    flags: 1
+    children:
+    - 33
+    - 35
+  - index: 33
+    name: Bip01 L Finger0
+    parent: 32
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: Bip01 L Finger01
+    parent: 33
+    flags: 1
+    children: []
+  - index: 35
+    name: Bip01 L Finger1
+    parent: 32
+    flags: 1
+    children:
+    - 36
+  - index: 36
+    name: Bip01 L Finger11
+    parent: 35
+    flags: 1
+    children: []
+  - index: 37
+    name: Bip01 R Clavicle
+    parent: 20
+    flags: 1
+    children:
+    - 38
+  - index: 38
+    name: Bip01 R UpperArm
+    parent: 37
+    flags: 1
+    children:
+    - 39
+  - index: 39
+    name: Bip01 R Forearm
+    parent: 38
+    flags: 1
+    children:
+    - 40
+  - index: 40
+    name: Bip01 R Hand
+    parent: 39
+    flags: 1
+    children:
+    - 41
+    - 43
+  - index: 41
+    name: Bip01 R Finger0
+    parent: 40
+    flags: 1
+    children:
+    - 42
+  - index: 42
+    name: Bip01 R Finger01
+    parent: 41
+    flags: 1
+    children: []
+  - index: 43
+    name: Bip01 R Finger1
+    parent: 40
+    flags: 1
+    children:
+    - 44
+  - index: 44
+    name: Bip01 R Finger11
+    parent: 43
+    flags: 1
+    children: []
+  - index: 45
+    name: Bip01 L Thigh
+    parent: 0
+    flags: 1
+    children:
+    - 46
+  - index: 46
+    name: Bip01 L Calf
+    parent: 45
+    flags: 1
+    children:
+    - 47
+  - index: 47
+    name: Bip01 L Foot
+    parent: 46
+    flags: 1
+    children:
+    - 48
+  - index: 48
+    name: Bip01 L Toe0
+    parent: 47
+    flags: 1
+    children: []
+  - index: 49
+    name: Bip01 R Thigh
+    parent: 0
+    flags: 1
+    children:
+    - 50
+  - index: 50
+    name: Bip01 R Calf
+    parent: 49
+    flags: 1
+    children:
+    - 51
+  - index: 51
+    name: Bip01 R Foot
+    parent: 50
+    flags: 1
+    children:
+    - 52
+  - index: 52
+    name: Bip01 R Toe0
+    parent: 51
+    flags: 1
+    children: []
+sockets:
+- name: RHand1
+  node: 40
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.3332275152206421
+  - 0.7346747517585754
+  - -0.25014975666999817
+  - 0.5353853702545166
+animations:
+- name: stand
+  durationMs: 2200
+  keyframes: 4
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 1366
+  keyframes: 15
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 500
+    event: footstep
+  - timeMs: 1166
+    event: footstep
+- name: run
+  durationMs: 1033
+  keyframes: 22
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 116
+    event: footstep
+  - timeMs: 600
+    event: footstep
+- name: conv1
+  durationMs: 2033
+  keyframes: 22
+  interpolationTimeMs: 200
+  events: []
+- name: fidget2
+  durationMs: 2033
+  keyframes: 11
+  interpolationTimeMs: 200
+  events: []
+- name: fidget3
+  durationMs: 2033
+  keyframes: 14
+  interpolationTimeMs: 200
+  events: []
+- name: fidget4
+  durationMs: 4033
+  keyframes: 29
+  interpolationTimeMs: 200
+  events: []
+- name: hattack
+  durationMs: 1000
+  keyframes: 27
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 137
+    event: playanimsound
+  - timeMs: 608
+    event: Rattack
+- name: wince
+  durationMs: 1033
+  keyframes: 19
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 66
+    event: playanimsound
+- name: die1
+  durationMs: 1366
+  keyframes: 22
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 233
+    event: playanimsound
+  - timeMs: 900
+    event: playdeathsound
+  - timeMs: 1133
+    event: deaddims 0 0 0
+animationBindings:
+- name: stand
+  extents:
+  - 30.72
+  - 58.88
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: walk
+  extents:
+  - 30.72
+  - 58.88
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: run
+  extents:
+  - 30.72
+  - 58.88
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: conv1
+  extents:
+  - 30.72
+  - 58.88
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: fidget2
+  extents:
+  - 30.72
+  - 58.88
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: fidget3
+  extents:
+  - 30.72
+  - 58.88
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: fidget4
+  extents:
+  - 30.72
+  - 58.88
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: hattack
+  extents:
+  - 30.72
+  - 58.88
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: wince
+  extents:
+  - 30.72
+  - 58.88
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+- name: die1
+  extents:
+  - 30.72
+  - 58.88
+  - 30.72
+  origin:
+  - 0.0
+  - -17.92
+  - 0.0
+roles:
+- static_model
+source_model: models/peasantfemaledwarf.abc

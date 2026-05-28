@@ -1,0 +1,21 @@
+;--------------------------------------------------------
+;	CrawlRange.inc
+;	Jeff Leggett
+;	10/22/2001
+;
+;	Script for our 4-legged friends that shoot....
+;	
+;--------------------------------------------------------
+
+#include BaseCrawl.inc
+#include Range.inc
+
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+	gosub BaseCrawlInit
+	gosub RangeInit
+
+	Exit

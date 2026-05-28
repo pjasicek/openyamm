@@ -1,0 +1,19 @@
+Coords for popup
+
+Background Portion Dimentions
+
+Top:	360x120
+Middle:	360x32
+Bottom:	360x80
+
+Note: Writable area is 20-pixes in from all borders, the center 320 pixels,
+	and lines of text should begin 20 pixels below the first row.
+
+Note: Coords for buttons are relative to "NPCPopup-Bottom.pcx" and should be
+	overlaid over it.
+
+Back Button	 14x  32y	120x28	
+Next Button	221x  32y	120x28
+
+
+

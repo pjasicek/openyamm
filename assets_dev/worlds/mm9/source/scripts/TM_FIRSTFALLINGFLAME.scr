@@ -1,0 +1,74 @@
+;-----------------------------------------------------
+;	TM_FirstFallingFlame.scr
+;	kd
+;	11-6-01
+;	Makes the flame fall to the ground.
+;	Then starts the barrel exploding sequence.
+;	
+;-----------------------------------------------------
+#include Globals.inc
+
+#hObject	hFTMarker
+#hObject	hBlocker
+#hObject	hDummy
+#hObject	hFire
+
+#string		sDummy
+
+#number		nVarX
+#number		nVarY
+#number		nVarZ
+
+;-----------------------------------------------------
+:KillMe
+;-----------------------------------------------------
+	GetMyHandle hDummy
+	RemoveObject hDummy
+	Exit TRUE
+;-----------------------------------------------------
+:TurnMeOff
+;-----------------------------------------------------
+	Trigger hFire, Off
+	Wait 0, 2, KillMe
+	Exit TRUE
+;-----------------------------------------------------
+:StartSequence
+;-----------------------------------------------------
+
+	;hBlocker = NULL
+	GetObjectHandle DustObject17, hFire
+	Trigger hFire, On
+	GetObjectHandle sDummy, hBlocker
+	;playsound Sounds\Events\steam_burst04.wav DoNothing 500 2000 FALSE 100
+	playsound Sounds\Weapons\EQHammerImpact.wav DoNothing 500 2000 FALSE 100
+	playsound Sounds\Events\crate_smash.wav DoNothing 500 2000 FALSE 100
+
+
+	Trigger hBlocker, Destroy
+	Wait 0, 1, TurnMeOff
+	Exit TRUE
+;-----------------------------------------------------
+:StopHere
+;-----------------------------------------------------
+	playsound Sounds\Events\steam_burst04.wav DoNothing 100 2000 FALSE 100
+	Wait 0, 2, StartSequence
+	Exit TRUE
+;-----------------------------------------------------
+:MoveToMarker
+;-----------------------------------------------------
+	MoveToPos nVarX, nVarY, nVarZ, 250, StopHere
+	Exit
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+	GetObjectHandle FallingTorchMarker1, hFTMarker
+	GetPos hFTMarker, nVarX, nVarY, nVarZ
+	AddTrigger Fall, MoveToMarker
+	Exit TRUE
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+	GetParam 0, sDummy
+	Wait 0 .1 main2
+	Exit TRUE
+;------------- E n d - O f - F i l e -------------------

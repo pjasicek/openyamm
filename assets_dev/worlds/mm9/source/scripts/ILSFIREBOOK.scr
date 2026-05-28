@@ -1,0 +1,61 @@
+;--------------------------------------------------
+;ILSfirebook.scr
+; timmy (+ SJR 01-10-02)
+;fires a shooter at player
+;--------------------------------------------------
+#include BaseGlobals.inc
+
+#number		bOpen = 0
+#hobject	hShooter = 0
+#string		sShooterName = ""
+
+#hobject	hMe = 0
+
+#string		SPELL_SPARKLIES = "sparklies"
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+	GetParam 0, sShooterName
+
+	AddTrigger use, CastSpell
+
+	OnCacheFiles CacheFiles
+
+	GetMyHandle hMe
+
+	Exit TRUE
+
+;--------------------------------------------------
+:CacheFiles
+;--------------------------------------------------
+	CacheClientFX SPELL_SPARKLIES
+
+	Exit TRUE
+
+;--------------------------------------------------
+:CastSpell
+;--------------------------------------------------
+	if( hShooter==0 )
+		GetObjectHandle sShooterName, hShooter
+	endif
+
+	if( bOpen==FALSE )
+		bOpen = TRUE
+		PlayAnim OpenBook, TriggerShooter
+	else
+		gosub TriggerShooter
+	endif
+
+	Exit TRUE
+
+;--------------------------------------------------
+:TriggerShooter
+;--------------------------------------------------
+	DoClientFX hMe, SPELL_SPARKLIES, FALSE, TRUE
+
+	if( hShooter!=0 )
+		Trigger hShooter, shoot
+	endif
+
+	Exit TRUE

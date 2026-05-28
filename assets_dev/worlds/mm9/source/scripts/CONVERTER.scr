@@ -1,0 +1,107 @@
+;---------------------------------
+;	Converter.scr
+;	by SJR
+;	11-01-01
+;	Purpose:convert creature into
+;			other creature the painful
+;			way. Will be normal or will
+;			be player's buddy
+;---------------------------------
+#include BaseGlobals.inc
+
+#hobject	hLocation = 0
+#hobject	hEffects = 0
+#hobject	hCreature = 0
+
+#string		SPAWN_PARAM = ""
+#string		SCRIPT_NAME = " ScriptName PeasantTransformee.scr"
+#string		sFromName = "CommonerHuman2MaleA"
+#string		sToName = "Skeleton"
+#string		sEffectsName = ""
+#string		sLocationName = ""
+
+#number		xLoc = 0
+#number		yLoc = 0
+#number		zLoc = 0
+
+;------------------
+:Main
+;------------------
+	GetParam 0, sFromName
+	GetParam 1, sToName
+	GetParam 2, sEffectsName
+	GetParam 3, sLocationName
+
+	OnPostStartWorld InitConverter
+	OnPostMiniSaveLoad InitConverter
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;------------------
+:CacheFiles
+;------------------
+	CacheSound "sounds\magic\projectile14.wav"
+	CacheSound "sounds\magic\wizardeyeloop.wav"
+	CacheSound "sounds\animsounds\pig\wince1.wav"
+
+	Exit TRUE
+
+;------------------
+:InitConverter
+;------------------
+	GetObjectHandle sLocationName, hLocation
+	GetObjectHandle sEffectsName, hEffects
+	if( hLocation!=0 )
+		GetPOS hLocation, xLoc, yLoc, zLoc
+	endif
+
+	AddTrigger create, SpawnCreature
+	AddTrigger convert, TransformCreature
+
+	Exit TRUE
+
+;------------------
+:SpawnCreature
+;	spawn one, kill it, spawn another there
+;------------------
+	RemoveTrigger create
+
+	GetPOS hLocation, xLoc, yLoc, zLoc
+
+	SPAWN_PARAM = sFromName + SCRIPT_NAME
+	hCreature = NULL
+	Spawn hCreature, xLoc, yLoc, zLoc, SPAWN_PARAM
+	Wait 0, 2, SignalCreature
+
+	Exit TRUE
+
+;------------------
+:SignalCreature
+;	kills the peasant, spawns the skeleton
+;------------------
+	Trigger hCreature, walk
+
+	Exit TRUE
+
+;------------------
+:TransformCreature
+;	kills the peasant, spawns the skeleton
+;------------------
+	if( hEffects!=0 )
+		Trigger hEffects, trigger
+	endif
+	if( hDummy!=0 )
+		GetPOS hCreature, xLoc, yLoc, zLoc
+		RemoveObject hCreature
+		hCreature = NULL
+	endif
+
+	PlaySound "sounds\magic\projectile14.wav", DoNothing, 1, 500, FALSE, 100
+	Spawn hCreature, xLoc, yLoc, zLoc, sToName
+
+	SetStat hCreature, GaveTreasure, TRUE
+
+	AddTrigger create, SpawnCreature
+
+	Exit TRUE

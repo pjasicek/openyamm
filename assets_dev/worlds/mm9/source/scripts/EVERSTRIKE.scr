@@ -1,0 +1,92 @@
+;--------------------------------------------------
+;givetake.scr
+;10/4
+; timmy
+; gives party specific item
+
+;--------------------------------------------------
+
+#include globals.inc
+
+#number			Item_ID
+#number			nGiveOnce = FALSE
+
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+
+
+
+; Parameters
+;P0 Item number of item to give
+
+
+;--------------------------------------------------
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+haskey 238 g_ntemp
+if (g_ntemp==TRUE)
+	givekey 241
+	giveitem 184
+	getmyhandle g_hmyobject
+	removeobject g_hmyobject
+	exit
+endif
+exit
+
+;--------------------------------------------------
+:Remove
+;--------------------------------------------------
+
+getmyhandle g_hobject
+clearflag g_hobject, visible
+clearflag g_hobject, solid
+clearflag g_hobject, gravity
+exit
+;--------------------------------------------------
+:Appear
+;--------------------------------------------------
+
+
+getmyhandle g_hobject
+setflag g_hobject, visible
+setflag g_hobject, solid
+setflag g_hobject, gravity
+exit
+
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+haskey 241 g_ntemp
+if (g_ntemp==TRUE)
+	gosub Remove
+endif
+
+Haskey 238 g_ntemp
+if (g_ntemp==TRUE)
+	gosub appear
+else
+	gosub remove
+endif
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+Addtrigger Use OnUse
+wait 1 1 Init
+
+exit
+
+

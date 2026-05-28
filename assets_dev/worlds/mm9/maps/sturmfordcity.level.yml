@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: sturmfordcity
+display_name: Sturmford City
+source:
+  dat: ../source/worlds/STURMFORDCITY.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/STURMFORDCITY.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 4366886d86d3a8f8ce894469bd0064eb1208907cbd1b54367f0f05c0957e1e88
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: sturmfordcity.dat_world.yml
+  raw_objects: sturmfordcity.raw_objects.yml
+  materials: sturmfordcity.material_aliases.yml
+  events: sturmfordcity.events.yml
+  scene_compat: sturmfordcity.scene.yml
+  source_metadata_compat: sturmfordcity.mm9.yml
+  bsp_compat: null
+  geometry_compat: null
+  model_assets_compat: sturmfordcity.model_assets.yml
+  odm_compat: sturmfordcity.odm
+  blv_compat: null
+scripts:
+  level: ../events/sturmfordcity.lua
+  script_ir: ../events/sturmfordcity.script_ir.yml
+compatibility:
+  legacy_target_format: odm
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

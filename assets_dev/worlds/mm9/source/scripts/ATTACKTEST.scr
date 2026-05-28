@@ -1,0 +1,30 @@
+;---------------------------------------------------------------------
+;	AttackTest.scr
+;	Jeff Leggett
+;
+;	This script makes for a good way to test monster attacks
+;
+;---------------------------------------------------------------------
+
+#include aiglobals.inc
+
+:AttackDone
+:AttackReady
+
+	Attack AttackDone
+	Exit
+		
+
+:FoundPlayer
+	GetParam 0, g_hTarget
+	FaceObject g_hTarget
+	OnFoundPlayer
+
+	Attack AttackDone
+	Exit	
+
+:Main
+	OnFoundPlayer FoundPlayer
+	OnAttackReady AttackReady
+
+	Exit

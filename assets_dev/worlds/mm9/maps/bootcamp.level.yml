@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: bootcamp
+display_name: Ravensford
+source:
+  dat: ../source/worlds/BOOTCAMP.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/BOOTCAMP.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 41ae69626680ce47b41f27728d1f46d78bbb8299eb0f9ec166cf2fe73f01cf8b
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: bootcamp.dat_world.yml
+  raw_objects: bootcamp.raw_objects.yml
+  materials: bootcamp.material_aliases.yml
+  events: bootcamp.events.yml
+  scene_compat: bootcamp.scene.yml
+  source_metadata_compat: bootcamp.mm9.yml
+  bsp_compat: null
+  geometry_compat: null
+  model_assets_compat: bootcamp.model_assets.yml
+  odm_compat: bootcamp.odm
+  blv_compat: null
+scripts:
+  level: ../events/bootcamp.lua
+  script_ir: ../events/bootcamp.script_ir.yml
+compatibility:
+  legacy_target_format: odm
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

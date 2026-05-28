@@ -1,0 +1,23 @@
+;------------------------------------------
+;	base.scr
+;	Jeff Leggett
+;	
+;	This script uses base.inc and doesn't
+;	add anything to it.  We just use this
+;	script to initialize basemelee.inc and we
+;	let it do the work...
+;
+;------------------------------------------
+
+#include basemelee.inc
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+
+
+	gosub BaseInit
+
+	Exit		

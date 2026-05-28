@@ -1,0 +1,1894 @@
+format_version: 1
+source_file: NPC400.rude
+rows:
+  - source:
+      file: NPC400.rude
+      row: 1
+    raw_columns:
+      - 400
+      - 400
+      - 1
+      - Unite the clans
+      - Clans are united!!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 1
+      prompt: Unite the clans
+      response: Clans are united!!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 83
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 83
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 83
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 83
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 2
+    raw_columns:
+      - 400
+      - 400
+      - 2
+      - When the script stuff works, Ill be the found the party
+      - found all members of the party.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 27
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 2
+      prompt: When the script stuff works, Ill be the found the party
+      response: found all members of the party.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 27
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 27
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 3
+    raw_columns:
+      - 400
+      - 400
+      - 3
+      - When the script stuff works, Ill be The artifact Thjorad
+      - Got Thjorad!
+      - 400
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 31
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 3
+      prompt: When the script stuff works, Ill be The artifact Thjorad
+      response: Got Thjorad!
+      next: 400
+      raw_fields:
+        c07: 2
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 31
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 2
+            qbit_id: 9002
+            state_id: mm9.keys.2
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 2
+          qbit_id: 9002
+          state_id: mm9.keys.2
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 31
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 4
+    raw_columns:
+      - 400
+      - 400
+      - 4
+      - Player cleared out Anskram Keep
+      - Cleared out the keep!
+      - 400
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 39
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 4
+      prompt: Player cleared out Anskram Keep
+      response: Cleared out the keep!
+      next: 400
+      raw_fields:
+        c07: 11
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 39
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 11
+            qbit_id: 9011
+            state_id: mm9.keys.11
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 11
+          qbit_id: 9011
+          state_id: mm9.keys.11
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 39
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 5
+    raw_columns:
+      - 400
+      - 400
+      - 5
+      - I'm kira's response from Bjarni
+      - Got Kira's response!
+      - 400
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 23
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 5
+      prompt: I'm kira's response from Bjarni
+      response: Got Kira's response!
+      next: 400
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 23
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 23
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 6
+    raw_columns:
+      - 400
+      - 400
+      - 7
+      - When the script stuff works I be the refinery quest.
+      - Fixed the mines and refinery!
+      - 400
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 35
+      - 36
+      - 37
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 7
+      prompt: When the script stuff works I be the refinery quest.
+      response: Fixed the mines and refinery!
+      next: 400
+      raw_fields:
+        c07: 3
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 35
+        c17: 36
+        c18: 37
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 3
+            qbit_id: 9003
+            state_id: mm9.keys.3
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 3
+          qbit_id: 9003
+          state_id: mm9.keys.3
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 35
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c17
+        value: 36
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c18
+        value: 37
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 7
+    raw_columns:
+      - 400
+      - 400
+      - 8
+      - I'm the defenses in Stenig
+      - Disabled the defenses!!
+      - 400
+      - 44
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 47
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 8
+      prompt: I'm the defenses in Stenig
+      response: Disabled the defenses!!
+      next: 400
+      raw_fields:
+        c07: 44
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 47
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 44
+            qbit_id: 9044
+            state_id: mm9.keys.44
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 44
+          qbit_id: 9044
+          state_id: mm9.keys.44
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 47
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 8
+    raw_columns:
+      - 400
+      - 400
+      - 9
+      - I'm the crona Kiga.
+      - Got the Crona Kiga!
+      - 400
+      - 46
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 48
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 9
+      prompt: I'm the crona Kiga.
+      response: Got the Crona Kiga!
+      next: 400
+      raw_fields:
+        c07: 46
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 48
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 46
+            qbit_id: 9046
+            state_id: mm9.keys.46
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 46
+          qbit_id: 9046
+          state_id: mm9.keys.46
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 48
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 9
+    raw_columns:
+      - 400
+      - 400
+      - 10
+      - Book of rules
+      - Got the book!!
+      - 400
+      - 57
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 59
+      - 0
+      - 0
+      - 0
+      - 0
+      - 59
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 10
+      prompt: Book of rules
+      response: Got the book!!
+      next: 400
+      raw_fields:
+        c07: 57
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 59
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 59
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 57
+            qbit_id: 9057
+            state_id: mm9.keys.57
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 57
+          qbit_id: 9057
+          state_id: mm9.keys.57
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 59
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 59
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 10
+    raw_columns:
+      - 400
+      - 400
+      - 11
+      - The Dook
+      - Got rid of the Dook!!
+      - 400
+      - 64
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 65
+      - 0
+      - 0
+      - 0
+      - 0
+      - 65
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 11
+      prompt: The Dook
+      response: Got rid of the Dook!!
+      next: 400
+      raw_fields:
+        c07: 64
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 65
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 65
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 64
+            qbit_id: 9064
+            state_id: mm9.keys.64
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 64
+          qbit_id: 9064
+          state_id: mm9.keys.64
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 65
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 65
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 11
+    raw_columns:
+      - 400
+      - 400
+      - 12
+      - The Frost Giant
+      - The frost giant is dead
+      - 400
+      - 68
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 69
+      - 0
+      - 0
+      - 0
+      - 0
+      - 69
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 12
+      prompt: The Frost Giant
+      response: The frost giant is dead
+      next: 400
+      raw_fields:
+        c07: 68
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 69
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 69
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 68
+            qbit_id: 9068
+            state_id: mm9.keys.68
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 68
+          qbit_id: 9068
+          state_id: mm9.keys.68
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 69
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 69
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 12
+    raw_columns:
+      - 400
+      - 400
+      - 13
+      - the icy docks
+      - the docks are clear!!
+      - 400
+      - 71
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 72
+      - 0
+      - 0
+      - 0
+      - 0
+      - 72
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 13
+      prompt: the icy docks
+      response: the docks are clear!!
+      next: 400
+      raw_fields:
+        c07: 71
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 72
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 72
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 71
+            qbit_id: 9071
+            state_id: mm9.keys.71
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 71
+          qbit_id: 9071
+          state_id: mm9.keys.71
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 72
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 72
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 13
+    raw_columns:
+      - 400
+      - 400
+      - 14
+      - Honky quest
+      - honkies are gone
+      - 400
+      - 76
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 77
+      - 0
+      - 0
+      - 0
+      - 0
+      - 77
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 14
+      prompt: Honky quest
+      response: honkies are gone
+      next: 400
+      raw_fields:
+        c07: 76
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 77
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 77
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 76
+            qbit_id: 9076
+            state_id: mm9.keys.76
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 76
+          qbit_id: 9076
+          state_id: mm9.keys.76
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 77
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 77
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 14
+    raw_columns:
+      - 400
+      - 400
+      - 15
+      - mountain pass
+      - pass is cleared
+      - 400
+      - 79
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 80
+      - 0
+      - 0
+      - 0
+      - 0
+      - 80
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 15
+      prompt: mountain pass
+      response: pass is cleared
+      next: 400
+      raw_fields:
+        c07: 79
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 80
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 80
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 79
+            qbit_id: 9079
+            state_id: mm9.keys.79
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 79
+          qbit_id: 9079
+          state_id: mm9.keys.79
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 80
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 80
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 15
+    raw_columns:
+      - 400
+      - 400
+      - 16
+      - Sturm and Drang have gone to war
+      - gone to war!
+      - 400
+      - 83
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 84
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 16
+      prompt: Sturm and Drang have gone to war
+      response: gone to war!
+      next: 400
+      raw_fields:
+        c07: 83
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 84
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 83
+            qbit_id: 9083
+            state_id: mm9.keys.83
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 83
+          qbit_id: 9083
+          state_id: mm9.keys.83
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 84
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 16
+    raw_columns:
+      - 400
+      - 400
+      - 17
+      - war quest is complete
+      - peace!
+      - 400
+      - 92
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 92
+      - 40
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 17
+      prompt: war quest is complete
+      response: peace!
+      next: 400
+      raw_fields:
+        c07: 92
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 92
+        c17: 40
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 92
+            qbit_id: 9092
+            state_id: mm9.keys.92
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 92
+          qbit_id: 9092
+          state_id: mm9.keys.92
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 92
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c17
+        value: 40
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 17
+    raw_columns:
+      - 400
+      - 400
+      - 18
+      - Player won prize
+      - Won prize!!
+      - 400
+      - 93
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 94
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 18
+      prompt: Player won prize
+      response: Won prize!!
+      next: 400
+      raw_fields:
+        c07: 93
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 94
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 93
+            qbit_id: 9093
+            state_id: mm9.keys.93
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 93
+          qbit_id: 9093
+          state_id: mm9.keys.93
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 94
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 18
+    raw_columns:
+      - 400
+      - 400
+      - 19
+      - Forad has betrayed the party
+      - Betrayed Party!!
+      - 400
+      - 97
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 97
+      - 0
+      - 0
+      - 0
+      - 0
+      - 97
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 19
+      prompt: Forad has betrayed the party
+      response: Betrayed Party!!
+      next: 400
+      raw_fields:
+        c07: 97
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 97
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 97
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 97
+            qbit_id: 9097
+            state_id: mm9.keys.97
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 97
+          qbit_id: 9097
+          state_id: mm9.keys.97
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 97
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 97
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 19
+    raw_columns:
+      - 400
+      - 400
+      - 20
+      - Player imprisoned Njam
+      - Put that bastard in prison!!
+      - 400
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 109
+      - 0
+      - 0
+      - 0
+      - 0
+      - 109
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 20
+      prompt: Player imprisoned Njam
+      response: Put that bastard in prison!!
+      next: 400
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 109
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 109
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 109
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 109
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 20
+    raw_columns:
+      - 400
+      - 400
+      - 21
+      - Player lit the 6 fires of penance
+      - 6 fires of penance are lit
+      - 400
+      - 101
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 102
+      - 0
+      - 0
+      - 0
+      - 0
+      - 102
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 21
+      prompt: Player lit the 6 fires of penance
+      response: 6 fires of penance are lit
+      next: 400
+      raw_fields:
+        c07: 101
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 102
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 102
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 101
+            qbit_id: 9101
+            state_id: mm9.keys.101
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 101
+          qbit_id: 9101
+          state_id: mm9.keys.101
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 102
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 102
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 21
+    raw_columns:
+      - 400
+      - 400
+      - 31
+      - When the script stuff works, I'll be Luwdwig's Manuscript
+      - got the manuscript!
+      - 400
+      - 14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 16
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 31
+      prompt: When the script stuff works, I'll be Luwdwig's Manuscript
+      response: got the manuscript!
+      next: 400
+      raw_fields:
+        c07: 14
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 16
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 14
+            qbit_id: 9014
+            state_id: mm9.keys.14
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 14
+          qbit_id: 9014
+          state_id: mm9.keys.14
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 16
+        status: raw_value_preserved
+  - source:
+      file: NPC400.rude
+      row: 22
+    raw_columns:
+      - 400
+      - 400
+      - 40
+      - Player got writ of fate
+      - writ of fate!!
+      - 400
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 100
+      - 0
+      - 0
+      - 0
+      - 0
+      - 100
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 400
+      node_id: 400
+      choice_slot: 40
+      prompt: Player got writ of fate
+      response: writ of fate!!
+      next: 400
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 100
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 100
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 400
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 100
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 100
+        status: raw_value_preserved

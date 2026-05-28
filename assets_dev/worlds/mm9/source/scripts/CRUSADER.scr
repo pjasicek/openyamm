@@ -1,0 +1,52 @@
+;----------------------------------------------
+;crusader.scr
+; By Timmy
+; checks to see if player has completed the quest
+; and gives the reward
+; relevant RudeIDs: 89, 91, 92, 93
+
+; key 128 = player is on yobboe promo quest
+; Key 131 = player has the plow
+; key 136 = player is done and ready for reward
+; key 137 = playeer is promoted
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+
+Haskey 136, g_ntemp
+if ( g_ntemp==1, )
+;checks to see if player has completed quest
+	Haskey 137 g_ntemp
+	If ( g_ntemp==0, )
+	;checks to see if player has already completed quest and got reward
+		givekey 137
+		givegold 2000
+		giveexp 8000
+		; GIVE PROMO HERE
+		;gives key and reward.
+		exit
+	endif
+endif
+exit
+	
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+OnRudeExit OnExit
+
+
+exit

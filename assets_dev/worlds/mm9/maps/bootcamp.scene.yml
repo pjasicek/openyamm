@@ -1,0 +1,5121 @@
+format_version: 1
+kind: outdoor_scene
+source:
+  geometry_file: bootcamp.odm
+  source_metadata_file: bootcamp.mm9.yml
+runtime_restrictions:
+  allow_save_game: false
+  allow_lloyds_beacon: false
+  arena: false
+environment:
+  sky_texture: plansky1
+  ground_tileset_name: planset
+  master_tile: 0
+  tile_set_lookup_indices:
+  - 0
+  - 0
+  - 0
+  - 0
+  day_bits_raw: 0
+  map_extra_bits_raw: 8
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: true
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 8192
+    strong_distance: 16384
+  weather:
+    fog_mode: static
+    precipitation: none
+    daily_fog:
+      small_chance: 0
+      average_chance: 0
+      dense_chance: 0
+      small:
+        weak_distance: 8192
+        strong_distance: 16384
+      average:
+        weak_distance: 8192
+        strong_distance: 16384
+      dense:
+        weak_distance: 8192
+        strong_distance: 16384
+  ceiling: 32767
+terrain:
+  attribute_overrides: []
+  footstep_sound_overrides: []
+bmodel_faces:
+  interactive_faces: []
+entities: []
+spawns: []
+model_instances:
+- instance_id: mm9:bootcamp:object:4
+  source_ref: objects/4
+  source_kind: mm9_dat_object
+  source_object_index: 4
+  source_class: Prop
+  source_name: Boat0
+  source_model: models/props/vikingship.abc
+  source_skin: skins/props/vikingship.dtx
+  model_asset: models/props/vikingship.glb
+  position:
+    x: 35379
+    y: 12698
+    z: 1027
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99698543
+    w: -0.077588982
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:8
+  source_ref: objects/8
+  source_kind: mm9_dat_object
+  source_object_index: 8
+  source_class: Prop
+  source_name: Prop31
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 26816
+    y: -3843
+    z: 1469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:9
+  source_ref: objects/9
+  source_kind: mm9_dat_object
+  source_object_index: 9
+  source_class: Prop
+  source_name: Prop32
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 28209
+    y: -3843
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:10
+  source_ref: objects/10
+  source_kind: mm9_dat_object
+  source_object_index: 10
+  source_class: Prop
+  source_name: Prop13
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 23252
+    y: 1933
+    z: 1469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:11
+  source_ref: objects/11
+  source_kind: mm9_dat_object
+  source_object_index: 11
+  source_class: Prop
+  source_name: Prop8
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 24087
+    y: 796
+    z: 1203
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:12
+  source_ref: objects/12
+  source_kind: mm9_dat_object
+  source_object_index: 12
+  source_class: Prop
+  source_name: Prop12
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 27430
+    y: 786
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:13
+  source_ref: objects/13
+  source_kind: mm9_dat_object
+  source_object_index: 13
+  source_class: Prop
+  source_name: Flowers103
+  source_model: models/props/plantsandtrees/flowers01.abc
+  source_skin: skins/props/plantsandtrees/flowers01.dtx
+  model_asset: models/props/plantsandtrees/flowers01.glb
+  position:
+    x: 24781
+    y: 369
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 4
+    y: 4
+    z: 4
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:14
+  source_ref: objects/14
+  source_kind: mm9_dat_object
+  source_object_index: 14
+  source_class: Prop
+  source_name: Bush51
+  source_model: models/props/plantsandtrees/bush02.abc
+  source_skin: skins/props/plantsandtrees/bush02.dtx
+  model_asset: models/props/plantsandtrees/bush02.glb
+  position:
+    x: 24863
+    y: 451
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:15
+  source_ref: objects/15
+  source_kind: mm9_dat_object
+  source_object_index: 15
+  source_class: Prop
+  source_name: Flowers104
+  source_model: models/props/plantsandtrees/flowers03.abc
+  source_skin: skins/props/plantsandtrees/flowers01.dtx
+  model_asset: models/props/plantsandtrees/flowers03.glb
+  position:
+    x: 24781
+    y: 410
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 3
+    y: 3
+    z: 3
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:16
+  source_ref: objects/16
+  source_kind: mm9_dat_object
+  source_object_index: 16
+  source_class: Prop
+  source_name: Flowers107
+  source_model: models/props/plantsandtrees/flowers01.abc
+  source_skin: skins/props/plantsandtrees/flowers01.dtx
+  model_asset: models/props/plantsandtrees/flowers01.glb
+  position:
+    x: 27320
+    y: 901
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 4
+    y: 4
+    z: 4
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:17
+  source_ref: objects/17
+  source_kind: mm9_dat_object
+  source_object_index: 17
+  source_class: Prop
+  source_name: Bush53
+  source_model: models/props/plantsandtrees/bush01.abc
+  source_skin: skins/props/plantsandtrees/bush01.dtx
+  model_asset: models/props/plantsandtrees/bush01.glb
+  position:
+    x: 27402
+    y: 983
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:18
+  source_ref: objects/18
+  source_kind: mm9_dat_object
+  source_object_index: 18
+  source_class: Prop
+  source_name: Flowers108
+  source_model: models/props/plantsandtrees/flowers03.abc
+  source_skin: skins/props/plantsandtrees/flowers01.dtx
+  model_asset: models/props/plantsandtrees/flowers03.glb
+  position:
+    x: 27320
+    y: 942
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 3
+    y: 3
+    z: 3
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:19
+  source_ref: objects/19
+  source_kind: mm9_dat_object
+  source_object_index: 19
+  source_class: Prop
+  source_name: Flowers99
+  source_model: models/props/plantsandtrees/flowers01.abc
+  source_skin: skins/props/plantsandtrees/flowers01.dtx
+  model_asset: models/props/plantsandtrees/flowers01.glb
+  position:
+    x: 23060
+    y: 1679
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 4
+    y: 4
+    z: 4
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:20
+  source_ref: objects/20
+  source_kind: mm9_dat_object
+  source_object_index: 20
+  source_class: Prop
+  source_name: Bush49
+  source_model: models/props/plantsandtrees/bush02.abc
+  source_skin: skins/props/plantsandtrees/bush02.dtx
+  model_asset: models/props/plantsandtrees/bush02.glb
+  position:
+    x: 23142
+    y: 1761
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:21
+  source_ref: objects/21
+  source_kind: mm9_dat_object
+  source_object_index: 21
+  source_class: Prop
+  source_name: Flowers100
+  source_model: models/props/plantsandtrees/flowers03.abc
+  source_skin: skins/props/plantsandtrees/flowers01.dtx
+  model_asset: models/props/plantsandtrees/flowers03.glb
+  position:
+    x: 23060
+    y: 1720
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 3
+    y: 3
+    z: 3
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:23
+  source_ref: objects/23
+  source_kind: mm9_dat_object
+  source_object_index: 23
+  source_class: Prop
+  source_name: Prop0
+  source_model: models/Props/BookStack01.abc
+  source_skin: Skins/Props/BookStack01.dtx
+  model_asset: models/props/bookstack01.glb
+  position:
+    x: 33582
+    y: 8468
+    z: 1403
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:24
+  source_ref: objects/24
+  source_kind: mm9_dat_object
+  source_object_index: 24
+  source_class: Prop
+  source_name: Prop27
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 16044
+    y: -3638
+    z: 1469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:25
+  source_ref: objects/25
+  source_kind: mm9_dat_object
+  source_object_index: 25
+  source_class: Prop
+  source_name: Prop26
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 16878
+    y: -4774
+    z: 1203
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:26
+  source_ref: objects/26
+  source_kind: mm9_dat_object
+  source_object_index: 26
+  source_class: Prop
+  source_name: Prop25
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 18491
+    y: -8358
+    z: 1203
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:27
+  source_ref: objects/27
+  source_kind: mm9_dat_object
+  source_object_index: 27
+  source_class: Prop
+  source_name: Prop24
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 16525
+    y: -6065
+    z: 1203
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:28
+  source_ref: objects/28
+  source_kind: mm9_dat_object
+  source_object_index: 28
+  source_class: Prop
+  source_name: Prop23
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 17661
+    y: -5230
+    z: 1469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:29
+  source_ref: objects/29
+  source_kind: mm9_dat_object
+  source_object_index: 29
+  source_class: Prop
+  source_name: Prop22
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 18808
+    y: -6459
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:30
+  source_ref: objects/30
+  source_kind: mm9_dat_object
+  source_object_index: 30
+  source_class: Prop
+  source_name: Prop21
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 15204
+    y: -6459
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:31
+  source_ref: objects/31
+  source_kind: mm9_dat_object
+  source_object_index: 31
+  source_class: Prop
+  source_name: Prop20
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 18644
+    y: -4902
+    z: 1469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:32
+  source_ref: objects/32
+  source_kind: mm9_dat_object
+  source_object_index: 32
+  source_class: Prop
+  source_name: Prop11
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 15214
+    y: -3116
+    z: 1203
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:33
+  source_ref: objects/33
+  source_kind: mm9_dat_object
+  source_object_index: 33
+  source_class: Prop
+  source_name: Prop19
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 30134
+    y: -6259
+    z: 1469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:34
+  source_ref: objects/34
+  source_kind: mm9_dat_object
+  source_object_index: 34
+  source_class: Prop
+  source_name: Prop18
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 32018
+    y: -4457
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:35
+  source_ref: objects/35
+  source_kind: mm9_dat_object
+  source_object_index: 35
+  source_class: Prop
+  source_name: Prop10
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 29576
+    y: -1334
+    z: 1203
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:36
+  source_ref: objects/36
+  source_kind: mm9_dat_object
+  source_object_index: 36
+  source_class: Prop
+  source_name: Prop17
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 30052
+    y: -197
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:37
+  source_ref: objects/37
+  source_kind: mm9_dat_object
+  source_object_index: 37
+  source_class: Prop
+  source_name: Prop16
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 21860
+    y: 786
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:38
+  source_ref: objects/38
+  source_kind: mm9_dat_object
+  source_object_index: 38
+  source_class: Prop
+  source_name: Prop15
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 27758
+    y: -402
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:39
+  source_ref: objects/39
+  source_kind: mm9_dat_object
+  source_object_index: 39
+  source_class: Prop
+  source_name: Prop9
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 21138
+    y: -515
+    z: 1203
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:40
+  source_ref: objects/40
+  source_kind: mm9_dat_object
+  source_object_index: 40
+  source_class: Prop
+  source_name: Prop14
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 20303
+    y: 622
+    z: 1469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:41
+  source_ref: objects/41
+  source_kind: mm9_dat_object
+  source_object_index: 41
+  source_class: Prop
+  source_name: Prop28
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 23329
+    y: -1016
+    z: 1469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:42
+  source_ref: objects/42
+  source_kind: mm9_dat_object
+  source_object_index: 42
+  source_class: Prop
+  source_name: Prop29
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 22495
+    y: -2153
+    z: 1203
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:43
+  source_ref: objects/43
+  source_kind: mm9_dat_object
+  source_object_index: 43
+  source_class: Prop
+  source_name: Prop30
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 21773
+    y: -852
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:44
+  source_ref: objects/44
+  source_kind: mm9_dat_object
+  source_object_index: 44
+  source_class: Prop
+  source_name: Flowers105
+  source_model: models/props/plantsandtrees/flowers03.abc
+  source_skin: skins/props/plantsandtrees/flowers01.dtx
+  model_asset: models/props/plantsandtrees/flowers03.glb
+  position:
+    x: 29860
+    y: -82
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 3
+    y: 3
+    z: 3
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:45
+  source_ref: objects/45
+  source_kind: mm9_dat_object
+  source_object_index: 45
+  source_class: Prop
+  source_name: Flowers106
+  source_model: models/props/plantsandtrees/flowers01.abc
+  source_skin: skins/props/plantsandtrees/flowers01.dtx
+  model_asset: models/props/plantsandtrees/flowers01.glb
+  position:
+    x: 29860
+    y: -123
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 4
+    y: 4
+    z: 4
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:46
+  source_ref: objects/46
+  source_kind: mm9_dat_object
+  source_object_index: 46
+  source_class: Prop
+  source_name: Bush52
+  source_model: models/props/plantsandtrees/bush02.abc
+  source_skin: skins/props/plantsandtrees/bush02.dtx
+  model_asset: models/props/plantsandtrees/bush02.glb
+  position:
+    x: 29942
+    y: -41
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:47
+  source_ref: objects/47
+  source_kind: mm9_dat_object
+  source_object_index: 47
+  source_class: Prop
+  source_name: Flowers109
+  source_model: models/props/plantsandtrees/flowers03.abc
+  source_skin: skins/props/plantsandtrees/flowers01.dtx
+  model_asset: models/props/plantsandtrees/flowers03.glb
+  position:
+    x: 28467
+    y: -3441
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 3
+    y: 3
+    z: 3
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:48
+  source_ref: objects/48
+  source_kind: mm9_dat_object
+  source_object_index: 48
+  source_class: Prop
+  source_name: Flowers110
+  source_model: models/props/plantsandtrees/flowers01.abc
+  source_skin: skins/props/plantsandtrees/flowers01.dtx
+  model_asset: models/props/plantsandtrees/flowers01.glb
+  position:
+    x: 28467
+    y: -3482
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 4
+    y: 4
+    z: 4
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:49
+  source_ref: objects/49
+  source_kind: mm9_dat_object
+  source_object_index: 49
+  source_class: Prop
+  source_name: Bush54
+  source_model: models/props/plantsandtrees/bush02.abc
+  source_skin: skins/props/plantsandtrees/bush02.dtx
+  model_asset: models/props/plantsandtrees/bush02.glb
+  position:
+    x: 28549
+    y: -3400
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:68
+  source_ref: objects/68
+  source_kind: mm9_dat_object
+  source_object_index: 68
+  source_class: Prop
+  source_name: Cup4
+  source_model: models/Props/Mug1.ABC
+  source_skin: Skins/Props/Mug1.dtx
+  model_asset: models/props/mug1.glb
+  position:
+    x: 28060
+    y: -1664
+    z: 1436
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: solid
+- instance_id: mm9:bootcamp:object:69
+  source_ref: objects/69
+  source_kind: mm9_dat_object
+  source_object_index: 69
+  source_class: Prop
+  source_name: Pitcher0
+  source_model: models/Props/Pitcher01.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/pitcher01.glb
+  position:
+    x: 28122
+    y: -1649
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: solid
+- instance_id: mm9:bootcamp:object:70
+  source_ref: objects/70
+  source_kind: mm9_dat_object
+  source_object_index: 70
+  source_class: Prop
+  source_name: Winerack
+  source_model: models/Props/WineRack.ABC
+  source_skin: Skins/Props/WineRack.dtx
+  model_asset: models/props/winerack.glb
+  position:
+    x: 28234
+    y: -850
+    z: 1418
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:71
+  source_ref: objects/71
+  source_kind: mm9_dat_object
+  source_object_index: 71
+  source_class: Prop
+  source_name: Bucket
+  source_model: models/props/bucket02.abc
+  source_skin: skins/props/bucket02.dtx
+  model_asset: models/props/bucket02.glb
+  position:
+    x: 28544
+    y: -1738
+    z: 1364
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:72
+  source_ref: objects/72
+  source_kind: mm9_dat_object
+  source_object_index: 72
+  source_class: Prop
+  source_name: Table0
+  source_model: models/Props/Table_Bench.ABC
+  source_skin: Skins/Props/Table_Bench.dtx
+  model_asset: models/props/table_bench.glb
+  position:
+    x: 27254
+    y: -2176
+    z: 1303
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:73
+  source_ref: objects/73
+  source_kind: mm9_dat_object
+  source_object_index: 73
+  source_class: Prop
+  source_name: Cup0
+  source_model: models/Props/Mug1.ABC
+  source_skin: Skins/Props/Mug1.dtx
+  model_asset: models/props/mug1.glb
+  position:
+    x: 27333
+    y: -2196
+    z: 1408
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.50000001
+    w: 0.8660254
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: solid
+- instance_id: mm9:bootcamp:object:74
+  source_ref: objects/74
+  source_kind: mm9_dat_object
+  source_object_index: 74
+  source_class: Prop
+  source_name: Pitcher
+  source_model: models/Props/Pitcher01.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/pitcher01.glb
+  position:
+    x: 27272
+    y: -2176
+    z: 1413
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.75
+    y: 0.75
+    z: 0.75
+  collision: solid
+- instance_id: mm9:bootcamp:object:75
+  source_ref: objects/75
+  source_kind: mm9_dat_object
+  source_object_index: 75
+  source_class: Prop
+  source_name: Table7
+  source_model: models/Props/TableRound.ABC
+  source_skin: Skins/Props/TableRound.dtx
+  model_asset: models/props/tableround.glb
+  position:
+    x: 27845
+    y: -2156
+    z: 1364
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:76
+  source_ref: objects/76
+  source_kind: mm9_dat_object
+  source_object_index: 76
+  source_class: Prop
+  source_name: Bowl
+  source_model: models/Props/Bowl04.ABC
+  source_skin: Skins/Props/Pantry-Items02.dtx
+  model_asset: models/props/bowl04.glb
+  position:
+    x: 27845
+    y: -2115
+    z: 1428
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 0.5
+    y: 0.5
+    z: 0.5
+  collision: solid
+- instance_id: mm9:bootcamp:object:77
+  source_ref: objects/77
+  source_kind: mm9_dat_object
+  source_object_index: 77
+  source_class: Prop
+  source_name: Cup
+  source_model: models/Props/Cup02.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/cup02.glb
+  position:
+    x: 27886
+    y: -2145
+    z: 1428
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:78
+  source_ref: objects/78
+  source_kind: mm9_dat_object
+  source_object_index: 78
+  source_class: Prop
+  source_name: Winebottle
+  source_model: models/Props/WineBottle04.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/winebottle04.glb
+  position:
+    x: 27845
+    y: -2156
+    z: 1436
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:79
+  source_ref: objects/79
+  source_kind: mm9_dat_object
+  source_object_index: 79
+  source_class: Prop
+  source_name: Cup3
+  source_model: models/Props/Cup02.ABC
+  source_skin: Skins/Props/Pantry-Items.dtx
+  model_asset: models/props/cup02.glb
+  position:
+    x: 27835
+    y: -2181
+    z: 1428
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:80
+  source_ref: objects/80
+  source_kind: mm9_dat_object
+  source_object_index: 80
+  source_class: Prop
+  source_name: Bowl0
+  source_model: models/Props/Bowl04.ABC
+  source_skin: Skins/Props/Pantry-Items02.dtx
+  model_asset: models/props/bowl04.glb
+  position:
+    x: 27791
+    y: -2163
+    z: 1428
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 0.5
+    y: 0.5
+    z: 0.5
+  collision: solid
+- instance_id: mm9:bootcamp:object:81
+  source_ref: objects/81
+  source_kind: mm9_dat_object
+  source_object_index: 81
+  source_class: Prop
+  source_name: Stool0
+  source_model: models/Props/Barstool1.ABC
+  source_skin: Skins/Props/Barstool1.dtx
+  model_asset: models/props/barstool1.glb
+  position:
+    x: 27871
+    y: -1149
+    z: 1364
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:82
+  source_ref: objects/82
+  source_kind: mm9_dat_object
+  source_object_index: 82
+  source_class: Prop
+  source_name: Stool1
+  source_model: models/Props/Barstool1.ABC
+  source_skin: Skins/Props/Barstool1.dtx
+  model_asset: models/props/barstool1.glb
+  position:
+    x: 27881
+    y: -1513
+    z: 1364
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:83
+  source_ref: objects/83
+  source_kind: mm9_dat_object
+  source_object_index: 83
+  source_class: Prop
+  source_name: Stool
+  source_model: models/Props/Barstool1.ABC
+  source_skin: Skins/Props/Barstool1.dtx
+  model_asset: models/props/barstool1.glb
+  position:
+    x: 27876
+    y: -1321
+    z: 1339
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:84
+  source_ref: objects/84
+  source_kind: mm9_dat_object
+  source_object_index: 84
+  source_class: Prop
+  source_name: Table1
+  source_model: models/Props/Table_Bench.ABC
+  source_skin: Skins/Props/Table_Bench.dtx
+  model_asset: models/props/table_bench.glb
+  position:
+    x: 28465
+    y: -2176
+    z: 1303
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:85
+  source_ref: objects/85
+  source_kind: mm9_dat_object
+  source_object_index: 85
+  source_class: Prop
+  source_name: Table2
+  source_model: models/Props/Table_Bench.ABC
+  source_skin: Skins/Props/Table_Bench.dtx
+  model_asset: models/props/table_bench.glb
+  position:
+    x: 28460
+    y: -2688
+    z: 1364
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:86
+  source_ref: objects/86
+  source_kind: mm9_dat_object
+  source_object_index: 86
+  source_class: Prop
+  source_name: Table8
+  source_model: models/Props/Table_Bench.ABC
+  source_skin: Skins/Props/Table_Bench.dtx
+  model_asset: models/props/table_bench.glb
+  position:
+    x: 27272
+    y: -2688
+    z: 1354
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:87
+  source_ref: objects/87
+  source_kind: mm9_dat_object
+  source_object_index: 87
+  source_class: Prop
+  source_name: Table5
+  source_model: models/Props/Table_Bench.ABC
+  source_skin: Skins/Props/Table_Bench.dtx
+  model_asset: models/props/table_bench.glb
+  position:
+    x: 27272
+    y: -1644
+    z: 1354
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:88
+  source_ref: objects/88
+  source_kind: mm9_dat_object
+  source_object_index: 88
+  source_class: Prop
+  source_name: Table6
+  source_model: models/Props/TableRound.ABC
+  source_skin: Skins/Props/TableRound.dtx
+  model_asset: models/props/tableround.glb
+  position:
+    x: 27845
+    y: -2852
+    z: 1364
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:89
+  source_ref: objects/89
+  source_kind: mm9_dat_object
+  source_object_index: 89
+  source_class: Prop
+  source_name: Chair21
+  source_model: MODELS/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 27845
+    y: -2237
+    z: 1303
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:90
+  source_ref: objects/90
+  source_kind: mm9_dat_object
+  source_object_index: 90
+  source_class: Prop
+  source_name: Chair18
+  source_model: MODELS/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 27717
+    y: -2196
+    z: 1362
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.25881914
+    w: -0.9659258
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:91
+  source_ref: objects/91
+  source_kind: mm9_dat_object
+  source_object_index: 91
+  source_class: Prop
+  source_name: Chair20
+  source_model: MODELS/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 27845
+    y: -2033
+    z: 1362
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:92
+  source_ref: objects/92
+  source_kind: mm9_dat_object
+  source_object_index: 92
+  source_class: Prop
+  source_name: Chair19
+  source_model: MODELS/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 27968
+    y: -2115
+    z: 1362
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.93939378
+    w: -0.34284009
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:93
+  source_ref: objects/93
+  source_kind: mm9_dat_object
+  source_object_index: 93
+  source_class: Prop
+  source_name: Chair17
+  source_model: MODELS/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 27845
+    y: -2934
+    z: 1303
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:94
+  source_ref: objects/94
+  source_kind: mm9_dat_object
+  source_object_index: 94
+  source_class: Prop
+  source_name: Chair14
+  source_model: MODELS/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 27763
+    y: -2852
+    z: 1303
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.6813599
+    w: 0.73194856
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:95
+  source_ref: objects/95
+  source_kind: mm9_dat_object
+  source_object_index: 95
+  source_class: Prop
+  source_name: Chair16
+  source_model: MODELS/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 27845
+    y: -2770
+    z: 1303
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:96
+  source_ref: objects/96
+  source_kind: mm9_dat_object
+  source_object_index: 96
+  source_class: Prop
+  source_name: Chair15
+  source_model: MODELS/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 27927
+    y: -2852
+    z: 1303
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:97
+  source_ref: objects/97
+  source_kind: mm9_dat_object
+  source_object_index: 97
+  source_class: Prop
+  source_name: Barrel2
+  source_model: models/Props/Keg_Beer.ABC
+  source_skin: Skins/Props/Keg_Beer.dtx
+  model_asset: models/props/keg_beer.glb
+  position:
+    x: 28521
+    y: -1316
+    z: 1495
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:bootcamp:object:98
+  source_ref: objects/98
+  source_kind: mm9_dat_object
+  source_object_index: 98
+  source_class: Prop
+  source_name: Barrel1
+  source_model: models/Props/Keg_Beer.ABC
+  source_skin: Skins/Props/Keg_Beer.dtx
+  model_asset: models/props/keg_beer.glb
+  position:
+    x: 28521
+    y: -1193
+    z: 1495
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:bootcamp:object:99
+  source_ref: objects/99
+  source_kind: mm9_dat_object
+  source_object_index: 99
+  source_class: Prop
+  source_name: Barrel0
+  source_model: models/Props/Keg_Beer.ABC
+  source_skin: Skins/Props/Keg_Beer.dtx
+  model_asset: models/props/keg_beer.glb
+  position:
+    x: 28521
+    y: -1070
+    z: 1495
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:bootcamp:object:102
+  source_ref: objects/102
+  source_kind: mm9_dat_object
+  source_object_index: 102
+  source_class: CandleProp
+  source_name: BrazierBowl17
+  source_model: models/Props/Chandelier2.ABC
+  source_skin: Skins/Props/Chandelier2.dtx
+  model_asset: models/props/chandelier2.glb
+  position:
+    x: 27487
+    y: -2176
+    z: 1687
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: none
+- instance_id: mm9:bootcamp:object:105
+  source_ref: objects/105
+  source_kind: mm9_dat_object
+  source_object_index: 105
+  source_class: CandleProp
+  source_name: Candelwheel
+  source_model: models/Props/Chandelier2.ABC
+  source_skin: Skins/Props/Chandelier2.dtx
+  model_asset: models/props/chandelier2.glb
+  position:
+    x: 28209
+    y: -1152
+    z: 1687
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: none
+- instance_id: mm9:bootcamp:object:108
+  source_ref: objects/108
+  source_kind: mm9_dat_object
+  source_object_index: 108
+  source_class: CandleProp
+  source_name: BrazierBowl14
+  source_model: models/Props/Chandelier2.ABC
+  source_skin: Skins/Props/Chandelier2.dtx
+  model_asset: models/props/chandelier2.glb
+  position:
+    x: 28209
+    y: -2852
+    z: 1687
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: none
+- instance_id: mm9:bootcamp:object:109
+  source_ref: objects/109
+  source_kind: mm9_dat_object
+  source_object_index: 109
+  source_class: Prop
+  source_name: Coatrack
+  source_model: models/Props/CoatRack1.ABC
+  source_skin: Skins/Props/CoatRack1.dtx
+  model_asset: models/props/coatrack1.glb
+  position:
+    x: 27149
+    y: -1011
+    z: 1495
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:112
+  source_ref: objects/112
+  source_kind: mm9_dat_object
+  source_object_index: 112
+  source_class: Goat
+  source_name: Goat1
+  source_model: models/goat.abc
+  source_skin: ''
+  model_asset: models/goat.glb
+  position:
+    x: 14397
+    y: -8622
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.34202013
+    w: 0.93969262
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: goat_goat
+- instance_id: mm9:bootcamp:object:113
+  source_ref: objects/113
+  source_kind: mm9_dat_object
+  source_object_index: 113
+  source_class: Goat
+  source_name: Goat0
+  source_model: models/goat.abc
+  source_skin: ''
+  model_asset: models/goat.glb
+  position:
+    x: 14316
+    y: -8233
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.66065701
+    w: 0.75068789
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: goat_goat
+- instance_id: mm9:bootcamp:object:114
+  source_ref: objects/114
+  source_kind: mm9_dat_object
+  source_object_index: 114
+  source_class: Goat
+  source_name: Goat3
+  source_model: models/goat.abc
+  source_skin: ''
+  model_asset: models/goat.glb
+  position:
+    x: 14459
+    y: -7639
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.17364817
+    w: 0.98480775
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: goat_goat
+- instance_id: mm9:bootcamp:object:115
+  source_ref: objects/115
+  source_kind: mm9_dat_object
+  source_object_index: 115
+  source_class: Goat
+  source_name: Goat2
+  source_model: models/goat.abc
+  source_skin: ''
+  model_asset: models/goat.glb
+  position:
+    x: 14930
+    y: -8376
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.32886662
+    w: -0.94437638
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: goat_goat
+- instance_id: mm9:bootcamp:object:116
+  source_ref: objects/116
+  source_kind: mm9_dat_object
+  source_object_index: 116
+  source_class: Cow
+  source_name: Cow3
+  source_model: models/cow.abc
+  source_skin: ''
+  model_asset: models/cow.glb
+  position:
+    x: 15872
+    y: -7107
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.47792562
+    w: -0.87840031
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: cow_cow
+- instance_id: mm9:bootcamp:object:117
+  source_ref: objects/117
+  source_kind: mm9_dat_object
+  source_object_index: 117
+  source_class: BrownCow
+  source_name: BrownCow1
+  source_model: models/Cow.abc
+  source_skin: ''
+  model_asset: models/cow.glb
+  position:
+    x: 16015
+    y: -4833
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: cow_cowbrown
+- instance_id: mm9:bootcamp:object:118
+  source_ref: objects/118
+  source_kind: mm9_dat_object
+  source_object_index: 118
+  source_class: BrownCow
+  source_name: BrownCow2
+  source_model: models/Cow.abc
+  source_skin: ''
+  model_asset: models/cow.glb
+  position:
+    x: 14889
+    y: -4280
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.59762514
+    w: 0.80177565
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: cow_cowbrown
+- instance_id: mm9:bootcamp:object:119
+  source_ref: objects/119
+  source_kind: mm9_dat_object
+  source_object_index: 119
+  source_class: Cow
+  source_name: Cow0
+  source_model: models/cow.abc
+  source_skin: ''
+  model_asset: models/cow.glb
+  position:
+    x: 15094
+    y: -2294
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.34202013
+    w: 0.93969262
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: cow_cow
+- instance_id: mm9:bootcamp:object:120
+  source_ref: objects/120
+  source_kind: mm9_dat_object
+  source_object_index: 120
+  source_class: Cow
+  source_name: Cow1
+  source_model: models/cow.abc
+  source_skin: ''
+  model_asset: models/cow.glb
+  position:
+    x: 15933
+    y: -2744
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.52547159
+    w: -0.85081115
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: cow_cow
+- instance_id: mm9:bootcamp:object:121
+  source_ref: objects/121
+  source_kind: mm9_dat_object
+  source_object_index: 121
+  source_class: BrownCow
+  source_name: BrownCow0
+  source_model: models/Cow.abc
+  source_skin: ''
+  model_asset: models/cow.glb
+  position:
+    x: 17715
+    y: -6410
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.9316912
+    w: 0.36325129
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: cow_cowbrown
+- instance_id: mm9:bootcamp:object:122
+  source_ref: objects/122
+  source_kind: mm9_dat_object
+  source_object_index: 122
+  source_class: Cow
+  source_name: Cow4
+  source_model: models/cow.abc
+  source_skin: ''
+  model_asset: models/cow.glb
+  position:
+    x: 17183
+    y: -7762
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.47792562
+    w: -0.87840031
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: cow_cow
+- instance_id: mm9:bootcamp:object:123
+  source_ref: objects/123
+  source_kind: mm9_dat_object
+  source_object_index: 123
+  source_class: BrownCow
+  source_name: BrownCow3
+  source_model: models/Cow.abc
+  source_skin: ''
+  model_asset: models/cow.glb
+  position:
+    x: 19026
+    y: -7066
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.9316912
+    w: 0.36325129
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: cow_cowbrown
+- instance_id: mm9:bootcamp:object:124
+  source_ref: objects/124
+  source_kind: mm9_dat_object
+  source_object_index: 124
+  source_class: Goat
+  source_name: Goat4
+  source_model: models/goat.abc
+  source_skin: ''
+  model_asset: models/goat.glb
+  position:
+    x: 15073
+    y: -1311
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.81915204
+    w: 0.57357645
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: goat_goat
+- instance_id: mm9:bootcamp:object:125
+  source_ref: objects/125
+  source_kind: mm9_dat_object
+  source_object_index: 125
+  source_class: Goat
+  source_name: Goat5
+  source_model: models/goat.abc
+  source_skin: ''
+  model_asset: models/goat.glb
+  position:
+    x: 14664
+    y: -1556
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.89879404
+    w: 0.43837115
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: goat_goat
+- instance_id: mm9:bootcamp:object:126
+  source_ref: objects/126
+  source_kind: mm9_dat_object
+  source_object_index: 126
+  source_class: Goat
+  source_name: Goat6
+  source_model: models/goat.abc
+  source_skin: ''
+  model_asset: models/goat.glb
+  position:
+    x: 15483
+    y: -1393
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99950656
+    w: 0.031410847
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: goat_goat
+- instance_id: mm9:bootcamp:object:141
+  source_ref: objects/141
+  source_kind: mm9_dat_object
+  source_object_index: 141
+  source_class: Prop
+  source_name: HayBale1
+  source_model: models/Props/HayBale01.ABC
+  source_skin: Skins/Props/HayBale01.dtx
+  model_asset: models/props/haybale01.glb
+  position:
+    x: 15176
+    y: -4096
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.33380687
+    w: 0.94264149
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:142
+  source_ref: objects/142
+  source_kind: mm9_dat_object
+  source_object_index: 142
+  source_class: Prop
+  source_name: HayBale4
+  source_model: models/Props/HayBale01.ABC
+  source_skin: Skins/Props/HayBale01.dtx
+  model_asset: models/props/haybale01.glb
+  position:
+    x: 16486
+    y: -2458
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.33380687
+    w: 0.94264149
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:143
+  source_ref: objects/143
+  source_kind: mm9_dat_object
+  source_object_index: 143
+  source_class: Prop
+  source_name: HayBale3
+  source_model: models/Props/HayBale01.ABC
+  source_skin: Skins/Props/HayBale01.dtx
+  model_asset: models/props/haybale01.glb
+  position:
+    x: 17469
+    y: -4751
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.33380687
+    w: 0.94264149
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:144
+  source_ref: objects/144
+  source_kind: mm9_dat_object
+  source_object_index: 144
+  source_class: Prop
+  source_name: HayBale2
+  source_model: models/Props/HayBale01.ABC
+  source_skin: Skins/Props/HayBale01.dtx
+  model_asset: models/props/haybale01.glb
+  position:
+    x: 15503
+    y: -6062
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.33380687
+    w: 0.94264149
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:145
+  source_ref: objects/145
+  source_kind: mm9_dat_object
+  source_object_index: 145
+  source_class: CandleProp
+  source_name: Wheellight3
+  source_model: models/Props/Chandelier2.ABC
+  source_skin: Skins/Props/Chandelier2.dtx
+  model_asset: models/props/chandelier2.glb
+  position:
+    x: 24166
+    y: -881
+    z: 1661
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:148
+  source_ref: objects/148
+  source_kind: mm9_dat_object
+  source_object_index: 148
+  source_class: CandleProp
+  source_name: Wheellight2
+  source_model: models/Props/Chandelier2.ABC
+  source_skin: Skins/Props/Chandelier2.dtx
+  model_asset: models/props/chandelier2.glb
+  position:
+    x: 24166
+    y: -1536
+    z: 1661
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:151
+  source_ref: objects/151
+  source_kind: mm9_dat_object
+  source_object_index: 151
+  source_class: Prop
+  source_name: Barstool7
+  source_model: models/Props/Barstool2.ABC
+  source_skin: Skins/Props/Barstool1.dtx
+  model_asset: models/props/barstool2.glb
+  position:
+    x: 24146
+    y: -1044
+    z: 1364
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:152
+  source_ref: objects/152
+  source_kind: mm9_dat_object
+  source_object_index: 152
+  source_class: Prop
+  source_name: Barstool11
+  source_model: models/Props/Barstool2.ABC
+  source_skin: Skins/Props/Barstool1.dtx
+  model_asset: models/props/barstool2.glb
+  position:
+    x: 24146
+    y: -799
+    z: 1364
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:153
+  source_ref: objects/153
+  source_kind: mm9_dat_object
+  source_object_index: 153
+  source_class: Prop
+  source_name: Prop53
+  source_model: models/Props/LogsBurning.ABC
+  source_skin: Skins/Props/LogsBurning.dtx
+  model_asset: models/props/logsburning.glb
+  position:
+    x: 24166
+    y: -2191
+    z: 1354
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.2
+    y: 1.2
+    z: 1.2
+  collision: solid
+- instance_id: mm9:bootcamp:object:154
+  source_ref: objects/154
+  source_kind: mm9_dat_object
+  source_object_index: 154
+  source_class: Prop
+  source_name: Crate0
+  source_model: models/props/crate.abc
+  source_skin: skins/props/crate.dtx
+  model_asset: models/props/crate.glb
+  position:
+    x: 23790
+    y: -2066
+    z: 1375
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:155
+  source_ref: objects/155
+  source_kind: mm9_dat_object
+  source_object_index: 155
+  source_class: Prop
+  source_name: Barrel
+  source_model: models/props/barrel.abc
+  source_skin: skins/props/barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: 24466
+    y: -2056
+    z: 1354
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:156
+  source_ref: objects/156
+  source_kind: mm9_dat_object
+  source_object_index: 156
+  source_class: Prop
+  source_name: Barrel12
+  source_model: models/props/barrel.abc
+  source_skin: skins/props/barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: 24568
+    y: -2097
+    z: 1354
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:157
+  source_ref: objects/157
+  source_kind: mm9_dat_object
+  source_object_index: 157
+  source_class: Prop
+  source_name: Barrel11
+  source_model: models/props/barrel.abc
+  source_skin: skins/props/barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: 24548
+    y: -2015
+    z: 1354
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:158
+  source_ref: objects/158
+  source_kind: mm9_dat_object
+  source_object_index: 158
+  source_class: Prop
+  source_name: Basket
+  source_model: models/props/basket_fruit.abc
+  source_skin: skins/props/basket_fruit.dtx
+  model_asset: models/props/basket_fruit.glb
+  position:
+    x: 23913
+    y: -1257
+    z: 1446
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:159
+  source_ref: objects/159
+  source_kind: mm9_dat_object
+  source_object_index: 159
+  source_class: Prop
+  source_name: Sack
+  source_model: models/props/sack03.abc
+  source_skin: skins/props/sack01.dtx
+  model_asset: models/props/sack03.glb
+  position:
+    x: 23747
+    y: -1042
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:160
+  source_ref: objects/160
+  source_kind: mm9_dat_object
+  source_object_index: 160
+  source_class: Prop
+  source_name: Sack2
+  source_model: models/props/sack03.abc
+  source_skin: skins/props/sack01.dtx
+  model_asset: models/props/sack03.glb
+  position:
+    x: 23747
+    y: -1001
+    z: 1505
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:161
+  source_ref: objects/161
+  source_kind: mm9_dat_object
+  source_object_index: 161
+  source_class: Prop
+  source_name: Sack1
+  source_model: models/props/sack03.abc
+  source_skin: skins/props/sack01.dtx
+  model_asset: models/props/sack03.glb
+  position:
+    x: 23747
+    y: -878
+    z: 1434
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:162
+  source_ref: objects/162
+  source_kind: mm9_dat_object
+  source_object_index: 162
+  source_class: Prop
+  source_name: Basket0
+  source_model: models/props/basket_veggies.abc
+  source_skin: skins/props/basket_veggies.dtx
+  model_asset: models/props/basket_veggies.glb
+  position:
+    x: 23739
+    y: -745
+    z: 1439
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:163
+  source_ref: objects/163
+  source_kind: mm9_dat_object
+  source_object_index: 163
+  source_class: Prop
+  source_name: Sack0
+  source_model: models/props/sack03.abc
+  source_skin: skins/props/sack01.dtx
+  model_asset: models/props/sack03.glb
+  position:
+    x: 23747
+    y: -724
+    z: 1505
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:164
+  source_ref: objects/164
+  source_kind: mm9_dat_object
+  source_object_index: 164
+  source_class: Prop
+  source_name: Barrel10
+  source_model: models/props/barrel.abc
+  source_skin: skins/props/barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: 23944
+    y: -253
+    z: 1354
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:165
+  source_ref: objects/165
+  source_kind: mm9_dat_object
+  source_object_index: 165
+  source_class: Prop
+  source_name: Barrel9
+  source_model: models/props/barrel.abc
+  source_skin: skins/props/barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: 23780
+    y: -274
+    z: 1354
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:166
+  source_ref: objects/166
+  source_kind: mm9_dat_object
+  source_object_index: 166
+  source_class: Prop
+  source_name: Barrel8
+  source_model: models/props/barrel.abc
+  source_skin: skins/props/barrel.dtx
+  model_asset: models/props/barrel.glb
+  position:
+    x: 23780
+    y: -356
+    z: 1354
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:169
+  source_ref: objects/169
+  source_kind: mm9_dat_object
+  source_object_index: 169
+  source_class: Prop
+  source_name: Bookcase57
+  source_model: models/Props/Bookcase02EW.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ew.glb
+  position:
+    x: 23511
+    y: -2765
+    z: 1398
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:170
+  source_ref: objects/170
+  source_kind: mm9_dat_object
+  source_object_index: 170
+  source_class: Prop
+  source_name: Bookcase59
+  source_model: models/Props/Bookcase02EW.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ew.glb
+  position:
+    x: 22938
+    y: -2765
+    z: 1398
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:171
+  source_ref: objects/171
+  source_kind: mm9_dat_object
+  source_object_index: 171
+  source_class: Prop
+  source_name: Bookcase60
+  source_model: models/Props/Bookcase02EW.ABC
+  source_skin: Skins/Props/Bookcase02.dtx
+  model_asset: models/props/bookcase02ew.glb
+  position:
+    x: 22835
+    y: -3502
+    z: 1398
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:174
+  source_ref: objects/174
+  source_kind: mm9_dat_object
+  source_object_index: 174
+  source_class: CandleProp
+  source_name: WallTorch63
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 23690
+    y: -3154
+    z: 1480
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:177
+  source_ref: objects/177
+  source_kind: mm9_dat_object
+  source_object_index: 177
+  source_class: CandleProp
+  source_name: WallTorch62
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 22738
+    y: -3154
+    z: 1480
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71018537
+    w: 0.70401473
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:183
+  source_ref: objects/183
+  source_kind: mm9_dat_object
+  source_object_index: 183
+  source_class: Prop
+  source_name: Target0
+  source_model: models/Props/Training_Archery1.ABC
+  source_skin: Skins/Props/Training_Archery.dtx
+  model_asset: models/props/training_archery1.glb
+  position:
+    x: 30966
+    y: -6042
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:bootcamp:object:184
+  source_ref: objects/184
+  source_kind: mm9_dat_object
+  source_object_index: 184
+  source_class: Prop
+  source_name: Target1
+  source_model: models/Props/Training_Archery1.ABC
+  source_skin: Skins/Props/Training_Archery.dtx
+  model_asset: models/props/training_archery1.glb
+  position:
+    x: 31293
+    y: -6042
+    z: 1638
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:bootcamp:object:185
+  source_ref: objects/185
+  source_kind: mm9_dat_object
+  source_object_index: 185
+  source_class: Prop
+  source_name: SpinningDummy3
+  source_model: models/Props/Training_SpinDummy1.ABC
+  source_skin: Skins/Props/Training_SpinDummy1.dtx
+  model_asset: models/props/training_spindummy1.glb
+  position:
+    x: 32010
+    y: -4936
+    z: 1679
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:186
+  source_ref: objects/186
+  source_kind: mm9_dat_object
+  source_object_index: 186
+  source_class: Prop
+  source_name: Strawdummyrack4
+  source_model: models/Props/Training_StrawDummy2_C.ABC
+  source_skin: Skins/Props/Training_StrawDummy1.dtx
+  model_asset: models/props/training_strawdummy2_c.glb
+  position:
+    x: 29245
+    y: -3113
+    z: 1679
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:187
+  source_ref: objects/187
+  source_kind: mm9_dat_object
+  source_object_index: 187
+  source_class: Prop
+  source_name: Strawdummyrack3
+  source_model: models/Props/Training_StrawDummy2_L.ABC
+  source_skin: Skins/Props/Training_StrawDummy1.dtx
+  model_asset: models/props/training_strawdummy2_l.glb
+  position:
+    x: 29245
+    y: -2908
+    z: 1679
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71079948
+    w: 0.7033947
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:188
+  source_ref: objects/188
+  source_kind: mm9_dat_object
+  source_object_index: 188
+  source_class: Prop
+  source_name: Prop33
+  source_model: models/props/PlantsandTrees/Tree02.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree02.glb
+  position:
+    x: 24522
+    y: -2860
+    z: 1469
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.4
+    y: 1.4
+    z: 1.4
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:189
+  source_ref: objects/189
+  source_kind: mm9_dat_object
+  source_object_index: 189
+  source_class: Prop
+  source_name: Prop34
+  source_model: models/props/PlantsandTrees/Tree04.abc
+  source_skin: skins/props/PlantsandTrees/TreeBark2.dtx;skins/props/PlantsandTrees/TreeBranch3.dtx
+  model_asset: models/props/plantsandtrees/tree04.glb
+  position:
+    x: 22956
+    y: -5143
+    z: 1244
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.34202013
+    w: 0.93969262
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:191
+  source_ref: objects/191
+  source_kind: mm9_dat_object
+  source_object_index: 191
+  source_class: CandleProp
+  source_name: WallTorch65
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 30106
+    y: -4316
+    z: 1441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -1
+    w: -4.371139e-08
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:193
+  source_ref: objects/193
+  source_kind: mm9_dat_object
+  source_object_index: 193
+  source_class: Prop
+  source_name: Cabinet1
+  source_model: models/Props/WeaponsCabinet01.ABC
+  source_skin: Skins/Props/WeaponsCabinet01.dtx
+  model_asset: models/props/weaponscabinet01.glb
+  position:
+    x: 29727
+    y: -4495
+    z: 1280
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:194
+  source_ref: objects/194
+  source_kind: mm9_dat_object
+  source_object_index: 194
+  source_class: Prop
+  source_name: Table4
+  source_model: models/Props/TableRound.ABC
+  source_skin: Skins/Props/TableRound.dtx
+  model_asset: models/props/tableround.glb
+  position:
+    x: 30106
+    y: -4378
+    z: 1278
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:195
+  source_ref: objects/195
+  source_kind: mm9_dat_object
+  source_object_index: 195
+  source_class: Prop
+  source_name: Chair22
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 30106
+    y: -4500
+    z: 1360
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:196
+  source_ref: objects/196
+  source_kind: mm9_dat_object
+  source_object_index: 196
+  source_class: Prop
+  source_name: Chair23
+  source_model: models/Props/Chair.ABC
+  source_skin: Skins/Props/ChairPlain.dtx
+  model_asset: models/props/chair.glb
+  position:
+    x: 30228
+    y: -4378
+    z: 1360
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:198
+  source_ref: objects/198
+  source_kind: mm9_dat_object
+  source_object_index: 198
+  source_class: Prop
+  source_name: Table10
+  source_model: models/Props/TableRound.ABC
+  source_skin: Skins/Props/TableRound.dtx
+  model_asset: models/props/tableround.glb
+  position:
+    x: 29773
+    y: -5238
+    z: 1278
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:202
+  source_ref: objects/202
+  source_kind: mm9_dat_object
+  source_object_index: 202
+  source_class: CandleProp
+  source_name: WallTorch64
+  source_model: MODELS/Props/WallCandle.ABC
+  source_skin: Skins/Props/WallCandle.dtx
+  model_asset: models/props/wallcandle.glb
+  position:
+    x: 29752
+    y: -5230
+    z: 1441
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.71018537
+    w: 0.70401473
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:205
+  source_ref: objects/205
+  source_kind: mm9_dat_object
+  source_object_index: 205
+  source_class: Prop
+  source_name: Prop6
+  source_model: models/Props/scroll1.abc
+  source_skin: skins/Props/scroll1.dtx
+  model_asset: models/props/scroll1.glb
+  position:
+    x: 26022
+    y: -6275
+    z: 1413
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:206
+  source_ref: objects/206
+  source_kind: mm9_dat_object
+  source_object_index: 206
+  source_class: Prop
+  source_name: Prop7
+  source_model: models/Props/scroll1.abc
+  source_skin: skins/Props/scroll1.dtx
+  model_asset: models/props/scroll1.glb
+  position:
+    x: 25915
+    y: -6275
+    z: 1413
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:207
+  source_ref: objects/207
+  source_kind: mm9_dat_object
+  source_object_index: 207
+  source_class: CommonerHuman2MaleA
+  source_name: CommonerHuman2MaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantm2.glb
+  position:
+    x: 25969
+    y: -7045
+    z: 1413
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantm2_peasantm2a
+- instance_id: mm9:bootcamp:object:209
+  source_ref: objects/209
+  source_kind: mm9_dat_object
+  source_object_index: 209
+  source_class: ShopkeeperHuman2FemaleA
+  source_name: ShopkeeperElfFemaleA2
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantf3.glb
+  position:
+    x: 28099
+    y: -1393
+    z: 1440
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70648948
+    w: -0.70772355
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantf3_peasantf3a
+- instance_id: mm9:bootcamp:object:210
+  source_ref: objects/210
+  source_kind: mm9_dat_object
+  source_object_index: 210
+  source_class: ShopkeeperElfFemaleA
+  source_name: ShopkeeperElfFemaleA0
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantf6.glb
+  position:
+    x: 23892
+    y: -973
+    z: 1453
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70090927
+    w: 0.71325044
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantf6_peasantf6b
+- instance_id: mm9:bootcamp:object:211
+  source_ref: objects/211
+  source_kind: mm9_dat_object
+  source_object_index: 211
+  source_class: ShopkeeperDwarfMaleA
+  source_name: ShopkeeperElfFemaleA1
+  source_model: models/PeasantMale.abc
+  source_skin: ''
+  model_asset: models/peasantdm3.glb
+  position:
+    x: 23224
+    y: -2966
+    z: 1440
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99998629
+    w: -0.0052360494
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: peasantdm3_peasantdm3a
+- instance_id: mm9:bootcamp:object:212
+  source_ref: objects/212
+  source_kind: mm9_dat_object
+  source_object_index: 212
+  source_class: Prop
+  source_name: Prop35
+  source_model: models/Props/scroll1.abc
+  source_skin: skins/Props/scroll1.dtx
+  model_asset: models/props/scroll1.glb
+  position:
+    x: 24084
+    y: -1147
+    z: 1426
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:213
+  source_ref: objects/213
+  source_kind: mm9_dat_object
+  source_object_index: 213
+  source_class: Prop
+  source_name: Prop36
+  source_model: models/Props/scroll1.abc
+  source_skin: skins/Props/scroll1.dtx
+  model_asset: models/props/scroll1.glb
+  position:
+    x: 30085
+    y: -4398
+    z: 1413
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:214
+  source_ref: objects/214
+  source_kind: mm9_dat_object
+  source_object_index: 214
+  source_class: Prop
+  source_name: Prop37
+  source_model: models/Props/scroll1.abc
+  source_skin: skins/Props/scroll1.dtx
+  model_asset: models/props/scroll1.glb
+  position:
+    x: 29796
+    y: -5215
+    z: 1413
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:215
+  source_ref: objects/215
+  source_kind: mm9_dat_object
+  source_object_index: 215
+  source_class: Prop
+  source_name: Prop38
+  source_model: models/Props/scroll1.abc
+  source_skin: skins/Props/scroll1.dtx
+  model_asset: models/props/scroll1.glb
+  position:
+    x: 31334
+    y: -1720
+    z: 2578
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:218
+  source_ref: objects/218
+  source_kind: mm9_dat_object
+  source_object_index: 218
+  source_class: Prop
+  source_name: Prop40
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: 25170
+    y: -6205
+    z: 1440
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.21558755
+    w: 0.97648452
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:219
+  source_ref: objects/219
+  source_kind: mm9_dat_object
+  source_object_index: 219
+  source_class: Prop
+  source_name: Prop39
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: 25242
+    y: -6257
+    z: 1440
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.21558755
+    w: 0.97648452
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:220
+  source_ref: objects/220
+  source_kind: mm9_dat_object
+  source_object_index: 220
+  source_class: Prop
+  source_name: Prop3
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: 25303
+    y: -6205
+    z: 1440
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.21558755
+    w: 0.97648452
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:221
+  source_ref: objects/221
+  source_kind: mm9_dat_object
+  source_object_index: 221
+  source_class: Prop
+  source_name: Prop4
+  source_model: models/Props/scroll1.abc
+  source_skin: skins/Props/scroll1.dtx
+  model_asset: models/props/scroll1.glb
+  position:
+    x: 25928
+    y: -6203
+    z: 1413
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99999391
+    w: 0.0034906356
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:222
+  source_ref: objects/222
+  source_kind: mm9_dat_object
+  source_object_index: 222
+  source_class: Prop
+  source_name: Prop5
+  source_model: models/Props/scroll1.abc
+  source_skin: skins/Props/scroll1.dtx
+  model_asset: models/props/scroll1.glb
+  position:
+    x: 26010
+    y: -6203
+    z: 1413
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99999391
+    w: 0.0034906356
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:223
+  source_ref: objects/223
+  source_kind: mm9_dat_object
+  source_object_index: 223
+  source_class: Prop
+  source_name: Prop41
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: 26655
+    y: -6195
+    z: 1440
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.21558755
+    w: 0.97648452
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:224
+  source_ref: objects/224
+  source_kind: mm9_dat_object
+  source_object_index: 224
+  source_class: Prop
+  source_name: Prop42
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: 26696
+    y: -6257
+    z: 1440
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.21558755
+    w: 0.97648452
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:225
+  source_ref: objects/225
+  source_kind: mm9_dat_object
+  source_object_index: 225
+  source_class: Prop
+  source_name: Prop43
+  source_model: models/Props/scroll-open.ABC
+  source_skin: Skins/Props/Scroll-Open.dtx
+  model_asset: models/props/scroll_open.glb
+  position:
+    x: 26757
+    y: -6205
+    z: 1440
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.21558755
+    w: 0.97648452
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:305
+  source_ref: objects/305
+  source_kind: mm9_dat_object
+  source_object_index: 305
+  source_class: Prop
+  source_name: Table9
+  source_model: models/Props/Table_Bench.ABC
+  source_skin: Skins/Props/Table_Bench.dtx
+  model_asset: models/props/table_bench.glb
+  position:
+    x: 23828
+    y: -1659
+    z: 1344
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:313
+  source_ref: objects/313
+  source_kind: mm9_dat_object
+  source_object_index: 313
+  source_class: LobberPod
+  source_name: LobberPod0
+  source_model: models/lobberpod.abc
+  source_skin: ''
+  model_asset: models/lobberpod.glb
+  position:
+    x: 31785
+    y: 3523
+    z: 1475
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.36731314
+    w: -0.93009734
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/lobberpod.abc
+    source_skins: []
+    candidates:
+    - id: lobberpod_icelobberpod
+      source_skins: &id001
+      - skins/icelobberpod.dtx
+    - id: lobberpod_lobberpod
+      source_skins: &id002
+      - skins/lobberpod.dtx
+    - id: lobberpod_lobberpod2
+      source_skins: &id003
+      - skins/lobberpod2.dtx
+- instance_id: mm9:bootcamp:object:314
+  source_ref: objects/314
+  source_kind: mm9_dat_object
+  source_object_index: 314
+  source_class: LobberPod
+  source_name: LobberPod1
+  source_model: models/lobberpod.abc
+  source_skin: ''
+  model_asset: models/lobberpod.glb
+  position:
+    x: 33587
+    y: 4669
+    z: 1475
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.90220926
+    w: -0.43129856
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/lobberpod.abc
+    source_skins: []
+    candidates:
+    - id: lobberpod_icelobberpod
+      source_skins: *id001
+    - id: lobberpod_lobberpod
+      source_skins: *id002
+    - id: lobberpod_lobberpod2
+      source_skins: *id003
+- instance_id: mm9:bootcamp:object:315
+  source_ref: objects/315
+  source_kind: mm9_dat_object
+  source_object_index: 315
+  source_class: LobberPod
+  source_name: LobberPod2
+  source_model: models/lobberpod.abc
+  source_skin: ''
+  model_asset: models/lobberpod.glb
+  position:
+    x: 34734
+    y: 7127
+    z: 1475
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99900978
+    w: 0.044491219
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/lobberpod.abc
+    source_skins: []
+    candidates:
+    - id: lobberpod_icelobberpod
+      source_skins: *id001
+    - id: lobberpod_lobberpod
+      source_skins: *id002
+    - id: lobberpod_lobberpod2
+      source_skins: *id003
+- instance_id: mm9:bootcamp:object:316
+  source_ref: objects/316
+  source_kind: mm9_dat_object
+  source_object_index: 316
+  source_class: LobberPod
+  source_name: LobberPod3
+  source_model: models/lobberpod.abc
+  source_skin: ''
+  model_asset: models/lobberpod.glb
+  position:
+    x: 34161
+    y: 6799
+    z: 1475
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.99367027
+    w: 0.11233608
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/lobberpod.abc
+    source_skins: []
+    candidates:
+    - id: lobberpod_icelobberpod
+      source_skins: *id001
+    - id: lobberpod_lobberpod
+      source_skins: *id002
+    - id: lobberpod_lobberpod2
+      source_skins: *id003
+- instance_id: mm9:bootcamp:object:317
+  source_ref: objects/317
+  source_kind: mm9_dat_object
+  source_object_index: 317
+  source_class: LobberPodB
+  source_name: LobberPodB0
+  source_model: models/lobberpod.abc
+  source_skin: ''
+  model_asset: models/lobberpod.glb
+  position:
+    x: 32686
+    y: 4014
+    z: 1475
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_resolution:
+    status: skin_ambiguous
+    source_model: models/lobberpod.abc
+    source_skins: []
+    candidates:
+    - id: lobberpod_icelobberpod
+      source_skins: *id001
+    - id: lobberpod_lobberpod
+      source_skins: *id002
+    - id: lobberpod_lobberpod2
+      source_skins: *id003
+- instance_id: mm9:bootcamp:object:358
+  source_ref: objects/358
+  source_kind: mm9_dat_object
+  source_object_index: 358
+  source_class: Prop
+  source_name: Prop1
+  source_model: models/Props/Portal-Broken.ABC
+  source_skin: Skins/Props/PortalDirty.dtx
+  model_asset: models/props/portal_broken.glb
+  position:
+    x: 22794
+    y: -6820
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:359
+  source_ref: objects/359
+  source_kind: mm9_dat_object
+  source_object_index: 359
+  source_class: StatStone
+  source_name: StatStone1
+  source_model: models/Props/WeaponRack.ABC
+  source_skin: Skins/Props/WeaponRack_New.dtx
+  model_asset: models/props/weaponrack.glb
+  position:
+    x: 24520
+    y: -6267
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:360
+  source_ref: objects/360
+  source_kind: mm9_dat_object
+  source_object_index: 360
+  source_class: Barrel
+  source_name: Barrel7
+  source_model: models/Props/Suitofarmor01.ABC
+  source_skin: Skins/Props/AmoredSuitPlain.dtx
+  model_asset: models/props/suitofarmor01.glb
+  position:
+    x: 24517
+    y: -6001
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:361
+  source_ref: objects/361
+  source_kind: mm9_dat_object
+  source_object_index: 361
+  source_class: Cauldron
+  source_name: Cauldron1
+  source_model: models/Props/RuneStone.ABC
+  source_skin: Skins/Props/RuneStone_GM.dtx
+  model_asset: models/props/runestone.glb
+  position:
+    x: 24517
+    y: -7398
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:362
+  source_ref: objects/362
+  source_kind: mm9_dat_object
+  source_object_index: 362
+  source_class: BonePile
+  source_name: BonePile0
+  source_model: models/Props/bonepile.ABC
+  source_skin: skins/props/bonepile.dtx
+  model_asset: models/props/bonepile.glb
+  position:
+    x: 24525
+    y: -7660
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:363
+  source_ref: objects/363
+  source_kind: mm9_dat_object
+  source_object_index: 363
+  source_class: Prop
+  source_name: Prop2
+  source_model: models/skeleton.abc
+  source_skin: Skins/Skeleton2.dtx;Skins/SkeletonDagger.dtx
+  model_asset: models/skeleton.glb
+  position:
+    x: 27412
+    y: -6001
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: skeleton_skeleton2_skeletondagger
+- instance_id: mm9:bootcamp:object:364
+  source_ref: objects/364
+  source_kind: mm9_dat_object
+  source_object_index: 364
+  source_class: Prop
+  source_name: Prop44
+  source_model: models/skeletonwarrior.abc
+  source_skin: Skins/SkeletonWar1.dtx;Skins/SkeletonScimitar.dtx
+  model_asset: models/skeletonwarrior.glb
+  position:
+    x: 27412
+    y: -6267
+    z: 1562
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: skeletonwarrior_skeletonwar1_skeletonscimitar
+- instance_id: mm9:bootcamp:object:365
+  source_ref: objects/365
+  source_kind: mm9_dat_object
+  source_object_index: 365
+  source_class: Prop
+  source_name: Prop45
+  source_model: models/Dragonfly.abc
+  source_skin: Skins/dragonfly2.dtx
+  model_asset: models/dragonfly.glb
+  position:
+    x: 27423
+    y: -7404
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: dragonfly_dragonfly2
+- instance_id: mm9:bootcamp:object:366
+  source_ref: objects/366
+  source_kind: mm9_dat_object
+  source_object_index: 366
+  source_class: Prop
+  source_name: Prop46
+  source_model: models/EvileyeTerror.abc
+  source_skin: Skins/Orbus2.dtx
+  model_asset: models/evileyeterror.glb
+  position:
+    x: 27423
+    y: -7670
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: evileyeterror_orbus2
+- instance_id: mm9:bootcamp:object:367
+  source_ref: objects/367
+  source_kind: mm9_dat_object
+  source_object_index: 367
+  source_class: Prop
+  source_name: Prop47
+  source_model: models/Troglodyte.abc
+  source_skin: Skins/Troglodyte2.dtx
+  model_asset: models/troglodyte.glb
+  position:
+    x: 29133
+    y: -6001
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: troglodyte_troglodyte2
+- instance_id: mm9:bootcamp:object:368
+  source_ref: objects/368
+  source_kind: mm9_dat_object
+  source_object_index: 368
+  source_class: Prop
+  source_name: Prop48
+  source_model: models/lizardorc.abc
+  source_skin: Skins/LizardOrc.dtx;Skins/LizOrcCutlass.dtx
+  model_asset: models/lizardorc.glb
+  position:
+    x: 29133
+    y: -6267
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: lizardorc_lizardorc_lizorccutlass
+- instance_id: mm9:bootcamp:object:369
+  source_ref: objects/369
+  source_kind: mm9_dat_object
+  source_object_index: 369
+  source_class: Prop
+  source_name: Prop49
+  source_model: models/gezzampt.abc
+  source_skin: Skins/Gezzampt2.dtx
+  model_asset: models/gezzampt.glb
+  position:
+    x: 29143
+    y: -7404
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: gezzampt_gezzampt2
+- instance_id: mm9:bootcamp:object:370
+  source_ref: objects/370
+  source_kind: mm9_dat_object
+  source_object_index: 370
+  source_class: Prop
+  source_name: Prop50
+  source_model: models/nosferatu.abc
+  source_skin: Skins/Nosferatu2.dtx
+  model_asset: models/nosferatu.glb
+  position:
+    x: 29143
+    y: -7670
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.70710678
+    w: -0.70710679
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: nosferatu_nosferatu2
+- instance_id: mm9:bootcamp:object:371
+  source_ref: objects/371
+  source_kind: mm9_dat_object
+  source_object_index: 371
+  source_class: Prop
+  source_name: Prop51
+  source_model: models/Jellyspore.abc
+  source_skin: Skins/Jellyspore4.dtx
+  model_asset: models/jellyspore.glb
+  position:
+    x: 29143
+    y: -6820
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: jellyspore_jellyspore4
+- instance_id: mm9:bootcamp:object:372
+  source_ref: objects/372
+  source_kind: mm9_dat_object
+  source_object_index: 372
+  source_class: Barrel
+  source_name: Barrel6
+  source_model: models/Props/Barrel03.ABC
+  source_skin: skins/props/barrel03.dtx
+  model_asset: models/props/barrel03.glb
+  position:
+    x: 22792
+    y: -6001
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:373
+  source_ref: objects/373
+  source_kind: mm9_dat_object
+  source_object_index: 373
+  source_class: Cauldron
+  source_name: Cauldron0
+  source_model: models/Props/cauldron01.ABC
+  source_skin: skins/props/cauldron01.dtx
+  model_asset: models/props/cauldron01.glb
+  position:
+    x: 22792
+    y: -7398
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:374
+  source_ref: objects/374
+  source_kind: mm9_dat_object
+  source_object_index: 374
+  source_class: Cookpot
+  source_name: Cookpot0
+  source_model: models/Props/cookpot.ABC
+  source_skin: skins/props/cookpot.dtx
+  model_asset: models/props/cookpot.glb
+  position:
+    x: 22792
+    y: -7670
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:375
+  source_ref: objects/375
+  source_kind: mm9_dat_object
+  source_object_index: 375
+  source_class: StatStone
+  source_name: StatStone0
+  source_model: models/Props/statstone.ABC
+  source_skin: skins/props/statstone.dtx
+  model_asset: models/props/statstone.glb
+  position:
+    x: 22794
+    y: -6267
+    z: 1521
+  rotation_quat:
+    x: 0
+    y: 0
+    z: -0.7071068
+    w: 0.70710677
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+- instance_id: mm9:bootcamp:object:376
+  source_ref: objects/376
+  source_kind: mm9_dat_object
+  source_object_index: 376
+  source_class: Prop
+  source_name: Prop55
+  source_model: models/Props/TableTrestle.ABC
+  source_skin: Skins/Props/TableTrestle2.dtx
+  model_asset: models/props/tabletrestle.glb
+  position:
+    x: 26696
+    y: -6226
+    z: 1294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:377
+  source_ref: objects/377
+  source_kind: mm9_dat_object
+  source_object_index: 377
+  source_class: Prop
+  source_name: Prop54
+  source_model: models/Props/TableTrestle.ABC
+  source_skin: Skins/Props/TableTrestle2.dtx
+  model_asset: models/props/tabletrestle.glb
+  position:
+    x: 25969
+    y: -6234
+    z: 1293
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:378
+  source_ref: objects/378
+  source_kind: mm9_dat_object
+  source_object_index: 378
+  source_class: Prop
+  source_name: Prop52
+  source_model: models/Props/TableTrestle.ABC
+  source_skin: Skins/Props/TableTrestle2.dtx
+  model_asset: models/props/tabletrestle.glb
+  position:
+    x: 25242
+    y: -6226
+    z: 1294
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: rayhit
+- instance_id: mm9:bootcamp:object:499
+  source_ref: objects/499
+  source_kind: mm9_dat_object
+  source_object_index: 499
+  source_class: CandleProp
+  source_name: Lantern0
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 22794
+    y: -5980
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:502
+  source_ref: objects/502
+  source_kind: mm9_dat_object
+  source_object_index: 502
+  source_class: CandleProp
+  source_name: Lantern1
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 22794
+    y: -6267
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:504
+  source_ref: objects/504
+  source_kind: mm9_dat_object
+  source_object_index: 504
+  source_class: CandleProp
+  source_name: Lantern2
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 22794
+    y: -6820
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:506
+  source_ref: objects/506
+  source_kind: mm9_dat_object
+  source_object_index: 506
+  source_class: CandleProp
+  source_name: Lantern3
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 22794
+    y: -7352
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:508
+  source_ref: objects/508
+  source_kind: mm9_dat_object
+  source_object_index: 508
+  source_class: CandleProp
+  source_name: Lantern4
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 22794
+    y: -7660
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:510
+  source_ref: objects/510
+  source_kind: mm9_dat_object
+  source_object_index: 510
+  source_class: CandleProp
+  source_name: Lantern5
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 24535
+    y: -7660
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:512
+  source_ref: objects/512
+  source_kind: mm9_dat_object
+  source_object_index: 512
+  source_class: CandleProp
+  source_name: Lantern6
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 24535
+    y: -7373
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:514
+  source_ref: objects/514
+  source_kind: mm9_dat_object
+  source_object_index: 514
+  source_class: CandleProp
+  source_name: Lantern7
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 24535
+    y: -6267
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:516
+  source_ref: objects/516
+  source_kind: mm9_dat_object
+  source_object_index: 516
+  source_class: CandleProp
+  source_name: Lantern8
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 24535
+    y: -5980
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:518
+  source_ref: objects/518
+  source_kind: mm9_dat_object
+  source_object_index: 518
+  source_class: CandleProp
+  source_name: Lantern9
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 27402
+    y: -7660
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:520
+  source_ref: objects/520
+  source_kind: mm9_dat_object
+  source_object_index: 520
+  source_class: CandleProp
+  source_name: Lantern10
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 27402
+    y: -7373
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:522
+  source_ref: objects/522
+  source_kind: mm9_dat_object
+  source_object_index: 522
+  source_class: CandleProp
+  source_name: Lantern11
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 27402
+    y: -6267
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:524
+  source_ref: objects/524
+  source_kind: mm9_dat_object
+  source_object_index: 524
+  source_class: CandleProp
+  source_name: Lantern12
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 27402
+    y: -5980
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:525
+  source_ref: objects/525
+  source_kind: mm9_dat_object
+  source_object_index: 525
+  source_class: CandleProp
+  source_name: Lantern13
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 29143
+    y: -5980
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:528
+  source_ref: objects/528
+  source_kind: mm9_dat_object
+  source_object_index: 528
+  source_class: CandleProp
+  source_name: Lantern14
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 29143
+    y: -6267
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:530
+  source_ref: objects/530
+  source_kind: mm9_dat_object
+  source_object_index: 530
+  source_class: CandleProp
+  source_name: Lantern15
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 29143
+    y: -6820
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:532
+  source_ref: objects/532
+  source_kind: mm9_dat_object
+  source_object_index: 532
+  source_class: CandleProp
+  source_name: Lantern16
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 29143
+    y: -7352
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:534
+  source_ref: objects/534
+  source_kind: mm9_dat_object
+  source_object_index: 534
+  source_class: CandleProp
+  source_name: Lantern17
+  source_model: models/Props/lantern1.abc
+  source_skin: Skins/Props/lantern1.dtx
+  model_asset: models/props/lantern1.glb
+  position:
+    x: 29143
+    y: -7660
+    z: 1843
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 2
+    y: 2
+    z: 2
+  collision: solid
+- instance_id: mm9:bootcamp:object:545
+  source_ref: objects/545
+  source_kind: mm9_dat_object
+  source_object_index: 545
+  source_class: Prop
+  source_name: TreasureChest2
+  source_model: models/Props/Chest1.ABC
+  source_skin: Skins/Props/Chest1.dtx
+  model_asset: models/props/chest1.glb
+  position:
+    x: 23199
+    y: -8632
+    z: 1564
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:bootcamp:object:546
+  source_ref: objects/546
+  source_kind: mm9_dat_object
+  source_object_index: 546
+  source_class: Prop
+  source_name: TreasureChest1
+  source_model: models/Props/Chest3.ABC
+  source_skin: Skins/Props/Chest3.dtx
+  model_asset: models/props/chest3.glb
+  position:
+    x: 23444
+    y: -8878
+    z: 1564
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:bootcamp:object:547
+  source_ref: objects/547
+  source_kind: mm9_dat_object
+  source_object_index: 547
+  source_class: Prop
+  source_name: TreasureChest0
+  source_model: models/Props/BlackChest.ABC
+  source_skin: Skins/Props/BlackChest.dtx
+  model_asset: models/props/blackchest.glb
+  position:
+    x: 23690
+    y: -9124
+    z: 1626
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:bootcamp:object:548
+  source_ref: objects/548
+  source_kind: mm9_dat_object
+  source_object_index: 548
+  source_class: Prop
+  source_name: TreasureChest3
+  source_model: models/Props/Chest5.ABC
+  source_skin: Skins/Props/Chest5.dtx
+  model_asset: models/props/chest5.glb
+  position:
+    x: 23936
+    y: -8878
+    z: 1564
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:bootcamp:object:549
+  source_ref: objects/549
+  source_kind: mm9_dat_object
+  source_object_index: 549
+  source_class: Prop
+  source_name: TreasureChest4
+  source_model: models/Props/Chest1.ABC
+  source_skin: Skins/Props/Chest2.dtx
+  model_asset: models/props/chest1.glb
+  position:
+    x: 24182
+    y: -8632
+    z: 1564
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  collision: solid
+- instance_id: mm9:bootcamp:object:553
+  source_ref: objects/553
+  source_kind: mm9_dat_object
+  source_object_index: 553
+  source_class: CandleProp
+  source_name: CandleProp76
+  source_model: models/Props/Candle.ABC
+  source_skin: TEXTURES/LevelTextures/Misc/Invisible.dtx
+  model_asset: models/props/candle.glb
+  position:
+    x: 26829
+    y: -7818
+    z: 1562
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: none
+- instance_id: mm9:bootcamp:object:557
+  source_ref: objects/557
+  source_kind: mm9_dat_object
+  source_object_index: 557
+  source_class: CandleProp
+  source_name: CandleProp74
+  source_model: models/Props/Candle.ABC
+  source_skin: TEXTURES/LevelTextures/Misc/Invisible.dtx
+  model_asset: models/props/candle.glb
+  position:
+    x: 25108
+    y: -7813
+    z: 1562
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: none
+- instance_id: mm9:bootcamp:object:560
+  source_ref: objects/560
+  source_kind: mm9_dat_object
+  source_object_index: 560
+  source_class: EvilGrandSorcerer
+  source_name: EvilGrandSorcererCACHEONLY
+  source_model: models/evilsorcerer.abc
+  source_skin: ''
+  model_asset: models/evilsorcerer.glb
+  position:
+    x: 23757
+    y: -7537
+    z: 1564
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: evilsorcerer_evilsorcerer3
+- instance_id: mm9:bootcamp:object:561
+  source_ref: objects/561
+  source_kind: mm9_dat_object
+  source_object_index: 561
+  source_class: ReverendMonk
+  source_name: ReverendMonkCACHEONLY
+  source_model: models/monk.abc
+  source_skin: ''
+  model_asset: models/monk.glb
+  position:
+    x: 23757
+    y: -7537
+    z: 1564
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: monk_monk3
+- instance_id: mm9:bootcamp:object:562
+  source_ref: objects/562
+  source_kind: mm9_dat_object
+  source_object_index: 562
+  source_class: Oculus
+  source_name: OrbusCACHEONLY
+  source_model: models/EvileyeTerror.abc
+  source_skin: ''
+  model_asset: models/evileyeterror.glb
+  position:
+    x: 23757
+    y: -7537
+    z: 1564
+  rotation_quat:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  collision: solid
+  model_skin_binding: evileyeterror_orbus3
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  face_attribute_overrides: []
+  actors: []
+  sprite_objects: []
+  chests: []
+  variables:
+    map:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    decor:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0

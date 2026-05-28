@@ -1,0 +1,471 @@
+schema: openyamm.model3d.v1
+id: dog
+model: dog.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/DOG.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: dogLP
+  materialIndex: 0
+  lods:
+  - faces: 320
+    vertices: 162
+  - faces: 240
+    vertices: 122
+  - faces: 160
+    vertices: 82
+  - faces: 80
+    vertices: 42
+materials:
+- index: 0
+  texture: skins_preview/dog.png
+  runtime_texture: skins/dog.dtx
+  preview_texture: skins_preview/dog.png
+  source: mm9/extracted/SKINS/SKINS/DOG.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: XCENTER
+    parent: 0
+    flags: 1
+    children:
+    - 2
+    - 24
+  - index: 2
+    name: XbackA
+    parent: 1
+    flags: 1
+    children:
+    - 3
+  - index: 3
+    name: Xback
+    parent: 2
+    flags: 1
+    children:
+    - 4
+    - 13
+  - index: 4
+    name: Xfrontleg
+    parent: 3
+    flags: 1
+    children:
+    - 5
+    - 9
+  - index: 5
+    name: Xflegpiv01
+    parent: 4
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Xfleg01
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Xfankle01
+    parent: 6
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Xffoot01
+    parent: 7
+    flags: 1
+    children: []
+  - index: 9
+    name: Xflegpiv
+    parent: 4
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Xfleg
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Xfankle
+    parent: 10
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Xffoot
+    parent: 11
+    flags: 1
+    children: []
+  - index: 13
+    name: XneckC
+    parent: 3
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: XneckB
+    parent: 13
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: XneckA
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Xheadpiv
+    parent: 15
+    flags: 1
+    children:
+    - 17
+    - 20
+    - 22
+  - index: 17
+    name: Xhead
+    parent: 16
+    flags: 1
+    children:
+    - 18
+    - 19
+  - index: 18
+    name: Xmouth
+    parent: 17
+    flags: 1
+    children: []
+  - index: 19
+    name: Xjawpiv
+    parent: 17
+    flags: 1
+    children: []
+  - index: 20
+    name: Xearbase
+    parent: 16
+    flags: 1
+    children:
+    - 21
+  - index: 21
+    name: Xearpiv
+    parent: 20
+    flags: 1
+    children: []
+  - index: 22
+    name: Xearbase1
+    parent: 16
+    flags: 1
+    children:
+    - 23
+  - index: 23
+    name: Xearpiv1
+    parent: 22
+    flags: 1
+    children: []
+  - index: 24
+    name: XbackB
+    parent: 1
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: XbackC
+    parent: 24
+    flags: 1
+    children:
+    - 26
+    - 30
+    - 35
+  - index: 26
+    name: Xtailpiv
+    parent: 25
+    flags: 1
+    children:
+    - 27
+  - index: 27
+    name: XtailA
+    parent: 26
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: XtailB
+    parent: 27
+    flags: 1
+    children:
+    - 29
+  - index: 29
+    name: XtailC
+    parent: 28
+    flags: 1
+    children: []
+  - index: 30
+    name: Xblegpiv
+    parent: 25
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: Xbleg
+    parent: 30
+    flags: 1
+    children:
+    - 32
+  - index: 32
+    name: Xblegmid
+    parent: 31
+    flags: 1
+    children:
+    - 33
+  - index: 33
+    name: Xbankle
+    parent: 32
+    flags: 1
+    children:
+    - 34
+  - index: 34
+    name: Xbfoot
+    parent: 33
+    flags: 1
+    children: []
+  - index: 35
+    name: Xblegpiv01
+    parent: 25
+    flags: 1
+    children:
+    - 36
+  - index: 36
+    name: Xbleg01
+    parent: 35
+    flags: 1
+    children:
+    - 37
+  - index: 37
+    name: Xblegmid01
+    parent: 36
+    flags: 1
+    children:
+    - 38
+  - index: 38
+    name: Xbankle01
+    parent: 37
+    flags: 1
+    children:
+    - 39
+  - index: 39
+    name: Xbfoot01
+    parent: 38
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: static_model
+  durationMs: 366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: stand
+  durationMs: 1400
+  keyframes: 9
+  interpolationTimeMs: 200
+  events: []
+- name: fidget1
+  durationMs: 3000
+  keyframes: 13
+  interpolationTimeMs: 200
+  events: []
+- name: Bark
+  durationMs: 2000
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+- name: walk
+  durationMs: 500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 244
+    event: footstep
+  - timeMs: 488
+    event: footstep
+- name: walksniff
+  durationMs: 800
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 390
+    event: footstep
+  - timeMs: 781
+    event: footstep
+- name: walkbark
+  durationMs: 500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: speakanimsound
+  - timeMs: 244
+    event: foostep
+  - timeMs: 488
+    event: footstep
+- name: run
+  durationMs: 250
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 62
+    event: footstep
+  - timeMs: 123
+    event: footstep
+- name: run(away)
+  durationMs: 300
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 36
+    event: footstep
+  - timeMs: 73
+    event: footstep
+  - timeMs: 220
+    event: footstep
+- name: sitting
+  durationMs: 1500
+  keyframes: 6
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: static_model
+  extents:
+  - 48.64
+  - 48.64
+  - 48.64
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: stand
+  extents:
+  - 48.64
+  - 48.64
+  - 48.64
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fidget1
+  extents:
+  - 48.64
+  - 48.64
+  - 48.64
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Bark
+  extents:
+  - 48.64
+  - 48.64
+  - 48.64
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: walk
+  extents:
+  - 48.64
+  - 48.64
+  - 48.64
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: walksniff
+  extents:
+  - 48.64
+  - 48.64
+  - 48.64
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: walkbark
+  extents:
+  - 48.64
+  - 48.64
+  - 48.64
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: run
+  extents:
+  - 48.64
+  - 48.64
+  - 48.64
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: run(away)
+  extents:
+  - 48.64
+  - 48.64
+  - 48.64
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: sitting
+  extents:
+  - 48.64
+  - 48.64
+  - 48.64
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- actor_model
+source_model: models/dog.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: dog_dog
+  source_skins:
+  - skins/dog.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 276
+    number: '295'
+    monster_name: dog
+    type_picture: Dog
+    base_name: ''
+  - table: MONSTERS
+    row: 276
+    number: '295'
+    monster_name: dog
+    type_picture: Dog
+    base_name: dog

@@ -1,0 +1,10 @@
+model: mm9/extracted/MODELS/MODELS/GIBS/WOOD3.abc
+textures:
+- materialIndex: 0
+  source: mm9/extracted/SKINS/SKINS/GIBS/WOOD3.dtx
+  runtimeTexture: skins/gibs/wood3.dtx
+  previewTexture: skins_preview/gibs/wood3.png
+converter: tools/mm9_import_discovery/convert_abc_model.py
+coordinateScale: 2.56
+coordinateTransform: LithTech ABC local axes preserved; scene placement converts Y-up
+  to OpenYAMM Z-up

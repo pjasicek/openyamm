@@ -1,0 +1,42 @@
+;----------------------------------------------
+; SpikeDoorOpen.scr
+; By Karl
+; When spike are removed the blocks can be 
+; opened
+;
+;----------------------------------------------
+
+#include globals.inc 
+
+#number		count = 0
+#hObject	hMyDoor
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+	GetMyHandle hMyDoor
+	if ( count == 6 )
+		Trigger hMyDoor, unlock
+		Trigger hMyDoor, toggle
+	endif
+	Exit TRUE
+;-------------------------------------
+:OnePulled
+;-------------------------------------
+	count = count + 1
+	if (count == 6 )
+			Trigger hMyDoor unlock
+			Trigger hMyDoor use
+	endif
+	Exit 1
+;-------------------------------------
+:Main2
+;-------------------------------------
+	GetObjectHandle ABDoorBoards0, hMyDoor
+	AddTrigger OnePulled OnePulled
+	Exit 1
+;-------------------------------------
+:main
+;-------------------------------------
+	wait 0, 0.4, Main2
+	Exit

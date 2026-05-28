@@ -1,0 +1,236 @@
+;-----------------------------------------------------
+;	DP_InterrogationPrisoner.scr
+;	kd
+;	10-24-01
+;	Simple following guard
+;	Nothing slick or fancy
+;
+;	
+;	
+;
+;
+;-----------------------------------------------------
+#include BaseMelee.inc
+
+
+#hObject	hDummy
+#hObject	hDoorMan
+#hObject	hCellDoor
+#hObject	hWarden
+
+#string		sCellMarker
+#string		sCellDoor
+#string		sWayPoint
+#string		sMarker
+#number		nNumMarkers
+#number		nMarker = 0
+#hobject	hMarker
+#hObject	hDummy
+
+#number		nStartingDirection
+#number		nVarPath
+#number		nNumA
+#number		nCount
+#number		nReset
+
+;--------------------------------------------------------------
+:DoTheWalk
+;--------------------------------------------------------------
+	
+	nReset = nReset + 1
+	if (nCount==0)
+		Wait 0, 0.5 LeaveCell
+	endif
+
+	if (nCount==1)
+		Wait 0, 0.5 ToTheInterrogation
+	endif
+
+	if (nCount==2)
+		Wait 0, 0.5 ToTheWarden
+	endif
+
+	if (nCount==3)
+		Wait 0, 0.5 GoInCell
+	endif
+
+	if (nCount==4)
+		Wait 0, 0.5 SitStill
+	endif
+	Exit 1
+
+;--------------------------------------------------------------
+:SitStill
+;--------------------------------------------------------------
+	nCount = 0
+	Stop
+	PlayAnim Cower, DoNothing
+	Exit 1
+
+;--------------------------------------------------------------
+:LeaveCell
+;--------------------------------------------------------------
+	hMarker = NULL
+	nMarker = 4
+	if ( sCellMarker==CellMarker0 )
+		GetObjectHandle PrisonerPathA4, hMarker
+	else
+		if ( sCellMarker==CellMarker1 )
+			GetObjectHandle PrisonerPathA5, hMarker
+		else
+			if ( sCellMarker==CellMarker2 )
+				GetObjectHandle PrisonerPathA6, hMarker
+			endif
+		endif
+	endif
+
+	WalkTo hMarker 10 SignalWardenAgain
+	Exit 1
+;--------------------------------------------------------------
+:SignalWardenAgain
+;--------------------------------------------------------------
+	nCount = 1
+	Stop
+	Wait 1, 2, DoNothing
+	PlayAnim Fidget3, DoNothing
+	Trigger hWarden, CloseCell
+	Exit 1
+
+
+
+
+;--------------------------------------------------------------
+:GoInCell
+;--------------------------------------------------------------
+	hMarker = NULL
+	Wait 1, 2, DoNothing
+	GetObjectHandle sCellMarker, hMarker
+	WalkTo hMarker 10 SignalWarden
+	Exit 1
+
+;--------------------------------------------------------------
+:SignalWarden
+;--------------------------------------------------------------
+	nCount = 4
+	Stop
+	Trigger hWarden, CloseCell
+	Wait 1, 2, DoNothing
+	PlayAnim Fidget4, DoNothing
+	FaceObject hCellDoor, 180, DoNothing
+	Exit 1
+
+
+;--------------------------------------------------------------
+:ToTheWarden
+;--------------------------------------------------------------
+	nCount = 3
+	if ( nMarker < nNumMarkers )
+		nMarker = nMarker + 1
+		sMarker = sWayPoint + nMarker
+		GetObjectHandle sMarker hMarker
+		WalkTo hMarker 10 ToTheWarden
+	else
+		WalkTo hMarker 10 WalkToLastMarker
+	endif
+	Exit 1
+;--------------------------------------------------------------
+:WardenWait
+;--------------------------------------------------------------
+	Stop
+	PlayAnim Fidget2, DoNothing
+	Wait 1, 1, DoNothing
+	Exit 1
+
+
+;--------------------------------------------------------------
+:ToTheInterrogation
+;--------------------------------------------------------------
+	if ( nMarker != 0 )
+		nMarker = nMarker - 1
+		sMarker = sWayPoint + nMarker
+		GetObjectHandle sMarker hMarker
+		WalkTo hMarker 10 ToTheInterrogation	
+	else
+		GoSub InterrogationRoom
+	endif
+	Exit 1
+;--------------------------------------------------------------
+:InterrogationRoom
+;--------------------------------------------------------------
+	if (nReset==5)
+		nReset = 0
+		Stop
+	else
+		nCount = 2	
+		nMarker = 0
+		Stop
+		PlayAnim Aware, DoNothing
+		Wait 1, 15, DoTheWalk
+	endif
+	
+	Exit 1
+
+
+
+;--------------------------------------------------------------
+:WalkToLastMarker
+;--------------------------------------------------------------
+	hMarker = NULL
+	if ( sCellMarker==CellMarker0 )
+		GetObjectHandle PrisonerPathA4, hMarker
+	else
+		if ( sCellMarker==CellMarker1 )
+			GetObjectHandle PrisonerPathA5, hMarker
+		else
+			if ( sCellMarker==CellMarker2 )
+				GetObjectHandle PrisonerPathA6, hMarker
+			endif
+		endif
+	endif
+
+	WalkTo hMarker 10 WardenWait
+	Exit 1
+
+;--------------------------------------------------------------
+:AlertCall
+;--------------------------------------------------------------
+	;;If ( == )
+		;;PlaySound sounds\VO\Charrrge.wav, DoNothing, 100, 500, FALSE, 90
+	;;Else
+		;;PlaySound sounds\VO\TheyAreHere.wav, DoNothing, 100, 500, FALSE, 90
+	;;endif
+
+;;	Gosub InitBase
+	Exit 1
+
+;--------------------------------------------------------------
+:Main2
+;--------------------------------------------------------------
+
+	GetObjectHandle InterrWarden, hWarden
+	GetObjectHandle sCellDoor, hCellDoor
+	nNumMarkers = nNumMarkers - 2
+
+	AddTrigger LetsGo, DoTheWalk
+	AddTrigger Start, InterrogationRoom
+
+	;;OnFoundTarget AlertCall
+	
+
+	Exit 1
+
+;--------------------------------------------------------------
+:Main
+;--------------------------------------------------------------
+
+	GetParam 0, sWayPoint
+	GetParam 1, nNumMarkers
+	GetParam 2, sCellMarker
+	GetParam 3, nStartingDirection
+	GetParam 4, sCellDoor
+	GetParam 5, nCount
+
+	Wait 0 .1 main2
+
+	Exit 1
+

@@ -1,0 +1,78 @@
+;--------------------------------------------------
+;DP2flamecontroller.scr
+; timmy
+;--------------------------------------------------
+
+#include globals.inc
+
+#NumberArray			FlameArray[6]
+
+#number					TorchId
+#Number					counter
+#number					FlameOn
+#number					BeenDone
+
+
+;--------------------------------------------------
+:OnFlameOn
+;--------------------------------------------------
+
+GetParam 1, TorchId
+ArrayPut FlameArray, TorchId, True
+gosub CheckAllFlamers
+exit
+
+
+;--------------------------------------------------
+:CheckAllFlamers
+;--------------------------------------------------
+
+
+if ( BeenDone==true )
+    exit
+endif
+
+Set counter, 0
+
+
+;--------------------------------------------------
+:CheckAllFlamersloop
+;--------------------------------------------------
+
+
+	
+
+ArrayGet FlameArray, counter, FlameOn
+	if (Flameon==false)
+		exit
+	endif
+
+Add Counter, 1
+
+If (counter<6)
+	Goto CheckAllFlamersloop
+endif
+
+GetObjectHandle Door6, g_hobject
+Trigger g_hobject, Unlock
+
+;Trigger Door7, Unlock
+Trigger g_hobject, Use
+set BeenDone, true
+wait 0.2, killme
+exit
+
+;--------------------------------------------------
+:killme
+;--------------------------------------------------
+
+exitscript
+
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+AddTrigger FlameOn, OnFlameOn
+
+exit

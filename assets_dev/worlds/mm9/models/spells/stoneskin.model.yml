@@ -1,0 +1,134 @@
+schema: openyamm.model3d.v1
+id: stoneskin
+model: stoneskin.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/SPELLS/STONESKIN.abc
+  commandString: ''
+  internalRadius: 435.2
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: Sphere06
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 14
+- name: Sphere03
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 14
+- name: Sphere05
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 14
+- name: Sphere07
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 14
+- name: Sphere04
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 14
+- name: Sphere01
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 14
+- name: Sphere02
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 14
+- name: Sphere08
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 14
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone03
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone05
+    parent: 0
+    flags: 1
+    children: []
+  - index: 4
+    name: Bone07
+    parent: 0
+    flags: 1
+    children: []
+  - index: 5
+    name: Bone09
+    parent: 0
+    flags: 1
+    children: []
+  - index: 6
+    name: Bone11
+    parent: 0
+    flags: 1
+    children: []
+  - index: 7
+    name: Bone13
+    parent: 0
+    flags: 1
+    children: []
+  - index: 8
+    name: Bone15
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: ANIMATED_MODEL
+  durationMs: 2200
+  keyframes: 6
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: ANIMATED_MODEL
+  extents:
+  - 51.2
+  - 117.76
+  - 51.2
+  origin:
+  - 40.96
+  - 0.0
+  - -168.96
+roles:
+- static_model
+source_model: models/spells/stoneskin.abc

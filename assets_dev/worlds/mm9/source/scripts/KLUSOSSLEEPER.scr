@@ -1,0 +1,53 @@
+;-------------------------------
+;	KlusosSleeper.scr
+;	by SJR
+;	12-24-01 (yes 24)
+;	Purpose:
+;-------------------------------
+#include BaseGlobals.inc
+#include flags.inc
+
+#hobject		hBlackheart = 0
+
+;-------------------------------
+:Main
+;-------------------------------
+	OnPostStartWorld InitKlusosHidden
+	OnPostMiniSaveLoad InitKlusosHidden
+
+	OnCacheFiles CacheFiles
+
+	Exit TRUE
+
+;-------------------------------
+:CacheFiles
+;-------------------------------
+	CacheScript "baseMelee.scr"
+
+	Exit TRUE
+
+;-------------------------------
+:InitKlusosHidden
+;-------------------------------
+	GetObjectHandle Blackheart, hBlackheart
+	if( hBlackheart!=0 )
+		CreateObjectLink hBlackheart
+		OnObjectLinkBroken OnObjectLinkBroken
+	endif
+
+	OnDamage OnObjectLinkBroken
+
+	LoopAnim sleep, 0
+
+	Exit TRUE
+
+;-------------------------------
+:OnObjectLinkBroken
+;-------------------------------
+	PlayAnim "stand", DoNothing
+
+	hBlackheart = NULL
+
+	RunScript "baseMelee.scr"
+
+	Exit TRUE

@@ -1,0 +1,115 @@
+Merchant Coords 
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                            Graphics Coordinates
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Inventory Scroll Arrows:
+
+MerchantBG.pcx		  0x   0y	800x600 Background
+
+PC Face #1		370x  14y	60x80
+PC Face #2		370x 114y	60x80
+PC Face #3		370x 214y	60x80
+PC Face #4		370x 314y	60x80
+Note: PC Highlight from HUD shoudl be placed at these coordinates on the
+	the active PC.
+
+ScrollUp Store		256x 174y	16x24
+ScrollDown Store	256x 467y	16x24
+ScrollHandle Store	256x 199y	16x20 (Upper limit)
+			256x 446y	16x20 (Lower Limit)
+
+ScrollUp Player		741x 210y	16x24
+ScrollDown Player	741x 467y	16x24
+ScrollHandle Player	741x 235y	16x20 (Upper Limit)
+			741x 446y	16x20 (Lower Limit)
+Note: Use arrow buttons from character inventory screen.
+
+Character Inventory Sort Buttons (Use Art From Character Inventory)
+Weapons			531x 124y	36x32
+Armor			569x 124y	36x32
+Gloves/Boots		607x 124y	36x32
+Jewelry			645x 124y	36x32
+Potions / Misc		683x 124y	36x32
+Quest			721x 124y	36x32
+
+Merchant Inventory Sort Buttons (Use Art From Character Inventory)
+Weapons			 48x 124y	36x32
+Armor			 86x 124y	36x32
+Gloves/Boots		124x 124y	36x32
+Jewelry			162x 124y	36x32
+Potions / Misc		200x 124y	36x32
+Quest			238x 124y	36x32
+
+-------------------------------------------------------------------------------
+
+Character Inventory List:
+PC Item Icon #1		531x 211y	32x32
+PC Item Icon #2		531x 246y	32x32
+PC Item Icon #3		531x 281y	32x32
+PC Item Icon #4		531x 316y	32x32
+PC Item Icon #5		531x 351y	32x32
+PC Item Icon #6		531x 386y	32x32
+PC Item Icon #7		531x 421y	32x32
+PC Item Icon #8		531x 456y	32x32
+
+PC Item text #1		564x 211y	168x32
+PC Item text #2		564x 246y	168x32
+PC Item text #3		564x 281y	168x32
+PC Item text #4		564x 316y	168x32
+PC Item text #5		564x 351y	168x32
+PC Item text #6		564x 386y	168x32
+PC Item text #7		564x 421y	168x32
+PC Item text #8		564x 456y	168x32
+
+Merchant Inventory List:
+Item Icon #1		 48x 175y	32x32
+Item Icon #2		 48x 210y	32x32
+Item Icon #3		 48x 245y	32x32
+Item Icon #4		 48x 281y	32x32
+Item Icon #5		 48x 316y	32x32
+Item Icon #6		 48x 351y	32x32
+Item Icon #7		 48x 386y	32x32
+Item Icon #8		 48x 421y	32x32
+Item Icon #9		 48x 456y	32x32
+
+Item text #1		 81x 175y	168x32
+Item text #2		 81x 210y	168x32
+Item text #3		 81x 245y	168x32
+Item text #4		 81x 281y	168x32
+Item text #5		 81x 316y	168x32
+Item text #6		 81x 351y	168x32
+Item text #7		 81x 386y	168x32
+Item text #8		 81x 421y	168x32
+Item Text #9		 81x 456y	168x32
+
+-------------------------------------------------------------------------------
+
+Buy Button		 37x 506y	72x32
+Sell Button		520x 506y	72x32
+
+Repair Button		352x 399y	100x60
+Identify Button		352x 460y	100x58
+
+Exit Button		353x 520y	100x50
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                               Text Coordinates
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Titles:
+
+Store Name		 28x  32y	270x18	Main Font Centered
+Active Character Name	511x  32y	270x18  Main Font Centered
+
+-------------------------------------------------------------------------------
+
+Party Gold ###		568x 182y	190x18	Main Font Left
+Store Side ### (Buy)	639x 516y	124x18	Main Font Left
+Player Side ###	(Sell)	157x 516y	124x18	Main Font Left
+
+-------------------------------------------------------------------------------
+
+Rollover Text Space	 40x 578y	720x18 Main Font Center
+

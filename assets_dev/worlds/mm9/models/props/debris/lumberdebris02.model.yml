@@ -1,0 +1,84 @@
+schema: openyamm.model3d.v1
+id: lumberdebris02
+model: lumberdebris02.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/DEBRIS/LUMBERDEBRIS02.abc
+  commandString: DrawIndexedDist 5000
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 4.023306898564917e+25
+pieces:
+- name: LumberDebris02
+  materialIndex: 0
+  lods:
+  - faces: 48
+    vertices: 32
+  - faces: 36
+    vertices: 26
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 2
+    - 3
+  - index: 1
+    name: Spot01
+    parent: 0
+    flags: 0
+    children: []
+  - index: 2
+    name: Spot01.Target
+    parent: 0
+    flags: 0
+    children: []
+  - index: 3
+    name: Bone01
+    parent: 0
+    flags: 0
+    children:
+    - 4
+    - 5
+  - index: 4
+    name: Bone02
+    parent: 3
+    flags: 0
+    children: []
+  - index: 5
+    name: LumberDebris02
+    parent: 3
+    flags: 0
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 102.4
+  - 10.24
+  - 102.4
+  origin:
+  - 25.6
+  - 0.0
+  - 20.48
+roles:
+- static_model
+source_model: models/props/debris/lumberdebris02.abc

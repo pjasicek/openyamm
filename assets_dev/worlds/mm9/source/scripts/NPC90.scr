@@ -1,0 +1,282 @@
+;--------------------------------------------------
+;NPC90.scr
+; timmy
+; handles Ivsar Forktooth voice and stuff
+;
+; edited by Bones 05/25/03
+; TELP Patch 1.3 -- allows Isvar to be removed from prison
+;		moves him into site after leaving prison
+;		prevents premature exit from prison exit dialog
+;--------------------------------------------------
+
+#include globals.inc
+#include basedoor.inc
+#include followplayer.inc
+
+#String    Params          
+
+#string			sWhoAmI
+
+#number			xPos
+#number			yPos
+#number			zPos
+
+
+;Parameters
+;P0 name of wav file
+;P1 name of animation to run
+;P2  # of times animation runs
+
+; flag variables
+#number							Visible = 1
+#number							Solid   = 8192
+#number							Gravity = 131072
+
+;-------------------------------------------------------------
+:BD_DoorOpen
+;-------------------------------------------------------------
+	g_bDoorOpening = FALSE
+
+	ResumeWait -1
+
+	GetTarget g_hObject
+
+	if ( g_hObject==NULL )
+		if ( g_bWasRunning==TRUE )
+			Run
+		Else
+			Walk
+		Endif
+	else
+		if ( g_bWasRunning==TRUE )
+			RunTo g_hObject
+		else
+			WalkTo g_hObject
+		endif
+	endif
+
+	RestorePath
+	gosub Followstart
+
+	Exit
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+OnFoundPlayer
+
+if (params==drangheim)
+	givekey 194
+
+	getmyhandle g_hMyObject
+
+	if (sWhoAmI==Well)
+		getobjecthandle PrisonerHuman2MaleA0 g_hobject
+		removeobject g_hobject
+
+		setpos g_hMyObject -2525 948 397
+
+	else
+		getobjecthandle PrisonerHuman2MaleA1 g_hobject
+		removeobject g_hobject
+
+		setpos g_hMyObject -4253 817 -6191
+
+	endif
+
+	GetPlayerHandle g_hPlayer
+	FaceObject g_hPlayer
+	Target g_hPlayer TRUE
+
+	Playsound voices\NPC\NPC_090.wav, DoNothing, 100, 240, FALSE, 100
+	DoRude 90
+	exit
+	
+endif
+
+Playsound voices\NPC\NPC_090.wav, DoNothing, 100, 240, FALSE, 100
+
+
+exit
+
+;-------------------------------------
+:Onrude
+;-------------------------------------
+
+
+haskey 194 g_ntemp
+if (g_ntemp==TRUE)
+	haskey 242 g_ntemp
+	if (g_ntemp==FALSE)
+		DoRude 90
+		exit
+	endif
+endif
+
+takekey 194
+
+gosub FollowPlayer
+
+exit
+
+
+
+
+;-------------------------------------
+:FollowPlayer
+;-------------------------------------
+
+if (params==DRANGHEIM)
+	exit
+endif
+
+haskey 21 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+if (params==sturmgaard)
+	givekey 196
+endif
+givekey 5006
+gosub followstart
+
+
+exit
+
+
+
+;--------------------------------------------------
+:Init
+;--------------------------------------------------
+
+getmyhandle g_hobject
+gosub basedoorinit
+
+;***********DRANGHEIM**********
+
+if (params==drangheim)
+	getmyhandle g_hobject
+	haskey 17 g_ntemp
+	if (g_ntemp==FALSE)
+		
+		clearflag g_hobject, visible
+		clearflag g_hobject, solid
+		clearflag g_hobject, gravity
+		exit
+	else
+		setflag g_hobject, visible
+		setflag g_hobject, solid
+		setflag g_hobject, gravity
+		OnFoundPlayer OnUse
+	endif
+
+	haskey 194 g_ntemp
+	if (g_ntemp==TRUE)
+		getmyhandle g_hmyobject
+		removeobject g_hmyobject
+		exit
+	endif
+
+	haskey 242 g_ntemp
+	if (g_ntemp==TRUE)
+		getmyhandle g_hobject
+		clearflag g_hobject, visible
+		clearflag g_hobject, solid
+		clearflag g_hobject, gravity
+		exit
+	else
+		setflag g_hobject, visible
+		setflag g_hobject, solid
+		setflag g_hobject, gravity
+		OnFoundPlayer OnUse
+		exit
+	endif
+endif
+
+
+
+
+;*********************
+
+;***********STURMFORD**********		
+
+if (params==sturmgaard, )
+	getmyhandle g_hobject
+	
+	haskey 242 g_ntemp
+	if (g_ntemp==FALSE, )
+		
+		clearflag g_hobject, visible
+		clearflag g_hobject, solid
+		clearflag g_hobject, gravity
+		exit
+	else
+		setflag g_hobject, visible
+		setflag g_hobject, solid
+		setflag g_hobject, gravity
+		exit
+	endif
+
+	haskey 21 g_ntemp
+	if (g_ntemp==TRUE)
+		getobjecthandle IvsarMarker g_hobject
+		getpos g_hobject xPos Ypos Zpos
+		getmyhandle g_hmyobject
+		setpos g_hmyobject xPos yPos zPos
+		exit
+	endif
+
+endif
+
+;*********************
+
+if (params==g_sPad5)
+	haskey 242 g_ntemp
+	if (g_ntemp==1, )
+		getmyhandle g_hobject
+		removeobject g_hobject
+		exit
+	
+	; deletes form prison if he's been rescued
+	endif
+endif
+
+exit
+
+;--------------------------------------------------
+:OnSTop
+;--------------------------------------------------
+
+gosub FollowStop
+getobjecthandle IvsarMarker g_hobject
+walkto g_hobject 32 OnArrive
+exit
+
+;--------------------------------------------------
+:OnArrive
+;--------------------------------------------------
+
+stop
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+GetParam 0, params
+Getparam 1, sWhoAmI
+OnrudeExit OnRude
+Addtrigger Use, OnUse
+AddTrigger Stop OnSTop
+OnPostStartWorld Init
+OnPostMiniSaveLoad Init
+OnPostSaveLoad Init
+wait 1 1 init
+exit
+
+

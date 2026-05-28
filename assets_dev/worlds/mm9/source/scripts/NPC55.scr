@@ -1,0 +1,84 @@
+;--------------------------------------------------
+;NPC55.scr
+; timmy
+; handles Mad Wizard Robinsson voice and quest stuff
+;--------------------------------------------------
+
+#include globals.inc
+#include nogold.inc
+
+
+;--------------------------------------------------
+:OnRude
+;--------------------------------------------------
+
+Gosub BlackOrb
+
+exit
+
+
+;--------------------------------------------------
+:BlackOrb
+;--------------------------------------------------
+;****************
+;BlackOrb Quest
+;****************
+haskey 313 g_ntemp
+if (g_ntemp==0, )
+	haskey 312 g_ntemp
+	if (g_ntemp==1, )
+		hasgold 2000 g_ntemp
+		if (g_ntemp==1, )
+			takegold 2000
+			givekey 313
+			giveitem 250
+			Playsound sounds\events\quest.wav, DoNothing, 100, 240, FALSE, 100
+			exit
+		else
+			takekey 312
+			gosub NoGold
+			;playsound "you don't have enough"
+			exit
+		endif
+	endif
+endif
+exit
+			
+
+
+
+
+;End BlackOrb quest
+;******************
+exit
+
+
+
+;--------------------------------------------------
+:OnUse
+;--------------------------------------------------
+
+Playsound voices\NPC\NPC_055.wav, Onexit, 100, 240, FALSE, 100
+Dorude 55
+exit
+
+;-------------------------------------
+:OnExit
+;-------------------------------------
+
+exit
+
+;--------------------------------------------------
+:Main
+;--------------------------------------------------
+
+;traceon 
+;Don't Forget to Delete this!
+
+
+OnRudeExit OnRude
+
+Addtrigger Use, OnUse
+gosub VoiceInit
+exit
+

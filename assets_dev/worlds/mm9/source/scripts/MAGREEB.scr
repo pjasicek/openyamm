@@ -1,0 +1,52 @@
+;------------------------------------------
+;	Magreeb.scr
+;
+;	Gives the key for the scholar promo if player
+;	is on the quest and find a random Magreeb
+;	
+;   Timmy
+;
+;------------------------------------------
+
+#include basecrawl.inc
+
+;--------------------------------------------------------
+:OnFoundTarget
+;
+;	p0	- hTarget
+;
+;--------------------------------------------------------
+
+	haskey 202 g_ntemp
+	if (g_ntemp==TRUE)
+		gosub OnFoundTarget, 1
+		exit
+	endif
+
+
+GetParam 0, g_hObject
+
+isplayer g_hobject g_ntemp
+if (g_ntemp==TRUE)
+	haskey 201 g_ntemp
+	if (g_ntemp==TRUE)
+		givekey 202
+		Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+	endif
+endif
+
+gosub OnFoundTarget, 1
+exit
+
+
+;------------------------------------------
+:Main
+;	This routine is automatically run
+;	at script startup...
+;------------------------------------------
+
+
+
+	gosub BaseCrawlInit
+
+	Exit		

@@ -1,0 +1,51 @@
+;-----------------------------
+;	LL_MachinePanel.scr
+;	by SJR
+;	01-02-02
+;	Purpose:blow up cage, trigger Its
+;-----------------------------
+#include BaseGlobals.inc
+
+#string		sTriggerName = ""
+#hobject	hTrigger = 0
+
+;-----------------------------
+:Main
+;-----------------------------
+	GetParam 0, sTriggerName
+
+	Wait 0, 1, InitMachinePanel
+
+	Exit TRUE
+
+;-----------------------------
+:InitMachinePanel
+;-----------------------------
+	AddTrigger explode, Malfunction
+
+	Exit TRUE
+
+;-----------------------------
+:Malfunction
+;-----------------------------
+	if( hTrigger==0 )
+		GetObjectHandle sTriggerName, hTrigger
+		if( hTrigger==0 )
+;cprint "No panel trigger!"
+			Exit TRUE
+		endif
+	endif
+
+	PlaySound sounds\default.wav, BlowUp, 1, 500, 0, 100
+
+	Exit TRUE
+
+;-----------------------------
+:BlowUp
+;-----------------------------
+	Trigger hTrigger, trigger
+
+	GetMyHandle hTrigger
+	Trigger hTrigger, destroy
+
+	Exit TRUE

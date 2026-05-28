@@ -1,0 +1,219 @@
+schema: openyamm.model3d.v1
+id: tube
+model: tube.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/SPELLS/TUBE.abc
+  commandString: ''
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: armorspell
+  materialIndex: 0
+  lods:
+  - faces: 68
+    vertices: 42
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 3
+    - 5
+    - 7
+    - 9
+    - 11
+    - 13
+    - 15
+    - 17
+    - 19
+    - 21
+    - 23
+    - 25
+    - 27
+  - index: 1
+    name: Xbase
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Xend
+    parent: 1
+    flags: 1
+    children: []
+  - index: 3
+    name: Xbase01
+    parent: 0
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Xend01
+    parent: 3
+    flags: 1
+    children: []
+  - index: 5
+    name: Xbase02
+    parent: 0
+    flags: 1
+    children:
+    - 6
+  - index: 6
+    name: Xend02
+    parent: 5
+    flags: 1
+    children: []
+  - index: 7
+    name: Xbase03
+    parent: 0
+    flags: 1
+    children:
+    - 8
+  - index: 8
+    name: Xend03
+    parent: 7
+    flags: 1
+    children: []
+  - index: 9
+    name: Xbase04
+    parent: 0
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Xend04
+    parent: 9
+    flags: 1
+    children: []
+  - index: 11
+    name: Xbase05
+    parent: 0
+    flags: 1
+    children:
+    - 12
+  - index: 12
+    name: Xend05
+    parent: 11
+    flags: 1
+    children: []
+  - index: 13
+    name: Xbase06
+    parent: 0
+    flags: 1
+    children:
+    - 14
+  - index: 14
+    name: Xend06
+    parent: 13
+    flags: 1
+    children: []
+  - index: 15
+    name: Xbase07
+    parent: 0
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Xend07
+    parent: 15
+    flags: 1
+    children: []
+  - index: 17
+    name: Xbase08
+    parent: 0
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Xend08
+    parent: 17
+    flags: 1
+    children: []
+  - index: 19
+    name: Xbase09
+    parent: 0
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Xend09
+    parent: 19
+    flags: 1
+    children: []
+  - index: 21
+    name: Xbase10
+    parent: 0
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Xend10
+    parent: 21
+    flags: 1
+    children: []
+  - index: 23
+    name: Xbase11
+    parent: 0
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Xend11
+    parent: 23
+    flags: 1
+    children: []
+  - index: 25
+    name: Xbase12
+    parent: 0
+    flags: 1
+    children:
+    - 26
+  - index: 26
+    name: Xend12
+    parent: 25
+    flags: 1
+    children: []
+  - index: 27
+    name: Xbase13
+    parent: 0
+    flags: 1
+    children:
+    - 28
+  - index: 28
+    name: Xend13
+    parent: 27
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: armorcylinder2
+  durationMs: 1500
+  keyframes: 10
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: armorcylinder2
+  extents:
+  - 327.68
+  - 40.96
+  - 40.96
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/spells/tube.abc

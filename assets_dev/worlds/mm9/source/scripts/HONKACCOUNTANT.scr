@@ -1,0 +1,159 @@
+;--------------------------------------
+;	HonkAccountant.scr
+;	by SJR
+;	10-08-01
+;	Purpose:collect money from
+;			honks, do puzzle
+;			store money in room
+;	ScriptParams are:
+;		p0 = Base name of marker list
+;		p1 = index of first marker
+;		p2 = index of last marker
+;--------------------------------------
+#include BaseGlobals.inc
+#include ListTraverse.inc
+#include HonkHostility.inc
+
+#hobject	hChest = 0
+#hobject	hKey = 0
+#string		sChestName = ""
+#string		sKeyName = ""
+
+#hobject	hLink = 0
+
+;--------------------------------------
+:Main
+;--------------------------------------
+	GetParam 0, LISTNAME
+	GetParam 1, LISTFIRST
+	GetParam 2, LISTLAST
+	GetParam 3, sChestName
+	GetParam 4, sKeyName
+
+	OnPostStartWorld InitHonkAccountant
+	OnPostMiniSaveLoad InitHonkAccountant
+
+	Exit TRUE
+
+;--------------------------------------
+:InitHonkAccountant
+;--------------------------------------
+	gosub InitHonkHostility
+
+	GetObjectHandle sChestName, hChest
+	GetObjectHandle sKeyName, hKey
+	if( hKey!=0 )
+		CreateObjectLink hKey
+		OnObjectLinkBroken OnObjectLinkBroken
+	endif
+
+	@M 7 : 0,  TraverseBegin, DoNothing
+	@M 19 : 0, TraverseBegin, DoNothing
+
+	gosub BaseWanderInit
+
+	AddTrigger stolen, KeyWasStolen
+
+	gosub SetTraversePace
+	gosub SetTraverseWalk
+
+	Exit TRUE
+
+;--------------------------------------
+:OnTraverseDone
+;	do accountant things along
+;	the way: key stuff, money etc
+;--------------------------------------
+	if( LISTINDEX==LISTFIRST )
+		if( bForward==FALSE )
+			gosub TraversePause
+			gosub ReplaceKey
+		else
+			gosub TakeKey
+		endif
+	endif
+
+	if( LISTINDEX==LISTLAST )
+		gosub TraversePause
+		gosub DoPuzzle
+	endif
+
+	if( LISTINDEX==3 )
+		if( bForward==TRUE )
+			gosub TraversePause
+			gosub CollectMoney
+		endif
+	endif
+
+	Exit TRUE
+
+;--------------------------------------
+:CollectMoney
+;--------------------------------------
+;;	Trigger hChest, open
+	Wait 0, 2, CloseChest
+	gosub TraverseResume
+
+	Exit TRUE
+
+;--------------------------------------
+:CloseChest
+;--------------------------------------
+;;	Trigger hChest, close
+
+	Exit TRUE
+
+;--------------------------------------
+:DoPuzzle
+;--------------------------------------
+	PlayAnim "prop-fidget1", TraverseResume
+
+	Exit TRUE
+
+;--------------------------------------
+:TakeKey
+;--------------------------------------
+	if( hKey==0 )
+		gosub KeyWasStolen
+	else
+		Trigger hKey, getkey
+		gosub TraverseResume
+	endif
+
+	Exit TRUE
+
+;--------------------------------------
+:ReplaceKey
+;--------------------------------------
+	Trigger hKey, putkey
+
+	Exit TRUE
+
+;--------------------------------------
+:OnObjectLinkBroken
+;	null it out, hostile when we
+;	actually see it
+;--------------------------------------
+	GetParam 0, hLink
+
+	if( hLink==0 )
+		hKey = NULL
+	else
+		gosub BecomeHostile
+	endif
+
+	Exit TRUE
+
+;--------------------------------------
+:KeyWasStolen
+;	either saw it stolen
+;	or found it stolen
+;--------------------------------------
+	hKey = NULL
+
+	RemoveTrigger stolen
+
+	gosub TraversePause
+	gosub TurnHostilityOn
+
+	Exit TRUE

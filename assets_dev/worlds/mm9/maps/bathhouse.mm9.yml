@@ -1,0 +1,51 @@
+format_version: 1
+kind: "mm9_indoor_source_metadata"
+source:
+  source_kind: "mm9_dat"
+  source_dat: "mm9/extracted/WORLDS/WORLDS/BATHHOUSE.dat"
+  coordinate_scale: 2.56
+target:
+  classification: "indoor_like"
+  strategy: "sectorized_blv_prototype"
+  geometry_file: "bathhouse.blv"
+  scene_file: "bathhouse.scene.yml"
+  source_glb: "bathhouse.source.glb"
+  geometry_metadata: "bathhouse.geometry.yml"
+  bsp_diagnostics: "bathhouse.bsp.yml"
+  bitmap_alias_dir: "assets_dev/worlds/mm9/textures"
+source_world_models: 44
+source_objects: 288
+layout:
+  sector_mode: "leaf_grid"
+  grid_size: 4
+  visbsp_leaves: 505
+  visbsp_leaf_polygon_entries: 3925
+  valid_leaf_polygon_refs: 3925
+  matched_leaf_polygon_refs: 3925
+  invalid_leaf_model_refs: 0
+  invalid_leaf_poly_refs: 0
+  leaves_with_geometry: 503
+  unassigned_source_triangles: 4281
+  source_triangles: 12969
+  rooms: 10
+  portals: 20
+  synthetic_bridge_portals: 9
+  dat_user_portals: 8
+  dat_user_portals_emitted: 8
+  dat_user_portals_skipped: 0
+  dat_user_portal_duplicate_pairs: 0
+  synthetic_portals_replaced_by_dat_user_portals: 1
+stats:
+  source_models: 44
+  source_polies: 4492
+  emitted_faces: 12969
+  skipped_polies: 0
+  triangulated_polies: 4469
+  skipped_degenerate_triangles: 3764
+  source_plane_orientation_flips: 2139
+  clamped_plane_distances: 0
+  source_glb_vertices: 12737
+  source_glb_triangles: 13009
+  source_glb_materials: 54
+  source_glb_rooms: 10
+  source_glb_portals: 20

@@ -1,0 +1,84 @@
+schema: openyamm.model3d.v1
+id: townsign
+model: townsign.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PROPS/TOWNSIGN.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 1280.0
+  - 4.023306898564917e+25
+pieces:
+- name: SignPost
+  materialIndex: 0
+  lods:
+  - faces: 62
+    vertices: 48
+  - faces: 50
+    vertices: 42
+- name: Sign
+  materialIndex: 1
+  lods:
+  - faces: 20
+    vertices: 12
+  - faces: 20
+    vertices: 12
+materials:
+- index: 0
+  texture: skins_preview/props/townsign.png
+  runtime_texture: skins/props/townsign.dtx
+  preview_texture: skins_preview/props/townsign.png
+  source: mm9/extracted/SKINS/SKINS/PROPS/TOWNSIGN.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+    - 2
+    - 3
+  - index: 1
+    name: Bone09
+    parent: 0
+    flags: 1
+    children: []
+  - index: 2
+    name: Bone02
+    parent: 0
+    flags: 1
+    children: []
+  - index: 3
+    name: Bone05
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: TownSign
+  durationMs: 2000
+  keyframes: 3
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: TownSign
+  extents:
+  - 40.96
+  - 92.16
+  - 40.96
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- static_model
+source_model: models/props/townsign.abc

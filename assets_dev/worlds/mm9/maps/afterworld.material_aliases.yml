@@ -1,0 +1,273 @@
+format_version: 1
+kind: "mm9_material_aliases"
+source_dat: "mm9/extracted/WORLDS/WORLDS/AFTERWORLD.dat"
+notes:
+  - "ODM face texture names are limited to 10 bytes; aliases preserve editor compatibility."
+stats:
+  source_models: 7
+  source_polies: 7714
+  emitted_faces: 11306
+  skipped_polies: 0
+  triangulated_polies: 1880
+  skipped_degenerate_triangles: 1659
+  source_plane_orientation_flips: 578
+  clamped_plane_distances: 0
+  model_instances: 90
+  unique_model_assets: 15
+textures:
+  - alias: "ABNDFOR000"
+    source_texture: "TEXTURES\\LevelTextures\\Terrain\\abndfortgrass.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TERRAIN/ABNDFORTGRASS.dtx"
+    emitted_bitmap: "afterworld.bitmaps/ABNDFOR000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 14
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_04.dtx"
+  - alias: "BLUECEM000"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\blue_cement_trim.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/BLUE_CEMENT_TRIM.dtx"
+    emitted_bitmap: "afterworld.bitmaps/BLUECEM000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_10.dtx"
+  - alias: "BWALL01"
+    source_texture: "TEXTURES\\LevelTextures\\WallsPlaster\\b_wall_01.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/WALLSPLASTER/B_WALL_01.dtx"
+    emitted_bitmap: "afterworld.bitmaps/BWALL01.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_09.dtx"
+  - alias: "DARKCLIFF"
+    source_texture: "TEXTURES\\A10Arslegaard\\terrain\\darkcliff.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/A10ARSLEGAARD/TERRAIN/DARKCLIFF.dtx"
+    emitted_bitmap: "afterworld.bitmaps/DARKCLIFF.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "DUNGWALL"
+    source_texture: "TEXTURES\\LevelTextures\\WallsPlaster\\dung_wall.dtx"
+    width: 128
+    height: 128
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/WALLSPLASTER/DUNG_WALL.dtx"
+    emitted_bitmap: "afterworld.bitmaps/DUNGWALL.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_09.dtx"
+  - alias: "FIRETHR000"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\Firethrough.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/FIRETHROUGH.dtx"
+    emitted_bitmap: "afterworld.bitmaps/FIRETHR000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 18
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "INVISIBLE"
+    source_texture: "TEXTURES\\LevelTextures\\Misc\\Invisible.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/MISC/INVISIBLE.dtx"
+    emitted_bitmap: "afterworld.bitmaps/INVISIBLE.bmp"
+    emitted_bitmap_mode: "dxt5"
+    dtx_surface_flag: 202
+    dtx_texture_group: 0
+    dtx_bpp: 6
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 1
+    dtx_flags: 265
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "MARBLEB000"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\MarbleBrown.dtx"
+    width: 64
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/MARBLEBROWN.dtx"
+    emitted_bitmap: "afterworld.bitmaps/MARBLEB000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_08.dtx"
+  - alias: "OUTERWA000"
+    source_texture: "TEXTURES\\LevelTextures\\Trim\\outer_wall_cement.dtx"
+    width: 128
+    height: 64
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/LEVELTEXTURES/TRIM/OUTER_WALL_CEMENT.dtx"
+    emitted_bitmap: "afterworld.bitmaps/OUTERWA000.bmp"
+    emitted_bitmap_mode: "dxt1"
+    dtx_surface_flag: 12
+    dtx_texture_group: 0
+    dtx_bpp: 4
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 5.0
+    dtx_detail_angle: 0
+    dtx_command_string: "DetailTex Textures\\detailtextures\\det_10.dtx"
+  - alias: "REDSKYBACK"
+    source_texture: "TEXTURES\\Skybox\\RedSky_Back.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/REDSKY_BACK.dtx"
+    emitted_bitmap: "afterworld.bitmaps/REDSKYBACK.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "REDSKYDOWN"
+    source_texture: "TEXTURES\\Skybox\\RedSky_Down.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/REDSKY_DOWN.dtx"
+    emitted_bitmap: "afterworld.bitmaps/REDSKYDOWN.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "REDSKYF000"
+    source_texture: "TEXTURES\\Skybox\\RedSky_Front.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/REDSKY_FRONT.dtx"
+    emitted_bitmap: "afterworld.bitmaps/REDSKYF000.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "REDSKYLEFT"
+    source_texture: "TEXTURES\\Skybox\\RedSky_Left.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/REDSKY_LEFT.dtx"
+    emitted_bitmap: "afterworld.bitmaps/REDSKYLEFT.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "REDSKYR000"
+    source_texture: "TEXTURES\\Skybox\\RedSky_Right.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/REDSKY_RIGHT.dtx"
+    emitted_bitmap: "afterworld.bitmaps/REDSKYR000.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "REDSKYTOP"
+    source_texture: "TEXTURES\\Skybox\\REDSKY_TOP.DTX"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/REDSKY_TOP.dtx"
+    emitted_bitmap: "afterworld.bitmaps/REDSKYTOP.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""
+  - alias: "STARFIELD"
+    source_texture: "TEXTURES\\Skybox\\starfield.dtx"
+    width: 256
+    height: 256
+    physical_path: "mm9/extracted/TEXTURES/TEXTURES/SKYBOX/STARFIELD.dtx"
+    emitted_bitmap: "afterworld.bitmaps/STARFIELD.bmp"
+    emitted_bitmap_mode: "bgra32"
+    dtx_surface_flag: 0
+    dtx_texture_group: 0
+    dtx_bpp: 3
+    dtx_mipmap_count: 4
+    dtx_mipmaps_used: 4
+    dtx_flags: 8
+    dtx_detail_scale: 0.0
+    dtx_detail_angle: 0
+    dtx_command_string: ""

@@ -1,0 +1,282 @@
+;-----------------------------
+;	CinemaMgr.scr
+;	by SJR
+;	10-16-01
+;	Purpose:Must be run by a camera
+;			object. Handles cut scenes
+;
+;	ScriptParams are:
+;		p0 = root name of locations
+;		p1 = root name of targets
+;		p2 = root name of notifys (notify gets triggered each scene)
+;		p3 = number of scenes
+;
+;	Triggers:
+;
+;		"StartCam"			= looks at target until triggered otherwise
+;		"StartZoom"			= executes a zoom using all current settings
+;		"StartPan"			= executes a camera pan using all current settings
+;
+;		"AdvanceCam"		= moves to next location and target
+;		"StopCam"			= turns camera off
+;
+;	ZoomEffects
+;
+;		"CamSnapback"		= returns to player instantaneously
+;		"CamPullback"		= zooms out to player
+;
+;		"Cam[Fast\Medium\Slow]	= sets speed of zoom-in (1,2,4 seconds of travel)
+;
+;		"Cam[Long\Short\Instant]"	= sets duration of watch (6,3,1/2 seconds)
+;
+;-----------------------------
+#include	ListMaker.inc
+#include	BaseGlobals.inc
+
+#hobject	hMe = 0
+#hobject	hLocation = 0
+#hobject	hTarget = 0
+#hobject	hNotify = 0
+
+#string		sNotifyName = ""
+
+#number		bArrived = FALSE
+
+#number		bSnapback = TRUE
+#number		nSpeed = 1
+#number		dirScale = 1
+
+;;;Time to stay at target
+#number		tLinger = 3
+
+;;;camera POS
+#number		xCam = 0
+#number		yCam = 0
+#number		zCam = 0
+
+;;;Directions
+#number		dx = 0
+#number		dy = 1
+#number		dz = 0
+#number		dt = 0
+#number		ds = 0
+
+#string		sLocationName = ""
+#string		sTargetName = ""
+
+;----------------
+:Main
+;----------------
+	GetParam 0, sLocationName
+	GetParam 1, sTargetName
+	GetParam 2, sNotifyName
+
+	GetParam 3, LISTLAST
+
+	LISTLAST = LISTLAST - 1
+	LISTFIRST = 0
+
+	Wait 0, 4, InitCinemaMgr
+
+	Exit TRUE
+
+;----------------
+:InitCinemaMgr
+;----------------
+	gosub SetupAllTriggers
+
+	AddTrigger StartZoom, StartZoom
+
+	;;get last one, then wrap to first
+	gosub GetLastObject
+	gosub GetNextLocation
+
+	GetObjectHandle sNotifyName, hNotify
+	GetMyHandle hMe
+
+	Exit TRUE
+
+;---------------
+:AdvanceCam
+;---------------
+	gosub GetNextLocation
+	gosub StartCam
+	Exit TRUE
+
+;---------------
+:StartCam
+;---------------
+	if( hTarget==0 )
+		gosub CameraOff
+	endif
+	gosub AlignCamera
+	Target hTarget, TRUE
+	Trigger hNotify, trigger
+	gosub CameraOn
+	Wait 0, 5, AdvanceCam
+	Exit TRUE
+
+;---------------
+:StartZoom
+;	zooms to hTarget from hPlayer
+;---------------
+	if( bSnapTo==TRUE )
+		FaceObject hTarget, 720, MoveCameraForward
+		Wait 9, dt, CameraOn
+	else
+		gosub AlignCamera
+		gosub ExecuteZoom
+	endif
+	Exit TRUE
+
+;---------------
+:ExecuteZoom
+;	zooms to hTarget from current pos
+;---------------
+	dirScale = 1
+	FaceObject hTarget, 360, MoveCameraForward
+	gosub CameraOn
+	Exit TRUE
+
+;---------------
+:MoveCameraForward
+;	zooms in current direction for
+;	distance to hTarget using current options
+;---------------
+	gosub SetupZoom
+	VecScale dx,dy,dz, dirScale
+	if( DirScale<0 )
+		MoveDir dx,dy,dz, ds, nSpeed, CameraOff
+	else
+		MoveDir dx,dy,dz, ds, nSpeed, EndZoom
+	endif
+	Exit TRUE
+
+;---------------
+:EndZoom
+;	checks for zoomout
+;---------------
+	Stop
+	bArrived = TRUE
+	if( bSnapback==TRUE )
+		Wait 7, tLinger, CameraOff
+	else
+		gosub ReverseDirection
+		Wait 7, tLinger, MoveCameraForward
+	endif
+	Exit TRUE
+
+;*******************************
+;Generic routines
+;*******************************
+
+;---------------
+:GetNextLocation
+;---------------
+	LISTNAME = sLocationName
+	gosub GetNextObject
+	hLocation = LISTOBJECT
+	LISTNAME = sTargetName
+	gosub GetCurrentObject
+	hTarget = LISTOBJECT
+	LISTNAME = sNotifyName
+	gosub GetCurrentObject
+	hNotify = LISTOBJECT
+
+	Exit TRUE
+
+;---------------
+:AlignCamera
+;	sets pos to and dir to hLocation
+;---------------
+	GetPOS hLocation, xCam,yCam,zCam
+	GetFaceDir hLocation, dx,dy,dz
+	VecNorm dx,dy,dz
+	yCam = yCam + 38
+	SetPOS hMe, xCam,yCam,zCam
+	FaceDir dx,dy,dz, 0, DoNothing
+	Exit TRUE
+
+;----------------
+:ReverseDirection
+;----------------
+	dirScale = -1
+	bArrived = FALSE
+	Exit TRUE
+
+;---------------
+:SetupZoom
+;	prepares zoom vars:
+;	dir, speed, rotation, distance
+;---------------
+	Target hTarget, TRUE
+	GetFaceDir hMe, dx,dy,dz
+	VecNorm dx,dy,dz
+	GetDistance hMe, hTarget, ds
+	ds = ds - 100
+	nSpeed = ds / dt
+	Exit TRUE
+
+;---------------
+:CameraOn
+;---------------
+	Trigger hMe, On
+	LetterBox TRUE
+	Exit TRUE
+
+;---------------
+:CameraOff
+;---------------
+	Target NULL
+	bArrived = FALSE
+	Trigger hMe, Off
+	Trigger hNotify, trigger
+	LetterBox FALSE
+	Exit TRUE
+
+;----------------
+:SetupAllTriggers
+;----------------
+	AddTrigger StartCam, StartCam
+	AddTrigger StopCam, CameraOff
+	AddTrigger AdvanceCam, AdvanceCam
+
+	AddTrigger CamSnapback, SetCamSnapback
+	AddTrigger CamPullback, SetCamPullback
+
+	AddTrigger CamFast, SetCamFast
+	AddTrigger CamMedium, SetCamMedium
+	AddTrigger CamSlow, SetCamSlow
+
+	AddTrigger CamLong, SetCamLong
+	AddTrigger CamShort, SetCamShort
+	AddTrigger CamInstant, SetCamInstant
+
+	Exit TRUE
+
+:SetCamSnapback
+	bSnapback = TRUE
+	Exit TRUE
+:SetCamPullback
+	bSnapback = FALSE
+	Exit TRUE
+
+:SetCamFast
+	dt = .5
+	Exit TRUE
+:SetCamMedium
+	dt = 2
+	Exit TRUE
+:SetCamSlow
+	dt = 4
+	Exit TRUE
+
+:SetCamLong
+	tLinger = 6
+	Exit TRUE
+:SetCamShort
+	tLinger = 3
+	Exit TRUE
+:SetCamInstant
+	tLinger = .5
+	Exit TRUE

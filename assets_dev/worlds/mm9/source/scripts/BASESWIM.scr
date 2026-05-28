@@ -1,0 +1,16 @@
+;---------------------------------------------------
+;	BaseSwim.Scr
+;	Jeff Leggett
+;	11/07/2001
+;
+;
+;	Base script for monsters that SWIM...
+;
+;---------------------------------------------------
+
+#include BaseSwim.inc
+
+:Main
+	gosub BaseSwimInit
+	exit
+

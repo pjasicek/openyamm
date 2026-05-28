@@ -1,0 +1,57 @@
+schema: openyamm.model3d.v1
+id: gospelofhonk
+model: gospelofhonk.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/PICKUPITEMS/QUEST/GOSPELOFHONK.abc
+  commandString: NoAnimation; FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 4.023306898564917e+25
+pieces:
+- name: Gospel-Honk-Pamphlet
+  materialIndex: 0
+  lods:
+  - faces: 24
+    vertices: 16
+materials: []
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bone01
+    parent: 0
+    flags: 1
+    children: []
+sockets: []
+animations:
+- name: Static_Model
+  durationMs: 3366
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+animationBindings:
+- name: Static_Model
+  extents:
+  - 7.68
+  - 1.92
+  - 10.24
+  origin:
+  - 0.0
+  - -1.28
+  - 0.0
+roles:
+- static_model
+source_model: models/pickupitems/quest/gospelofhonk.abc

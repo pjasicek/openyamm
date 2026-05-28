@@ -1,0 +1,176 @@
+;----------------------------------------------
+;bobanddoug.scr
+; By Timmy
+; handles robert and douglas's argument 
+;
+
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         sound   ; checks to see if a sound is currently playing
+#number							soundhandle ; handler for sounds
+#number							sounddur ; duration of sound
+#number							sounddone ; if sound is done this is true
+
+
+;-------------------------------------
+:Onblabber
+;-------------------------------------
+; starts with doug's speech
+
+
+if (sound==0, )
+	set sound, 1
+	Givekey 111
+	Playsoundhandle voices\cinema\bobanddoug\01.wav, soundhandle, 240, FALSE, 100
+	GetSoundDuration, soundhandle, sounddur
+	Wait 1 sounddur, Bob02
+endif
+
+exit
+
+
+;-------------------------------------
+:Bob02
+;-------------------------------------
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\bobanddoug\02.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+Wait 1 sounddur, doug03
+exit
+
+
+;-------------------------------------
+:Doug03
+;-------------------------------------
+
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\bobanddoug\03.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+Wait 1 sounddur, Bob04
+exit
+
+
+;-------------------------------------
+:Bob04
+;-------------------------------------
+
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\bobanddoug\04.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+Wait 1 sounddur, doug05
+exit
+
+
+;-------------------------------------
+:Doug05
+;-------------------------------------
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\bobanddoug\05.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+Wait 1 sounddur, Bob06
+exit
+
+
+;-------------------------------------
+:Bob06
+;-------------------------------------
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\bobanddoug\06.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+Wait 1 sounddur, doug07
+exit
+
+
+;-------------------------------------
+:Doug07
+;-------------------------------------
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\bobanddoug\07.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+Wait 1 sounddur, Bob08
+exit
+
+
+;-------------------------------------
+:Bob08
+;-------------------------------------
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\bobanddoug\08.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+Wait 1 sounddur, doug09
+exit
+
+
+;-------------------------------------
+:Doug09
+;-------------------------------------
+
+KillSound soundhandle
+Playsoundhandle voices\cinema\bobanddoug\09.wav, soundhandle, 240, FALSE, 100
+GetSoundDuration, soundhandle, sounddur
+add sounddur, 3
+Wait 1 sounddur, Onexit
+exit
+
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+;if sound is playing, kill it
+
+if (sound==1, )
+	KillSound soundhandle
+	set sound, 0
+	set g_ntemp, 0
+endif
+;start rude dialog
+DoRude 214
+exit
+
+
+;-------------------------------------
+:Onexit
+;-------------------------------------
+
+; kill the sound if it's done
+
+IsSoundDone soundhandle, sounddone
+if (sounddone==1, )
+	KillSound soundhandle
+	exit
+endif
+;goto ondrink
+exit
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;delete me!!
+AddTrigger blabber, Onblabber
+;AddTrigger Use, OnUse ; ADD THIS BACK IN WHEN PROPS CAN REACT TO WAIT COMMAND
+CacheSound voices\cinema\bobanddoug\01.wav
+CacheSound voices\cinema\bobanddoug\02.wav
+CacheSound voices\cinema\bobanddoug\03.wav
+CacheSound voices\cinema\bobanddoug\04.wav
+CacheSound voices\cinema\bobanddoug\05.wav
+CacheSound voices\cinema\bobanddoug\06.wav
+CacheSound voices\cinema\bobanddoug\07.wav
+CacheSound voices\cinema\bobanddoug\08.wav
+CacheSound voices\cinema\bobanddoug\09.wav
+set sound, 0
+set g_ntemp, 0
+haskey 111, g_ntemp
+if (g_ntemp==1)
+	set sound, 1
+endif
+exit

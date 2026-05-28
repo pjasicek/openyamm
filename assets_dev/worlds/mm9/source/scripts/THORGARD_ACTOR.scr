@@ -1,0 +1,567 @@
+;----------------------------------------------------------
+;	Thorgard_Actor.Scr
+;	Jeff Leggett
+;	12/13/01
+;
+;	All the Thorgard actors go here...
+;
+;
+;	Ken1-Ken3
+;		- Setup to ambush the player at night in the dark
+;		tunnel...
+;
+;	Jumper0-1
+;		- Jump down from cliff at player
+;
+;	Jumper2-3
+;		- Wait a little while before jumping down...
+;
+;----------------------------------------------------------
+
+#include Jumper.Inc
+#include BaseTimers.inc
+#include BaseWander.inc
+#include baseRun.inc
+
+#string		sMyName
+#string		sMarker
+
+#number		nHour
+#number		nMinute
+
+
+#number		bDisabled = FALSE
+
+#string		splashSound=Sounds\Player\Splash1.wav
+#string		yellSound=Sounds\Events\Magreeb.wav
+
+
+;----------------------------------------------------------
+:Disable
+;----------------------------------------------------------
+	ClearFlag g_hMyObject,FLAG_VISIBLE
+	ClearFlag g_hMyObject,FLAG_SOLID
+	bDisabled	= TRUE
+	Exit
+
+;----------------------------------------------------------
+:Enable
+;----------------------------------------------------------
+	SetFlag g_hMyObject,FLAG_VISIBLE
+	SetFlag g_hMyObject,FLAG_SOLID
+	bDisabled = FALSE
+	Exit
+
+;----------------------------------------------------------
+:CheckDisable
+;----------------------------------------------------------
+
+	HasKey 201,g_bTemp
+
+	if ( g_bTemp==TRUE )
+		HasKey 202,g_bTemp
+		if ( g_bTemp==FALSE )
+			if (bDisabled==FALSE)
+				goto Disable
+			else
+				exit
+			endif
+		endif
+	endif
+
+	if (bDisabled==TRUE)
+		gosub Enable
+	Endif
+
+	Exit
+
+;----------------------------------------------------------
+:OnPostMiniSaveLoad
+;----------------------------------------------------------
+	gosub CheckDisable
+	exit
+
+;----------------------------------------------------------
+:DisableCheckStart
+;----------------------------------------------------------
+	OnPostMiniSaveLoad OnPostMiniSaveLoad
+	goto CheckDisable
+	Exit
+
+
+;----------------------------------------------------------
+:IsNightTime
+;----------------------------------------------------------
+
+	g_bTemp = FALSE
+
+	GetGameTime nHour,nMinute
+
+	if ( nHour >= 18 )
+		g_bTemp = TRUE
+		exit
+	endif
+
+	if ( nHour < 5 )
+		g_bTemp = TRUE
+		exit
+	endif
+
+	exit
+
+;----------------------------------------------------------
+:GoRobPlayer
+;----------------------------------------------------------
+
+	gosub RunNormalScript	
+
+	Exit
+
+;----------------------------------------------------------
+:OnRobPlayerTaunt
+;----------------------------------------------------------
+	
+	Stop
+
+	SetStat g_hMyObject,WalkRunMode,WALKRUNMODE_FORWARD
+
+	Taunt GoRobPlayer
+
+	exit TRUE
+
+;----------------------------------------------------------
+:OnRobPlayer
+;----------------------------------------------------------
+	gosub IsNightTime
+
+	if ( g_bTemp==FALSE )
+		exit
+	Endif
+
+	RemoveTrigger RobPlayer
+
+	SetFlag g_hMyObject,FLAG_VISIBLE
+	SetFlag g_hMyObject,FLAG_SOLID
+
+	SetStat g_hMyObject,Gravity,TRUE
+
+	GetPlayerHandle hPlayer
+
+	Stop
+
+	Target hPlayer,TRUE
+	SetStat g_hMyObject,WalkRunMode,WALKRUNMODE_TARGET
+
+	sMarker = sMyName + _Marker
+	GetObjectHandle sMarker,g_hObject
+
+	WalkTo g_hObject,0,OnRobPlayerTaunt
+
+	Exit 
+
+;----------------------------------------------------------
+:CacheFiles
+;----------------------------------------------------------
+	GetStatStr g_hMyObject,ScriptName,g_sTemp
+	CacheScript g_sTemp
+
+	CacheSound splashSound
+	CacheSound yellSound
+
+
+	Exit
+
+;----------------------------------------------------------
+:SetupKen
+;----------------------------------------------------------
+
+	AddTrigger RobPlayer,OnRobPlayer
+
+	ClearFlag g_hMyObject,FLAG_VISIBLE
+	ClearFlag g_hMyObject,FLAG_SOLID
+
+	SetStat g_hMyObject,Gravity,FALSE
+
+	LoopAnim 0,0
+
+	Exit
+
+;----------------------------------------------------------
+:JumperWaitGetPlayer
+;----------------------------------------------------------
+
+	if ( sMyName==Jumper2 )
+		minWait	= 10
+		maxWait = 25
+	endif
+
+	if ( sMyName==Jumper3 )
+		minWait	= 30
+		maxWait = 45
+	endif
+
+	goto JumperWaitGetPlayer,1
+
+	Exit
+
+
+;----------------------------------------------------------
+:MagreebTauntDone
+;----------------------------------------------------------
+	gosub RunNormalScript	
+	
+	Exit
+
+;----------------------------------------------------------
+:MagreebJumpDone
+;----------------------------------------------------------
+	OnTouchNotify
+	Stop
+	SetVelocity g_hMyObject,0,0,0
+	SetPushBack 0,0,0,0
+
+	GetObjectHandle Jim,g_hTarget
+	Target g_hTarget,TRUE
+
+	Trigger g_hTarget,RunJimRun
+	
+	GetObjectHandle Dean,g_hObject
+	Trigger g_hObject,ComeGetMe
+
+	GetObjectHandle Walter,g_hObject
+	Trigger g_hObject,ComeGetMe
+
+	Taunt MagreebTauntDone
+
+	Exit	
+
+;----------------------------------------------------------
+:MagreebTouchNotify
+;----------------------------------------------------------
+	IsOnGround g_bTemp
+	
+	if ( g_bTemp==TRUE )
+		gosub MagreebJumpDone
+	endif
+
+	exit
+
+;----------------------------------------------------------
+:SetupMagreebTouch
+;----------------------------------------------------------
+	SetStat g_hMyObject,GroundTouchNotify,TRUE
+	OnTouchNotify MagreebTouchNotify
+	PlaySound yellSound,DoNothing,3000
+
+	exit
+
+;----------------------------------------------------------
+:OnMagreebAttack
+;----------------------------------------------------------
+
+	Wait 26,0,DoNothing
+
+	RemoveTrigger Attack,OnMagreebAttack
+
+	if ( bDisabled==TRUE )
+		Exit
+	endif
+
+	;jsl-->2/5/02-->Give them the saw the magreeb key...
+	GiveKey 202
+
+	SetStat g_hMyObject,GaveTreasure,1
+	SetStat g_hMyObject,HitPoints,90
+	SetStat g_hMyObject,AC,16
+	SetPropNumber RunawayChance,0
+	SetPropNumber WanderON,TRUE
+
+	SetPos g_hMyObject,startX,startY,startZ
+	SetStat g_hMyObject,Gravity,TRUE
+
+	GetFaceDir g_hMyObject,g_dirX,g_dirY,g_dirZ
+	LoopAnim Run,0
+	g_dirY = 0
+	VecScale g_dirX,g_dirY,g_dirZ,500
+	SetVelocity g_hMyObject,0,500,0
+	SetPushBack g_dirX,g_dirY,g_dirZ,2
+;
+;	setup our touch once we're in the air...
+;
+	PlaySound splashSound,DoNothing,3000
+
+	Wait 28,0.5,SetupMagreebTouch
+
+	Exit
+
+
+;----------------------------------------------------------
+:MagreebAttackCheck
+;----------------------------------------------------------
+	Wait 26,1,MagreebAttackCheck
+
+	if ( bDisabled==TRUE )
+		exit
+	endif
+
+	GetPlayerHandle g_hObject
+
+	if ( g_hObject==NULL )
+		exit
+	endif
+
+	AIGetDistance g_hObject,g_nTemp
+
+;;	g_sTemp = BabyDistToPlayer__ + g_nTemp
+;;	cprint g_sTemp
+
+	if ( g_nTemp > 1800 )
+		exit
+	endif
+
+	Wait 26,0,DoNothing
+
+	gosub OnMagreebAttack
+
+
+	Exit
+
+;----------------------------------------------------------
+:SetupMagreebBaby
+;----------------------------------------------------------
+
+	gosub CheckDisable
+
+	SetStat g_hMyObject,Gravity,FALSE
+	AddTrigger Attack,OnMagreebAttack
+	GetPos g_hMyObject,startX,startY,startZ
+
+	AddEnemy Burgler
+
+	gosub MagreebAttackCheck
+
+
+	Exit
+
+;----------------------------------------------------------
+:BaseShouldRun
+;----------------------------------------------------------
+	if ( sMyName==Jim )
+		g_bTemp = TRUE
+		Exit
+	endif
+
+	gosub BaseShouldRun,1
+
+	Exit
+
+;----------------------------------------------------------
+:AtHidingPlace
+;----------------------------------------------------------
+	gosub RunNormalScript
+
+	Exit
+
+;----------------------------------------------------------
+:JimDamageDone
+;----------------------------------------------------------
+
+	gosub RunNormalScript
+	Exit TRUE
+
+;----------------------------------------------------------
+:RunJimRun
+;----------------------------------------------------------
+
+	
+	SetStat g_hMyObject,HitPoints,1
+
+	GetParam 0,g_hTarget
+
+	Target g_hTarget,FALSE
+
+	GetStat g_hMyObject,RunVel,g_nTemp
+	g_nTemp = g_nTemp * 0.25
+	SetStat g_hMyObject,RunVel,g_nTemp
+
+	GetObjectHandle JimHidingPlace,g_hObject
+	RunTo g_hObject,0,AtHidingPlace
+	OnDamageDone JimDamageDone
+
+	Exit
+
+;----------------------------------------------------------
+:SetupJim
+;----------------------------------------------------------
+
+	OnDamage LetsStart
+	SetStat g_hMyObject,HitPoints,1
+	AddTrigger RunJimRun, RunJimRun
+	
+	Exit
+	
+
+;----------------------------------------------------------
+:DeanAttack
+;----------------------------------------------------------
+	gosub RunNormalScript
+
+	Exit
+
+;----------------------------------------------------------
+:DeanGetHim
+;----------------------------------------------------------
+	GetParam 0, g_hTarget
+	Target g_hTarget,TRUE
+
+	Taunt
+
+	Wait 24,3,DeanAttack
+
+	Exit
+
+;----------------------------------------------------------
+:LetsStart
+;----------------------------------------------------------
+
+	OnDamage
+
+	GetObjectHandle MagreebBaby0,g_hObject
+	Trigger g_hObject,Attack
+
+
+	Exit
+
+;----------------------------------------------------------
+:SetupDean
+;----------------------------------------------------------
+	AddTrigger ComeGetMe,DeanGetHim
+	OnDamage LetsStart
+
+	Exit
+
+;----------------------------------------------------------
+:WalterGetHim
+;----------------------------------------------------------
+	
+	GetParam 0,g_hTarget
+	Target g_hTarget
+	goto RunNormalScript
+
+;----------------------------------------------------------
+:SetupWalter
+;----------------------------------------------------------
+	AddTrigger ComeGetMe,WalterGetHim
+
+	Exit
+
+;----------------------------------------------------------
+:JumperSetupPos
+;----------------------------------------------------------
+	
+	if ( sMyName==Jumper0 )
+		startX		= -1700
+		startY		= 1646
+		startZ		= -151
+		Exit
+	endif
+
+	if ( sMyName==Jumper2 )
+		startX		= -1700
+		startY		= 1646
+		startZ		= -151
+		Exit
+	endif
+
+	if ( sMyName==Jumper1 )
+		startX		= -583
+		startY		= 1760
+		startZ		= -29
+		Exit
+	endif
+
+	if ( sMyName==Jumper3 )
+		startX		= -583
+		startY		= 1760
+		startZ		= -29
+		Exit
+	endif
+
+	goto JumperSetupPos,1
+	exit
+
+;----------------------------------------------------------
+:Main
+;
+;
+;
+;----------------------------------------------------------
+#number	bJumper = 0
+
+	GetMyHandle g_hMyObject
+
+	GetObjectName g_hMyObject,sMyName
+
+	OnCacheFiles CacheFiles
+
+	if ( sMyName==Ken1 )
+		gosub SetupKen
+	endif
+	if ( sMyName==Ken2 )
+		gosub SetupKen
+	endif
+	if ( sMyName==Ken3 )
+		gosub SetupKen
+	endif
+
+	bJumper = FALSE
+
+	GetPos g_hMyObject,startX,startY,startZ
+
+	if ( sMyName==Jumper0 )
+		bJumper		= TRUE
+	endif
+
+	if ( sMyName==Jumper2 )
+		bJumper		= TRUE
+	endif
+
+	if ( sMyName==Jumper1 )
+		bJumper		= TRUE
+	endif
+
+	if ( sMyName==Jumper3 )
+		bJumper		= TRUE
+	endif
+
+	if ( bJumper==TRUE )
+		gosub SetupJumper
+	endif
+
+	if ( sMyName==MagreebBaby0 )
+		gosub SetupMagreebBaby
+		gosub DisableCheckStart
+	endif
+
+	if ( sMyName==Jim )
+		gosub SetupJim
+		gosub DisableCheckStart
+	endif
+
+	if ( sMyName==Dean )
+		gosub SetupDean
+		gosub DisableCheckStart
+	endif
+
+	if ( sMyName==Walter )
+		gosub SetupWalter
+		gosub DisableCheckStart
+	endif
+
+	if ( sMyName==Dummy )
+		gosub DisableCheckStart
+		goto RunNormalScript
+	endif
+
+	Exit
+

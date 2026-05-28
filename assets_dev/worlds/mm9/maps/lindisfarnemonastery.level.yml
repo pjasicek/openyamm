@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: lindisfarnemonastery
+display_name: Lindisfarne Monastery
+source:
+  dat: ../source/worlds/LINDISFARNEMONASTERY.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/LINDISFARNEMONASTERY.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 49811bd8ee2621105561f83b6907e8b40ba26d18bc804127d5bc790682f4e499
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_portal_like
+  classification_confidence: high
+  visibility: dat_bsp_portal
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: lindisfarnemonastery.dat_world.yml
+  raw_objects: lindisfarnemonastery.raw_objects.yml
+  materials: lindisfarnemonastery.material_aliases.yml
+  events: lindisfarnemonastery.events.yml
+  scene_compat: lindisfarnemonastery.scene.yml
+  source_metadata_compat: lindisfarnemonastery.mm9.yml
+  bsp_compat: lindisfarnemonastery.bsp.yml
+  geometry_compat: lindisfarnemonastery.geometry.yml
+  model_assets_compat: null
+  odm_compat: null
+  blv_compat: lindisfarnemonastery.blv
+scripts:
+  level: ../events/lindisfarnemonastery.lua
+  script_ir: ../events/lindisfarnemonastery.script_ir.yml
+compatibility:
+  legacy_target_format: blv
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

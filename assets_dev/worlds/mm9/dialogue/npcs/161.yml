@@ -1,0 +1,1521 @@
+format_version: 1
+source_file: NPC161.rude
+rows:
+  - source:
+      file: NPC161.rude
+      row: 1
+    raw_columns:
+      - 161
+      - 10
+      - 1
+      - Yes.
+      - "Do you believe that you are ready?  Very well, here is your task:  There is a rare creature in this region known as the Magreeb.  You must find one and study it.  Return to me when you are finished and give a report."
+      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 10
+      choice_slot: 1
+      prompt: Yes.
+      response: "Do you believe that you are ready?  Very well, here is your task:  There is a rare creature in this region known as the Magreeb.  You must find one and study it.  Return to me when you are finished and give a report."
+      next: 11
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+  - source:
+      file: NPC161.rude
+      row: 2
+    raw_columns:
+      - 161
+      - 1
+      - 1
+      - Who is Tamur Leng?
+      - The 11th direct descendant of Jevar the Bastard
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 1
+      choice_slot: 1
+      prompt: Who is Tamur Leng?
+      response: The 11th direct descendant of Jevar the Bastard
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC161.rude
+      row: 3
+    raw_columns:
+      - 161
+      - 2
+      - 1
+      - Can we ask you something else?
+      - You may ask.  The answers you seek are within.
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 2
+      choice_slot: 1
+      prompt: Can we ask you something else?
+      response: You may ask.  The answers you seek are within.
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC161.rude
+      row: 4
+    raw_columns:
+      - 161
+      - 161
+      - 1
+      - We are seeking promotion to Scholar
+      - We shall see.  Have you any initiates amongst your group?
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 2081
+      - 0
+      - 0
+      - 0
+      - 0
+      - 201
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 161
+      choice_slot: 1
+      prompt: We are seeking promotion to Scholar
+      response: We shall see.  Have you any initiates amongst your group?
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 2081
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 201
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 2081
+        status: raw_value_preserved
+      - kind: unknown_sparse_field
+        column: c21
+        value: 201
+        status: raw_value_preserved
+  - source:
+      file: NPC161.rude
+      row: 5
+    raw_columns:
+      - 161
+      - 999
+      - 1
+      - Goodbye.
+      - blank
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: blank
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC161.rude
+      row: 6
+    raw_columns:
+      - 161
+      - 11
+      - 1
+      - We will do this.
+      - If you want your promotion, of course you will!
+      - -14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 11
+      choice_slot: 1
+      prompt: We will do this.
+      response: If you want your promotion, of course you will!
+      next: -14
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: service
+        opcode: -14
+        service: quest_handoff
+    unresolved:
+      - kind: service_behavior
+        column: c06
+        opcode: -14
+        service: quest_handoff
+        status: typed_pending_exact_runtime_behavior
+  - source:
+      file: NPC161.rude
+      row: 7
+    raw_columns:
+      - 161
+      - 12
+      - 1
+      - Alright.
+      - Firstly, what color was this creature?
+      - 13
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 12
+      choice_slot: 1
+      prompt: Alright.
+      response: Firstly, what color was this creature?
+      next: 13
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 13
+  - source:
+      file: NPC161.rude
+      row: 8
+    raw_columns:
+      - 161
+      - 13
+      - 1
+      - Red
+      - Ah, red!  That is exactly what was said in the texts.  Wonderful.  Thank you for your help.  You are now promoted to Scholars.
+      - 14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 203
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 13
+      choice_slot: 1
+      prompt: Red
+      response: Ah, red!  That is exactly what was said in the texts.  Wonderful.  Thank you for your help.  You are now promoted to Scholars.
+      next: 14
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 203
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 14
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 203
+        status: raw_value_preserved
+  - source:
+      file: NPC161.rude
+      row: 9
+    raw_columns:
+      - 161
+      - 14
+      - 1
+      - Thank you.
+      - You are welcome.  Now I've work to do.  Farewell.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 14
+      choice_slot: 1
+      prompt: Thank you.
+      response: You are welcome.  Now I've work to do.  Farewell.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC161.rude
+      row: 10
+    raw_columns:
+      - 161
+      - 11
+      - 2
+      - Perhaps later.
+      - Very well.  Come back when you think you are ready.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 11
+      choice_slot: 2
+      prompt: Perhaps later.
+      response: Very well.  Come back when you think you are ready.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC161.rude
+      row: 11
+    raw_columns:
+      - 161
+      - 161
+      - 2
+      - We studied the Magreeb.
+      - Have you now?  Well, perhaps you can answer some questions I've had of it.  And this is for posterity, so please, be honest.
+      - 12
+      - 202
+      - 0
+      - 201
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 205
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 161
+      choice_slot: 2
+      prompt: We studied the Magreeb.
+      response: Have you now?  Well, perhaps you can answer some questions I've had of it.  And this is for posterity, so please, be honest.
+      next: 12
+      raw_fields:
+        c07: 202
+        c08: 0
+        c09: 201
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 205
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 12
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 202
+            qbit_id: 9202
+            state_id: mm9.keys.202
+          - column: c09
+            raw_id: 201
+            qbit_id: 9201
+            state_id: mm9.keys.201
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 202
+          qbit_id: 9202
+          state_id: mm9.keys.202
+        - domain: mm9.keys
+          raw_id: 201
+          qbit_id: 9201
+          state_id: mm9.keys.201
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 205
+        status: raw_value_preserved
+  - source:
+      file: NPC161.rude
+      row: 12
+    raw_columns:
+      - 161
+      - 10
+      - 2
+      - No.
+      - Very well.  Was there anything else?
+      - 161
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 10
+      choice_slot: 2
+      prompt: No.
+      response: Very well.  Was there anything else?
+      next: 161
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 161
+  - source:
+      file: NPC161.rude
+      row: 13
+    raw_columns:
+      - 161
+      - 2
+      - 2
+      - Thanks for your time.
+      - It is not my time, but yours.  Perhaps there is something else you need guidance in?
+      - 161
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 2
+      choice_slot: 2
+      prompt: Thanks for your time.
+      response: It is not my time, but yours.  Perhaps there is something else you need guidance in?
+      next: 161
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 161
+  - source:
+      file: NPC161.rude
+      row: 14
+    raw_columns:
+      - 161
+      - 13
+      - 2
+      - Green
+      - Green?  Are you sure?  That means the ancient texts were wrong!  I will have to correct those.  Thank you for your help.  You are now promoted to Scholars.
+      - 14
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 204
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 13
+      choice_slot: 2
+      prompt: Green
+      response: Green?  Are you sure?  That means the ancient texts were wrong!  I will have to correct those.  Thank you for your help.  You are now promoted to Scholars.
+      next: 14
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 204
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 14
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 204
+        status: raw_value_preserved
+  - source:
+      file: NPC161.rude
+      row: 15
+    raw_columns:
+      - 161
+      - 1
+      - 2
+      - How do we get to Hallenhalt?
+      - The only people who get to Hallenhalt are dead heroes.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 1
+      choice_slot: 2
+      prompt: How do we get to Hallenhalt?
+      response: The only people who get to Hallenhalt are dead heroes.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC161.rude
+      row: 16
+    raw_columns:
+      - 161
+      - 1
+      - 3
+      - What do you know about the three Wyrdes?
+      - They carve the Fatestones.  It is they who create Writs of Fate.
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 1
+      choice_slot: 3
+      prompt: What do you know about the three Wyrdes?
+      response: They carve the Fatestones.  It is they who create Writs of Fate.
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC161.rude
+      row: 17
+    raw_columns:
+      - 161
+      - 1
+      - 4
+      - Thanks for your time.
+      - Perhaps there is something else you need guidance on?
+      - 161
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 1
+      choice_slot: 4
+      prompt: Thanks for your time.
+      response: Perhaps there is something else you need guidance on?
+      next: 161
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 161
+  - source:
+      file: NPC161.rude
+      row: 18
+    raw_columns:
+      - 161
+      - 161
+      - 6
+      - We need your advice.
+      - Here are some words of advice.  He starts to stink, who outstays his welcome in a hall that is not his own.
+      - 161
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 161
+      choice_slot: 6
+      prompt: We need your advice.
+      response: Here are some words of advice.  He starts to stink, who outstays his welcome in a hall that is not his own.
+      next: 161
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 161
+  - source:
+      file: NPC161.rude
+      row: 19
+    raw_columns:
+      - 161
+      - 161
+      - 7
+      - We'd like you to answer some questions.
+      - What questions would you like answered?
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 161
+      choice_slot: 7
+      prompt: We'd like you to answer some questions.
+      response: What questions would you like answered?
+      next: 1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+  - source:
+      file: NPC161.rude
+      row: 20
+    raw_columns:
+      - 161
+      - 161
+      - 8
+      - Do you have any words of wisdom?
+      - "When faced with overwhelming odds, remember this: Cattle die, kindred die, death comes to us all.  The one thing that will never die is the glory of a great deed."
+      - 161
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 161
+      choice_slot: 8
+      prompt: Do you have any words of wisdom?
+      response: "When faced with overwhelming odds, remember this: Cattle die, kindred die, death comes to us all.  The one thing that will never die is the glory of a great deed."
+      next: 161
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 161
+  - source:
+      file: NPC161.rude
+      row: 21
+    raw_columns:
+      - 161
+      - 161
+      - 9
+      - We don't need anything right now.
+      - Go in peace.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 161
+      node_id: 161
+      choice_slot: 9
+      prompt: We don't need anything right now.
+      response: Go in peace.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

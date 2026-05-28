@@ -1,0 +1,890 @@
+format_version: 1
+source_file: NPC335.rude
+rows:
+  - source:
+      file: NPC335.rude
+      row: 1
+    raw_columns:
+      - 335
+      - 999
+      - 1
+      - Goodbye.
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 335
+      node_id: 999
+      choice_slot: 1
+      prompt: Goodbye.
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC335.rude
+      row: 2
+    raw_columns:
+      - 335
+      - 11
+      - 1
+      - What are we to do again?
+      - You are to find a way to lure Njam to the Tomb of a Thousand Terrors and imprison him there.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 335
+      node_id: 11
+      choice_slot: 1
+      prompt: What are we to do again?
+      response: You are to find a way to lure Njam to the Tomb of a Thousand Terrors and imprison him there.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+  - source:
+      file: NPC335.rude
+      row: 3
+    raw_columns:
+      - 335
+      - 10
+      - 1
+      - Njam the Meddler?
+      - Yes.  He is the god of mischief.  It is high time he has paid for the problems he has caused.  You are a brave group.  This task I will give to you.
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 335
+      node_id: 10
+      choice_slot: 1
+      prompt: Njam the Meddler?
+      response: Yes.  He is the god of mischief.  It is high time he has paid for the problems he has caused.  You are a brave group.  This task I will give to you.
+      next: 3
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 3
+  - source:
+      file: NPC335.rude
+      row: 4
+    raw_columns:
+      - 335
+      - 5
+      - 1
+      - We will do this for you.
+      - Of course you will.  Be wary, Njam the Meddler is a very tricky individual.  Again if you find yourself face to face with him, run.  Remember that he still is a god.  When you are finished return to me, I will have something for you.  Good luck.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 108
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 335
+      node_id: 5
+      choice_slot: 1
+      prompt: We will do this for you.
+      response: Of course you will.  Be wary, Njam the Meddler is a very tricky individual.  Again if you find yourself face to face with him, run.  Remember that he still is a god.  When you are finished return to me, I will have something for you.  Good luck.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 108
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c16
+        value: 108
+        status: raw_value_preserved
+  - source:
+      file: NPC335.rude
+      row: 5
+    raw_columns:
+      - 335
+      - 4
+      - 1
+      - How are we supposed to get him to follow us?
+      - I don't know.  There must be something you can find.  Go to his house here in Arslegard.  Take this key, you will need it to unlock the door.  But beware of him.  He is certain to know what you are up to.  If you happen to stumble onto him, run.
+      - 5
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 335
+      node_id: 4
+      choice_slot: 1
+      prompt: How are we supposed to get him to follow us?
+      response: I don't know.  There must be something you can find.  Go to his house here in Arslegard.  Take this key, you will need it to unlock the door.  But beware of him.  He is certain to know what you are up to.  If you happen to stumble onto him, run.
+      next: 5
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 5
+  - source:
+      file: NPC335.rude
+      row: 6
+    raw_columns:
+      - 335
+      - 3
+      - 1
+      - What task?
+      - You are to get Njam to follow you into the Tomb of a Thousand Terrors.  Once there, lead him to the heart of the tomb and imprison him in it.
+      - 4
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 335
+      node_id: 3
+      choice_slot: 1
+      prompt: What task?
+      response: You are to get Njam to follow you into the Tomb of a Thousand Terrors.  Once there, lead him to the heart of the tomb and imprison him in it.
+      next: 4
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 4
+  - source:
+      file: NPC335.rude
+      row: 7
+    raw_columns:
+      - 335
+      - 2
+      - 1
+      - Yes sir!
+      - Hmmm.  These are obviously not real.  They look to be the work of Njam the Meddler.
+      - 10
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 335
+      node_id: 2
+      choice_slot: 1
+      prompt: Yes sir!
+      response: Hmmm.  These are obviously not real.  They look to be the work of Njam the Meddler.
+      next: 10
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 10
+  - source:
+      file: NPC335.rude
+      row: 8
+    raw_columns:
+      - 335
+      - 1
+      - 1
+      - We have a Writ of Fate!  It says we're supposed to stop him!
+      - And I see that he has a Writ of Fate also.  Let me see those!
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 335
+      node_id: 1
+      choice_slot: 1
+      prompt: We have a Writ of Fate!  It says we're supposed to stop him!
+      response: And I see that he has a Writ of Fate also.  Let me see those!
+      next: 2
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+  - source:
+      file: NPC335.rude
+      row: 9
+    raw_columns:
+      - 335
+      - 335
+      - 1
+      - As you have summoned us, so we have come.
+      - Ah yes, Tamur Leng and the band of noble adventurers!  Just what do you think you are all doing?  Are you trying to make Hallenhalt burst at the seams?!
+      - 1
+      - 107
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 108
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 335
+      node_id: 335
+      choice_slot: 1
+      prompt: As you have summoned us, so we have come.
+      response: Ah yes, Tamur Leng and the band of noble adventurers!  Just what do you think you are all doing?  Are you trying to make Hallenhalt burst at the seams?!
+      next: 1
+      raw_fields:
+        c07: 107
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 108
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 1
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 107
+            qbit_id: 9107
+            state_id: mm9.keys.107
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 107
+          qbit_id: 9107
+          state_id: mm9.keys.107
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 108
+        status: raw_value_preserved
+  - source:
+      file: NPC335.rude
+      row: 10
+    raw_columns:
+      - 335
+      - 335
+      - 2
+      - About Njam again..
+      - Yes?
+      - 11
+      - 108
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 109
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 335
+      node_id: 335
+      choice_slot: 2
+      prompt: About Njam again..
+      response: Yes?
+      next: 11
+      raw_fields:
+        c07: 108
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 109
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 11
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 108
+            qbit_id: 9108
+            state_id: mm9.keys.108
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 108
+          qbit_id: 9108
+          state_id: mm9.keys.108
+    unresolved:
+      - kind: unknown_sparse_field
+        column: c21
+        value: 109
+        status: raw_value_preserved
+  - source:
+      file: NPC335.rude
+      row: 11
+    raw_columns:
+      - 335
+      - 335
+      - 3
+      - We have imprisoned Njam.
+      - I am aware.  Congratulations.  I do not have time to speak with mortals.  Farewell.
+      - 999
+      - 109
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 335
+      node_id: 335
+      choice_slot: 3
+      prompt: We have imprisoned Njam.
+      response: I am aware.  Congratulations.  I do not have time to speak with mortals.  Farewell.
+      next: 999
+      raw_fields:
+        c07: 109
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 109
+            qbit_id: 9109
+            state_id: mm9.keys.109
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 109
+          qbit_id: 9109
+          state_id: mm9.keys.109
+  - source:
+      file: NPC335.rude
+      row: 12
+    raw_columns:
+      - 335
+      - 335
+      - 7
+      - Sorry to bother you.
+      - Step easy around here, mortals.
+      - 999
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 335
+      node_id: 335
+      choice_slot: 7
+      prompt: Sorry to bother you.
+      response: Step easy around here, mortals.
+      next: 999
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 999

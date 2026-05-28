@@ -1,0 +1,38 @@
+format_version: 1
+kind: mm9_level
+map_id: yorwick
+display_name: Yorwick
+source:
+  dat: ../source/worlds/YORWICK.dat
+  original_dat: mm9/extracted/WORLDS/WORLDS/YORWICK.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: 3cb7a2334a435a2c8f3ad283b6f7f76d6d49f1c624f0bf6415d1084f6689add3
+runtime:
+  world_backend: dat_world
+  classification: outdoor_like
+  classification_confidence: high
+  visibility: dat_spatial
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: yorwick.dat_world.yml
+  raw_objects: yorwick.raw_objects.yml
+  materials: yorwick.material_aliases.yml
+  events: yorwick.events.yml
+  scene_compat: yorwick.scene.yml
+  source_metadata_compat: yorwick.mm9.yml
+  bsp_compat: null
+  geometry_compat: null
+  model_assets_compat: yorwick.model_assets.yml
+  odm_compat: yorwick.odm
+  blv_compat: null
+scripts:
+  level: ../events/yorwick.lua
+  script_ir: ../events/yorwick.script_ir.yml
+compatibility:
+  legacy_target_format: odm
+  generated_odm_blv_are_derived: true
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_dat_native_sidecars.py

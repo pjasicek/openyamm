@@ -1,0 +1,58 @@
+;----------------------------------
+;	WizardEffect.scr
+;	by SJR
+;	01-01-02
+;	Purpose:
+;----------------------------------
+#include BaseGlobals.inc
+#include flags.inc
+
+#string		sLocationName = ""
+#hobject	hLocation = 0
+
+#hobject	hMe = 0
+#hobject	hCaster = 0
+
+#string		SPELL_GREENDOTS = "greenyeldots"
+#string		SPELL_BUGS = "bugs"
+#string		SPELL_SPARKLIES = "sparklies"
+
+;----------------------------------
+:Main
+;----------------------------------
+	GetParam 0, sLocationName
+
+	gosub InitWizardEffect
+
+	Exit TRUE
+
+;----------------------------------
+:InitWizardEffect
+;----------------------------------
+	GetMyHandle hMe
+	SetFlag hMe, FLAG_VISIBLE
+
+	AddTrigger play, PlayConjureEffect
+	AddTrigger shoot, PlayShootEffect
+
+	Exit TRUE
+
+;----------------------------------
+:PlayConjureEffect
+;----------------------------------
+	GetParam 0, hCaster
+
+	DoClientFX hCaster, SPELL_SPARKLIES, FALSE, TRUE
+	DoClientFX hMe, SPELL_GREENDOTS, FALSE, TRUE
+
+	GetObjectHandle sLocationName, hLocation
+	FaceObject hLocation
+
+	Exit TRUE
+
+;----------------------------------
+:PlayShootEffect
+;----------------------------------
+	DoClientFX hLocation, SPELL_BUGS, FALSE, TRUE
+
+	Exit FALSE

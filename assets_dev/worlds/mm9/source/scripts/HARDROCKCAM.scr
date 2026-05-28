@@ -1,0 +1,41 @@
+#hobject	hMyHandle
+#hobject	hPlayer
+#number		nX
+#number		nY
+#number		nZ
+
+
+:dn
+
+exit 1
+
+:Play
+
+	GetObjectHandle dw hplayer
+	FaceObject hplayer 90 dn
+
+
+exit 1
+
+
+:Used
+	GetPlayerHandle hPlayer 1000
+	GetPos hPlayer nX nY nZ
+	MoveToPos nX nY nZ 0 dn
+	GetFaceDir hPlayer nX nY nZ
+	FaceDir nX nY nZ 1000 play
+
+exit 1
+
+
+:Main2
+
+
+Exit 1
+
+
+:Main
+	GetMyHandle hMyHandle
+	AddTrigger use Used
+
+Exit

@@ -1,0 +1,46 @@
+;----------------------------------------------
+;Mercenarypromo.scr
+; By Timmy
+; checks to see if player is on promo quest
+; and gives completion key
+; Thorfinn's RudeID is 240
+; Atli's RudeID is 186
+; key 125 = player has got Atli
+; Key 126 = player has taken atli where he belongs
+;----------------------------------------------
+
+#include globals.inc 
+
+#number                         KeyCheck
+#number							Keydata
+
+;-------------------------------------
+:OnUse
+;-------------------------------------
+
+
+Haskey 125, g_ntemp
+if ( g_ntemp==1, )
+;checks to see if player is on quest and has atli in party
+	Haskey 126 g_ntemp
+	If ( g_ntemp==0, )
+	;checks to see if player has already completed quest
+		givekey 126
+		;gives key that player has put atli where he belongs.
+		exit
+	endif
+endif
+exit
+	
+
+
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+Addtrigger Use, OnUse
+
+
+exit

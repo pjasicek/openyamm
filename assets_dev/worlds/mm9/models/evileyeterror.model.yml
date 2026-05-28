@@ -1,0 +1,959 @@
+schema: openyamm.model3d.v1
+id: evileyeterror
+model: evileyeterror.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/EVILEYETERROR.abc
+  commandString: FadeRangeMax 2000; FadeRangeMin 1500
+  internalRadius: 245.76
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 614.4
+  - 896.0
+  - 2048.0
+  - 4.023306898564917e+25
+pieces:
+- name: d_evileye
+  materialIndex: 0
+  lods:
+  - faces: 410
+    vertices: 239
+  - faces: 296
+    vertices: 182
+  - faces: 224
+    vertices: 146
+  - faces: 138
+    vertices: 103
+- name: d_eyelid
+  materialIndex: 0
+  lods:
+  - faces: 58
+    vertices: 37
+  - faces: 30
+    vertices: 23
+  - faces: 14
+    vertices: 15
+  - faces: 8
+    vertices: 10
+- name: d_eyes
+  materialIndex: 0
+  lods:
+  - faces: 105
+    vertices: 60
+  - faces: 95
+    vertices: 55
+  - faces: 53
+    vertices: 34
+  - faces: 7
+    vertices: 11
+- name: d_eyes01
+  materialIndex: 0
+  lods:
+  - faces: 68
+    vertices: 39
+  - faces: 60
+    vertices: 35
+  - faces: 30
+    vertices: 20
+  - faces: 8
+    vertices: 9
+materials:
+- index: 0
+  texture: skins_preview/orbus1.png
+  runtime_texture: skins/orbus1.dtx
+  preview_texture: skins_preview/orbus1.png
+  source: mm9/extracted/SKINS/SKINS/ORBUS1.dtx
+  alphaMode: MASK
+  alphaCutoff: 0.5
+  doubleSided: true
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 0
+    children:
+    - 1
+    - 73
+  - index: 1
+    name: Box01
+    parent: 0
+    flags: 0
+    children:
+    - 2
+    - 8
+    - 10
+    - 15
+    - 20
+    - 25
+    - 30
+    - 36
+    - 41
+    - 46
+    - 49
+    - 52
+    - 57
+    - 62
+    - 67
+    - 69
+    - 70
+    - 71
+    - 72
+  - index: 2
+    name: Box37
+    parent: 1
+    flags: 0
+    children:
+    - 3
+  - index: 3
+    name: Box38
+    parent: 2
+    flags: 0
+    children:
+    - 4
+  - index: 4
+    name: Box39
+    parent: 3
+    flags: 0
+    children:
+    - 5
+  - index: 5
+    name: Box40
+    parent: 4
+    flags: 0
+    children:
+    - 6
+  - index: 6
+    name: Box41
+    parent: 5
+    flags: 0
+    children:
+    - 7
+  - index: 7
+    name: Box58
+    parent: 6
+    flags: 0
+    children: []
+  - index: 8
+    name: Box02
+    parent: 1
+    flags: 0
+    children:
+    - 9
+  - index: 9
+    name: Box72
+    parent: 8
+    flags: 0
+    children: []
+  - index: 10
+    name: Box29
+    parent: 1
+    flags: 0
+    children:
+    - 11
+  - index: 11
+    name: Box30
+    parent: 10
+    flags: 0
+    children:
+    - 12
+  - index: 12
+    name: Box31
+    parent: 11
+    flags: 0
+    children:
+    - 13
+  - index: 13
+    name: Box32
+    parent: 12
+    flags: 0
+    children:
+    - 14
+  - index: 14
+    name: Box59
+    parent: 13
+    flags: 0
+    children: []
+  - index: 15
+    name: Box28
+    parent: 1
+    flags: 0
+    children:
+    - 16
+  - index: 16
+    name: Box25
+    parent: 15
+    flags: 0
+    children:
+    - 17
+  - index: 17
+    name: Box26
+    parent: 16
+    flags: 0
+    children:
+    - 18
+  - index: 18
+    name: Box27
+    parent: 17
+    flags: 0
+    children:
+    - 19
+  - index: 19
+    name: Box60
+    parent: 18
+    flags: 0
+    children: []
+  - index: 20
+    name: Box15
+    parent: 1
+    flags: 0
+    children:
+    - 21
+  - index: 21
+    name: Box22
+    parent: 20
+    flags: 0
+    children:
+    - 22
+  - index: 22
+    name: Box23
+    parent: 21
+    flags: 0
+    children:
+    - 23
+  - index: 23
+    name: Box24
+    parent: 22
+    flags: 0
+    children:
+    - 24
+  - index: 24
+    name: Box61
+    parent: 23
+    flags: 0
+    children: []
+  - index: 25
+    name: Box33
+    parent: 1
+    flags: 0
+    children:
+    - 26
+  - index: 26
+    name: Box34
+    parent: 25
+    flags: 0
+    children:
+    - 27
+  - index: 27
+    name: Box35
+    parent: 26
+    flags: 0
+    children:
+    - 28
+  - index: 28
+    name: Box36
+    parent: 27
+    flags: 0
+    children:
+    - 29
+  - index: 29
+    name: Box75
+    parent: 28
+    flags: 0
+    children: []
+  - index: 30
+    name: Box42
+    parent: 1
+    flags: 0
+    children:
+    - 31
+  - index: 31
+    name: Box43
+    parent: 30
+    flags: 0
+    children:
+    - 32
+  - index: 32
+    name: Box44
+    parent: 31
+    flags: 0
+    children:
+    - 33
+  - index: 33
+    name: Box45
+    parent: 32
+    flags: 0
+    children:
+    - 34
+  - index: 34
+    name: Box46
+    parent: 33
+    flags: 0
+    children:
+    - 35
+  - index: 35
+    name: Box64
+    parent: 34
+    flags: 0
+    children: []
+  - index: 36
+    name: Box48
+    parent: 1
+    flags: 0
+    children:
+    - 37
+  - index: 37
+    name: Box49
+    parent: 36
+    flags: 0
+    children:
+    - 38
+  - index: 38
+    name: Box50
+    parent: 37
+    flags: 0
+    children:
+    - 39
+  - index: 39
+    name: Box51
+    parent: 38
+    flags: 0
+    children:
+    - 40
+  - index: 40
+    name: Box73
+    parent: 39
+    flags: 0
+    children: []
+  - index: 41
+    name: Box52
+    parent: 1
+    flags: 0
+    children:
+    - 42
+  - index: 42
+    name: Box53
+    parent: 41
+    flags: 0
+    children:
+    - 43
+  - index: 43
+    name: Box54
+    parent: 42
+    flags: 0
+    children:
+    - 44
+  - index: 44
+    name: Box55
+    parent: 43
+    flags: 0
+    children:
+    - 45
+  - index: 45
+    name: Box74
+    parent: 44
+    flags: 0
+    children: []
+  - index: 46
+    name: Box19
+    parent: 1
+    flags: 0
+    children:
+    - 47
+  - index: 47
+    name: Box47
+    parent: 46
+    flags: 0
+    children:
+    - 48
+  - index: 48
+    name: Box68
+    parent: 47
+    flags: 0
+    children: []
+  - index: 49
+    name: Box56
+    parent: 1
+    flags: 0
+    children:
+    - 50
+  - index: 50
+    name: Box57
+    parent: 49
+    flags: 0
+    children:
+    - 51
+  - index: 51
+    name: Box69
+    parent: 50
+    flags: 0
+    children: []
+  - index: 52
+    name: Box07
+    parent: 1
+    flags: 0
+    children:
+    - 53
+  - index: 53
+    name: Box08
+    parent: 52
+    flags: 0
+    children:
+    - 54
+  - index: 54
+    name: Box09
+    parent: 53
+    flags: 0
+    children:
+    - 55
+  - index: 55
+    name: Box10
+    parent: 54
+    flags: 0
+    children:
+    - 56
+  - index: 56
+    name: Box65
+    parent: 55
+    flags: 0
+    children: []
+  - index: 57
+    name: Box03
+    parent: 1
+    flags: 0
+    children:
+    - 58
+  - index: 58
+    name: Box04
+    parent: 57
+    flags: 0
+    children:
+    - 59
+  - index: 59
+    name: Box05
+    parent: 58
+    flags: 0
+    children:
+    - 60
+  - index: 60
+    name: Box06
+    parent: 59
+    flags: 0
+    children:
+    - 61
+  - index: 61
+    name: Box67
+    parent: 60
+    flags: 0
+    children: []
+  - index: 62
+    name: Box11
+    parent: 1
+    flags: 0
+    children:
+    - 63
+  - index: 63
+    name: Box12
+    parent: 62
+    flags: 0
+    children:
+    - 64
+  - index: 64
+    name: Box13
+    parent: 63
+    flags: 0
+    children:
+    - 65
+  - index: 65
+    name: Box14
+    parent: 64
+    flags: 0
+    children:
+    - 66
+  - index: 66
+    name: Box66
+    parent: 65
+    flags: 0
+    children: []
+  - index: 67
+    name: Box70
+    parent: 1
+    flags: 0
+    children:
+    - 68
+  - index: 68
+    name: Box71
+    parent: 67
+    flags: 0
+    children: []
+  - index: 69
+    name: d_evileye
+    parent: 1
+    flags: 0
+    children: []
+  - index: 70
+    name: d_eyelid
+    parent: 1
+    flags: 0
+    children: []
+  - index: 71
+    name: d_eyes
+    parent: 1
+    flags: 0
+    children: []
+  - index: 72
+    name: d_eyes01
+    parent: 1
+    flags: 0
+    children: []
+  - index: 73
+    name: Dummy01
+    parent: 0
+    flags: 0
+    children: []
+sockets:
+- name: RHand1
+  node: 7
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.6779419183731079
+  - -0.20098508894443512
+  - -0.2009851336479187
+  - 0.6779415607452393
+- name: RangeAttack1
+  node: 68
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 1.738557671160379e-07
+  - 0.7071067094802856
+  - -1.5278230591775355e-07
+  - 0.7071067690849304
+- name: LHand1
+  node: 35
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.028967589139938354
+  - 0.7065393924713135
+  - 0.7065389752388
+  - 0.028965288773179054
+- name: RangeAttack2
+  node: 48
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.5191491842269897
+  - 0.480087548494339
+  - 0.5191493034362793
+  - 0.4800875186920166
+- name: RangeAttack3
+  node: 51
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.5673075318336487
+  - 0.4220923185348511
+  - -0.5673079490661621
+  - 0.4220922887325287
+- name: RangeAttack4
+  node: 56
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.2765313386917114
+  - 0.6507920026779175
+  - 0.6507920622825623
+  - 0.2765311896800995
+- name: RangeAttack5
+  node: 61
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.6411667466163635
+  - 0.29816973209381104
+  - 0.2981695830821991
+  - 0.6411668658256531
+- name: RangeAttack6
+  node: 66
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.5559696555137634
+  - 0.43691831827163696
+  - 0.4369182288646698
+  - 0.5559698939323425
+animations:
+- name: static_model1
+  durationMs: 1
+  keyframes: 2
+  interpolationTimeMs: 200
+  events: []
+- name: standair
+  durationMs: 2666
+  keyframes: 15
+  interpolationTimeMs: 200
+  events: []
+- name: Flap
+  durationMs: 2666
+  keyframes: 14
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 200
+    event: playanimsound
+  - timeMs: 600
+    event: Flap
+- name: tauntair
+  durationMs: 2500
+  keyframes: 17
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 454
+    event: speakanimsound
+- name: fidgetair1
+  durationMs: 2666
+  keyframes: 15
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 400
+    event: playanimsound
+- name: searchair
+  durationMs: 4033
+  keyframes: 17
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 733
+    event: speakanimsound
+- name: HattackAir1
+  durationMs: 1000
+  keyframes: 14
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 157
+    event: lunge
+  - timeMs: 392
+    event: speakanimsound
+  - timeMs: 471
+    event: Rattack
+- name: HattackAir2
+  durationMs: 1500
+  keyframes: 14
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 117
+    event: lunge
+  - timeMs: 588
+    event: speakanimsound
+  - timeMs: 706
+    event: Rattack
+- name: Rattack1
+  durationMs: 1200
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 330
+    event: RangeAttack; speakanimsound
+- name: winceAir1
+  durationMs: 1373
+  keyframes: 18
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 169
+    event: speakanimsound
+- name: winceAir2
+  durationMs: 1476
+  keyframes: 16
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 295
+    event: speakanimsound
+- name: Fly
+  durationMs: 2666
+  keyframes: 14
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 400
+    event: speakanimsound
+- name: DieAir1
+  durationMs: 700
+  keyframes: 14
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 133
+    event: speakanimsound
+- name: fall1
+  durationMs: 1000
+  keyframes: 38
+  interpolationTimeMs: 0
+  events: []
+- name: FallDown1
+  durationMs: 800
+  keyframes: 13
+  interpolationTimeMs: 0
+  events:
+  - timeMs: 266
+    event: playdeathsound
+  - timeMs: 666
+    event: DeadDims 1 0 1
+- name: DieAir2
+  durationMs: 1000
+  keyframes: 26
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 333
+    event: speakanimsound
+- name: fall2
+  durationMs: 700
+  keyframes: 22
+  interpolationTimeMs: 0
+  events: []
+- name: FallDown2
+  durationMs: 800
+  keyframes: 13
+  interpolationTimeMs: 0
+  events:
+  - timeMs: 333
+    event: playdeathsound
+  - timeMs: 666
+    event: DeadDims 1 0 1
+animationBindings:
+- name: static_model1
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: standair
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - -20.48
+  - 0.0
+- name: Flap
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - -20.48
+  - 0.0
+- name: tauntair
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fidgetair1
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - -20.48
+  - 0.0
+- name: searchair
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - -20.48
+  - 0.0
+- name: HattackAir1
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - -20.48
+  - 0.0
+- name: HattackAir2
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - -20.48
+  - 0.0
+- name: Rattack1
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - -20.48
+  - 0.0
+- name: winceAir1
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - -20.48
+  - 33.28
+- name: winceAir2
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - -20.48
+  - 33.28
+- name: Fly
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: DieAir1
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fall1
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - 151.04
+  - 25.6
+- name: FallDown1
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - 58.88
+  - 0.0
+- name: DieAir2
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fall2
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - 151.04
+  - 0.0
+- name: FallDown2
+  extents:
+  - 51.2
+  - 130.56
+  - 51.2
+  origin:
+  - 0.0
+  - 56.32
+  - 0.0
+roles:
+- actor_model
+source_model: models/evileyeterror.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: evileyeterror_orbus1
+  source_skins:
+  - skins/orbus1.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 212
+    number: '228'
+    monster_name: Eye
+    type_picture: Beholder A
+    base_name: Beholder
+  - table: MONSTERS
+    row: 212
+    number: '228'
+    monster_name: Eye
+    type_picture: Beholder A
+    base_name: Beholder
+- id: evileyeterror_orbus2
+  source_skins:
+  - skins/orbus2.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 213
+    number: '229'
+    monster_name: Orbus
+    type_picture: Beholder B
+    base_name: Beholder
+  - table: MONSTERS
+    row: 213
+    number: '229'
+    monster_name: Orbus
+    type_picture: Beholder B
+    base_name: Beholder
+- id: evileyeterror_orbus3
+  source_skins:
+  - skins/orbus3.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 214
+    number: '230'
+    monster_name: Oculus
+    type_picture: Beholder C
+    base_name: Beholder
+  - table: MONSTERS
+    row: 214
+    number: '230'
+    monster_name: Oculus
+    type_picture: Beholder C
+    base_name: Beholder

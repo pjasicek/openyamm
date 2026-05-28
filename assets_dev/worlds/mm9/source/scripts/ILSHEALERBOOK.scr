@@ -1,0 +1,71 @@
+;--------------------------------------------------------
+;	ILSHealerbook.scr
+;	Timmy
+;
+;	This script Handles the healing book animations
+;
+;
+;	Parameters:
+;
+;			p0	- Amount to heal players by (default=10)
+;           p1  - Amount of times you can heal from this fountain
+;
+;--------------------------------------------------------
+
+#include healer.inc
+
+#Number					counter=0
+
+;--------------------------------------------------------
+:Onclickon
+;--------------------------------------------------------
+
+if ( counter==0,  )
+
+	Playanim OpenBook
+	Add counter, 1
+	exit
+endif
+	
+if (counter==1, )
+	Playanim TurnPage
+	Add counter, 1
+	gosub HealerOnUse
+	exit
+endif
+		
+If (counter==2, )
+	Playanim CloseBook
+	Set counter, 0
+	exit
+endif
+
+exit
+
+
+	exit
+
+;--------------------------------------------------------
+:Main
+;--------------------------------------------------------
+
+
+
+
+	GetParam 0, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set g_nHealAmt, g_nTemp
+	endif
+
+	GetParam 1, g_nTemp
+
+	if ( g_nTemp!=0 )
+		Set g_nHealCount, g_nTemp
+	endif
+
+
+
+Addtrigger use, Onclickon
+
+	exit

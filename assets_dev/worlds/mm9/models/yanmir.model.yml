@@ -1,0 +1,696 @@
+schema: openyamm.model3d.v1
+id: yanmir
+model: yanmir.glb
+source:
+  format: LithTech ABC
+  version: 13
+  path: mm9/extracted/MODELS/MODELS/YANMIR.abc
+  commandString: ShadowEnable; ShadowSizeX 100; ShadowSizeY 100; FadeRangeMax 5000;
+    FadeRangeMin 4500
+  internalRadius: 768.0
+  coordinateScale: 2.56
+  coordinateTransform: LithTech ABC local axes preserved; scene placement converts
+    Y-up to OpenYAMM Z-up
+  uvConvention: LithTech ABC UVs preserved
+lod:
+  exportedIndex: 0
+  distances:
+  - 2560.0
+  - 4.023306898564917e+25
+pieces:
+- name: staff
+  materialIndex: 0
+  lods:
+  - faces: 50
+    vertices: 29
+  - faces: 24
+    vertices: 16
+- name: head
+  materialIndex: 0
+  lods:
+  - faces: 156
+    vertices: 111
+  - faces: 116
+    vertices: 91
+- name: body
+  materialIndex: 0
+  lods:
+  - faces: 592
+    vertices: 298
+  - faces: 458
+    vertices: 231
+materials:
+- index: 0
+  texture: skins_preview/yanmir.png
+  runtime_texture: skins/yanmir.dtx
+  preview_texture: skins_preview/yanmir.png
+  source: mm9/extracted/SKINS/SKINS/YANMIR.dtx
+skeleton:
+  nodes:
+  - index: 0
+    name: Scene Root
+    parent: null
+    flags: 1
+    children:
+    - 1
+  - index: 1
+    name: Bip01 Pelvis
+    parent: 0
+    flags: 1
+    children:
+    - 2
+  - index: 2
+    name: Bip01 Spine
+    parent: 1
+    flags: 1
+    children:
+    - 3
+    - 29
+    - 34
+  - index: 3
+    name: Bip01 Spine1
+    parent: 2
+    flags: 1
+    children:
+    - 4
+  - index: 4
+    name: Bip01 Spine2
+    parent: 3
+    flags: 1
+    children:
+    - 5
+  - index: 5
+    name: Bip01 Neck
+    parent: 4
+    flags: 1
+    children:
+    - 6
+    - 8
+    - 17
+  - index: 6
+    name: Bip01 Head
+    parent: 5
+    flags: 1
+    children:
+    - 7
+  - index: 7
+    name: Bip01 Ponytail1
+    parent: 6
+    flags: 1
+    children: []
+  - index: 8
+    name: Bip01 L Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 9
+  - index: 9
+    name: Bip01 L UpperArm
+    parent: 8
+    flags: 1
+    children:
+    - 10
+  - index: 10
+    name: Bip01 L Forearm
+    parent: 9
+    flags: 1
+    children:
+    - 11
+  - index: 11
+    name: Bip01 L Hand
+    parent: 10
+    flags: 1
+    children:
+    - 12
+    - 14
+  - index: 12
+    name: Bip01 L Finger0
+    parent: 11
+    flags: 1
+    children:
+    - 13
+  - index: 13
+    name: Bip01 L Finger01
+    parent: 12
+    flags: 1
+    children: []
+  - index: 14
+    name: Bip01 L Finger1
+    parent: 11
+    flags: 1
+    children:
+    - 15
+  - index: 15
+    name: Bip01 L Finger11
+    parent: 14
+    flags: 1
+    children:
+    - 16
+  - index: 16
+    name: Bip01 L Finger12
+    parent: 15
+    flags: 1
+    children: []
+  - index: 17
+    name: Bip01 R Clavicle
+    parent: 5
+    flags: 1
+    children:
+    - 18
+  - index: 18
+    name: Bip01 R UpperArm
+    parent: 17
+    flags: 1
+    children:
+    - 19
+  - index: 19
+    name: Bip01 R Forearm
+    parent: 18
+    flags: 1
+    children:
+    - 20
+  - index: 20
+    name: Bip01 R Hand
+    parent: 19
+    flags: 1
+    children:
+    - 21
+    - 23
+    - 26
+  - index: 21
+    name: Bip01 R Finger0
+    parent: 20
+    flags: 1
+    children:
+    - 22
+  - index: 22
+    name: Bip01 R Finger01
+    parent: 21
+    flags: 1
+    children: []
+  - index: 23
+    name: Bip01 R Finger1
+    parent: 20
+    flags: 1
+    children:
+    - 24
+  - index: 24
+    name: Bip01 R Finger11
+    parent: 23
+    flags: 1
+    children:
+    - 25
+  - index: 25
+    name: Bip01 R Finger12
+    parent: 24
+    flags: 1
+    children: []
+  - index: 26
+    name: Ystaff
+    parent: 20
+    flags: 1
+    children:
+    - 27
+    - 28
+  - index: 27
+    name: Ystafftop
+    parent: 26
+    flags: 1
+    children: []
+  - index: 28
+    name: Ystaffbot
+    parent: 26
+    flags: 1
+    children: []
+  - index: 29
+    name: Bip01 L Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 30
+  - index: 30
+    name: Bip01 L Calf
+    parent: 29
+    flags: 1
+    children:
+    - 31
+  - index: 31
+    name: Bip01 L Foot
+    parent: 30
+    flags: 1
+    children:
+    - 32
+  - index: 32
+    name: Bip01 L Toe0
+    parent: 31
+    flags: 1
+    children:
+    - 33
+  - index: 33
+    name: Bip01 L Toe01
+    parent: 32
+    flags: 1
+    children: []
+  - index: 34
+    name: Bip01 R Thigh
+    parent: 2
+    flags: 1
+    children:
+    - 35
+  - index: 35
+    name: Bip01 R Calf
+    parent: 34
+    flags: 1
+    children:
+    - 36
+  - index: 36
+    name: Bip01 R Foot
+    parent: 35
+    flags: 1
+    children:
+    - 37
+  - index: 37
+    name: Bip01 R Toe0
+    parent: 36
+    flags: 1
+    children:
+    - 38
+  - index: 38
+    name: Bip01 R Toe01
+    parent: 37
+    flags: 1
+    children: []
+sockets:
+- name: Rhand1
+  node: 27
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.31948697566986084
+  - 0.6308156251907349
+  - 0.6308156251907349
+  - 0.31948667764663696
+- name: Lfoot
+  node: 33
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.4999968409538269
+  - 0.5000036954879761
+  - 0.49999627470970154
+  - 0.5000030994415283
+- name: Rfoot
+  node: 38
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - 0.5000037550926208
+  - 0.49999651312828064
+  - 0.500003457069397
+  - 0.4999961853027344
+- name: RangeAttack
+  node: 27
+  translation:
+  - 0.0
+  - 0.0
+  - 0.0
+  rotation:
+  - -0.3194861114025116
+  - 0.6308164596557617
+  - 0.630815327167511
+  - 0.31948602199554443
+animations:
+- name: stand
+  durationMs: 1800
+  keyframes: 9
+  interpolationTimeMs: 200
+  events: []
+- name: walk
+  durationMs: 1300
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 476
+    event: footstep;smallEQ
+  - timeMs: 1110
+    event: footstep;smallEQ
+- name: run
+  durationMs: 700
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 341
+    event: footstep;smallEQ
+  - timeMs: 598
+    event: footstep;smallEQ
+- name: Taunt
+  durationMs: 1400
+  keyframes: 12
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 136
+    event: PlayAnimSound
+- name: fidget1
+  durationMs: 2000
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 476
+    event: PlayAnimSound
+- name: fidget2
+  durationMs: 4000
+  keyframes: 19
+  interpolationTimeMs: 200
+  events: []
+- name: Hattack1Save
+  durationMs: 1800
+  keyframes: 15
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 520
+    event: Rattack
+  - timeMs: 1320
+    event: Rattack
+- name: HAttack1
+  durationMs: 1400
+  keyframes: 17
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge;PlayAnimSound
+  - timeMs: 520
+    event: playanimFX
+  - timeMs: 603
+    event: smallEQ;lkick
+- name: Hattack2
+  durationMs: 1000
+  keyframes: 16
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 122
+    event: PlayAnimSound
+  - timeMs: 366
+    event: playanimFX
+  - timeMs: 488
+    event: Rkick
+- name: Rattack1
+  durationMs: 900
+  keyframes: 13
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 113
+    event: PlayAnimSound
+  - timeMs: 293
+    event: PlayAnimFX
+  - timeMs: 405
+    event: RangeAttack
+- name: rAttack2
+  durationMs: 1550
+  keyframes: 17
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge;PlayAnimSound
+  - timeMs: 753
+    event: bigEQ;EQAttack;FootStep
+- name: StepOn
+  durationMs: 1400
+  keyframes: 17
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: lunge
+  - timeMs: 357
+    event: playanimsound
+  - timeMs: 603
+    event: Lkick;smallEQ
+- name: wipe
+  durationMs: 3500
+  keyframes: 21
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 1094
+    event: PlayAnimSound
+- name: wince1
+  durationMs: 1600
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 194
+    event: playanimsound
+- name: wince2
+  durationMs: 1300
+  keyframes: 9
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 215
+    event: playanimsound
+- name: startdie
+  durationMs: 1800
+  keyframes: 10
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 1536
+    event: DestroyFloor
+- name: fall
+  durationMs: 600
+  keyframes: 6
+  interpolationTimeMs: 200
+  events: []
+- name: Die
+  durationMs: 1300
+  keyframes: 9
+  interpolationTimeMs: 200
+  events: []
+- name: KickDoor
+  durationMs: 1000
+  keyframes: 16
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 0
+    event: PlayAnimSound
+  - timeMs: 341
+    event: PlayAnimFX
+  - timeMs: 488
+    event: OpenDoor;smallEQ
+- name: rAttack1Old
+  durationMs: 1000
+  keyframes: 8
+  interpolationTimeMs: 200
+  events:
+  - timeMs: 778
+    event: RangeAttack
+animationBindings:
+- name: stand
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: walk
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: run
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Taunt
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fidget1
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fidget2
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Hattack1Save
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: HAttack1
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Hattack2
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Rattack1
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: rAttack2
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: StepOn
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: wipe
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: wince1
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: wince2
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: startdie
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: fall
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: Die
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: KickDoor
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+- name: rAttack1Old
+  extents:
+  - 153.6
+  - 478.72
+  - 153.6
+  origin:
+  - 0.0
+  - 0.0
+  - 0.0
+roles:
+- actor_model
+source_model: models/yanmir.abc
+source_tables:
+- ACTOR
+- MONSTERS
+skin_bindings:
+- id: yanmir_yanmir
+  source_skins:
+  - skins/yanmir.dtx
+  actor_rows:
+  - table: ACTOR
+    row: 195
+    number: '206'
+    monster_name: Yanmir
+    type_picture: Giant C
+    base_name: Yanmir
+  - table: MONSTERS
+    row: 195
+    number: '206'
+    monster_name: Yanmir
+    type_picture: Giant C
+    base_name: Yanmir

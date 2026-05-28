@@ -1,0 +1,222 @@
+format_version: 1
+source_file: NPC29.rude
+rows:
+  - source:
+      file: NPC29.rude
+      row: 1
+    raw_columns:
+      - 29
+      - 2
+      - 1
+      - Good luck
+      - Goodbye.
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 29
+      node_id: 2
+      choice_slot: 1
+      prompt: Good luck
+      response: Goodbye.
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close
+  - source:
+      file: NPC29.rude
+      row: 2
+    raw_columns:
+      - 29
+      - 29
+      - 1
+      - Why aren't you working?
+      - I'm a member of the United Group of Thjoradric Miners!  I refuse to work until the conditions in the mines improve!
+      - 2
+      - 9
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 29
+      node_id: 29
+      choice_slot: 1
+      prompt: Why aren't you working?
+      response: I'm a member of the United Group of Thjoradric Miners!  I refuse to work until the conditions in the mines improve!
+      next: 2
+      raw_fields:
+        c07: 9
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: goto_node
+        target_node: 2
+      conditions:
+        required_keys:
+          - column: c07
+            raw_id: 9
+            qbit_id: 9009
+            state_id: mm9.keys.9
+      state_refs:
+        - domain: mm9.keys
+          raw_id: 9
+          qbit_id: 9009
+          state_id: mm9.keys.9
+  - source:
+      file: NPC29.rude
+      row: 3
+    raw_columns:
+      - 29
+      - 29
+      - 2
+      - Sorry.  Goodbye
+      - Go away!
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    decoded:
+      npc_id: 29
+      node_id: 29
+      choice_slot: 2
+      prompt: Sorry.  Goodbye
+      response: Go away!
+      next: -1
+      raw_fields:
+        c07: 0
+        c08: 0
+        c09: 0
+        c10: 0
+        c11: 0
+        c12: 0
+        c13: 0
+        c14: 0
+        c15: 0
+        c16: 0
+        c17: 0
+        c18: 0
+        c19: 0
+        c20: 0
+        c21: 0
+        c22: 0
+        c23: 0
+        c24: 0
+        c25: 0
+        c26: 0
+        c27: 0
+        c28: 0
+        c29: 0
+        c30: 0
+    semantic:
+      action:
+        kind: close

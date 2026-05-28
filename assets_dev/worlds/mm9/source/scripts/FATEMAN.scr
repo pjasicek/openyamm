@@ -1,0 +1,463 @@
+;----------------------------------------------
+;LoseMan.scr
+; By Timmy
+; 12/20
+;handles losegame cutscene
+;----------------------------------------------
+
+#include globals.inc 
+
+#number		nCounter=0
+
+
+
+#string		sVoice1
+#string		sVoice2
+#string		sVoice3
+#string		sVoice4
+#string		sVoice5
+#string		sVoice6
+
+
+;-------------------------------------
+:OnLose
+;-------------------------------------
+
+
+
+haskey 98 g_ntemp
+if (g_ntemp==TRUE)
+	exit
+endif
+
+givekey 98
+
+ScreenFadeOut 1
+wait 1 2 OnStart
+exit
+
+;-------------------------------------
+:OnStart
+;-------------------------------------
+
+getobjecthandle Losecam4 g_hobject 
+;trigger g_hobject On
+trigger g_hobject Play
+
+exit
+
+;-------------------------------------
+:OnCam2
+;-------------------------------------
+
+
+ScreenFadeOut .5
+getobjecthandle losecam4 g_hobject
+trigger g_hobject off
+
+getobjecthandle losecam2 g_hobject
+trigger g_hobject Play
+exit
+
+;-------------------------------------
+:OnCam3
+;-------------------------------------
+
+
+ScreenFadeOut .5
+getobjecthandle losecam2 g_hobject
+trigger g_hobject off
+
+getobjecthandle losecam3 g_hobject
+trigger g_hobject on
+ScreenFadein .5
+wait 1 1 Scene4
+exit
+
+;-------------------------------------
+:Scene4
+;-------------------------------------
+
+getobjecthandle Door0 g_hobject
+trigger g_hobject use
+Playsound \Sounds\events\draweropenwood.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1.5 Speak9
+exit
+
+;-------------------------------------
+:Speak9
+;-------------------------------------
+
+getobjecthandle hanndl g_hobject
+trigger g_hobject speak9
+
+exit
+
+;-------------------------------------
+:Close
+;-------------------------------------
+
+getobjecthandle Door0 g_hobject
+trigger g_hobject use
+Playsound \Sounds\events\draweropenwood.wav, DoNothing, 100, 24000, FALSE, 100
+wait 1 1 FadeOut
+exit
+
+;-------------------------------------
+:FadeOut
+;-------------------------------------
+
+ScreenFadeOut 1
+letterbox False
+wait 1 1 ExitIN
+exit
+
+
+;-------------------------------------
+:ExitIN
+;-------------------------------------
+
+screenfadein 2
+getobjecthandle ExitTrigger2 g_hobject
+trigger g_hobject trigger
+GiveExp 46000
+Playsound sounds\events\quest.wav, DoNothing, 100, 24000, FALSE, 100
+exit
+
+;-------------------------------------
+:OnPC1
+;-------------------------------------
+
+Playsound sVoice1, Trigger10, 100, 24000, FALSE, 100
+;wait 1 2.5 Trigger10
+exit
+
+;-------------------------------------
+:Trigger10
+;-------------------------------------
+
+getobjecthandle Hanndl g_hobject
+trigger g_hobject Speak10
+exit
+
+
+;-------------------------------------
+:OnPC2
+;-------------------------------------
+
+Playsound sVoice2, Trigger11, 100, 24000, FALSE, 100
+;wait 1 3 Trigger11
+exit
+
+;-------------------------------------
+:Trigger11
+;-------------------------------------
+
+getobjecthandle Hanndl g_hobject
+trigger g_hobject Speak11
+exit
+
+;-------------------------------------
+:OnPC3
+;-------------------------------------
+
+Playsound sVoice3, Trigger12, 100, 24000, FALSE, 100
+;wait 1 3.5 Trigger12
+exit
+
+;-------------------------------------
+:Trigger12
+;-------------------------------------
+
+getobjecthandle Hanndl g_hobject
+trigger g_hobject Speak12
+exit
+
+;-------------------------------------
+:OnPC4
+;-------------------------------------
+
+Playsound sVoice4, Trigger13, 100, 24000, FALSE, 100
+;wait 1 3.5 OnPC5
+exit
+
+;-------------------------------------
+:Trigger13
+;-------------------------------------
+
+getobjecthandle Hanndl g_hobject
+trigger g_hobject Speak13
+exit
+
+;-------------------------------------
+:OnPC5
+;-------------------------------------
+
+Playsound sVoice5, Trigger13, 100, 24000, FALSE, 100
+;wait 1 3.5 Trigger13
+exit
+
+
+
+;-------------------------------------
+:OnPC6
+;-------------------------------------
+
+Playsound sVoice6, Trigger15, 100, 24000, FALSE, 100
+;wait 1 2.5 Trigger15
+exit
+
+;-------------------------------------
+:Trigger15
+;-------------------------------------
+
+getobjecthandle Hanndl g_hobject
+trigger g_hobject Speak15
+exit
+
+;-------------------------------------
+:OnDone
+;-------------------------------------
+
+nCounter = nCounter + 1
+
+if (nCounter==1)
+	goto OnPC1
+	exit
+endif
+
+if (nCounter==2)
+	goto OnPC2
+	exit
+endif
+
+if (nCounter==3)
+	goto OnPC3
+	exit
+endif
+
+if (nCounter==4)
+	goto OnPC4
+	exit
+endif
+
+if (nCounter==5)
+	goto OnPC6
+	exit
+endif
+
+if (nCounter==6)
+	goto OnPC6
+	exit
+endif
+exit
+
+;-------------------------------------
+:Init
+;-------------------------------------
+
+
+
+getPCVoice g_ntemp
+
+
+if (g_ntemp==0)
+	set sVoice1 voices\cinema\AngryFemale\AngryFText01a.wav
+	set sVoice2 voices\cinema\AngryFemale\AngryFText02a.wav
+	set sVoice3 voices\cinema\AngryFemale\AngryFText03a.wav
+	set sVoice4 voices\cinema\AngryFemale\AngryFText04a.wav
+	set sVoice5 voices\cinema\AngryFemale\AngryFText05a.wav
+	set sVoice6 voices\cinema\AngryFemale\AngryFText06a.wav
+	exit
+endif
+
+if (g_ntemp==1)
+	set sVoice1 voices\cinema\ArrogantFemale\ArrogantFText01a.wav
+	set sVoice2 voices\cinema\ArrogantFemale\ArrogantFText02b.wav
+	set sVoice3 voices\cinema\ArrogantFemale\ArrogantFText03a.wav
+	set sVoice4 voices\cinema\ArrogantFemale\ArrogantFText04a.wav
+	set sVoice5 voices\cinema\ArrogantFemale\ArrogantFText05a.wav
+	set sVoice6 voices\cinema\ArrogantFemale\ArrogantFText06a.wav
+	exit
+endif
+
+if (g_ntemp==2)
+	set sVoice1 voices\cinema\AssertiveFemale\AssertiveFText01.wav
+	set sVoice2 voices\cinema\AssertiveFemale\AssertiveFText02.wav
+	set sVoice3 voices\cinema\AssertiveFemale\AssertiveFText03.wav
+	set sVoice4 voices\cinema\AssertiveFemale\AssertiveFText04.wav
+	set sVoice5 voices\cinema\AssertiveFemale\AssertiveFText05.wav
+	set sVoice6 voices\cinema\AssertiveFemale\AssertiveFText06.wav
+	exit
+endif
+
+if (g_ntemp==3)
+	set sVoice1 voices\cinema\CowardlyFemale\CowardlyFText01b.wav
+	set sVoice2 voices\cinema\CowardlyFemale\CowardlyFText02.wav
+	set sVoice3 voices\cinema\CowardlyFemale\CowardlyFText03.wav
+	set sVoice4 voices\cinema\CowardlyFemale\CowardlyFText04b.wav
+	set sVoice5 voices\cinema\CowardlyFemale\CowardlyFText05.wav
+	set sVoice6 voices\cinema\CowardlyFemale\CowardlyFText06.wav
+	exit
+endif
+
+if (g_ntemp==4)
+	set sVoice1 voices\cinema\DimFemale\DimFText01.wav
+	set sVoice2 voices\cinema\DimFemale\DimFText02.wav
+	set sVoice3 voices\cinema\DimFemale\DimFText03.wav
+	set sVoice4 voices\cinema\DimFemale\DimFText04.wav
+	set sVoice5 voices\cinema\DimFemale\DimFText05.wav
+	set sVoice6 voices\cinema\DimFemale\DimFText06.wav
+	exit
+endif
+
+if (g_ntemp==5)
+	set sVoice1 voices\cinema\HappyFemale\HappyFText01.wav
+	set sVoice2 voices\cinema\HappyFemale\HappyFText02.wav
+	set sVoice3 voices\cinema\HappyFemale\HappyFText03.wav
+	set sVoice4 voices\cinema\HappyFemale\HappyFText04.wav
+	set sVoice5 voices\cinema\HappyFemale\HappyFText05.wav
+	set sVoice6 voices\cinema\HappyFemale\HappyFText06.wav
+	exit
+endif
+
+if (g_ntemp==6)
+	set sVoice1 voices\cinema\SarcasticFemale\SarcasticFText01.wav
+	set sVoice2 voices\cinema\SarcasticFemale\SarcasticFText02.wav
+	set sVoice3 voices\cinema\SarcasticFemale\SarcasticFText03.wav
+	set sVoice4 voices\cinema\SarcasticFemale\SarcasticFText04.wav
+	set sVoice5 voices\cinema\SarcasticFemale\SarcasticFText05.wav
+	set sVoice6 voices\cinema\SarcasticFemale\SarcasticFText06.wav
+	exit
+endif
+
+if (g_ntemp==7)
+	set sVoice1 voices\cinema\LichFemale\LichFText01.wav
+	set sVoice2 voices\cinema\LichFemale\LichFText02.wav
+	set sVoice3 voices\cinema\LichFemale\LichFText03.wav
+	set sVoice4 voices\cinema\LichFemale\LichFText04.wav
+	set sVoice5 voices\cinema\LichFemale\LichFText05.wav
+	set sVoice6 voices\cinema\LichFemale\LichFText06.wav
+	exit
+endif
+
+if (g_ntemp==8)
+	set sVoice1 voices\cinema\HalfOrcLichFemale\HalfOrcLichFText01.wav
+	set sVoice2 voices\cinema\HalfOrcLichFemale\HalfOrcLichFText02.wav
+	set sVoice3 voices\cinema\HalfOrcLichFemale\HalfOrcLichFText03.wav
+	set sVoice4 voices\cinema\HalfOrcLichFemale\HalfOrcLichFText04.wav
+	set sVoice5 voices\cinema\HalfOrcLichFemale\HalfOrcLichFText05.wav
+	set sVoice6 voices\cinema\HalfOrcLichFemale\HalfOrcLichFText06.wav
+	exit
+endif
+
+if (g_ntemp==9)
+	set sVoice1 voices\cinema\Angrymale\AngryText01a.wav
+	set sVoice2 voices\cinema\Angrymale\AngryText02.wav
+	set sVoice3 voices\cinema\Angrymale\AngryText03.wav
+	set sVoice4 voices\cinema\Angrymale\AngryText04.wav
+	set sVoice5 voices\cinema\Angrymale\AngryText05.wav
+	set sVoice6 voices\cinema\Angrymale\AngryText06a.wav
+	exit
+endif
+
+if (g_ntemp==10)
+	set sVoice1 voices\cinema\ArrogantMale\ArrogantMText01.wav
+	set sVoice2 voices\cinema\ArrogantMale\ArrogantMText02.wav
+	set sVoice3 voices\cinema\ArrogantMale\ArrogantMText03.wav
+	set sVoice4 voices\cinema\ArrogantMale\ArrogantMText04.wav
+	set sVoice5 voices\cinema\ArrogantMale\ArrogantMText05.wav
+	set sVoice6 voices\cinema\ArrogantMale\ArrogantMText06.wav
+	exit
+endif
+
+if (g_ntemp==11)
+	set sVoice1 voices\cinema\AssertiveMale\AssertiveMText01.wav
+	set sVoice2 voices\cinema\AssertiveMale\AssertiveMText02a.wav
+	set sVoice3 voices\cinema\AssertiveMale\AssertiveMText03.wav
+	set sVoice4 voices\cinema\AssertiveMale\AssertiveMText04.wav
+	set sVoice5 voices\cinema\AssertiveMale\AssertiveMText05.wav
+	set sVoice6 voices\cinema\AssertiveMale\AssertiveMText06.wav
+	exit
+endif
+
+if (g_ntemp==12)
+	set sVoice1 voices\cinema\CowardlyMale\CowardlyMText01.wav
+	set sVoice2 voices\cinema\CowardlyMale\CowardlyMText02.wav
+	set sVoice3 voices\cinema\CowardlyMale\CowardlyMText03.wav
+	set sVoice4 voices\cinema\CowardlyMale\CowardlyMText04.wav
+	set sVoice5 voices\cinema\CowardlyMale\CowardlyMText05.wav
+	set sVoice6 voices\cinema\CowardlyMale\CowardlyMText06.wav
+	exit
+endif
+
+if (g_ntemp==13)
+	set sVoice1 voices\cinema\DimMale\DimMText01.wav
+	set sVoice2 voices\cinema\DimMale\DimMText02.wav
+	set sVoice3 voices\cinema\DimMale\DimMText03.wav
+	set sVoice4 voices\cinema\DimMale\DimMText04.wav
+	set sVoice5 voices\cinema\DimMale\DimMText05.wav
+	set sVoice6 voices\cinema\DimMale\DimMText06.wav
+	exit
+endif
+
+if (g_ntemp==14)
+	set sVoice1 voices\cinema\HappyMale\HappyMText01.wav
+	set sVoice2 voices\cinema\HappyMale\HappyMText02.wav
+	set sVoice3 voices\cinema\HappyMale\HappyMText03.wav
+	set sVoice4 voices\cinema\HappyMale\HappyMText04.wav
+	set sVoice5 voices\cinema\HappyMale\HappyMText05.wav
+	set sVoice6 voices\cinema\HappyMale\HappyMText06.wav
+	exit
+endif
+
+if (g_ntemp==15)
+	set sVoice1 voices\cinema\SarcasticMale\SarcasticMText01.wav
+	set sVoice2 voices\cinema\SarcasticMale\SarcasticMText02.wav
+	set sVoice3 voices\cinema\SarcasticMale\SarcasticMText03.wav
+	set sVoice4 voices\cinema\SarcasticMale\SarcasticMText04.wav
+	set sVoice5 voices\cinema\SarcasticMale\SarcasticMText05.wav
+	set sVoice6 voices\cinema\SarcasticMale\SarcasticMText06.wav
+	exit
+endif
+
+if (g_ntemp==16)
+	set sVoice1 voices\cinema\LichMale\LichMText01.wav
+	set sVoice2 voices\cinema\LichMale\LichMText02.wav
+	set sVoice3 voices\cinema\LichMale\LichMText03.wav
+	set sVoice4 voices\cinema\LichMale\LichMText04.wav
+	set sVoice5 voices\cinema\LichMale\LichMText05.wav
+	set sVoice6 voices\cinema\LichMale\LichMText06.wav
+	exit
+endif
+
+if (g_ntemp==17)
+	set sVoice1 voices\cinema\HalfOrcLichMale\HalfOrcLichMText01.wav
+	set sVoice2 voices\cinema\HalfOrcLichMale\HalfOrcLichMText02.wav
+	set sVoice3 voices\cinema\HalfOrcLichMale\HalfOrcLichMText03.wav
+	set sVoice4 voices\cinema\HalfOrcLichMale\HalfOrcLichMText04.wav
+	set sVoice5 voices\cinema\HalfOrcLichMale\HalfOrcLichMText05.wav
+	set sVoice6 voices\cinema\HalfOrcLichMale\HalfOrcLichMText06.wav
+	exit
+endif
+
+exit
+
+;-------------------------------------
+:Main
+;-------------------------------------
+
+;TraceOn ;DELETE ME!!
+
+Addtrigger Lose, OnLose
+Addtrigger Cam2 OnCam2
+Addtrigger cam3 OnCam3
+AddTrigger FadeOut Close
+Addtrigger Done OnDone
+;wait 1 1 Init
+wait 1 .1 OnLose
+OnPostStartWorld OnLose
+OnPostMiniSaveLoad OnLose
+OnPostSaveLoad OnLose
+gosub Init
+exit
