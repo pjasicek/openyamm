@@ -1,6 +1,7 @@
 #include "game/events/EventDialogContent.h"
 
 #include "game/events/ISceneEventContext.h"
+#include "game/gameplay/ArenaRuntime.h"
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/MasteryTeacherDialog.h"
 #include "game/gameplay/ReputationRuntime.h"
@@ -1203,6 +1204,10 @@ EventDialogContent buildEventDialogContent(
             pCurrentOffer != nullptr
             && pCurrentOffer->kind == DialogueOfferKind::NpcHire
             && pCurrentOffer->npcId == dialog.sourceId;
+        const bool hasPendingArenaOffer =
+            pCurrentOffer != nullptr
+            && pCurrentOffer->kind == DialogueOfferKind::Arena
+            && pCurrentOffer->npcId == dialog.sourceId;
         const bool hasEventMessageLines = !eventMessageLines.empty();
         allowEmptyNpcTalkDialog =
             context.kind == DialogueContextKind::NpcTalk
@@ -1247,6 +1252,7 @@ EventDialogContent buildEventDialogContent(
             && !hasPendingMasteryTeacherOffer
             && !hasPendingGuildMembershipOffer
             && !hasPendingNpcHireOffer
+            && !hasPendingArenaOffer
             && !hasEventMessageLines
             && pGreeting != nullptr)
         {
@@ -1340,6 +1346,18 @@ EventDialogContent buildEventDialogContent(
                 declineAction.kind = EventDialogActionKind::NpcHireDecline;
                 declineAction.label = "No";
                 dialog.actions.push_back(std::move(declineAction));
+            }
+            else if (hasPendingArenaOffer)
+            {
+                for (uint32_t index = 0; index < 4; ++index)
+                {
+                    const ArenaDifficulty difficulty = arenaDifficultyFromActionId(index);
+                    EventDialogAction action = {};
+                    action.kind = EventDialogActionKind::ArenaDifficulty;
+                    action.id = index;
+                    action.label = arenaDifficultyLabel(difficulty);
+                    dialog.actions.push_back(std::move(action));
+                }
             }
             else
             {

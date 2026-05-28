@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/scene/IndoorSceneRuntime.h"
+#include "game/mm9/Mm9ScriptRuntime.h"
 #include "game/scene/SceneKind.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
@@ -21,6 +22,7 @@ struct GameSaveData
     std::string mapFileName;
     Party::Snapshot party;
     std::unordered_map<std::string, int32_t> namedGlobalVars;
+    Mm9ScriptRuntimeState mm9ScriptState;
     bool hasOutdoorRuntimeState = false;
     OutdoorPartyRuntime::Snapshot outdoorParty;
     OutdoorWorldRuntime::Snapshot outdoorWorld;

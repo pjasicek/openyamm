@@ -30,6 +30,7 @@ enum class OutdoorActorCollisionSource
 {
     Spawn,
     MapDelta,
+    Mm9ScriptedObject,
 };
 
 struct OutdoorActorCollision
@@ -43,6 +44,7 @@ struct OutdoorActorCollision
     int worldZ = 0;
     uint32_t attributes = 0;
     uint32_t group = 0;
+    bool reportContact = true;
     std::string name;
 };
 

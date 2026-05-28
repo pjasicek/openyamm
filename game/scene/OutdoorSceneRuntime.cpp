@@ -43,6 +43,8 @@ std::vector<OutdoorActorCollision> buildRuntimeActorColliders(const OutdoorWorld
         colliders.push_back(std::move(collider));
     }
 
+    worldRuntime.appendMm9ScriptedBillboardMovementColliders(colliders);
+
     return colliders;
 }
 

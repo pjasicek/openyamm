@@ -28,7 +28,14 @@
 #include "game/tables/ObjectTable.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/render/lighting/LightingStats.h"
+#include "game/render/AnimatedModelRenderer.h"
 #include "game/gameplay/GameplaySpellActionController.h"
+#include "game/mm9/Mm9DialoguePackage.h"
+#include "game/mm9/Mm9DialogueRuntime.h"
+#include "game/mm9/Mm9ScriptRuntime.h"
+#include "game/mm9/Mm9AnimatedActorVisual.h"
+#include "game/mm9/Mm9ScriptedObjectRuntime.h"
+#include "game/mm9/Mm9ScriptedBillboardVisuals.h"
 #include "game/tables/ReadableScrollTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
@@ -81,6 +88,7 @@ class GameplayScreenRuntime;
 struct ArcomageLibrary;
 class ItemTable;
 struct GameApplicationTestAccess;
+struct OutdoorGameViewMm9TestAccess;
 struct ItemDefinition;
 
 struct TerrainTextureAtlasMipPixels
@@ -114,6 +122,8 @@ public:
         const std::optional<DecorationBillboardSet> &outdoorDecorationBillboardSet,
         const std::optional<ActorPreviewBillboardSet> &outdoorActorPreviewBillboardSet,
         const std::optional<SpriteObjectBillboardSet> &outdoorSpriteObjectBillboardSet,
+        const std::optional<OutdoorSceneData> &outdoorSceneData,
+        const std::optional<Mm9EventsData> &mm9EventsData,
         const std::optional<MapDeltaData> &outdoorMapDeltaData,
         GameAudioSystem *pGameAudioSystem,
         OutdoorSceneRuntime &sceneRuntime,
@@ -131,6 +141,7 @@ public:
 
 private:
     friend struct GameApplicationTestAccess;
+    friend struct OutdoorGameViewMm9TestAccess;
     friend class GameplayScreenRuntime;
     friend class GameplayHudRenderer;
     friend class GameplayPartyOverlayRenderer;
@@ -276,6 +287,14 @@ private:
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
 
+    struct Mm9AnimatedActorTextureHandle
+    {
+        std::string textureName;
+        int width = 0;
+        int height = 0;
+        bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
+    };
+
     struct AnimatedWaterTerrainTileState
     {
         OutdoorTerrainAtlasRegion region;
@@ -364,6 +383,20 @@ public:
         float hitX = 0.0f;
         float hitY = 0.0f;
         float hitZ = 0.0f;
+        std::string mm9MapId;
+        std::string mm9ObjectId;
+        size_t mm9SourceObjectIndex = 0;
+        std::string mm9SourceClass;
+        std::string mm9SourceName;
+        std::string mm9VisualId;
+        std::string mm9SourceModel;
+        std::string mm9SourceSkin;
+        std::string mm9ScriptName;
+        std::string mm9ScriptParams;
+        float mm9CollisionRadius = 0.0f;
+        float mm9CollisionHeight = 0.0f;
+        std::string mm9MovementState;
+        std::string mm9CurrentClip;
     };
 
     struct KeyboardInteractionSamplePoint
@@ -450,6 +483,14 @@ private:
         uint64_t startedTicks = 0;
     };
 
+    using Mm9ScriptedBillboardInstance = Mm9ScriptedObject;
+
+    struct Mm9AnimatedActorInstance
+    {
+        Mm9AnimatedActorVisual visual;
+        std::shared_ptr<AnimatedModelAsset> asset;
+    };
+
     HeldInventoryItemState &heldInventoryItem();
     const HeldInventoryItemState &heldInventoryItem() const;
 
@@ -507,6 +548,8 @@ public:
     float gameplayCameraYawRadians() const override;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void executeActiveDialogAction() override;
+    const std::vector<Mm9ScriptedObject> &mm9ScriptedBillboardInstances() const;
+    const std::vector<Mm9AnimatedActorInstance> &mm9AnimatedActorInstances() const;
     GameSettings &mutableSettings();
     std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState();
     const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const;
@@ -578,6 +621,10 @@ private:
     std::optional<DecorationBillboardSet> m_outdoorDecorationBillboardSet;
     std::optional<ActorPreviewBillboardSet> m_outdoorActorPreviewBillboardSet;
     std::optional<SpriteObjectBillboardSet> m_outdoorSpriteObjectBillboardSet;
+    std::optional<Mm9ScriptedBillboardVisualSet> m_mm9ScriptedBillboardVisuals;
+    std::optional<Mm9ScriptedObjectRuntime> m_mm9ScriptedObjectRuntime;
+    std::vector<Mm9ScriptedBillboardInstance> m_mm9ScriptedBillboardInstances;
+    std::vector<Mm9AnimatedActorInstance> m_mm9AnimatedActorInstances;
     std::optional<MapDeltaData> m_outdoorMapDeltaData;
     GameAudioSystem *m_pGameAudioSystem;
     OutdoorSceneRuntime *m_pOutdoorSceneRuntime;
@@ -637,6 +684,8 @@ private:
     uint64_t m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
     uint64_t m_bloodSplatVertexBufferRevision = std::numeric_limits<uint64_t>::max();
     std::deque<BillboardTextureHandle> m_billboardTextureHandles;
+    AnimatedModelRenderResources m_animatedModelRenderResources;
+    std::vector<Mm9AnimatedActorTextureHandle> m_mm9AnimatedActorTextureHandles;
     WorldFxRenderResources m_worldFxRenderResources;
     std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightPositions = {};
     std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightColors = {};
@@ -684,9 +733,29 @@ private:
         uint64_t fxContactShadowItems = 0;
         uint64_t fxContactShadowSubmits = 0;
     };
+
+    struct OutdoorAnimatedModelRenderDiagnostics
+    {
+        uint64_t visibleAnimatedModels = 0;
+        uint64_t evaluatedSkeletons = 0;
+        uint64_t evaluatedNodes = 0;
+        uint64_t renderPrepDrawItems = 0;
+        uint64_t submittedDraws = 0;
+        uint64_t submittedTriangles = 0;
+        uint64_t uploadedBoneMatrices = 0;
+        uint64_t materialSwitches = 0;
+        uint64_t textureUploads = 0;
+        uint64_t missingTextures = 0;
+        uint64_t failedTextureUploads = 0;
+        uint64_t skippedDrawItems = 0;
+        uint64_t cpuAnimationNanoseconds = 0;
+    };
+
     OutdoorSpriteRenderDiagnostics m_outdoorSpriteRenderDiagnostics = {};
+    OutdoorAnimatedModelRenderDiagnostics m_outdoorAnimatedModelRenderDiagnostics = {};
     std::unordered_map<int16_t, std::unordered_map<std::string, size_t>> m_billboardTextureIndexByPalette;
     std::unordered_map<std::string, size_t> m_decorationBitmapTextureIndexByName;
+    std::unordered_map<std::string, size_t> m_mm9AnimatedActorTextureIndexByName;
     std::vector<SkyTextureHandle> m_skyTextureHandles;
     std::unordered_map<std::string, size_t> m_skyTextureIndexByName;
     std::vector<ForcePerspectiveVertex> m_cachedSkyVertices;
@@ -757,6 +826,9 @@ private:
     InspectHit m_cachedHoverInspectHit;
     OutdoorPartyRuntime *m_pOutdoorPartyRuntime;
     const Engine::AssetFileSystem *m_pAssetFileSystem;
+    std::optional<Mm9DialoguePackage> m_mm9DialoguePackage;
+    std::unique_ptr<Mm9DialogueRuntime> m_mm9DialogueRuntime;
+    std::unique_ptr<Mm9ScriptRuntime> m_mm9ScriptRuntime;
     GameSettings m_gameSettings = GameSettings::createDefault();
     ViewDistanceCache m_viewDistanceCache;
     std::filesystem::path m_autosavePath =

@@ -354,4 +354,55 @@ std::optional<std::string> SoundCatalog::buildVirtualPath(SoundRef sound) const
     return scopedAudioDirectory(SoundScope::Engine, m_activeWorldId) + "/" + pEntry->name + ".wav";
 }
 
+std::optional<std::string> SoundCatalog::buildVirtualPathByName(SoundScope scope, const std::string &soundName) const
+{
+    const std::string lowerName = toLowerCopy(trimCopy(soundName));
+    if (lowerName.empty())
+    {
+        return std::nullopt;
+    }
+
+    const auto findPathInScope = [this, &lowerName](SoundScope lookupScope) -> std::optional<std::string>
+    {
+        const std::unordered_map<std::string, std::string> &virtualPathByLowerName =
+            virtualPathIndexByScope(lookupScope);
+        const std::unordered_map<std::string, std::string>::const_iterator resolvedPathIt =
+            virtualPathByLowerName.find(lowerName);
+
+        if (resolvedPathIt != virtualPathByLowerName.end())
+        {
+            return resolvedPathIt->second;
+        }
+
+        return std::nullopt;
+    };
+
+    if (scope == SoundScope::World)
+    {
+        if (const std::optional<std::string> worldPath = findPathInScope(SoundScope::World))
+        {
+            return *worldPath;
+        }
+
+        if (const std::optional<std::string> enginePath = findPathInScope(SoundScope::Engine))
+        {
+            return *enginePath;
+        }
+    }
+    else
+    {
+        if (const std::optional<std::string> enginePath = findPathInScope(SoundScope::Engine))
+        {
+            return *enginePath;
+        }
+
+        if (const std::optional<std::string> worldPath = findPathInScope(SoundScope::World))
+        {
+            return *worldPath;
+        }
+    }
+
+    return std::nullopt;
+}
+
 }

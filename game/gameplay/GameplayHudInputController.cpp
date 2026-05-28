@@ -476,7 +476,6 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
                 context.openQuickReferenceOverlay();
                 break;
             case GameplayHudPointerTargetType::AttackButton:
-                context.interactionState().gameplayHudAttackRequested = true;
                 break;
             case GameplayHudPointerTargetType::TriggerButton:
                 context.interactionState().gameplayHudTriggerRequested = true;

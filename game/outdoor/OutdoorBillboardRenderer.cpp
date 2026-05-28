@@ -62,6 +62,7 @@ constexpr uint64_t ColoredAdditiveRenderState =
 constexpr float BillboardAmbientLight = 0.85f;
 constexpr float BillboardLightContributionScale = 0.7f;
 constexpr const char *ContactShadowTextureName = "__contact_shadow_blob__";
+constexpr const char *Mm9MissingScriptedBillboardTextureName = "__mm9_missing_scripted_billboard__";
 constexpr float HoveredActorOutlineThicknessPixels = 2.0f;
 constexpr float OutdoorFogNearOpacity = 0.04f;
 constexpr float OutdoorFogStrongOpacity = 176.0f / 255.0f;
@@ -285,6 +286,20 @@ uint32_t computeBillboardFogColorAbgr(const OutdoorWorldRuntime::AtmosphereState
 uint32_t currentAnimationTicks()
 {
     return static_cast<uint32_t>((static_cast<uint64_t>(SDL_GetTicks()) * 128ULL) / 1000ULL);
+}
+
+float normalizedPositiveRadians(float radians)
+{
+    const float twoPi = Pi * 2.0f;
+    while (radians < 0.0f)
+    {
+        radians += twoPi;
+    }
+    while (radians >= twoPi)
+    {
+        radians -= twoPi;
+    }
+    return radians;
 }
 
 std::optional<std::vector<uint8_t>> loadSpriteBitmapPixelsBgra(
@@ -759,6 +774,25 @@ uint32_t OutdoorBillboardRenderer::computeBillboardLightContributionAbgr(
         lightContributionByte(rgb[0]),
         lightContributionByte(rgb[1]),
         lightContributionByte(rgb[2]));
+}
+
+std::string OutdoorBillboardRenderer::resolveMm9ScriptedBillboardAngleName(
+    const Mm9ScriptedBillboardVisual &visual,
+    const OutdoorGameView::Mm9ScriptedBillboardInstance &instance,
+    const bx::Vec3 &cameraPosition)
+{
+    if (visual.angleNames.empty())
+    {
+        return {};
+    }
+
+    const float angleToCamera = std::atan2(cameraPosition.y - instance.y, cameraPosition.x - instance.x);
+    const float relativeRadians = normalizedPositiveRadians(angleToCamera - instance.facingRadians);
+    const float sectorRadians = (Pi * 2.0f) / static_cast<float>(visual.angleNames.size());
+    const size_t angleIndex =
+        static_cast<size_t>(std::floor((relativeRadians + sectorRadians * 0.5f) / sectorRadians))
+        % visual.angleNames.size();
+    return visual.angleNames[angleIndex];
 }
 
 std::optional<OutdoorGameView::InspectHit> OutdoorBillboardRenderer::resolveHoveredOutlineInspectHit(
@@ -1911,6 +1945,133 @@ const OutdoorGameView::BillboardTextureHandle *OutdoorBillboardRenderer::ensureS
     return &view.m_billboardTextureHandles.back();
 }
 
+const OutdoorGameView::BillboardTextureHandle *OutdoorBillboardRenderer::ensureMm9ScriptedBillboardTexture(
+    OutdoorGameView &view,
+    const Mm9ScriptedBillboardFrame &frame)
+{
+    const OutdoorGameView::BillboardTextureHandle *pExistingTexture =
+        view.findBillboardTexture(frame.textureName, 0);
+
+    if (pExistingTexture != nullptr)
+    {
+        return pExistingTexture;
+    }
+
+    if (view.m_pAssetFileSystem == nullptr || frame.path.empty())
+    {
+        return nullptr;
+    }
+
+    const std::string virtualPath = std::string(Mm9ScriptedBillboardVisualRoot) + "/" + frame.path;
+    const std::optional<std::vector<uint8_t>> imageBytes =
+        view.m_pAssetFileSystem->readBinaryFile(virtualPath);
+
+    if (!imageBytes)
+    {
+        return nullptr;
+    }
+
+    const std::optional<Engine::ImagePixelsBgra> decodedPixels =
+        Engine::decodeImagePixelsBgra(*imageBytes, virtualPath);
+
+    if (!decodedPixels || decodedPixels->width <= 0 || decodedPixels->height <= 0 || decodedPixels->pixels.empty())
+    {
+        return nullptr;
+    }
+
+    OutdoorBitmapTexture texture = {};
+    texture.textureName = frame.textureName;
+    texture.paletteId = 0;
+    texture.width =
+        Engine::scalePhysicalPixelsToLogical(decodedPixels->width, view.m_pAssetFileSystem->getAssetScaleTier());
+    texture.height =
+        Engine::scalePhysicalPixelsToLogical(decodedPixels->height, view.m_pAssetFileSystem->getAssetScaleTier());
+    texture.physicalWidth = decodedPixels->width;
+    texture.physicalHeight = decodedPixels->height;
+    texture.pixels = decodedPixels->pixels;
+
+    if (!uploadBillboardTexture(view, texture))
+    {
+        return view.findBillboardTexture(frame.textureName, 0);
+    }
+
+    return &view.m_billboardTextureHandles.back();
+}
+
+const OutdoorGameView::BillboardTextureHandle *OutdoorBillboardRenderer::ensureMm9MissingScriptedBillboardTexture(
+    OutdoorGameView &view)
+{
+    const OutdoorGameView::BillboardTextureHandle *pExistingTexture =
+        view.findBillboardTexture(Mm9MissingScriptedBillboardTextureName, 0);
+
+    if (pExistingTexture != nullptr)
+    {
+        return pExistingTexture;
+    }
+
+    constexpr int TextureWidth = 64;
+    constexpr int TextureHeight = 128;
+    std::vector<uint8_t> pixels(static_cast<size_t>(TextureWidth * TextureHeight * 4), 0);
+
+    for (int y = 0; y < TextureHeight; ++y)
+    {
+        for (int x = 0; x < TextureWidth; ++x)
+        {
+            const bool border = x < 3 || y < 3 || x >= TextureWidth - 3 || y >= TextureHeight - 3;
+            const bool diagonal = std::abs(x - (y / 2)) <= 2 || std::abs((TextureWidth - 1 - x) - (y / 2)) <= 2;
+            const bool checker = ((x / 8) + (y / 8)) % 2 == 0;
+            const size_t offset = static_cast<size_t>((y * TextureWidth + x) * 4);
+
+            if (border || diagonal)
+            {
+                pixels[offset + 0] = 0;
+                pixels[offset + 1] = 210;
+                pixels[offset + 2] = 210;
+                pixels[offset + 3] = 255;
+            }
+            else if (checker)
+            {
+                pixels[offset + 0] = 0;
+                pixels[offset + 1] = 80;
+                pixels[offset + 2] = 80;
+                pixels[offset + 3] = 220;
+            }
+            else
+            {
+                pixels[offset + 0] = 0;
+                pixels[offset + 1] = 25;
+                pixels[offset + 2] = 25;
+                pixels[offset + 3] = 220;
+            }
+        }
+    }
+
+    OutdoorGameView::BillboardTextureHandle texture = {};
+    texture.textureName = Mm9MissingScriptedBillboardTextureName;
+    texture.paletteId = 0;
+    texture.width = TextureWidth;
+    texture.height = TextureHeight;
+    texture.physicalWidth = TextureWidth;
+    texture.physicalHeight = TextureHeight;
+    texture.textureHandle = createBgraTexture2D(
+        uint16_t(TextureWidth),
+        uint16_t(TextureHeight),
+        pixels.data(),
+        static_cast<uint32_t>(pixels.size()),
+        TextureFilterProfile::Billboard,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+
+    if (!bgfx::isValid(texture.textureHandle))
+    {
+        return nullptr;
+    }
+
+    view.m_billboardTextureHandles.push_back(std::move(texture));
+    view.m_billboardTextureIndexByPalette[0][view.m_billboardTextureHandles.back().textureName] =
+        view.m_billboardTextureHandles.size() - 1;
+    return &view.m_billboardTextureHandles.back();
+}
+
 void OutdoorBillboardRenderer::invalidateRenderAssets(OutdoorGameView &view)
 {
     for (OutdoorGameView::BillboardTextureHandle &textureHandle : view.m_billboardTextureHandles)
@@ -2267,6 +2428,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         std::sin(view.m_cameraPitchRadians)
     };
     const uint32_t animationTimeTicks = currentAnimationTicks();
+    const uint32_t animationElapsedMs = SDL_GetTicks();
     const uint64_t actorRenderStartTickCount = SDL_GetTicksNS();
     uint64_t gatherStageNanoseconds = 0;
     uint64_t placeholderStageNanoseconds = 0;
@@ -2283,11 +2445,16 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         bool hovered = false;
         bool actor = false;
         bool decoration = false;
+        bool mm9ScriptedObject = false;
+        size_t mm9ScriptedObjectIndex = static_cast<size_t>(-1);
         uint32_t hoveredOutlineColorAbgr = 0;
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
         float heightScale = 1.0f;
+        float spriteScale = 0.0f;
+        float anchorPixelX = -1.0f;
+        float anchorPixelY = -1.0f;
         float distanceSquared = 0.0f;
         float cameraDepth = 0.0f;
         uint32_t lightContributionAbgr = 0xff000000u;
@@ -2314,6 +2481,11 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
     if (view.m_pOutdoorWorldRuntime != nullptr)
     {
         drawItemReserveCount += view.m_pOutdoorWorldRuntime->mapActorCount();
+    }
+
+    if (view.m_mm9ScriptedBillboardVisuals)
+    {
+        drawItemReserveCount += view.m_mm9ScriptedBillboardInstances.size();
     }
 
     drawItems.reserve(drawItemReserveCount);
@@ -2384,11 +2556,18 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
     const std::optional<OutdoorGameView::InspectHit> hoveredInspectHit =
         spriteOutlineEnabled ? resolveHoveredOutlineInspectHit(view, pViewMatrix) : std::nullopt;
     std::optional<size_t> hoveredRuntimeActorIndex;
+    std::optional<size_t> hoveredMm9ScriptedBillboardIndex;
 
     if (hoveredInspectHit && hoveredInspectHit->kind == "actor")
     {
         hoveredRuntimeActorIndex =
             OutdoorInteractionController::resolveRuntimeActorIndexForInspectHit(view, *hoveredInspectHit);
+    }
+    else if (hoveredInspectHit
+             && hoveredInspectHit->kind == "mm9_scripted_object"
+             && hoveredInspectHit->bModelIndex < view.m_mm9ScriptedBillboardInstances.size())
+    {
+        hoveredMm9ScriptedBillboardIndex = hoveredInspectHit->bModelIndex;
     }
 
     const GameplayWorldHit *pContextActionHit = nullptr;
@@ -2397,6 +2576,55 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         pContextActionHit =
             selectedContextActionWorldHit(view.m_gameSession.gameplayScreenRuntime().contextActionStateReadOnly());
     }
+
+    const auto appendMm9MissingVisualPlaceholder =
+        [&](const OutdoorGameView::Mm9ScriptedBillboardInstance &instance,
+            size_t instanceIndex,
+            float distanceSquared,
+            float cameraDepth)
+        {
+            const OutdoorGameView::BillboardTextureHandle *pPlaceholderTexture =
+                ensureMm9MissingScriptedBillboardTexture(view);
+
+            if (pPlaceholderTexture != nullptr && bgfx::isValid(pPlaceholderTexture->textureHandle))
+            {
+                BillboardDrawItem drawItem = {};
+                drawItem.pTexture = pPlaceholderTexture;
+                drawItem.actor = true;
+                drawItem.mm9ScriptedObject = true;
+                drawItem.mm9ScriptedObjectIndex = instanceIndex;
+                drawItem.hovered =
+                    hoveredMm9ScriptedBillboardIndex.has_value()
+                    && *hoveredMm9ScriptedBillboardIndex == instanceIndex;
+                drawItem.hoveredOutlineColorAbgr = drawItem.hovered ? makeAbgr(0, 200, 200) : 0;
+                drawItem.x = instance.x;
+                drawItem.y = instance.y;
+                drawItem.z = instance.z + instance.verticalOffset;
+                drawItem.heightScale = 1.0f;
+                drawItem.spriteScale =
+                    pPlaceholderTexture->height > 0
+                        ? std::max(instance.height / static_cast<float>(pPlaceholderTexture->height), 0.01f)
+                        : 1.0f;
+                drawItem.distanceSquared = distanceSquared;
+                drawItem.cameraDepth = cameraDepth;
+                drawItem.lightContributionAbgr = computeBillboardLightContributionAbgr(
+                    view,
+                    drawItem.x,
+                    drawItem.y,
+                    drawItem.z + instance.height * 0.5f);
+                drawItems.push_back(drawItem);
+                return;
+            }
+
+            const float markerHalfSize = std::max(48.0f, instance.radius);
+            const float baseZ = instance.z + std::max(instance.height * 0.5f, 48.0f);
+            const uint32_t markerColor = 0xffc8c800;
+
+            placeholderVertices.push_back({instance.x - markerHalfSize, instance.y, baseZ, markerColor});
+            placeholderVertices.push_back({instance.x + markerHalfSize, instance.y, baseZ, markerColor});
+            placeholderVertices.push_back({instance.x, instance.y - markerHalfSize, baseZ, markerColor});
+            placeholderVertices.push_back({instance.x, instance.y + markerHalfSize, baseZ, markerColor});
+        };
 
     thread_local std::vector<bool> coveredRuntimeActors;
     coveredRuntimeActors.clear();
@@ -2717,6 +2945,109 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         }
     }
 
+    if (view.m_showActors && (!view.m_mm9ScriptedBillboardInstances.empty() || view.m_mm9ScriptedBillboardVisuals))
+    {
+        for (size_t instanceIndex = 0; instanceIndex < view.m_mm9ScriptedBillboardInstances.size(); ++instanceIndex)
+        {
+            const OutdoorGameView::Mm9ScriptedBillboardInstance &instance =
+                view.m_mm9ScriptedBillboardInstances[instanceIndex];
+            if (!instance.visible)
+            {
+                continue;
+            }
+
+            const float deltaX = instance.x - cameraPosition.x;
+            const float deltaY = instance.y - cameraPosition.y;
+            const float deltaZ = instance.z - cameraPosition.z;
+            const float distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+            const float cameraDepth = deltaX * cameraForward.x + deltaY * cameraForward.y + deltaZ * cameraForward.z;
+
+            if (distanceSquared > view.m_viewDistanceCache.actorBillboardDistanceSquared
+                || cameraDepth <= BillboardNearDepth)
+            {
+                continue;
+            }
+
+            const Mm9ScriptedBillboardVisual *pVisual =
+                view.m_mm9ScriptedBillboardVisuals && !instance.missingVisual
+                    ? view.m_mm9ScriptedBillboardVisuals->findVisual(instance.visualId)
+                    : nullptr;
+            const std::string angleName =
+                pVisual != nullptr ? resolveMm9ScriptedBillboardAngleName(*pVisual, instance, cameraPosition) : "";
+            const uint32_t instanceAnimationElapsedMs =
+                animationElapsedMs + static_cast<uint32_t>(std::abs(instance.x + instance.y));
+            const Mm9ScriptedBillboardFrame *pFrame =
+                pVisual != nullptr
+                    ? view.m_mm9ScriptedBillboardVisuals->resolveFrame(
+                        *pVisual,
+                        instance.currentClip,
+                        "idle",
+                        angleName,
+                        instanceAnimationElapsedMs)
+                    : nullptr;
+
+            if (instance.missingVisual || pVisual == nullptr || pFrame == nullptr)
+            {
+                appendMm9MissingVisualPlaceholder(instance, instanceIndex, distanceSquared, cameraDepth);
+                continue;
+            }
+
+            const OutdoorGameView::BillboardTextureHandle *pTexture =
+                ensureMm9ScriptedBillboardTexture(view, *pFrame);
+            if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+            {
+                OutdoorGameView::Mm9ScriptedBillboardInstance &mutableInstance =
+                    view.m_mm9ScriptedBillboardInstances[instanceIndex];
+                if (!mutableInstance.missingVisualDiagnosticLogged)
+                {
+                    std::cerr
+                        << "MM9 scripted billboard missing visual"
+                        << " map=" << mutableInstance.mapId
+                        << " object_id=" << mutableInstance.objectId
+                        << " source_object_index=" << mutableInstance.sourceObjectIndex
+                        << " source_class=" << mutableInstance.sourceClass
+                        << " source_name=" << mutableInstance.sourceName
+                        << " visual_id=" << mutableInstance.visualId
+                        << " source_model=" << mutableInstance.sourceModel
+                        << " source_skin=" << mutableInstance.sourceSkin
+                        << " script_name=" << mutableInstance.scriptName
+                        << " script_params=" << mutableInstance.scriptParams
+                        << " reason=frame_texture_missing"
+                        << '\n';
+                    mutableInstance.missingVisualDiagnosticLogged = true;
+                }
+
+                appendMm9MissingVisualPlaceholder(instance, instanceIndex, distanceSquared, cameraDepth);
+                continue;
+            }
+
+            BillboardDrawItem drawItem = {};
+            drawItem.pTexture = pTexture;
+            drawItem.actor = true;
+            drawItem.mm9ScriptedObject = true;
+            drawItem.mm9ScriptedObjectIndex = instanceIndex;
+            drawItem.hovered =
+                hoveredMm9ScriptedBillboardIndex.has_value() && *hoveredMm9ScriptedBillboardIndex == instanceIndex;
+            drawItem.hoveredOutlineColorAbgr = drawItem.hovered ? makeAbgr(0, 200, 200) : 0;
+            drawItem.x = instance.x;
+            drawItem.y = instance.y;
+            drawItem.z = instance.z + instance.verticalOffset;
+            drawItem.heightScale = 1.0f;
+            drawItem.spriteScale =
+                pTexture->height > 0 ? std::max(instance.height / static_cast<float>(pTexture->height), 0.01f) : 1.0f;
+            drawItem.anchorPixelX = pFrame->anchorX;
+            drawItem.anchorPixelY = pFrame->anchorY;
+            drawItem.distanceSquared = distanceSquared;
+            drawItem.cameraDepth = cameraDepth;
+            drawItem.lightContributionAbgr = computeBillboardLightContributionAbgr(
+                view,
+                drawItem.x,
+                drawItem.y,
+                drawItem.z + instance.height * 0.5f);
+            drawItems.push_back(drawItem);
+        }
+    }
+
     gatherStageNanoseconds += SDL_GetTicksNS() - actorRenderStartTickCount;
 
     if (!placeholderVertices.empty())
@@ -2923,12 +3254,27 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
                 return false;
             }
 
-            const SpriteFrameEntry &frame = *drawItem.pFrame;
-            const float spriteScale = std::max(frame.scale * drawItem.heightScale, 0.01f);
+            const float frameScale = drawItem.pFrame != nullptr ? drawItem.pFrame->scale : 1.0f;
+            const float spriteScale =
+                drawItem.spriteScale > 0.0f
+                    ? drawItem.spriteScale
+                    : std::max(frameScale * drawItem.heightScale, 0.01f);
             const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
             const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
             const float halfWidth = worldWidth * 0.5f;
-            const bx::Vec3 center = {drawItem.x, drawItem.y, drawItem.z + worldHeight * 0.5f};
+            bx::Vec3 center = {drawItem.x, drawItem.y, drawItem.z + worldHeight * 0.5f};
+            if (drawItem.anchorPixelX >= 0.0f && drawItem.anchorPixelY >= 0.0f)
+            {
+                const float anchorOffsetRight =
+                    (static_cast<float>(pTexture->width) * 0.5f - drawItem.anchorPixelX) * spriteScale;
+                const float anchorOffsetUp =
+                    (drawItem.anchorPixelY - static_cast<float>(pTexture->height) * 0.5f) * spriteScale;
+                center = {
+                    drawItem.x + cameraRight.x * anchorOffsetRight + cameraUp.x * anchorOffsetUp,
+                    drawItem.y + cameraRight.y * anchorOffsetRight + cameraUp.y * anchorOffsetUp,
+                    drawItem.z + cameraRight.z * anchorOffsetRight + cameraUp.z * anchorOffsetUp
+                };
+            }
             const bx::Vec3 right = {
                 cameraRight.x * halfWidth,
                 cameraRight.y * halfWidth,
@@ -2979,12 +3325,27 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
                 return;
             }
 
-            const SpriteFrameEntry &frame = *drawItem.pFrame;
-            const float spriteScale = std::max(frame.scale * drawItem.heightScale, 0.01f);
+            const float frameScale = drawItem.pFrame != nullptr ? drawItem.pFrame->scale : 1.0f;
+            const float spriteScale =
+                drawItem.spriteScale > 0.0f
+                    ? drawItem.spriteScale
+                    : std::max(frameScale * drawItem.heightScale, 0.01f);
             const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
             const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
             const float halfWidth = worldWidth * 0.5f;
-            const bx::Vec3 center = {drawItem.x, drawItem.y, drawItem.z + worldHeight * 0.5f};
+            bx::Vec3 center = {drawItem.x, drawItem.y, drawItem.z + worldHeight * 0.5f};
+            if (drawItem.anchorPixelX >= 0.0f && drawItem.anchorPixelY >= 0.0f)
+            {
+                const float anchorOffsetRight =
+                    (static_cast<float>(pTexture->width) * 0.5f - drawItem.anchorPixelX) * spriteScale;
+                const float anchorOffsetUp =
+                    (drawItem.anchorPixelY - static_cast<float>(pTexture->height) * 0.5f) * spriteScale;
+                center = {
+                    drawItem.x + cameraRight.x * anchorOffsetRight + cameraUp.x * anchorOffsetUp,
+                    drawItem.y + cameraRight.y * anchorOffsetRight + cameraUp.y * anchorOffsetUp,
+                    drawItem.z + cameraRight.z * anchorOffsetRight + cameraUp.z * anchorOffsetUp
+                };
+            }
             const bx::Vec3 right = {
                 cameraRight.x * halfWidth,
                 cameraRight.y * halfWidth,

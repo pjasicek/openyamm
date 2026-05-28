@@ -879,23 +879,31 @@ void buildChestOptions(
 void buildBitmapTextureNames(const Engine::AssetFileSystem &assetFileSystem, std::vector<std::string> &textureNames)
 {
     textureNames.clear();
-    const std::vector<std::string> entries = assetFileSystem.enumerate("Data/bitmaps");
+    const std::array<std::string, 2> directories = {
+        "Data/bitmaps",
+        "Data/games/bitmaps",
+    };
 
-    for (const std::string &entry : entries)
+    for (const std::string &directory : directories)
     {
-        const std::string lowerEntry = toLowerCopy(entry);
+        const std::vector<std::string> entries = assetFileSystem.enumerate(directory);
 
-        if (!lowerEntry.ends_with(".bmp") && !lowerEntry.ends_with(".png"))
+        for (const std::string &entry : entries)
         {
-            continue;
-        }
+            const std::string lowerEntry = toLowerCopy(entry);
 
-        const std::filesystem::path path(entry);
-        const std::string stem = path.stem().string();
+            if (!lowerEntry.ends_with(".bmp") && !lowerEntry.ends_with(".png"))
+            {
+                continue;
+            }
 
-        if (!stem.empty())
-        {
-            textureNames.push_back(stem);
+            const std::filesystem::path path(entry);
+            const std::string stem = path.stem().string();
+
+            if (!stem.empty())
+            {
+                textureNames.push_back(stem);
+            }
         }
     }
 
@@ -3528,10 +3536,20 @@ bool EditorSession::openMapPhysicalPath(const std::filesystem::path &path, std::
         m_savedSnapshot = m_document.createOutdoorSceneSnapshot();
         appendLog("info", "Opened outdoor document " + m_document.displayName());
     }
-    else
+    else if (m_document.kind() == EditorDocument::Kind::Indoor)
     {
         m_savedSnapshot = m_document.createIndoorSceneSnapshot();
         appendLog("info", "Opened indoor document " + m_document.displayName());
+    }
+    else if (m_document.kind() == EditorDocument::Kind::Mm9Dat)
+    {
+        m_savedSnapshot.clear();
+        appendLog("info", "Opened MM9 DAT document " + m_document.displayName());
+    }
+    else
+    {
+        errorMessage = "unsupported document kind after opening " + mapPath.string();
+        return false;
     }
 
     refreshValidation();

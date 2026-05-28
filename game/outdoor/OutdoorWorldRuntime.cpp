@@ -19,6 +19,7 @@
 #include "game/items/ItemGenerator.h"
 #include "game/gameplay/TreasureRuntime.h"
 #include "game/events/EventProjectileSpells.h"
+#include "game/maps/MapIdentity.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/tables/ItemTable.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
@@ -57,6 +58,8 @@ namespace
 constexpr float GameMinutesPerRealSecond = 0.5f;
 constexpr float CollisionEpsilon = 0.01f;
 constexpr float OutdoorMechanismGeometryRefreshStepSeconds = 1.0f / 30.0f;
+constexpr float Mm9LithtechToOpenYammScale = 2.56f;
+constexpr float Pi = 3.14159265358979323846f;
 
 std::string resolveSpawnedMapActorName(
     const MonsterTable &monsterTable,
@@ -106,6 +109,132 @@ float outdoorMechanismOpenFraction(
     return definition.closed ? 0.0f : 1.0f;
 }
 
+struct OutdoorModelRuntimeTransform
+{
+    float dx = 0.0f;
+    float dy = 0.0f;
+    float dz = 0.0f;
+    bool hasRotation = false;
+    float pivotX = 0.0f;
+    float pivotY = 0.0f;
+    float pivotZ = 0.0f;
+    float radiansX = 0.0f;
+    float radiansY = 0.0f;
+    float radiansZ = 0.0f;
+};
+
+OutdoorModelRuntimeTransform outdoorModelRuntimeTransform(
+    const RuntimeMechanismState &mechanism,
+    const EventRuntimeState::OutdoorModelMechanismDefinition &definition)
+{
+    const float fraction = outdoorMechanismOpenFraction(mechanism, definition);
+    OutdoorModelRuntimeTransform transform = {};
+    transform.dx = static_cast<float>(definition.dx) * fraction;
+    transform.dy = static_cast<float>(definition.dy) * fraction;
+    transform.dz = static_cast<float>(definition.dz) * fraction;
+    transform.hasRotation = definition.hasRotation;
+    transform.pivotX = definition.rotationPivotX;
+    transform.pivotY = definition.rotationPivotY;
+    transform.pivotZ = definition.rotationPivotZ;
+    transform.radiansX = definition.rotationDegreesX * fraction * Pi / 180.0f;
+    transform.radiansY = definition.rotationDegreesY * fraction * Pi / 180.0f;
+    transform.radiansZ = definition.rotationDegreesZ * fraction * Pi / 180.0f;
+    return transform;
+}
+
+bx::Vec3 applyOutdoorModelRuntimeTransform(
+    const bx::Vec3 &point,
+    const OutdoorModelRuntimeTransform &transform)
+{
+    bx::Vec3 result = point;
+
+    if (transform.hasRotation)
+    {
+        float x = point.x - transform.pivotX;
+        float y = point.y - transform.pivotY;
+        float z = point.z - transform.pivotZ;
+
+        if (transform.radiansX != 0.0f)
+        {
+            const float cosine = std::cos(transform.radiansX);
+            const float sine = std::sin(transform.radiansX);
+            const float rotatedY = y * cosine - z * sine;
+            const float rotatedZ = y * sine + z * cosine;
+            y = rotatedY;
+            z = rotatedZ;
+        }
+
+        if (transform.radiansY != 0.0f)
+        {
+            const float cosine = std::cos(transform.radiansY);
+            const float sine = std::sin(transform.radiansY);
+            const float rotatedX = x * cosine + z * sine;
+            const float rotatedZ = -x * sine + z * cosine;
+            x = rotatedX;
+            z = rotatedZ;
+        }
+
+        if (transform.radiansZ != 0.0f)
+        {
+            const float cosine = std::cos(transform.radiansZ);
+            const float sine = std::sin(transform.radiansZ);
+            const float rotatedX = x * cosine - y * sine;
+            const float rotatedY = x * sine + y * cosine;
+            x = rotatedX;
+            y = rotatedY;
+        }
+
+        result.x = transform.pivotX + x;
+        result.y = transform.pivotY + y;
+        result.z = transform.pivotZ + z;
+    }
+
+    result.x += transform.dx;
+    result.y += transform.dy;
+    result.z += transform.dz;
+    return result;
+}
+
+void updateOutdoorBModelBoundsFromVertices(OutdoorBModel &bmodel)
+{
+    if (bmodel.vertices.empty())
+    {
+        return;
+    }
+
+    int minX = bmodel.vertices[0].x;
+    int minY = bmodel.vertices[0].y;
+    int minZ = bmodel.vertices[0].z;
+    int maxX = minX;
+    int maxY = minY;
+    int maxZ = minZ;
+
+    for (const OutdoorBModelVertex &vertex : bmodel.vertices)
+    {
+        minX = std::min(minX, vertex.x);
+        minY = std::min(minY, vertex.y);
+        minZ = std::min(minZ, vertex.z);
+        maxX = std::max(maxX, vertex.x);
+        maxY = std::max(maxY, vertex.y);
+        maxZ = std::max(maxZ, vertex.z);
+    }
+
+    bmodel.minX = minX;
+    bmodel.minY = minY;
+    bmodel.minZ = minZ;
+    bmodel.maxX = maxX;
+    bmodel.maxY = maxY;
+    bmodel.maxZ = maxZ;
+    bmodel.boundingCenterX = (minX + maxX) / 2;
+    bmodel.boundingCenterY = (minY + maxY) / 2;
+    bmodel.boundingCenterZ = (minZ + maxZ) / 2;
+
+    const float halfX = static_cast<float>(maxX - minX) * 0.5f;
+    const float halfY = static_cast<float>(maxY - minY) * 0.5f;
+    const float halfZ = static_cast<float>(maxZ - minZ) * 0.5f;
+    bmodel.boundingRadius = static_cast<int>(std::ceil(std::sqrt(halfX * halfX + halfY * halfY + halfZ * halfZ)));
+}
+
 OutdoorBModel translatedOutdoorBModel(
     const OutdoorBModel &bmodel,
     const EventRuntimeState *pEventRuntimeState,
@@ -134,41 +263,158 @@ OutdoorBModel translatedOutdoorBModel(
             continue;
         }
 
-        const float fraction = outdoorMechanismOpenFraction(mechanismIterator->second, definition);
-        const int32_t offsetX = static_cast<int32_t>(std::lround(static_cast<float>(definition.dx) * fraction));
-        const int32_t offsetY = static_cast<int32_t>(std::lround(static_cast<float>(definition.dy) * fraction));
-        const int32_t offsetZ = static_cast<int32_t>(std::lround(static_cast<float>(definition.dz) * fraction));
+        const OutdoorModelRuntimeTransform transform =
+            outdoorModelRuntimeTransform(mechanismIterator->second, definition);
 
-        if (offsetX == 0 && offsetY == 0 && offsetZ == 0)
+        if (transform.dx == 0.0f
+            && transform.dy == 0.0f
+            && transform.dz == 0.0f
+            && (!transform.hasRotation
+                || (transform.radiansX == 0.0f && transform.radiansY == 0.0f && transform.radiansZ == 0.0f)))
         {
             return bmodel;
         }
 
         OutdoorBModel translated = bmodel;
-        translated.positionX += offsetX;
-        translated.positionY += offsetY;
-        translated.positionZ += offsetZ;
-        translated.minX += offsetX;
-        translated.maxX += offsetX;
-        translated.minY += offsetY;
-        translated.maxY += offsetY;
-        translated.minZ += offsetZ;
-        translated.maxZ += offsetZ;
-        translated.boundingCenterX += offsetX;
-        translated.boundingCenterY += offsetY;
-        translated.boundingCenterZ += offsetZ;
 
         for (OutdoorBModelVertex &vertex : translated.vertices)
         {
-            vertex.x += offsetX;
-            vertex.y += offsetY;
-            vertex.z += offsetZ;
+            const bx::Vec3 transformed = applyOutdoorModelRuntimeTransform(
+                outdoorBModelVertexToWorld(vertex),
+                transform);
+            vertex.x = static_cast<int>(std::lround(transformed.x));
+            vertex.y = static_cast<int>(std::lround(transformed.y));
+            vertex.z = static_cast<int>(std::lround(transformed.z));
+        }
+
+        translated.positionX = static_cast<int>(std::lround(static_cast<float>(translated.positionX) + transform.dx));
+        translated.positionY = static_cast<int>(std::lround(static_cast<float>(translated.positionY) + transform.dy));
+        translated.positionZ = static_cast<int>(std::lround(static_cast<float>(translated.positionZ) + transform.dz));
+        updateOutdoorBModelBoundsFromVertices(translated);
+
+        for (OutdoorBModelFace &face : translated.faces)
+        {
+            face.planeNormalX = 0;
+            face.planeNormalY = 0;
+            face.planeNormalZ = 0;
+            face.planeDistance = 0;
         }
 
         return translated;
     }
 
     return bmodel;
+}
+
+uint32_t mm9RuntimeMechanismId(int sourceObjectIndex)
+{
+    return sourceObjectIndex >= 0
+        ? static_cast<uint32_t>(sourceObjectIndex) + 1u
+        : 0u;
+}
+
+const Mm9EventBindingTarget *findMm9OdmBModelBinding(
+    const Mm9EventsData &eventsData,
+    const std::string &objectId)
+{
+    for (const Mm9EventBinding &binding : eventsData.bindings)
+    {
+        if (binding.objectId != objectId)
+        {
+            continue;
+        }
+
+        for (const Mm9EventBindingTarget &target : binding.targets)
+        {
+            if (target.targetKind == "odm_bmodel" && target.bmodelIndex.has_value())
+            {
+                return &target;
+            }
+        }
+    }
+
+    return nullptr;
+}
+
+const Mm9EventMechanism *findMm9MechanismByRuntimeId(
+    const Mm9EventsData &eventsData,
+    uint32_t mechanismId)
+{
+    for (const Mm9EventMechanism &mechanism : eventsData.mechanisms)
+    {
+        if (mm9RuntimeMechanismId(mechanism.sourceObjectIndex) == mechanismId)
+        {
+            return &mechanism;
+        }
+    }
+
+    return nullptr;
+}
+
+const Mm9EventMechanism *findMm9MechanismByName(
+    const Mm9EventsData &eventsData,
+    const std::string &objectName)
+{
+    for (const Mm9EventMechanism &mechanism : eventsData.mechanisms)
+    {
+        if (mechanism.sourceName == objectName)
+        {
+            return &mechanism;
+        }
+    }
+
+    return nullptr;
+}
+
+uint32_t mm9MoveTimeMs(const Mm9EventMechanism &mechanism)
+{
+    float distance = std::abs(mechanism.linear.moveDistLt);
+    if (distance <= 0.0f && mechanism.rotation.hasRotationAngles && !mechanism.rotation.rotationAnglesDeg.empty())
+    {
+        for (float angle : mechanism.rotation.rotationAnglesDeg)
+        {
+            distance = std::max(distance, std::abs(angle));
+        }
+    }
+
+    const float speed = mechanism.linear.hasOpenSpeed
+        ? std::abs(mechanism.linear.openSpeedLtPerSecond)
+        : 0.0f;
+
+    if (distance <= 0.0f || speed <= 0.0f)
+    {
+        return 1000u;
+    }
+
+    return static_cast<uint32_t>(std::max(1.0f, std::round(distance / speed * 1000.0f)));
+}
+
+std::array<float, 3> mm9PointLtToOpenYamm(const std::vector<float> &ltPoint)
+{
+    return {
+        ltPoint.size() > 0 ? ltPoint[0] * Mm9LithtechToOpenYammScale : 0.0f,
+        ltPoint.size() > 2 ? ltPoint[2] * Mm9LithtechToOpenYammScale : 0.0f,
+        ltPoint.size() > 1 ? ltPoint[1] * Mm9LithtechToOpenYammScale : 0.0f
+    };
+}
+
+std::array<float, 3> mm9RotationAnglesLtToOpenYamm(const std::vector<float> &ltAngles)
+{
+    return {
+        ltAngles.size() > 0 ? ltAngles[0] : 0.0f,
+        ltAngles.size() > 2 ? ltAngles[2] : 0.0f,
+        ltAngles.size() > 1 ? ltAngles[1] : 0.0f
+    };
+}
+
+std::string normalizedMm9MessageName(const std::string &messageName)
+{
+    std::string normalized = toLowerCopy(messageName);
+    if (normalized.empty())
+    {
+        normalized = "use";
+    }
+    return normalized;
 }
 constexpr int MinutesPerDay = 24 * 60;
 constexpr int DaysPerMonth = 28;
@@ -695,7 +941,6 @@ void updateOutdoorJournalRevealMask(const OutdoorPartyRuntime &partyRuntime, Map
         }
     }
 }
-constexpr float Pi = 3.14159265358979323846f;
 constexpr float CameraVerticalFovRadians = Pi / 3.0f;
 constexpr float SpecialJumpAngleUnitsPerTurn = 2048.0f;
 constexpr float LegacyOutdoorSpecialJumpGravity = 800.0f;
@@ -1497,6 +1742,18 @@ struct OutdoorProjectileActorProbe
     bool withinVertical = false;
 };
 
+struct OutdoorProjectileVolumeProbe
+{
+    float progress = 0.0f;
+    bx::Vec3 closest = {0.0f, 0.0f, 0.0f};
+    float horizontalDistanceSquared = 0.0f;
+    float collisionZ = 0.0f;
+    float minZ = 0.0f;
+    float maxZ = 0.0f;
+    bool withinHorizontal = false;
+    bool withinVertical = false;
+};
+
 OutdoorProjectileActorProbe probeOutdoorProjectileActor(
     const bx::Vec3 &segmentStart,
     const bx::Vec3 &segmentEnd,
@@ -1527,6 +1784,39 @@ OutdoorProjectileActorProbe probeOutdoorProjectileActor(
     return probe;
 }
 
+OutdoorProjectileVolumeProbe probeOutdoorProjectileVolume(
+    const bx::Vec3 &segmentStart,
+    const bx::Vec3 &segmentEnd,
+    float centerX,
+    float centerY,
+    float baseZ,
+    float radius,
+    float height,
+    float verticalPadding)
+{
+    OutdoorProjectileVolumeProbe probe = {};
+    probe.horizontalDistanceSquared =
+        pointSegmentDistanceSquared2d(
+            centerX,
+            centerY,
+            segmentStart.x,
+            segmentStart.y,
+            segmentEnd.x,
+            segmentEnd.y,
+            probe.progress);
+    probe.closest = {
+        segmentStart.x + (segmentEnd.x - segmentStart.x) * probe.progress,
+        segmentStart.y + (segmentEnd.y - segmentStart.y) * probe.progress,
+        segmentStart.z + (segmentEnd.z - segmentStart.z) * probe.progress
+    };
+    probe.collisionZ = probe.closest.z;
+    probe.minZ = baseZ - verticalPadding;
+    probe.maxZ = baseZ + height + verticalPadding;
+    probe.withinHorizontal = probe.horizontalDistanceSquared <= radius * radius;
+    probe.withinVertical = probe.collisionZ >= probe.minZ && probe.collisionZ <= probe.maxZ;
+    return probe;
+}
+
 bool outdoorProjectileActorProbeIsTraceWorthy(const OutdoorProjectileActorProbe &probe, float radius)
 {
     const float expandedRadius = radius + 192.0f;
@@ -1542,6 +1832,7 @@ const char *outdoorProjectileTraceCollisionKindName(OutdoorWorldRuntime::Project
         case OutdoorWorldRuntime::ProjectileCollisionKind::None: return "none";
         case OutdoorWorldRuntime::ProjectileCollisionKind::Party: return "party";
         case OutdoorWorldRuntime::ProjectileCollisionKind::Actor: return "actor";
+        case OutdoorWorldRuntime::ProjectileCollisionKind::Mm9ScriptedObject: return "mm9_scripted_object";
         case OutdoorWorldRuntime::ProjectileCollisionKind::BModel: return "bmodel";
         case OutdoorWorldRuntime::ProjectileCollisionKind::Terrain: return "terrain";
     }
@@ -2581,6 +2872,11 @@ const MapEncounterInfo *getEncounterInfo(const MapStatsEntry &map, int encounter
     if (encounterSlot == 3)
     {
         return &map.encounter3;
+    }
+
+    if (encounterSlot == 4)
+    {
+        return &map.encounter4;
     }
 
     return nullptr;
@@ -4700,7 +4996,8 @@ void OutdoorWorldRuntime::initialize(
     GameplayCombatController *pGameplayCombatController,
     GameplayFxService *pGameplayFxService,
     const MergedBolsterMapTable *pMergedBolsterMapTable,
-    const MergedBolsterMonsterTable *pMergedBolsterMonsterTable
+    const MergedBolsterMonsterTable *pMergedBolsterMonsterTable,
+    const std::optional<Mm9EventsData> &mm9EventsData
 )
 {
     m_mapId = map.id;
@@ -4723,6 +5020,8 @@ void OutdoorWorldRuntime::initialize(
     m_materializedChestViews.assign(m_chests.size(), std::nullopt);
     m_activeChestView.reset();
     m_eventRuntimeState = eventRuntimeState;
+    m_mm9EventsData = mm9EventsData;
+    m_mm9MechanismNameByRuntimeId.clear();
     if (m_eventRuntimeState)
     {
         m_eventRuntimeState->mapFileName = map.fileName;
@@ -4815,6 +5114,7 @@ void OutdoorWorldRuntime::initialize(
             outdoorActorCollisionSet,
             outdoorSpriteObjectCollisionSet);
         syncOutdoorFaceGeometryAttributesFromMapDelta();
+        registerMm9OutdoorMechanisms();
     }
     m_nextActorId = 0;
     projectileService().clear();
@@ -5889,6 +6189,46 @@ void OutdoorWorldRuntime::bindInteractionView(OutdoorGameView *pView)
     m_pInteractionView = pView;
 }
 
+size_t OutdoorWorldRuntime::appendMm9ScriptedBillboardMovementColliders(
+    std::vector<OutdoorActorCollision> &colliders) const
+{
+    if (m_pInteractionView == nullptr || normalizeWorldId(m_map.worldId) != "mm9")
+    {
+        return 0;
+    }
+
+    const std::vector<Mm9ScriptedObject> &instances =
+        m_pInteractionView->mm9ScriptedBillboardInstances();
+    size_t addedCount = 0;
+
+    for (size_t instanceIndex = 0; instanceIndex < instances.size(); ++instanceIndex)
+    {
+        const Mm9ScriptedObject &instance = instances[instanceIndex];
+        if (!instance.visible || !instance.solid || instance.radius <= 0.0f || instance.height <= 0.0f)
+        {
+            continue;
+        }
+
+        const int radius = std::clamp(static_cast<int>(std::lround(instance.radius)), 1, 65535);
+        const int height = std::clamp(static_cast<int>(std::lround(instance.height)), 1, 65535);
+
+        OutdoorActorCollision collider = {};
+        collider.sourceIndex = instanceIndex;
+        collider.source = OutdoorActorCollisionSource::Mm9ScriptedObject;
+        collider.radius = static_cast<uint16_t>(radius);
+        collider.height = static_cast<uint16_t>(height);
+        collider.worldX = static_cast<int>(std::lround(instance.x));
+        collider.worldY = static_cast<int>(std::lround(instance.y));
+        collider.worldZ = static_cast<int>(std::lround(instance.z + instance.verticalOffset));
+        collider.reportContact = false;
+        collider.name = instance.sourceName.empty() ? instance.objectId : instance.sourceName;
+        colliders.push_back(std::move(collider));
+        ++addedCount;
+    }
+
+    return addedCount;
+}
+
 void OutdoorWorldRuntime::bindGlobalEventProgram(const std::optional<ScriptedEventProgram> *pGlobalEventProgram)
 {
     m_pGlobalEventProgram = pGlobalEventProgram;
@@ -6304,6 +6644,11 @@ const MonsterTable *OutdoorWorldRuntime::monsterTable() const
 const MergedBolsterMonsterTable *OutdoorWorldRuntime::mergedBolsterMonsterTable() const
 {
     return m_pMergedBolsterMonsterTable;
+}
+
+std::string OutdoorWorldRuntime::currentMapWorldId() const
+{
+    return m_map.worldId;
 }
 
 bool OutdoorWorldRuntime::isIndoorMap() const
@@ -10237,6 +10582,7 @@ OutdoorWorldRuntime::ProjectileCollisionFacts OutdoorWorldRuntime::buildProjecti
         ProjectileCollisionKind kind,
         std::string colliderName,
         size_t actorIndex,
+        size_t mm9ScriptedObjectIndex,
         size_t faceIndex)
     {
         if (factor < 0.0f || factor > 1.0f || factor >= best.factor)
@@ -10250,6 +10596,7 @@ OutdoorWorldRuntime::ProjectileCollisionFacts OutdoorWorldRuntime::buildProjecti
         best.kind = kind;
         best.colliderName = std::move(colliderName);
         best.actorIndex = actorIndex;
+        best.mm9ScriptedObjectIndex = mm9ScriptedObjectIndex;
         best.faceIndex = faceIndex;
     };
 
@@ -10285,6 +10632,7 @@ OutdoorWorldRuntime::ProjectileCollisionFacts OutdoorWorldRuntime::buildProjecti
                     },
                     ProjectileCollisionKind::Party,
                     "party",
+                    static_cast<size_t>(-1),
                     static_cast<size_t>(-1),
                     static_cast<size_t>(-1));
             }
@@ -10369,7 +10717,61 @@ OutdoorWorldRuntime::ProjectileCollisionFacts OutdoorWorldRuntime::buildProjecti
             ProjectileCollisionKind::Actor,
             colliderNameStream.str(),
             actorIndex,
+            static_cast<size_t>(-1),
             static_cast<size_t>(-1));
+    }
+
+    if (m_pInteractionView != nullptr)
+    {
+        const std::vector<Mm9ScriptedObject> &instances =
+            m_pInteractionView->mm9ScriptedBillboardInstances();
+        const float projectilePadding = static_cast<float>(std::max<uint16_t>(projectile.radius, 8));
+        const float projectileVerticalPadding = static_cast<float>(std::max<uint16_t>(projectile.height, 8));
+
+        for (size_t instanceIndex = 0; instanceIndex < instances.size(); ++instanceIndex)
+        {
+            const Mm9ScriptedObject &instance = instances[instanceIndex];
+            if (!instance.visible || !instance.solid)
+            {
+                continue;
+            }
+
+            const float collisionRadius = std::max(instance.radius, 32.0f) + projectilePadding;
+            const float collisionHeight = std::max(instance.height, 64.0f);
+            const float baseZ = instance.z + instance.verticalOffset;
+            const OutdoorProjectileVolumeProbe probe =
+                probeOutdoorProjectileVolume(
+                    segmentStart,
+                    segmentEnd,
+                    instance.x,
+                    instance.y,
+                    baseZ,
+                    collisionRadius,
+                    collisionHeight,
+                    projectileVerticalPadding);
+
+            if (!probe.withinHorizontal || !probe.withinVertical)
+            {
+                continue;
+            }
+
+            std::ostringstream colliderNameStream;
+            colliderNameStream << "mm9 "
+                               << (instance.sourceName.empty() ? instance.objectId : instance.sourceName)
+                               << " #" << instance.sourceObjectIndex;
+            considerImpact(
+                probe.progress,
+                {
+                    probe.closest.x,
+                    probe.closest.y,
+                    probe.collisionZ
+                },
+                ProjectileCollisionKind::Mm9ScriptedObject,
+                colliderNameStream.str(),
+                static_cast<size_t>(-1),
+                instanceIndex,
+                static_cast<size_t>(-1));
+        }
     }
 
     const float faceCollisionPadding =
@@ -10410,6 +10812,7 @@ OutdoorWorldRuntime::ProjectileCollisionFacts OutdoorWorldRuntime::buildProjecti
                 ProjectileCollisionKind::BModel,
                 colliderNameStream.str(),
                 static_cast<size_t>(-1),
+                static_cast<size_t>(-1),
                 faceIndex);
         }
     }
@@ -10439,6 +10842,7 @@ OutdoorWorldRuntime::ProjectileCollisionFacts OutdoorWorldRuntime::buildProjecti
                 },
                 ProjectileCollisionKind::Terrain,
                 "terrain",
+                static_cast<size_t>(-1),
                 static_cast<size_t>(-1),
                 static_cast<size_t>(-1));
         }
@@ -10539,6 +10943,7 @@ OutdoorWorldRuntime::ProjectileFrameWorldFacts OutdoorWorldRuntime::collectProje
                     break;
                 }
 
+                case ProjectileCollisionKind::Mm9ScriptedObject:
                 case ProjectileCollisionKind::BModel:
                 case ProjectileCollisionKind::Terrain:
                     worldFacts.frame.collision.kind =
@@ -10923,6 +11328,8 @@ const char *OutdoorWorldRuntime::projectileCollisionKindName(ProjectileCollision
             return "party";
         case ProjectileCollisionKind::Actor:
             return "actor";
+        case ProjectileCollisionKind::Mm9ScriptedObject:
+            return "mm9_scripted_object";
         case ProjectileCollisionKind::BModel:
             return "bmodel";
         case ProjectileCollisionKind::Terrain:
@@ -11425,6 +11832,7 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
     state.preciseZ = pActor->preciseZ;
     state.radius = pActor->radius;
     state.height = pActor->height;
+    state.group = pActor->group;
     state.isDead = pActor->isDead;
     state.isInvisible = pActor->isInvisible;
     state.hostileToParty = pActor->hostileToParty;
@@ -14696,7 +15104,7 @@ bool OutdoorWorldRuntime::summonMonsters(
     uint32_t uniqueNameId
 )
 {
-    if (m_pMonsterTable == nullptr || typeIndexInMapStats < 1 || typeIndexInMapStats > 3 || count == 0)
+    if (m_pMonsterTable == nullptr || typeIndexInMapStats < 1 || typeIndexInMapStats > 4 || count == 0)
     {
         return false;
     }
@@ -15519,6 +15927,193 @@ bool OutdoorWorldRuntime::registerOutdoorModelMechanism(
     return true;
 }
 
+void OutdoorWorldRuntime::registerMm9OutdoorMechanisms()
+{
+    if (!m_mm9EventsData || m_pOutdoorMapData == nullptr || !m_eventRuntimeState)
+    {
+        return;
+    }
+
+    size_t registeredLinearCount = 0;
+    size_t registeredRotatingCount = 0;
+    size_t unsupportedCount = 0;
+
+    for (const Mm9EventMechanism &mechanism : m_mm9EventsData->mechanisms)
+    {
+        const uint32_t mechanismId = mm9RuntimeMechanismId(mechanism.sourceObjectIndex);
+        if (mechanismId == 0)
+        {
+            continue;
+        }
+
+        m_mm9MechanismNameByRuntimeId[mechanismId] = mechanism.sourceName;
+
+        const Mm9EventBindingTarget *pBinding = findMm9OdmBModelBinding(*m_mm9EventsData, mechanism.objectId);
+        if (pBinding == nullptr)
+        {
+            continue;
+        }
+
+        const bool canTranslate =
+            (mechanism.kind == "linear_door" || mechanism.kind == "weighted_lift")
+            && mechanism.linear.hasMoveDir
+            && mechanism.linear.moveDirLt.size() >= 3
+            && mechanism.linear.hasMoveDist;
+        const bool canRotate =
+            mechanism.kind == "rotating_door"
+            && mechanism.rotation.hasRotationPoint
+            && mechanism.rotation.rotationPointLt.size() >= 3
+            && mechanism.rotation.hasRotationAngles
+            && mechanism.rotation.rotationAnglesDeg.size() >= 3;
+
+        if (!canTranslate && !canRotate)
+        {
+            ++unsupportedCount;
+            continue;
+        }
+
+        int32_t dx = 0;
+        int32_t dy = 0;
+        int32_t dz = 0;
+        if (canTranslate)
+        {
+            const float distance = mechanism.linear.moveDistLt * Mm9LithtechToOpenYammScale;
+            dx = static_cast<int32_t>(std::lround(mechanism.linear.moveDirLt[0] * distance));
+            dy = static_cast<int32_t>(std::lround(mechanism.linear.moveDirLt[2] * distance));
+            dz = static_cast<int32_t>(std::lround(mechanism.linear.moveDirLt[1] * distance));
+        }
+
+        const bool closed = !mechanism.activation.startOpen;
+
+        if (registerOutdoorModelMechanism(
+                mechanismId,
+                pBinding->bmodelName,
+                dx,
+                dy,
+                dz,
+                mm9MoveTimeMs(mechanism),
+                closed,
+                false))
+        {
+            if (canTranslate)
+            {
+                ++registeredLinearCount;
+            }
+            if (canRotate)
+            {
+                EventRuntimeState::OutdoorModelMechanismDefinition &definition =
+                    m_eventRuntimeState->outdoorModelMechanisms[mechanismId];
+                const std::array<float, 3> pivot = mm9PointLtToOpenYamm(mechanism.rotation.rotationPointLt);
+                const std::array<float, 3> angles = mm9RotationAnglesLtToOpenYamm(
+                    mechanism.rotation.rotationAnglesDeg);
+                definition.hasRotation = true;
+                definition.rotationPivotX = pivot[0];
+                definition.rotationPivotY = pivot[1];
+                definition.rotationPivotZ = pivot[2];
+                definition.rotationDegreesX = angles[0];
+                definition.rotationDegreesY = angles[1];
+                definition.rotationDegreesZ = angles[2];
+                ++registeredRotatingCount;
+                refreshOutdoorModelMechanismGeometry();
+            }
+        }
+    }
+
+    std::cout
+        << "  mm9 events: objects=" << m_mm9EventsData->objects.size()
+        << " mechanisms=" << m_mm9EventsData->mechanisms.size()
+        << " bindings=" << m_mm9EventsData->bindings.size()
+        << " registered_outdoor_linear=" << registeredLinearCount
+        << " registered_outdoor_rotating=" << registeredRotatingCount
+        << " unsupported_bound=" << unsupportedCount
+        << " unresolved=" << m_mm9EventsData->unresolvedCount
+        << '\n';
+}
+
+bool OutdoorWorldRuntime::triggerMm9Object(const std::string &objectName, const std::string &messageName)
+{
+    if (!m_mm9EventsData)
+    {
+        return false;
+    }
+
+    const Mm9EventMechanism *pMechanism = findMm9MechanismByName(*m_mm9EventsData, objectName);
+    if (pMechanism == nullptr)
+    {
+        if (m_eventRuntimeState)
+        {
+            m_eventRuntimeState->lastActivationResult = "mm9 object unresolved: " + objectName;
+        }
+        return false;
+    }
+
+    return triggerMm9MechanismByRuntimeId(mm9RuntimeMechanismId(pMechanism->sourceObjectIndex), messageName);
+}
+
+bool OutdoorWorldRuntime::triggerMm9MechanismByRuntimeId(uint32_t mechanismId, const std::string &messageName)
+{
+    if (!m_mm9EventsData || !m_eventRuntimeState)
+    {
+        return false;
+    }
+
+    const Mm9EventMechanism *pMechanism = findMm9MechanismByRuntimeId(*m_mm9EventsData, mechanismId);
+    if (pMechanism == nullptr)
+    {
+        return false;
+    }
+
+    if (pMechanism->activation.locked)
+    {
+        m_eventRuntimeState->lastActivationResult = "mm9 mechanism locked: " + pMechanism->sourceName;
+        return false;
+    }
+
+    const std::unordered_map<uint32_t, EventRuntimeState::OutdoorModelMechanismDefinition>::const_iterator definitionIt =
+        m_eventRuntimeState->outdoorModelMechanisms.find(mechanismId);
+    if (definitionIt == m_eventRuntimeState->outdoorModelMechanisms.end())
+    {
+        m_eventRuntimeState->lastActivationResult = "mm9 mechanism has no executable outdoor binding: "
+            + pMechanism->sourceName;
+        return false;
+    }
+
+    RuntimeMechanismState &runtimeMechanism = m_eventRuntimeState->mechanisms[mechanismId];
+    const std::string message = normalizedMm9MessageName(messageName);
+    const bool wantsOpen = message == "open";
+    const bool wantsClose = message == "close";
+    const bool wantsToggle = message == "use" || message == "toggle" || message == "move";
+
+    if (!wantsOpen && !wantsClose && !wantsToggle)
+    {
+        m_eventRuntimeState->lastActivationResult = "mm9 unsupported mechanism message: "
+            + pMechanism->sourceName + " " + messageName;
+        return false;
+    }
+
+    const bool currentlyOpen =
+        runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Open)
+        || runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Opening);
+    const bool open = wantsOpen || (wantsToggle && !currentlyOpen);
+    runtimeMechanism.state = open
+        ? static_cast<uint16_t>(EvtMechanismState::Opening)
+        : static_cast<uint16_t>(EvtMechanismState::Closing);
+    runtimeMechanism.timeSinceTriggeredMs = 0.0f;
+    runtimeMechanism.isMoving = true;
+
+    ++m_eventRuntimeState->outdoorSurfaceRevision;
+    refreshOutdoorModelMechanismGeometry();
+    m_outdoorMechanismGeometryRefreshAccumulatorSeconds = 0.0f;
+    m_eventRuntimeState->lastAffectedMechanismIds.push_back(mechanismId);
+    m_eventRuntimeState->lastActivationResult = "mm9 mechanism " + pMechanism->sourceName
+        + (open ? " opening" : " closing");
+    gameplayDebugTraceWrite(
+        "mechanism_triggered kind=mm9_outdoor id=" + std::to_string(mechanismId)
+        + " name=\"" + pMechanism->sourceName + "\""
+        + " state=" + gameplayDebugTraceMechanismStateName(runtimeMechanism.state));
+    return true;
+}
+
 EventRuntimeState *OutdoorWorldRuntime::eventRuntimeState()
 {
     if (!m_eventRuntimeState)
@@ -15770,6 +16365,16 @@ bool OutdoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
     }
 
     return OutdoorInteractionController::dispatchWorldActivation(*m_pInteractionView, hit);
+}
+
+bool OutdoorWorldRuntime::executeMm9DialogueAction(const EventDialogAction &action, EventDialogContent &content)
+{
+    if (m_pInteractionView == nullptr)
+    {
+        return false;
+    }
+
+    return OutdoorInteractionController::executeMm9DialogueAction(*m_pInteractionView, action, content);
 }
 
 bool OutdoorWorldRuntime::activateWorldHitFromSpell(const GameplayWorldHit &hit, uint32_t spellId)

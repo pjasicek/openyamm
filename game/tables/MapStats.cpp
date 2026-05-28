@@ -74,6 +74,19 @@ constexpr size_t EnvironmentColumn = 29;
 constexpr size_t AreaIdColumn = 32;
 constexpr size_t InAreaColumn = 33;
 constexpr size_t WorldIdColumn = 34;
+constexpr size_t SourceMapIdColumn = 35;
+constexpr size_t SourceFileNameColumn = 36;
+constexpr size_t MusicTrackColumn = 37;
+constexpr size_t BattleTrackColumn = 38;
+constexpr size_t TravelDaysColumn = 39;
+constexpr size_t Encounter4PictureColumn = 40;
+constexpr size_t Encounter4NameColumn = 41;
+constexpr size_t Encounter4DifficultyColumn = 42;
+constexpr size_t Encounter4CountColumn = 43;
+constexpr size_t SourceRedbookTrackColumn = 44;
+constexpr size_t SourceAreaCodeColumn = 45;
+constexpr size_t TownPortalMapIdColumn = 46;
+constexpr size_t InTownColumn = 47;
 constexpr int MergedOutdoorBoundsMinX = -23143;
 constexpr int MergedOutdoorBoundsMaxX = 23143;
 constexpr int MergedOutdoorBoundsMinY = -23143;
@@ -352,6 +365,34 @@ bool parseEncounterInfo(
     }
 
     encounterInfo.chance = chance;
+    encounterInfo.pictureName = getColumnValue(row, pictureColumn);
+    encounterInfo.monsterName = getColumnValue(row, nameColumn);
+    encounterInfo.difficulty = difficulty;
+    encounterInfo.minCount = minCount;
+    encounterInfo.maxCount = maxCount;
+    return true;
+}
+
+bool parseSupplementalEncounterInfo(
+    const std::vector<std::string> &row,
+    MapEncounterInfo &encounterInfo,
+    size_t pictureColumn,
+    size_t nameColumn,
+    size_t difficultyColumn,
+    size_t countColumn
+)
+{
+    int difficulty = 0;
+    int minCount = 0;
+    int maxCount = 0;
+
+    if (!parseIntegerLocal(getColumnValue(row, difficultyColumn), difficulty)
+        || !parseCountRange(getColumnValue(row, countColumn), minCount, maxCount))
+    {
+        return false;
+    }
+
+    encounterInfo.chance = 0;
     encounterInfo.pictureName = getColumnValue(row, pictureColumn);
     encounterInfo.monsterName = getColumnValue(row, nameColumn);
     encounterInfo.difficulty = difficulty;
@@ -658,7 +699,14 @@ bool MapStats::loadFromRows(const std::vector<std::vector<std::string>> &rows, c
                 Encounter3PictureColumn,
                 Encounter3NameColumn,
                 Encounter3DifficultyColumn,
-                Encounter3CountColumn))
+                Encounter3CountColumn)
+            || !parseSupplementalEncounterInfo(
+                row,
+                entry.encounter4,
+                Encounter4PictureColumn,
+                Encounter4NameColumn,
+                Encounter4DifficultyColumn,
+                Encounter4CountColumn))
         {
             std::cerr << "MapStats row has invalid encounter data for map id " << entry.id << '\n';
             return false;
@@ -675,6 +723,50 @@ bool MapStats::loadFromRows(const std::vector<std::vector<std::string>> &rows, c
         entry.areaId = 0;
         parseIntegerLocal(getColumnValue(row, AreaIdColumn), entry.areaId);
         entry.isTopLevelArea = !getColumnValue(row, InAreaColumn).empty();
+        entry.sourceFileName = getColumnValue(row, SourceFileNameColumn);
+        entry.sourceAreaCode = getColumnValue(row, SourceAreaCodeColumn);
+
+        if (!parseInteger(getColumnValue(row, SourceMapIdColumn), entry.sourceMapId))
+        {
+            std::cerr << "MapStats row has invalid source map id for map id " << entry.id << '\n';
+            return false;
+        }
+
+        if (!parseInteger(getColumnValue(row, MusicTrackColumn), entry.musicTrack))
+        {
+            std::cerr << "MapStats row has invalid music track for map id " << entry.id << '\n';
+            return false;
+        }
+
+        if (!parseInteger(getColumnValue(row, BattleTrackColumn), entry.battleTrack))
+        {
+            std::cerr << "MapStats row has invalid battle track for map id " << entry.id << '\n';
+            return false;
+        }
+
+        if (!parseInteger(getColumnValue(row, TravelDaysColumn), entry.travelDays))
+        {
+            std::cerr << "MapStats row has invalid travel days for map id " << entry.id << '\n';
+            return false;
+        }
+
+        if (!parseInteger(getColumnValue(row, SourceRedbookTrackColumn), entry.sourceRedbookTrack))
+        {
+            std::cerr << "MapStats row has invalid source redbook track for map id " << entry.id << '\n';
+            return false;
+        }
+
+        if (!parseInteger(getColumnValue(row, TownPortalMapIdColumn), entry.townPortalMapId))
+        {
+            std::cerr << "MapStats row has invalid town portal map id for map id " << entry.id << '\n';
+            return false;
+        }
+
+        if (!parseInteger(getColumnValue(row, InTownColumn), entry.inTown))
+        {
+            std::cerr << "MapStats row has invalid in-town flag for map id " << entry.id << '\n';
+            return false;
+        }
 
         m_entries.push_back(entry);
     }

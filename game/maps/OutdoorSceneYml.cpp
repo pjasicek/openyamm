@@ -87,6 +87,41 @@ bool parsePositionNode(
         && readScalarNode(node, "z", z, errorMessage);
 }
 
+bool parseFloat3Node(
+    const YAML::Node &node,
+    std::array<float, 3> &value,
+    const char *pName,
+    std::string &errorMessage)
+{
+    if (!node || !node.IsMap())
+    {
+        errorMessage = std::string(pName) + " must be a map";
+        return false;
+    }
+
+    return readScalarNode(node, "x", value[0], errorMessage)
+        && readScalarNode(node, "y", value[1], errorMessage)
+        && readScalarNode(node, "z", value[2], errorMessage);
+}
+
+bool parseFloat4Node(
+    const YAML::Node &node,
+    std::array<float, 4> &value,
+    const char *pName,
+    std::string &errorMessage)
+{
+    if (!node || !node.IsMap())
+    {
+        errorMessage = std::string(pName) + " must be a map";
+        return false;
+    }
+
+    return readScalarNode(node, "x", value[0], errorMessage)
+        && readScalarNode(node, "y", value[1], errorMessage)
+        && readScalarNode(node, "z", value[2], errorMessage)
+        && readScalarNode(node, "w", value[3], errorMessage);
+}
+
 bool readOptionalBoolFlag(
     const YAML::Node &flagsNode,
     const char *key,
@@ -271,6 +306,22 @@ OutdoorSceneInteractiveFace *findOutdoorInteractiveFace(
     return nullptr;
 }
 
+OutdoorSceneBModelFaceSource *findOutdoorBModelFaceSource(
+    OutdoorSceneData &sceneData,
+    size_t bmodelIndex,
+    size_t faceIndex)
+{
+    for (OutdoorSceneBModelFaceSource &faceSource : sceneData.bmodelFaceSources)
+    {
+        if (faceSource.bmodelIndex == bmodelIndex && faceSource.faceIndex == faceIndex)
+        {
+            return &faceSource;
+        }
+    }
+
+    return nullptr;
+}
+
 bool parseOutdoorTerrainFootstepSoundOverride(
     const YAML::Node &overrideNode,
     OutdoorSceneTerrainFootstepSoundOverride &overrideEntry,
@@ -285,6 +336,62 @@ bool parseOutdoorTerrainFootstepSoundOverride(
     return readScalarNode(overrideNode, "tile_id", overrideEntry.tileId, errorMessage)
         && readScalarNode(overrideNode, "walk_sound_id", overrideEntry.walkSoundId, errorMessage)
         && readScalarNode(overrideNode, "run_sound_id", overrideEntry.runSoundId, errorMessage);
+}
+
+bool parseOutdoorBModelFaceSource(
+    const YAML::Node &faceSourceNode,
+    OutdoorSceneBModelFaceSource &faceSource,
+    std::string &errorMessage)
+{
+    if (!faceSourceNode.IsMap())
+    {
+        errorMessage = "bmodel face source entry must be a map";
+        return false;
+    }
+
+    return readScalarNode(faceSourceNode, "bmodel_index", faceSource.bmodelIndex, errorMessage)
+        && readScalarNode(faceSourceNode, "face_index", faceSource.faceIndex, errorMessage)
+        && readScalarNode(faceSourceNode, "source_kind", faceSource.sourceKind, errorMessage)
+        && readScalarNode(faceSourceNode, "source_model_index", faceSource.sourceModelIndex, errorMessage)
+        && readScalarNode(faceSourceNode, "source_model_name", faceSource.sourceModelName, errorMessage)
+        && readScalarNode(faceSourceNode, "source_poly_index", faceSource.sourcePolyIndex, errorMessage)
+        && readScalarNode(faceSourceNode, "texture_alias", faceSource.textureAlias, errorMessage, false);
+}
+
+bool parseOutdoorModelInstance(
+    const YAML::Node &modelInstanceNode,
+    OutdoorSceneModelInstance &modelInstance,
+    std::string &errorMessage)
+{
+    if (!modelInstanceNode.IsMap())
+    {
+        errorMessage = "model instance entry must be a map";
+        return false;
+    }
+
+    return readScalarNode(modelInstanceNode, "instance_id", modelInstance.instanceId, errorMessage)
+        && readScalarNode(modelInstanceNode, "source_ref", modelInstance.sourceRef, errorMessage)
+        && readScalarNode(modelInstanceNode, "source_kind", modelInstance.sourceKind, errorMessage)
+        && readScalarNode(modelInstanceNode, "source_object_index", modelInstance.sourceObjectIndex, errorMessage)
+        && readScalarNode(modelInstanceNode, "source_class", modelInstance.sourceClass, errorMessage)
+        && readScalarNode(modelInstanceNode, "source_name", modelInstance.sourceName, errorMessage)
+        && readScalarNode(modelInstanceNode, "source_model", modelInstance.sourceModel, errorMessage)
+        && readScalarNode(modelInstanceNode, "source_skin", modelInstance.sourceSkin, errorMessage, false)
+        && readScalarNode(modelInstanceNode, "model_asset", modelInstance.modelAsset, errorMessage, false)
+        && readScalarNode(modelInstanceNode, "model_skin_binding", modelInstance.modelSkinBinding, errorMessage, false)
+        && parsePositionNode(
+            modelInstanceNode["position"],
+            modelInstance.x,
+            modelInstance.y,
+            modelInstance.z,
+            errorMessage)
+        && parseFloat4Node(
+            modelInstanceNode["rotation_quat"],
+            modelInstance.rotationQuat,
+            "rotation_quat",
+            errorMessage)
+        && parseFloat3Node(modelInstanceNode["scale"], modelInstance.scale, "scale", errorMessage)
+        && readScalarNode(modelInstanceNode, "collision", modelInstance.collisionMode, errorMessage);
 }
 
 bool applyOptionalActorCoordinateOverride(
@@ -415,6 +522,22 @@ void mergeOutdoorInteractiveFace(OutdoorSceneData &sceneData, const OutdoorScene
     }
 
     *pTargetFace = sourceFace;
+}
+
+void mergeOutdoorBModelFaceSource(
+    OutdoorSceneData &sceneData,
+    const OutdoorSceneBModelFaceSource &sourceFace)
+{
+    OutdoorSceneBModelFaceSource *pTargetFaceSource =
+        findOutdoorBModelFaceSource(sceneData, sourceFace.bmodelIndex, sourceFace.faceIndex);
+
+    if (pTargetFaceSource == nullptr)
+    {
+        sceneData.bmodelFaceSources.push_back(sourceFace);
+        return;
+    }
+
+    *pTargetFaceSource = sourceFace;
 }
 
 void applyOutdoorInteractiveFaceValues(
@@ -755,6 +878,14 @@ std::optional<OutdoorSceneData> OutdoorSceneYmlLoader::loadFromText(
         sceneData.legacyCompanionFile = legacyCompanionFile;
     }
 
+    std::string sourceMetadataFile;
+
+    if (readScalarNode(sourceNode, "source_metadata_file", sourceMetadataFile, errorMessage, false)
+        && !sourceMetadataFile.empty())
+    {
+        sceneData.sourceMetadataFile = sourceMetadataFile;
+    }
+
     const YAML::Node runtimeRestrictionsNode = rootNode["runtime_restrictions"];
 
     if (runtimeRestrictionsNode)
@@ -946,12 +1077,36 @@ std::optional<OutdoorSceneData> OutdoorSceneYmlLoader::loadFromText(
     }
 
     const YAML::Node bmodelFacesNode = rootNode["bmodel_faces"];
+    const YAML::Node faceSourcesNode = bmodelFacesNode ? bmodelFacesNode["source_faces"] : YAML::Node();
     const YAML::Node interactiveFacesNode = bmodelFacesNode ? bmodelFacesNode["interactive_faces"] : YAML::Node();
 
     if (!bmodelFacesNode || !bmodelFacesNode.IsMap() || !interactiveFacesNode || !interactiveFacesNode.IsSequence())
     {
         errorMessage = "bmodel_faces.interactive_faces must be a sequence";
         return std::nullopt;
+    }
+
+    if (faceSourcesNode)
+    {
+        if (!faceSourcesNode.IsSequence())
+        {
+            errorMessage = "bmodel_faces.source_faces must be a sequence";
+            return std::nullopt;
+        }
+
+        sceneData.bmodelFaceSources.reserve(faceSourcesNode.size());
+
+        for (const YAML::Node &faceSourceNode : faceSourcesNode)
+        {
+            OutdoorSceneBModelFaceSource faceSource = {};
+
+            if (!parseOutdoorBModelFaceSource(faceSourceNode, faceSource, errorMessage))
+            {
+                return std::nullopt;
+            }
+
+            sceneData.bmodelFaceSources.push_back(std::move(faceSource));
+        }
     }
 
     sceneData.interactiveFaces.reserve(interactiveFacesNode.size());
@@ -1053,6 +1208,31 @@ std::optional<OutdoorSceneData> OutdoorSceneYmlLoader::loadFromText(
         }
 
         sceneData.spawns.push_back(std::move(spawn));
+    }
+
+    const YAML::Node modelInstancesNode = rootNode["model_instances"];
+
+    if (modelInstancesNode)
+    {
+        if (!modelInstancesNode.IsSequence())
+        {
+            errorMessage = "model_instances must be a sequence";
+            return std::nullopt;
+        }
+
+        sceneData.modelInstances.reserve(modelInstancesNode.size());
+
+        for (const YAML::Node &modelInstanceNode : modelInstancesNode)
+        {
+            OutdoorSceneModelInstance modelInstance = {};
+
+            if (!parseOutdoorModelInstance(modelInstanceNode, modelInstance, errorMessage))
+            {
+                return std::nullopt;
+            }
+
+            sceneData.modelInstances.push_back(std::move(modelInstance));
+        }
     }
 
     const YAML::Node initialStateNode = rootNode["initial_state"];
@@ -1600,6 +1780,29 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
             return false;
         }
 
+        const YAML::Node faceSourcesNode = bmodelFacesNode["source_faces"];
+
+        if (faceSourcesNode)
+        {
+            if (!faceSourcesNode.IsSequence())
+            {
+                errorMessage = "bmodel_faces.source_faces must be a sequence";
+                return false;
+            }
+
+            for (const YAML::Node &faceSourceNode : faceSourcesNode)
+            {
+                OutdoorSceneBModelFaceSource faceSource = {};
+
+                if (!parseOutdoorBModelFaceSource(faceSourceNode, faceSource, errorMessage))
+                {
+                    return false;
+                }
+
+                mergeOutdoorBModelFaceSource(sceneData, faceSource);
+            }
+        }
+
         const YAML::Node interactiveFacesNode = bmodelFacesNode["interactive_faces"];
 
         if (interactiveFacesNode)
@@ -1747,6 +1950,111 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
     return true;
 }
 
+bool OutdoorSceneYmlLoader::applySourceMetadataFromText(
+    OutdoorSceneData &sceneData,
+    const std::string &yamlText,
+    std::string &errorMessage) const
+{
+    YAML::Node rootNode;
+
+    try
+    {
+        rootNode = YAML::Load(yamlText);
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = exception.what();
+        return false;
+    }
+
+    if (!rootNode || !rootNode.IsMap())
+    {
+        errorMessage = "source metadata yaml root must be a map";
+        return false;
+    }
+
+    int formatVersion = 0;
+
+    if (!readScalarNode(rootNode, "format_version", formatVersion, errorMessage))
+    {
+        return false;
+    }
+
+    if (formatVersion != 1)
+    {
+        errorMessage = "unsupported outdoor source metadata format_version";
+        return false;
+    }
+
+    std::string kind;
+
+    if (!readScalarNode(rootNode, "kind", kind, errorMessage) || toLowerCopy(kind) != "outdoor_source_metadata")
+    {
+        errorMessage = "kind must be \"outdoor_source_metadata\"";
+        return false;
+    }
+
+    const YAML::Node sourceNode = rootNode["source"];
+
+    if (sourceNode)
+    {
+        if (!sourceNode.IsMap())
+        {
+            errorMessage = "source must be a map";
+            return false;
+        }
+
+        std::string geometryFile;
+
+        if (!readScalarNode(sourceNode, "geometry_file", geometryFile, errorMessage, false))
+        {
+            return false;
+        }
+
+        if (!geometryFile.empty() && toLowerCopy(geometryFile) != toLowerCopy(sceneData.geometryFile))
+        {
+            errorMessage = "source metadata geometry_file does not match base scene";
+            return false;
+        }
+    }
+
+    const YAML::Node bmodelFacesNode = rootNode["bmodel_faces"];
+
+    if (bmodelFacesNode)
+    {
+        if (!bmodelFacesNode.IsMap())
+        {
+            errorMessage = "bmodel_faces must be a map";
+            return false;
+        }
+
+        const YAML::Node faceSourcesNode = bmodelFacesNode["source_faces"];
+
+        if (faceSourcesNode)
+        {
+            if (!faceSourcesNode.IsSequence())
+            {
+                errorMessage = "bmodel_faces.source_faces must be a sequence";
+                return false;
+            }
+
+            for (const YAML::Node &faceSourceNode : faceSourcesNode)
+            {
+                OutdoorSceneBModelFaceSource faceSource = {};
+
+                if (!parseOutdoorBModelFaceSource(faceSourceNode, faceSource, errorMessage))
+                {
+                    return false;
+                }
+
+                mergeOutdoorBModelFaceSource(sceneData, faceSource);
+            }
+        }
+    }
+
+    return true;
+}
+
 bool buildOutdoorMapStateFromScene(
     const OutdoorSceneData &sceneData,
     OutdoorMapData &outdoorMapData,
@@ -1776,7 +2084,6 @@ bool buildOutdoorMapStateFromScene(
     {
         for (OutdoorBModelFace &face : bmodel.faces)
         {
-            face.attributes = 0;
             face.cogNumber = 0;
             face.cogTriggeredNumber = 0;
             face.cogTrigger = 0;

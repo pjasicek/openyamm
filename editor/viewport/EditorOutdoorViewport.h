@@ -27,6 +27,44 @@ public:
         Grid
     };
 
+    enum class Mm9DatWorldRenderSubset
+    {
+        Default,
+        Sky,
+        Physics,
+        Water,
+        Visibility,
+        Invisible,
+        Helper,
+        Trigger
+    };
+
+    struct RenderSubmissionStats
+    {
+        bool valid = false;
+        bool mm9DatDocument = false;
+        uint32_t datWorldTexturedSubmissions = 0;
+        uint32_t datWorldProceduralSubmissions = 0;
+        uint32_t datWorldMissingMaterialSubmissions = 0;
+        uint32_t datWorldSubmittedVertices = 0;
+        uint32_t modelInstanceTexturedSubmissions = 0;
+        uint32_t modelInstanceProceduralSubmissions = 0;
+        uint32_t modelInstanceMissingSubmissions = 0;
+        uint32_t modelInstanceSubmittedVertices = 0;
+        uint32_t mm9DatPortalOverlaySubmissions = 0;
+        uint32_t mm9DatPortalOverlayVertices = 0;
+        uint32_t mm9DatWorldModelOverlaySubmissions = 0;
+        uint32_t mm9DatWorldModelOverlayVertices = 0;
+        uint32_t mm9DatObjectOverlaySubmissions = 0;
+        uint32_t mm9DatObjectOverlayVertices = 0;
+        uint32_t mm9DatSourceMarkerSubmissions = 0;
+        uint32_t mm9DatSourceMarkerVertices = 0;
+        uint32_t mm9DatAssetIssueMarkerSubmissions = 0;
+        uint32_t mm9DatAssetIssueMarkerVertices = 0;
+        uint32_t mm9DatMechanismTargetMarkerSubmissions = 0;
+        uint32_t mm9DatMechanismTargetMarkerVertices = 0;
+    };
+
     enum class TransformGizmoMode
     {
         Translate,
@@ -140,6 +178,18 @@ public:
     void setForcePreviewOnSelectedOnly(bool enabled);
     bool showBModels() const;
     void setShowBModels(bool enabled);
+    Mm9DatWorldRenderSubset mm9DatWorldRenderSubset() const;
+    void setMm9DatWorldRenderSubset(Mm9DatWorldRenderSubset subset);
+    bool showModelInstances() const;
+    void setShowModelInstances(bool enabled);
+    bool showMm9DatPortals() const;
+    void setShowMm9DatPortals(bool enabled);
+    bool showMm9WorldModelBounds() const;
+    void setShowMm9WorldModelBounds(bool enabled);
+    bool showMm9ObjectBounds() const;
+    void setShowMm9ObjectBounds(bool enabled);
+    bool showMm9AssetIssueMarkers() const;
+    void setShowMm9AssetIssueMarkers(bool enabled);
     bool showIndoorPortals() const;
     void setShowIndoorPortals(bool enabled);
     bool showIndoorFloors() const;
@@ -152,6 +202,7 @@ public:
     void setIsolatedIndoorRoomId(std::optional<uint16_t> roomId);
     bool showBModelWireframe() const;
     void setShowBModelWireframe(bool enabled);
+    const RenderSubmissionStats &lastRenderSubmissionStats() const;
     bool showEntities() const;
     void setShowEntities(bool enabled);
     bool showEntityBillboards() const;
@@ -180,6 +231,15 @@ public:
     void previewIndoorMechanismOpen(const EditorDocument &document, size_t doorIndex);
     void previewIndoorMechanismClose(const EditorDocument &document, size_t doorIndex);
     void previewIndoorMechanismSimulate(const EditorDocument &document, size_t doorIndex);
+    void setMm9MechanismPreviewProgress(
+        const EditorDocument &document,
+        size_t mechanismIndex,
+        float progress);
+    void clearMm9MechanismPreview(const EditorDocument &document);
+    bool tryGetMm9MechanismPreviewProgress(
+        const EditorDocument &document,
+        size_t mechanismIndex,
+        float &progress) const;
     void setIndoorMechanismPreviewState(
         const EditorDocument &document,
         size_t doorIndex,
@@ -328,7 +388,7 @@ private:
     void destroyGeometryBuffers();
     void ensureRenderTarget(uint16_t viewportWidth, uint16_t viewportHeight);
     void destroyRenderTarget();
-    void ensureGeometryBuffers(const EditorSession &session);
+    void ensureGeometryBuffers(EditorSession &session);
     void ensureImportedModelPreview(const EditorSession &session);
     void updateCamera(
         const EditorDocument &document,
@@ -396,8 +456,10 @@ private:
     void submitEntityBillboardGeometry(const EditorSession &session, const EditorDocument &document) const;
     void submitMarkerGeometry(const EditorSession &session, const EditorDocument &document, const EditorSelection &selection);
     void ensureIndoorMechanismPreviewDocument(const EditorDocument &document) const;
+    void ensureMm9MechanismPreviewDocument(const EditorDocument &document) const;
     void advanceIndoorMechanismPreview(const EditorDocument &document, float deltaSeconds);
     void invalidateIndoorMechanismPreview();
+    void invalidateMm9MechanismPreview();
     const std::vector<Game::IndoorVertex> &indoorRenderVertices(const EditorDocument &document) const;
     Game::IndoorFaceGeometryCache &indoorRenderFaceGeometryCache(const EditorDocument &document) const;
     void refreshIndoorPreviewGeometryBuffers(const EditorDocument &document);
@@ -415,6 +477,7 @@ private:
         std::string key;
         int textureWidth = 0;
         int textureHeight = 0;
+        bool hasTransparentPixels = false;
     };
 
     struct ProceduralBatch
@@ -497,15 +560,24 @@ private:
     std::array<std::array<float, 4>, 256> m_terrainTilePreviewUvs = {};
     std::array<bool, 256> m_terrainTilePreviewValid = {};
     bgfx::VertexBufferHandle m_bmodelWireVertexBufferHandle = BGFX_INVALID_HANDLE;
+    bgfx::VertexBufferHandle m_mm9DatPortalOverlayVertexBufferHandle = BGFX_INVALID_HANDLE;
+    bgfx::VertexBufferHandle m_mm9DatWorldModelOverlayVertexBufferHandle = BGFX_INVALID_HANDLE;
+    bgfx::VertexBufferHandle m_mm9DatObjectOverlayVertexBufferHandle = BGFX_INVALID_HANDLE;
     uint32_t m_terrainVertexCount = 0;
     uint32_t m_terrainErrorVertexCount = 0;
     uint32_t m_texturedTerrainVertexCount = 0;
     uint32_t m_bmodelWireVertexCount = 0;
+    uint32_t m_mm9DatPortalOverlayVertexCount = 0;
+    uint32_t m_mm9DatWorldModelOverlayVertexCount = 0;
+    uint32_t m_mm9DatObjectOverlayVertexCount = 0;
     std::vector<TexturedBatch> m_bmodelTexturedBatches;
+    std::vector<TexturedBatch> m_modelInstanceTexturedBatches;
     std::vector<ProceduralBatch> m_bmodelAllFaceBatches;
     std::vector<ProceduralBatch> m_indoorPortalBatches;
     std::vector<ProceduralBatch> m_bmodelUnassignedBatches;
     std::vector<ProceduralBatch> m_bmodelMissingAssetBatches;
+    std::vector<ProceduralBatch> m_modelInstanceBatches;
+    std::vector<ProceduralBatch> m_modelInstanceMissingBatches;
     std::optional<ImportedModelPreviewRequest> m_importedModelPreviewRequest;
     std::string m_importedModelPreviewKey;
     ProceduralBatch m_importedModelPreviewBatch = {};
@@ -558,12 +630,19 @@ private:
     PreviewMaterialMode m_previewMaterialMode = PreviewMaterialMode::Textured;
     bool m_forcePreviewOnSelectedOnly = false;
     bool m_showBModels = true;
+    Mm9DatWorldRenderSubset m_mm9DatWorldRenderSubset = Mm9DatWorldRenderSubset::Default;
+    bool m_showModelInstances = true;
+    bool m_showMm9DatPortals = true;
+    bool m_showMm9WorldModelBounds = false;
+    bool m_showMm9ObjectBounds = true;
+    bool m_showMm9AssetIssueMarkers = true;
     bool m_showIndoorPortals = true;
     bool m_showIndoorFloors = true;
     bool m_showIndoorCeilings = true;
     bool m_showIndoorGizmosEverywhere = false;
     std::optional<uint16_t> m_isolatedIndoorRoomId;
     bool m_showBModelWireframe = false;
+    mutable RenderSubmissionStats m_lastRenderSubmissionStats = {};
     bool m_showEntities = true;
     bool m_showEntityBillboards = true;
     bool m_showSpawns = true;
@@ -591,6 +670,8 @@ private:
         0.12f};
     mutable std::string m_indoorMechanismPreviewDocumentKey;
     mutable std::unordered_map<size_t, Game::RuntimeMechanismState> m_indoorMechanismPreviewOverrides;
+    mutable std::string m_mm9MechanismPreviewDocumentKey;
+    mutable std::unordered_map<size_t, float> m_mm9MechanismPreviewProgressByIndex;
     IndoorDoorFaceEditMode m_indoorDoorFaceEditMode = IndoorDoorFaceEditMode::None;
     std::optional<size_t> m_indoorDoorFaceEditDoorIndex;
     mutable std::string m_indoorRenderVerticesKey;
@@ -602,6 +683,7 @@ private:
     mutable std::string m_indoorActorFloorSnapKey;
     mutable std::unordered_map<uint64_t, int> m_indoorActorFloorSnapZByKey;
     uint64_t m_indoorMechanismPreviewRevision = 0;
+    uint64_t m_mm9MechanismPreviewRevision = 0;
     float m_indoorMechanismPreviewAccumulatorSeconds = 0.0f;
     bool m_indoorPreviewGeometryBuffersDirty = false;
     TransformGizmoMode m_transformGizmoMode = TransformGizmoMode::Translate;

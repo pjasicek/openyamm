@@ -851,6 +851,38 @@ void collectEncounterMonsterSpriteFamilies(
     }
 }
 
+void collectArenaMonsterSpriteFamilies(
+    std::unordered_set<std::string> &families,
+    std::unordered_set<std::string> &worldPrefixedSpriteNames,
+    const MonsterTable &monsterTable,
+    const MapStatsEntry &map)
+{
+    if (!map.runtimeRestrictions.isArena)
+    {
+        return;
+    }
+
+    for (const std::pair<const int, MonsterTable::MonsterStatsEntry> &entryPair : monsterTable.statsEntries())
+    {
+        const MonsterTable::MonsterStatsEntry &stats = entryPair.second;
+
+        if (stats.id <= 0 || stats.hasKind(MonsterKind::NoArena))
+        {
+            continue;
+        }
+
+        if (!mergedMonsterBelongsToWorld(static_cast<int16_t>(stats.id), map.worldId))
+        {
+            continue;
+        }
+
+        appendMonsterSpriteFamilies(
+            families,
+            worldPrefixedSpriteNames,
+            monsterTable.findById(static_cast<int16_t>(stats.id)));
+    }
+}
+
 std::optional<SurfaceMaterialTable> loadSurfaceMaterialTable(
     const Engine::AssetFileSystem &assetFileSystem,
     MapAssetLoadSharedCache *pSharedCache)
@@ -1378,6 +1410,71 @@ std::optional<std::string> findBitmapPath(
         textureName,
         bitmapDirectoryAssetPathsByPath(bitmapLoadCache),
         bitmapPathByKey(bitmapLoadCache));
+}
+
+std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &directoryPath,
+    const std::string &textureName,
+    int &width,
+    int &height,
+    bool forceTerrainTileSize,
+    bool applyTransparencyKey,
+    BitmapLoadCache &bitmapLoadCache,
+    int16_t paletteId,
+    const std::string &paletteWorldId);
+
+std::vector<std::string> outdoorBModelBitmapDirectoryCandidates(const OutdoorMapData &outdoorMapData)
+{
+    std::vector<std::string> directories;
+    const std::string worldId = normalizeWorldId(outdoorMapData.worldId);
+
+    if (!worldId.empty())
+    {
+        const std::string mapStem = normalizeMapFileStem(outdoorMapData.fileName);
+        if (!mapStem.empty())
+        {
+            directories.push_back("worlds/" + worldId + "/maps/" + mapStem + ".bitmaps");
+        }
+        directories.push_back("worlds/" + worldId + "/maps/bitmaps");
+        directories.push_back("worlds/" + worldId + "/textures");
+    }
+
+    directories.push_back("Data/games/bitmaps");
+    directories.push_back("Data/bitmaps");
+    return directories;
+}
+
+std::optional<std::vector<uint8_t>> loadOutdoorBModelBitmapPixelsBgra(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const OutdoorMapData &outdoorMapData,
+    const std::string &textureName,
+    int &width,
+    int &height,
+    BitmapLoadCache &bitmapLoadCache)
+{
+    for (const std::string &directory : outdoorBModelBitmapDirectoryCandidates(outdoorMapData))
+    {
+        std::optional<std::vector<uint8_t>> pixels =
+            loadBitmapPixelsBgra(
+                assetFileSystem,
+                directory,
+                textureName,
+                width,
+                height,
+                false,
+                false,
+                bitmapLoadCache,
+                0,
+                {});
+
+        if (pixels && width > 0 && height > 0)
+        {
+            return pixels;
+        }
+    }
+
+    return std::nullopt;
 }
 
 std::optional<std::string> findAssetPathCaseInsensitive(
@@ -2984,6 +3081,11 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
         neededMonsterFamilies,
         neededWorldPrefixedMonsterSpriteNames,
         monsterTable);
+    collectArenaMonsterSpriteFamilies(
+        neededMonsterFamilies,
+        neededWorldPrefixedMonsterSpriteNames,
+        monsterTable,
+        map);
 
     const std::optional<SpriteFrameTable> spriteFrameTable =
         loadSpriteFrameTable(
@@ -3008,7 +3110,7 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
 
     appendSpawnActors(billboardSet, textureRequests, map, monsterTable, spawns, pOutdoorMapData);
 
-    if (billboardSet.billboards.empty())
+    if (billboardSet.billboards.empty() && !map.runtimeRestrictions.isArena)
     {
         return std::nullopt;
     }
@@ -3569,14 +3671,12 @@ std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
         int textureHeight = 0;
         Engine::AssetScaleTier loadedAssetScaleTier = textureAssetScaleTier;
         std::optional<std::vector<uint8_t>> pixels =
-            loadBitmapPixelsBgra(
+            loadOutdoorBModelBitmapPixelsBgra(
                 assetFileSystem,
-                "Data/bitmaps",
+                outdoorMapData,
                 textureName,
                 textureWidth,
                 textureHeight,
-                false,
-                false,
                 bitmapLoadCache
             );
 
@@ -3850,6 +3950,37 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
         }
     }
 
+    const std::optional<std::string> mm9EventsFileName = buildMm9EventsFileName(map.fileName);
+    if (mm9EventsFileName)
+    {
+        const std::optional<std::string> mm9EventsPath =
+            findAssetPath(assetFileSystem, map.worldId, *mm9EventsFileName);
+
+        if (mm9EventsPath)
+        {
+            const std::optional<std::string> mm9EventsText = assetFileSystem.readTextFile(*mm9EventsPath);
+            if (mm9EventsText)
+            {
+                Mm9EventsYmlLoader mm9EventsLoader = {};
+                std::string mm9EventsError;
+                std::optional<Mm9EventsData> mm9EventsData =
+                    mm9EventsLoader.loadFromText(*mm9EventsText, mm9EventsError);
+                if (mm9EventsData)
+                {
+                    assetInfo.mm9EventsPath = mm9EventsPath;
+                    assetInfo.mm9EventsSize = mm9EventsText->size();
+                    assetInfo.mm9EventsData = std::move(mm9EventsData);
+                    logStageComplete("mm9 events yml loaded");
+                }
+                else
+                {
+                    std::cerr << "Failed to parse MM9 events yml for " << map.fileName
+                              << ": " << mm9EventsError << '\n';
+                }
+            }
+        }
+    }
+
     const std::optional<std::string> companionFileName =
         !sceneText && companionLoadOptions.allowLegacyCompanion ? buildCompanionFileName(map.fileName) : std::nullopt;
 
@@ -3948,6 +4079,7 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                     return std::nullopt;
                 }
 
+                assetInfo.outdoorSceneData = *sceneData;
                 assetInfo.outdoorMapDeltaData = std::move(sceneMapDeltaData);
                 assetInfo.outdoorWeatherProfile =
                     buildOutdoorWeatherProfile(sceneData->environment, assetInfo.outdoorMapDeltaData->locationTime);
@@ -3979,7 +4111,7 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 assetInfo.outdoorActorPreviewBillboardSet =
                     buildActorPreviewBillboardSet(
                         assetFileSystem,
-                        map,
+                        assetInfo.map,
                         monsterTable,
                         assetInfo.outdoorMapDeltaData,
                         assetInfo.outdoorMapData->spawns,
@@ -4212,7 +4344,7 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 assetInfo.indoorActorPreviewBillboardSet =
                     buildActorPreviewBillboardSet(
                         assetFileSystem,
-                        map,
+                        assetInfo.map,
                         monsterTable,
                         assetInfo.indoorMapDeltaData,
                         assetInfo.indoorMapData->spawns,
@@ -4405,6 +4537,26 @@ std::optional<std::string> MapAssetLoader::buildSceneFileName(const std::string 
     if (extension == ".blv")
     {
         return stem + ".scene.yml";
+    }
+
+    return std::nullopt;
+}
+
+std::optional<std::string> MapAssetLoader::buildMm9EventsFileName(const std::string &fileName)
+{
+    const std::string normalized = toLower(fileName);
+
+    if (normalized.size() < 4)
+    {
+        return std::nullopt;
+    }
+
+    const std::string stem = normalized.substr(0, normalized.size() - 4);
+    const std::string extension = normalized.substr(normalized.size() - 4);
+
+    if (extension == ".odm" || extension == ".blv")
+    {
+        return stem + ".events.yml";
     }
 
     return std::nullopt;

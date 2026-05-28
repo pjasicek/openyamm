@@ -19,6 +19,7 @@ void gameplayCombatTraceWrite(const std::string &message);
 std::string gameplayDebugTraceWorldHitSummary(const GameplayWorldHit &hit);
 bool gameplayDebugTraceItemLooksQuestRelevant(uint32_t itemId, const ItemTable *pItemTable);
 std::string gameplayDebugTraceItemSummary(uint32_t itemId, const ItemTable *pItemTable);
+std::string gameplayDebugTraceMm9KeyQbitSummary(uint32_t qbitId);
 const char *gameplayDebugTraceMechanismStateName(uint16_t state);
 const char *gameplayDebugTraceMechanismActionName(uint32_t action);
 

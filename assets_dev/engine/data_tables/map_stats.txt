@@ -1,6 +1,6 @@
 	Map Stats			First					x5	D20's		Random Encounter																					
 			Reset	Visit	Per	Refil	Alert	Steal	Lock	Trap	Tres	Enc	M1	M2	M3			Dif	Appear			Dif	Appear			Dif	Appear	Redbook					
-#	Name	File name	#	Day	0-20	Days	Days	Perm	0-20	0-10	0-6	%	%	%	%	Mon1 Pic	Mon 1	 1-5	#	Mon2 Pic	Mon 2	 1-5	#	Mon3 Pic	Mon 3	 1-5	#	Track	EAX Environments	Map Designer	Notes	area	in area	world_id
+#	Name	File name	#	Day	0-20	Days	Days	Perm	0-20	0-10	0-6	%	%	%	%	Mon1 Pic	Mon 1	 1-5	#	Mon2 Pic	Mon 2	 1-5	#	Mon3 Pic	Mon 3	 1-5	#	Track	EAX Environments	Map Designer	Notes	area	in area	world_id	source_map_id	source_file_name	music_track	battle_track	travel_days	Mon4 Pic	Mon 4	 1-5	#	source_redbook_track	source_area_code	town_portal_map_id	in_town
 1	Dagger Wound Island	out01.odm	0	0	0	672	0	1	0	0	0	10	0	100	0	Lizardmen Warrior	Lizardmen Warrior	1	 2-5	Wimpy Pirate Warrior Male	Wimpy Pirate Warrior Male	1	 1-3	Couatl (winged snake)	Couatl (winged snake)	1	 1-3	4	FOREST	100			x
 2	Ravenshore	out02.odm	0	0	1	672	0	2	1	1	1	10	0	50	50	Human Mercenary	Human Mercenary	3	 2-5	Centaur	Centaur	1	 1-3	Dire Wolf	Dire Wolf	1	 1-3	9	PLAINS	2			x
 3	Alvar	out03.odm	0	0	2	672	0	5	2	1	1	10	0	50	50	Dark Elf Warrior	Dark Elf Warrior	2	 1-3	Ogre Warrior	Ogre Warrior	1	 1-3	Wasp Warrior	Wasp Warrior	1	 1-3	3	PLAINS	3			-
@@ -188,7 +188,7 @@
 185	Oracle of Enroth	oracle.blv	0	0	0	672	0	0	0	0	6	10	0	0	0	PeasantM1	PeasantM1	1	 1-4	0	0	1	 1-4	0	0	1	 1-4	46	0	Tony	0	0	-
 186	Control Center	sci-fi.blv	0	0	0	672	0	0	5	8	6	10	100	0	0	BRobot	BRobot	2	 1-3	0	0	1	 1-4	0	0	1	 1-4	46	0	Tony	0	0	-
 187	The Hive	hive.blv	0	0	0	7	0	0	10	10	6	10	50	50	0	Demon	Demon	5	 2-4	DemonFly	DemonFly	5	 2-4	DemonQueen	DemonQueen	1	 1-1	40	0	Bruce	0	0	-
-188	The Arena	zarena.blv	0	0	0	1	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	45	0		0	0	-
+188	The Arena	zarena.blv	0	0	0	1	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	45	0		0	0	-	mm6
 189	Dragon's Lair	zddb01.blv	0	0	0	672	0	0	1	1	6	10	0	0	0	DragonCover	DragonCover	2	 1-2	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
 190	pending	zddb02.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
 191	pending	zddb03.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
@@ -208,6 +208,50 @@
 205	The Breach	BrAlvar.odm	0	0	2	-1	0	0	2	7	6	80	10	10	80	Fire Elemental	Fire Elemental	5	 1-3	ATroll	ATroll	5	 1-3	Cactus	Cactus	1	 1-3	3	PSYCHOTIC		0	0	-
 206	Basement of the Breach	BrBase.blv	0	0	0	1	0	0	0	1	1	50	100	0	0	Cactus	Cactus	1	 1-3	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
 207	The Strange Temple	7nwc.blv	0	0	1	672	7	10	1	1	1	0	0	0	0	0	0	1	 1-3	0	0	3	 1-3	0	0	1	 1-3	34	STONEROOM	0			-
+9001	Thjorgard City	thjorgardcity.odm	0	0	2	600	0	0	2	3	1	0	0	0	0													8	PLAINS			0	x	mm9	1	ThjorgardCity	8	3	0					7	A2	0	1
+9002	Thjorgard	thjorgard.odm	0	0	3	600	0	0	3	4	2	10	50	35	15	AstralIcky	AstralIcky			Burgler	Burgler			Gezzamptling	Gezzamptling			8	PLAINS			0	x	mm9	2	Thjorgard	8	3	0					7	A2	1	0
+9003	Sturmford City	sturmfordcity.odm	0	0	2	600	0	0	2	1	0	0	0	0	0													7	PLAINS			0	x	mm9	3	SturmfordCity	7	3	0					8	A3	0	1
+9004	Sturmford	sturmford.odm	0	0	3	600	0	0	3	1	0	10	25	75	0	FieldThrall	FieldThrall			DragonFly	DragonFly							7	PLAINS			0	x	mm9	4	Sturmford	7	3	0					8	A3	3	0
+9005	Drangheim City	drangheimcity.odm	0	0	2	600	0	0	2	1	0	0	0	0	0													12	PLAINS			0	x	mm9	5	DrangheimCity	12	3	0					8	A4	0	1
+9006	Drangheim	drangheim.odm	0	0	3	600	0	0	3	2	1	10	35	50	15	Thrall	Thrall			FireDragonFly	FireDragonFly			Cutpurse	Cutpurse			12	PLAINS			0	x	mm9	6	Drangheim	12	3	0					8	A4	5	0
+9007	Guberland City	guberlandcity.odm	0	0	2	600	0	0	2	3	1	0	0	0	0													7	PLAINS			0	x	mm9	7	GuberlandCity	7	3	0					6	A5	0	1
+9008	Guberland	guberland.odm	0	0	4	600	0	0	4	2	1	10	60	40	0	FireDragonFly	FireDragonFly			Cutpurse	Cutpurse							7	PLAINS			0	x	mm9	8	Guberland	7	3	0					6	A5	7	0
+9010	Frosgard City	frosgardcity.odm	0	0	8	600	0	0	8	6	2	0	0	0	0													9	PLAINS			0	x	mm9	10	FrosgardCity	9	3	0					9	A6	0	1
+9011	Frosgard	frosgard.odm	0	0	8	600	0	0	8	6	3	15	35	30	35	RedWolf	RedWolf			Bigfoot	Bigfoot			Gezzampt	Gezzampt			9	PLAINS			0	x	mm9	11	Frosgard	9	3	0					9	A6	10	0
+9014	Thronheim City	thronheimcity.odm	0	0	5	600	0	0	5	3	1	0	0	0	0													14	PLAINS			0	x	mm9	14	ThronheimCity	14	3	0					7	A7	0	1
+9015	Thronheim	thronheim.odm	0	0	9	600	0	0	9	5	2	10	48	48	4	Basilisk	Basilisk			Gezzamptling	Gezzamptling			Bloodsucker	Bloodsucker			14	PLAINS			0	x	mm9	15	Thronheim	14	3	0					7	A7	14	0
+9017	Lindisfarne	lindisfarne.odm	0	0	8	600	0	0	8	4	1	10	45	10	45	Magreeb	Magreeb			EvilApprentice	EvilApprentice			ThrallMaster	ThrallMaster			6	PLAINS			0	x	mm9	17	Lindisfarne	6	3	0					6	A8	14	0
+9018	Yorwick	yorwick.odm	0	0	8	600	0	0	8	12	3	15	50	25	25	Apparition	Apparition			Vampir	Vampir			Evil Sorcerer	Evil Sorcerer			6	PLAINS			0	x	mm9	18	Yorwick	6	3	0					6	A9	14	0
+9020	Arslegard City	arslegardcity.odm	0	0	9	600	0	0	9	16	4	0	0	0	0			0	0			0	0				0	8	PLAINS			0	x	mm9	20	ArslegardCity	8	3	0			0		7	A10	1	1
+9021	Isle of Ashes	isleofashes.odm	0	0	0	600	0	0	0	0	0	0	0	0	0	Skeletoid	Skeletoid	0	0	DragonFlyMite	DragonFlyMite	0	0			0	0	13	PLAINS			0	x	mm9	21	IsleofAshes	13	3	0			0	0	3	A1	1	0
+9022	Verhoffin Ruins	verhoffinruins.blv	0	0	0	600	0	0	0	16	4	30	35	35	30	Dread	Dread			Embalmed Mummy	Embalmed Mummy			Lich	Lich			10	CAVE			9001	-	mm9	22	VerhoffinRuins	10	3	0					10	A1	1	2
+9023	Connecting Tunnel	connectingtunnels.blv	0	0	3	600	0	0	3	12	4	25	25	25	50	Annelid	Annelid			Dagrell	Dagrell			SkeltonMaster	SkeltonMaster			16	CAVE			9014	-	mm9	23	ConnectingTunnels	16	3	0					11	A2	14	2
+9024	Mountain Pass	mountainpass.odm	0	0	5	600	0	0	5	10	3	20	15	70	15	GreyWolf	GreyWolf			ImpElder	ImpElder			WingedOddity	WingedOddity			16	PLAINS			0	x	mm9	24	MountainPass	16	3	1	Gezzampt	Gezzampt			10	A2-A7	14	0
+9028	Thjorad Mine	thjoradmine.blv	0	0	8	600	0	0	8	6	2	20	100	0	0	TroglodyteWren	TroglodyteWren			ImpElder	ImpElder							17	CAVE			9001	-	mm9	28	ThjoradMine	17	3	0					5	A2	1	0
+9031	Training Hall	traininghall.blv	0	0	12	30	0	0	12	16	4	20	25	50	25	Ghoul	Ghoul			LizardOrc	LizardOrc			Trellborg	Trellborg			15	CAVE			9001	-	mm9	31	TrainingHall	15	3	0					4	A2	1	2
+9033	The Arena	thearena.blv	0	0	15	1	0	0	15	0	0	0	0	0	0													4	CAVE			0	-	mm9	33	TheArena	4	3	0						A2	0	1
+9035	Ruined Temple	ruinedtemple.blv	0	0	17	150	0	0	17	8	3	20	50	50	34	SkeletonWarrior	SkeletonWarrior			Dagrell	Dagrell							2	CAVE			9010	-	mm9	35	RuinedTemple	2	3	0					2	A3	10	2
+9036	Anskram Keep	anskramkeep.blv	0	0	12	300	0	0	12	2	0	20	30	70	0	Nagate	Nagate			Imp	Imp							3	CAVE			9003	-	mm9	36	AnskramKeep	3	3	0					4	A3	3	2
+9038	Beet Hoven	beethoven.blv	0	0	10	300	0	0	10	1	0	20	90	10	0	BoneThrasher	BoneThrasher			Rotter	Rotter							10	CAVE			9003	-	mm9	38	BeetHoven	10	3	0					12	A3	3	2
+9042	Kluso's House	klusoshouse.blv	0	0	17	150	0	0	17	10	1	20	100	0	0	GuardCaptain	GuardCaptain											13	CAVE			9005	-	mm9	42	KlusosHouse	13	3	0						A4	5	0
+9043	Drangheim Prison	drangheimprison.blv	0	0	12	300	0	0	12	2	1	20	60	40	0	Guard	Guard			Nagate	Nagate							16	CAVE			9005	-	mm9	43	DrangheimPrison	16	3	0					10	A4	5	2
+9044	Chasm of the Dead	chasmofthedead.blv	0	0	15	300	0	0	15	8	3	20	30	35	35	ImpElder	ImpElder			Dripper	Dripper			SkeletonWarrior	SkeletonWarrior			5	CAVE			9005	-	mm9	44	ChasmoftheDead	5	3	0	CanopicMummy	CanopicMummy			5	A4	5	2
+9049	Temple of Honk	templeofhonk.blv	0	0	8	600	0	0	8	20	5	20	100	0	0	ElderHonk	ElderHonk	0	0			0	0			0	0		CAVE			9007	-	mm9	49	TempleOfHonk		3	0			0	0		A5	7	0
+9050	Dook's Castle	dookscastle.blv	0	0	8	600	0	0	8	7	2	20	90	5	5	HalfOrcSoldier	HalfOrcSoldier			FibraseBasilisk	FibraseBasilisk			KinTrellborg	KinTrellborg			10	CAVE			9007	-	mm9	50	DooksCastle	10	3	0					12	A5	7	0
+9057	Yanmir's Fort	yanmirsfort.blv	0	0	10	300	0	0	10	12	3	20	50	50	0	KinTrellborg	KinTrellborg			Sasquatch	Sasquatch							9	CAVE			9010	-	mm9	57	YanmirsFort	9	3	0					4	A6	10	2
+9058	Dungeon of Secrets	dungeonofsecrets.blv	0	0	17	150	0	0	17	10	2	0	0	0	0													13	CAVE			9010	-	mm9	58	DungeonofSecrets	13	3	0					6	A6	10	2
+9062	Inventa Storca	inventastorca.blv	0	0	7	600	0	0	7	9	3	20	35	35	30	Cutpurse	Cutpurse			Skelton	Skelton			Dripper	Dripper			14	CAVE			9014	-	mm9	62	InventaStorca	14	3	0					2	A7	14	2
+9063	Lindisfarne Monastery	lindisfarnemonastery.blv	0	0	7	600	0	0	7	7	2	20	100	0	0	ReverendMonk	ReverendMonk											3	CAVE			9014	-	mm9	63	LindisfarneMonastery	3	3	0						A8	14	0
+9064	Ta'Sar Academy	tasaracademy.blv	0	0	10	300	0	0	10	7	2	20	50	50	0	HalfOrcSoldier	HalfOrcSoldier			GuardSegeant	GuardSegeant							15	CAVE			9014	-	mm9	64	TaSarAcademy	15	3	0					12	A8	14	2
+9069	Lich Lab	lichlab.blv	0	0	17	150	0	0	17	16	4	25	50	10	40	PowerLich	PowerLich			Eye	Eye			SkeletonMaster	SkeletonMaster			11	CAVE			9014	-	mm9	69	LichLab	11	3	0	VenemousDagrell	VenemousDagrell			11	A9	14	2
+9071	Wizard's Lab	wizardslab.blv	0	0	8	600	0	0	8	16	4	20	35	30	35	EvilGrandSorcerer	EvilGrandSorcerer			Eye	Eye			WingedMutant	WingedMutant			11	CAVE			9014	-	mm9	71	WizardsLab	11	3	0					5	A9	14	2
+9072	The Afterworld	afterworld.odm	0	0	12	300	0	0	12	16	4	25	40	30	30	HordeWarrior	HordeWarrior			Terror	Terror			PetrifiedMummy	PetrifiedMummy			5	PLAINS			0	x	mm9	72	Afterworld	5	3	0					9	A10	-1	0
+9073	Thousand Terrors	1000terrors.blv	0	0	20	600	0	0	20	20	6	70	65	10	25	ReptilianTerror	ReptilianTerror			LesserDemon	LesserDemon			Oculus	Oculus			18	CAVE			0	-	mm9	73	1000Terrors	18	3	0					9	A10	-1	2
+9074	Dark Passageway	darkpassageway.blv	0	0	20	150	0	0	20	18	5	30	10	10	80	ColloidalSoldier	ColloidalSoldier			DesertTerror	DesertTerror			Specter	Specter			17	CAVE			0	-	mm9	74	DarkPassageway	17	3	0					12	A10	-1	2
+9076	The Bathhouse	bathhouse.blv	0	0	15	300	0	0	15	18	5	25	100	0	0	ColloidalWarrior	ColloidalWarrior											5	CAVE			9001	-	mm9	76	Bathhouse	5	3	0					9	A10	1	0
+9077	Hall of the Gods	hallofthegods.odm	0	0	18	150	0	0	18	18	4	0	0	0	0			0	0			0	0			0	0	8	PLAINS			0	x	mm9	77	HallOfTheGods	8	3	0			0	0	7	A10	14	0
+9079	Dragon's Lair	dragonstadium.blv	0	0	20	600	0	0	20	20	6	0	0	0	0													11	CAVE			0	-	mm9	79	DragonStadium	11	3	0					2			2
+9080	Ravensford	bootcamp.odm	0	0	0	600	0	0	0	0	0	0	0	0	0													7	PLAINS			0	x	mm9	80	BootCamp	7	3	0					6			
 	
 	
 	

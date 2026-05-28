@@ -38,7 +38,7 @@ constexpr const char *SkyTextureDirectoryName = "sky_textures";
 constexpr const char *LegacyDirectoryName = "_legacy";
 constexpr const char *SingleAssetPackageName = "assets.zip";
 constexpr const char *EngineAssetPackageName = "engine.zip";
-constexpr std::array<const char *, 4> KnownWorldPackageIds = {"mm6", "mm7", "mm8", "mmmerge"};
+constexpr std::array<const char *, 5> KnownWorldPackageIds = {"mm6", "mm7", "mm8", "mm9", "mmmerge"};
 
 struct TieredAssetDirectory
 {

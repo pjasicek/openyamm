@@ -4,6 +4,8 @@
 #include "game/events/ScriptedEventProgram.h"
 #include "game/events/EventRuntime.h"
 #include "game/maps/MapDeltaData.h"
+#include "game/maps/Mm9EventsYml.h"
+#include "game/maps/OutdoorSceneYml.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/tables/MapStats.h"
 #include "game/tables/MonsterTable.h"
@@ -220,8 +222,11 @@ struct MapAssetInfo
     std::optional<size_t> companionSize;
     std::optional<std::string> scenePath;
     std::optional<size_t> sceneSize;
+    std::optional<std::string> mm9EventsPath;
+    std::optional<size_t> mm9EventsSize;
     AuthoredCompanionSource authoredCompanionSource = AuthoredCompanionSource::None;
     std::optional<OutdoorMapData> outdoorMapData;
+    std::optional<OutdoorSceneData> outdoorSceneData;
     std::optional<IndoorMapData> indoorMapData;
     std::optional<MapDeltaData> outdoorMapDeltaData;
     std::optional<MapDeltaData> indoorMapDeltaData;
@@ -229,6 +234,7 @@ struct MapAssetInfo
     std::optional<ScriptedEventProgram> localEventProgram;
     std::optional<ScriptedEventProgram> globalEventProgram;
     std::optional<EventRuntimeState> eventRuntimeState;
+    std::optional<Mm9EventsData> mm9EventsData;
     std::optional<std::vector<uint8_t>> outdoorLandMask;
     std::optional<std::vector<uint32_t>> outdoorTileColors;
     std::optional<OutdoorTerrainTextureAtlas> outdoorTerrainTextureAtlas;
@@ -305,5 +311,6 @@ private:
     );
     static std::optional<std::string> buildCompanionFileName(const std::string &fileName);
     static std::optional<std::string> buildSceneFileName(const std::string &fileName);
+    static std::optional<std::string> buildMm9EventsFileName(const std::string &fileName);
 };
 }

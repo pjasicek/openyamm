@@ -16,6 +16,7 @@
 #include "game/events/EventRuntime.h"
 #include "game/events/EvtEnums.h"
 #include "game/maps/MapIdentity.h"
+#include "game/mm9/Mm9DialoguePackage.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/tables/ClassMultiplierTable.h"
 #include "game/tables/ClassSkillTable.h"
@@ -65,6 +66,13 @@ struct PendingMapLeaveOutputs
     std::optional<EventRuntimeState::PendingWinGame> pendingWinGame;
     bool pendingReturnToMainMenu = false;
     std::vector<EventRuntimeState::PendingSound> pendingSounds;
+};
+
+struct LeavingArenaResetInfo
+{
+    bool isArena = false;
+    std::string mapFileName;
+    std::string canonicalId;
 };
 
 double millisecondsFromNanoseconds(uint64_t nanoseconds)
@@ -665,6 +673,12 @@ void tracePartySnapshot(
     for (uint32_t qbitId : sortedIds(snapshot.questBits))
     {
         GAMEPLAY_DEBUG_TRACE(eventPrefix + "_qbit id=" + std::to_string(qbitId));
+
+        const std::string mm9KeySummary = gameplayDebugTraceMm9KeyQbitSummary(qbitId);
+        if (!mm9KeySummary.empty())
+        {
+            GAMEPLAY_DEBUG_TRACE(eventPrefix + "_mm9_key " + mm9KeySummary);
+        }
     }
 
     for (const auto &[variableId, value] : sortedMap(snapshot.eventVariables))
@@ -1004,6 +1018,22 @@ const IndoorSceneRuntime::Snapshot *findSavedIndoorSceneState(
     return stateIt != states.end() ? &stateIt->second : nullptr;
 }
 
+LeavingArenaResetInfo leavingArenaResetInfoForSelectedMap(
+    const std::optional<MapAssetInfo> &selectedMap,
+    const std::string &currentMapFileName)
+{
+    if (!selectedMap || !selectedMap->map.runtimeRestrictions.isArena)
+    {
+        return {};
+    }
+
+    LeavingArenaResetInfo info = {};
+    info.isArena = true;
+    info.mapFileName = !selectedMap->map.fileName.empty() ? selectedMap->map.fileName : currentMapFileName;
+    info.canonicalId = selectedMap->map.canonicalId;
+    return info;
+}
+
 bool savedSelectedMapStateNeedsFreshAssets(
     const GameSession &session,
     const MapAssetInfo &mapAssetInfo,
@@ -1184,6 +1214,99 @@ std::optional<float> parseFloatArgument(const std::string &value)
 std::string boolString(bool value)
 {
     return value ? "true" : "false";
+}
+
+std::optional<uint16_t> parseUInt16DebugArgument(const std::string &value)
+{
+    if (value.empty())
+    {
+        return std::nullopt;
+    }
+
+    char *pEnd = nullptr;
+    const long parsed = std::strtol(value.c_str(), &pEnd, 0);
+
+    if (pEnd == nullptr || *pEnd != '\0' || parsed < 0 || parsed > std::numeric_limits<uint16_t>::max())
+    {
+        return std::nullopt;
+    }
+
+    return static_cast<uint16_t>(parsed);
+}
+
+std::string compactDebugName(std::string_view value)
+{
+    std::string result;
+
+    for (char character : value)
+    {
+        if (std::isalnum(static_cast<unsigned char>(character)) != 0)
+        {
+            result.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(character))));
+        }
+    }
+
+    return result;
+}
+
+std::optional<uint16_t> debugPartyEventVariableId(const std::string &argument)
+{
+    if (const std::optional<uint16_t> parsedId = parseUInt16DebugArgument(argument))
+    {
+        return parsedId;
+    }
+
+    const std::string name = compactDebugName(argument);
+
+    if (name == "arenawinspage" || name == "arenapage" || name == "page")
+    {
+        return static_cast<uint16_t>(EvtVariable::ArenaWinsPage);
+    }
+
+    if (name == "arenawinssquire" || name == "arenasquire" || name == "squire")
+    {
+        return static_cast<uint16_t>(EvtVariable::ArenaWinsSquire);
+    }
+
+    if (name == "arenawinsknight" || name == "arenaknight" || name == "knight")
+    {
+        return static_cast<uint16_t>(EvtVariable::ArenaWinsKnight);
+    }
+
+    if (name == "arenawinslord" || name == "arenalord" || name == "lord")
+    {
+        return static_cast<uint16_t>(EvtVariable::ArenaWinsLord);
+    }
+
+    return std::nullopt;
+}
+
+std::string debugPartyEventVariableName(uint16_t variableId)
+{
+    switch (static_cast<EvtVariable>(variableId))
+    {
+        case EvtVariable::ArenaWinsPage: return "ArenaWinsPage";
+        case EvtVariable::ArenaWinsSquire: return "ArenaWinsSquire";
+        case EvtVariable::ArenaWinsKnight: return "ArenaWinsKnight";
+        case EvtVariable::ArenaWinsLord: return "ArenaWinsLord";
+        default: return "Var" + std::to_string(variableId);
+    }
+}
+
+std::vector<uint16_t> debugNamedPartyEventVariableIds()
+{
+    return {
+        static_cast<uint16_t>(EvtVariable::ArenaWinsPage),
+        static_cast<uint16_t>(EvtVariable::ArenaWinsSquire),
+        static_cast<uint16_t>(EvtVariable::ArenaWinsKnight),
+        static_cast<uint16_t>(EvtVariable::ArenaWinsLord),
+    };
+}
+
+std::string formatDebugPartyEventVariable(const Party &party, uint16_t variableId)
+{
+    return debugPartyEventVariableName(variableId) + " (" + std::to_string(variableId) + ")="
+        + std::to_string(party.eventVariableValue(variableId));
 }
 
 std::optional<std::string> debugResolveClassName(const std::string &argument, const ClassSkillTable &classSkillTable)
@@ -2555,8 +2678,10 @@ void GameApplication::registerDebugConsoleCommands()
         {
             std::ostringstream out;
             out << "Commands: help, cls, map, setup breach, event <id>, "
+                << "mm9.trigger <object-name> [message], "
                 << "time [advance [days]], "
                 << "qbit get|set|clear <id> [id...], qbit dump [active|all|filter], "
+                << "var get|set|add|clear <id|name> [value], var dump [active|arena|all], "
                 << "npc greeting get|reset|set <npc-id> [greeting-id], "
                 << "global get|set|clear <name> [value], global dump [filter], "
                 << "mapvar get|set|clear <index> [value], mapvar dump, "
@@ -2815,6 +2940,37 @@ void GameApplication::registerDebugConsoleCommands()
         }});
 
     m_debugConsole.registerCommand({
+        .name = "mm9.trigger",
+        .description = "Trigger a named MM9 event object.",
+        .usage = "mm9.trigger <object-name> [message]",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &context)
+        {
+            if (context.args.empty() || context.args.size() > 2)
+            {
+                return commandResult(false, "Usage: mm9.trigger <object-name> [message]");
+            }
+
+            if (m_pMapSceneRuntime == nullptr
+                || m_pMapSceneRuntime->kind() != SceneKind::Outdoor
+                || m_pOutdoorWorldRuntime == nullptr)
+            {
+                return commandResult(false, "No active outdoor MM9 runtime.");
+            }
+
+            const std::string messageName = context.args.size() >= 2 ? context.args[1] : "Use";
+            const bool triggered = m_pOutdoorWorldRuntime->triggerMm9Object(context.args[0], messageName);
+            const EventRuntimeState *pRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState();
+            if (pRuntimeState != nullptr && pRuntimeState->lastActivationResult.has_value())
+            {
+                return commandResult(triggered, *pRuntimeState->lastActivationResult);
+            }
+
+            return commandResult(
+                triggered,
+                triggered ? "Triggered MM9 object." : "MM9 trigger failed.");
+        }});
+
+    m_debugConsole.registerCommand({
         .name = "qbit",
         .description = "Inspect or mutate party quest bits.",
         .usage = "qbit get|set|clear <id> [id...] | qbit dump [active|all|filter]",
@@ -2998,6 +3154,155 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(false, "Usage: qbit get|set|clear <id> [id...] | qbit dump [active|all|filter]");
+        }});
+
+    m_debugConsole.registerCommand({
+        .name = "var",
+        .description = "Inspect or mutate party event variables.",
+        .usage = "var get|set|add|clear <id|name> [value] | var dump [active|arena|all]",
+        .callback = [activeParty, commandResult](const DebugConsole::CommandContext &context)
+        {
+            Party *pParty = activeParty();
+
+            if (pParty == nullptr)
+            {
+                return commandResult(false, "No active party.");
+            }
+
+            if (context.args.empty())
+            {
+                return commandResult(
+                    false,
+                    "Usage: var get|set|add|clear <id|name> [value] | var dump [active|arena|all]");
+            }
+
+            const std::string action = toLowerCopy(context.args[0]);
+
+            if (action == "dump")
+            {
+                const std::string mode = context.args.size() >= 2 ? toLowerCopy(context.args[1]) : "active";
+                const Party::Snapshot snapshot = pParty->snapshot();
+                std::set<uint16_t> variableIds;
+
+                if (mode == "arena")
+                {
+                    for (uint16_t variableId : debugNamedPartyEventVariableIds())
+                    {
+                        variableIds.insert(variableId);
+                    }
+                }
+                else if (mode == "active" || mode.empty())
+                {
+                    for (const std::pair<const uint16_t, int32_t> &entry : snapshot.eventVariables)
+                    {
+                        variableIds.insert(entry.first);
+                    }
+                }
+                else if (mode == "all")
+                {
+                    for (const std::pair<const uint16_t, int32_t> &entry : snapshot.eventVariables)
+                    {
+                        variableIds.insert(entry.first);
+                    }
+
+                    for (uint16_t variableId : debugNamedPartyEventVariableIds())
+                    {
+                        variableIds.insert(variableId);
+                    }
+                }
+                else
+                {
+                    return commandResult(false, "Usage: var dump [active|arena|all]");
+                }
+
+                std::ostringstream out;
+                out << "Party vars";
+
+                if (mode == "arena" || mode == "all")
+                {
+                    out << " " << mode;
+                }
+                else
+                {
+                    out << " active";
+                }
+
+                out << ":\n";
+
+                size_t emitted = 0;
+
+                for (uint16_t variableId : variableIds)
+                {
+                    out << formatDebugPartyEventVariable(*pParty, variableId) << '\n';
+                    ++emitted;
+
+                    if (emitted >= 120)
+                    {
+                        out << "... truncated\n";
+                        break;
+                    }
+                }
+
+                if (emitted == 0)
+                {
+                    out << "<none>";
+                }
+
+                return commandResult(true, out.str());
+            }
+
+            if (context.args.size() < 2)
+            {
+                return commandResult(
+                    false,
+                    "Usage: var get|set|add|clear <id|name> [value] | var dump [active|arena|all]");
+            }
+
+            const std::optional<uint16_t> variableId = debugPartyEventVariableId(context.args[1]);
+
+            if (!variableId)
+            {
+                return commandResult(false, "Unknown party event variable: " + context.args[1]);
+            }
+
+            if (action == "get")
+            {
+                return commandResult(true, formatDebugPartyEventVariable(*pParty, *variableId));
+            }
+
+            if (action == "clear")
+            {
+                pParty->setEventVariableValue(*variableId, 0);
+                return commandResult(true, formatDebugPartyEventVariable(*pParty, *variableId));
+            }
+
+            if (action == "set" || action == "add")
+            {
+                if (context.args.size() < 3)
+                {
+                    return commandResult(false, "Usage: var " + action + " <id|name> <value>");
+                }
+
+                const std::optional<int32_t> value = parseInt32Argument(context.args[2]);
+
+                if (!value)
+                {
+                    return commandResult(false, "Invalid variable value.");
+                }
+
+                if (action == "set")
+                {
+                    pParty->setEventVariableValue(*variableId, *value);
+                }
+                else
+                {
+                    pParty->addEventVariableValue(*variableId, *value);
+                }
+
+                return commandResult(true, formatDebugPartyEventVariable(*pParty, *variableId));
+            }
+
+            return commandResult(false, "Usage: var get|set|add|clear <id|name> [value] | var dump [active|arena|all]");
         }});
 
     m_debugConsole.registerCommand({
@@ -4299,6 +4604,29 @@ void GameApplication::renderDebugConsoleFrame(int width, int height)
     m_debugConsoleFrameBegun = false;
 }
 
+void resetArenaStateAfterLeaving(
+    GameSession &session,
+    IMapSceneRuntime *pArrivingRuntime,
+    const LeavingArenaResetInfo &info)
+{
+    if (!info.isArena)
+    {
+        return;
+    }
+
+    session.clearMapRuntimeState(info.mapFileName, info.canonicalId);
+
+    if (pArrivingRuntime != nullptr)
+    {
+        pArrivingRuntime->party().resetArenaVisitState();
+    }
+
+    if (session.partyState())
+    {
+        session.partyState()->resetArenaVisitState();
+    }
+}
+
 bool GameApplication::processPendingDebugMapJump()
 {
     if (!m_pendingDebugMapJump.has_value())
@@ -4326,6 +4654,8 @@ bool GameApplication::processPendingDebugMapJump()
 
     const std::string previousMapFileName = m_gameSession.currentMapFileName();
     const bool isSameMapJump = sameMapFileName(pTargetMap->fileName, previousMapFileName);
+    const LeavingArenaResetInfo leavingArenaReset =
+        leavingArenaResetInfoForSelectedMap(m_gameDataLoader.getSelectedMap(), previousMapFileName);
     EventRuntimeState *pLeavingRuntimeState =
         m_pMapSceneRuntime != nullptr ? m_pMapSceneRuntime->eventRuntimeState() : nullptr;
     PendingMapLeaveOutputs onLeaveOutputs = {};
@@ -4403,6 +4733,11 @@ bool GameApplication::processPendingDebugMapJump()
         return false;
     }
     timingLogger.stage("runtime and view initialized");
+
+    if (!isSameMapJump)
+    {
+        resetArenaStateAfterLeaving(m_gameSession, m_pMapSceneRuntime.get(), leavingArenaReset);
+    }
 
     if (!isSameMapJump)
     {
@@ -5078,6 +5413,35 @@ void GameApplication::applyStartupDebugSettingsToActiveRuntime()
 
 }
 
+bool GameApplication::initializeMm9NewGameStateIfNeeded()
+{
+    if (normalizeWorldId(m_activeWorldManifest.id) != "mm9")
+    {
+        return true;
+    }
+
+    if (m_pAssetFileSystem == nullptr)
+    {
+        std::cerr << "GameApplication: MM9 new-game state initialization has no asset filesystem\n";
+        return false;
+    }
+
+    Mm9DialoguePackage package = {};
+    if (!loadMm9DialoguePackage(*m_pAssetFileSystem, package) || !package.errors.empty())
+    {
+        std::cerr << "GameApplication: failed to load MM9 generated state defaults";
+        if (!package.errors.empty())
+        {
+            std::cerr << ": " << package.errors.front().virtualPath << ": " << package.errors.front().message;
+        }
+        std::cerr << '\n';
+        return false;
+    }
+
+    m_gameSession.initializeMm9ScriptState(package);
+    return true;
+}
+
 void GameApplication::shutdownApplication()
 {
     m_screenManager.setActiveScreen(nullptr);
@@ -5486,7 +5850,8 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             &m_gameSession.gameplayCombatController(),
             &m_gameSession.gameplayFxService(),
             &m_gameDataLoader.getMergedBolsterMapTable(),
-            &m_gameDataLoader.getMergedBolsterMonsterTable()
+            &m_gameDataLoader.getMergedBolsterMonsterTable(),
+            selectedMap->mm9EventsData
         );
         timingLogger.stage("outdoor runtime initialized");
 
@@ -5591,6 +5956,8 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             selectedMap->outdoorDecorationBillboardSet,
             selectedMap->outdoorActorPreviewBillboardSet,
             selectedMap->outdoorSpriteObjectBillboardSet,
+            selectedMap->outdoorSceneData,
+            selectedMap->mm9EventsData,
             selectedMap->outdoorMapDeltaData,
             &m_gameAudioSystem,
             *static_cast<OutdoorSceneRuntime *>(m_pMapSceneRuntime.get()),
@@ -7105,6 +7472,11 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
     shutdownRenderer();
     m_gameSession.clear();
     m_gameSession.clearCurrentSavePath();
+    if (!initializeMm9NewGameStateIfNeeded())
+    {
+        openMainMenuScreen();
+        return false;
+    }
     m_gameSession.setCurrentSceneKind(SceneKind::Outdoor);
     const MapStartDestination startupDestination = resolveStartupDestination();
     m_gameSession.setCurrentMapFileName(startupDestination.mapFileName);
@@ -7215,6 +7587,12 @@ bool GameApplication::startNewSessionFromCharacterCreation(
     shutdownRenderer();
     m_gameSession.clear();
     m_gameSession.clearCurrentSavePath();
+    if (!initializeMm9NewGameStateIfNeeded())
+    {
+        cancelLoadingOverlay();
+        openMainMenuScreen();
+        return false;
+    }
     m_gameSession.setCurrentSceneKind(SceneKind::Outdoor);
     const std::optional<MapStartDestination> continentStartDestination =
         continentId != 0 ? resolveContinentStartDestination(continentId) : std::nullopt;
@@ -7758,6 +8136,8 @@ bool GameApplication::processPendingMapMove()
         || *pendingMapMove->mapName == "0."
         || (!pendingMapMove->useMapStartPosition
             && sameMapFileName(*pendingMapMove->mapName, m_gameSession.currentMapFileName()));
+    const LeavingArenaResetInfo leavingArenaReset =
+        leavingArenaResetInfoForSelectedMap(m_gameDataLoader.getSelectedMap(), m_gameSession.currentMapFileName());
 
     const auto applyMapMoveDirection = [this, &pendingMapMove]()
     {
@@ -7881,6 +8261,8 @@ bool GameApplication::processPendingMapMove()
             static_cast<float>(pendingMapMove->y),
             static_cast<float>(pendingMapMove->z));
     }
+
+    resetArenaStateAfterLeaving(m_gameSession, m_pMapSceneRuntime.get(), leavingArenaReset);
 
     applyMapMoveDirection();
     float arrivedGameMinutes = m_gameSession.gameMinutes();
@@ -8445,6 +8827,8 @@ bool GameApplication::respawnPartyAfterDefeat(bool initializeView)
     }
 
     const std::string previousMapFileName = m_gameSession.currentMapFileName();
+    const LeavingArenaResetInfo leavingArenaReset =
+        leavingArenaResetInfoForSelectedMap(m_gameDataLoader.getSelectedMap(), previousMapFileName);
 
     if (!sameMapFileName(previousMapFileName, *m_pendingPartyDefeatRespawnMapFileName))
     {
@@ -8467,6 +8851,11 @@ bool GameApplication::respawnPartyAfterDefeat(bool initializeView)
         m_gameSession.setCurrentMapFileName(previousMapFileName);
         return false;
     }
+
+    resetArenaStateAfterLeaving(
+        m_gameSession,
+        m_pMapSceneRuntime.get(),
+        leavingArenaReset);
 
     applyMapStartDestination(MapStartDestination{
         .mapFileName = *m_pendingPartyDefeatRespawnMapFileName,

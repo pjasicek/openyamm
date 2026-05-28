@@ -407,6 +407,10 @@ TEST_CASE("sound catalog resolves flat sound rows against engine and world audio
     soundCatalog.initializeVirtualPathIndex(assetFileSystem);
 
     const std::optional<std::string> enginePath = soundCatalog.buildVirtualPath(19);
+    const std::optional<std::string> enginePathByName =
+        soundCatalog.buildVirtualPathByName(OpenYAMM::Game::SoundScope::Engine, " ClickIn ");
+    const std::optional<std::string> enginePathByNameWithExtension =
+        soundCatalog.buildVirtualPathByName(OpenYAMM::Game::SoundScope::Engine, "clickin.wav");
     const std::optional<std::string> worldMonsterPath =
         soundCatalog.buildVirtualPath(OpenYAMM::Game::worldSound(1000));
     const std::optional<std::string> worldHousePath =
@@ -415,9 +419,14 @@ TEST_CASE("sound catalog resolves flat sound rows against engine and world audio
         soundCatalog.buildVirtualPath(OpenYAMM::Game::engineSound(30101));
 
     REQUIRE(enginePath.has_value());
+    REQUIRE(enginePathByName.has_value());
+    REQUIRE(enginePathByNameWithExtension.has_value());
     REQUIRE(worldMonsterPath.has_value());
     REQUIRE(worldHousePath.has_value());
     REQUIRE(flatHousePath.has_value());
+    CHECK(*enginePathByName == *enginePath);
+    CHECK(*enginePathByNameWithExtension == *enginePath);
+    CHECK_FALSE(soundCatalog.buildVirtualPathByName(OpenYAMM::Game::SoundScope::World, "missing-mm9-sound"));
     CHECK(enginePath->starts_with("audio/"));
     CHECK(worldMonsterPath->starts_with("audio/"));
     CHECK(worldHousePath->starts_with("audio/"));

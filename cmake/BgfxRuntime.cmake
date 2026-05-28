@@ -399,6 +399,14 @@ function(openyamm_configure_runtime_shaders)
         "fragment"
         "fs_particle.bin")
     openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_animated_model_skinned.sc"
+        "vertex"
+        "vs_animated_model_skinned.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_animated_model_skinned.sc"
+        "fragment"
+        "fs_animated_model_skinned.bin")
+    openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_spell_area_preview.sc"
         "vertex"
         "vs_spell_area_preview.bin")
@@ -414,6 +422,14 @@ function(openyamm_configure_runtime_shaders)
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_editor_preview_material.sc"
         "fragment"
         "fs_editor_preview_material.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_editor_textured.sc"
+        "vertex"
+        "vs_editor_textured.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_editor_textured.sc"
+        "fragment"
+        "fs_editor_textured.bin")
 
     set(runtimeShaderNames
         vs_cubes.bin
@@ -430,10 +446,14 @@ function(openyamm_configure_runtime_shaders)
         fs_outdoor_force_perspective.bin
         vs_particle.bin
         fs_particle.bin
+        vs_animated_model_skinned.bin
+        fs_animated_model_skinned.bin
         vs_spell_area_preview.bin
         fs_spell_area_preview.bin
         vs_editor_preview_material.bin
         fs_editor_preview_material.bin
+        vs_editor_textured.bin
+        fs_editor_textured.bin
     )
 
     set(runtimeShaderOutputs)

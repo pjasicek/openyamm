@@ -59,6 +59,42 @@ std::string bytesToUpperHex(const std::vector<uint8_t> &bytes)
     return text;
 }
 
+std::vector<Game::Mm9DatMaterialPreview> buildMm9DatMaterialPreviews(
+    const std::vector<EditorMm9MaterialTextureStatus> &statuses)
+{
+    std::vector<Game::Mm9DatMaterialPreview> previews;
+    previews.reserve(statuses.size());
+
+    for (const EditorMm9MaterialTextureStatus &status : statuses)
+    {
+        if (status.materialAliasCountForSource == 0)
+        {
+            continue;
+        }
+
+        Game::Mm9DatMaterialPreview preview = {};
+        preview.materialIndex = status.textureIndex;
+        preview.alias = status.alias;
+        preview.sourceTexture = status.sourceTexture;
+        preview.resolvedSourcePath = status.resolvedSourcePath;
+        preview.resolvedPreviewPath = status.resolvedCachePath;
+        preview.sourceDtxResolved = status.sourceDtxResolved && status.sourcePathExists;
+        preview.previewCacheAvailable = status.cachePathExists;
+        preview.placeholderMissingSource = status.placeholderMissingSource;
+
+        if (status.sourceAssetFamily == "sprites" && !status.resolvedSpriteFrameTexturePaths.empty())
+        {
+            const std::filesystem::path resolvedSpriteFramePath(status.resolvedSpriteFrameTexturePaths.front());
+            preview.resolvedSourcePath = resolvedSpriteFramePath.generic_string();
+            preview.sourceDtxResolved = std::filesystem::exists(resolvedSpriteFramePath);
+        }
+
+        previews.push_back(std::move(preview));
+    }
+
+    return previews;
+}
+
 std::string bytesToUpperHex(const std::array<uint8_t, 24> &bytes)
 {
     return bytesToUpperHex(std::vector<uint8_t>(bytes.begin(), bytes.end()));
@@ -641,23 +677,31 @@ std::string fileStemLowerCopy(const std::string &value)
 void buildBitmapTextureNames(const Engine::AssetFileSystem &assetFileSystem, std::vector<std::string> &textureNames)
 {
     textureNames.clear();
-    const std::vector<std::string> entries = assetFileSystem.enumerate("Data/bitmaps");
+    const std::array<std::string, 2> directories = {
+        "Data/bitmaps",
+        "Data/games/bitmaps",
+    };
 
-    for (const std::string &entry : entries)
+    for (const std::string &directory : directories)
     {
-        const std::string lowerEntry = toLowerCopy(entry);
+        const std::vector<std::string> entries = assetFileSystem.enumerate(directory);
 
-        if (!lowerEntry.ends_with(".bmp") && !lowerEntry.ends_with(".png"))
+        for (const std::string &entry : entries)
         {
-            continue;
-        }
+            const std::string lowerEntry = toLowerCopy(entry);
 
-        const std::filesystem::path path(entry);
-        const std::string stem = path.stem().string();
+            if (!lowerEntry.ends_with(".bmp") && !lowerEntry.ends_with(".png"))
+            {
+                continue;
+            }
 
-        if (!stem.empty())
-        {
-            textureNames.push_back(stem);
+            const std::filesystem::path path(entry);
+            const std::string stem = path.stem().string();
+
+            if (!stem.empty())
+            {
+                textureNames.push_back(stem);
+            }
         }
     }
 
@@ -1484,6 +1528,25 @@ void emitPositionMap(YAML::Emitter &emitter, int x, int y, int z)
     emitter << YAML::EndMap;
 }
 
+void emitFloat3Map(YAML::Emitter &emitter, const std::array<float, 3> &value)
+{
+    emitter << YAML::BeginMap;
+    emitter << YAML::Key << "x" << YAML::Value << value[0];
+    emitter << YAML::Key << "y" << YAML::Value << value[1];
+    emitter << YAML::Key << "z" << YAML::Value << value[2];
+    emitter << YAML::EndMap;
+}
+
+void emitFloat4Map(YAML::Emitter &emitter, const std::array<float, 4> &value)
+{
+    emitter << YAML::BeginMap;
+    emitter << YAML::Key << "x" << YAML::Value << value[0];
+    emitter << YAML::Key << "y" << YAML::Value << value[1];
+    emitter << YAML::Key << "z" << YAML::Value << value[2];
+    emitter << YAML::Key << "w" << YAML::Value << value[3];
+    emitter << YAML::EndMap;
+}
+
 template <typename ValueType>
 void emitSequence(YAML::Emitter &emitter, const std::vector<ValueType> &values)
 {
@@ -1952,6 +2015,285 @@ bool EditorDocument::loadIndoorSceneVirtualPath(
     return loadIndoorSceneText(assetFileSystem, sceneVirtualPath, *sceneText, errorMessage);
 }
 
+bool EditorDocument::loadMm9DatLevelPhysicalPath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::filesystem::path &levelPhysicalPath,
+    std::string &errorMessage)
+{
+    const std::filesystem::path normalizedPath = std::filesystem::absolute(levelPhysicalPath);
+    std::string levelText;
+
+    if (!readTextFile(normalizedPath, levelText))
+    {
+        errorMessage = "could not read MM9 DAT level: " + normalizedPath.string();
+        return false;
+    }
+
+    const std::optional<EditorMm9DatLevelMetadata> metadata =
+        loadMm9DatLevelMetadataFromText(levelText, errorMessage);
+
+    if (!metadata)
+    {
+        errorMessage = "could not parse MM9 DAT level " + normalizedPath.string() + ": " + errorMessage;
+        return false;
+    }
+
+    m_kind = Kind::Mm9Dat;
+    m_isDirty = false;
+    m_isRuntimeBuildDirty = false;
+    m_developmentRoot = assetFileSystem.getDevelopmentRoot();
+    m_editorDevelopmentRoot = assetFileSystem.getEditorDevelopmentRoot();
+    m_displayName = metadata->displayName;
+    m_scenePhysicalPath = normalizedPath;
+    m_sceneVirtualPath = sceneVirtualPathFromPhysical(m_editorDevelopmentRoot, normalizedPath);
+    m_geometryPhysicalPath = resolveMm9DatLevelRelativePath(normalizedPath, metadata->source.dat);
+    m_geometryVirtualPath = sceneVirtualPathFromPhysical(m_editorDevelopmentRoot, m_geometryPhysicalPath);
+    m_geometryMetadataPhysicalPath = resolveMm9DatLevelRelativePath(normalizedPath, metadata->sidecars.datWorld);
+    m_geometryMetadataVirtualPath = sceneVirtualPathFromPhysical(m_editorDevelopmentRoot, m_geometryMetadataPhysicalPath);
+    m_mapPackagePhysicalPath.clear();
+    m_mapPackageVirtualPath.clear();
+    m_hasMapPackageRoot = false;
+    m_terrainMetadataPhysicalPath.clear();
+    m_terrainMetadataVirtualPath.clear();
+    m_outdoorGeometry = {};
+    m_outdoorGeometry.worldId = metadata->source.sourceGame;
+    m_outdoorGeometry.name = metadata->displayName;
+    m_outdoorGeometry.fileName = metadata->mapId + ".dat";
+    m_outdoorSceneData = {};
+    m_indoorGeometry = {};
+    m_indoorSceneData = {};
+    m_hasIndoorGeometryMetadata = false;
+    m_indoorGeometryMetadata = {};
+    m_outdoorGeometryMetadata = {};
+    m_outdoorMapPackageMetadata = {};
+    m_outdoorTerrainMetadata = {};
+    m_outdoorGeometrySourceBytes.clear();
+    m_indoorGeometrySourceBytes.clear();
+    m_mm9DatLevelMetadata = *metadata;
+    m_mm9DatLevelLoadDiagnostics = validateMm9DatLevelMetadataFiles(normalizedPath, m_mm9DatLevelMetadata);
+    m_mm9DatLoadedSidecars = {};
+    m_mm9DatWorld = {};
+    m_mm9DatRenderMesh = {};
+    m_mm9DatRenderBounds = {};
+    m_mm9DatRenderMaterialAssignments.clear();
+    m_mm9ObjectLayer = {};
+    m_mm9LightLayer = {};
+    m_mm9SoundLayer = {};
+    m_mm9SpawnLayer = {};
+    m_mm9MaterialTextureStatuses.clear();
+    m_mm9RawObjectAssetReferenceStatuses.clear();
+    m_mm9AssetDependencySummary = {};
+    m_mm9DocumentPathStatuses.clear();
+    m_mm9SourceAssetManifest = {};
+    m_mm9SourceAssetManifestPhysicalPath = resolveMm9SourceAssetManifestPath(normalizedPath);
+
+    if (!m_developmentRoot.empty()
+        && !m_editorDevelopmentRoot.empty()
+        && m_developmentRoot != m_editorDevelopmentRoot)
+    {
+        std::error_code manifestExistsError;
+
+        if (!std::filesystem::exists(m_mm9SourceAssetManifestPhysicalPath, manifestExistsError))
+        {
+            const std::filesystem::path manifestRelativePath =
+                m_mm9SourceAssetManifestPhysicalPath.lexically_relative(m_editorDevelopmentRoot);
+
+            if (!manifestRelativePath.empty())
+            {
+                const std::filesystem::path developmentManifestPath =
+                    (m_developmentRoot / manifestRelativePath).lexically_normal();
+                std::error_code developmentManifestExistsError;
+
+                if (std::filesystem::exists(developmentManifestPath, developmentManifestExistsError)
+                    && !developmentManifestExistsError)
+                {
+                    m_mm9SourceAssetManifestPhysicalPath = developmentManifestPath;
+                }
+            }
+        }
+    }
+
+    m_mm9SourceAssetFamilyStatuses.clear();
+    m_mm9SourceAssetManifestDiagnostics.clear();
+    m_hasMm9DatLoadedSidecars = false;
+    m_hasMm9DatWorld = false;
+    m_hasMm9SourceAssetManifest = false;
+
+    std::filesystem::path sourceDatPhysicalPath = m_geometryPhysicalPath;
+    std::error_code sourceDatExistsError;
+
+    if (!std::filesystem::exists(sourceDatPhysicalPath, sourceDatExistsError)
+        && !m_developmentRoot.empty()
+        && !m_editorDevelopmentRoot.empty()
+        && m_developmentRoot != m_editorDevelopmentRoot)
+    {
+        const std::filesystem::path relativeSourcePath =
+            sourceDatPhysicalPath.lexically_relative(m_editorDevelopmentRoot);
+
+        if (!relativeSourcePath.empty())
+        {
+            const std::filesystem::path developmentSourcePath =
+                (m_developmentRoot / relativeSourcePath).lexically_normal();
+            std::error_code developmentSourceExistsError;
+
+            if (std::filesystem::exists(developmentSourcePath, developmentSourceExistsError)
+                && !developmentSourceExistsError)
+            {
+                sourceDatPhysicalPath = developmentSourcePath;
+            }
+        }
+    }
+
+    std::string datWorldErrorMessage;
+    const std::optional<Game::Mm9DatWorld> parsedDatWorld =
+        Game::loadMm9DatWorld(sourceDatPhysicalPath, datWorldErrorMessage);
+
+    if (parsedDatWorld)
+    {
+        m_mm9DatWorld = *parsedDatWorld;
+        m_mm9DatRenderMesh = Game::buildMm9DatRenderMesh(m_mm9DatWorld);
+        m_mm9DatRenderBounds = Game::computeMm9DatRenderBounds(m_mm9DatRenderMesh);
+        m_hasMm9DatWorld = true;
+    }
+
+    std::string sourceManifestText;
+    if (!readTextFile(m_mm9SourceAssetManifestPhysicalPath, sourceManifestText))
+    {
+        m_mm9SourceAssetManifestDiagnostics.push_back(
+            "could not read MM9 source asset manifest: "
+            + m_mm9SourceAssetManifestPhysicalPath.generic_string());
+    }
+    else
+    {
+        std::string manifestErrorMessage;
+        const std::optional<EditorMm9SourceAssetManifest> sourceManifest =
+            loadMm9SourceAssetManifestFromText(sourceManifestText, manifestErrorMessage);
+
+        if (!sourceManifest)
+        {
+            m_mm9SourceAssetManifestDiagnostics.push_back(
+                "could not parse MM9 source asset manifest: " + manifestErrorMessage);
+        }
+        else
+        {
+            m_mm9SourceAssetManifest = *sourceManifest;
+            m_hasMm9SourceAssetManifest = true;
+            m_mm9SourceAssetFamilyStatuses =
+                inspectMm9SourceAssetManifestFiles(m_mm9SourceAssetManifestPhysicalPath, m_mm9SourceAssetManifest);
+            m_mm9SourceAssetManifestDiagnostics =
+                validateMm9SourceAssetManifestFiles(m_mm9SourceAssetManifestPhysicalPath, m_mm9SourceAssetManifest);
+        }
+    }
+
+    if (m_mm9DatLevelLoadDiagnostics.empty())
+    {
+        std::string sidecarErrorMessage;
+
+        if (loadMm9DatLevelSidecars(
+                normalizedPath,
+                m_mm9DatLevelMetadata,
+                m_mm9DatLoadedSidecars,
+                sidecarErrorMessage))
+        {
+            m_hasMm9DatLoadedSidecars = true;
+            m_mm9MaterialTextureStatuses =
+                inspectMm9MaterialTextureReferences(
+                    normalizedPath,
+                    m_mm9DatLoadedSidecars.datWorld,
+                    m_mm9DatLoadedSidecars.materialAliases,
+                    &m_mm9MaterialInspectionCache);
+            m_mm9DatRenderMaterialAssignments =
+                Game::assignMm9DatRenderMeshMaterials(
+                    m_mm9DatRenderMesh,
+                    buildMm9DatMaterialPreviews(m_mm9MaterialTextureStatuses));
+            const std::vector<std::string> datWorldIssues =
+                validateMm9DatWorldSidecarReferences(m_mm9DatLoadedSidecars.datWorld);
+            m_mm9DatLevelLoadDiagnostics.insert(
+                m_mm9DatLevelLoadDiagnostics.end(),
+                datWorldIssues.begin(),
+                datWorldIssues.end());
+            m_mm9RawObjectAssetReferenceStatuses =
+                inspectMm9RawObjectAssetReferences(
+                    normalizedPath,
+                    m_mm9DatLoadedSidecars.rawObjects,
+                    &m_mm9DatLevelMetadata);
+            m_mm9ObjectLayer =
+                Game::buildMm9ObjectLayer(buildMm9ObjectSourceObjects(m_mm9DatLoadedSidecars.rawObjects));
+            if (m_hasMm9DatWorld)
+            {
+                m_mm9LightLayer =
+                    Game::buildMm9LightLayer(
+                        m_mm9DatWorld.worldInfo,
+                        buildMm9LightSourceObjects(m_mm9DatLoadedSidecars.rawObjects));
+            }
+            m_mm9SoundLayer =
+                Game::buildMm9SoundLayer(
+                    buildMm9SoundSourceObjects(
+                        m_mm9DatLoadedSidecars.rawObjects,
+                        m_mm9RawObjectAssetReferenceStatuses));
+            m_mm9SpawnLayer =
+                Game::buildMm9SpawnLayer(buildMm9SpawnSourceObjects(m_mm9DatLoadedSidecars.rawObjects));
+            m_mm9AssetDependencySummary =
+                summarizeMm9AssetDependencies(
+                    normalizedPath,
+                    m_mm9DatLevelMetadata,
+                    m_mm9MaterialTextureStatuses,
+                    m_mm9RawObjectAssetReferenceStatuses);
+
+            if (m_mm9DatLevelMetadata.sidecars.sceneCompat
+                && !m_mm9DatLevelMetadata.sidecars.sceneCompat->empty())
+            {
+                const std::filesystem::path sceneCompatPath =
+                    resolveMm9DatLevelRelativePath(normalizedPath, *m_mm9DatLevelMetadata.sidecars.sceneCompat);
+                std::string sceneCompatText;
+
+                if (!readTextFile(sceneCompatPath, sceneCompatText))
+                {
+                    m_mm9DatLevelLoadDiagnostics.push_back(
+                        "could not read MM9 object presentation sidecar: "
+                        + sceneCompatPath.generic_string());
+                }
+                else
+                {
+                    Game::OutdoorSceneYmlLoader sceneLoader;
+                    std::string sceneCompatErrorMessage;
+                    const std::optional<Game::OutdoorSceneData> sceneCompatData =
+                        sceneLoader.loadFromText(sceneCompatText, sceneCompatErrorMessage);
+
+                    if (!sceneCompatData)
+                    {
+                        m_mm9DatLevelLoadDiagnostics.push_back(
+                            "could not parse MM9 object presentation sidecar "
+                            + sceneCompatPath.generic_string()
+                            + ": "
+                            + sceneCompatErrorMessage);
+                    }
+                    else
+                    {
+                        m_outdoorSceneData = *sceneCompatData;
+                    }
+                }
+            }
+        }
+        else
+        {
+            m_mm9DatLevelLoadDiagnostics.push_back(sidecarErrorMessage);
+        }
+    }
+
+    m_mm9DocumentPathStatuses =
+        inspectMm9DatLevelDocumentPaths(normalizedPath, m_mm9DatLevelMetadata, m_mm9MaterialTextureStatuses);
+    const std::vector<std::string> documentPathIssues =
+        validateMm9DatLevelDocumentPathRoles(m_mm9DocumentPathStatuses);
+    m_mm9DatLevelLoadDiagnostics.insert(
+        m_mm9DatLevelLoadDiagnostics.end(),
+        documentPathIssues.begin(),
+        documentPathIssues.end());
+
+    touchSceneRevision();
+    return true;
+}
+
 bool EditorDocument::loadMapPhysicalPath(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::filesystem::path &path,
@@ -1994,6 +2336,11 @@ bool EditorDocument::loadMapPhysicalPath(
         }
 
         return loadMapPhysicalPath(assetFileSystem, scenePath, errorMessage);
+    }
+
+    if (fileNameLower.ends_with(".level.yml"))
+    {
+        return loadMm9DatLevelPhysicalPath(assetFileSystem, normalizedPath, errorMessage);
     }
 
     if (fileNameLower.ends_with(".map.yml"))
@@ -2211,6 +2558,13 @@ bool EditorDocument::createNewOutdoorMapPackage(
 
 bool EditorDocument::saveSource(std::string &errorMessage)
 {
+    if (m_kind == Kind::Mm9Dat)
+    {
+        errorMessage =
+            "MM9 DAT documents keep source/* immutable; regenerate generated sidecars or authored overrides explicitly.";
+        return false;
+    }
+
     if (m_kind != Kind::Outdoor && m_kind != Kind::Indoor)
     {
         errorMessage = "no editable document is loaded";
@@ -2228,6 +2582,14 @@ bool EditorDocument::saveSource(std::string &errorMessage)
 
 bool EditorDocument::saveSourceAs(const std::filesystem::path &scenePhysicalPath, std::string &errorMessage)
 {
+    if (m_kind == Kind::Mm9Dat)
+    {
+        (void)scenePhysicalPath;
+        errorMessage =
+            "MM9 DAT documents keep source/* immutable; save generated sidecars or authored overrides explicitly.";
+        return false;
+    }
+
     if (m_kind == Kind::Indoor)
     {
         if (m_editorDevelopmentRoot.empty())
@@ -2465,6 +2827,13 @@ bool EditorDocument::saveSourceAs(const std::filesystem::path &scenePhysicalPath
 
 bool EditorDocument::buildRuntime(std::string &errorMessage)
 {
+    if (m_kind == Kind::Mm9Dat)
+    {
+        errorMessage =
+            "MM9 DAT documents use the DAT/DTX runtime path; ODM/BLV runtime build is a derived compatibility step.";
+        return false;
+    }
+
     if (m_kind != Kind::Outdoor && m_kind != Kind::Indoor)
     {
         errorMessage = "no editable document is loaded";
@@ -2488,6 +2857,14 @@ bool EditorDocument::buildRuntime(std::string &errorMessage)
 
 bool EditorDocument::buildRuntimeAs(const std::filesystem::path &scenePhysicalPath, std::string &errorMessage)
 {
+    if (m_kind == Kind::Mm9Dat)
+    {
+        (void)scenePhysicalPath;
+        errorMessage =
+            "MM9 DAT documents use the DAT/DTX runtime path; ODM/BLV runtime build is a derived compatibility step.";
+        return false;
+    }
+
     if (m_kind == Kind::Indoor)
     {
         if (m_editorDevelopmentRoot.empty())
@@ -3113,6 +3490,12 @@ bool EditorDocument::loadOutdoorScenePhysicalPath(
     m_editorDevelopmentRoot = editorDevelopmentRoot;
     m_outdoorGeometry = *outdoorGeometry;
     m_outdoorGeometry.fileName = sceneData->geometryFile;
+    if (const std::optional<std::string> worldId =
+            worldIdFromPackageScenePath(editorDevelopmentRoot, scenePhysicalPath))
+    {
+        m_outdoorGeometry.worldId = *worldId;
+    }
+
     m_outdoorGeometrySourceBytes = geometryBytes.value_or(std::vector<uint8_t>{});
     m_outdoorSceneData = *sceneData;
     m_indoorGeometry = {};
@@ -3469,6 +3852,88 @@ std::vector<std::string> EditorDocument::validate() const
         return issues;
     }
 
+    if (m_kind == Kind::Mm9Dat)
+    {
+        std::vector<std::string> mm9Issues =
+            validateMm9DatLevelMetadataFiles(m_scenePhysicalPath, m_mm9DatLevelMetadata);
+        mm9Issues.insert(
+            mm9Issues.end(),
+            m_mm9SourceAssetManifestDiagnostics.begin(),
+            m_mm9SourceAssetManifestDiagnostics.end());
+
+        if (!m_hasMm9DatWorld)
+        {
+            mm9Issues.push_back("MM9 source DAT world was not parsed.");
+        }
+
+        if (!m_hasMm9DatLoadedSidecars)
+        {
+            mm9Issues.insert(
+                mm9Issues.end(),
+                m_mm9DatLevelLoadDiagnostics.begin(),
+                m_mm9DatLevelLoadDiagnostics.end());
+        }
+        else
+        {
+            mm9Issues.insert(
+                mm9Issues.end(),
+                m_mm9DatLevelLoadDiagnostics.begin(),
+                m_mm9DatLevelLoadDiagnostics.end());
+            const std::vector<std::string> datWorldIssues =
+                validateMm9DatWorldSidecarReferences(m_mm9DatLoadedSidecars.datWorld);
+            mm9Issues.insert(mm9Issues.end(), datWorldIssues.begin(), datWorldIssues.end());
+
+            if (m_hasMm9DatWorld
+                && m_mm9DatWorld.worldModels.size() != m_mm9DatLoadedSidecars.datWorld.worldModels.size())
+            {
+                mm9Issues.push_back(
+                    "MM9 parsed source DAT world model count does not match dat_world sidecar: parsed="
+                    + std::to_string(m_mm9DatWorld.worldModels.size())
+                    + " sidecar=" + std::to_string(m_mm9DatLoadedSidecars.datWorld.worldModels.size()));
+            }
+
+            if (m_hasMm9DatWorld && m_mm9DatRenderMesh.triangles.empty())
+            {
+                mm9Issues.push_back("MM9 parsed source DAT render mesh has no triangles.");
+            }
+
+            if (m_hasMm9DatWorld
+                && m_mm9DatRenderMaterialAssignments.size() != m_mm9DatRenderMesh.triangles.size())
+            {
+                mm9Issues.push_back(
+                    "MM9 parsed source DAT render material assignment count does not match render mesh triangles.");
+            }
+
+            for (const Game::Mm9DatRenderMaterialAssignment &assignment : m_mm9DatRenderMaterialAssignments)
+            {
+                if (!assignment.assigned || assignment.ambiguous)
+                {
+                    mm9Issues.push_back(
+                        "MM9 parsed source DAT render triangle has no unique material alias: source_texture="
+                        + assignment.sourceTexture);
+                    break;
+                }
+            }
+
+            const std::vector<std::string> materialIssues =
+                validateMm9MaterialTextureReferences(m_mm9MaterialTextureStatuses);
+            mm9Issues.insert(mm9Issues.end(), materialIssues.begin(), materialIssues.end());
+            const std::vector<std::string> rawObjectIssues =
+                validateMm9RawObjectsSidecarReferences(m_mm9DatLoadedSidecars.rawObjects);
+            mm9Issues.insert(mm9Issues.end(), rawObjectIssues.begin(), rawObjectIssues.end());
+            const std::vector<std::string> eventIssues =
+                validateMm9EventsReferences(
+                    m_scenePhysicalPath,
+                    m_mm9DatLevelMetadata,
+                    m_mm9DatLoadedSidecars.datWorld,
+                    m_mm9DatLoadedSidecars.rawObjects,
+                    m_mm9DatLoadedSidecars.events);
+            mm9Issues.insert(mm9Issues.end(), eventIssues.begin(), eventIssues.end());
+        }
+
+        return mm9Issues;
+    }
+
     if (m_kind != Kind::Outdoor)
     {
         issues.push_back("No outdoor document is loaded.");
@@ -3673,7 +4138,7 @@ void EditorDocument::setDirty(bool isDirty)
 {
     m_isDirty = isDirty;
 
-    if (m_kind == Kind::Indoor)
+    if (m_kind == Kind::Indoor || m_kind == Kind::Mm9Dat)
     {
         m_isRuntimeBuildDirty = false;
         return;
@@ -3834,6 +4299,116 @@ const Game::IndoorSceneData &EditorDocument::indoorSceneData() const
     return m_indoorSceneData;
 }
 
+const EditorMm9DatLevelMetadata &EditorDocument::mm9DatLevelMetadata() const
+{
+    return m_mm9DatLevelMetadata;
+}
+
+const EditorMm9LoadedSidecars &EditorDocument::mm9DatLoadedSidecars() const
+{
+    return m_mm9DatLoadedSidecars;
+}
+
+const Game::Mm9DatWorld &EditorDocument::mm9DatWorld() const
+{
+    return m_mm9DatWorld;
+}
+
+const Game::Mm9DatRenderMesh &EditorDocument::mm9DatRenderMesh() const
+{
+    return m_mm9DatRenderMesh;
+}
+
+const Game::Mm9DatRenderBounds &EditorDocument::mm9DatRenderBounds() const
+{
+    return m_mm9DatRenderBounds;
+}
+
+const std::vector<Game::Mm9DatRenderMaterialAssignment> &EditorDocument::mm9DatRenderMaterialAssignments() const
+{
+    return m_mm9DatRenderMaterialAssignments;
+}
+
+const Game::Mm9ObjectLayer &EditorDocument::mm9ObjectLayer() const
+{
+    return m_mm9ObjectLayer;
+}
+
+const Game::Mm9LightLayer &EditorDocument::mm9LightLayer() const
+{
+    return m_mm9LightLayer;
+}
+
+const Game::Mm9SoundLayer &EditorDocument::mm9SoundLayer() const
+{
+    return m_mm9SoundLayer;
+}
+
+const Game::Mm9SpawnLayer &EditorDocument::mm9SpawnLayer() const
+{
+    return m_mm9SpawnLayer;
+}
+
+const std::vector<EditorMm9MaterialTextureStatus> &EditorDocument::mm9MaterialTextureStatuses() const
+{
+    return m_mm9MaterialTextureStatuses;
+}
+
+const std::vector<EditorMm9RawObjectAssetReferenceStatus> &EditorDocument::mm9RawObjectAssetReferenceStatuses() const
+{
+    return m_mm9RawObjectAssetReferenceStatuses;
+}
+
+const EditorMm9AssetDependencySummary &EditorDocument::mm9AssetDependencySummary() const
+{
+    return m_mm9AssetDependencySummary;
+}
+
+const std::vector<EditorMm9DocumentPathStatus> &EditorDocument::mm9DocumentPathStatuses() const
+{
+    return m_mm9DocumentPathStatuses;
+}
+
+const EditorMm9SourceAssetManifest &EditorDocument::mm9SourceAssetManifest() const
+{
+    return m_mm9SourceAssetManifest;
+}
+
+const std::filesystem::path &EditorDocument::mm9SourceAssetManifestPhysicalPath() const
+{
+    return m_mm9SourceAssetManifestPhysicalPath;
+}
+
+const std::vector<EditorMm9SourceAssetFamilyStatus> &EditorDocument::mm9SourceAssetFamilyStatuses() const
+{
+    return m_mm9SourceAssetFamilyStatuses;
+}
+
+const std::vector<std::string> &EditorDocument::mm9DatLevelLoadDiagnostics() const
+{
+    return m_mm9DatLevelLoadDiagnostics;
+}
+
+const std::vector<std::string> &EditorDocument::mm9SourceAssetManifestDiagnostics() const
+{
+    return m_mm9SourceAssetManifestDiagnostics;
+}
+
+bool EditorDocument::hasMm9DatLoadedSidecars() const
+{
+    return m_hasMm9DatLoadedSidecars;
+}
+
+bool EditorDocument::hasMm9DatWorld() const
+{
+    return m_hasMm9DatWorld;
+}
+
+bool EditorDocument::hasMm9SourceAssetManifest() const
+{
+    return m_hasMm9SourceAssetManifest;
+}
+
 bool EditorDocument::hasIndoorGeometryMetadata() const
 {
     return m_hasIndoorGeometryMetadata;
@@ -3988,11 +4563,29 @@ bool EditorDocument::loadOutdoorSceneText(
     std::string &errorMessage)
 {
     Game::OutdoorSceneYmlLoader sceneLoader = {};
-    const std::optional<Game::OutdoorSceneData> sceneData = sceneLoader.loadFromText(sceneText, errorMessage);
+    std::optional<Game::OutdoorSceneData> sceneData = sceneLoader.loadFromText(sceneText, errorMessage);
 
     if (!sceneData)
     {
         return false;
+    }
+
+    if (sceneData->sourceMetadataFile && !sceneData->sourceMetadataFile->empty())
+    {
+        const std::string sourceMetadataVirtualPath =
+            (std::filesystem::path(sceneVirtualPath).parent_path() / *sceneData->sourceMetadataFile).generic_string();
+        const std::optional<std::string> sourceMetadataText =
+            assetFileSystem.readTextFile(sourceMetadataVirtualPath);
+
+        if (sourceMetadataText)
+        {
+            if (!sceneLoader.applySourceMetadataFromText(*sceneData, *sourceMetadataText, errorMessage))
+            {
+                errorMessage = "could not parse outdoor source metadata: " + sourceMetadataVirtualPath + ": "
+                    + errorMessage;
+                return false;
+            }
+        }
     }
 
     const std::filesystem::path developmentRoot = assetFileSystem.getDevelopmentRoot();
@@ -4352,6 +4945,11 @@ std::string EditorDocument::serializeOutdoorScene(
         emitter << YAML::Key << "legacy_companion_file" << YAML::Value << *sceneData.legacyCompanionFile;
     }
 
+    if (sceneData.sourceMetadataFile && !sceneData.sourceMetadataFile->empty())
+    {
+        emitter << YAML::Key << "source_metadata_file" << YAML::Value << *sceneData.sourceMetadataFile;
+    }
+
     emitter << YAML::EndMap;
     emitter << YAML::Key << "runtime_restrictions" << YAML::Value << YAML::BeginMap;
     emitter << YAML::Key << "allow_save_game" << YAML::Value << sceneData.runtimeRestrictions.allowSaveGame;
@@ -4515,6 +5113,32 @@ std::string EditorDocument::serializeOutdoorScene(
         emitter << YAML::Key << "index" << YAML::Value << spawn.spawn.index;
         emitter << YAML::Key << "attributes" << YAML::Value << spawn.spawn.attributes;
         emitter << YAML::Key << "group" << YAML::Value << spawn.spawn.group;
+        emitter << YAML::EndMap;
+    }
+
+    emitter << YAML::EndSeq;
+
+    emitter << YAML::Key << "model_instances" << YAML::Value << YAML::BeginSeq;
+
+    for (const Game::OutdoorSceneModelInstance &modelInstance : sceneData.modelInstances)
+    {
+        emitter << YAML::BeginMap;
+        emitter << YAML::Key << "instance_id" << YAML::Value << modelInstance.instanceId;
+        emitter << YAML::Key << "source_ref" << YAML::Value << modelInstance.sourceRef;
+        emitter << YAML::Key << "source_kind" << YAML::Value << modelInstance.sourceKind;
+        emitter << YAML::Key << "source_object_index" << YAML::Value << modelInstance.sourceObjectIndex;
+        emitter << YAML::Key << "source_class" << YAML::Value << modelInstance.sourceClass;
+        emitter << YAML::Key << "source_name" << YAML::Value << modelInstance.sourceName;
+        emitter << YAML::Key << "source_model" << YAML::Value << modelInstance.sourceModel;
+        emitter << YAML::Key << "source_skin" << YAML::Value << modelInstance.sourceSkin;
+        emitter << YAML::Key << "model_asset" << YAML::Value << modelInstance.modelAsset;
+        emitter << YAML::Key << "position" << YAML::Value;
+        emitPositionMap(emitter, modelInstance.x, modelInstance.y, modelInstance.z);
+        emitter << YAML::Key << "rotation_quat" << YAML::Value;
+        emitFloat4Map(emitter, modelInstance.rotationQuat);
+        emitter << YAML::Key << "scale" << YAML::Value;
+        emitFloat3Map(emitter, modelInstance.scale);
+        emitter << YAML::Key << "collision" << YAML::Value << modelInstance.collisionMode;
         emitter << YAML::EndMap;
     }
 

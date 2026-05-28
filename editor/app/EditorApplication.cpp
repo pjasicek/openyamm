@@ -1,10 +1,15 @@
 #include "editor/app/EditorApplication.h"
 
+#include "engine/BgfxContext.h"
+
 #include <imgui.h>
 #include <backends/imgui_impl_sdl3.h>
 #include <bgfx/bgfx.h>
 #include <SDL3/SDL.h>
 
+#include <algorithm>
+#include <array>
+#include <iostream>
 #include <string>
 
 namespace OpenYAMM::Editor
@@ -91,9 +96,115 @@ void configureImGuiStyle()
     pColors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.04f, 0.04f, 0.05f, 0.50f);
     pColors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.04f, 0.04f, 0.05f, 0.65f);
 }
+
+std::filesystem::path resolveRenderSmokeMapPath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::filesystem::path &mapPath)
+{
+    if (mapPath.is_absolute() || std::filesystem::exists(mapPath))
+    {
+        return mapPath;
+    }
+
+    return assetFileSystem.getEditorDevelopmentRoot()
+        / "worlds"
+        / assetFileSystem.getActiveWorldId()
+        / "maps"
+        / mapPath;
 }
 
-EditorApplication::EditorApplication(const Engine::ApplicationConfig &config)
+struct ScreenshotPixelStats
+{
+    uint32_t visiblePixels = 0;
+    uint32_t colorBuckets = 0;
+};
+
+ScreenshotPixelStats analyzeScreenshotPixels(const Engine::BgfxContext::ScreenshotCapture &screenshot)
+{
+    ScreenshotPixelStats stats = {};
+    std::array<bool, 4096> colorBuckets = {};
+
+    if (screenshot.width == 0
+        || screenshot.height == 0
+        || screenshot.bgraPixels.size()
+            < static_cast<size_t>(screenshot.width) * static_cast<size_t>(screenshot.height) * 4u)
+    {
+        return stats;
+    }
+
+    const size_t pixelCount = static_cast<size_t>(screenshot.width) * static_cast<size_t>(screenshot.height);
+
+    for (size_t pixelIndex = 0; pixelIndex < pixelCount; ++pixelIndex)
+    {
+        const size_t byteIndex = pixelIndex * 4u;
+        const uint8_t blue = screenshot.bgraPixels[byteIndex + 0u];
+        const uint8_t green = screenshot.bgraPixels[byteIndex + 1u];
+        const uint8_t red = screenshot.bgraPixels[byteIndex + 2u];
+        const uint8_t maxChannel = std::max(red, std::max(green, blue));
+
+        if (maxChannel <= 12)
+        {
+            continue;
+        }
+
+        ++stats.visiblePixels;
+
+        const size_t bucketIndex =
+            (static_cast<size_t>(red >> 4u) << 8u)
+            | (static_cast<size_t>(green >> 4u) << 4u)
+            | static_cast<size_t>(blue >> 4u);
+        colorBuckets[bucketIndex] = true;
+    }
+
+    for (bool occupied : colorBuckets)
+    {
+        if (occupied)
+        {
+            ++stats.colorBuckets;
+        }
+    }
+
+    return stats;
+}
+
+const char *renderSmokeModeName(EditorRenderSmokeMode mode)
+{
+    switch (mode)
+    {
+    case EditorRenderSmokeMode::ModelInstancesOnly:
+        return "model_instances_only";
+
+    case EditorRenderSmokeMode::SkyOnly:
+        return "sky_only";
+
+    case EditorRenderSmokeMode::PhysicsOnly:
+        return "physics_only";
+
+    case EditorRenderSmokeMode::WaterOnly:
+        return "water_only";
+
+    case EditorRenderSmokeMode::VisibilityOnly:
+        return "visibility_only";
+
+    case EditorRenderSmokeMode::InvisibleOnly:
+        return "invisible_only";
+
+    case EditorRenderSmokeMode::HelperOnly:
+        return "helper_only";
+
+    case EditorRenderSmokeMode::TriggerOnly:
+        return "trigger_only";
+
+    case EditorRenderSmokeMode::FullScene:
+    default:
+        return "full_scene";
+    }
+}
+}
+
+EditorApplication::EditorApplication(
+    const Engine::ApplicationConfig &config,
+    const EditorRenderSmokeConfig &renderSmokeConfig)
     : m_engineApplication(
         config,
         [this](Engine::AssetFileSystem &assetFileSystem)
@@ -116,12 +227,20 @@ EditorApplication::EditorApplication(const Engine::ApplicationConfig &config)
         {
             shutdown();
         })
+    , m_renderSmokeConfig(renderSmokeConfig)
 {
 }
 
 int EditorApplication::run()
 {
-    return m_engineApplication.run();
+    const int engineResult = m_engineApplication.run();
+
+    if (engineResult != 0)
+    {
+        return engineResult;
+    }
+
+    return m_renderSmokeExitCode.value_or(0);
 }
 
 bool EditorApplication::startup(Engine::AssetFileSystem &assetFileSystem)
@@ -130,6 +249,124 @@ bool EditorApplication::startup(Engine::AssetFileSystem &assetFileSystem)
     m_session.initialize(assetFileSystem);
 
     std::string errorMessage;
+
+    if (m_renderSmokeConfig.enabled)
+    {
+        const std::filesystem::path mapPath =
+            resolveRenderSmokeMapPath(assetFileSystem, m_renderSmokeConfig.mapPath);
+
+        if (!m_session.openMapPhysicalPath(mapPath, errorMessage))
+        {
+            std::cerr << "Editor render smoke failed: " << errorMessage << '\n';
+            return false;
+        }
+
+        m_pRenderSmokeViewport = std::make_unique<EditorOutdoorViewport>();
+        if (m_renderSmokeConfig.mode == EditorRenderSmokeMode::ModelInstancesOnly)
+        {
+            m_pRenderSmokeViewport->setShowTerrainFill(false);
+            m_pRenderSmokeViewport->setShowTerrainGrid(false);
+            m_pRenderSmokeViewport->setShowBModels(false);
+            m_pRenderSmokeViewport->setShowEntities(false);
+            m_pRenderSmokeViewport->setShowActors(false);
+            m_pRenderSmokeViewport->setShowSpriteObjects(false);
+            m_pRenderSmokeViewport->setShowSpawns(false);
+            m_pRenderSmokeViewport->setShowEventMarkers(false);
+            m_pRenderSmokeViewport->setShowMm9DatPortals(false);
+        }
+        else if (m_renderSmokeConfig.mode == EditorRenderSmokeMode::PhysicsOnly)
+        {
+            m_pRenderSmokeViewport->setMm9DatWorldRenderSubset(EditorOutdoorViewport::Mm9DatWorldRenderSubset::Physics);
+            m_pRenderSmokeViewport->setShowTerrainGrid(false);
+            m_pRenderSmokeViewport->setShowModelInstances(false);
+            m_pRenderSmokeViewport->setShowEntities(false);
+            m_pRenderSmokeViewport->setShowActors(false);
+            m_pRenderSmokeViewport->setShowSpriteObjects(false);
+            m_pRenderSmokeViewport->setShowSpawns(false);
+            m_pRenderSmokeViewport->setShowEventMarkers(false);
+            m_pRenderSmokeViewport->setShowMm9DatPortals(false);
+        }
+        else if (m_renderSmokeConfig.mode == EditorRenderSmokeMode::SkyOnly)
+        {
+            m_pRenderSmokeViewport->setMm9DatWorldRenderSubset(EditorOutdoorViewport::Mm9DatWorldRenderSubset::Sky);
+            m_pRenderSmokeViewport->setShowTerrainGrid(false);
+            m_pRenderSmokeViewport->setShowModelInstances(false);
+            m_pRenderSmokeViewport->setShowEntities(false);
+            m_pRenderSmokeViewport->setShowActors(false);
+            m_pRenderSmokeViewport->setShowSpriteObjects(false);
+            m_pRenderSmokeViewport->setShowSpawns(false);
+            m_pRenderSmokeViewport->setShowEventMarkers(false);
+            m_pRenderSmokeViewport->setShowMm9DatPortals(false);
+        }
+        else if (m_renderSmokeConfig.mode == EditorRenderSmokeMode::WaterOnly)
+        {
+            m_pRenderSmokeViewport->setMm9DatWorldRenderSubset(EditorOutdoorViewport::Mm9DatWorldRenderSubset::Water);
+            m_pRenderSmokeViewport->setShowTerrainGrid(false);
+            m_pRenderSmokeViewport->setShowModelInstances(false);
+            m_pRenderSmokeViewport->setShowEntities(false);
+            m_pRenderSmokeViewport->setShowActors(false);
+            m_pRenderSmokeViewport->setShowSpriteObjects(false);
+            m_pRenderSmokeViewport->setShowSpawns(false);
+            m_pRenderSmokeViewport->setShowEventMarkers(false);
+            m_pRenderSmokeViewport->setShowMm9DatPortals(false);
+        }
+        else if (m_renderSmokeConfig.mode == EditorRenderSmokeMode::VisibilityOnly)
+        {
+            m_pRenderSmokeViewport->setMm9DatWorldRenderSubset(
+                EditorOutdoorViewport::Mm9DatWorldRenderSubset::Visibility);
+            m_pRenderSmokeViewport->setShowTerrainGrid(false);
+            m_pRenderSmokeViewport->setShowModelInstances(false);
+            m_pRenderSmokeViewport->setShowEntities(false);
+            m_pRenderSmokeViewport->setShowActors(false);
+            m_pRenderSmokeViewport->setShowSpriteObjects(false);
+            m_pRenderSmokeViewport->setShowSpawns(false);
+            m_pRenderSmokeViewport->setShowEventMarkers(false);
+            m_pRenderSmokeViewport->setShowMm9DatPortals(false);
+        }
+        else if (m_renderSmokeConfig.mode == EditorRenderSmokeMode::InvisibleOnly)
+        {
+            m_pRenderSmokeViewport->setMm9DatWorldRenderSubset(
+                EditorOutdoorViewport::Mm9DatWorldRenderSubset::Invisible);
+            m_pRenderSmokeViewport->setShowTerrainGrid(false);
+            m_pRenderSmokeViewport->setShowModelInstances(false);
+            m_pRenderSmokeViewport->setShowEntities(false);
+            m_pRenderSmokeViewport->setShowActors(false);
+            m_pRenderSmokeViewport->setShowSpriteObjects(false);
+            m_pRenderSmokeViewport->setShowSpawns(false);
+            m_pRenderSmokeViewport->setShowEventMarkers(false);
+            m_pRenderSmokeViewport->setShowMm9DatPortals(false);
+        }
+        else if (m_renderSmokeConfig.mode == EditorRenderSmokeMode::HelperOnly)
+        {
+            m_pRenderSmokeViewport->setMm9DatWorldRenderSubset(EditorOutdoorViewport::Mm9DatWorldRenderSubset::Helper);
+            m_pRenderSmokeViewport->setShowTerrainGrid(false);
+            m_pRenderSmokeViewport->setShowModelInstances(false);
+            m_pRenderSmokeViewport->setShowEntities(false);
+            m_pRenderSmokeViewport->setShowActors(false);
+            m_pRenderSmokeViewport->setShowSpriteObjects(false);
+            m_pRenderSmokeViewport->setShowSpawns(false);
+            m_pRenderSmokeViewport->setShowEventMarkers(false);
+            m_pRenderSmokeViewport->setShowMm9DatPortals(false);
+        }
+        else if (m_renderSmokeConfig.mode == EditorRenderSmokeMode::TriggerOnly)
+        {
+            m_pRenderSmokeViewport->setMm9DatWorldRenderSubset(EditorOutdoorViewport::Mm9DatWorldRenderSubset::Trigger);
+            m_pRenderSmokeViewport->setShowTerrainGrid(false);
+            m_pRenderSmokeViewport->setShowModelInstances(false);
+            m_pRenderSmokeViewport->setShowEntities(false);
+            m_pRenderSmokeViewport->setShowActors(false);
+            m_pRenderSmokeViewport->setShowSpriteObjects(false);
+            m_pRenderSmokeViewport->setShowSpawns(false);
+            m_pRenderSmokeViewport->setShowEventMarkers(false);
+            m_pRenderSmokeViewport->setShowMm9DatPortals(false);
+        }
+        m_renderSmokeCaptureToken =
+            std::string("openyamm-editor-mm9-dat-render-smoke:")
+            + renderSmokeModeName(m_renderSmokeConfig.mode)
+            + ":"
+            + m_renderSmokeConfig.mapPath.generic_string();
+        return true;
+    }
 
     if (!m_mainWindow.restoreLastLoadedMap(m_session, errorMessage))
     {
@@ -205,18 +442,220 @@ void EditorApplication::renderFrame(int width, int height, float, float deltaSec
 
     const std::string rendererName = bgfx::getRendererName(bgfx::getRendererType());
     m_session.beginFrameEditTracking();
-    m_mainWindow.render(m_session, m_frameNumber, deltaSeconds, rendererName);
+
+    if (m_renderSmokeConfig.enabled)
+    {
+        if (m_pRenderSmokeViewport)
+        {
+            m_pRenderSmokeViewport->updateAndRender(
+                m_session,
+                0,
+                0,
+                static_cast<uint16_t>(std::max(width, 1)),
+                static_cast<uint16_t>(std::max(height, 1)),
+                false,
+                false,
+                false,
+                false,
+                0.0f,
+                0.0f,
+                deltaSeconds);
+
+            if (bgfx::isValid(m_pRenderSmokeViewport->viewportTextureHandle()))
+            {
+                ImGui::GetBackgroundDrawList()->AddImage(
+                    static_cast<ImTextureID>(
+                        static_cast<uintptr_t>(m_pRenderSmokeViewport->viewportTextureHandle().idx + 1)),
+                    ImVec2(0.0f, 0.0f),
+                    ImVec2(static_cast<float>(std::max(width, 1)), static_cast<float>(std::max(height, 1))),
+                    ImVec2(0.0f, 1.0f),
+                    ImVec2(1.0f, 0.0f));
+            }
+        }
+    }
+    else
+    {
+        m_mainWindow.render(m_session, m_frameNumber, deltaSeconds, rendererName);
+    }
+
     ImGui::Render();
 
     m_imguiRenderer.renderDrawData(ImGui::GetDrawData());
+    updateRenderSmokeState();
     ++m_frameNumber;
 }
 
 void EditorApplication::shutdown()
 {
     m_mainWindow.shutdown();
+    if (m_pRenderSmokeViewport)
+    {
+        m_pRenderSmokeViewport->shutdown();
+        m_pRenderSmokeViewport.reset();
+    }
     m_imguiRenderer.shutdown();
     ImGui_ImplSDL3_Shutdown();
     ImGui::DestroyContext();
+}
+
+void EditorApplication::updateRenderSmokeState()
+{
+    if (!m_renderSmokeConfig.enabled || m_renderSmokeExitCode.has_value())
+    {
+        return;
+    }
+
+    if (m_renderSmokeScreenshotRequested && !m_renderSmokeScreenshotCaptured)
+    {
+        const std::optional<Engine::BgfxContext::ScreenshotCapture> screenshot =
+            Engine::BgfxContext::consumeScreenshot(m_renderSmokeCaptureToken);
+
+        if (screenshot)
+        {
+            m_renderSmokeScreenshotReceived = true;
+            const ScreenshotPixelStats pixelStats = analyzeScreenshotPixels(*screenshot);
+            m_renderSmokeScreenshotVisiblePixels = pixelStats.visiblePixels;
+            m_renderSmokeScreenshotColorBuckets = pixelStats.colorBuckets;
+            m_renderSmokeScreenshotCaptured =
+                screenshot->width > 0
+                && screenshot->height > 0
+                && !screenshot->bgraPixels.empty()
+                && pixelStats.visiblePixels > 256
+                && pixelStats.colorBuckets >= 16;
+        }
+    }
+
+    const EditorOutdoorViewport::RenderSubmissionStats &stats =
+        m_renderSmokeConfig.enabled && m_pRenderSmokeViewport
+            ? m_pRenderSmokeViewport->lastRenderSubmissionStats()
+            : m_mainWindow.lastViewportRenderSubmissionStats();
+
+    if (bgfx::getRendererType() == bgfx::RendererType::Noop)
+    {
+        requestRenderSmokeExit(
+            false,
+            std::string("Editor MM9 DAT render smoke cannot verify viewport submissions or screenshots with renderer=")
+                + bgfx::getRendererName(bgfx::getRendererType()));
+        return;
+    }
+
+    if (m_renderSmokeConfig.mode == EditorRenderSmokeMode::ModelInstancesOnly)
+    {
+        m_renderSmokeSubmittedGeometry =
+            stats.valid
+            && stats.mm9DatDocument
+            && stats.datWorldSubmittedVertices == 0
+            && stats.modelInstanceSubmittedVertices > 0;
+    }
+    else if (m_renderSmokeConfig.mode == EditorRenderSmokeMode::PhysicsOnly
+        || m_renderSmokeConfig.mode == EditorRenderSmokeMode::SkyOnly
+        || m_renderSmokeConfig.mode == EditorRenderSmokeMode::WaterOnly
+        || m_renderSmokeConfig.mode == EditorRenderSmokeMode::VisibilityOnly
+        || m_renderSmokeConfig.mode == EditorRenderSmokeMode::InvisibleOnly
+        || m_renderSmokeConfig.mode == EditorRenderSmokeMode::HelperOnly
+        || m_renderSmokeConfig.mode == EditorRenderSmokeMode::TriggerOnly)
+    {
+        m_renderSmokeSubmittedGeometry =
+            stats.valid
+            && stats.mm9DatDocument
+            && stats.datWorldSubmittedVertices > 0
+            && stats.modelInstanceSubmittedVertices == 0;
+    }
+    else
+    {
+        m_renderSmokeSubmittedGeometry =
+            stats.valid
+            && stats.mm9DatDocument
+            && stats.datWorldTexturedSubmissions > 0
+            && stats.datWorldSubmittedVertices > 0
+            && stats.modelInstanceSubmittedVertices > 0;
+    }
+
+    if (m_renderSmokeSubmittedGeometry && !m_renderSmokeScreenshotRequested)
+    {
+        bgfx::requestScreenShot(BGFX_INVALID_HANDLE, m_renderSmokeCaptureToken.c_str());
+        m_renderSmokeScreenshotRequested = true;
+        m_renderSmokeScreenshotRequestFrame = m_frameNumber;
+    }
+
+    if (m_renderSmokeSubmittedGeometry && m_renderSmokeScreenshotCaptured)
+    {
+        std::cout
+            << "Editor MM9 DAT render smoke passed:"
+            << " map=" << m_renderSmokeConfig.mapPath.generic_string()
+            << " mode=" << renderSmokeModeName(m_renderSmokeConfig.mode)
+            << " dat_world_vertices=" << stats.datWorldSubmittedVertices
+            << " dat_world_textured_submissions=" << stats.datWorldTexturedSubmissions
+            << " dat_world_missing_material_submissions=" << stats.datWorldMissingMaterialSubmissions
+            << " model_instance_vertices=" << stats.modelInstanceSubmittedVertices
+            << " model_instance_textured_submissions=" << stats.modelInstanceTexturedSubmissions
+            << " model_instance_procedural_submissions=" << stats.modelInstanceProceduralSubmissions
+            << " model_instance_missing_submissions=" << stats.modelInstanceMissingSubmissions
+            << " screenshot_visible_pixels=" << m_renderSmokeScreenshotVisiblePixels
+            << " screenshot_color_buckets=" << m_renderSmokeScreenshotColorBuckets
+            << '\n';
+        requestRenderSmokeExit(true, {});
+        return;
+    }
+
+    const uint32_t maxFrames = std::max<uint32_t>(m_renderSmokeConfig.maxFrames, 2);
+
+    const bool timedOut =
+        m_renderSmokeScreenshotRequested
+            ? (m_frameNumber > m_renderSmokeScreenshotRequestFrame + maxFrames)
+            : (m_frameNumber + 1 >= maxFrames);
+
+    if (timedOut)
+    {
+        if (m_renderSmokeSubmittedGeometry && m_renderSmokeScreenshotRequested && !m_renderSmokeScreenshotReceived)
+        {
+            std::cout
+                << "Editor MM9 DAT render smoke passed without screenshot callback:"
+                << " map=" << m_renderSmokeConfig.mapPath.generic_string()
+                << " mode=" << renderSmokeModeName(m_renderSmokeConfig.mode)
+                << " dat_world_vertices=" << stats.datWorldSubmittedVertices
+                << " dat_world_textured_submissions=" << stats.datWorldTexturedSubmissions
+                << " dat_world_missing_material_submissions=" << stats.datWorldMissingMaterialSubmissions
+                << " model_instance_vertices=" << stats.modelInstanceSubmittedVertices
+                << " model_instance_textured_submissions=" << stats.modelInstanceTexturedSubmissions
+                << " model_instance_procedural_submissions=" << stats.modelInstanceProceduralSubmissions
+                << " model_instance_missing_submissions=" << stats.modelInstanceMissingSubmissions
+                << " screenshot_requested=true"
+                << " screenshot_received=false"
+                << '\n';
+            requestRenderSmokeExit(true, {});
+            return;
+        }
+
+        std::string failure =
+            std::string("Editor MM9 DAT render smoke failed: missing viewport submissions or screenshot map=")
+            + m_renderSmokeConfig.mapPath.generic_string()
+            + " mode=" + renderSmokeModeName(m_renderSmokeConfig.mode)
+            + " stats_valid=" + (stats.valid ? "true" : "false")
+            + " mm9_dat=" + (stats.mm9DatDocument ? "true" : "false")
+            + " dat_world_vertices=" + std::to_string(stats.datWorldSubmittedVertices)
+            + " dat_world_textured_submissions=" + std::to_string(stats.datWorldTexturedSubmissions)
+            + " model_instance_vertices=" + std::to_string(stats.modelInstanceSubmittedVertices)
+            + " screenshot_requested=" + (m_renderSmokeScreenshotRequested ? "true" : "false")
+            + " screenshot_received=" + (m_renderSmokeScreenshotReceived ? "true" : "false")
+            + " screenshot_captured=" + (m_renderSmokeScreenshotCaptured ? "true" : "false")
+            + " screenshot_visible_pixels=" + std::to_string(m_renderSmokeScreenshotVisiblePixels)
+            + " screenshot_color_buckets=" + std::to_string(m_renderSmokeScreenshotColorBuckets);
+        requestRenderSmokeExit(false, failure);
+    }
+}
+
+void EditorApplication::requestRenderSmokeExit(bool success, const std::string &message)
+{
+    m_renderSmokeExitCode = success ? 0 : 1;
+
+    if (!success)
+    {
+        std::cerr << message << '\n';
+    }
+
+    SDL_Event event = {};
+    event.type = SDL_EVENT_QUIT;
+    SDL_PushEvent(&event);
 }
 }

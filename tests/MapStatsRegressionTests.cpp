@@ -343,6 +343,40 @@ TEST_CASE("map stats parse chest trap difficulty and damage dice")
     CHECK_EQ(pRavenshore->trapDamageD20DiceCount, 1);
 }
 
+TEST_CASE("map stats parse MM9 supplemental columns")
+{
+    const OpenYAMM::Game::MapStats mapStats = loadMapStats();
+    const OpenYAMM::Game::MapStatsEntry *pThjorgardCity = mapStats.findById(9001u);
+    const OpenYAMM::Game::MapStatsEntry *pGuberland = mapStats.findByFileName("guberland.odm");
+    const OpenYAMM::Game::MapStatsEntry *pChasmOfTheDead = mapStats.findByFileName("chasmofthedead.blv");
+
+    REQUIRE(pThjorgardCity != nullptr);
+    CHECK_EQ(pThjorgardCity->name, "Thjorgard City");
+    CHECK_EQ(pThjorgardCity->fileName, "thjorgardcity.odm");
+    CHECK_EQ(pThjorgardCity->worldId, "mm9");
+    CHECK_EQ(pThjorgardCity->canonicalId, "world.mm9.map.thjorgardcity");
+    CHECK_EQ(pThjorgardCity->sourceMapId, 1);
+    CHECK_EQ(pThjorgardCity->sourceFileName, "ThjorgardCity");
+
+    REQUIRE(pGuberland != nullptr);
+    CHECK_EQ(pGuberland->id, 9008);
+    CHECK_EQ(pGuberland->sourceMapId, 8);
+    CHECK_EQ(pGuberland->musicTrack, 7);
+    CHECK_EQ(pGuberland->redbookTrack, 7);
+    CHECK_EQ(pGuberland->battleTrack, 3);
+    CHECK_EQ(pGuberland->travelDays, 0);
+    CHECK_EQ(pGuberland->sourceRedbookTrack, 6);
+    CHECK_EQ(pGuberland->sourceAreaCode, "A5");
+    CHECK_EQ(pGuberland->townPortalMapId, 7);
+    CHECK_EQ(pGuberland->inTown, 0);
+
+    REQUIRE(pChasmOfTheDead != nullptr);
+    CHECK_EQ(pChasmOfTheDead->id, 9044);
+    CHECK_EQ(pChasmOfTheDead->areaId, 9005);
+    CHECK_EQ(pChasmOfTheDead->encounter4.monsterName, "CanopicMummy");
+    CHECK_EQ(pChasmOfTheDead->encounter4.pictureName, "CanopicMummy");
+}
+
 TEST_CASE("map navigation rows apply explicit arrival positions")
 {
     const OpenYAMM::Game::MapStats mapStats = loadMapStats();

@@ -745,6 +745,39 @@ uint32_t monsterKindFlag(MonsterKind kind)
     return static_cast<uint32_t>(kind);
 }
 
+const char *mergedMonsterSourceWorldId(int16_t monsterId)
+{
+    if (monsterId >= 1 && monsterId <= 198)
+    {
+        return "mm8";
+    }
+
+    if (monsterId >= 199 && monsterId <= 474)
+    {
+        return "mm7";
+    }
+
+    if (monsterId >= 475 && monsterId <= 648)
+    {
+        return "mm6";
+    }
+
+    return "";
+}
+
+bool mergedMonsterBelongsToWorld(int16_t monsterId, const std::string &worldId)
+{
+    const std::string normalizedWorldId = toLowerCopy(trimCopy(worldId));
+
+    if (normalizedWorldId != "mm6" && normalizedWorldId != "mm7" && normalizedWorldId != "mm8")
+    {
+        return true;
+    }
+
+    const char *pMonsterWorldId = mergedMonsterSourceWorldId(monsterId);
+    return pMonsterWorldId[0] != '\0' && normalizedWorldId == pMonsterWorldId;
+}
+
 bool MonsterTable::MonsterStatsEntry::hasKind(MonsterKind kind) const
 {
     return (kindFlags & monsterKindFlag(kind)) != 0;

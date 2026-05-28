@@ -107,6 +107,16 @@ private:
     static std::optional<std::string> resolveEventTargetHoverStatusText(
         const OutdoorGameView &view,
         const OutdoorGameView::InspectHit &inspectHit);
+    static const OutdoorGameView::Mm9ScriptedBillboardInstance *mm9ScriptedBillboardInstanceForInspectHit(
+        const OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit);
+    static void populateMm9ScriptedBillboardInspectHit(
+        const OutdoorGameView::Mm9ScriptedBillboardInstance &instance,
+        size_t instanceIndex,
+        float distance,
+        OutdoorGameView::InspectHit &inspectHit);
+    static std::string formatMm9ScriptedBillboardInteractionLog(
+        const OutdoorGameView::InspectHit &inspectHit);
     static GameplayWorldHit translateInspectHitToGameplayWorldHit(
         const OutdoorGameView &view,
         const OutdoorGameView::InspectHit &inspectHit);
@@ -205,6 +215,15 @@ private:
     static bool dispatchWorldActivation(
         OutdoorGameView &view,
         const GameplayWorldHit &worldHit);
+    static bool executeMm9DialogueAction(
+        OutdoorGameView &view,
+        const EventDialogAction &action,
+        EventDialogContent &content);
+    static bool ensureMm9DialogueRuntime(OutdoorGameView &view, std::string &errorMessage);
+    static void playMm9GreetingSound(
+        OutdoorGameView &view,
+        const Mm9ScriptRuntimeAudioRequest &request,
+        const OutdoorGameView::InspectHit &inspectHit);
     static bool canActivateTelekinesisTarget(
         const OutdoorGameView &view,
         const GameplayWorldHit &worldHit);

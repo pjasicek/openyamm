@@ -68,6 +68,14 @@ public:
         size_t actorIndex,
         const std::filesystem::path &outputPath
     ) const;
+    int runMm9BillboardSmoke(
+        const std::filesystem::path &basePath,
+        const std::string &mapFileName
+    ) const;
+    int runMm9DialogueSmoke(
+        const std::filesystem::path &basePath,
+        const std::string &mapFileName
+    ) const;
 
 private:
     Engine::ApplicationConfig m_config;

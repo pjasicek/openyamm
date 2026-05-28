@@ -10,6 +10,7 @@ add_executable(openyamm-editor
     app/EditorImGuiBgfxRenderer.cpp
     document/EditorDocument.cpp
     document/IndoorGeometryMetadata.cpp
+    document/Mm9DatLevelMetadata.cpp
     document/OutdoorGeometryMetadata.cpp
     document/OutdoorMapPackageMetadata.cpp
     document/OutdoorTerrainMetadata.cpp
@@ -17,6 +18,7 @@ add_executable(openyamm-editor
     import/IndoorSourceGeometryCompiler.cpp
     import/IndoorSourceGeometryImport.cpp
     import/ObjModelImport.cpp
+    model/Mm9ModelInstanceActorResolver.cpp
     headless/EditorHeadlessDiagnostics.cpp
     viewport/EditorOutdoorViewport.cpp
     ${CMAKE_SOURCE_DIR}/game/data/ActorNameResolver.cpp
@@ -30,8 +32,16 @@ add_executable(openyamm-editor
     ${CMAKE_SOURCE_DIR}/game/maps/IndoorSceneYml.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/MapDeltaData.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/MapIdentity.cpp
+    ${CMAKE_SOURCE_DIR}/game/maps/Mm9EventsYml.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/OutdoorSceneYml.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/TerrainTileData.cpp
+    ${CMAKE_SOURCE_DIR}/game/mm9/Mm9DatWorld.cpp
+    ${CMAKE_SOURCE_DIR}/game/mm9/Mm9DtxTexture.cpp
+    ${CMAKE_SOURCE_DIR}/game/mm9/Mm9ObjectLayer.cpp
+    ${CMAKE_SOURCE_DIR}/game/mm9/Mm9LightLayer.cpp
+    ${CMAKE_SOURCE_DIR}/game/mm9/Mm9SoundLayer.cpp
+    ${CMAKE_SOURCE_DIR}/game/mm9/Mm9SpawnLayer.cpp
+    ${CMAKE_SOURCE_DIR}/game/mm9/Mm9ScriptedBillboardVisuals.cpp
     ${CMAKE_SOURCE_DIR}/game/party/SkillData.cpp
     ${CMAKE_SOURCE_DIR}/tools/legacy_events/EvtProgram.cpp
     ${CMAKE_SOURCE_DIR}/game/tables/ChestTable.cpp

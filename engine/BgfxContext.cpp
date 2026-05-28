@@ -8,9 +8,13 @@
 #include <cstdint>
 #include <cstring>
 #include <cstdio>
+#include <cctype>
+#include <algorithm>
+#include <cstdlib>
 #include <iostream>
 #include <mutex>
 #include <optional>
+#include <string>
 #include <utility>
 
 namespace OpenYAMM::Engine
@@ -21,8 +25,65 @@ std::mutex g_screenshotMutex;
 std::optional<BgfxContext::ScreenshotCapture> g_screenshotCapture;
 bool g_bgfxInitialized = false;
 
+std::string lowerCopy(const char *pValue)
+{
+    std::string value = pValue != nullptr ? pValue : "";
+    std::transform(value.begin(), value.end(), value.begin(), [](unsigned char character)
+    {
+        return static_cast<char>(std::tolower(character));
+    });
+    return value;
+}
+
+std::optional<bgfx::RendererType::Enum> rendererTypeFromEnvironment()
+{
+    const char *pRenderer = std::getenv("OPENYAMM_BGFX_RENDERER");
+
+    if (pRenderer == nullptr || pRenderer[0] == '\0')
+    {
+        return std::nullopt;
+    }
+
+    const std::string renderer = lowerCopy(pRenderer);
+
+    if (renderer == "noop")
+    {
+        return bgfx::RendererType::Noop;
+    }
+    if (renderer == "opengl" || renderer == "gl")
+    {
+        return bgfx::RendererType::OpenGL;
+    }
+    if (renderer == "opengles" || renderer == "gles")
+    {
+        return bgfx::RendererType::OpenGLES;
+    }
+    if (renderer == "vulkan" || renderer == "vk")
+    {
+        return bgfx::RendererType::Vulkan;
+    }
+    if (renderer == "d3d11" || renderer == "direct3d11")
+    {
+        return bgfx::RendererType::Direct3D11;
+    }
+    if (renderer == "d3d12" || renderer == "direct3d12")
+    {
+        return bgfx::RendererType::Direct3D12;
+    }
+
+    std::cerr << "Ignoring unknown OPENYAMM_BGFX_RENDERER=" << pRenderer << '\n';
+    return std::nullopt;
+}
+
 bgfx::RendererType::Enum selectRendererType(bool useNoopRenderer)
 {
+    const std::optional<bgfx::RendererType::Enum> environmentRenderer = rendererTypeFromEnvironment();
+
+    if (environmentRenderer)
+    {
+        return *environmentRenderer;
+    }
+
     if (useNoopRenderer)
     {
         return bgfx::RendererType::Noop;

@@ -321,6 +321,14 @@ TEST_CASE("gameplay trace writes only when settings-backed sink is enabled")
     std::filesystem::remove(path);
 }
 
+TEST_CASE("gameplay trace labels MM9 key qbits with raw key ids")
+{
+    CHECK(OpenYAMM::Game::gameplayDebugTraceMm9KeyQbitSummary(9044)
+        == "raw_id=44 qbit_id=9044 state_id=\"mm9.keys.44\"");
+    CHECK(OpenYAMM::Game::gameplayDebugTraceMm9KeyQbitSummary(9000).empty());
+    CHECK(OpenYAMM::Game::gameplayDebugTraceMm9KeyQbitSummary(10000).empty());
+}
+
 TEST_CASE("combat trace writes only when settings-backed sink is enabled")
 {
     const std::filesystem::path path =

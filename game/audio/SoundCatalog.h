@@ -32,6 +32,7 @@ public:
     const SoundCatalogEntry *findById(SoundRef sound) const;
     std::optional<std::string> buildVirtualPath(uint32_t soundId) const;
     std::optional<std::string> buildVirtualPath(SoundRef sound) const;
+    std::optional<std::string> buildVirtualPathByName(SoundScope scope, const std::string &soundName) const;
 
 private:
     bool appendRows(

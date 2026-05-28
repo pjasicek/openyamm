@@ -391,6 +391,7 @@ std::string serializeIndoorGeometryMetadata(const EditorIndoorGeometryMetadata &
     emitter << YAML::Key << "import" << YAML::Value << YAML::BeginMap;
     emitter << YAML::Key << "source_format" << YAML::Value << metadata.importSettings.sourceFormat;
     emitter << YAML::Key << "merge_vertices_epsilon" << YAML::Value << metadata.importSettings.mergeVerticesEpsilon;
+    emitter << YAML::Key << "merge_coplanar_faces" << YAML::Value << metadata.importSettings.mergeCoplanarFaces;
     emitter << YAML::Key << "triangulate_ngons" << YAML::Value << metadata.importSettings.triangulateNgons;
     emitter << YAML::Key << "generate_bsp" << YAML::Value << metadata.importSettings.generateBsp;
     emitter << YAML::Key << "generate_outlines" << YAML::Value << metadata.importSettings.generateOutlines;
@@ -780,7 +781,7 @@ std::optional<EditorIndoorGeometryMetadata> loadIndoorGeometryMetadataFromText(
             metadata.source.unitScale = legacyScale;
         }
 
-        const YAML::Node importNode = sourceNode["import"];
+        const YAML::Node importNode = sourceNode["import"] ? sourceNode["import"] : rootNode["import"];
 
         if (importNode)
         {
@@ -795,6 +796,11 @@ std::optional<EditorIndoorGeometryMetadata> loadIndoorGeometryMetadataFromText(
                     importNode,
                     "merge_vertices_epsilon",
                     metadata.importSettings.mergeVerticesEpsilon,
+                    errorMessage)
+                || !readScalarNode(
+                    importNode,
+                    "merge_coplanar_faces",
+                    metadata.importSettings.mergeCoplanarFaces,
                     errorMessage)
                 || !readScalarNode(
                     importNode,

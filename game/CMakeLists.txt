@@ -38,6 +38,7 @@ add_library(openyamm_game STATIC
     fx/WorldFxSystem.cpp
     gameplay/GameMechanics.cpp
     gameplay/GameplayActionController.cpp
+    gameplay/ArenaRuntime.cpp
     gameplay/GameplayCombatController.cpp
     gameplay/GameplayController.cpp
     gameplay/CorpseLootRuntime.cpp
@@ -86,6 +87,28 @@ add_library(openyamm_game STATIC
     items/InventoryItemMixingRuntime.cpp
     maps/IndoorSceneYml.cpp
     maps/MapDeltaData.cpp
+    maps/Mm9EventsYml.cpp
+    mm9/Mm9DialoguePackage.cpp
+    mm9/Mm9JournalContent.cpp
+    mm9/Mm9InteractionRouting.cpp
+    mm9/Mm9DialogueRuntime.cpp
+    mm9/Mm9DialogueUi.cpp
+    mm9/Mm9AnimatedActorBinding.cpp
+    mm9/Mm9AnimatedActorVisual.cpp
+    mm9/Mm9AnimatedModelResolver.cpp
+    mm9/Mm9AnimatedModelSidecar.cpp
+    mm9/Mm9DtxTexture.cpp
+    mm9/Mm9DatWorld.cpp
+    mm9/Mm9DatPhysicsQuery.cpp
+    mm9/Mm9SkyLayer.cpp
+    mm9/Mm9ObjectLayer.cpp
+    mm9/Mm9LightLayer.cpp
+    mm9/Mm9SoundLayer.cpp
+    mm9/Mm9SpawnLayer.cpp
+    mm9/Mm9ServiceRuntime.cpp
+    mm9/Mm9ScriptRuntime.cpp
+    mm9/Mm9ScriptedObjectRuntime.cpp
+    mm9/Mm9ScriptedBillboardVisuals.cpp
     maps/OutdoorSceneYml.cpp
     maps/TerrainTileData.cpp
     data/GameDataLoader.cpp
@@ -137,6 +160,8 @@ add_library(openyamm_game STATIC
     party/LloydsBeaconRuntime.cpp
     party/PartySpellSystem.cpp
     items/PriceCalculator.cpp
+    render/AnimatedModelAsset.cpp
+    render/AnimatedModelRenderer.cpp
     tables/ReadableScrollTable.cpp
     render/TextureFiltering.cpp
     tables/PortraitFxEventTable.cpp

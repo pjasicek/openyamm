@@ -9,6 +9,7 @@
 #include "game/events/EventProjectileSpells.h"
 #include "game/StringUtils.h"
 #include "game/gameplay/BountyHuntRuntime.h"
+#include "game/gameplay/ArenaRuntime.h"
 #include "game/gameplay/ChestRuntime.h"
 #include "game/gameplay/CorpseLootRuntime.h"
 #include "game/gameplay/GameplayBolsterRuntime.h"
@@ -8067,6 +8068,11 @@ const MergedBolsterMonsterTable *IndoorWorldRuntime::mergedBolsterMonsterTable()
     return m_pMergedBolsterMonsterTable;
 }
 
+std::string IndoorWorldRuntime::currentMapWorldId() const
+{
+    return m_map ? m_map->worldId : std::string();
+}
+
 bool IndoorWorldRuntime::isIndoorMap() const
 {
     return true;
@@ -9239,6 +9245,7 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
     state.preciseZ = pAiState != nullptr ? pAiState->preciseZ : static_cast<float>(actor.z);
     state.radius = pAiState != nullptr ? pAiState->collisionRadius : actor.radius;
     state.height = pAiState != nullptr ? pAiState->collisionHeight : actor.height;
+    state.group = actor.group;
     state.isDead = pAiState != nullptr
         ? pAiState->motionState == ActorAiMotionState::Dead
         : actor.hp <= 0;
@@ -9320,13 +9327,18 @@ bool IndoorWorldRuntime::tryStealFromActor(size_t actorIndex, uint32_t successRo
         const float rewardMultiplier = actorIndex < m_mapActorAiStates.size()
             ? m_mapActorAiStates[actorIndex].bolsterRewardMultiplier
             : 1.0f;
+        const bool arenaMonster =
+            actor.group == ArenaMonsterGroup && m_map.has_value() && m_map->runtimeRestrictions.isArena;
+        const MonsterTable::LootPrototype loot =
+            arenaMonster ? MonsterTable::LootPrototype{}
+                         : gameplayBolsterLootPrototype(pStats->loot, pStats->hitPoints, rewardMultiplier);
         GameplayCorpseViewState corpse =
             buildMonsterCorpseView(
                 title,
-                gameplayBolsterLootPrototype(pStats->loot, pStats->hitPoints, rewardMultiplier),
+                loot,
                 m_pItemTable,
                 m_pParty,
-                guaranteedItemIds);
+                arenaMonster ? std::vector<uint32_t>{} : guaranteedItemIds);
         corpse.fromSummonedMonster = false;
         corpse.sourceIndex = static_cast<uint32_t>(actorIndex);
         m_mapActorCorpseViews[actorIndex] = std::move(corpse);
@@ -10574,6 +10586,80 @@ bool IndoorWorldRuntime::summonHostileMonsterById(
     syncMapActorAiStates();
     applyEventRuntimeState(true);
     return spawnedAny;
+}
+
+bool IndoorWorldRuntime::summonArenaMonsterById(
+    int16_t monsterId,
+    float x,
+    float y,
+    float z,
+    uint32_t group)
+{
+    if (m_pMonsterTable == nullptr)
+    {
+        return false;
+    }
+
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr)
+    {
+        return false;
+    }
+
+    const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(monsterId);
+
+    if (pStats == nullptr)
+    {
+        return false;
+    }
+
+    const MonsterEntry *pMonsterEntry = m_pMonsterTable->findById(monsterId);
+
+    if (pMonsterEntry == nullptr)
+    {
+        return false;
+    }
+
+    MapDeltaActor actor = {};
+    actor.name = pStats->name;
+    actor.attributes = defaultActorAttributes(true);
+    actor.hp = int16_t(std::clamp(pStats->hitPoints, 0, 32767));
+    actor.hostilityType = 4;
+    actor.monsterInfoId = int16_t(pStats->id);
+    actor.monsterId = int16_t(pStats->id);
+    actor.radius = pMonsterEntry->radius;
+    actor.height = pMonsterEntry->height;
+    actor.moveSpeed = static_cast<uint16_t>(pStats->speed);
+    actor.x = int(std::lround(x));
+    actor.y = int(std::lround(y));
+    actor.z = int(std::lround(z));
+    actor.group = group;
+    actor.ally = 0u;
+    pMapDeltaData->actors.push_back(std::move(actor));
+
+    syncMapActorAiStates();
+    applyEventRuntimeState(true);
+    return true;
+}
+
+bool IndoorWorldRuntime::teleportPartyTo(float x, float y, float z, int32_t directionDegrees)
+{
+    if (m_pPartyRuntime == nullptr)
+    {
+        return false;
+    }
+
+    m_pPartyRuntime->teleportPartyPosition(x, y, z);
+
+    if (m_pRenderer != nullptr)
+    {
+        m_pRenderer->setCameraAngles(
+            static_cast<float>(directionDegrees) * Pi / 180.0f,
+            0.0f);
+    }
+
+    return true;
 }
 
 bool IndoorWorldRuntime::tryStartArmageddon(
@@ -12793,13 +12879,18 @@ bool IndoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
         const float rewardMultiplier = actorIndex < m_mapActorAiStates.size()
             ? m_mapActorAiStates[actorIndex].bolsterRewardMultiplier
             : 1.0f;
+        const bool arenaMonster =
+            actor.group == ArenaMonsterGroup && m_map.has_value() && m_map->runtimeRestrictions.isArena;
+        const MonsterTable::LootPrototype loot =
+            arenaMonster ? MonsterTable::LootPrototype{}
+                         : gameplayBolsterLootPrototype(pStats->loot, pStats->hitPoints, rewardMultiplier);
         CorpseViewState corpse =
             buildMonsterCorpseView(
                 title,
-                gameplayBolsterLootPrototype(pStats->loot, pStats->hitPoints, rewardMultiplier),
+                loot,
                 m_pItemTable,
                 m_pParty,
-                guaranteedItemIds);
+                arenaMonster ? std::vector<uint32_t>{} : guaranteedItemIds);
 
         for (const GameplayChestItemState &item : corpse.items)
         {

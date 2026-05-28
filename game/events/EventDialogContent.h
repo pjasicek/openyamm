@@ -50,6 +50,8 @@ enum class EventDialogActionKind
     GuildMembershipOffer,
     GuildMembershipJoin,
     GeneratedMercenaryJoinOffer,
+    ArenaDifficulty,
+    Mm9Topic,
 };
 
 enum class EventDialogParticipantVisual

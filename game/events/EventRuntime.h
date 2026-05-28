@@ -53,6 +53,7 @@ enum class DialogueOfferKind : uint32_t
     MasteryTeacher,
     GuildMembership,
     NpcHire,
+    Arena,
 };
 
 enum class MechanismAction
@@ -96,6 +97,13 @@ struct EventRuntimeState
         int32_t dx = 0;
         int32_t dy = 0;
         int32_t dz = 0;
+        bool hasRotation = false;
+        float rotationPivotX = 0.0f;
+        float rotationPivotY = 0.0f;
+        float rotationPivotZ = 0.0f;
+        float rotationDegreesX = 0.0f;
+        float rotationDegreesY = 0.0f;
+        float rotationDegreesZ = 0.0f;
         uint32_t moveTimeMs = 0;
         bool closed = true;
         bool moveParty = false;

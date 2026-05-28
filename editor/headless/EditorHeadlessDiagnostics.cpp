@@ -3,6 +3,8 @@
 #include "editor/document/EditorSession.h"
 #include "editor/document/EditorDocument.h"
 #include "editor/import/IndoorSourceGeometryCompiler.h"
+#include "editor/import/ObjModelImport.h"
+#include "editor/model/Mm9ModelInstanceActorResolver.h"
 #include "engine/AssetFileSystem.h"
 #include "engine/ImageAssetLoader.h"
 #include "game/events/EvtEnums.h"
@@ -10,23 +12,35 @@
 #include "game/indoor/IndoorMapData.h"
 #include "game/maps/IndoorSceneYml.h"
 #include "game/maps/MapDeltaData.h"
+#include "game/maps/MapIdentity.h"
 #include "game/maps/TerrainTileData.h"
+#include "game/mm9/Mm9DtxTexture.h"
+#include "game/mm9/Mm9LightLayer.h"
+#include "game/mm9/Mm9ScriptedBillboardVisuals.h"
+#include "game/mm9/Mm9SoundLayer.h"
+#include "game/mm9/Mm9SpawnLayer.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorMapData.h"
 
 #include <SDL3/SDL.h>
+#include <yaml-cpp/yaml.h>
 
 #include <algorithm>
 #include <array>
+#include <cctype>
 #include <cmath>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
+#include <limits>
 #include <optional>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 namespace OpenYAMM::Editor
@@ -39,6 +53,3692 @@ constexpr size_t ChestItemRecordCount = 140;
 bool nearlyEqualFloat(float left, float right, float epsilon = 0.001f)
 {
     return std::fabs(left - right) <= epsilon;
+}
+
+std::string lowerAsciiCopy(const std::string &value)
+{
+    std::string result;
+    result.reserve(value.size());
+
+    for (char character : value)
+    {
+        result.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(character))));
+    }
+
+    return result;
+}
+
+Game::Mm9DatVec3 mm9TriangleVertexPosition(
+    const Game::Mm9DatRenderTriangle &triangle,
+    size_t vertexIndex)
+{
+    return {
+        triangle.vertices[vertexIndex].x,
+        triangle.vertices[vertexIndex].y,
+        triangle.vertices[vertexIndex].z,
+    };
+}
+
+Game::Mm9DatVec3 mm9Subtract(const Game::Mm9DatVec3 &left, const Game::Mm9DatVec3 &right)
+{
+    return {
+        left.x - right.x,
+        left.y - right.y,
+        left.z - right.z,
+    };
+}
+
+Game::Mm9DatVec3 mm9Add(const Game::Mm9DatVec3 &left, const Game::Mm9DatVec3 &right)
+{
+    return {
+        left.x + right.x,
+        left.y + right.y,
+        left.z + right.z,
+    };
+}
+
+Game::Mm9DatVec3 mm9Multiply(const Game::Mm9DatVec3 &value, float scalar)
+{
+    return {
+        value.x * scalar,
+        value.y * scalar,
+        value.z * scalar,
+    };
+}
+
+Game::Mm9DatVec3 mm9Cross(const Game::Mm9DatVec3 &left, const Game::Mm9DatVec3 &right)
+{
+    return {
+        left.y * right.z - left.z * right.y,
+        left.z * right.x - left.x * right.z,
+        left.x * right.y - left.y * right.x,
+    };
+}
+
+float mm9Dot(const Game::Mm9DatVec3 &left, const Game::Mm9DatVec3 &right)
+{
+    return left.x * right.x + left.y * right.y + left.z * right.z;
+}
+
+float mm9Length(const Game::Mm9DatVec3 &value)
+{
+    return std::sqrt(mm9Dot(value, value));
+}
+
+std::optional<Game::Mm9DatVec3> mm9TriangleNormal(const Game::Mm9DatRenderTriangle &triangle)
+{
+    const Game::Mm9DatVec3 vertex0 = mm9TriangleVertexPosition(triangle, 0);
+    const Game::Mm9DatVec3 vertex1 = mm9TriangleVertexPosition(triangle, 1);
+    const Game::Mm9DatVec3 vertex2 = mm9TriangleVertexPosition(triangle, 2);
+    const Game::Mm9DatVec3 normal = mm9Cross(mm9Subtract(vertex1, vertex0), mm9Subtract(vertex2, vertex0));
+    const float normalLength = mm9Length(normal);
+
+    if (normalLength <= 0.0001f)
+    {
+        return std::nullopt;
+    }
+
+    return Game::Mm9DatVec3{
+        normal.x / normalLength,
+        normal.y / normalLength,
+        normal.z / normalLength,
+    };
+}
+
+Game::Mm9DatVec3 mm9TriangleCenter(const Game::Mm9DatRenderTriangle &triangle)
+{
+    const Game::Mm9DatVec3 vertex0 = mm9TriangleVertexPosition(triangle, 0);
+    const Game::Mm9DatVec3 vertex1 = mm9TriangleVertexPosition(triangle, 1);
+    const Game::Mm9DatVec3 vertex2 = mm9TriangleVertexPosition(triangle, 2);
+
+    return {
+        (vertex0.x + vertex1.x + vertex2.x) / 3.0f,
+        (vertex0.y + vertex1.y + vertex2.y) / 3.0f,
+        (vertex0.z + vertex1.z + vertex2.z) / 3.0f,
+    };
+}
+
+std::optional<Game::Mm9DatPickRay> mm9SyntheticPickRay(const Game::Mm9DatRenderMesh &mesh)
+{
+    for (const Game::Mm9DatRenderTriangle &triangle : mesh.triangles)
+    {
+        const std::optional<Game::Mm9DatVec3> normal = mm9TriangleNormal(triangle);
+
+        if (!normal)
+        {
+            continue;
+        }
+
+        Game::Mm9DatPickRay ray = {};
+        ray.origin = mm9Add(mm9TriangleCenter(triangle), mm9Multiply(*normal, 2.0f));
+        ray.direction = mm9Multiply(*normal, -1.0f);
+        return ray;
+    }
+
+    return std::nullopt;
+}
+
+bool validateMm9SyntheticPick(
+    const Game::Mm9DatRenderMesh &mesh,
+    std::optional<Game::Mm9DatRenderMeshPickHit> &hit,
+    std::string &failure)
+{
+    const std::optional<Game::Mm9DatPickRay> ray = mm9SyntheticPickRay(mesh);
+
+    if (!ray)
+    {
+        failure = "no non-degenerate native DAT triangle is available for synthetic picking";
+        return false;
+    }
+
+    hit = Game::pickMm9DatRenderMesh(mesh, *ray);
+
+    if (!hit)
+    {
+        failure = "native DAT synthetic pick ray missed the render mesh";
+        return false;
+    }
+
+    if (hit->triangleIndex >= mesh.triangles.size())
+    {
+        failure = "native DAT synthetic pick returned an out-of-range triangle index";
+        return false;
+    }
+
+    const Game::Mm9DatRenderTriangle &triangle = mesh.triangles[hit->triangleIndex];
+
+    if (hit->sourceModelIndex != triangle.sourceModelIndex
+        || hit->sourcePolyIndex != triangle.sourcePolyIndex
+        || hit->sourceSurfaceIndex != triangle.sourceSurfaceIndex
+        || hit->sourceTextureIndex != triangle.sourceTextureIndex
+        || hit->sourceModelName != triangle.sourceModelName
+        || hit->sourceTexture != triangle.sourceTexture)
+    {
+        failure = "native DAT synthetic pick source ids do not match the picked render triangle";
+        return false;
+    }
+
+    if (!std::isfinite(hit->position.x)
+        || !std::isfinite(hit->position.y)
+        || !std::isfinite(hit->position.z)
+        || !std::isfinite(hit->distance)
+        || hit->distance <= 0.0f)
+    {
+        failure = "native DAT synthetic pick returned invalid hit position or distance";
+        return false;
+    }
+
+    return true;
+}
+
+void writeYamlQuoted(std::ostream &stream, const std::string &value)
+{
+    stream << '"';
+
+    for (unsigned char character : value)
+    {
+        switch (character)
+        {
+        case '\\':
+            stream << "\\\\";
+            break;
+        case '"':
+            stream << "\\\"";
+            break;
+        case '\n':
+            stream << "\\n";
+            break;
+        case '\r':
+            stream << "\\r";
+            break;
+        case '\t':
+            stream << "\\t";
+            break;
+        default:
+            if (character < 0x20)
+            {
+                stream << "\\x"
+                       << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(character)
+                       << std::dec << std::setfill(' ');
+            }
+            else
+            {
+                stream << static_cast<char>(character);
+            }
+
+            break;
+        }
+    }
+
+    stream << '"';
+}
+
+void writeYamlScalar(std::ostream &stream, const std::string &indent, const std::string &key, const std::string &value)
+{
+    stream << indent << key << ": ";
+    writeYamlQuoted(stream, value);
+    stream << '\n';
+}
+
+void writeYamlScalar(std::ostream &stream, const std::string &indent, const std::string &key, const char *pValue)
+{
+    writeYamlScalar(stream, indent, key, std::string(pValue));
+}
+
+void writeYamlScalar(std::ostream &stream, const std::string &indent, const std::string &key, size_t value)
+{
+    stream << indent << key << ": " << value << '\n';
+}
+
+void writeYamlScalar(std::ostream &stream, const std::string &indent, const std::string &key, bool value)
+{
+    stream << indent << key << ": " << (value ? "true" : "false") << '\n';
+}
+
+template<typename ValueType>
+ValueType yamlScalarValue(const YAML::Node &node, const char *pKey, const ValueType &defaultValue)
+{
+    if (!node || !node.IsMap())
+    {
+        return defaultValue;
+    }
+
+    const YAML::Node valueNode = node[pKey];
+
+    if (!valueNode || !valueNode.IsScalar())
+    {
+        return defaultValue;
+    }
+
+    try
+    {
+        return valueNode.as<ValueType>();
+    }
+    catch (const YAML::Exception &)
+    {
+        return defaultValue;
+    }
+}
+
+struct Mm9ValidationReportSummary
+{
+    std::filesystem::path path;
+    std::string mapId;
+    std::string displayName;
+    std::string levelFile;
+    bool clean = false;
+    size_t datWorldReferenceIssues = 0;
+    size_t assetGraphRequiredUnresolved = 0;
+    size_t assetGraphRequiredAmbiguous = 0;
+    size_t unresolvedRequiredRawObjectAssetRefs = 0;
+    size_t staleCaches = 0;
+    size_t mechanismUnresolvedRequiredTargets = 0;
+    size_t mechanismIncompleteLinearMotion = 0;
+    size_t mechanismIncompleteRotationMotion = 0;
+    size_t mechanismTriggerOutputs = 0;
+    size_t mechanismUnresolvedTriggerOutputs = 0;
+    size_t scriptRegisteredTriggers = 0;
+    size_t scriptTriggerEdges = 0;
+    size_t scriptMovementCommands = 0;
+    size_t scriptUnknownCommands = 0;
+    size_t scriptCommandCount = 0;
+    size_t mechanismWorldModelTargetsWithoutMovableRole = 0;
+    size_t mechanismWorldModelTargetsMissingModel = 0;
+    size_t mechanismWorldModelTargetsMissingPolygonGroup = 0;
+    size_t mechanismWorldModelTargetsMismatchedPolygonGroup = 0;
+    size_t nativeRenderableTriangles = 0;
+    size_t viewportNativeUnresolvedMaterialTriangles = 0;
+    size_t worldModelOverlayVertices = 0;
+    size_t worldModelOverlayPickCandidates = 0;
+    size_t selectedPolygonOverlayVertices = 0;
+    size_t selectedSurfaceOverlayVertices = 0;
+    size_t objectSourceTransforms = 0;
+    size_t objectBoundsEvidence = 0;
+    size_t objectTriggerVolumes = 0;
+    size_t objectOverlayVertices = 0;
+    size_t objectOverlayPickCandidates = 0;
+    size_t assetIssueMarkerSourceObjects = 0;
+    size_t assetIssueMarkerCandidates = 0;
+    size_t assetIssueMarkerUnpositioned = 0;
+    size_t assetIssueMarkerRequiredCandidates = 0;
+    size_t assetIssueMarkerRequiredUnpositioned = 0;
+    size_t mechanismTargetMarkerGroups = 0;
+    size_t mechanismTargetMarkerCandidates = 0;
+    size_t mechanismTargetMarkerVertices = 0;
+    size_t mechanismTargetMarkerSourceLinks = 0;
+    size_t lightObjects = 0;
+    size_t lightOverlayVertices = 0;
+    size_t staticRenderLights = 0;
+    size_t lightDiagnostics = 0;
+    size_t soundObjects = 0;
+    size_t soundOverlayVertices = 0;
+    size_t soundReferences = 0;
+    size_t resolvedSoundReferences = 0;
+    size_t unresolvedRequiredSoundReferences = 0;
+    size_t spawnSourceObjects = 0;
+    size_t spawnOverlayVertices = 0;
+    size_t spawnNpcNumbers = 0;
+    size_t modelInstances = 0;
+    size_t modelInstancesInCameraFrame = 0;
+    size_t missingModelInstanceAssets = 0;
+    size_t missingDrawableModelInstanceGeometry = 0;
+    size_t actorVariantCandidates = 0;
+    size_t actorVariantGameplayIdentityRows = 0;
+    size_t actorVariantUnresolved = 0;
+    size_t missingScriptedObjectCollisionVisuals = 0;
+    size_t mechanismPreviewCandidates = 0;
+    size_t mechanismPreviewChangedBounds = 0;
+    size_t diagnosticErrors = 0;
+    size_t diagnosticWarnings = 0;
+    size_t diagnosticInfo = 0;
+};
+
+bool readMm9ValidationReportSummary(
+    const std::filesystem::path &reportPath,
+    Mm9ValidationReportSummary &summary,
+    std::string &errorMessage)
+{
+    YAML::Node root;
+
+    try
+    {
+        root = YAML::LoadFile(reportPath.string());
+    }
+    catch (const YAML::Exception &exception)
+    {
+        errorMessage = "could not parse validation report " + reportPath.generic_string() + ": " + exception.what();
+        return false;
+    }
+
+    if (!root || !root.IsMap())
+    {
+        errorMessage = "validation report is not a YAML map: " + reportPath.generic_string();
+        return false;
+    }
+
+    if (yamlScalarValue<std::string>(root, "kind", std::string()) != "mm9_asset_validation_report")
+    {
+        errorMessage = "validation report has unexpected kind: " + reportPath.generic_string();
+        return false;
+    }
+
+    const YAML::Node reportSummaryNode = root["summary"];
+    const YAML::Node datWorldReferenceNode = root["dat_world_reference_validation"];
+    const YAML::Node assetGraphNode = root["asset_graph"];
+    const YAML::Node mechanismNode = root["mechanisms"];
+    const YAML::Node diagnosticsNode = root["diagnostics"];
+
+    summary = {};
+    summary.path = reportPath;
+    summary.mapId = yamlScalarValue<std::string>(root, "map_id", std::string());
+    summary.displayName = yamlScalarValue<std::string>(root, "display_name", std::string());
+    summary.levelFile = yamlScalarValue<std::string>(root, "level_file", std::string());
+    summary.clean = yamlScalarValue<bool>(root, "clean", false);
+    summary.datWorldReferenceIssues = yamlScalarValue<size_t>(datWorldReferenceNode, "issues", 0);
+    summary.assetGraphRequiredUnresolved = yamlScalarValue<size_t>(assetGraphNode, "required_unresolved", 0);
+    summary.assetGraphRequiredAmbiguous = yamlScalarValue<size_t>(assetGraphNode, "required_ambiguous", 0);
+    summary.unresolvedRequiredRawObjectAssetRefs =
+        yamlScalarValue<size_t>(reportSummaryNode, "unresolved_required_raw_object_asset_refs", 0);
+    summary.staleCaches = yamlScalarValue<size_t>(assetGraphNode, "stale", 0);
+    summary.mechanismUnresolvedRequiredTargets =
+        yamlScalarValue<size_t>(mechanismNode, "unresolved_required_targets", 0);
+    summary.mechanismIncompleteLinearMotion =
+        yamlScalarValue<size_t>(mechanismNode, "incomplete_linear_motion", 0);
+    summary.mechanismIncompleteRotationMotion =
+        yamlScalarValue<size_t>(mechanismNode, "incomplete_rotation_motion", 0);
+    summary.mechanismTriggerOutputs = yamlScalarValue<size_t>(mechanismNode, "trigger_outputs", 0);
+    summary.mechanismUnresolvedTriggerOutputs =
+        yamlScalarValue<size_t>(mechanismNode, "unresolved_trigger_outputs", 0);
+    summary.scriptRegisteredTriggers = yamlScalarValue<size_t>(reportSummaryNode, "script_registered_triggers", 0);
+    summary.scriptTriggerEdges = yamlScalarValue<size_t>(reportSummaryNode, "script_trigger_edges", 0);
+    summary.scriptMovementCommands = yamlScalarValue<size_t>(reportSummaryNode, "script_movement_commands", 0);
+    summary.scriptUnknownCommands = yamlScalarValue<size_t>(reportSummaryNode, "script_unknown_commands", 0);
+    summary.scriptCommandCount = yamlScalarValue<size_t>(reportSummaryNode, "script_command_count", 0);
+    summary.objectSourceTransforms = yamlScalarValue<size_t>(reportSummaryNode, "object_source_transforms", 0);
+    summary.objectBoundsEvidence = yamlScalarValue<size_t>(reportSummaryNode, "object_bounds_evidence", 0);
+    summary.objectTriggerVolumes = yamlScalarValue<size_t>(reportSummaryNode, "object_trigger_volumes", 0);
+    summary.objectOverlayVertices = yamlScalarValue<size_t>(reportSummaryNode, "object_overlay_vertices", 0);
+    summary.objectOverlayPickCandidates =
+        yamlScalarValue<size_t>(reportSummaryNode, "object_overlay_pick_candidates", 0);
+    summary.assetIssueMarkerSourceObjects =
+        yamlScalarValue<size_t>(reportSummaryNode, "asset_issue_marker_source_objects", 0);
+    summary.assetIssueMarkerCandidates =
+        yamlScalarValue<size_t>(reportSummaryNode, "asset_issue_marker_candidates", 0);
+    summary.assetIssueMarkerUnpositioned =
+        yamlScalarValue<size_t>(reportSummaryNode, "asset_issue_marker_unpositioned", 0);
+    summary.assetIssueMarkerRequiredCandidates =
+        yamlScalarValue<size_t>(reportSummaryNode, "asset_issue_marker_required_candidates", 0);
+    summary.assetIssueMarkerRequiredUnpositioned =
+        yamlScalarValue<size_t>(reportSummaryNode, "asset_issue_marker_required_unpositioned", 0);
+    summary.mechanismTargetMarkerGroups =
+        yamlScalarValue<size_t>(reportSummaryNode, "mechanism_target_marker_groups", 0);
+    summary.mechanismTargetMarkerCandidates =
+        yamlScalarValue<size_t>(reportSummaryNode, "mechanism_target_marker_candidates", 0);
+    summary.mechanismTargetMarkerVertices =
+        yamlScalarValue<size_t>(reportSummaryNode, "mechanism_target_marker_vertices", 0);
+    summary.mechanismTargetMarkerSourceLinks =
+        yamlScalarValue<size_t>(reportSummaryNode, "mechanism_target_marker_source_links", 0);
+    summary.lightObjects = yamlScalarValue<size_t>(reportSummaryNode, "light_objects", 0);
+    summary.lightOverlayVertices = yamlScalarValue<size_t>(reportSummaryNode, "light_overlay_vertices", 0);
+    summary.staticRenderLights = yamlScalarValue<size_t>(reportSummaryNode, "static_render_lights", 0);
+    summary.lightDiagnostics = yamlScalarValue<size_t>(reportSummaryNode, "light_diagnostics", 0);
+    summary.soundObjects = yamlScalarValue<size_t>(reportSummaryNode, "sound_objects", 0);
+    summary.soundOverlayVertices = yamlScalarValue<size_t>(reportSummaryNode, "sound_overlay_vertices", 0);
+    summary.soundReferences = yamlScalarValue<size_t>(reportSummaryNode, "sound_references", 0);
+    summary.resolvedSoundReferences = yamlScalarValue<size_t>(reportSummaryNode, "resolved_sound_references", 0);
+    summary.unresolvedRequiredSoundReferences =
+        yamlScalarValue<size_t>(reportSummaryNode, "unresolved_required_sound_references", 0);
+    summary.spawnSourceObjects = yamlScalarValue<size_t>(reportSummaryNode, "spawn_source_objects", 0);
+    summary.spawnOverlayVertices = yamlScalarValue<size_t>(reportSummaryNode, "spawn_overlay_vertices", 0);
+    summary.spawnNpcNumbers = yamlScalarValue<size_t>(reportSummaryNode, "spawn_npc_numbers", 0);
+    summary.mechanismWorldModelTargetsWithoutMovableRole =
+        yamlScalarValue<size_t>(mechanismNode, "world_model_targets_without_movable_role", 0);
+    summary.mechanismWorldModelTargetsMissingModel =
+        yamlScalarValue<size_t>(mechanismNode, "world_model_targets_missing_model", 0);
+    summary.mechanismWorldModelTargetsMissingPolygonGroup =
+        yamlScalarValue<size_t>(mechanismNode, "world_model_targets_missing_polygon_group", 0);
+    summary.mechanismWorldModelTargetsMismatchedPolygonGroup =
+        yamlScalarValue<size_t>(mechanismNode, "world_model_targets_mismatched_polygon_group", 0);
+    summary.nativeRenderableTriangles =
+        yamlScalarValue<size_t>(reportSummaryNode, "viewport_native_renderable_triangles", 0);
+    summary.viewportNativeUnresolvedMaterialTriangles =
+        yamlScalarValue<size_t>(reportSummaryNode, "viewport_native_unresolved_material_triangles", 0);
+    summary.worldModelOverlayVertices =
+        yamlScalarValue<size_t>(reportSummaryNode, "world_model_overlay_vertices", 0);
+    summary.worldModelOverlayPickCandidates =
+        yamlScalarValue<size_t>(reportSummaryNode, "world_model_overlay_pick_candidates", 0);
+    summary.selectedPolygonOverlayVertices =
+        yamlScalarValue<size_t>(reportSummaryNode, "selected_polygon_overlay_vertices", 0);
+    summary.selectedSurfaceOverlayVertices =
+        yamlScalarValue<size_t>(reportSummaryNode, "selected_surface_overlay_vertices", 0);
+    summary.modelInstances = yamlScalarValue<size_t>(reportSummaryNode, "model_instances", 0);
+    summary.modelInstancesInCameraFrame =
+        yamlScalarValue<size_t>(reportSummaryNode, "model_instances_in_camera_frame", 0);
+    summary.missingModelInstanceAssets =
+        yamlScalarValue<size_t>(reportSummaryNode, "missing_model_instance_assets", 0);
+    summary.missingDrawableModelInstanceGeometry =
+        yamlScalarValue<size_t>(reportSummaryNode, "missing_drawable_model_instance_geometry", 0);
+    summary.actorVariantCandidates = yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_candidates", 0);
+    summary.actorVariantGameplayIdentityRows =
+        yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_gameplay_identity_rows", 0);
+    summary.actorVariantUnresolved = yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_unresolved", 0);
+    summary.missingScriptedObjectCollisionVisuals =
+        yamlScalarValue<size_t>(reportSummaryNode, "missing_scripted_object_collision_visuals", 0);
+    summary.mechanismPreviewCandidates =
+        yamlScalarValue<size_t>(reportSummaryNode, "mechanism_preview_candidates", 0);
+    summary.mechanismPreviewChangedBounds =
+        yamlScalarValue<size_t>(reportSummaryNode, "mechanism_preview_changed_bounds", 0);
+    summary.diagnosticErrors = yamlScalarValue<size_t>(diagnosticsNode, "errors", 0);
+    summary.diagnosticWarnings = yamlScalarValue<size_t>(diagnosticsNode, "warnings", 0);
+    summary.diagnosticInfo = yamlScalarValue<size_t>(diagnosticsNode, "info", 0);
+    return true;
+}
+
+bool writeMm9ValidationSummaryReport(
+    const std::filesystem::path &worldRoot,
+    std::filesystem::path &summaryReportPath,
+    std::string &errorMessage)
+{
+    const std::filesystem::path validationRoot = worldRoot / "import" / "validation";
+    std::vector<Mm9ValidationReportSummary> reports;
+
+    if (!std::filesystem::exists(validationRoot))
+    {
+        errorMessage = "validation report directory does not exist: " + validationRoot.generic_string();
+        return false;
+    }
+
+    for (const std::filesystem::directory_entry &entry : std::filesystem::directory_iterator(validationRoot))
+    {
+        if (!entry.is_regular_file())
+        {
+            continue;
+        }
+
+        const std::string fileName = entry.path().filename().string();
+
+        if (!fileName.ends_with(".asset_validation.yml"))
+        {
+            continue;
+        }
+
+        Mm9ValidationReportSummary report;
+
+        if (!readMm9ValidationReportSummary(entry.path(), report, errorMessage))
+        {
+            return false;
+        }
+
+        reports.push_back(std::move(report));
+    }
+
+    std::sort(
+        reports.begin(),
+        reports.end(),
+        [](const Mm9ValidationReportSummary &left, const Mm9ValidationReportSummary &right)
+        {
+            return left.mapId < right.mapId;
+        });
+
+    if (reports.empty())
+    {
+        errorMessage = "no per-map MM9 validation reports found in " + validationRoot.generic_string();
+        return false;
+    }
+
+    size_t cleanCount = 0;
+    size_t dirtyCount = 0;
+    size_t datWorldReferenceIssues = 0;
+    size_t assetGraphRequiredUnresolved = 0;
+    size_t assetGraphRequiredAmbiguous = 0;
+    size_t unresolvedRequiredRawObjectAssetRefs = 0;
+    size_t staleCaches = 0;
+    size_t mechanismUnresolvedRequiredTargets = 0;
+    size_t mechanismIncompleteLinearMotion = 0;
+    size_t mechanismIncompleteRotationMotion = 0;
+    size_t mechanismTriggerOutputs = 0;
+    size_t mechanismUnresolvedTriggerOutputs = 0;
+    size_t scriptRegisteredTriggers = 0;
+    size_t scriptTriggerEdges = 0;
+    size_t scriptMovementCommands = 0;
+    size_t scriptUnknownCommands = 0;
+    size_t scriptCommandCount = 0;
+    size_t mechanismWorldModelTargetsWithoutMovableRole = 0;
+    size_t mechanismWorldModelTargetsMissingModel = 0;
+    size_t mechanismWorldModelTargetsMissingPolygonGroup = 0;
+    size_t mechanismWorldModelTargetsMismatchedPolygonGroup = 0;
+    size_t nativeRenderableTriangles = 0;
+    size_t viewportNativeUnresolvedMaterialTriangles = 0;
+    size_t worldModelOverlayVertices = 0;
+    size_t worldModelOverlayPickCandidates = 0;
+    size_t selectedPolygonOverlayVertices = 0;
+    size_t selectedSurfaceOverlayVertices = 0;
+    size_t objectSourceTransforms = 0;
+    size_t objectBoundsEvidence = 0;
+    size_t objectTriggerVolumes = 0;
+    size_t objectOverlayVertices = 0;
+    size_t objectOverlayPickCandidates = 0;
+    size_t assetIssueMarkerSourceObjects = 0;
+    size_t assetIssueMarkerCandidates = 0;
+    size_t assetIssueMarkerUnpositioned = 0;
+    size_t assetIssueMarkerRequiredCandidates = 0;
+    size_t assetIssueMarkerRequiredUnpositioned = 0;
+    size_t mechanismTargetMarkerGroups = 0;
+    size_t mechanismTargetMarkerCandidates = 0;
+    size_t mechanismTargetMarkerVertices = 0;
+    size_t mechanismTargetMarkerSourceLinks = 0;
+    size_t lightObjects = 0;
+    size_t lightOverlayVertices = 0;
+    size_t staticRenderLights = 0;
+    size_t lightDiagnostics = 0;
+    size_t soundObjects = 0;
+    size_t soundOverlayVertices = 0;
+    size_t soundReferences = 0;
+    size_t resolvedSoundReferences = 0;
+    size_t unresolvedRequiredSoundReferences = 0;
+    size_t spawnSourceObjects = 0;
+    size_t spawnOverlayVertices = 0;
+    size_t spawnNpcNumbers = 0;
+    size_t modelInstances = 0;
+    size_t modelInstancesInCameraFrame = 0;
+    size_t missingModelInstanceAssets = 0;
+    size_t missingDrawableModelInstanceGeometry = 0;
+    size_t actorVariantCandidates = 0;
+    size_t actorVariantGameplayIdentityRows = 0;
+    size_t actorVariantUnresolved = 0;
+    size_t missingScriptedObjectCollisionVisuals = 0;
+    size_t mechanismPreviewCandidates = 0;
+    size_t mechanismPreviewChangedBounds = 0;
+    size_t diagnosticErrors = 0;
+    size_t diagnosticWarnings = 0;
+    size_t diagnosticInfo = 0;
+
+    for (const Mm9ValidationReportSummary &report : reports)
+    {
+        if (report.clean)
+        {
+            ++cleanCount;
+        }
+        else
+        {
+            ++dirtyCount;
+        }
+
+        datWorldReferenceIssues += report.datWorldReferenceIssues;
+        assetGraphRequiredUnresolved += report.assetGraphRequiredUnresolved;
+        assetGraphRequiredAmbiguous += report.assetGraphRequiredAmbiguous;
+        unresolvedRequiredRawObjectAssetRefs += report.unresolvedRequiredRawObjectAssetRefs;
+        staleCaches += report.staleCaches;
+        mechanismUnresolvedRequiredTargets += report.mechanismUnresolvedRequiredTargets;
+        mechanismIncompleteLinearMotion += report.mechanismIncompleteLinearMotion;
+        mechanismIncompleteRotationMotion += report.mechanismIncompleteRotationMotion;
+        mechanismTriggerOutputs += report.mechanismTriggerOutputs;
+        mechanismUnresolvedTriggerOutputs += report.mechanismUnresolvedTriggerOutputs;
+        scriptRegisteredTriggers += report.scriptRegisteredTriggers;
+        scriptTriggerEdges += report.scriptTriggerEdges;
+        scriptMovementCommands += report.scriptMovementCommands;
+        scriptUnknownCommands += report.scriptUnknownCommands;
+        scriptCommandCount += report.scriptCommandCount;
+        mechanismWorldModelTargetsWithoutMovableRole += report.mechanismWorldModelTargetsWithoutMovableRole;
+        mechanismWorldModelTargetsMissingModel += report.mechanismWorldModelTargetsMissingModel;
+        mechanismWorldModelTargetsMissingPolygonGroup += report.mechanismWorldModelTargetsMissingPolygonGroup;
+        mechanismWorldModelTargetsMismatchedPolygonGroup += report.mechanismWorldModelTargetsMismatchedPolygonGroup;
+        nativeRenderableTriangles += report.nativeRenderableTriangles;
+        viewportNativeUnresolvedMaterialTriangles += report.viewportNativeUnresolvedMaterialTriangles;
+        worldModelOverlayVertices += report.worldModelOverlayVertices;
+        worldModelOverlayPickCandidates += report.worldModelOverlayPickCandidates;
+        selectedPolygonOverlayVertices += report.selectedPolygonOverlayVertices;
+        selectedSurfaceOverlayVertices += report.selectedSurfaceOverlayVertices;
+        objectSourceTransforms += report.objectSourceTransforms;
+        objectBoundsEvidence += report.objectBoundsEvidence;
+        objectTriggerVolumes += report.objectTriggerVolumes;
+        objectOverlayVertices += report.objectOverlayVertices;
+        objectOverlayPickCandidates += report.objectOverlayPickCandidates;
+        assetIssueMarkerSourceObjects += report.assetIssueMarkerSourceObjects;
+        assetIssueMarkerCandidates += report.assetIssueMarkerCandidates;
+        assetIssueMarkerUnpositioned += report.assetIssueMarkerUnpositioned;
+        assetIssueMarkerRequiredCandidates += report.assetIssueMarkerRequiredCandidates;
+        assetIssueMarkerRequiredUnpositioned += report.assetIssueMarkerRequiredUnpositioned;
+        mechanismTargetMarkerGroups += report.mechanismTargetMarkerGroups;
+        mechanismTargetMarkerCandidates += report.mechanismTargetMarkerCandidates;
+        mechanismTargetMarkerVertices += report.mechanismTargetMarkerVertices;
+        mechanismTargetMarkerSourceLinks += report.mechanismTargetMarkerSourceLinks;
+        lightObjects += report.lightObjects;
+        lightOverlayVertices += report.lightOverlayVertices;
+        staticRenderLights += report.staticRenderLights;
+        lightDiagnostics += report.lightDiagnostics;
+        soundObjects += report.soundObjects;
+        soundOverlayVertices += report.soundOverlayVertices;
+        soundReferences += report.soundReferences;
+        resolvedSoundReferences += report.resolvedSoundReferences;
+        unresolvedRequiredSoundReferences += report.unresolvedRequiredSoundReferences;
+        spawnSourceObjects += report.spawnSourceObjects;
+        spawnOverlayVertices += report.spawnOverlayVertices;
+        spawnNpcNumbers += report.spawnNpcNumbers;
+        modelInstances += report.modelInstances;
+        modelInstancesInCameraFrame += report.modelInstancesInCameraFrame;
+        missingModelInstanceAssets += report.missingModelInstanceAssets;
+        missingDrawableModelInstanceGeometry += report.missingDrawableModelInstanceGeometry;
+        actorVariantCandidates += report.actorVariantCandidates;
+        actorVariantGameplayIdentityRows += report.actorVariantGameplayIdentityRows;
+        actorVariantUnresolved += report.actorVariantUnresolved;
+        missingScriptedObjectCollisionVisuals += report.missingScriptedObjectCollisionVisuals;
+        mechanismPreviewCandidates += report.mechanismPreviewCandidates;
+        mechanismPreviewChangedBounds += report.mechanismPreviewChangedBounds;
+        diagnosticErrors += report.diagnosticErrors;
+        diagnosticWarnings += report.diagnosticWarnings;
+        diagnosticInfo += report.diagnosticInfo;
+    }
+
+    summaryReportPath = validationRoot / "active_slice.validation_summary.yml";
+    std::ofstream stream(summaryReportPath);
+
+    if (!stream)
+    {
+        errorMessage = "could not write validation summary report " + summaryReportPath.generic_string();
+        return false;
+    }
+
+    writeYamlScalar(stream, "", "format_version", static_cast<size_t>(1));
+    writeYamlScalar(stream, "", "kind", "mm9_asset_validation_summary");
+    writeYamlScalar(stream, "", "scope", "active_two_map_slice");
+    writeYamlScalar(stream, "", "report_count", reports.size());
+    writeYamlScalar(stream, "", "clean", dirtyCount == 0);
+    writeYamlScalar(stream, "", "clean_reports", cleanCount);
+    writeYamlScalar(stream, "", "dirty_reports", dirtyCount);
+    writeYamlScalar(stream, "", "dat_world_reference_issues", datWorldReferenceIssues);
+    writeYamlScalar(stream, "", "asset_graph_required_unresolved", assetGraphRequiredUnresolved);
+    writeYamlScalar(stream, "", "asset_graph_required_ambiguous", assetGraphRequiredAmbiguous);
+    writeYamlScalar(stream, "", "unresolved_required_raw_object_asset_refs", unresolvedRequiredRawObjectAssetRefs);
+    writeYamlScalar(stream, "", "stale_caches", staleCaches);
+    writeYamlScalar(stream, "", "mechanism_unresolved_required_targets", mechanismUnresolvedRequiredTargets);
+    writeYamlScalar(stream, "", "mechanism_incomplete_linear_motion", mechanismIncompleteLinearMotion);
+    writeYamlScalar(stream, "", "mechanism_incomplete_rotation_motion", mechanismIncompleteRotationMotion);
+    writeYamlScalar(stream, "", "mechanism_trigger_outputs", mechanismTriggerOutputs);
+    writeYamlScalar(stream, "", "mechanism_unresolved_trigger_outputs", mechanismUnresolvedTriggerOutputs);
+    writeYamlScalar(stream, "", "script_registered_triggers", scriptRegisteredTriggers);
+    writeYamlScalar(stream, "", "script_trigger_edges", scriptTriggerEdges);
+    writeYamlScalar(stream, "", "script_movement_commands", scriptMovementCommands);
+    writeYamlScalar(stream, "", "script_unknown_commands", scriptUnknownCommands);
+    writeYamlScalar(stream, "", "script_command_count", scriptCommandCount);
+    writeYamlScalar(
+        stream,
+        "",
+        "mechanism_world_model_targets_without_movable_role",
+        mechanismWorldModelTargetsWithoutMovableRole);
+    writeYamlScalar(
+        stream,
+        "",
+        "mechanism_world_model_targets_missing_model",
+        mechanismWorldModelTargetsMissingModel);
+    writeYamlScalar(
+        stream,
+        "",
+        "mechanism_world_model_targets_missing_polygon_group",
+        mechanismWorldModelTargetsMissingPolygonGroup);
+    writeYamlScalar(
+        stream,
+        "",
+        "mechanism_world_model_targets_mismatched_polygon_group",
+        mechanismWorldModelTargetsMismatchedPolygonGroup);
+    writeYamlScalar(stream, "", "native_renderable_triangles", nativeRenderableTriangles);
+    writeYamlScalar(
+        stream,
+        "",
+        "viewport_native_unresolved_material_triangles",
+        viewportNativeUnresolvedMaterialTriangles);
+    writeYamlScalar(stream, "", "world_model_overlay_vertices", worldModelOverlayVertices);
+    writeYamlScalar(stream, "", "world_model_overlay_pick_candidates", worldModelOverlayPickCandidates);
+    writeYamlScalar(stream, "", "selected_polygon_overlay_vertices", selectedPolygonOverlayVertices);
+    writeYamlScalar(stream, "", "selected_surface_overlay_vertices", selectedSurfaceOverlayVertices);
+    writeYamlScalar(stream, "", "object_source_transforms", objectSourceTransforms);
+    writeYamlScalar(stream, "", "object_bounds_evidence", objectBoundsEvidence);
+    writeYamlScalar(stream, "", "object_trigger_volumes", objectTriggerVolumes);
+    writeYamlScalar(stream, "", "object_overlay_vertices", objectOverlayVertices);
+    writeYamlScalar(stream, "", "object_overlay_pick_candidates", objectOverlayPickCandidates);
+    writeYamlScalar(stream, "", "asset_issue_marker_source_objects", assetIssueMarkerSourceObjects);
+    writeYamlScalar(stream, "", "asset_issue_marker_candidates", assetIssueMarkerCandidates);
+    writeYamlScalar(stream, "", "asset_issue_marker_unpositioned", assetIssueMarkerUnpositioned);
+    writeYamlScalar(stream, "", "asset_issue_marker_required_candidates", assetIssueMarkerRequiredCandidates);
+    writeYamlScalar(
+        stream,
+        "",
+        "asset_issue_marker_required_unpositioned",
+        assetIssueMarkerRequiredUnpositioned);
+    writeYamlScalar(stream, "", "mechanism_target_marker_groups", mechanismTargetMarkerGroups);
+    writeYamlScalar(stream, "", "mechanism_target_marker_candidates", mechanismTargetMarkerCandidates);
+    writeYamlScalar(stream, "", "mechanism_target_marker_vertices", mechanismTargetMarkerVertices);
+    writeYamlScalar(stream, "", "mechanism_target_marker_source_links", mechanismTargetMarkerSourceLinks);
+    writeYamlScalar(stream, "", "light_objects", lightObjects);
+    writeYamlScalar(stream, "", "light_overlay_vertices", lightOverlayVertices);
+    writeYamlScalar(stream, "", "static_render_lights", staticRenderLights);
+    writeYamlScalar(stream, "", "light_diagnostics", lightDiagnostics);
+    writeYamlScalar(stream, "", "sound_objects", soundObjects);
+    writeYamlScalar(stream, "", "sound_overlay_vertices", soundOverlayVertices);
+    writeYamlScalar(stream, "", "sound_references", soundReferences);
+    writeYamlScalar(stream, "", "resolved_sound_references", resolvedSoundReferences);
+    writeYamlScalar(stream, "", "unresolved_required_sound_references", unresolvedRequiredSoundReferences);
+    writeYamlScalar(stream, "", "spawn_source_objects", spawnSourceObjects);
+    writeYamlScalar(stream, "", "spawn_overlay_vertices", spawnOverlayVertices);
+    writeYamlScalar(stream, "", "spawn_npc_numbers", spawnNpcNumbers);
+    writeYamlScalar(stream, "", "model_instances", modelInstances);
+    writeYamlScalar(stream, "", "model_instances_in_camera_frame", modelInstancesInCameraFrame);
+    writeYamlScalar(stream, "", "missing_model_instance_assets", missingModelInstanceAssets);
+    writeYamlScalar(stream, "", "missing_drawable_model_instance_geometry", missingDrawableModelInstanceGeometry);
+    writeYamlScalar(stream, "", "actor_variant_candidates", actorVariantCandidates);
+    writeYamlScalar(stream, "", "actor_variant_gameplay_identity_rows", actorVariantGameplayIdentityRows);
+    writeYamlScalar(stream, "", "actor_variant_unresolved", actorVariantUnresolved);
+    writeYamlScalar(stream, "", "missing_scripted_object_collision_visuals", missingScriptedObjectCollisionVisuals);
+    writeYamlScalar(stream, "", "mechanism_preview_candidates", mechanismPreviewCandidates);
+    writeYamlScalar(stream, "", "mechanism_preview_changed_bounds", mechanismPreviewChangedBounds);
+    writeYamlScalar(stream, "", "diagnostic_errors", diagnosticErrors);
+    writeYamlScalar(stream, "", "diagnostic_warnings", diagnosticWarnings);
+    writeYamlScalar(stream, "", "diagnostic_info", diagnosticInfo);
+
+    stream << "reports:\n";
+
+    for (const Mm9ValidationReportSummary &report : reports)
+    {
+        stream << "  - map_id: ";
+        writeYamlQuoted(stream, report.mapId);
+        stream << '\n';
+        writeYamlScalar(stream, "    ", "display_name", report.displayName);
+        writeYamlScalar(stream, "    ", "level_file", report.levelFile);
+        writeYamlScalar(stream, "    ", "report_file", report.path.filename().generic_string());
+        writeYamlScalar(stream, "    ", "clean", report.clean);
+        writeYamlScalar(stream, "    ", "dat_world_reference_issues", report.datWorldReferenceIssues);
+        writeYamlScalar(stream, "    ", "asset_graph_required_unresolved", report.assetGraphRequiredUnresolved);
+        writeYamlScalar(stream, "    ", "asset_graph_required_ambiguous", report.assetGraphRequiredAmbiguous);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "unresolved_required_raw_object_asset_refs",
+            report.unresolvedRequiredRawObjectAssetRefs);
+        writeYamlScalar(stream, "    ", "stale_caches", report.staleCaches);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_unresolved_required_targets",
+            report.mechanismUnresolvedRequiredTargets);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_incomplete_linear_motion",
+            report.mechanismIncompleteLinearMotion);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_incomplete_rotation_motion",
+            report.mechanismIncompleteRotationMotion);
+        writeYamlScalar(stream, "    ", "mechanism_trigger_outputs", report.mechanismTriggerOutputs);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_unresolved_trigger_outputs",
+            report.mechanismUnresolvedTriggerOutputs);
+        writeYamlScalar(stream, "    ", "script_registered_triggers", report.scriptRegisteredTriggers);
+        writeYamlScalar(stream, "    ", "script_trigger_edges", report.scriptTriggerEdges);
+        writeYamlScalar(stream, "    ", "script_movement_commands", report.scriptMovementCommands);
+        writeYamlScalar(stream, "    ", "script_unknown_commands", report.scriptUnknownCommands);
+        writeYamlScalar(stream, "    ", "script_command_count", report.scriptCommandCount);
+        writeYamlScalar(stream, "    ", "world_model_overlay_vertices", report.worldModelOverlayVertices);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "world_model_overlay_pick_candidates",
+            report.worldModelOverlayPickCandidates);
+        writeYamlScalar(stream, "    ", "selected_polygon_overlay_vertices", report.selectedPolygonOverlayVertices);
+        writeYamlScalar(stream, "    ", "selected_surface_overlay_vertices", report.selectedSurfaceOverlayVertices);
+        writeYamlScalar(stream, "    ", "object_source_transforms", report.objectSourceTransforms);
+        writeYamlScalar(stream, "    ", "object_bounds_evidence", report.objectBoundsEvidence);
+        writeYamlScalar(stream, "    ", "object_trigger_volumes", report.objectTriggerVolumes);
+        writeYamlScalar(stream, "    ", "object_overlay_vertices", report.objectOverlayVertices);
+        writeYamlScalar(stream, "    ", "object_overlay_pick_candidates", report.objectOverlayPickCandidates);
+        writeYamlScalar(stream, "    ", "asset_issue_marker_source_objects", report.assetIssueMarkerSourceObjects);
+        writeYamlScalar(stream, "    ", "asset_issue_marker_candidates", report.assetIssueMarkerCandidates);
+        writeYamlScalar(stream, "    ", "asset_issue_marker_unpositioned", report.assetIssueMarkerUnpositioned);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "asset_issue_marker_required_candidates",
+            report.assetIssueMarkerRequiredCandidates);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "asset_issue_marker_required_unpositioned",
+            report.assetIssueMarkerRequiredUnpositioned);
+        writeYamlScalar(stream, "    ", "mechanism_target_marker_groups", report.mechanismTargetMarkerGroups);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_target_marker_candidates",
+            report.mechanismTargetMarkerCandidates);
+        writeYamlScalar(stream, "    ", "mechanism_target_marker_vertices", report.mechanismTargetMarkerVertices);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_target_marker_source_links",
+            report.mechanismTargetMarkerSourceLinks);
+        writeYamlScalar(stream, "    ", "light_objects", report.lightObjects);
+        writeYamlScalar(stream, "    ", "light_overlay_vertices", report.lightOverlayVertices);
+        writeYamlScalar(stream, "    ", "static_render_lights", report.staticRenderLights);
+        writeYamlScalar(stream, "    ", "light_diagnostics", report.lightDiagnostics);
+        writeYamlScalar(stream, "    ", "sound_objects", report.soundObjects);
+        writeYamlScalar(stream, "    ", "sound_overlay_vertices", report.soundOverlayVertices);
+        writeYamlScalar(stream, "    ", "sound_references", report.soundReferences);
+        writeYamlScalar(stream, "    ", "resolved_sound_references", report.resolvedSoundReferences);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "unresolved_required_sound_references",
+            report.unresolvedRequiredSoundReferences);
+        writeYamlScalar(stream, "    ", "spawn_source_objects", report.spawnSourceObjects);
+        writeYamlScalar(stream, "    ", "spawn_overlay_vertices", report.spawnOverlayVertices);
+        writeYamlScalar(stream, "    ", "spawn_npc_numbers", report.spawnNpcNumbers);
+        writeYamlScalar(stream, "    ", "model_instances", report.modelInstances);
+        writeYamlScalar(stream, "    ", "model_instances_in_camera_frame", report.modelInstancesInCameraFrame);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_world_model_targets_without_movable_role",
+            report.mechanismWorldModelTargetsWithoutMovableRole);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_world_model_targets_missing_model",
+            report.mechanismWorldModelTargetsMissingModel);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_world_model_targets_missing_polygon_group",
+            report.mechanismWorldModelTargetsMissingPolygonGroup);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_world_model_targets_mismatched_polygon_group",
+            report.mechanismWorldModelTargetsMismatchedPolygonGroup);
+        writeYamlScalar(stream, "    ", "actor_variant_candidates", report.actorVariantCandidates);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "actor_variant_gameplay_identity_rows",
+            report.actorVariantGameplayIdentityRows);
+        writeYamlScalar(stream, "    ", "actor_variant_unresolved", report.actorVariantUnresolved);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "missing_scripted_object_collision_visuals",
+            report.missingScriptedObjectCollisionVisuals);
+        writeYamlScalar(stream, "    ", "mechanism_preview_candidates", report.mechanismPreviewCandidates);
+        writeYamlScalar(stream, "    ", "mechanism_preview_changed_bounds", report.mechanismPreviewChangedBounds);
+        writeYamlScalar(stream, "    ", "diagnostic_errors", report.diagnosticErrors);
+        writeYamlScalar(stream, "    ", "diagnostic_warnings", report.diagnosticWarnings);
+        writeYamlScalar(stream, "    ", "diagnostic_info", report.diagnosticInfo);
+    }
+
+    return true;
+}
+
+void writeMm9RawObjectAssetReferenceStatus(
+    std::ostream &stream,
+    const EditorMm9RawObjectAssetReferenceStatus &status)
+{
+    stream << "    - source_object_index: " << status.sourceObjectIndex << '\n';
+    writeYamlScalar(stream, "      ", "source_class", status.sourceClass);
+    writeYamlScalar(stream, "      ", "object_name", status.objectName);
+    writeYamlScalar(stream, "      ", "property_index", status.propertyIndex);
+    writeYamlScalar(stream, "      ", "property_name", status.propertyName);
+    writeYamlScalar(stream, "      ", "source_family", status.sourceFamily);
+    writeYamlScalar(stream, "      ", "source_value", status.sourceValue);
+    writeYamlScalar(stream, "      ", "normalized_key", status.normalizedKey);
+    writeYamlScalar(stream, "      ", "required", status.required);
+    writeYamlScalar(stream, "      ", "resolved", status.resolved);
+    writeYamlScalar(stream, "      ", "ambiguous", status.ambiguous);
+    writeYamlScalar(stream, "      ", "alias_applied", status.aliasApplied);
+
+    if (!status.resolvedSourcePath.empty())
+    {
+        writeYamlScalar(stream, "      ", "resolved_source_path", status.resolvedSourcePath);
+    }
+
+    if (!status.resolutionSource.empty())
+    {
+        writeYamlScalar(stream, "      ", "resolution_source", status.resolutionSource);
+    }
+
+    if (!status.aliasTargetKey.empty())
+    {
+        writeYamlScalar(stream, "      ", "alias_target_key", status.aliasTargetKey);
+    }
+
+    if (!status.sourceCandidates.empty())
+    {
+        stream << "      candidates:\n";
+
+        for (const std::string &candidate : status.sourceCandidates)
+        {
+            stream << "        - ";
+            writeYamlQuoted(stream, candidate);
+            stream << '\n';
+        }
+    }
+}
+
+struct Mm9ModelInstanceAssetResolutionSummary
+{
+    struct UnresolvedActorVariant
+    {
+        size_t sourceObjectIndex = 0;
+        std::string sourceRef;
+        std::string sourceClass;
+        std::string sourceName;
+        std::string sourceModel;
+        std::string sourceSkin;
+    };
+
+    size_t total = 0;
+    size_t resolvedAssets = 0;
+    size_t missingAssets = 0;
+    size_t drawableGeometry = 0;
+    size_t missingDrawableGeometry = 0;
+    size_t decodedSkinTextures = 0;
+    size_t actorVariantCandidates = 0;
+    size_t actorVariantResolved = 0;
+    size_t actorVariantUnresolved = 0;
+    size_t actorVariantActorRows = 0;
+    size_t actorVariantGameplayIdentityRows = 0;
+    size_t scriptedObjects = 0;
+    size_t scriptedObjectsWithCollisionVisuals = 0;
+    size_t missingScriptedObjectCollisionVisuals = 0;
+    std::vector<UnresolvedActorVariant> unresolvedActorVariants;
+};
+
+struct Mm9DatViewportRenderabilitySummary
+{
+    struct MissingMaterialTriangle
+    {
+        size_t triangleIndex = 0;
+        size_t sourceModelIndex = 0;
+        size_t sourcePolyIndex = 0;
+        size_t sourceSurfaceIndex = 0;
+        size_t sourceTextureIndex = 0;
+        size_t materialCandidateCount = 0;
+        uint32_t filterFlags = 0;
+        std::string sourceTexture;
+        std::string alias;
+        bool assigned = false;
+        bool ambiguous = false;
+        bool sourceDtxResolved = false;
+        bool placeholderMissingSource = false;
+    };
+
+    size_t nativeRenderableTriangles = 0;
+    size_t nativeRenderablePhysicsTriangles = 0;
+    size_t nativeTexturedTriangles = 0;
+    size_t nativeMissingMaterialTriangles = 0;
+    size_t nativePlaceholderMaterialTriangles = 0;
+    size_t nativeUnresolvedMaterialTriangles = 0;
+    size_t modelInstanceDrawableGeometry = 0;
+    size_t modelInstanceDecodedSkinTextures = 0;
+    std::vector<MissingMaterialTriangle> missingMaterialTriangles;
+};
+
+struct Mm9ModelInstanceCameraFrameSummary
+{
+    size_t total = 0;
+    size_t inFront = 0;
+    size_t inDepthRange = 0;
+    size_t inView = 0;
+};
+
+struct Mm9MechanismValidationSummary
+{
+    struct CandidateWorldModel
+    {
+        size_t sourceModelIndex = 0;
+        std::string sourceName;
+        bool movable = false;
+        float distanceFromRotationPointLt = 0.0f;
+    };
+
+    struct UnresolvedMechanismTarget
+    {
+        int sourceObjectIndex = -1;
+        std::string sourceClass;
+        std::string sourceName;
+        std::string mechanismId;
+        std::string targetKind;
+        std::string confidence;
+        bool required = false;
+        std::vector<CandidateWorldModel> nearestWorldModels;
+    };
+
+    struct IncompleteMotion
+    {
+        int sourceObjectIndex = -1;
+        std::string sourceClass;
+        std::string sourceName;
+        std::string mechanismId;
+        std::string motionKind;
+        std::vector<std::string> missingFields;
+    };
+
+    struct NonMovableWorldModelTarget
+    {
+        int sourceObjectIndex = -1;
+        std::string sourceClass;
+        std::string sourceName;
+        std::string mechanismId;
+        size_t sourceModelIndex = 0;
+        std::string sourceModelName;
+        std::string confidence;
+        bool targetModelFound = false;
+    };
+
+    struct PolygonGroupTargetIssue
+    {
+        int sourceObjectIndex = -1;
+        std::string sourceClass;
+        std::string sourceName;
+        std::string mechanismId;
+        size_t bmodelIndex = 0;
+        size_t groupSourceModelIndex = 0;
+        std::string confidence;
+        std::string issue;
+    };
+
+    size_t total = 0;
+    size_t withBinding = 0;
+    size_t withWorldModelTarget = 0;
+    size_t withModelInstanceTarget = 0;
+    size_t movableWorldModels = 0;
+    size_t worldModelTargetsWithMovableRole = 0;
+    size_t worldModelTargetsWithoutMovableRole = 0;
+    size_t worldModelTargetsMissingModel = 0;
+    size_t worldModelTargetsWithPolygonGroup = 0;
+    size_t worldModelTargetsMissingPolygonGroup = 0;
+    size_t worldModelTargetsMismatchedPolygonGroup = 0;
+    size_t withLinearMotion = 0;
+    size_t withRotationMotion = 0;
+    size_t triggerOutputs = 0;
+    size_t unresolvedTriggerOutputs = 0;
+    size_t incompleteLinearMotion = 0;
+    size_t incompleteRotationMotion = 0;
+    size_t unresolvedTargets = 0;
+    size_t unresolvedRequiredTargets = 0;
+    std::vector<UnresolvedMechanismTarget> unresolved;
+    std::vector<IncompleteMotion> incompleteMotion;
+    std::vector<NonMovableWorldModelTarget> nonMovableWorldModelTargets;
+    std::vector<PolygonGroupTargetIssue> polygonGroupTargetIssues;
+};
+
+struct Mm9MechanismPreviewValidationSummary
+{
+    size_t candidates = 0;
+    size_t targetFound = 0;
+    size_t transformedTriangles = 0;
+    size_t changedBounds = 0;
+};
+
+struct Mm9InspectorSearchEntry
+{
+    std::string family;
+    std::string label;
+    std::string sourceRef;
+    std::string searchText;
+};
+
+void appendMm9InspectorSearchEntry(
+    std::vector<Mm9InspectorSearchEntry> &entries,
+    const std::string &family,
+    const std::string &label,
+    const std::string &sourceRef,
+    const std::vector<std::string> &values)
+{
+    std::ostringstream searchText;
+    searchText << family << ' ' << label << ' ' << sourceRef;
+
+    for (const std::string &value : values)
+    {
+        searchText << ' ' << value;
+    }
+
+    Mm9InspectorSearchEntry entry = {};
+    entry.family = family;
+    entry.label = label;
+    entry.sourceRef = sourceRef;
+    entry.searchText = lowerAsciiCopy(searchText.str());
+    entries.push_back(std::move(entry));
+}
+
+size_t countMm9InspectorSearchMatches(
+    const std::vector<Mm9InspectorSearchEntry> &entries,
+    const std::string &family,
+    const std::string &query)
+{
+    const std::string normalizedQuery = lowerAsciiCopy(query);
+    size_t matches = 0;
+
+    for (const Mm9InspectorSearchEntry &entry : entries)
+    {
+        if (!family.empty() && entry.family != family)
+        {
+            continue;
+        }
+
+        if (entry.searchText.find(normalizedQuery) != std::string::npos)
+        {
+            ++matches;
+        }
+    }
+
+    return matches;
+}
+
+size_t countMm9InspectorSearchFamily(
+    const std::vector<Mm9InspectorSearchEntry> &entries,
+    const std::string &family)
+{
+    size_t count = 0;
+
+    for (const Mm9InspectorSearchEntry &entry : entries)
+    {
+        if (entry.family == family)
+        {
+            ++count;
+        }
+    }
+
+    return count;
+}
+
+float mm9DistanceFromRotationPointLt(
+    const std::vector<float> &rotationPointLt,
+    const EditorMm9Vec3 &positionLt)
+{
+    if (rotationPointLt.size() < 3)
+    {
+        return 0.0f;
+    }
+
+    const float deltaX = rotationPointLt[0] - positionLt.x;
+    const float deltaY = rotationPointLt[1] - positionLt.y;
+    const float deltaZ = rotationPointLt[2] - positionLt.z;
+    return std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+}
+
+std::vector<Mm9MechanismValidationSummary::CandidateWorldModel> nearestMm9MovableWorldModelsForMechanism(
+    const EditorMm9DatWorldSidecar &datWorld,
+    const OpenYAMM::Game::Mm9EventMechanism &mechanism)
+{
+    std::vector<Mm9MechanismValidationSummary::CandidateWorldModel> candidates;
+
+    if (!mechanism.rotation.hasRotationPoint || mechanism.rotation.rotationPointLt.size() < 3)
+    {
+        return candidates;
+    }
+
+    for (const EditorMm9DatWorldModelSummary &worldModel : datWorld.worldModels)
+    {
+        if (!worldModel.roles.movable)
+        {
+            continue;
+        }
+
+        Mm9MechanismValidationSummary::CandidateWorldModel candidate = {};
+        candidate.sourceModelIndex = worldModel.sourceModelIndex;
+        candidate.sourceName = worldModel.sourceName;
+        candidate.movable = worldModel.roles.movable;
+        candidate.distanceFromRotationPointLt =
+            mm9DistanceFromRotationPointLt(mechanism.rotation.rotationPointLt, worldModel.worldTranslationLt);
+        candidates.push_back(std::move(candidate));
+    }
+
+    std::sort(
+        candidates.begin(),
+        candidates.end(),
+        [](const Mm9MechanismValidationSummary::CandidateWorldModel &left,
+           const Mm9MechanismValidationSummary::CandidateWorldModel &right)
+        {
+            return left.distanceFromRotationPointLt < right.distanceFromRotationPointLt;
+        });
+
+    if (candidates.size() > 5)
+    {
+        candidates.resize(5);
+    }
+
+    return candidates;
+}
+
+const OpenYAMM::Game::Mm9EventBinding *findMm9EventBindingForObject(
+    const OpenYAMM::Game::Mm9EventsData &events,
+    const std::string &objectId)
+{
+    for (const OpenYAMM::Game::Mm9EventBinding &binding : events.bindings)
+    {
+        if (binding.objectId == objectId)
+        {
+            return &binding;
+        }
+    }
+
+    return nullptr;
+}
+
+const EditorMm9DatWorldModelSummary *findMm9DatWorldModelBySourceIndex(
+    const EditorMm9DatWorldSidecar &datWorld,
+    size_t sourceModelIndex)
+{
+    for (const EditorMm9DatWorldModelSummary &worldModel : datWorld.worldModels)
+    {
+        if (worldModel.sourceModelIndex == sourceModelIndex)
+        {
+            return &worldModel;
+        }
+    }
+
+    return nullptr;
+}
+
+bool isMm9RequiredMechanismTarget(const OpenYAMM::Game::Mm9EventMechanism &mechanism)
+{
+    return mechanism.sourceClass != "ScriptObject";
+}
+
+Mm9MechanismValidationSummary summarizeMm9Mechanisms(
+    const OpenYAMM::Game::Mm9EventsData &events,
+    const EditorMm9DatWorldSidecar &datWorld)
+{
+    Mm9MechanismValidationSummary summary = {};
+    summary.total = events.mechanisms.size();
+
+    for (const EditorMm9DatWorldModelSummary &worldModel : datWorld.worldModels)
+    {
+        if (worldModel.roles.movable)
+        {
+            ++summary.movableWorldModels;
+        }
+    }
+
+    for (const OpenYAMM::Game::Mm9EventMechanism &mechanism : events.mechanisms)
+    {
+        const OpenYAMM::Game::Mm9EventBinding *pBinding =
+            findMm9EventBindingForObject(events, mechanism.objectId);
+
+        const bool hasAnyLinearMotion =
+            mechanism.linear.hasMoveDir
+            || mechanism.linear.hasMoveDist
+            || mechanism.linear.hasOpenSpeed
+            || mechanism.linear.hasCloseSpeed;
+        const bool hasAnyRotationMotion =
+            mechanism.rotation.hasRotationPoint
+            || mechanism.rotation.hasRotationAngles;
+
+        summary.triggerOutputs += mechanism.triggerOutputs.size();
+        for (const OpenYAMM::Game::Mm9EventTriggerOutput &output : mechanism.triggerOutputs)
+        {
+            if (output.resolution == "unresolved")
+            {
+                ++summary.unresolvedTriggerOutputs;
+            }
+        }
+
+        if (hasAnyLinearMotion)
+        {
+            ++summary.withLinearMotion;
+
+            std::vector<std::string> missingFields;
+            if (!mechanism.linear.hasMoveDir)
+            {
+                missingFields.push_back("MoveDir");
+            }
+            if (!mechanism.linear.hasMoveDist)
+            {
+                missingFields.push_back("MoveDist");
+            }
+            if (!mechanism.linear.hasOpenSpeed)
+            {
+                missingFields.push_back("OpenSpeed");
+            }
+            if (!mechanism.linear.hasCloseSpeed)
+            {
+                missingFields.push_back("CloseSpeed");
+            }
+
+            if (!missingFields.empty())
+            {
+                Mm9MechanismValidationSummary::IncompleteMotion incomplete = {};
+                incomplete.sourceObjectIndex = mechanism.sourceObjectIndex;
+                incomplete.sourceClass = mechanism.sourceClass;
+                incomplete.sourceName = mechanism.sourceName;
+                incomplete.mechanismId = mechanism.mechanismId;
+                incomplete.motionKind = "linear";
+                incomplete.missingFields = std::move(missingFields);
+                ++summary.incompleteLinearMotion;
+                summary.incompleteMotion.push_back(std::move(incomplete));
+            }
+        }
+
+        if (hasAnyRotationMotion)
+        {
+            ++summary.withRotationMotion;
+
+            std::vector<std::string> missingFields;
+            if (!mechanism.rotation.hasRotationPoint)
+            {
+                missingFields.push_back("RotationPoint");
+            }
+            if (!mechanism.rotation.hasRotationAngles)
+            {
+                missingFields.push_back("RotationAngles");
+            }
+
+            if (!missingFields.empty())
+            {
+                Mm9MechanismValidationSummary::IncompleteMotion incomplete = {};
+                incomplete.sourceObjectIndex = mechanism.sourceObjectIndex;
+                incomplete.sourceClass = mechanism.sourceClass;
+                incomplete.sourceName = mechanism.sourceName;
+                incomplete.mechanismId = mechanism.mechanismId;
+                incomplete.motionKind = "rotation";
+                incomplete.missingFields = std::move(missingFields);
+                ++summary.incompleteRotationMotion;
+                summary.incompleteMotion.push_back(std::move(incomplete));
+            }
+        }
+
+        if (pBinding == nullptr || pBinding->targets.empty())
+        {
+            Mm9MechanismValidationSummary::UnresolvedMechanismTarget unresolved = {};
+            unresolved.sourceObjectIndex = mechanism.sourceObjectIndex;
+            unresolved.sourceClass = mechanism.sourceClass;
+            unresolved.sourceName = mechanism.sourceName;
+            unresolved.mechanismId = mechanism.mechanismId;
+            unresolved.targetKind = "<missing_binding>";
+            unresolved.confidence = "<missing_binding>";
+            unresolved.required = isMm9RequiredMechanismTarget(mechanism);
+            unresolved.nearestWorldModels = nearestMm9MovableWorldModelsForMechanism(datWorld, mechanism);
+            ++summary.unresolvedTargets;
+            if (unresolved.required)
+            {
+                ++summary.unresolvedRequiredTargets;
+            }
+            summary.unresolved.push_back(std::move(unresolved));
+            continue;
+        }
+
+        ++summary.withBinding;
+        bool hasResolvedTarget = false;
+
+        for (const OpenYAMM::Game::Mm9EventBindingTarget &target : pBinding->targets)
+        {
+            if (target.targetKind == "odm_bmodel" && target.bmodelIndex.has_value())
+            {
+                ++summary.withWorldModelTarget;
+                hasResolvedTarget = true;
+
+                const EditorMm9DatWorldModelSummary *pTargetWorldModel =
+                    findMm9DatWorldModelBySourceIndex(datWorld, *target.bmodelIndex);
+
+                if (pTargetWorldModel != nullptr && pTargetWorldModel->roles.movable)
+                {
+                    ++summary.worldModelTargetsWithMovableRole;
+                }
+                else
+                {
+                    Mm9MechanismValidationSummary::NonMovableWorldModelTarget nonMovableTarget = {};
+                    nonMovableTarget.sourceObjectIndex = mechanism.sourceObjectIndex;
+                    nonMovableTarget.sourceClass = mechanism.sourceClass;
+                    nonMovableTarget.sourceName = mechanism.sourceName;
+                    nonMovableTarget.mechanismId = mechanism.mechanismId;
+                    nonMovableTarget.sourceModelIndex = *target.bmodelIndex;
+                    nonMovableTarget.sourceModelName = target.sourceModelName.empty()
+                        ? target.bmodelName
+                        : target.sourceModelName;
+                    nonMovableTarget.confidence = target.confidence;
+                    nonMovableTarget.targetModelFound = pTargetWorldModel != nullptr;
+
+                    if (pTargetWorldModel != nullptr)
+                    {
+                        nonMovableTarget.sourceModelName = pTargetWorldModel->sourceName;
+                        ++summary.worldModelTargetsWithoutMovableRole;
+                    }
+                    else
+                    {
+                        ++summary.worldModelTargetsMissingModel;
+                    }
+
+                    summary.nonMovableWorldModelTargets.push_back(std::move(nonMovableTarget));
+                }
+
+                if (target.sourcePolygonGroup.has_value())
+                {
+                    ++summary.worldModelTargetsWithPolygonGroup;
+
+                    if (target.sourcePolygonGroup->sourceModelIndex != *target.bmodelIndex)
+                    {
+                        Mm9MechanismValidationSummary::PolygonGroupTargetIssue issue = {};
+                        issue.sourceObjectIndex = mechanism.sourceObjectIndex;
+                        issue.sourceClass = mechanism.sourceClass;
+                        issue.sourceName = mechanism.sourceName;
+                        issue.mechanismId = mechanism.mechanismId;
+                        issue.bmodelIndex = *target.bmodelIndex;
+                        issue.groupSourceModelIndex = target.sourcePolygonGroup->sourceModelIndex;
+                        issue.confidence = target.confidence;
+                        issue.issue = "source_polygon_group_model_mismatch";
+                        ++summary.worldModelTargetsMismatchedPolygonGroup;
+                        summary.polygonGroupTargetIssues.push_back(std::move(issue));
+                    }
+                }
+                else
+                {
+                    Mm9MechanismValidationSummary::PolygonGroupTargetIssue issue = {};
+                    issue.sourceObjectIndex = mechanism.sourceObjectIndex;
+                    issue.sourceClass = mechanism.sourceClass;
+                    issue.sourceName = mechanism.sourceName;
+                    issue.mechanismId = mechanism.mechanismId;
+                    issue.bmodelIndex = *target.bmodelIndex;
+                    issue.confidence = target.confidence;
+                    issue.issue = "missing_source_polygon_group";
+                    ++summary.worldModelTargetsMissingPolygonGroup;
+                    summary.polygonGroupTargetIssues.push_back(std::move(issue));
+                }
+            }
+            else if (target.targetKind == "model_instance" && !target.targetId.empty())
+            {
+                ++summary.withModelInstanceTarget;
+                hasResolvedTarget = true;
+            }
+            else if (target.targetKind == "unresolved")
+            {
+                Mm9MechanismValidationSummary::UnresolvedMechanismTarget unresolved = {};
+                unresolved.sourceObjectIndex = mechanism.sourceObjectIndex;
+                unresolved.sourceClass = mechanism.sourceClass;
+                unresolved.sourceName = mechanism.sourceName;
+                unresolved.mechanismId = mechanism.mechanismId;
+                unresolved.targetKind = target.targetKind;
+                unresolved.confidence = target.confidence;
+                unresolved.required = isMm9RequiredMechanismTarget(mechanism);
+                unresolved.nearestWorldModels = nearestMm9MovableWorldModelsForMechanism(datWorld, mechanism);
+                ++summary.unresolvedTargets;
+                if (unresolved.required)
+                {
+                    ++summary.unresolvedRequiredTargets;
+                }
+                summary.unresolved.push_back(std::move(unresolved));
+            }
+        }
+
+        if (!hasResolvedTarget)
+        {
+            bool alreadyRecorded = false;
+            for (const Mm9MechanismValidationSummary::UnresolvedMechanismTarget &unresolved : summary.unresolved)
+            {
+                if (unresolved.sourceObjectIndex == mechanism.sourceObjectIndex)
+                {
+                    alreadyRecorded = true;
+                    break;
+                }
+            }
+
+            if (!alreadyRecorded)
+            {
+                Mm9MechanismValidationSummary::UnresolvedMechanismTarget unresolved = {};
+                unresolved.sourceObjectIndex = mechanism.sourceObjectIndex;
+                unresolved.sourceClass = mechanism.sourceClass;
+                unresolved.sourceName = mechanism.sourceName;
+                unresolved.mechanismId = mechanism.mechanismId;
+                unresolved.targetKind = "<no_resolved_target>";
+                unresolved.confidence = "<no_resolved_target>";
+                unresolved.required = isMm9RequiredMechanismTarget(mechanism);
+                unresolved.nearestWorldModels = nearestMm9MovableWorldModelsForMechanism(datWorld, mechanism);
+                ++summary.unresolvedTargets;
+                if (unresolved.required)
+                {
+                    ++summary.unresolvedRequiredTargets;
+                }
+                summary.unresolved.push_back(std::move(unresolved));
+            }
+        }
+    }
+
+    return summary;
+}
+
+bool mm9Vec3FromFloatVector(const std::vector<float> &values, OpenYAMM::Game::Mm9DatVec3 &result)
+{
+    if (values.size() < 3)
+    {
+        return false;
+    }
+
+    result = {values[0], values[1], values[2]};
+    return true;
+}
+
+Mm9MechanismPreviewValidationSummary validateMm9MechanismPreviewTransforms(
+    const OpenYAMM::Game::Mm9EventsData &events,
+    const OpenYAMM::Game::Mm9DatRenderMesh &mesh)
+{
+    Mm9MechanismPreviewValidationSummary summary = {};
+
+    for (const OpenYAMM::Game::Mm9EventMechanism &mechanism : events.mechanisms)
+    {
+        const OpenYAMM::Game::Mm9EventBinding *pBinding =
+            findMm9EventBindingForObject(events, mechanism.objectId);
+
+        if (pBinding == nullptr)
+        {
+            continue;
+        }
+
+        OpenYAMM::Game::Mm9DatMechanismPreviewMotion motion = {};
+        motion.progress = 1.0f;
+        motion.hasLinearMotion =
+            mechanism.linear.hasMoveDir
+            && mechanism.linear.hasMoveDist
+            && std::fabs(mechanism.linear.moveDistLt) > 0.0001f
+            && mm9Vec3FromFloatVector(mechanism.linear.moveDirLt, motion.moveDirLt);
+        motion.moveDistLt = mechanism.linear.moveDistLt;
+        motion.hasRotationMotion =
+            mechanism.rotation.hasRotationPoint
+            && mechanism.rotation.hasRotationAngles
+            && mm9Vec3FromFloatVector(mechanism.rotation.rotationPointLt, motion.rotationPointLt)
+            && mm9Vec3FromFloatVector(mechanism.rotation.rotationAnglesDeg, motion.rotationAnglesDeg);
+
+        if (!motion.hasLinearMotion && !motion.hasRotationMotion)
+        {
+            continue;
+        }
+
+        for (const OpenYAMM::Game::Mm9EventBindingTarget &target : pBinding->targets)
+        {
+            if (target.targetKind != "odm_bmodel" || !target.bmodelIndex.has_value())
+            {
+                continue;
+            }
+
+            ++summary.candidates;
+            motion.sourceModelIndex = *target.bmodelIndex;
+
+            const OpenYAMM::Game::Mm9DatMechanismPreviewResult preview =
+                OpenYAMM::Game::buildMm9DatMechanismPreviewMesh(mesh, motion);
+
+            if (preview.targetFound)
+            {
+                ++summary.targetFound;
+            }
+
+            summary.transformedTriangles += preview.transformedTriangles;
+
+            if (preview.boundsChanged)
+            {
+                ++summary.changedBounds;
+            }
+        }
+    }
+
+    return summary;
+}
+
+bool mm9DatFilterEntryShouldRenderInEditorViewport(const OpenYAMM::Game::Mm9DatRenderFilterEntry &filterEntry)
+{
+    const bool visual =
+        (filterEntry.flags
+            & (OpenYAMM::Game::Mm9DatRenderFilterVisual
+                | OpenYAMM::Game::Mm9DatRenderFilterSky
+                | OpenYAMM::Game::Mm9DatRenderFilterWater
+                | OpenYAMM::Game::Mm9DatRenderFilterTerrain
+                | OpenYAMM::Game::Mm9DatRenderFilterPhysics
+                | OpenYAMM::Game::Mm9DatRenderFilterMovable)) != 0;
+    const bool hiddenHelper =
+        (filterEntry.flags
+            & (OpenYAMM::Game::Mm9DatRenderFilterInvisible
+                | OpenYAMM::Game::Mm9DatRenderFilterWaterVolume
+                | OpenYAMM::Game::Mm9DatRenderFilterRail
+                | OpenYAMM::Game::Mm9DatRenderFilterVisibility
+                | OpenYAMM::Game::Mm9DatRenderFilterTrigger)) != 0;
+
+    return visual && !hiddenHelper;
+}
+
+Mm9DatViewportRenderabilitySummary summarizeMm9DatViewportRenderability(
+    const OpenYAMM::Game::Mm9DatRenderFilterResult &nativeFilters,
+    const std::vector<OpenYAMM::Game::Mm9DatRenderMaterialAssignment> &materialAssignments,
+    const Mm9ModelInstanceAssetResolutionSummary &modelInstanceSummary)
+{
+    Mm9DatViewportRenderabilitySummary summary = {};
+
+    for (const OpenYAMM::Game::Mm9DatRenderFilterEntry &filterEntry : nativeFilters.entries)
+    {
+        if (!mm9DatFilterEntryShouldRenderInEditorViewport(filterEntry))
+        {
+            continue;
+        }
+
+        ++summary.nativeRenderableTriangles;
+
+        if ((filterEntry.flags & OpenYAMM::Game::Mm9DatRenderFilterPhysics) != 0)
+        {
+            ++summary.nativeRenderablePhysicsTriangles;
+        }
+
+        const bool hasTexturedMaterial =
+            filterEntry.triangleIndex < materialAssignments.size()
+            && materialAssignments[filterEntry.triangleIndex].assigned
+            && !materialAssignments[filterEntry.triangleIndex].ambiguous
+            && materialAssignments[filterEntry.triangleIndex].sourceDtxResolved
+            && !materialAssignments[filterEntry.triangleIndex].resolvedSourcePath.empty();
+
+        if (hasTexturedMaterial)
+        {
+            ++summary.nativeTexturedTriangles;
+        }
+        else
+        {
+            ++summary.nativeMissingMaterialTriangles;
+
+            Mm9DatViewportRenderabilitySummary::MissingMaterialTriangle missing = {};
+            missing.triangleIndex = filterEntry.triangleIndex;
+            missing.filterFlags = filterEntry.flags;
+
+            if (filterEntry.triangleIndex < materialAssignments.size())
+            {
+                const OpenYAMM::Game::Mm9DatRenderMaterialAssignment &assignment =
+                    materialAssignments[filterEntry.triangleIndex];
+                missing.sourceModelIndex = assignment.sourceModelIndex;
+                missing.sourcePolyIndex = assignment.sourcePolyIndex;
+                missing.sourceSurfaceIndex = assignment.sourceSurfaceIndex;
+                missing.sourceTextureIndex = assignment.sourceTextureIndex;
+                missing.materialCandidateCount = assignment.materialCandidateCount;
+                missing.sourceTexture = assignment.sourceTexture;
+                missing.alias = assignment.alias;
+                missing.assigned = assignment.assigned;
+                missing.ambiguous = assignment.ambiguous;
+                missing.sourceDtxResolved = assignment.sourceDtxResolved;
+                missing.placeholderMissingSource = assignment.placeholderMissingSource;
+            }
+
+            if (missing.placeholderMissingSource)
+            {
+                ++summary.nativePlaceholderMaterialTriangles;
+            }
+            else
+            {
+                ++summary.nativeUnresolvedMaterialTriangles;
+            }
+
+            summary.missingMaterialTriangles.push_back(missing);
+        }
+    }
+
+    summary.modelInstanceDrawableGeometry = modelInstanceSummary.drawableGeometry;
+    summary.modelInstanceDecodedSkinTextures = modelInstanceSummary.decodedSkinTextures;
+    return summary;
+}
+
+size_t countMm9ObjectOverlayVertices(const Game::Mm9ObjectLayer &objectLayer)
+{
+    size_t vertexCount = 0;
+
+    for (const Game::Mm9Object &object : objectLayer.objects)
+    {
+        if (!object.hasPosition)
+        {
+            continue;
+        }
+
+        if (object.hasDims)
+        {
+            vertexCount += 24;
+        }
+        else if (object.hasRadius)
+        {
+            vertexCount += 30;
+        }
+        else if (object.triggerVolume)
+        {
+            vertexCount += 6;
+        }
+    }
+
+    return vertexCount;
+}
+
+size_t countMm9WorldModelOverlayVertices(const EditorMm9DatWorldSidecar &datWorld)
+{
+    return datWorld.worldModels.size() * 24;
+}
+
+size_t countMm9WorldModelOverlayPickCandidates(const EditorMm9DatWorldSidecar &datWorld)
+{
+    return datWorld.worldModels.size();
+}
+
+struct Mm9SelectedDatOverlaySummary
+{
+    size_t polygonVertices = 0;
+    size_t surfaceVertices = 0;
+};
+
+Mm9SelectedDatOverlaySummary summarizeMm9SelectedDatOverlay(
+    const Game::Mm9DatRenderMesh &mesh,
+    size_t selectedTriangleIndex)
+{
+    Mm9SelectedDatOverlaySummary summary = {};
+
+    if (selectedTriangleIndex >= mesh.triangles.size())
+    {
+        return summary;
+    }
+
+    const Game::Mm9DatRenderTriangle &selectedTriangle = mesh.triangles[selectedTriangleIndex];
+
+    for (const Game::Mm9DatRenderTriangle &triangle : mesh.triangles)
+    {
+        if (triangle.sourceModelIndex != selectedTriangle.sourceModelIndex)
+        {
+            continue;
+        }
+
+        if (triangle.sourceSurfaceIndex == selectedTriangle.sourceSurfaceIndex)
+        {
+            summary.surfaceVertices += 3;
+        }
+
+        if (triangle.sourcePolyIndex == selectedTriangle.sourcePolyIndex)
+        {
+            summary.polygonVertices += 9;
+        }
+    }
+
+    return summary;
+}
+
+bool mm9RawObjectSidecarContainsSourceObject(
+    const EditorMm9RawObjectsSidecar &rawObjects,
+    size_t sourceObjectIndex)
+{
+    for (const EditorMm9RawObject &rawObject : rawObjects.objects)
+    {
+        if (rawObject.objectIndex == sourceObjectIndex)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+size_t countMm9ObjectOverlayPickCandidates(
+    const Game::Mm9ObjectLayer &objectLayer,
+    const EditorMm9RawObjectsSidecar &rawObjects)
+{
+    size_t candidateCount = 0;
+
+    for (const Game::Mm9Object &object : objectLayer.objects)
+    {
+        if (!object.hasPosition || (!object.hasDims && !object.hasRadius && !object.triggerVolume))
+        {
+            continue;
+        }
+
+        if (mm9RawObjectSidecarContainsSourceObject(rawObjects, object.sourceObjectIndex))
+        {
+            ++candidateCount;
+        }
+    }
+
+    return candidateCount;
+}
+
+struct Mm9SourceMarkerOverlaySummary
+{
+    size_t lightVertices = 0;
+    size_t soundVertices = 0;
+    size_t spawnVertices = 0;
+};
+
+Mm9SourceMarkerOverlaySummary summarizeMm9SourceMarkerOverlayVertices(
+    const Game::Mm9LightLayer &lightLayer,
+    const Game::Mm9SoundLayer &soundLayer,
+    const Game::Mm9SpawnLayer &spawnLayer)
+{
+    Mm9SourceMarkerOverlaySummary summary = {};
+
+    for (const Game::Mm9LightObject &light : lightLayer.lights)
+    {
+        if (!light.hasPosition)
+        {
+            continue;
+        }
+
+        summary.lightVertices += 6;
+
+        if (light.hasLightRadius)
+        {
+            summary.lightVertices += 30;
+        }
+    }
+
+    for (const Game::Mm9SoundObject &sound : soundLayer.objects)
+    {
+        if (!sound.hasSoundPosition && !sound.hasPosition)
+        {
+            continue;
+        }
+
+        summary.soundVertices += 6;
+
+        if (sound.hasSoundRadius)
+        {
+            summary.soundVertices += 30;
+        }
+    }
+
+    for (const Game::Mm9SpawnObject &spawn : spawnLayer.objects)
+    {
+        if (!spawn.hasPosition)
+        {
+            continue;
+        }
+
+        summary.spawnVertices += 6;
+
+        if (spawn.hasSpawnObjectVelocity && mm9Length(spawn.spawnObjectVelocityLt) > 0.001f)
+        {
+            summary.spawnVertices += 2;
+        }
+    }
+
+    return summary;
+}
+
+bool mm9SourceObjectHasMarkerPosition(
+    const Game::Mm9ObjectLayer &objectLayer,
+    const Game::Mm9LightLayer &lightLayer,
+    const Game::Mm9SoundLayer &soundLayer,
+    const Game::Mm9SpawnLayer &spawnLayer,
+    const Game::OutdoorSceneData &sceneData,
+    size_t sourceObjectIndex)
+{
+    for (const Game::Mm9Object &object : objectLayer.objects)
+    {
+        if (object.sourceObjectIndex == sourceObjectIndex && object.hasPosition)
+        {
+            return true;
+        }
+    }
+
+    for (const Game::Mm9LightObject &light : lightLayer.lights)
+    {
+        if (light.sourceObjectIndex == sourceObjectIndex && light.hasPosition)
+        {
+            return true;
+        }
+    }
+
+    for (const Game::Mm9SoundObject &sound : soundLayer.objects)
+    {
+        if (sound.sourceObjectIndex == sourceObjectIndex && (sound.hasSoundPosition || sound.hasPosition))
+        {
+            return true;
+        }
+    }
+
+    for (const Game::Mm9SpawnObject &spawn : spawnLayer.objects)
+    {
+        if (spawn.sourceObjectIndex == sourceObjectIndex && spawn.hasPosition)
+        {
+            return true;
+        }
+    }
+
+    for (const Game::OutdoorSceneModelInstance &modelInstance : sceneData.modelInstances)
+    {
+        if (modelInstance.sourceObjectIndex == sourceObjectIndex)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+struct Mm9AssetIssueMarkerSummary
+{
+    size_t sourceObjects = 0;
+    size_t candidates = 0;
+    size_t unpositioned = 0;
+    size_t requiredCandidates = 0;
+    size_t requiredUnpositioned = 0;
+};
+
+Mm9AssetIssueMarkerSummary summarizeMm9AssetIssueMarkers(
+    const std::vector<EditorMm9RawObjectAssetReferenceStatus> &statuses,
+    const Game::Mm9ObjectLayer &objectLayer,
+    const Game::Mm9LightLayer &lightLayer,
+    const Game::Mm9SoundLayer &soundLayer,
+    const Game::Mm9SpawnLayer &spawnLayer,
+    const Game::OutdoorSceneData &sceneData,
+    const EditorMm9RawObjectsSidecar &rawObjects)
+{
+    Mm9AssetIssueMarkerSummary summary = {};
+    std::unordered_map<size_t, bool> requiredIssueBySourceObject;
+
+    for (const EditorMm9RawObjectAssetReferenceStatus &status : statuses)
+    {
+        if (status.resolved && !status.ambiguous)
+        {
+            continue;
+        }
+
+        bool &hasRequiredIssue = requiredIssueBySourceObject[status.sourceObjectIndex];
+        hasRequiredIssue = hasRequiredIssue || status.required;
+    }
+
+    summary.sourceObjects = requiredIssueBySourceObject.size();
+
+    for (const std::pair<const size_t, bool> &issue : requiredIssueBySourceObject)
+    {
+        const bool hasMarkerPosition =
+            mm9RawObjectSidecarContainsSourceObject(rawObjects, issue.first)
+            && mm9SourceObjectHasMarkerPosition(
+                objectLayer,
+                lightLayer,
+                soundLayer,
+                spawnLayer,
+                sceneData,
+                issue.first);
+
+        if (hasMarkerPosition)
+        {
+            ++summary.candidates;
+
+            if (issue.second)
+            {
+                ++summary.requiredCandidates;
+            }
+        }
+        else
+        {
+            ++summary.unpositioned;
+
+            if (issue.second)
+            {
+                ++summary.requiredUnpositioned;
+            }
+        }
+    }
+
+    return summary;
+}
+
+struct Mm9MechanismTargetMarkerSummary
+{
+    size_t targetGroups = 0;
+    size_t candidates = 0;
+    size_t vertices = 0;
+    size_t sourceLinkedTargets = 0;
+};
+
+Mm9MechanismTargetMarkerSummary summarizeMm9MechanismTargetMarkers(
+    const Game::Mm9EventsData &events,
+    const EditorMm9DatWorldSidecar &datWorld,
+    const Game::Mm9ObjectLayer &objectLayer,
+    const Game::Mm9LightLayer &lightLayer,
+    const Game::Mm9SoundLayer &soundLayer,
+    const Game::Mm9SpawnLayer &spawnLayer,
+    const Game::OutdoorSceneData &sceneData)
+{
+    Mm9MechanismTargetMarkerSummary summary = {};
+
+    for (const Game::Mm9EventMechanism &mechanism : events.mechanisms)
+    {
+        const Game::Mm9EventBinding *pBinding =
+            findMm9EventBindingForObject(events, mechanism.objectId);
+
+        if (pBinding == nullptr)
+        {
+            continue;
+        }
+
+        const bool sourcePositioned =
+            mechanism.sourceObjectIndex >= 0
+            && mm9SourceObjectHasMarkerPosition(
+                objectLayer,
+                lightLayer,
+                soundLayer,
+                spawnLayer,
+                sceneData,
+                static_cast<size_t>(mechanism.sourceObjectIndex));
+
+        for (const Game::Mm9EventBindingTarget &target : pBinding->targets)
+        {
+            if (target.targetKind != "odm_bmodel"
+                || !target.bmodelIndex.has_value()
+                || *target.bmodelIndex >= datWorld.worldModels.size())
+            {
+                continue;
+            }
+
+            ++summary.targetGroups;
+            ++summary.candidates;
+            summary.vertices += 24;
+
+            if (sourcePositioned)
+            {
+                ++summary.sourceLinkedTargets;
+                summary.vertices += 8;
+            }
+        }
+    }
+
+    return summary;
+}
+
+Game::Mm9DatVec3 normalizeMm9Vector(const Game::Mm9DatVec3 &value)
+{
+    const float length = mm9Length(value);
+
+    if (length <= 0.0001f)
+    {
+        return {0.0f, 0.0f, 0.0f};
+    }
+
+    return {value.x / length, value.y / length, value.z / length};
+}
+
+Mm9ModelInstanceCameraFrameSummary summarizeMm9ModelInstanceCameraFrame(
+    const Game::OutdoorSceneData &sceneData,
+    const Game::Mm9DatCameraFrame &cameraFrame,
+    float verticalFovDegrees,
+    float aspectRatio)
+{
+    Mm9ModelInstanceCameraFrameSummary summary = {};
+    summary.total = sceneData.modelInstances.size();
+
+    if (!cameraFrame.valid || verticalFovDegrees <= 1.0f || aspectRatio <= 0.1f)
+    {
+        return summary;
+    }
+
+    constexpr float Pi = 3.14159265358979323846f;
+    const float halfFovRadians = (verticalFovDegrees * 0.5f) * Pi / 180.0f;
+    const float tangent = std::tan(halfFovRadians);
+
+    if (tangent <= 0.0001f)
+    {
+        return summary;
+    }
+
+    const Game::Mm9DatVec3 forward =
+        normalizeMm9Vector(mm9Subtract(cameraFrame.target, cameraFrame.position));
+
+    if (mm9Length(forward) <= 0.0001f)
+    {
+        return summary;
+    }
+
+    const Game::Mm9DatVec3 worldUp = {0.0f, 0.0f, 1.0f};
+    Game::Mm9DatVec3 right = normalizeMm9Vector(mm9Cross(forward, worldUp));
+
+    if (mm9Length(right) <= 0.0001f)
+    {
+        right = {1.0f, 0.0f, 0.0f};
+    }
+
+    const Game::Mm9DatVec3 cameraUp = normalizeMm9Vector(mm9Cross(right, forward));
+
+    for (const Game::OutdoorSceneModelInstance &modelInstance : sceneData.modelInstances)
+    {
+        const float radius = 128.0f
+            * std::max({modelInstance.scale[0], modelInstance.scale[1], modelInstance.scale[2], 1.0f});
+        const Game::Mm9DatVec3 center = {
+            static_cast<float>(modelInstance.x),
+            static_cast<float>(modelInstance.y),
+            static_cast<float>(modelInstance.z) + radius
+        };
+        const Game::Mm9DatVec3 cameraToCenter = mm9Subtract(center, cameraFrame.position);
+        const float depth = mm9Dot(cameraToCenter, forward);
+
+        if (depth + radius <= 0.0f)
+        {
+            continue;
+        }
+
+        ++summary.inFront;
+
+        if (depth + radius < cameraFrame.nearPlane || depth - radius > cameraFrame.farPlane)
+        {
+            continue;
+        }
+
+        ++summary.inDepthRange;
+
+        const float verticalExtent = std::max(depth, 1.0f) * tangent;
+        const float horizontalExtent = verticalExtent * aspectRatio;
+        const float x = mm9Dot(cameraToCenter, right);
+        const float y = mm9Dot(cameraToCenter, cameraUp);
+
+        if (std::fabs(x) <= horizontalExtent + radius && std::fabs(y) <= verticalExtent + radius)
+        {
+            ++summary.inView;
+        }
+    }
+
+    return summary;
+}
+
+bool writeMm9DatLevelValidationReport(
+    const std::filesystem::path &worldRoot,
+    const std::filesystem::path &levelPhysicalPath,
+    const EditorDocument &document,
+    const Mm9ModelInstanceAssetResolutionSummary &modelInstanceSummary,
+    const Mm9DatViewportRenderabilitySummary &viewportSummary,
+    const Mm9MechanismPreviewValidationSummary &mechanismPreviewSummary,
+    size_t selectedTriangleIndex,
+    bool sourceIntegritySnapshotVerified,
+    size_t sourceIntegritySnapshotFileCount,
+    std::filesystem::path &reportPath,
+    std::string &errorMessage)
+{
+    const EditorMm9DatLevelMetadata &metadata = document.mm9DatLevelMetadata();
+    const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
+    const Game::Mm9DatRenderMesh &datRenderMesh = document.mm9DatRenderMesh();
+    const Game::OutdoorSceneData &sceneData = document.outdoorSceneData();
+    const Game::Mm9ObjectLayer &objectLayer = document.mm9ObjectLayer();
+    const Game::Mm9LightLayer &lightLayer = document.mm9LightLayer();
+    const Game::Mm9SoundLayer &soundLayer = document.mm9SoundLayer();
+    const Game::Mm9SpawnLayer &spawnLayer = document.mm9SpawnLayer();
+    const size_t worldModelOverlayVertices = countMm9WorldModelOverlayVertices(sidecars.datWorld);
+    const size_t worldModelOverlayPickCandidates = countMm9WorldModelOverlayPickCandidates(sidecars.datWorld);
+    const Mm9SelectedDatOverlaySummary selectedDatOverlaySummary =
+        summarizeMm9SelectedDatOverlay(datRenderMesh, selectedTriangleIndex);
+    const size_t objectOverlayVertices = countMm9ObjectOverlayVertices(objectLayer);
+    const size_t objectOverlayPickCandidates =
+        countMm9ObjectOverlayPickCandidates(objectLayer, sidecars.rawObjects);
+    const Mm9SourceMarkerOverlaySummary sourceMarkerOverlaySummary =
+        summarizeMm9SourceMarkerOverlayVertices(lightLayer, soundLayer, spawnLayer);
+    const Mm9AssetIssueMarkerSummary assetIssueMarkerSummary =
+        summarizeMm9AssetIssueMarkers(
+            document.mm9RawObjectAssetReferenceStatuses(),
+            objectLayer,
+            lightLayer,
+            soundLayer,
+            spawnLayer,
+            sceneData,
+            sidecars.rawObjects);
+    const Mm9MechanismTargetMarkerSummary mechanismTargetMarkerSummary =
+        summarizeMm9MechanismTargetMarkers(
+            sidecars.events,
+            sidecars.datWorld,
+            objectLayer,
+            lightLayer,
+            soundLayer,
+            spawnLayer,
+            sceneData);
+    const Game::Mm9DatCameraFrame reportCameraFrame = Game::frameMm9DatRenderMeshCamera(datRenderMesh);
+    const Mm9ModelInstanceCameraFrameSummary modelInstanceCameraFrameSummary =
+        summarizeMm9ModelInstanceCameraFrame(sceneData, reportCameraFrame, 60.0f, 1920.0f / 1200.0f);
+    const Mm9MechanismValidationSummary mechanismSummary =
+        summarizeMm9Mechanisms(sidecars.events, sidecars.datWorld);
+    const EditorMm9AssetDependencySummary &assetSummary = document.mm9AssetDependencySummary();
+    const std::vector<EditorMm9MaterialTextureStatus> &textureStatuses =
+        document.mm9MaterialTextureStatuses();
+    const std::vector<EditorMm9RawObjectAssetReferenceStatus> &rawObjectStatuses =
+        document.mm9RawObjectAssetReferenceStatuses();
+    const std::vector<EditorMm9DocumentPathStatus> &pathStatuses = document.mm9DocumentPathStatuses();
+
+    std::vector<const EditorMm9RawObjectAssetReferenceStatus *> unresolvedRequiredRawObjects;
+    std::vector<const EditorMm9RawObjectAssetReferenceStatus *> unresolvedOptionalRawObjects;
+    std::vector<const EditorMm9MaterialTextureStatus *> invalidMaterialTextures;
+    std::vector<const EditorMm9MaterialTextureStatus *> staleMaterialCaches;
+    std::vector<const EditorMm9DocumentPathStatus *> authoredPathStatuses;
+    std::vector<const EditorMm9DocumentPathStatus *> authoredOverridePathStatuses;
+    std::vector<const EditorMm9DocumentPathStatus *> generatedPathStatuses;
+    std::vector<const EditorMm9DocumentPathStatus *> sourceReadOnlyPathStatuses;
+    std::vector<const EditorMm9DocumentPathStatus *> compatibilityPathStatuses;
+    size_t missingDocumentPathCount = 0;
+    size_t missingRequiredDocumentPathCount = 0;
+    size_t optionalRawObjectAssetReferenceCount = 0;
+    size_t requiredRawObjectAssetReferenceCount = 0;
+    size_t resolvedTextureCount = 0;
+    size_t ambiguousTextureCount = 0;
+    size_t loadedDtxHeaderCount = 0;
+    size_t matchedDtxHeaderCount = 0;
+    size_t dtxMipPayloadCount = 0;
+    size_t dtxDecodedPreviewMipCount = 0;
+    size_t dtxSectionMetadataCount = 0;
+    size_t dtxSectionPayloadAvailableCount = 0;
+    size_t dtxCommandStringCount = 0;
+    size_t spriteMaterialCount = 0;
+    size_t resolvedSpriteMaterialCount = 0;
+    size_t spriteFrameTextureCount = 0;
+    size_t resolvedSpriteFrameTextureCount = 0;
+    size_t unresolvedSpriteFrameTextureCount = 0;
+    size_t ambiguousSpriteFrameTextureCount = 0;
+    size_t invalidSurfaceTextureRefs = 0;
+    size_t invalidPolySurfaceRefs = 0;
+    size_t invalidPolyPlaneRefs = 0;
+    size_t invalidPolyVertexRefs = 0;
+    size_t invalidNodePolyRefs = 0;
+    size_t invalidRootNodeRefs = 0;
+    size_t worldModelsWithUnknownValues = 0;
+    size_t userPortalsWithRawUnknowns = 0;
+    size_t scriptRegisteredTriggers = 0;
+    size_t scriptTriggerEdges = 0;
+    size_t scriptMovementCommands = 0;
+    size_t scriptUnknownCommands = 0;
+    size_t scriptCommandCount = 0;
+    size_t unresolvedEventWarnings = 0;
+    size_t unresolvedEventErrors = 0;
+    size_t unresolvedEventRotationCandidates = 0;
+    size_t unresolvedEventPositionCandidates = 0;
+    const size_t staticRenderLightCount = Game::buildMm9StaticRenderLights(lightLayer).size();
+    const std::vector<std::string> datWorldReferenceIssues =
+        validateMm9DatWorldSidecarReferences(sidecars.datWorld);
+    const std::vector<std::string> &levelLoadDiagnostics = document.mm9DatLevelLoadDiagnostics();
+    const std::vector<std::string> &sourceManifestDiagnostics = document.mm9SourceAssetManifestDiagnostics();
+    const std::vector<EditorMm9SourceAssetFamilyStatus> &sourceFamilyStatuses =
+        document.mm9SourceAssetFamilyStatuses();
+    size_t sourceFamilyDeclaredCount = 0;
+    size_t sourceFamilyRequiredCount = 0;
+    size_t sourceFamilyExpectedFileCount = 0;
+    size_t sourceFamilyActualFileCount = 0;
+    size_t sourceFamilyCountDriftCount = 0;
+    size_t sourceFamilyMissingDirectoryCount = 0;
+    size_t sourceDatHashDiagnosticCount = 0;
+
+    for (const OpenYAMM::Game::Mm9EventScript &script : sidecars.events.scripts)
+    {
+        scriptRegisteredTriggers += script.registeredTriggers.size();
+        scriptTriggerEdges += script.triggerEdges.size();
+        scriptMovementCommands += script.movementCommands.size();
+        scriptUnknownCommands += script.unknownCommands.size();
+        scriptCommandCount += script.commandCount;
+    }
+
+    for (const OpenYAMM::Game::Mm9EventUnresolved &entry : sidecars.events.unresolved)
+    {
+        const std::string severity = lowerAsciiCopy(entry.severity);
+
+        if (severity == "error")
+        {
+            ++unresolvedEventErrors;
+        }
+        else if (severity == "warning")
+        {
+            ++unresolvedEventWarnings;
+        }
+
+        unresolvedEventRotationCandidates += entry.nearestMovableWorldModelsByRotationPoint.size();
+        unresolvedEventPositionCandidates += entry.nearestMovableWorldModelsByPosition.size();
+    }
+
+    for (const EditorMm9RawObjectAssetReferenceStatus &status : rawObjectStatuses)
+    {
+        if (status.required)
+        {
+            ++requiredRawObjectAssetReferenceCount;
+        }
+        else
+        {
+            ++optionalRawObjectAssetReferenceCount;
+        }
+
+        if (!status.resolved || status.ambiguous)
+        {
+            if (status.required)
+            {
+                unresolvedRequiredRawObjects.push_back(&status);
+            }
+            else
+            {
+                unresolvedOptionalRawObjects.push_back(&status);
+            }
+        }
+    }
+
+    for (const EditorMm9DocumentPathStatus &status : pathStatuses)
+    {
+        if (!status.exists)
+        {
+            ++missingDocumentPathCount;
+
+            if (isMm9DocumentPathRequired(status))
+            {
+                ++missingRequiredDocumentPathCount;
+            }
+        }
+
+        if (status.authored)
+        {
+            authoredPathStatuses.push_back(&status);
+        }
+
+        if (status.role == "authored_override")
+        {
+            authoredOverridePathStatuses.push_back(&status);
+        }
+
+        if (status.generated)
+        {
+            generatedPathStatuses.push_back(&status);
+        }
+
+        if (status.sourceReadOnly)
+        {
+            sourceReadOnlyPathStatuses.push_back(&status);
+        }
+
+        if (status.compatibilityDerived)
+        {
+            compatibilityPathStatuses.push_back(&status);
+        }
+    }
+
+    for (const EditorMm9MaterialTextureStatus &status : textureStatuses)
+    {
+        if (status.sourceDtxResolved)
+        {
+            ++resolvedTextureCount;
+        }
+
+        if (status.sourceDtxAmbiguous)
+        {
+            ++ambiguousTextureCount;
+        }
+
+        if (status.dtxHeaderLoaded)
+        {
+            ++loadedDtxHeaderCount;
+        }
+
+        if (status.dtxHeaderMatchesSidecar)
+        {
+            ++matchedDtxHeaderCount;
+        }
+
+        if (status.dtxHeader)
+        {
+            dtxMipPayloadCount += status.dtxHeader->mips.size();
+            dtxSectionMetadataCount += status.dtxHeader->sections.size();
+
+            if (!status.dtxHeader->commandString.empty())
+            {
+                ++dtxCommandStringCount;
+            }
+
+            for (const EditorMm9DtxMipLevel &mip : status.dtxHeader->mips)
+            {
+                if (mip.decodedPreviewAvailable)
+                {
+                    ++dtxDecodedPreviewMipCount;
+                }
+            }
+
+            for (const EditorMm9DtxSection &section : status.dtxHeader->sections)
+            {
+                if (section.payloadAvailable)
+                {
+                    ++dtxSectionPayloadAvailableCount;
+                }
+            }
+        }
+
+        const bool requiredSource = status.datReferenceCount > 0 || !status.sourceTexture.empty();
+        bool invalid =
+            requiredSource
+            && !status.placeholderMissingSource
+            && (!status.sourceDtxResolved
+                || status.sourceDtxAmbiguous
+                || !status.sourcePathExists
+                || !status.dtxHeaderLoaded
+                || !status.dtxHeaderMatchesSidecar);
+
+        if (status.sourceAssetFamily == "sprites")
+        {
+            ++spriteMaterialCount;
+            spriteFrameTextureCount += status.spriteFrameTextureCount;
+            resolvedSpriteFrameTextureCount += status.resolvedSpriteFrameTextureCount;
+            unresolvedSpriteFrameTextureCount += status.unresolvedSpriteFrameTextureCount;
+            ambiguousSpriteFrameTextureCount += status.ambiguousSpriteFrameTextureCount;
+
+            if (status.sourceSpriteResolved
+                && status.sourceSpritePathExists
+                && status.sourceSpriteParsed
+                && status.spriteFrameTextureCount > 0
+                && status.unresolvedSpriteFrameTextureCount == 0
+                && status.ambiguousSpriteFrameTextureCount == 0)
+            {
+                ++resolvedSpriteMaterialCount;
+            }
+
+            invalid =
+                requiredSource
+                && (!status.sourceSpriteResolved
+                    || status.sourceSpriteAmbiguous
+                    || !status.sourceSpritePathExists
+                    || !status.sourceSpriteParsed
+                    || status.spriteFrameTextureCount == 0
+                    || status.unresolvedSpriteFrameTextureCount != 0
+                    || status.ambiguousSpriteFrameTextureCount != 0);
+        }
+
+        if (invalid)
+        {
+            invalidMaterialTextures.push_back(&status);
+        }
+
+        if (status.cacheOlderThanSource)
+        {
+            staleMaterialCaches.push_back(&status);
+        }
+    }
+
+    for (const std::string &diagnostic : levelLoadDiagnostics)
+    {
+        if (diagnostic.find("source DAT hash") != std::string::npos)
+        {
+            ++sourceDatHashDiagnosticCount;
+        }
+    }
+
+    for (const EditorMm9SourceAssetFamilyStatus &status : sourceFamilyStatuses)
+    {
+        if (status.declared)
+        {
+            ++sourceFamilyDeclaredCount;
+        }
+
+        if (status.required)
+        {
+            ++sourceFamilyRequiredCount;
+        }
+
+        sourceFamilyExpectedFileCount += status.expectedFileCount;
+        sourceFamilyActualFileCount += status.actualFileCount;
+
+        if (status.declared && !status.packageDirectoryExists)
+        {
+            ++sourceFamilyMissingDirectoryCount;
+        }
+
+        if (status.declared && status.expectedFileCount != status.actualFileCount)
+        {
+            ++sourceFamilyCountDriftCount;
+        }
+    }
+
+    for (const EditorMm9DatWorldModelSummary &model : sidecars.datWorld.worldModels)
+    {
+        invalidSurfaceTextureRefs += model.referenceValidation.invalidSurfaceTextureRefs;
+        invalidPolySurfaceRefs += model.referenceValidation.invalidPolySurfaceRefs;
+        invalidPolyPlaneRefs += model.referenceValidation.invalidPolyPlaneRefs;
+        invalidPolyVertexRefs += model.referenceValidation.invalidPolyVertexRefs;
+        invalidNodePolyRefs += model.referenceValidation.invalidNodePolyRefs;
+        invalidRootNodeRefs += model.referenceValidation.invalidRootNodeRefs;
+
+        if (model.unknownValues.worldBspUnknownValue != 0
+            || model.unknownValues.worldBspUnknownValue2 != 0
+            || model.unknownValues.worldBspUnknownValue3 != 0)
+        {
+            ++worldModelsWithUnknownValues;
+        }
+    }
+
+    for (const EditorMm9DatUserPortalSummary &portal : sidecars.datWorld.userPortals)
+    {
+        if (portal.rawUnknowns.unknownInt1 != 0 || portal.rawUnknowns.unknownShort != 0)
+        {
+            ++userPortalsWithRawUnknowns;
+        }
+    }
+
+    const bool clean =
+        unresolvedRequiredRawObjects.empty()
+        && missingRequiredDocumentPathCount == 0
+        && levelLoadDiagnostics.empty()
+        && sourceManifestDiagnostics.empty()
+        && datWorldReferenceIssues.empty()
+        && invalidMaterialTextures.empty()
+        && ambiguousTextureCount == 0
+        && modelInstanceSummary.missingAssets == 0
+        && modelInstanceSummary.missingDrawableGeometry == 0
+        && modelInstanceSummary.actorVariantUnresolved == 0
+        && modelInstanceSummary.actorVariantGameplayIdentityRows == modelInstanceSummary.actorVariantResolved
+        && viewportSummary.nativeRenderableTriangles != 0
+        && viewportSummary.nativeTexturedTriangles != 0
+        && assetSummary.requiredUnresolved == 0
+        && assetSummary.requiredAmbiguous == 0
+        && mechanismSummary.unresolvedRequiredTargets == 0
+        && mechanismSummary.worldModelTargetsMissingModel == 0
+        && mechanismSummary.worldModelTargetsMissingPolygonGroup == 0
+        && mechanismSummary.worldModelTargetsMismatchedPolygonGroup == 0
+        && (sidecars.datWorld.worldModels.empty() || worldModelOverlayVertices != 0)
+        && (worldModelOverlayVertices == 0 || worldModelOverlayPickCandidates != 0)
+        && (datRenderMesh.triangles.empty() || selectedDatOverlaySummary.polygonVertices != 0)
+        && (datRenderMesh.triangles.empty() || selectedDatOverlaySummary.surfaceVertices != 0)
+        && (objectLayer.boundsEvidenceObjectCount == 0 || objectOverlayVertices != 0)
+        && (objectOverlayVertices == 0 || objectOverlayPickCandidates != 0)
+        && (lightLayer.lights.empty() || sourceMarkerOverlaySummary.lightVertices != 0)
+        && (soundLayer.objects.empty() || sourceMarkerOverlaySummary.soundVertices != 0)
+        && (spawnLayer.objects.empty() || sourceMarkerOverlaySummary.spawnVertices != 0)
+        && (sceneData.modelInstances.empty() || modelInstanceCameraFrameSummary.inView != 0)
+        && (mechanismPreviewSummary.candidates == 0 || mechanismPreviewSummary.changedBounds != 0);
+
+    reportPath = worldRoot
+        / "import"
+        / "validation"
+        / (metadata.mapId + ".asset_validation.yml");
+
+    std::error_code errorCode;
+    std::filesystem::create_directories(reportPath.parent_path(), errorCode);
+
+    if (errorCode)
+    {
+        errorMessage = "could not create validation report directory "
+            + reportPath.parent_path().generic_string()
+            + ": "
+            + errorCode.message();
+        return false;
+    }
+
+    std::ofstream stream(reportPath);
+
+    if (!stream)
+    {
+        errorMessage = "could not write validation report " + reportPath.generic_string();
+        return false;
+    }
+
+    writeYamlScalar(stream, "", "format_version", static_cast<size_t>(1));
+    writeYamlScalar(stream, "", "kind", "mm9_asset_validation_report");
+    writeYamlScalar(stream, "", "scope", "active_two_map_slice");
+    writeYamlScalar(stream, "", "map_id", metadata.mapId);
+    writeYamlScalar(stream, "", "display_name", metadata.displayName);
+    writeYamlScalar(stream, "", "level_file", levelPhysicalPath.filename().generic_string());
+    writeYamlScalar(stream, "", "source_dat", metadata.source.dat);
+    writeYamlScalar(stream, "", "clean", clean);
+
+    stream << "source_integrity:\n";
+    writeYamlScalar(stream, "  ", "level_load_diagnostics", levelLoadDiagnostics.size());
+    writeYamlScalar(stream, "  ", "source_mutation_snapshot_verified", sourceIntegritySnapshotVerified);
+    writeYamlScalar(stream, "  ", "source_mutation_snapshot_files", sourceIntegritySnapshotFileCount);
+    writeYamlScalar(stream, "  ", "source_dat_hash_expected", metadata.source.contentHash);
+    writeYamlScalar(stream, "  ", "source_dat_hash_diagnostics", sourceDatHashDiagnosticCount);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "source_dat_hash_verified",
+        !metadata.source.contentHash.empty() && sourceDatHashDiagnosticCount == 0);
+    writeYamlScalar(stream, "  ", "source_manifest_diagnostics", sourceManifestDiagnostics.size());
+    writeYamlScalar(stream, "  ", "source_manifest_families_declared", sourceFamilyDeclaredCount);
+    writeYamlScalar(stream, "  ", "source_manifest_families_required", sourceFamilyRequiredCount);
+    writeYamlScalar(stream, "  ", "source_manifest_expected_files", sourceFamilyExpectedFileCount);
+    writeYamlScalar(stream, "  ", "source_manifest_actual_files", sourceFamilyActualFileCount);
+    writeYamlScalar(stream, "  ", "source_manifest_count_drift_families", sourceFamilyCountDriftCount);
+    writeYamlScalar(stream, "  ", "source_manifest_missing_directories", sourceFamilyMissingDirectoryCount);
+    if (levelLoadDiagnostics.empty())
+    {
+        stream << "  level_load_issue_details: []\n";
+    }
+    else
+    {
+        stream << "  level_load_issue_details:\n";
+
+        for (const std::string &diagnostic : levelLoadDiagnostics)
+        {
+            stream << "    - ";
+            writeYamlQuoted(stream, diagnostic);
+            stream << '\n';
+        }
+    }
+    if (sourceManifestDiagnostics.empty())
+    {
+        stream << "  source_manifest_issue_details: []\n";
+    }
+    else
+    {
+        stream << "  source_manifest_issue_details:\n";
+
+        for (const std::string &diagnostic : sourceManifestDiagnostics)
+        {
+            stream << "    - ";
+            writeYamlQuoted(stream, diagnostic);
+            stream << '\n';
+        }
+    }
+
+    const auto writeDocumentPathEntry =
+        [&stream](const EditorMm9DocumentPathStatus &status)
+    {
+        stream << "    - label: ";
+        writeYamlQuoted(stream, status.label);
+        stream << '\n';
+        writeYamlScalar(stream, "      ", "role", status.role);
+        writeYamlScalar(stream, "      ", "relative_path", status.relativePath);
+        writeYamlScalar(stream, "      ", "resolved_path", status.resolvedPath);
+        writeYamlScalar(stream, "      ", "exists", status.exists);
+    };
+
+    stream << "document_paths:\n";
+    writeYamlScalar(stream, "  ", "total", pathStatuses.size());
+    writeYamlScalar(stream, "  ", "missing", missingDocumentPathCount);
+    writeYamlScalar(stream, "  ", "missing_required", missingRequiredDocumentPathCount);
+    writeYamlScalar(stream, "  ", "source_read_only", sourceReadOnlyPathStatuses.size());
+    writeYamlScalar(stream, "  ", "generated", generatedPathStatuses.size());
+    writeYamlScalar(stream, "  ", "authored", authoredPathStatuses.size());
+    writeYamlScalar(stream, "  ", "compatibility_derived", compatibilityPathStatuses.size());
+    if (sourceReadOnlyPathStatuses.empty())
+    {
+        stream << "  source_read_only_files: []\n";
+    }
+    else
+    {
+        stream << "  source_read_only_files:\n";
+
+        for (const EditorMm9DocumentPathStatus *pStatus : sourceReadOnlyPathStatuses)
+        {
+            writeDocumentPathEntry(*pStatus);
+        }
+    }
+    if (authoredPathStatuses.empty())
+    {
+        stream << "  authored_files: []\n";
+    }
+    else
+    {
+        stream << "  authored_files:\n";
+
+        for (const EditorMm9DocumentPathStatus *pStatus : authoredPathStatuses)
+        {
+            writeDocumentPathEntry(*pStatus);
+        }
+    }
+    if (authoredOverridePathStatuses.empty())
+    {
+        stream << "  authored_overrides: []\n";
+    }
+    else
+    {
+        stream << "  authored_overrides:\n";
+
+        for (const EditorMm9DocumentPathStatus *pStatus : authoredOverridePathStatuses)
+        {
+            writeDocumentPathEntry(*pStatus);
+        }
+    }
+    if (generatedPathStatuses.empty())
+    {
+        stream << "  generated_files: []\n";
+    }
+    else
+    {
+        stream << "  generated_files:\n";
+
+        for (const EditorMm9DocumentPathStatus *pStatus : generatedPathStatuses)
+        {
+            writeDocumentPathEntry(*pStatus);
+        }
+    }
+    if (compatibilityPathStatuses.empty())
+    {
+        stream << "  compatibility_derived_files: []\n";
+    }
+    else
+    {
+        stream << "  compatibility_derived_files:\n";
+
+        for (const EditorMm9DocumentPathStatus *pStatus : compatibilityPathStatuses)
+        {
+            writeDocumentPathEntry(*pStatus);
+        }
+    }
+
+    stream << "summary:\n";
+    writeYamlScalar(stream, "  ", "world_models", sidecars.datWorld.worldModels.size());
+    writeYamlScalar(stream, "  ", "leaves", sidecars.datWorld.totals.leafCount);
+    writeYamlScalar(stream, "  ", "user_portals", sidecars.datWorld.totals.userPortalCount);
+    writeYamlScalar(stream, "  ", "dat_world_reference_issues", datWorldReferenceIssues.size());
+    writeYamlScalar(
+        stream,
+        "  ",
+        "dat_world_invalid_leaf_references",
+        sidecars.datWorld.totals.invalidLeafReferenceCount + sidecars.datWorld.leafReferences.invalidRefs);
+    writeYamlScalar(stream, "  ", "dat_world_invalid_surface_texture_refs", invalidSurfaceTextureRefs);
+    writeYamlScalar(stream, "  ", "dat_world_invalid_poly_surface_refs", invalidPolySurfaceRefs);
+    writeYamlScalar(stream, "  ", "dat_world_invalid_poly_plane_refs", invalidPolyPlaneRefs);
+    writeYamlScalar(stream, "  ", "dat_world_invalid_poly_vertex_refs", invalidPolyVertexRefs);
+    writeYamlScalar(stream, "  ", "dat_world_invalid_node_poly_refs", invalidNodePolyRefs);
+    writeYamlScalar(stream, "  ", "dat_world_invalid_root_node_refs", invalidRootNodeRefs);
+    writeYamlScalar(stream, "  ", "dat_world_models_with_unknown_values", worldModelsWithUnknownValues);
+    writeYamlScalar(stream, "  ", "dat_world_user_portals_with_raw_unknowns", userPortalsWithRawUnknowns);
+    writeYamlScalar(stream, "  ", "native_mesh_triangles", datRenderMesh.triangles.size());
+    writeYamlScalar(stream, "  ", "native_mesh_source_polies", datRenderMesh.sourcePolyCount);
+    writeYamlScalar(stream, "  ", "viewport_native_renderable_triangles", viewportSummary.nativeRenderableTriangles);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "viewport_native_renderable_physics_triangles",
+        viewportSummary.nativeRenderablePhysicsTriangles);
+    writeYamlScalar(stream, "  ", "viewport_native_textured_triangles", viewportSummary.nativeTexturedTriangles);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "viewport_native_missing_material_triangles",
+        viewportSummary.nativeMissingMaterialTriangles);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "viewport_native_placeholder_material_triangles",
+        viewportSummary.nativePlaceholderMaterialTriangles);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "viewport_native_unresolved_material_triangles",
+        viewportSummary.nativeUnresolvedMaterialTriangles);
+    writeYamlScalar(stream, "  ", "world_model_overlay_vertices", worldModelOverlayVertices);
+    writeYamlScalar(stream, "  ", "world_model_overlay_pick_candidates", worldModelOverlayPickCandidates);
+    writeYamlScalar(stream, "  ", "selected_polygon_overlay_vertices", selectedDatOverlaySummary.polygonVertices);
+    writeYamlScalar(stream, "  ", "selected_surface_overlay_vertices", selectedDatOverlaySummary.surfaceVertices);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "viewport_model_instance_drawable_geometry",
+        viewportSummary.modelInstanceDrawableGeometry);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "viewport_model_instance_decoded_skin_textures",
+        viewportSummary.modelInstanceDecodedSkinTextures);
+    writeYamlScalar(stream, "  ", "script_registered_triggers", scriptRegisteredTriggers);
+    writeYamlScalar(stream, "  ", "script_trigger_edges", scriptTriggerEdges);
+    writeYamlScalar(stream, "  ", "script_movement_commands", scriptMovementCommands);
+    writeYamlScalar(stream, "  ", "script_unknown_commands", scriptUnknownCommands);
+    writeYamlScalar(stream, "  ", "script_command_count", scriptCommandCount);
+    writeYamlScalar(stream, "  ", "unresolved_events", sidecars.events.unresolved.size());
+    writeYamlScalar(stream, "  ", "unresolved_event_warnings", unresolvedEventWarnings);
+    writeYamlScalar(stream, "  ", "unresolved_event_errors", unresolvedEventErrors);
+    writeYamlScalar(stream, "  ", "unresolved_event_rotation_candidates", unresolvedEventRotationCandidates);
+    writeYamlScalar(stream, "  ", "unresolved_event_position_candidates", unresolvedEventPositionCandidates);
+    writeYamlScalar(stream, "  ", "raw_objects", sidecars.rawObjects.objects.size());
+    writeYamlScalar(stream, "  ", "object_source_transforms", objectLayer.positionedObjectCount);
+    writeYamlScalar(stream, "  ", "object_bounds_evidence", objectLayer.boundsEvidenceObjectCount);
+    writeYamlScalar(stream, "  ", "object_trigger_volumes", objectLayer.triggerVolumeCount);
+    writeYamlScalar(stream, "  ", "object_overlay_vertices", objectOverlayVertices);
+    writeYamlScalar(stream, "  ", "object_overlay_pick_candidates", objectOverlayPickCandidates);
+    writeYamlScalar(stream, "  ", "light_objects", lightLayer.lights.size());
+    writeYamlScalar(stream, "  ", "light_overlay_vertices", sourceMarkerOverlaySummary.lightVertices);
+    writeYamlScalar(stream, "  ", "static_render_lights", staticRenderLightCount);
+    writeYamlScalar(stream, "  ", "light_diagnostics", lightLayer.diagnostics.size());
+    writeYamlScalar(stream, "  ", "sound_objects", soundLayer.objects.size());
+    writeYamlScalar(stream, "  ", "sound_overlay_vertices", sourceMarkerOverlaySummary.soundVertices);
+    writeYamlScalar(stream, "  ", "sound_references", soundLayer.referenceCount);
+    writeYamlScalar(stream, "  ", "resolved_sound_references", soundLayer.resolvedReferenceCount);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "unresolved_required_sound_references",
+        soundLayer.unresolvedRequiredReferenceCount);
+    writeYamlScalar(stream, "  ", "spawn_source_objects", spawnLayer.objects.size());
+    writeYamlScalar(stream, "  ", "spawn_overlay_vertices", sourceMarkerOverlaySummary.spawnVertices);
+    writeYamlScalar(stream, "  ", "spawn_npc_numbers", spawnLayer.npcNumberCount);
+    writeYamlScalar(stream, "  ", "model_instances", sceneData.modelInstances.size());
+    writeYamlScalar(stream, "  ", "model_instances_in_camera_front", modelInstanceCameraFrameSummary.inFront);
+    writeYamlScalar(stream, "  ", "model_instances_in_camera_depth_range", modelInstanceCameraFrameSummary.inDepthRange);
+    writeYamlScalar(stream, "  ", "model_instances_in_camera_frame", modelInstanceCameraFrameSummary.inView);
+    writeYamlScalar(stream, "  ", "expected_model_instances", sidecars.materialAliases.stats.modelInstances);
+    writeYamlScalar(stream, "  ", "resolved_model_instance_assets", modelInstanceSummary.resolvedAssets);
+    writeYamlScalar(stream, "  ", "missing_model_instance_assets", modelInstanceSummary.missingAssets);
+    writeYamlScalar(stream, "  ", "drawable_model_instance_geometry", modelInstanceSummary.drawableGeometry);
+    writeYamlScalar(stream, "  ", "missing_drawable_model_instance_geometry", modelInstanceSummary.missingDrawableGeometry);
+    writeYamlScalar(stream, "  ", "decoded_model_instance_skin_textures", modelInstanceSummary.decodedSkinTextures);
+    writeYamlScalar(stream, "  ", "actor_variant_candidates", modelInstanceSummary.actorVariantCandidates);
+    writeYamlScalar(stream, "  ", "actor_variant_resolved", modelInstanceSummary.actorVariantResolved);
+    writeYamlScalar(stream, "  ", "actor_variant_unresolved", modelInstanceSummary.actorVariantUnresolved);
+    writeYamlScalar(stream, "  ", "actor_variant_actor_rows", modelInstanceSummary.actorVariantActorRows);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "actor_variant_gameplay_identity_rows",
+        modelInstanceSummary.actorVariantGameplayIdentityRows);
+    writeYamlScalar(stream, "  ", "scripted_objects", modelInstanceSummary.scriptedObjects);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "scripted_objects_with_collision_visuals",
+        modelInstanceSummary.scriptedObjectsWithCollisionVisuals);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "missing_scripted_object_collision_visuals",
+        modelInstanceSummary.missingScriptedObjectCollisionVisuals);
+    writeYamlScalar(stream, "  ", "mechanism_preview_candidates", mechanismPreviewSummary.candidates);
+    writeYamlScalar(stream, "  ", "mechanism_preview_changed_bounds", mechanismPreviewSummary.changedBounds);
+    writeYamlScalar(stream, "  ", "material_textures", textureStatuses.size());
+    writeYamlScalar(stream, "  ", "resolved_dtx", resolvedTextureCount);
+    writeYamlScalar(stream, "  ", "ambiguous_dtx", ambiguousTextureCount);
+    writeYamlScalar(stream, "  ", "dtx_headers", loadedDtxHeaderCount);
+    writeYamlScalar(stream, "  ", "dtx_headers_matching_sidecar", matchedDtxHeaderCount);
+    writeYamlScalar(stream, "  ", "dtx_mip_payloads", dtxMipPayloadCount);
+    writeYamlScalar(stream, "  ", "dtx_decoded_preview_mips", dtxDecodedPreviewMipCount);
+    writeYamlScalar(stream, "  ", "dtx_section_metadata_records", dtxSectionMetadataCount);
+    writeYamlScalar(stream, "  ", "dtx_section_payloads_available", dtxSectionPayloadAvailableCount);
+    writeYamlScalar(stream, "  ", "dtx_command_strings", dtxCommandStringCount);
+    writeYamlScalar(stream, "  ", "sprite_materials", spriteMaterialCount);
+    writeYamlScalar(stream, "  ", "resolved_sprite_materials", resolvedSpriteMaterialCount);
+    writeYamlScalar(stream, "  ", "sprite_frame_textures", spriteFrameTextureCount);
+    writeYamlScalar(stream, "  ", "resolved_sprite_frame_textures", resolvedSpriteFrameTextureCount);
+    writeYamlScalar(stream, "  ", "unresolved_sprite_frame_textures", unresolvedSpriteFrameTextureCount);
+    writeYamlScalar(stream, "  ", "ambiguous_sprite_frame_textures", ambiguousSpriteFrameTextureCount);
+    writeYamlScalar(stream, "  ", "raw_object_asset_refs", rawObjectStatuses.size());
+    writeYamlScalar(stream, "  ", "required_raw_object_asset_refs", requiredRawObjectAssetReferenceCount);
+    writeYamlScalar(stream, "  ", "optional_raw_object_asset_refs", optionalRawObjectAssetReferenceCount);
+    writeYamlScalar(stream, "  ", "unresolved_required_raw_object_asset_refs", unresolvedRequiredRawObjects.size());
+    writeYamlScalar(stream, "  ", "unresolved_optional_raw_object_asset_refs", unresolvedOptionalRawObjects.size());
+    writeYamlScalar(stream, "  ", "asset_issue_marker_source_objects", assetIssueMarkerSummary.sourceObjects);
+    writeYamlScalar(stream, "  ", "asset_issue_marker_candidates", assetIssueMarkerSummary.candidates);
+    writeYamlScalar(stream, "  ", "asset_issue_marker_unpositioned", assetIssueMarkerSummary.unpositioned);
+    writeYamlScalar(stream, "  ", "asset_issue_marker_required_candidates", assetIssueMarkerSummary.requiredCandidates);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "asset_issue_marker_required_unpositioned",
+        assetIssueMarkerSummary.requiredUnpositioned);
+    writeYamlScalar(stream, "  ", "mechanism_target_marker_groups", mechanismTargetMarkerSummary.targetGroups);
+    writeYamlScalar(stream, "  ", "mechanism_target_marker_candidates", mechanismTargetMarkerSummary.candidates);
+    writeYamlScalar(stream, "  ", "mechanism_target_marker_vertices", mechanismTargetMarkerSummary.vertices);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "mechanism_target_marker_source_links",
+        mechanismTargetMarkerSummary.sourceLinkedTargets);
+
+    stream << "dat_world_reference_validation:\n";
+    writeYamlScalar(stream, "  ", "issues", datWorldReferenceIssues.size());
+    writeYamlScalar(stream, "  ", "invalid_leaf_reference_count", sidecars.datWorld.totals.invalidLeafReferenceCount);
+    writeYamlScalar(stream, "  ", "invalid_leaf_refs", sidecars.datWorld.leafReferences.invalidRefs);
+    writeYamlScalar(stream, "  ", "invalid_surface_texture_refs", invalidSurfaceTextureRefs);
+    writeYamlScalar(stream, "  ", "invalid_poly_surface_refs", invalidPolySurfaceRefs);
+    writeYamlScalar(stream, "  ", "invalid_poly_plane_refs", invalidPolyPlaneRefs);
+    writeYamlScalar(stream, "  ", "invalid_poly_vertex_refs", invalidPolyVertexRefs);
+    writeYamlScalar(stream, "  ", "invalid_node_poly_refs", invalidNodePolyRefs);
+    writeYamlScalar(stream, "  ", "invalid_root_node_refs", invalidRootNodeRefs);
+
+    if (datWorldReferenceIssues.empty())
+    {
+        stream << "  issue_details: []\n";
+    }
+    else
+    {
+        stream << "  issue_details:\n";
+
+        for (const std::string &issue : datWorldReferenceIssues)
+        {
+            stream << "    - ";
+            writeYamlQuoted(stream, issue);
+            stream << '\n';
+        }
+    }
+
+    stream << "unresolved_events:\n";
+    writeYamlScalar(stream, "  ", "total", sidecars.events.unresolved.size());
+    writeYamlScalar(stream, "  ", "warnings", unresolvedEventWarnings);
+    writeYamlScalar(stream, "  ", "errors", unresolvedEventErrors);
+
+    if (sidecars.events.unresolved.empty())
+    {
+        stream << "  entries: []\n";
+    }
+    else
+    {
+        stream << "  entries:\n";
+
+        for (const OpenYAMM::Game::Mm9EventUnresolved &entry : sidecars.events.unresolved)
+        {
+            stream << "    - kind: ";
+            writeYamlQuoted(stream, entry.kind);
+            stream << '\n';
+            writeYamlScalar(
+                stream,
+                "      ",
+                "source_object_index",
+                entry.sourceObjectIndex >= 0 ? static_cast<size_t>(entry.sourceObjectIndex) : 0);
+            writeYamlScalar(stream, "      ", "source_name", entry.sourceName);
+            writeYamlScalar(stream, "      ", "source_class", entry.sourceClass);
+            writeYamlScalar(stream, "      ", "severity", entry.severity);
+            writeYamlScalar(
+                stream,
+                "      ",
+                "nearest_movable_world_models_by_rotation_point",
+                entry.nearestMovableWorldModelsByRotationPoint.size());
+            writeYamlScalar(
+                stream,
+                "      ",
+                "nearest_movable_world_models_by_position",
+                entry.nearestMovableWorldModelsByPosition.size());
+        }
+    }
+
+    stream << "mechanisms:\n";
+    writeYamlScalar(stream, "  ", "total", mechanismSummary.total);
+    writeYamlScalar(stream, "  ", "with_binding", mechanismSummary.withBinding);
+    writeYamlScalar(stream, "  ", "movable_world_models", mechanismSummary.movableWorldModels);
+    writeYamlScalar(stream, "  ", "world_model_targets", mechanismSummary.withWorldModelTarget);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "world_model_targets_with_movable_role",
+        mechanismSummary.worldModelTargetsWithMovableRole);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "world_model_targets_without_movable_role",
+        mechanismSummary.worldModelTargetsWithoutMovableRole);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "world_model_targets_missing_model",
+        mechanismSummary.worldModelTargetsMissingModel);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "world_model_targets_with_polygon_group",
+        mechanismSummary.worldModelTargetsWithPolygonGroup);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "world_model_targets_missing_polygon_group",
+        mechanismSummary.worldModelTargetsMissingPolygonGroup);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "world_model_targets_mismatched_polygon_group",
+        mechanismSummary.worldModelTargetsMismatchedPolygonGroup);
+    writeYamlScalar(stream, "  ", "model_instance_targets", mechanismSummary.withModelInstanceTarget);
+    writeYamlScalar(stream, "  ", "with_linear_motion", mechanismSummary.withLinearMotion);
+    writeYamlScalar(stream, "  ", "with_rotation_motion", mechanismSummary.withRotationMotion);
+    writeYamlScalar(stream, "  ", "trigger_outputs", mechanismSummary.triggerOutputs);
+    writeYamlScalar(stream, "  ", "unresolved_trigger_outputs", mechanismSummary.unresolvedTriggerOutputs);
+    writeYamlScalar(stream, "  ", "incomplete_linear_motion", mechanismSummary.incompleteLinearMotion);
+    writeYamlScalar(stream, "  ", "incomplete_rotation_motion", mechanismSummary.incompleteRotationMotion);
+    writeYamlScalar(stream, "  ", "unresolved_targets", mechanismSummary.unresolvedTargets);
+    writeYamlScalar(stream, "  ", "unresolved_required_targets", mechanismSummary.unresolvedRequiredTargets);
+    writeYamlScalar(stream, "  ", "preview_candidates", mechanismPreviewSummary.candidates);
+    writeYamlScalar(stream, "  ", "preview_target_found", mechanismPreviewSummary.targetFound);
+    writeYamlScalar(stream, "  ", "preview_transformed_triangles", mechanismPreviewSummary.transformedTriangles);
+    writeYamlScalar(stream, "  ", "preview_changed_bounds", mechanismPreviewSummary.changedBounds);
+
+    if (mechanismSummary.incompleteMotion.empty())
+    {
+        stream << "  incomplete_motion: []\n";
+    }
+    else
+    {
+        stream << "  incomplete_motion:\n";
+
+        for (const Mm9MechanismValidationSummary::IncompleteMotion &incomplete :
+            mechanismSummary.incompleteMotion)
+        {
+            stream << "    - source_object_index: " << incomplete.sourceObjectIndex << '\n';
+            writeYamlScalar(stream, "      ", "source_class", incomplete.sourceClass);
+            writeYamlScalar(stream, "      ", "source_name", incomplete.sourceName);
+            writeYamlScalar(stream, "      ", "mechanism_id", incomplete.mechanismId);
+            writeYamlScalar(stream, "      ", "motion_kind", incomplete.motionKind);
+            stream << "      missing_fields:\n";
+
+            for (const std::string &fieldName : incomplete.missingFields)
+            {
+                stream << "        - ";
+                writeYamlQuoted(stream, fieldName);
+                stream << '\n';
+            }
+        }
+    }
+
+    if (!mechanismSummary.unresolved.empty())
+    {
+        stream << "  unresolved:\n";
+
+        for (const Mm9MechanismValidationSummary::UnresolvedMechanismTarget &unresolved : mechanismSummary.unresolved)
+        {
+            stream << "    - source_object_index: " << unresolved.sourceObjectIndex << '\n';
+            writeYamlScalar(stream, "      ", "source_class", unresolved.sourceClass);
+            writeYamlScalar(stream, "      ", "source_name", unresolved.sourceName);
+            writeYamlScalar(stream, "      ", "mechanism_id", unresolved.mechanismId);
+            writeYamlScalar(stream, "      ", "target_kind", unresolved.targetKind);
+            writeYamlScalar(stream, "      ", "confidence", unresolved.confidence);
+            writeYamlScalar(stream, "      ", "required", unresolved.required);
+
+            if (!unresolved.nearestWorldModels.empty())
+            {
+                stream << "      nearest_movable_world_models_by_rotation_point:\n";
+
+                for (const Mm9MechanismValidationSummary::CandidateWorldModel &candidate :
+                    unresolved.nearestWorldModels)
+                {
+                    stream << "        - source_model_index: " << candidate.sourceModelIndex << '\n';
+                    writeYamlScalar(stream, "          ", "source_name", candidate.sourceName);
+                    writeYamlScalar(stream, "          ", "movable", candidate.movable);
+                    stream << "          distance_from_rotation_point_lt: "
+                           << candidate.distanceFromRotationPointLt << '\n';
+                }
+            }
+        }
+    }
+    else
+    {
+        stream << "  unresolved: []\n";
+    }
+
+    if (mechanismSummary.nonMovableWorldModelTargets.empty())
+    {
+        stream << "  non_movable_world_model_targets: []\n";
+    }
+    else
+    {
+        stream << "  non_movable_world_model_targets:\n";
+
+        for (const Mm9MechanismValidationSummary::NonMovableWorldModelTarget &target :
+            mechanismSummary.nonMovableWorldModelTargets)
+        {
+            stream << "    - source_object_index: " << target.sourceObjectIndex << '\n';
+            writeYamlScalar(stream, "      ", "source_class", target.sourceClass);
+            writeYamlScalar(stream, "      ", "source_name", target.sourceName);
+            writeYamlScalar(stream, "      ", "mechanism_id", target.mechanismId);
+            writeYamlScalar(stream, "      ", "source_model_index", target.sourceModelIndex);
+            writeYamlScalar(stream, "      ", "source_model_name", target.sourceModelName);
+            writeYamlScalar(stream, "      ", "confidence", target.confidence);
+            writeYamlScalar(stream, "      ", "target_model_found", target.targetModelFound);
+        }
+    }
+
+    if (mechanismSummary.polygonGroupTargetIssues.empty())
+    {
+        stream << "  polygon_group_target_issues: []\n";
+    }
+    else
+    {
+        stream << "  polygon_group_target_issues:\n";
+
+        for (const Mm9MechanismValidationSummary::PolygonGroupTargetIssue &issue :
+            mechanismSummary.polygonGroupTargetIssues)
+        {
+            stream << "    - source_object_index: " << issue.sourceObjectIndex << '\n';
+            writeYamlScalar(stream, "      ", "source_class", issue.sourceClass);
+            writeYamlScalar(stream, "      ", "source_name", issue.sourceName);
+            writeYamlScalar(stream, "      ", "mechanism_id", issue.mechanismId);
+            writeYamlScalar(stream, "      ", "bmodel_index", issue.bmodelIndex);
+            writeYamlScalar(stream, "      ", "group_source_model_index", issue.groupSourceModelIndex);
+            writeYamlScalar(stream, "      ", "confidence", issue.confidence);
+            writeYamlScalar(stream, "      ", "issue", issue.issue);
+        }
+    }
+
+    stream << "asset_graph:\n";
+    writeYamlScalar(stream, "  ", "total", assetSummary.total);
+    writeYamlScalar(stream, "  ", "resolved", assetSummary.resolved);
+    writeYamlScalar(stream, "  ", "unresolved", assetSummary.unresolved);
+    writeYamlScalar(stream, "  ", "ambiguous", assetSummary.ambiguous);
+    writeYamlScalar(stream, "  ", "stale", assetSummary.stale);
+    writeYamlScalar(stream, "  ", "required_total", assetSummary.requiredTotal);
+    writeYamlScalar(stream, "  ", "required_resolved", assetSummary.requiredResolved);
+    writeYamlScalar(stream, "  ", "required_unresolved", assetSummary.requiredUnresolved);
+    writeYamlScalar(stream, "  ", "required_ambiguous", assetSummary.requiredAmbiguous);
+    writeYamlScalar(stream, "  ", "optional_total", assetSummary.optionalTotal);
+    writeYamlScalar(stream, "  ", "optional_resolved", assetSummary.optionalResolved);
+    writeYamlScalar(stream, "  ", "optional_unresolved", assetSummary.optionalUnresolved);
+    writeYamlScalar(stream, "  ", "optional_ambiguous", assetSummary.optionalAmbiguous);
+    stream << "  families:\n";
+
+    for (const EditorMm9AssetDependencyFamilySummary &family : assetSummary.families)
+    {
+        stream << "    - family: ";
+        writeYamlQuoted(stream, family.family);
+        stream << '\n';
+        writeYamlScalar(stream, "      ", "total", family.total);
+        writeYamlScalar(stream, "      ", "resolved", family.resolved);
+        writeYamlScalar(stream, "      ", "unresolved", family.unresolved);
+        writeYamlScalar(stream, "      ", "ambiguous", family.ambiguous);
+        writeYamlScalar(stream, "      ", "stale", family.stale);
+        writeYamlScalar(stream, "      ", "required_total", family.requiredTotal);
+        writeYamlScalar(stream, "      ", "required_resolved", family.requiredResolved);
+        writeYamlScalar(stream, "      ", "required_unresolved", family.requiredUnresolved);
+        writeYamlScalar(stream, "      ", "required_ambiguous", family.requiredAmbiguous);
+        writeYamlScalar(stream, "      ", "optional_total", family.optionalTotal);
+        writeYamlScalar(stream, "      ", "optional_resolved", family.optionalResolved);
+        writeYamlScalar(stream, "      ", "optional_unresolved", family.optionalUnresolved);
+        writeYamlScalar(stream, "      ", "optional_ambiguous", family.optionalAmbiguous);
+    }
+
+    stream << "viewport_missing_material_triangles:\n";
+    if (viewportSummary.missingMaterialTriangles.empty())
+    {
+        stream << "  entries: []\n";
+    }
+    else
+    {
+        stream << "  entries:\n";
+
+        for (const Mm9DatViewportRenderabilitySummary::MissingMaterialTriangle &missing :
+             viewportSummary.missingMaterialTriangles)
+        {
+            stream << "    - triangle_index: " << missing.triangleIndex << '\n';
+            writeYamlScalar(stream, "      ", "source_model_index", missing.sourceModelIndex);
+            writeYamlScalar(stream, "      ", "source_poly_index", missing.sourcePolyIndex);
+            writeYamlScalar(stream, "      ", "source_surface_index", missing.sourceSurfaceIndex);
+            writeYamlScalar(stream, "      ", "source_texture_index", missing.sourceTextureIndex);
+            writeYamlScalar(stream, "      ", "source_texture", missing.sourceTexture);
+            writeYamlScalar(stream, "      ", "filter_flags", static_cast<size_t>(missing.filterFlags));
+            writeYamlScalar(stream, "      ", "assigned", missing.assigned);
+            writeYamlScalar(stream, "      ", "ambiguous", missing.ambiguous);
+            writeYamlScalar(stream, "      ", "material_candidate_count", missing.materialCandidateCount);
+            writeYamlScalar(stream, "      ", "alias", missing.alias);
+            writeYamlScalar(stream, "      ", "source_dtx_resolved", missing.sourceDtxResolved);
+            writeYamlScalar(stream, "      ", "placeholder_missing_source", missing.placeholderMissingSource);
+        }
+    }
+
+    stream << "material_textures:\n";
+    if (invalidMaterialTextures.empty())
+    {
+        stream << "  invalid_or_unresolved: []\n";
+    }
+    else
+    {
+        stream << "  invalid_or_unresolved:\n";
+
+        for (const EditorMm9MaterialTextureStatus *pStatus : invalidMaterialTextures)
+        {
+            stream << "    - texture_index: " << pStatus->textureIndex << '\n';
+        writeYamlScalar(stream, "      ", "alias", pStatus->alias);
+        writeYamlScalar(stream, "      ", "source_texture", pStatus->sourceTexture);
+        writeYamlScalar(stream, "      ", "source_asset_family", pStatus->sourceAssetFamily);
+        writeYamlScalar(stream, "      ", "physical_path", pStatus->physicalPath);
+        writeYamlScalar(stream, "      ", "source_dtx_resolved", pStatus->sourceDtxResolved);
+        writeYamlScalar(stream, "      ", "source_dtx_ambiguous", pStatus->sourceDtxAmbiguous);
+        writeYamlScalar(stream, "      ", "source_path_exists", pStatus->sourcePathExists);
+        writeYamlScalar(stream, "      ", "dtx_header_loaded", pStatus->dtxHeaderLoaded);
+        writeYamlScalar(stream, "      ", "dtx_header_matches_sidecar", pStatus->dtxHeaderMatchesSidecar);
+        writeYamlScalar(stream, "      ", "source_sprite_resolved", pStatus->sourceSpriteResolved);
+        writeYamlScalar(stream, "      ", "source_sprite_ambiguous", pStatus->sourceSpriteAmbiguous);
+        writeYamlScalar(stream, "      ", "source_sprite_path_exists", pStatus->sourceSpritePathExists);
+        writeYamlScalar(stream, "      ", "source_sprite_parsed", pStatus->sourceSpriteParsed);
+        writeYamlScalar(stream, "      ", "sprite_frame_textures", pStatus->spriteFrameTextureCount);
+        writeYamlScalar(
+            stream,
+            "      ",
+            "resolved_sprite_frame_textures",
+            pStatus->resolvedSpriteFrameTextureCount);
+        writeYamlScalar(
+            stream,
+            "      ",
+            "unresolved_sprite_frame_textures",
+            pStatus->unresolvedSpriteFrameTextureCount);
+        writeYamlScalar(
+            stream,
+            "      ",
+            "ambiguous_sprite_frame_textures",
+            pStatus->ambiguousSpriteFrameTextureCount);
+
+        if (!pStatus->sourceDtxCandidates.empty())
+        {
+                stream << "      candidates:\n";
+
+                for (const std::string &candidate : pStatus->sourceDtxCandidates)
+                {
+                    stream << "        - ";
+                    writeYamlQuoted(stream, candidate);
+                stream << '\n';
+            }
+        }
+
+        if (!pStatus->sourceSpriteCandidates.empty())
+        {
+            stream << "      sprite_candidates:\n";
+
+            for (const std::string &candidate : pStatus->sourceSpriteCandidates)
+            {
+                stream << "        - ";
+                writeYamlQuoted(stream, candidate);
+                stream << '\n';
+            }
+        }
+
+        if (!pStatus->unresolvedSpriteFrameTextureRefs.empty())
+        {
+            stream << "      unresolved_sprite_frame_texture_refs:\n";
+
+            for (const std::string &frameTextureRef : pStatus->unresolvedSpriteFrameTextureRefs)
+            {
+                stream << "        - ";
+                writeYamlQuoted(stream, frameTextureRef);
+                stream << '\n';
+            }
+        }
+
+        if (!pStatus->ambiguousSpriteFrameTextureRefs.empty())
+        {
+            stream << "      ambiguous_sprite_frame_texture_refs:\n";
+
+            for (const std::string &frameTextureRef : pStatus->ambiguousSpriteFrameTextureRefs)
+            {
+                stream << "        - ";
+                writeYamlQuoted(stream, frameTextureRef);
+                stream << '\n';
+            }
+        }
+    }
+    }
+
+    if (staleMaterialCaches.empty())
+    {
+        stream << "  stale_caches: []\n";
+    }
+    else
+    {
+        stream << "  stale_caches:\n";
+
+        for (const EditorMm9MaterialTextureStatus *pStatus : staleMaterialCaches)
+        {
+            stream << "    - texture_index: " << pStatus->textureIndex << '\n';
+            writeYamlScalar(stream, "      ", "alias", pStatus->alias);
+            writeYamlScalar(stream, "      ", "source_texture", pStatus->sourceTexture);
+            writeYamlScalar(stream, "      ", "emitted_bitmap", pStatus->emittedBitmap);
+            writeYamlScalar(stream, "      ", "resolved_cache_path", pStatus->resolvedCachePath);
+        }
+    }
+
+    stream << "raw_object_asset_references:\n";
+    if (unresolvedRequiredRawObjects.empty())
+    {
+        stream << "  unresolved_required: []\n";
+    }
+    else
+    {
+        stream << "  unresolved_required:\n";
+
+        for (const EditorMm9RawObjectAssetReferenceStatus *pStatus : unresolvedRequiredRawObjects)
+        {
+            writeMm9RawObjectAssetReferenceStatus(stream, *pStatus);
+        }
+    }
+
+    if (unresolvedOptionalRawObjects.empty())
+    {
+        stream << "  unresolved_optional: []\n";
+    }
+    else
+    {
+        stream << "  unresolved_optional:\n";
+
+        for (const EditorMm9RawObjectAssetReferenceStatus *pStatus : unresolvedOptionalRawObjects)
+        {
+            writeMm9RawObjectAssetReferenceStatus(stream, *pStatus);
+        }
+    }
+
+    struct Mm9NormalizedDiagnostic
+    {
+        std::string severity;
+        std::string sourceFile;
+        std::string sourceIndexPath;
+        std::string sidecarPath;
+        std::string resolver;
+        std::string suggestedOwner;
+        std::string message;
+    };
+
+    std::vector<Mm9NormalizedDiagnostic> normalizedDiagnostics;
+    const auto addNormalizedDiagnostic =
+        [&normalizedDiagnostics](
+            const std::string &severity,
+            const std::string &sourceFile,
+            const std::string &sourceIndexPath,
+            const std::string &sidecarPath,
+            const std::string &resolver,
+            const std::string &suggestedOwner,
+            const std::string &message)
+    {
+        Mm9NormalizedDiagnostic diagnostic = {};
+        diagnostic.severity = severity;
+        diagnostic.sourceFile = sourceFile;
+        diagnostic.sourceIndexPath = sourceIndexPath;
+        diagnostic.sidecarPath = sidecarPath;
+        diagnostic.resolver = resolver;
+        diagnostic.suggestedOwner = suggestedOwner;
+        diagnostic.message = message;
+        normalizedDiagnostics.push_back(std::move(diagnostic));
+    };
+
+    for (const std::string &diagnostic : levelLoadDiagnostics)
+    {
+        addNormalizedDiagnostic(
+            "error",
+            levelPhysicalPath.filename().generic_string(),
+            "",
+            levelPhysicalPath.filename().generic_string(),
+            "mm9_level_loader",
+            "parser",
+            diagnostic);
+    }
+
+    for (const std::string &diagnostic : sourceManifestDiagnostics)
+    {
+        addNormalizedDiagnostic(
+            "error",
+            "source/manifest.yml",
+            "",
+            "source/manifest.yml",
+            "mm9_source_manifest_validator",
+            "source asset mirror",
+            diagnostic);
+    }
+
+    for (const EditorMm9DocumentPathStatus &status : pathStatuses)
+    {
+        if (status.exists)
+        {
+            continue;
+        }
+
+        addNormalizedDiagnostic(
+            isMm9DocumentPathRequired(status)
+                ? "error"
+                : (status.role == "generated_cache" ? "warning" : "info"),
+            levelPhysicalPath.filename().generic_string(),
+            "document_paths/" + status.label,
+            status.relativePath,
+            "mm9_document_path_inventory",
+            status.sourceReadOnly ? "source asset mirror" : "sidecar generator",
+            "document path is missing: " + status.relativePath);
+    }
+
+    for (const std::string &issue : datWorldReferenceIssues)
+    {
+        addNormalizedDiagnostic(
+            "error",
+            metadata.source.dat,
+            "dat_world_reference_validation",
+            metadata.sidecars.datWorld,
+            "mm9_dat_world_sidecar_reference_validator",
+            "sidecar generator",
+            issue);
+    }
+
+    for (const EditorMm9MaterialTextureStatus *pStatus : invalidMaterialTextures)
+    {
+        addNormalizedDiagnostic(
+            "error",
+            pStatus->physicalPath,
+            "material_textures/" + std::to_string(pStatus->textureIndex),
+            metadata.sidecars.materials,
+            "mm9_material_texture_resolver",
+            pStatus->sourceDtxAmbiguous || pStatus->sourceSpriteAmbiguous ? "authored override" : "source asset mirror",
+            "material texture reference is unresolved or ambiguous: " + pStatus->sourceTexture);
+    }
+
+    for (const EditorMm9MaterialTextureStatus *pStatus : staleMaterialCaches)
+    {
+        addNormalizedDiagnostic(
+            "error",
+            pStatus->physicalPath,
+            "material_textures/" + std::to_string(pStatus->textureIndex),
+            pStatus->emittedBitmap,
+            "mm9_material_cache_validator",
+            "sidecar generator",
+            "generated material cache is older than source DTX: " + pStatus->sourceTexture);
+    }
+
+    for (const EditorMm9MaterialTextureStatus &status : textureStatuses)
+    {
+        if (!status.placeholderMissingSource || status.datReferenceCount == 0)
+        {
+            continue;
+        }
+
+        addNormalizedDiagnostic(
+            "warning",
+            status.physicalPath.empty() ? status.sourceTexture : status.physicalPath,
+            "material_textures/" + std::to_string(status.textureIndex),
+            metadata.sidecars.materials,
+            "mm9_material_texture_resolver",
+            "source asset mirror",
+            "DAT material alias still renders from a placeholder cache: " + status.sourceTexture
+                + " dat_refs=" + std::to_string(status.datReferenceCount));
+    }
+
+    for (const EditorMm9RawObjectAssetReferenceStatus *pStatus : unresolvedRequiredRawObjects)
+    {
+        addNormalizedDiagnostic(
+            "error",
+            metadata.source.dat,
+            "raw_objects/" + std::to_string(pStatus->sourceObjectIndex)
+                + "/properties/" + std::to_string(pStatus->propertyIndex),
+            metadata.sidecars.rawObjects,
+            "mm9_raw_object_asset_resolver",
+            pStatus->ambiguous ? "authored override" : "source asset mirror",
+            "required raw object asset reference is unresolved or ambiguous: "
+                + pStatus->sourceFamily + " " + pStatus->sourceValue);
+    }
+
+    for (const EditorMm9RawObjectAssetReferenceStatus *pStatus : unresolvedOptionalRawObjects)
+    {
+        addNormalizedDiagnostic(
+            "warning",
+            metadata.source.dat,
+            "raw_objects/" + std::to_string(pStatus->sourceObjectIndex)
+                + "/properties/" + std::to_string(pStatus->propertyIndex),
+            metadata.sidecars.rawObjects,
+            "mm9_raw_object_asset_resolver",
+            "source asset mirror",
+            "optional raw object asset reference is unresolved or ambiguous: "
+                + pStatus->sourceFamily + " " + pStatus->sourceValue);
+    }
+
+    for (const Mm9ModelInstanceAssetResolutionSummary::UnresolvedActorVariant &unresolved :
+        modelInstanceSummary.unresolvedActorVariants)
+    {
+        addNormalizedDiagnostic(
+            "error",
+            metadata.source.dat,
+            "raw_objects/" + std::to_string(unresolved.sourceObjectIndex),
+            metadata.sidecars.materials,
+            "mm9_actor_variant_resolver",
+            "sidecar generator",
+            "actor/monster variant is unresolved: " + unresolved.sourceName
+                + " class=" + unresolved.sourceClass
+                + " model=" + unresolved.sourceModel
+                + " skin=" + unresolved.sourceSkin);
+    }
+
+    if (modelInstanceSummary.missingScriptedObjectCollisionVisuals != 0)
+    {
+        addNormalizedDiagnostic(
+            "warning",
+            metadata.source.dat,
+            "model_instances",
+            metadata.sidecars.materials,
+            "mm9_scripted_billboard_visual_resolver",
+            "sidecar generator",
+            "scripted object billboard collision visuals are not generated for "
+                + std::to_string(modelInstanceSummary.missingScriptedObjectCollisionVisuals)
+                + " of " + std::to_string(modelInstanceSummary.scriptedObjects)
+                + " scripted/model-backed objects");
+    }
+
+    for (const Mm9MechanismValidationSummary::IncompleteMotion &incomplete : mechanismSummary.incompleteMotion)
+    {
+        std::string missingFieldsText;
+        for (const std::string &fieldName : incomplete.missingFields)
+        {
+            if (!missingFieldsText.empty())
+            {
+                missingFieldsText += ", ";
+            }
+            missingFieldsText += fieldName;
+        }
+
+        addNormalizedDiagnostic(
+            "warning",
+            metadata.source.dat,
+            "raw_objects/" + std::to_string(incomplete.sourceObjectIndex),
+            metadata.sidecars.events,
+            "mm9_mechanism_motion_resolver",
+            "sidecar generator",
+            "mechanism " + incomplete.motionKind + " motion has incomplete parameters: "
+                + incomplete.sourceName + " missing=" + missingFieldsText);
+    }
+
+    for (const Mm9MechanismValidationSummary::NonMovableWorldModelTarget &target :
+        mechanismSummary.nonMovableWorldModelTargets)
+    {
+        addNormalizedDiagnostic(
+            target.targetModelFound ? "warning" : "error",
+            metadata.source.dat,
+            "raw_objects/" + std::to_string(target.sourceObjectIndex),
+            metadata.sidecars.events,
+            "mm9_mechanism_movable_target_resolver",
+            "sidecar generator",
+            "mechanism world-model target is not marked movable by DAT roles: "
+                + target.sourceName
+                + " source_model_index=" + std::to_string(target.sourceModelIndex)
+                + " target_model_found=" + (target.targetModelFound ? "true" : "false")
+                + " confidence=" + target.confidence);
+    }
+
+    for (const Mm9MechanismValidationSummary::PolygonGroupTargetIssue &issue :
+        mechanismSummary.polygonGroupTargetIssues)
+    {
+        addNormalizedDiagnostic(
+            "error",
+            metadata.source.dat,
+            "raw_objects/" + std::to_string(issue.sourceObjectIndex),
+            metadata.sidecars.events,
+            "mm9_mechanism_polygon_group_resolver",
+            "sidecar generator",
+            "mechanism world-model target has invalid source polygon group: "
+                + issue.sourceName
+                + " issue=" + issue.issue
+                + " bmodel_index=" + std::to_string(issue.bmodelIndex)
+                + " group_source_model_index=" + std::to_string(issue.groupSourceModelIndex)
+                + " confidence=" + issue.confidence);
+    }
+
+    for (const Mm9MechanismValidationSummary::UnresolvedMechanismTarget &unresolved : mechanismSummary.unresolved)
+    {
+        addNormalizedDiagnostic(
+            unresolved.required ? "error" : "warning",
+            metadata.source.dat,
+            "raw_objects/" + std::to_string(unresolved.sourceObjectIndex),
+            metadata.sidecars.events,
+            "mm9_mechanism_target_resolver",
+            "sidecar generator",
+            "mechanism target is unresolved: " + unresolved.sourceName + " target_kind="
+                + unresolved.targetKind + " confidence=" + unresolved.confidence);
+    }
+
+    size_t normalizedErrorCount = 0;
+    size_t normalizedWarningCount = 0;
+    size_t normalizedInfoCount = 0;
+
+    for (const Mm9NormalizedDiagnostic &diagnostic : normalizedDiagnostics)
+    {
+        if (diagnostic.severity == "error")
+        {
+            ++normalizedErrorCount;
+        }
+        else if (diagnostic.severity == "warning")
+        {
+            ++normalizedWarningCount;
+        }
+        else
+        {
+            ++normalizedInfoCount;
+        }
+    }
+
+    stream << "diagnostics:\n";
+    writeYamlScalar(stream, "  ", "total", normalizedDiagnostics.size());
+    writeYamlScalar(stream, "  ", "errors", normalizedErrorCount);
+    writeYamlScalar(stream, "  ", "warnings", normalizedWarningCount);
+    writeYamlScalar(stream, "  ", "info", normalizedInfoCount);
+    stream << "  severity_policy:\n";
+
+    for (const EditorMm9DiagnosticSeverityRule &rule : mm9DiagnosticSeverityRules())
+    {
+        stream << "    - severity: ";
+        writeYamlQuoted(stream, rule.severity);
+        stream << '\n';
+        writeYamlScalar(stream, "      ", "category", rule.category);
+        writeYamlScalar(stream, "      ", "blocks_clean_validation", rule.blocksCleanValidation);
+        writeYamlScalar(stream, "      ", "suggested_owner", rule.suggestedOwner);
+    }
+
+    if (normalizedDiagnostics.empty())
+    {
+        stream << "  entries: []\n";
+    }
+    else
+    {
+        stream << "  entries:\n";
+
+        for (const Mm9NormalizedDiagnostic &diagnostic : normalizedDiagnostics)
+        {
+            stream << "    - severity: ";
+            writeYamlQuoted(stream, diagnostic.severity);
+            stream << '\n';
+            writeYamlScalar(stream, "      ", "source_file", diagnostic.sourceFile);
+            writeYamlScalar(stream, "      ", "source_index_path", diagnostic.sourceIndexPath);
+            writeYamlScalar(stream, "      ", "sidecar_path", diagnostic.sidecarPath);
+            writeYamlScalar(stream, "      ", "resolver", diagnostic.resolver);
+            writeYamlScalar(stream, "      ", "suggested_owner", diagnostic.suggestedOwner);
+            writeYamlScalar(stream, "      ", "message", diagnostic.message);
+        }
+    }
+
+    return true;
+}
+
+std::vector<Game::Mm9DatModelRenderRole> mm9ModelRenderRolesFromSidecar(
+    const EditorMm9DatWorldSidecar &sidecar)
+{
+    std::vector<Game::Mm9DatModelRenderRole> roles;
+    roles.reserve(sidecar.worldModels.size());
+
+    for (const EditorMm9DatWorldModelSummary &model : sidecar.worldModels)
+    {
+        Game::Mm9DatModelRenderRole role = {};
+        role.sourceModelIndex = model.sourceModelIndex;
+        role.visible = model.roles.visible;
+        role.terrain = model.roles.terrain;
+        role.physicsBsp = model.roles.physicsBsp;
+        role.visBsp = model.roles.visBsp;
+        role.sky = model.roles.sky;
+        role.water = model.roles.water;
+        role.triggerOrVolume = model.roles.triggerOrVolume;
+        role.movable = model.roles.movable;
+        roles.push_back(role);
+    }
+
+    return roles;
+}
+
+std::string lowerCopy(const std::string &value)
+{
+    std::string result = value;
+    std::transform(
+        result.begin(),
+        result.end(),
+        result.begin(),
+        [](unsigned char character)
+        {
+            return static_cast<char>(std::tolower(character));
+        });
+    return result;
 }
 
 bool containsDiagnosticSubstring(const std::vector<std::string> &diagnostics, const std::string &substring)
@@ -151,6 +3851,371 @@ bool readTextFileContents(const std::filesystem::path &path, std::string &text)
 
     text.assign(std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>());
     return true;
+}
+
+struct Mm9SourceIntegritySnapshot
+{
+    bool valid = false;
+    std::vector<std::string> levelDiagnostics;
+    std::vector<std::string> sourceManifestDiagnostics;
+    std::unordered_map<std::string, std::string> referencedSourceFileHashes;
+    size_t sourceFamilyExpectedFileCount = 0;
+    size_t sourceFamilyActualFileCount = 0;
+    size_t sourceFamilyCountDriftCount = 0;
+    size_t sourceFamilyMissingDirectoryCount = 0;
+};
+
+void summarizeMm9SourceFamilyStatuses(
+    const std::vector<EditorMm9SourceAssetFamilyStatus> &statuses,
+    Mm9SourceIntegritySnapshot &snapshot)
+{
+    snapshot.sourceFamilyExpectedFileCount = 0;
+    snapshot.sourceFamilyActualFileCount = 0;
+    snapshot.sourceFamilyCountDriftCount = 0;
+    snapshot.sourceFamilyMissingDirectoryCount = 0;
+
+    for (const EditorMm9SourceAssetFamilyStatus &status : statuses)
+    {
+        snapshot.sourceFamilyExpectedFileCount += status.expectedFileCount;
+        snapshot.sourceFamilyActualFileCount += status.actualFileCount;
+
+        if (status.declared && !status.packageDirectoryExists)
+        {
+            ++snapshot.sourceFamilyMissingDirectoryCount;
+        }
+
+        if (status.declared && status.expectedFileCount != status.actualFileCount)
+        {
+            ++snapshot.sourceFamilyCountDriftCount;
+        }
+    }
+}
+
+std::string mm9SourceFileDigestHex(const std::vector<uint8_t> &bytes)
+{
+    uint64_t hash = 1469598103934665603ull;
+
+    for (uint8_t byte : bytes)
+    {
+        hash ^= byte;
+        hash *= 1099511628211ull;
+    }
+
+    std::ostringstream output;
+    output << std::hex << std::setfill('0') << std::setw(16) << hash;
+    return output.str();
+}
+
+void addMm9ReferencedSourceFileHash(Mm9SourceIntegritySnapshot &snapshot, const std::string &pathText)
+{
+    if (pathText.empty())
+    {
+        return;
+    }
+
+    const std::filesystem::path path(pathText);
+
+    if (path.empty())
+    {
+        return;
+    }
+
+    const std::string key = path.lexically_normal().generic_string();
+
+    if (snapshot.referencedSourceFileHashes.find(key) != snapshot.referencedSourceFileHashes.end())
+    {
+        return;
+    }
+
+    std::vector<uint8_t> bytes;
+    if (!readBinaryFileBytes(path, bytes))
+    {
+        snapshot.referencedSourceFileHashes.emplace(key, "<unreadable>");
+        return;
+    }
+
+    snapshot.referencedSourceFileHashes.emplace(key, mm9SourceFileDigestHex(bytes));
+}
+
+Mm9SourceIntegritySnapshot collectMm9ReferencedSourceFileSnapshot(const EditorDocument &document)
+{
+    Mm9SourceIntegritySnapshot snapshot = {};
+
+    for (const EditorMm9MaterialTextureStatus &status : document.mm9MaterialTextureStatuses())
+    {
+        if (status.sourceDtxResolved && status.sourcePathExists)
+        {
+            addMm9ReferencedSourceFileHash(snapshot, status.resolvedSourcePath);
+        }
+
+        if (status.sourceSpriteResolved && status.sourceSpritePathExists)
+        {
+            addMm9ReferencedSourceFileHash(snapshot, status.resolvedSpritePath);
+        }
+
+        for (const std::string &frameTexturePath : status.resolvedSpriteFrameTexturePaths)
+        {
+            addMm9ReferencedSourceFileHash(snapshot, frameTexturePath);
+        }
+    }
+
+    for (const EditorMm9RawObjectAssetReferenceStatus &status : document.mm9RawObjectAssetReferenceStatuses())
+    {
+        if (status.resolved && !status.ambiguous)
+        {
+            addMm9ReferencedSourceFileHash(snapshot, status.resolvedSourcePath);
+        }
+    }
+
+    snapshot.valid = true;
+    return snapshot;
+}
+
+Mm9SourceIntegritySnapshot collectMm9SourceIntegritySnapshot(const std::filesystem::path &levelPath)
+{
+    Mm9SourceIntegritySnapshot snapshot = {};
+
+    std::string levelText;
+    if (!readTextFileContents(levelPath, levelText))
+    {
+        snapshot.levelDiagnostics.push_back("could not read MM9 level file: " + levelPath.generic_string());
+        return snapshot;
+    }
+
+    std::string levelErrorMessage;
+    const std::optional<EditorMm9DatLevelMetadata> metadata =
+        loadMm9DatLevelMetadataFromText(levelText, levelErrorMessage);
+
+    if (!metadata)
+    {
+        snapshot.levelDiagnostics.push_back("could not parse MM9 level file: " + levelErrorMessage);
+        return snapshot;
+    }
+
+    snapshot.levelDiagnostics = validateMm9DatLevelMetadataFiles(levelPath, *metadata);
+
+    const std::filesystem::path manifestPath = resolveMm9SourceAssetManifestPath(levelPath);
+    std::string manifestText;
+    if (!readTextFileContents(manifestPath, manifestText))
+    {
+        snapshot.sourceManifestDiagnostics.push_back(
+            "could not read MM9 source asset manifest: " + manifestPath.generic_string());
+        snapshot.valid = true;
+        return snapshot;
+    }
+
+    std::string manifestErrorMessage;
+    const std::optional<EditorMm9SourceAssetManifest> manifest =
+        loadMm9SourceAssetManifestFromText(manifestText, manifestErrorMessage);
+
+    if (!manifest)
+    {
+        snapshot.sourceManifestDiagnostics.push_back(
+            "could not parse MM9 source asset manifest: " + manifestErrorMessage);
+        snapshot.valid = true;
+        return snapshot;
+    }
+
+    snapshot.sourceManifestDiagnostics = validateMm9SourceAssetManifestFiles(manifestPath, *manifest);
+    summarizeMm9SourceFamilyStatuses(inspectMm9SourceAssetManifestFiles(manifestPath, *manifest), snapshot);
+    snapshot.valid = true;
+    return snapshot;
+}
+
+bool mm9SourceIntegritySnapshotsMatch(
+    const Mm9SourceIntegritySnapshot &before,
+    const Mm9SourceIntegritySnapshot &after,
+    std::string &failure)
+{
+    if (before.valid != after.valid)
+    {
+        failure = "source integrity snapshot validity changed";
+        return false;
+    }
+
+    if (before.levelDiagnostics != after.levelDiagnostics)
+    {
+        failure = "source DAT/level diagnostics changed during verification";
+        return false;
+    }
+
+    if (before.sourceManifestDiagnostics != after.sourceManifestDiagnostics)
+    {
+        failure = "source manifest diagnostics changed during verification";
+        return false;
+    }
+
+    if (before.referencedSourceFileHashes != after.referencedSourceFileHashes)
+    {
+        failure = "referenced source file hashes changed during verification";
+        return false;
+    }
+
+    if (before.sourceFamilyExpectedFileCount != after.sourceFamilyExpectedFileCount
+        || before.sourceFamilyActualFileCount != after.sourceFamilyActualFileCount
+        || before.sourceFamilyCountDriftCount != after.sourceFamilyCountDriftCount
+        || before.sourceFamilyMissingDirectoryCount != after.sourceFamilyMissingDirectoryCount)
+    {
+        failure = "source manifest family counts changed during verification";
+        return false;
+    }
+
+    return true;
+}
+
+std::string mm9LowerAsciiCopy(std::string value)
+{
+    for (char &character : value)
+    {
+        character = static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
+    }
+    return value;
+}
+
+std::string mm9TrimScalarText(const std::string &value)
+{
+    size_t begin = 0;
+    while (begin < value.size() && std::isspace(static_cast<unsigned char>(value[begin])) != 0)
+    {
+        ++begin;
+    }
+
+    size_t end = value.size();
+    while (end > begin && std::isspace(static_cast<unsigned char>(value[end - 1])) != 0)
+    {
+        --end;
+    }
+
+    std::string trimmed = value.substr(begin, end - begin);
+    if (trimmed.size() >= 2
+        && ((trimmed.front() == '\'' && trimmed.back() == '\'')
+            || (trimmed.front() == '"' && trimmed.back() == '"')))
+    {
+        trimmed = trimmed.substr(1, trimmed.size() - 2);
+    }
+    return trimmed;
+}
+
+std::string mm9FileNameLowerCopy(const std::string &value)
+{
+    const std::string trimmed = mm9TrimScalarText(value);
+    const size_t slash = trimmed.find_last_of("/\\");
+    return mm9LowerAsciiCopy(slash == std::string::npos ? trimmed : trimmed.substr(slash + 1));
+}
+
+std::filesystem::path resolveMm9LevelRelativePath(
+    const std::filesystem::path &levelPath,
+    const std::string &relativePath)
+{
+    const std::filesystem::path path(relativePath);
+    if (path.empty())
+    {
+        return {};
+    }
+    if (path.is_absolute())
+    {
+        return path.lexically_normal();
+    }
+    return (levelPath.parent_path() / path).lexically_normal();
+}
+
+std::filesystem::path resolveMm9SourceScriptPath(
+    const std::filesystem::path &levelPath,
+    const std::string &sourcePath)
+{
+    const std::filesystem::path path(sourcePath);
+    if (path.empty())
+    {
+        return {};
+    }
+    if (path.is_absolute())
+    {
+        return path.lexically_normal();
+    }
+    return (levelPath.parent_path() / "../source/scripts" / path).lexically_normal();
+}
+
+const Game::Mm9EventObject *findMm9EventObjectBySourceIndex(
+    const Game::Mm9EventsData &events,
+    size_t sourceObjectIndex,
+    size_t *pEventObjectIndex)
+{
+    for (size_t objectIndex = 0; objectIndex < events.objects.size(); ++objectIndex)
+    {
+        const Game::Mm9EventObject &eventObject = events.objects[objectIndex];
+        if (eventObject.sourceObjectIndex == static_cast<int>(sourceObjectIndex))
+        {
+            if (pEventObjectIndex != nullptr)
+            {
+                *pEventObjectIndex = objectIndex;
+            }
+            return &eventObject;
+        }
+    }
+    return nullptr;
+}
+
+const EditorMm9RawObject *findMm9RawObjectBySourceIndex(
+    const EditorMm9RawObjectsSidecar &rawObjects,
+    size_t sourceObjectIndex)
+{
+    for (const EditorMm9RawObject &rawObject : rawObjects.objects)
+    {
+        if (rawObject.objectIndex == sourceObjectIndex)
+        {
+            return &rawObject;
+        }
+    }
+    return nullptr;
+}
+
+const Game::Mm9EventMechanism *findMm9MechanismForObject(
+    const Game::Mm9EventsData &events,
+    const std::string &objectId,
+    size_t *pMechanismIndex)
+{
+    for (size_t mechanismIndex = 0; mechanismIndex < events.mechanisms.size(); ++mechanismIndex)
+    {
+        const Game::Mm9EventMechanism &mechanism = events.mechanisms[mechanismIndex];
+        if (mechanism.objectId == objectId)
+        {
+            if (pMechanismIndex != nullptr)
+            {
+                *pMechanismIndex = mechanismIndex;
+            }
+            return &mechanism;
+        }
+    }
+    return nullptr;
+}
+
+const Game::Mm9EventBinding *findMm9BindingForObject(
+    const Game::Mm9EventsData &events,
+    const std::string &objectId)
+{
+    for (const Game::Mm9EventBinding &binding : events.bindings)
+    {
+        if (binding.objectId == objectId)
+        {
+            return &binding;
+        }
+    }
+    return nullptr;
+}
+
+const Game::Mm9EventScript *findMm9EventScriptById(
+    const Game::Mm9EventsData &events,
+    const std::string &scriptId)
+{
+    const std::string normalizedScriptId = mm9LowerAsciiCopy(scriptId);
+    for (const Game::Mm9EventScript &script : events.scripts)
+    {
+        if (mm9LowerAsciiCopy(script.scriptId) == normalizedScriptId)
+        {
+            return &script;
+        }
+    }
+    return nullptr;
 }
 
 bool writeGlbFile(
@@ -3281,6 +7346,521 @@ bool verifyEditorWorldMapScriptLoad(
     return true;
 }
 
+bool importedModelsHaveGeometry(const std::vector<ImportedModel> &models)
+{
+    for (const ImportedModel &model : models)
+    {
+        if (!model.positions.empty() && !model.faces.empty())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool imageHasVisibleAlpha(const OpenYAMM::Engine::ImagePixelsBgra &image)
+{
+    for (size_t offset = 3; offset < image.pixels.size(); offset += 4)
+    {
+        if (image.pixels[offset] != 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool endsWithCaseInsensitive(const std::string &value, const std::string &suffix)
+{
+    if (suffix.size() > value.size())
+    {
+        return false;
+    }
+
+    const size_t offset = value.size() - suffix.size();
+    for (size_t index = 0; index < suffix.size(); ++index)
+    {
+        const char left = static_cast<char>(std::tolower(static_cast<unsigned char>(value[offset + index])));
+        const char right = static_cast<char>(std::tolower(static_cast<unsigned char>(suffix[index])));
+        if (left != right)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+std::optional<OpenYAMM::Engine::ImagePixelsBgra> loadMm9ModelTexturePixels(
+    const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    const std::string &texturePath,
+    OpenYAMM::Engine::BinaryAssetCache &binaryAssetCache)
+{
+    if (endsWithCaseInsensitive(texturePath, ".dtx"))
+    {
+        const std::optional<std::filesystem::path> resolvedPath =
+            assetFileSystem.resolvePhysicalPath(texturePath);
+        if (!resolvedPath)
+        {
+            return std::nullopt;
+        }
+
+        std::string errorMessage;
+        const std::optional<OpenYAMM::Game::Mm9DtxTexture> texture =
+            OpenYAMM::Game::loadMm9DtxTexture(*resolvedPath, errorMessage);
+        if (!texture
+            || texture->width == 0
+            || texture->height == 0
+            || texture->pixelsBgra.empty())
+        {
+            return std::nullopt;
+        }
+
+        OpenYAMM::Engine::ImagePixelsBgra pixels = {};
+        pixels.width = static_cast<int>(texture->width);
+        pixels.height = static_cast<int>(texture->height);
+        pixels.pixels = texture->pixelsBgra;
+        return pixels;
+    }
+
+    return OpenYAMM::Engine::loadImageAssetPixelsBgra(
+        assetFileSystem,
+        texturePath,
+        binaryAssetCache);
+}
+
+std::string mm9GeneratedModelAssetPathFromSourceModelPath(
+    const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    const std::string &resolvedSourcePath)
+{
+    const std::filesystem::path sourceModelsRoot =
+        assetFileSystem.getDevelopmentRoot()
+        / std::filesystem::path("worlds")
+        / assetFileSystem.getActiveWorldId()
+        / "source"
+        / "models";
+    std::filesystem::path relativePath =
+        std::filesystem::path(resolvedSourcePath).lexically_relative(sourceModelsRoot);
+
+    if (relativePath.empty() || relativePath.native().find("..") == 0)
+    {
+        relativePath = std::filesystem::path(resolvedSourcePath).filename();
+    }
+
+    relativePath.replace_extension(".glb");
+    std::string normalized = lowerCopy(relativePath.generic_string());
+
+    if (normalized.empty())
+    {
+        return {};
+    }
+
+    return (std::filesystem::path("models") / normalized).generic_string();
+}
+
+std::vector<std::string> mm9ModelInstanceAssetCandidates(
+    const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    const OpenYAMM::Game::OutdoorSceneModelInstance &modelInstance,
+    const std::vector<EditorMm9RawObjectAssetReferenceStatus> &rawObjectAssetStatuses)
+{
+    std::vector<std::string> candidates;
+    const auto appendCandidate =
+        [&candidates](const std::string &candidate)
+        {
+            if (!candidate.empty()
+                && std::find(candidates.begin(), candidates.end(), candidate) == candidates.end())
+            {
+                candidates.push_back(candidate);
+            }
+        };
+
+    appendCandidate(modelInstance.modelAsset);
+
+    for (const EditorMm9RawObjectAssetReferenceStatus &status : rawObjectAssetStatuses)
+    {
+        if (status.sourceObjectIndex != modelInstance.sourceObjectIndex
+            || status.sourceFamily != "models"
+            || !status.resolved
+            || status.ambiguous
+            || status.resolvedSourcePath.empty())
+        {
+            continue;
+        }
+
+        appendCandidate(mm9GeneratedModelAssetPathFromSourceModelPath(assetFileSystem, status.resolvedSourcePath));
+    }
+
+    const std::string normalizedSourceModel = normalizeMm9ModelInstanceVirtualPath(modelInstance.sourceModel);
+    if (!normalizedSourceModel.empty())
+    {
+        std::filesystem::path sourceModelPath(normalizedSourceModel);
+        sourceModelPath.replace_extension(".glb");
+        appendCandidate(sourceModelPath.generic_string());
+    }
+
+    return candidates;
+}
+
+bool resolveMm9ModelInstanceAssetCandidate(
+    const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    const OpenYAMM::Game::OutdoorSceneModelInstance &modelInstance,
+    const std::vector<EditorMm9RawObjectAssetReferenceStatus> &rawObjectAssetStatuses,
+    std::string &resolvedAssetPath)
+{
+    const std::vector<std::string> candidates =
+        mm9ModelInstanceAssetCandidates(assetFileSystem, modelInstance, rawObjectAssetStatuses);
+
+    for (const std::string &candidate : candidates)
+    {
+        if (assetFileSystem.resolvePhysicalPath(candidate))
+        {
+            resolvedAssetPath = candidate;
+            return true;
+        }
+    }
+
+    resolvedAssetPath.clear();
+    return false;
+}
+
+bool actorRowHasGameplayIdentity(const Mm9ResolvedModelInstanceActorSource::ActorRow &actorRow)
+{
+    return !actorRow.level.empty()
+        || !actorRow.hitPoints.empty()
+        || !actorRow.armorClass.empty()
+        || !actorRow.experience.empty()
+        || !actorRow.speed.empty()
+        || !actorRow.scriptName.empty()
+        || !actorRow.footSound.empty()
+        || !actorRow.isMonster.empty()
+        || !actorRow.hostilityGroup.empty()
+        || !actorRow.voiceRadius.empty();
+}
+
+Mm9ModelInstanceAssetResolutionSummary summarizeMm9ModelInstanceAssetResolution(
+    const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    const std::string &mapId,
+    const OpenYAMM::Game::OutdoorSceneData &sceneData,
+    const std::vector<EditorMm9RawObjectAssetReferenceStatus> &rawObjectAssetStatuses)
+{
+    Mm9ModelInstanceAssetResolutionSummary summary = {};
+    OpenYAMM::Engine::BinaryAssetCache binaryAssetCache;
+    const std::optional<Mm9ModelInstanceActorSourceLookup> actorSourceLookup =
+        loadMm9ModelInstanceActorSourceLookup(assetFileSystem);
+    std::optional<OpenYAMM::Game::Mm9ScriptedBillboardVisualSet> visualSet;
+    OpenYAMM::Game::Mm9ScriptedBillboardVisualSet loadedVisualSet = {};
+    std::string visualLoadError;
+
+    if (loadedVisualSet.loadFromAssetFileSystem(
+            assetFileSystem,
+            visualLoadError,
+            OpenYAMM::Game::Mm9ScriptedBillboardVisualRoot,
+            false))
+    {
+        visualSet = std::move(loadedVisualSet);
+    }
+
+    summary.total = sceneData.modelInstances.size();
+
+    for (const OpenYAMM::Game::OutdoorSceneModelInstance &modelInstance : sceneData.modelInstances)
+    {
+        const Mm9ResolvedModelInstanceActorSource resolvedSource =
+            resolveMm9ModelInstanceActorSource(
+                modelInstance,
+                actorSourceLookup ? &*actorSourceLookup : nullptr);
+        const bool requiresActorResolution =
+            canResolveMm9ModelInstanceActorSource(
+                modelInstance,
+                actorSourceLookup ? &*actorSourceLookup : nullptr);
+        const bool scriptedObject =
+            requiresActorResolution
+            || (!modelInstance.sourceModel.empty() && lowerCopy(modelInstance.sourceClass) != "prop");
+
+        if (requiresActorResolution)
+        {
+            ++summary.actorVariantCandidates;
+
+            if (resolvedSource.inferredFromActorClass)
+            {
+                ++summary.actorVariantResolved;
+
+                if (!resolvedSource.actorRow.table.empty()
+                    || !resolvedSource.actorRow.row.empty()
+                    || !resolvedSource.actorRow.number.empty()
+                    || !resolvedSource.actorRow.monsterName.empty()
+                    || !resolvedSource.actorRow.typePicture.empty())
+                {
+                    ++summary.actorVariantActorRows;
+                }
+
+                if (actorRowHasGameplayIdentity(resolvedSource.actorRow))
+                {
+                    ++summary.actorVariantGameplayIdentityRows;
+                }
+            }
+            else
+            {
+                ++summary.actorVariantUnresolved;
+
+                Mm9ModelInstanceAssetResolutionSummary::UnresolvedActorVariant unresolved = {};
+                unresolved.sourceObjectIndex = modelInstance.sourceObjectIndex;
+                unresolved.sourceRef = modelInstance.sourceRef;
+                unresolved.sourceClass = modelInstance.sourceClass;
+                unresolved.sourceName = modelInstance.sourceName;
+                unresolved.sourceModel = modelInstance.sourceModel;
+                unresolved.sourceSkin = modelInstance.sourceSkin;
+                summary.unresolvedActorVariants.push_back(std::move(unresolved));
+            }
+        }
+
+        if (scriptedObject)
+        {
+            ++summary.scriptedObjects;
+
+            const std::optional<std::string> visualId =
+                visualSet ? visualSet->resolveVisualIdForModelInstance(mapId, modelInstance) : std::nullopt;
+            const OpenYAMM::Game::Mm9ScriptedBillboardVisual *pVisual =
+                visualId && visualSet ? visualSet->findVisual(*visualId) : nullptr;
+
+            if (pVisual != nullptr && pVisual->collision.radius > 0 && pVisual->collision.height > 0)
+            {
+                ++summary.scriptedObjectsWithCollisionVisuals;
+            }
+            else
+            {
+                ++summary.missingScriptedObjectCollisionVisuals;
+            }
+        }
+
+        const std::string actorAssetPath =
+            resolvedSource.inferredFromActorClass
+                ? mm9ModelInstanceActorVariantAssetPath(resolvedSource.sourceModel, resolvedSource.sourceSkin)
+                : std::string();
+        std::string resolvedAssetPath;
+
+        if (!actorAssetPath.empty() && assetFileSystem.resolvePhysicalPath(actorAssetPath))
+        {
+            resolvedAssetPath = actorAssetPath;
+        }
+        else
+        {
+            resolveMm9ModelInstanceAssetCandidate(
+                assetFileSystem,
+                modelInstance,
+                rawObjectAssetStatuses,
+                resolvedAssetPath);
+        }
+
+        if (resolvedAssetPath.empty())
+        {
+            ++summary.missingAssets;
+        }
+        else
+        {
+            ++summary.resolvedAssets;
+
+            const std::optional<std::filesystem::path> resolvedPhysicalPath =
+                assetFileSystem.resolvePhysicalPath(resolvedAssetPath);
+            std::vector<ImportedModel> importedModels;
+            std::string loadError;
+
+            if (resolvedPhysicalPath
+                && loadImportedModelsFromFile(*resolvedPhysicalPath, importedModels, loadError, false, false)
+                && importedModelsHaveGeometry(importedModels))
+            {
+                ++summary.drawableGeometry;
+            }
+            else
+            {
+                ++summary.missingDrawableGeometry;
+            }
+        }
+
+        for (const std::string &skinTexturePath : splitMm9ModelInstanceSourceSkinImages(resolvedSource.sourceSkin))
+        {
+            const std::optional<OpenYAMM::Engine::ImagePixelsBgra> pixels =
+                loadMm9ModelTexturePixels(
+                    assetFileSystem,
+                    skinTexturePath,
+                    binaryAssetCache);
+            if (pixels && !pixels->pixels.empty())
+            {
+                ++summary.decodedSkinTextures;
+            }
+        }
+    }
+
+    return summary;
+}
+
+bool verifyOutdoorModelInstanceResolution(
+    const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    const std::string &mapFileName,
+    std::string &failure,
+    size_t &inferredActorCount,
+    size_t &verifiedAssetCount,
+    size_t &scriptedObjectCount,
+    size_t &collisionVisualCount)
+{
+    EditorSession session = {};
+    session.initialize(assetFileSystem);
+
+    if (!session.openOutdoorMap(mapFileName, failure))
+    {
+        failure = "could not load model instance resolution map " + mapFileName + ": " + failure;
+        return false;
+    }
+
+    const OpenYAMM::Game::OutdoorSceneData &sceneData = session.document().outdoorSceneData();
+    const OpenYAMM::Game::OutdoorMapData &outdoorGeometry = session.document().outdoorGeometry();
+    inferredActorCount = 0;
+    verifiedAssetCount = 0;
+    scriptedObjectCount = 0;
+    collisionVisualCount = 0;
+    OpenYAMM::Engine::BinaryAssetCache binaryAssetCache;
+    const std::optional<Mm9ModelInstanceActorSourceLookup> actorSourceLookup =
+        loadMm9ModelInstanceActorSourceLookup(assetFileSystem);
+    const bool isMm9Map =
+        OpenYAMM::Game::normalizeWorldId(outdoorGeometry.worldId) == "mm9"
+        || OpenYAMM::Game::normalizeWorldId(assetFileSystem.getActiveWorldId()) == "mm9";
+    std::optional<OpenYAMM::Game::Mm9ScriptedBillboardVisualSet> visualSet;
+
+    if (isMm9Map)
+    {
+        OpenYAMM::Game::Mm9ScriptedBillboardVisualSet loadedVisualSet = {};
+        std::string loadError;
+
+        if (loadedVisualSet.loadFromAssetFileSystem(
+                assetFileSystem,
+                loadError,
+                OpenYAMM::Game::Mm9ScriptedBillboardVisualRoot,
+                false))
+        {
+            visualSet = std::move(loadedVisualSet);
+        }
+    }
+
+    for (const OpenYAMM::Game::OutdoorSceneModelInstance &modelInstance : sceneData.modelInstances)
+    {
+        const Mm9ResolvedModelInstanceActorSource resolvedSource =
+            resolveMm9ModelInstanceActorSource(
+                modelInstance,
+                actorSourceLookup ? &*actorSourceLookup : nullptr);
+        const bool requiresActorResolution =
+            canResolveMm9ModelInstanceActorSource(
+                modelInstance,
+                actorSourceLookup ? &*actorSourceLookup : nullptr);
+        const bool scriptedObject =
+            isMm9Map
+            && (requiresActorResolution
+                || (!modelInstance.sourceModel.empty() && lowerCopy(modelInstance.sourceClass) != "prop"));
+
+        if (requiresActorResolution && !resolvedSource.inferredFromActorClass)
+        {
+            failure = "model instance " + modelInstance.sourceRef
+                + " kept unresolved actor placeholder model " + modelInstance.sourceModel
+                + " class=" + modelInstance.sourceClass
+                + " name=" + modelInstance.sourceName;
+            return false;
+        }
+
+        if (scriptedObject)
+        {
+            ++scriptedObjectCount;
+
+            if (visualSet)
+            {
+                const std::string mapId = OpenYAMM::Game::normalizeMapFileStem(outdoorGeometry.fileName);
+                const std::optional<std::string> visualId =
+                    visualSet->resolveVisualIdForModelInstance(mapId, modelInstance);
+                const OpenYAMM::Game::Mm9ScriptedBillboardVisual *pVisual =
+                    visualId ? visualSet->findVisual(*visualId) : nullptr;
+
+                if (pVisual != nullptr)
+                {
+                    if (pVisual->collision.radius <= 0 || pVisual->collision.height <= 0)
+                    {
+                        failure = "model instance " + modelInstance.sourceRef
+                            + " resolved to invalid MM9 billboard collision visual " + pVisual->visualId;
+                        return false;
+                    }
+
+                    ++collisionVisualCount;
+                }
+            }
+        }
+
+        if (!resolvedSource.inferredFromActorClass)
+        {
+            continue;
+        }
+
+        ++inferredActorCount;
+
+        const std::string resolvedAssetPath =
+            mm9ModelInstanceActorVariantAssetPath(resolvedSource.sourceModel, resolvedSource.sourceSkin);
+        if (resolvedAssetPath.empty())
+        {
+            failure = "model instance " + modelInstance.sourceRef + " did not produce a variant asset path";
+            return false;
+        }
+
+        const std::optional<std::filesystem::path> resolvedPhysicalPath =
+            assetFileSystem.resolvePhysicalPath(resolvedAssetPath);
+        if (!resolvedPhysicalPath)
+        {
+            failure = "model instance " + modelInstance.sourceRef
+                + " resolved to missing actor model asset " + resolvedAssetPath;
+            return false;
+        }
+
+        std::vector<ImportedModel> importedModels;
+        std::string loadError;
+        if (!loadImportedModelsFromFile(*resolvedPhysicalPath, importedModels, loadError, false, false)
+            || !importedModelsHaveGeometry(importedModels))
+        {
+            failure = "model instance " + modelInstance.sourceRef
+                + " resolved actor model has no loadable geometry " + resolvedAssetPath
+                + " (" + loadError + ")";
+            return false;
+        }
+
+        for (const std::string &skinTexturePath : splitMm9ModelInstanceSourceSkinImages(resolvedSource.sourceSkin))
+        {
+            if (!assetFileSystem.resolvePhysicalPath(skinTexturePath))
+            {
+                failure = "model instance " + modelInstance.sourceRef
+                    + " resolved to missing actor skin texture " + skinTexturePath;
+                return false;
+            }
+
+            const std::optional<OpenYAMM::Engine::ImagePixelsBgra> skinPixels =
+                loadMm9ModelTexturePixels(
+                    assetFileSystem,
+                    skinTexturePath,
+                    binaryAssetCache);
+            if (!skinPixels || skinPixels->pixels.empty() || !imageHasVisibleAlpha(*skinPixels))
+            {
+                failure = "model instance " + modelInstance.sourceRef
+                    + " resolved to fully transparent actor skin texture " + skinTexturePath;
+                return false;
+            }
+        }
+
+        ++verifiedAssetCount;
+    }
+
+    if (scriptedObjectCount > 0 && collisionVisualCount == 0)
+    {
+        failure = "MM9 scripted model instances did not resolve any billboard collision visuals";
+        return false;
+    }
+
+    return true;
+}
+
 bool isCanonicalLegacyBackedOutdoorMap(const std::filesystem::path &gamesPath, const std::string &mapFileName)
 {
     const std::filesystem::path scenePath =
@@ -3478,6 +8058,7 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
     const bool runSpriteObjectPlacementChecks = suiteName == "outdoor-sprite-object-placement";
     const bool runEditorWorldOutdoorTerrainChecks = suiteName == "editor-world-outdoor-terrain-load";
     const bool runEditorWorldMapScriptChecks = suiteName == "editor-world-map-script-load";
+    const bool runMm9ModelInstanceResolutionChecks = suiteName == "mm9-model-instance-resolution";
     const bool runRoundTripChecks =
         suiteName == "outdoor-scene-yml-parity"
         || suiteName == "outdoor-scene-yml-roundtrip"
@@ -3494,7 +8075,8 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
         || runEntityPlacementChecks
         || runSpriteObjectPlacementChecks
         || runEditorWorldOutdoorTerrainChecks
-        || runEditorWorldMapScriptChecks;
+        || runEditorWorldMapScriptChecks
+        || runMm9ModelInstanceResolutionChecks;
 
     if (!runRoundTripChecks)
     {
@@ -3691,6 +8273,52 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
         return 0;
     }
 
+    if (runMm9ModelInstanceResolutionChecks)
+    {
+        std::array<std::string, 4> mapFileNames = {{
+            "guberland.odm",
+            "guberlandcity.odm",
+            "thjorgard.odm",
+            "thjorgardcity.odm"
+        }};
+
+        std::cout << "Editor headless regression: suite=" << suiteName
+                  << " maps=" << mapFileNames.size() << '\n';
+
+        for (const std::string &mapFileName : mapFileNames)
+        {
+            std::string failure;
+            size_t inferredActorCount = 0;
+            size_t verifiedAssetCount = 0;
+            size_t scriptedObjectCount = 0;
+            size_t collisionVisualCount = 0;
+
+            if (!verifyOutdoorModelInstanceResolution(
+                    assetFileSystem,
+                    mapFileName,
+                    failure,
+                    inferredActorCount,
+                    verifiedAssetCount,
+                    scriptedObjectCount,
+                    collisionVisualCount))
+            {
+                std::cerr << "Editor headless regression failed: " << failure << '\n';
+                return 1;
+            }
+
+            std::cout << "  pass " << mapFileName
+                      << " inferred=" << inferredActorCount
+                      << " verified_assets=" << verifiedAssetCount
+                      << " scripted_objects=" << scriptedObjectCount
+                      << " collision_visuals=" << collisionVisualCount << '\n';
+        }
+
+        std::cout << "Editor headless regression passed: suite=" << suiteName << '\n';
+        removeTemporaryRoundTripScenes(activeWorldEditorPath(assetFileSystem, "maps"));
+        removeTemporaryRoundTripSupportFiles(assetFileSystem);
+        return 0;
+    }
+
     std::vector<std::string> mapFileNames;
 
     std::unordered_set<std::string> seenMapFileNames;
@@ -3808,6 +8436,3038 @@ int EditorHeadlessDiagnostics::runCompareOutdoorScene(
     std::cout << "Editor headless compare passed: " << mapFileName << '\n';
     removeTemporaryRoundTripScenes(activeWorldEditorPath(assetFileSystem, "maps"));
     removeTemporaryRoundTripSupportFiles(assetFileSystem);
+    return 0;
+}
+
+int EditorHeadlessDiagnostics::runVerifyModelInstances(
+    const std::filesystem::path &basePath,
+    const std::string &mapFileName) const
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(
+            basePath,
+            m_config.assetRoot,
+            m_config.assetScaleTier,
+            m_config.assetScaleProfile,
+            m_config.activeWorldId))
+    {
+        std::cerr << "Editor headless diagnostics failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    std::string failure;
+    size_t inferredActorCount = 0;
+    size_t verifiedAssetCount = 0;
+    size_t scriptedObjectCount = 0;
+    size_t collisionVisualCount = 0;
+
+    if (!verifyOutdoorModelInstanceResolution(
+            assetFileSystem,
+            mapFileName,
+            failure,
+            inferredActorCount,
+            verifiedAssetCount,
+            scriptedObjectCount,
+            collisionVisualCount))
+    {
+        std::cerr << "Editor headless model instance resolution failed: " << failure << '\n';
+        return 1;
+    }
+
+    std::cout << "Editor headless model instance resolution passed: " << mapFileName
+              << " inferred=" << inferredActorCount
+              << " verified_assets=" << verifiedAssetCount
+              << " scripted_objects=" << scriptedObjectCount
+              << " collision_visuals=" << collisionVisualCount << '\n';
+    return 0;
+}
+
+int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
+    const std::filesystem::path &basePath,
+    const std::string &levelFileName) const
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(
+            basePath,
+            m_config.assetRoot,
+            m_config.assetScaleTier,
+            m_config.assetScaleProfile,
+            m_config.activeWorldId))
+    {
+        std::cerr << "Editor headless diagnostics failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    std::filesystem::path levelPath =
+        activeWorldEditorPath(assetFileSystem, std::filesystem::path("maps") / levelFileName);
+
+    if (!std::filesystem::exists(levelPath))
+    {
+        levelPath = assetFileSystem.getDevelopmentRoot()
+            / std::filesystem::path("worlds")
+            / assetFileSystem.getActiveWorldId()
+            / "maps"
+            / levelFileName;
+    }
+
+    const Mm9SourceIntegritySnapshot sourceIntegrityBefore =
+        collectMm9SourceIntegritySnapshot(levelPath);
+
+    EditorDocument document;
+    std::string failure;
+
+    if (!document.loadMapPhysicalPath(assetFileSystem, levelPath, failure))
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: " << failure << '\n';
+        return 1;
+    }
+
+    if (document.kind() != EditorDocument::Kind::Mm9Dat)
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: document kind is not Mm9Dat\n";
+        return 1;
+    }
+
+    if (!document.hasMm9DatLoadedSidecars())
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: sidecars were not loaded\n";
+        return 1;
+    }
+
+    if (!document.hasMm9DatWorld() || document.mm9DatRenderMesh().triangles.empty())
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: source DAT world render mesh was not built\n";
+        return 1;
+    }
+
+    const std::vector<std::string> diagnostics = document.validate();
+
+    if (!diagnostics.empty())
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: validation diagnostics:\n";
+
+        for (const std::string &diagnostic : diagnostics)
+        {
+            std::cerr << "  " << diagnostic << '\n';
+        }
+
+        return 1;
+    }
+
+    const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
+    const Game::Mm9DatRenderMesh &datRenderMesh = document.mm9DatRenderMesh();
+    const Game::OutdoorSceneData &sceneData = document.outdoorSceneData();
+    const Mm9MechanismValidationSummary mechanismSummary =
+        summarizeMm9Mechanisms(sidecars.events, sidecars.datWorld);
+    const std::vector<EditorMm9MaterialTextureStatus> &textureStatuses =
+        document.mm9MaterialTextureStatuses();
+    const std::vector<EditorMm9DocumentPathStatus> &pathStatuses = document.mm9DocumentPathStatuses();
+    size_t readOnlySourcePathCount = 0;
+    size_t generatedPathCount = 0;
+    size_t authoredPathCount = 0;
+    size_t authoredOverridePathCount = 0;
+    size_t compatibilityPathCount = 0;
+    size_t resolvedTextureCount = 0;
+    size_t ambiguousTextureCount = 0;
+    size_t loadedDtxHeaderCount = 0;
+    size_t matchedDtxHeaderCount = 0;
+    size_t dtxMipPayloadCount = 0;
+    size_t dtxDecodedPreviewMipCount = 0;
+    size_t dtxSectionMetadataCount = 0;
+    size_t dtxSectionPayloadAvailableCount = 0;
+    size_t dtxCommandStringCount = 0;
+    size_t cacheTextureCount = 0;
+    size_t sourceDtxHashCount = 0;
+    size_t cacheHashCount = 0;
+    size_t staleCacheCount = 0;
+    size_t physicsBspCount = 0;
+    size_t visBspCount = 0;
+    size_t decodedPBlockCount = 0;
+    size_t rawObjectAssetReferenceCount = 0;
+    size_t optionalRawObjectAssetReferenceCount = 0;
+    size_t unresolvedRawObjectAssetReferenceCount = 0;
+    size_t unresolvedOptionalRawObjectAssetReferenceCount = 0;
+    size_t assignedNativeMaterialCount = 0;
+    size_t nativeMaterialPreviewCount = 0;
+    size_t invalidSurfaceTextureRefs = 0;
+    size_t invalidPolySurfaceRefs = 0;
+    size_t invalidPolyPlaneRefs = 0;
+    size_t invalidPolyVertexRefs = 0;
+    size_t invalidNodePolyRefs = 0;
+    size_t invalidRootNodeRefs = 0;
+    size_t worldModelsWithUnknownValues = 0;
+    size_t userPortalsWithRawUnknowns = 0;
+    size_t scriptRegisteredTriggers = 0;
+    size_t scriptTriggerEdges = 0;
+    size_t scriptMovementCommands = 0;
+    size_t scriptUnknownCommands = 0;
+    size_t scriptCommandCount = 0;
+    size_t unresolvedEventWarnings = 0;
+    size_t unresolvedEventErrors = 0;
+    size_t unresolvedEventRotationCandidates = 0;
+    size_t unresolvedEventPositionCandidates = 0;
+    const std::vector<std::string> datWorldReferenceIssues =
+        validateMm9DatWorldSidecarReferences(sidecars.datWorld);
+    const std::vector<EditorMm9SourceAssetFamilyStatus> &sourceFamilyStatuses =
+        document.mm9SourceAssetFamilyStatuses();
+    size_t sourceFamilyExpectedFileCount = 0;
+    size_t sourceFamilyActualFileCount = 0;
+    size_t sourceFamilyCountDriftCount = 0;
+    size_t sourceFamilyMissingDirectoryCount = 0;
+    size_t sourceDatHashDiagnosticCount = 0;
+    const EditorMm9AssetDependencySummary &assetSummary = document.mm9AssetDependencySummary();
+
+    if (document.mm9DatWorld().worldModels.size() != sidecars.datWorld.worldModels.size())
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: parsed DAT world model count does not match sidecar\n";
+        return 1;
+    }
+
+    if (datRenderMesh.sourcePolyCount != sidecars.datWorld.totals.sourcePolyCount)
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: parsed DAT source poly count does not match sidecar\n";
+        return 1;
+    }
+
+    if (document.mm9DatRenderMaterialAssignments().size() != datRenderMesh.triangles.size())
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: native material assignment count does not match mesh\n";
+        return 1;
+    }
+
+    if (!datWorldReferenceIssues.empty())
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: DAT world sidecar reference issues remain:\n";
+
+        for (const std::string &issue : datWorldReferenceIssues)
+        {
+            std::cerr << "  " << issue << '\n';
+        }
+
+        return 1;
+    }
+
+    for (const std::string &diagnostic : document.mm9DatLevelLoadDiagnostics())
+    {
+        if (diagnostic.find("source DAT hash") != std::string::npos)
+        {
+            ++sourceDatHashDiagnosticCount;
+        }
+    }
+
+    for (const OpenYAMM::Game::Mm9EventScript &script : sidecars.events.scripts)
+    {
+        scriptRegisteredTriggers += script.registeredTriggers.size();
+        scriptTriggerEdges += script.triggerEdges.size();
+        scriptMovementCommands += script.movementCommands.size();
+        scriptUnknownCommands += script.unknownCommands.size();
+        scriptCommandCount += script.commandCount;
+    }
+
+    for (const OpenYAMM::Game::Mm9EventUnresolved &entry : sidecars.events.unresolved)
+    {
+        const std::string severity = lowerAsciiCopy(entry.severity);
+
+        if (severity == "error")
+        {
+            ++unresolvedEventErrors;
+        }
+        else if (severity == "warning")
+        {
+            ++unresolvedEventWarnings;
+        }
+
+        unresolvedEventRotationCandidates += entry.nearestMovableWorldModelsByRotationPoint.size();
+        unresolvedEventPositionCandidates += entry.nearestMovableWorldModelsByPosition.size();
+    }
+
+    for (const EditorMm9SourceAssetFamilyStatus &status : sourceFamilyStatuses)
+    {
+        sourceFamilyExpectedFileCount += status.expectedFileCount;
+        sourceFamilyActualFileCount += status.actualFileCount;
+
+        if (status.declared && !status.packageDirectoryExists)
+        {
+            ++sourceFamilyMissingDirectoryCount;
+        }
+
+        if (status.declared && status.expectedFileCount != status.actualFileCount)
+        {
+            ++sourceFamilyCountDriftCount;
+        }
+    }
+
+    if (sidecars.materialAliases.stats.modelInstances != 0
+        && sceneData.modelInstances.size() != sidecars.materialAliases.stats.modelInstances)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: object-derived model instance count does not match sidecar"
+            << " expected=" << sidecars.materialAliases.stats.modelInstances
+            << " loaded=" << sceneData.modelInstances.size() << '\n';
+        return 1;
+    }
+
+    const Mm9ModelInstanceAssetResolutionSummary modelInstanceSummary =
+        summarizeMm9ModelInstanceAssetResolution(
+            assetFileSystem,
+            document.mm9DatLevelMetadata().mapId,
+            sceneData,
+            document.mm9RawObjectAssetReferenceStatuses());
+    const Mm9MechanismPreviewValidationSummary mechanismPreviewSummary =
+        validateMm9MechanismPreviewTransforms(sidecars.events, datRenderMesh);
+    const size_t worldModelOverlayVertices = countMm9WorldModelOverlayVertices(sidecars.datWorld);
+    const size_t worldModelOverlayPickCandidates = countMm9WorldModelOverlayPickCandidates(sidecars.datWorld);
+    const size_t objectOverlayVertices = countMm9ObjectOverlayVertices(document.mm9ObjectLayer());
+    const size_t objectOverlayPickCandidates =
+        countMm9ObjectOverlayPickCandidates(document.mm9ObjectLayer(), sidecars.rawObjects);
+    const Mm9SourceMarkerOverlaySummary sourceMarkerOverlaySummary =
+        summarizeMm9SourceMarkerOverlayVertices(
+            document.mm9LightLayer(),
+            document.mm9SoundLayer(),
+            document.mm9SpawnLayer());
+    const Mm9MechanismTargetMarkerSummary mechanismTargetMarkerSummary =
+        summarizeMm9MechanismTargetMarkers(
+            sidecars.events,
+            sidecars.datWorld,
+            document.mm9ObjectLayer(),
+            document.mm9LightLayer(),
+            document.mm9SoundLayer(),
+            document.mm9SpawnLayer(),
+            sceneData);
+
+    if (modelInstanceSummary.total != 0 && modelInstanceSummary.missingAssets != 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: object-derived model instances have unresolved model assets"
+            << " total=" << modelInstanceSummary.total
+            << " resolved=" << modelInstanceSummary.resolvedAssets
+            << " missing=" << modelInstanceSummary.missingAssets << '\n';
+        return 1;
+    }
+
+    if (modelInstanceSummary.total != 0 && modelInstanceSummary.missingDrawableGeometry != 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: object-derived model instances have no drawable geometry"
+            << " total=" << modelInstanceSummary.total
+            << " drawable=" << modelInstanceSummary.drawableGeometry
+            << " missing_geometry=" << modelInstanceSummary.missingDrawableGeometry << '\n';
+        return 1;
+    }
+
+    if (mechanismPreviewSummary.candidates != 0
+        && mechanismPreviewSummary.changedBounds == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: mechanism preview transforms did not change target bounds"
+            << " candidates=" << mechanismPreviewSummary.candidates
+            << " target_found=" << mechanismPreviewSummary.targetFound
+            << " transformed_triangles=" << mechanismPreviewSummary.transformedTriangles << '\n';
+        return 1;
+    }
+
+    if (!sidecars.datWorld.worldModels.empty() && worldModelOverlayVertices == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: world model bounds overlay has no vertices"
+            << " world_models=" << sidecars.datWorld.worldModels.size() << '\n';
+        return 1;
+    }
+
+    if (worldModelOverlayVertices != 0 && worldModelOverlayPickCandidates == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: world model bounds overlay has no pick candidates"
+            << " overlay_vertices=" << worldModelOverlayVertices << '\n';
+        return 1;
+    }
+
+    if (document.mm9ObjectLayer().boundsEvidenceObjectCount != 0 && objectOverlayVertices == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: object bounds overlay has no vertices"
+            << " bounds_evidence=" << document.mm9ObjectLayer().boundsEvidenceObjectCount << '\n';
+        return 1;
+    }
+
+    if (objectOverlayVertices != 0 && objectOverlayPickCandidates == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: object bounds overlay has no raw-object pick candidates"
+            << " overlay_vertices=" << objectOverlayVertices << '\n';
+        return 1;
+    }
+
+    if (!document.mm9LightLayer().lights.empty() && sourceMarkerOverlaySummary.lightVertices == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: light source overlay has no vertices"
+            << " light_objects=" << document.mm9LightLayer().lights.size() << '\n';
+        return 1;
+    }
+
+    if (!document.mm9SoundLayer().objects.empty() && sourceMarkerOverlaySummary.soundVertices == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: sound source overlay has no vertices"
+            << " sound_objects=" << document.mm9SoundLayer().objects.size() << '\n';
+        return 1;
+    }
+
+    if (!document.mm9SpawnLayer().objects.empty() && sourceMarkerOverlaySummary.spawnVertices == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: spawn source overlay has no vertices"
+            << " spawn_source_objects=" << document.mm9SpawnLayer().objects.size() << '\n';
+        return 1;
+    }
+
+    if (mechanismPreviewSummary.candidates != 0 && mechanismTargetMarkerSummary.vertices == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: mechanism target overlay has no vertices"
+            << " preview_candidates=" << mechanismPreviewSummary.candidates << '\n';
+        return 1;
+    }
+
+    const Game::Mm9DatRenderBounds nativeBounds = Game::computeMm9DatRenderBounds(datRenderMesh);
+    const Game::Mm9DatCameraFrame nativeCameraFrame = Game::frameMm9DatRenderMeshCamera(datRenderMesh);
+    const Mm9ModelInstanceCameraFrameSummary modelInstanceCameraFrameSummary =
+        summarizeMm9ModelInstanceCameraFrame(sceneData, nativeCameraFrame, 60.0f, 1920.0f / 1200.0f);
+    const Game::Mm9DatRenderFilterResult nativeFilters =
+        Game::classifyMm9DatRenderMeshFilters(
+            datRenderMesh,
+            mm9ModelRenderRolesFromSidecar(sidecars.datWorld),
+            sidecars.datWorld.userPortals.size());
+    const Mm9DatViewportRenderabilitySummary viewportSummary =
+        summarizeMm9DatViewportRenderability(
+            nativeFilters,
+            document.mm9DatRenderMaterialAssignments(),
+            modelInstanceSummary);
+
+    if (!nativeBounds.valid || !nativeCameraFrame.valid)
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: native DAT camera frame could not be built\n";
+        return 1;
+    }
+
+    if (nativeFilters.entries.size() != datRenderMesh.triangles.size()
+        || nativeFilters.summary.totalTriangles != datRenderMesh.triangles.size()
+        || nativeFilters.summary.unclassifiedTriangles != 0)
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: native DAT display filters are incomplete\n";
+        return 1;
+    }
+
+    if (viewportSummary.nativeRenderableTriangles == 0)
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: viewport preflight has no renderable native DAT triangles\n";
+        return 1;
+    }
+
+    if (viewportSummary.nativeTexturedTriangles == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: viewport preflight has no native DAT source-DTX materials"
+            << " renderable=" << viewportSummary.nativeRenderableTriangles
+            << " textured=" << viewportSummary.nativeTexturedTriangles
+            << " missing=" << viewportSummary.nativeMissingMaterialTriangles << '\n';
+        return 1;
+    }
+
+    if (viewportSummary.nativeUnresolvedMaterialTriangles != 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: viewport preflight has unresolved native DAT materials"
+            << " renderable=" << viewportSummary.nativeRenderableTriangles
+            << " textured=" << viewportSummary.nativeTexturedTriangles
+            << " missing=" << viewportSummary.nativeMissingMaterialTriangles
+            << " placeholder=" << viewportSummary.nativePlaceholderMaterialTriangles
+            << " unresolved=" << viewportSummary.nativeUnresolvedMaterialTriangles << '\n';
+        return 1;
+    }
+
+    if (modelInstanceSummary.total != 0
+        && (viewportSummary.modelInstanceDrawableGeometry == 0
+            || viewportSummary.modelInstanceDecodedSkinTextures == 0))
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: viewport preflight has incomplete model-instance draw inputs"
+            << " model_instances=" << modelInstanceSummary.total
+            << " drawable_geometry=" << viewportSummary.modelInstanceDrawableGeometry
+            << " decoded_skin_textures=" << viewportSummary.modelInstanceDecodedSkinTextures << '\n';
+        return 1;
+    }
+
+    if (modelInstanceSummary.total != 0 && modelInstanceCameraFrameSummary.inView == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: default native DAT camera frame sees no model instances"
+            << " model_instances=" << modelInstanceSummary.total
+            << " in_front=" << modelInstanceCameraFrameSummary.inFront
+            << " in_depth_range=" << modelInstanceCameraFrameSummary.inDepthRange << '\n';
+        return 1;
+    }
+
+    for (const EditorMm9DocumentPathStatus &status : pathStatuses)
+    {
+        if (status.sourceReadOnly)
+        {
+            ++readOnlySourcePathCount;
+
+            if (!status.exists)
+            {
+                std::cerr
+                    << "Editor headless MM9 DAT level failed: read-only source path is missing: "
+                    << status.resolvedPath << '\n';
+                return 1;
+            }
+        }
+
+        if (status.generated)
+        {
+            ++generatedPathCount;
+        }
+
+        if (status.authored)
+        {
+            ++authoredPathCount;
+        }
+
+        if (status.role == "authored_override")
+        {
+            ++authoredOverridePathCount;
+        }
+
+        if (status.compatibilityDerived)
+        {
+            ++compatibilityPathCount;
+        }
+    }
+
+    for (const EditorMm9MaterialTextureStatus &status : textureStatuses)
+    {
+        if (status.sourceDtxResolved)
+        {
+            ++resolvedTextureCount;
+        }
+
+        if (status.sourceDtxAmbiguous)
+        {
+            ++ambiguousTextureCount;
+        }
+
+        if (status.dtxHeaderLoaded)
+        {
+            ++loadedDtxHeaderCount;
+        }
+
+        if (status.dtxHeaderMatchesSidecar)
+        {
+            ++matchedDtxHeaderCount;
+        }
+
+        if (status.dtxHeader)
+        {
+            dtxMipPayloadCount += status.dtxHeader->mips.size();
+            dtxSectionMetadataCount += status.dtxHeader->sections.size();
+
+            if (!status.dtxHeader->commandString.empty())
+            {
+                ++dtxCommandStringCount;
+            }
+
+            for (const EditorMm9DtxMipLevel &mip : status.dtxHeader->mips)
+            {
+                if (mip.decodedPreviewAvailable)
+                {
+                    ++dtxDecodedPreviewMipCount;
+                }
+            }
+
+            for (const EditorMm9DtxSection &section : status.dtxHeader->sections)
+            {
+                if (section.payloadAvailable)
+                {
+                    ++dtxSectionPayloadAvailableCount;
+                }
+            }
+        }
+
+        if (status.cachePathExists)
+        {
+            ++cacheTextureCount;
+        }
+
+        if (status.sourceDtxHashLoaded)
+        {
+            ++sourceDtxHashCount;
+        }
+
+        if (status.cacheHashLoaded)
+        {
+            ++cacheHashCount;
+        }
+
+        if (status.cacheOlderThanSource)
+        {
+            ++staleCacheCount;
+        }
+    }
+
+    for (const EditorMm9RawObjectAssetReferenceStatus &status : document.mm9RawObjectAssetReferenceStatuses())
+    {
+        ++rawObjectAssetReferenceCount;
+
+        if (!status.required)
+        {
+            ++optionalRawObjectAssetReferenceCount;
+        }
+
+        if (!status.resolved || status.ambiguous)
+        {
+            if (status.required)
+            {
+                ++unresolvedRawObjectAssetReferenceCount;
+            }
+            else
+            {
+                ++unresolvedOptionalRawObjectAssetReferenceCount;
+            }
+        }
+    }
+
+    for (const Game::Mm9DatRenderMaterialAssignment &assignment : document.mm9DatRenderMaterialAssignments())
+    {
+        if (!assignment.assigned || assignment.ambiguous)
+        {
+            std::cerr
+                << "Editor headless MM9 DAT level failed: native mesh triangle has no unique material alias: "
+                << assignment.sourceTexture << '\n';
+            return 1;
+        }
+
+        ++assignedNativeMaterialCount;
+
+        if (assignment.previewCacheAvailable)
+        {
+            ++nativeMaterialPreviewCount;
+        }
+    }
+
+    for (const EditorMm9DatWorldModelSummary &model : sidecars.datWorld.worldModels)
+    {
+        invalidSurfaceTextureRefs += model.referenceValidation.invalidSurfaceTextureRefs;
+        invalidPolySurfaceRefs += model.referenceValidation.invalidPolySurfaceRefs;
+        invalidPolyPlaneRefs += model.referenceValidation.invalidPolyPlaneRefs;
+        invalidPolyVertexRefs += model.referenceValidation.invalidPolyVertexRefs;
+        invalidNodePolyRefs += model.referenceValidation.invalidNodePolyRefs;
+        invalidRootNodeRefs += model.referenceValidation.invalidRootNodeRefs;
+
+        if (model.unknownValues.worldBspUnknownValue != 0
+            || model.unknownValues.worldBspUnknownValue2 != 0
+            || model.unknownValues.worldBspUnknownValue3 != 0)
+        {
+            ++worldModelsWithUnknownValues;
+        }
+
+        if (model.roles.physicsBsp)
+        {
+            ++physicsBspCount;
+        }
+
+        if (model.roles.visBsp)
+        {
+            ++visBspCount;
+        }
+
+        if (model.pblockTable.decodedSummary && model.pblockTable.recordCount)
+        {
+            ++decodedPBlockCount;
+        }
+    }
+
+    for (const EditorMm9DatUserPortalSummary &portal : sidecars.datWorld.userPortals)
+    {
+        if (portal.rawUnknowns.unknownInt1 != 0 || portal.rawUnknowns.unknownShort != 0)
+        {
+            ++userPortalsWithRawUnknowns;
+        }
+    }
+
+    if (physicsBspCount != 0 && nativeFilters.summary.physicsTriangles == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: PhysicsBSP models produced no physics-filter triangles"
+            << " physics_bsp_models=" << physicsBspCount << '\n';
+        return 1;
+    }
+
+    if (visBspCount != 0 && nativeFilters.summary.visibilityTriangles == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: VisBSP models produced no visibility-filter triangles"
+            << " vis_bsp_models=" << visBspCount << '\n';
+        return 1;
+    }
+
+    if (nativeFilters.summary.helperTriangles
+        < nativeFilters.summary.physicsTriangles + nativeFilters.summary.visibilityTriangles)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: helper triangle count does not preserve helper BSP roles"
+            << " helper=" << nativeFilters.summary.helperTriangles
+            << " physics=" << nativeFilters.summary.physicsTriangles
+            << " visibility=" << nativeFilters.summary.visibilityTriangles << '\n';
+        return 1;
+    }
+
+    if (readOnlySourcePathCount < 2 || generatedPathCount == 0 || authoredPathCount == 0
+        || compatibilityPathCount == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: incomplete document path role inventory"
+            << " read_only_source=" << readOnlySourcePathCount
+            << " generated=" << generatedPathCount
+            << " authored=" << authoredPathCount
+            << " compatibility=" << compatibilityPathCount << '\n';
+        return 1;
+    }
+
+    const EditorMm9DatLevelMetadata &metadata = document.mm9DatLevelMetadata();
+
+    if (metadata.sidecars.sourceAssetAliases && authoredOverridePathCount == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: source asset aliases sidecar is not classified as an"
+            << " authored override\n";
+        return 1;
+    }
+
+    std::string saveFailure;
+
+    if (document.saveSource(saveFailure)
+        || saveFailure.find("source/* immutable") == std::string::npos)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: MM9 saveSource did not reject source mutation: "
+            << saveFailure << '\n';
+        return 1;
+    }
+
+    std::string saveFailureViaAlias;
+
+    if (document.save(saveFailureViaAlias)
+        || saveFailureViaAlias.find("source/* immutable") == std::string::npos)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: MM9 save did not reject source mutation: "
+            << saveFailureViaAlias << '\n';
+        return 1;
+    }
+
+    const std::filesystem::path rejectedSaveAsPath =
+        document.scenePhysicalPath().parent_path() / "__openyamm_mm9_rejected_save_as.level.yml";
+
+    if (std::filesystem::exists(rejectedSaveAsPath))
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: rejected save-as sentinel already exists: "
+            << rejectedSaveAsPath.generic_string() << '\n';
+        return 1;
+    }
+
+    std::string saveSourceAsFailure;
+
+    if (document.saveSourceAs(rejectedSaveAsPath, saveSourceAsFailure)
+        || saveSourceAsFailure.find("source/* immutable") == std::string::npos
+        || std::filesystem::exists(rejectedSaveAsPath))
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: MM9 saveSourceAs did not reject source mutation: "
+            << saveSourceAsFailure << '\n';
+        return 1;
+    }
+
+    std::string saveAsFailure;
+
+    if (document.saveAs(rejectedSaveAsPath, saveAsFailure)
+        || saveAsFailure.find("source/* immutable") == std::string::npos
+        || std::filesystem::exists(rejectedSaveAsPath))
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: MM9 saveAs did not reject source mutation: "
+            << saveAsFailure << '\n';
+        return 1;
+    }
+
+    std::string buildFailure;
+
+    if (document.buildRuntime(buildFailure)
+        || buildFailure.find("DAT/DTX runtime path") == std::string::npos)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: MM9 buildRuntime did not reject ODM/BLV build: "
+            << buildFailure << '\n';
+        return 1;
+    }
+
+    std::string buildRuntimeAsFailure;
+
+    if (document.buildRuntimeAs(rejectedSaveAsPath, buildRuntimeAsFailure)
+        || buildRuntimeAsFailure.find("DAT/DTX runtime path") == std::string::npos
+        || std::filesystem::exists(rejectedSaveAsPath))
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: MM9 buildRuntimeAs did not reject ODM/BLV build: "
+            << buildRuntimeAsFailure << '\n';
+        return 1;
+    }
+
+    const Mm9SourceIntegritySnapshot sourceIntegrityAfter =
+        collectMm9SourceIntegritySnapshot(levelPath);
+    std::string sourceIntegrityFailure;
+
+    if (!mm9SourceIntegritySnapshotsMatch(sourceIntegrityBefore, sourceIntegrityAfter, sourceIntegrityFailure))
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: source/* changed during open/validation/save/build checks: "
+            << sourceIntegrityFailure << '\n';
+        return 1;
+    }
+
+    const Mm9SourceIntegritySnapshot referencedSourceFilesBefore =
+        collectMm9ReferencedSourceFileSnapshot(document);
+
+    if (!sidecars.materialAliases.textures.empty() && resolvedTextureCount == 0)
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: no material textures resolved to source DTX\n";
+        return 1;
+    }
+
+    if (!sidecars.materialAliases.textures.empty() && loadedDtxHeaderCount == 0)
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: no material texture loaded a source DTX header\n";
+        return 1;
+    }
+
+    if (ambiguousTextureCount != 0)
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: ambiguous source DTX references remain\n";
+        return 1;
+    }
+
+    std::optional<Game::Mm9DatRenderMeshPickHit> nativePickHit;
+    std::string nativePickFailure;
+
+    if (!validateMm9SyntheticPick(datRenderMesh, nativePickHit, nativePickFailure))
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: " << nativePickFailure << '\n';
+        return 1;
+    }
+
+    const Mm9SelectedDatOverlaySummary selectedDatOverlaySummary =
+        summarizeMm9SelectedDatOverlay(datRenderMesh, nativePickHit->triangleIndex);
+
+    if (selectedDatOverlaySummary.polygonVertices == 0 || selectedDatOverlaySummary.surfaceVertices == 0)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: native DAT selected polygon/surface overlay is empty"
+            << " triangle=" << nativePickHit->triangleIndex
+            << " polygon_vertices=" << selectedDatOverlaySummary.polygonVertices
+            << " surface_vertices=" << selectedDatOverlaySummary.surfaceVertices << '\n';
+        return 1;
+    }
+
+    const Mm9SourceIntegritySnapshot referencedSourceFilesAfter =
+        collectMm9ReferencedSourceFileSnapshot(document);
+    std::string referencedSourceIntegrityFailure;
+
+    if (!mm9SourceIntegritySnapshotsMatch(
+            referencedSourceFilesBefore,
+            referencedSourceFilesAfter,
+            referencedSourceIntegrityFailure))
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: referenced source files changed during validation/pick checks: "
+            << referencedSourceIntegrityFailure << '\n';
+        return 1;
+    }
+
+    if (document.mm9DatLevelMetadata().runtime.visibility == "dat_bsp_portal")
+    {
+        if (sidecars.datWorld.totals.leafCount == 0)
+        {
+            std::cerr
+                << "Editor headless MM9 DAT level failed: portalized DAT map has no decoded leaves\n";
+            return 1;
+        }
+
+        if (physicsBspCount == 0 || visBspCount == 0)
+        {
+            std::cerr
+                << "Editor headless MM9 DAT level failed: portalized DAT map has no PhysicsBSP or VisBSP model\n";
+            return 1;
+        }
+    }
+
+    std::filesystem::path validationReportPath;
+    std::string validationReportFailure;
+
+    if (!writeMm9DatLevelValidationReport(
+            assetFileSystem.getDevelopmentRoot()
+                / std::filesystem::path("worlds")
+                / assetFileSystem.getActiveWorldId(),
+            levelPath,
+            document,
+            modelInstanceSummary,
+            viewportSummary,
+            mechanismPreviewSummary,
+            nativePickHit->triangleIndex,
+            sourceIntegrityBefore.valid && sourceIntegrityAfter.valid,
+            referencedSourceFilesAfter.referencedSourceFileHashes.size(),
+            validationReportPath,
+            validationReportFailure))
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: " << validationReportFailure << '\n';
+        return 1;
+    }
+
+    std::filesystem::path validationSummaryReportPath;
+    std::string validationSummaryReportFailure;
+
+    if (!writeMm9ValidationSummaryReport(
+            assetFileSystem.getDevelopmentRoot()
+                / std::filesystem::path("worlds")
+                / assetFileSystem.getActiveWorldId(),
+            validationSummaryReportPath,
+            validationSummaryReportFailure))
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: " << validationSummaryReportFailure << '\n';
+        return 1;
+    }
+
+    std::cout << "Editor headless MM9 DAT level passed: " << levelFileName
+              << " kind=Mm9Dat"
+              << " map_id=" << document.mm9DatLevelMetadata().mapId
+              << " classification=" << document.mm9DatLevelMetadata().runtime.classification
+              << " visibility=" << document.mm9DatLevelMetadata().runtime.visibility
+              << " world_models=" << sidecars.datWorld.worldModels.size()
+              << " leaves=" << sidecars.datWorld.totals.leafCount
+              << " user_portals=" << sidecars.datWorld.totals.userPortalCount
+              << " dat_world_reference_issues=" << datWorldReferenceIssues.size()
+              << " dat_world_invalid_leaf_references="
+              << (sidecars.datWorld.totals.invalidLeafReferenceCount + sidecars.datWorld.leafReferences.invalidRefs)
+              << " dat_world_invalid_surface_texture_refs=" << invalidSurfaceTextureRefs
+              << " dat_world_invalid_poly_surface_refs=" << invalidPolySurfaceRefs
+              << " dat_world_invalid_poly_plane_refs=" << invalidPolyPlaneRefs
+              << " dat_world_invalid_poly_vertex_refs=" << invalidPolyVertexRefs
+              << " dat_world_invalid_node_poly_refs=" << invalidNodePolyRefs
+              << " dat_world_invalid_root_node_refs=" << invalidRootNodeRefs
+              << " dat_world_models_with_unknown_values=" << worldModelsWithUnknownValues
+              << " dat_world_user_portals_with_raw_unknowns=" << userPortalsWithRawUnknowns
+              << " native_mesh_triangles=" << datRenderMesh.triangles.size()
+              << " native_mesh_source_polies=" << datRenderMesh.sourcePolyCount
+              << " native_mesh_degenerate_triangles=" << datRenderMesh.skippedDegenerateTriangleCount
+              << " native_pick_triangle=" << nativePickHit->triangleIndex
+              << " native_pick_model=" << nativePickHit->sourceModelIndex
+              << " native_pick_poly=" << nativePickHit->sourcePolyIndex
+              << " native_pick_surface=" << nativePickHit->sourceSurfaceIndex
+              << " native_pick_texture=" << nativePickHit->sourceTextureIndex
+              << " selected_polygon_overlay_vertices=" << selectedDatOverlaySummary.polygonVertices
+              << " selected_surface_overlay_vertices=" << selectedDatOverlaySummary.surfaceVertices
+              << " native_material_assignments=" << assignedNativeMaterialCount
+              << " native_material_previews=" << nativeMaterialPreviewCount
+              << " viewport_native_renderable_triangles=" << viewportSummary.nativeRenderableTriangles
+              << " viewport_native_renderable_physics_triangles="
+              << viewportSummary.nativeRenderablePhysicsTriangles
+              << " viewport_native_textured_triangles=" << viewportSummary.nativeTexturedTriangles
+              << " viewport_native_missing_material_triangles=" << viewportSummary.nativeMissingMaterialTriangles
+              << " viewport_native_placeholder_material_triangles="
+              << viewportSummary.nativePlaceholderMaterialTriangles
+              << " viewport_native_unresolved_material_triangles="
+              << viewportSummary.nativeUnresolvedMaterialTriangles
+              << " native_bounds_radius=" << nativeBounds.radius
+              << " native_camera_far=" << nativeCameraFrame.farPlane
+              << " native_filter_visual=" << nativeFilters.summary.visualTriangles
+              << " native_filter_invisible=" << nativeFilters.summary.invisibleTriangles
+              << " native_filter_water=" << nativeFilters.summary.waterTriangles
+              << " native_filter_visible_water=" << nativeFilters.summary.visibleWaterTriangles
+              << " native_filter_water_volume=" << nativeFilters.summary.waterVolumeTriangles
+              << " native_filter_rail=" << nativeFilters.summary.railTriangles
+              << " native_filter_helper=" << nativeFilters.summary.helperTriangles
+              << " native_filter_physics=" << nativeFilters.summary.physicsTriangles
+              << " native_filter_visibility=" << nativeFilters.summary.visibilityTriangles
+              << " native_filter_portals=" << nativeFilters.summary.portalOverlays
+              << " readonly_source_paths=" << readOnlySourcePathCount
+              << " source_integrity_snapshot_verified="
+              << (sourceIntegrityBefore.valid && sourceIntegrityAfter.valid ? 1 : 0)
+              << " referenced_source_snapshot_files="
+              << referencedSourceFilesAfter.referencedSourceFileHashes.size()
+              << " source_dat_hash_diagnostics=" << sourceDatHashDiagnosticCount
+              << " source_manifest_diagnostics=" << document.mm9SourceAssetManifestDiagnostics().size()
+              << " source_manifest_expected_files=" << sourceFamilyExpectedFileCount
+              << " source_manifest_actual_files=" << sourceFamilyActualFileCount
+              << " source_manifest_count_drift_families=" << sourceFamilyCountDriftCount
+              << " source_manifest_missing_directories=" << sourceFamilyMissingDirectoryCount
+              << " generated_paths=" << generatedPathCount
+              << " authored_paths=" << authoredPathCount
+              << " authored_override_paths=" << authoredOverridePathCount
+              << " compatibility_paths=" << compatibilityPathCount
+              << " physics_bsp_models=" << physicsBspCount
+              << " vis_bsp_models=" << visBspCount
+              << " decoded_pblocks=" << decodedPBlockCount
+              << " raw_objects=" << sidecars.rawObjects.objects.size()
+              << " world_model_overlay_vertices=" << worldModelOverlayVertices
+              << " world_model_overlay_pick_candidates=" << worldModelOverlayPickCandidates
+              << " object_source_transforms=" << document.mm9ObjectLayer().positionedObjectCount
+              << " object_bounds_evidence=" << document.mm9ObjectLayer().boundsEvidenceObjectCount
+              << " object_trigger_volumes=" << document.mm9ObjectLayer().triggerVolumeCount
+              << " object_overlay_vertices=" << objectOverlayVertices
+              << " object_overlay_pick_candidates=" << objectOverlayPickCandidates
+              << " light_objects=" << document.mm9LightLayer().lights.size()
+              << " light_overlay_vertices=" << sourceMarkerOverlaySummary.lightVertices
+              << " static_render_lights=" << Game::buildMm9StaticRenderLights(document.mm9LightLayer()).size()
+              << " light_diagnostics=" << document.mm9LightLayer().diagnostics.size()
+              << " sound_objects=" << document.mm9SoundLayer().objects.size()
+              << " sound_overlay_vertices=" << sourceMarkerOverlaySummary.soundVertices
+              << " sound_references=" << document.mm9SoundLayer().referenceCount
+              << " resolved_sound_references=" << document.mm9SoundLayer().resolvedReferenceCount
+              << " unresolved_required_sound_references="
+              << document.mm9SoundLayer().unresolvedRequiredReferenceCount
+              << " spawn_source_objects=" << document.mm9SpawnLayer().objects.size()
+              << " spawn_overlay_vertices=" << sourceMarkerOverlaySummary.spawnVertices
+              << " spawn_npc_numbers=" << document.mm9SpawnLayer().npcNumberCount
+              << " model_instances=" << sceneData.modelInstances.size()
+              << " model_instances_in_camera_front=" << modelInstanceCameraFrameSummary.inFront
+              << " model_instances_in_camera_depth_range=" << modelInstanceCameraFrameSummary.inDepthRange
+              << " model_instances_in_camera_frame=" << modelInstanceCameraFrameSummary.inView
+              << " resolved_model_instance_assets=" << modelInstanceSummary.resolvedAssets
+              << " missing_model_instance_assets=" << modelInstanceSummary.missingAssets
+              << " drawable_model_instance_geometry=" << modelInstanceSummary.drawableGeometry
+              << " missing_drawable_model_instance_geometry=" << modelInstanceSummary.missingDrawableGeometry
+              << " viewport_model_instance_drawable_geometry=" << viewportSummary.modelInstanceDrawableGeometry
+              << " viewport_model_instance_decoded_skin_textures="
+              << viewportSummary.modelInstanceDecodedSkinTextures
+              << " decoded_model_instance_skin_textures=" << modelInstanceSummary.decodedSkinTextures
+              << " actor_variant_candidates=" << modelInstanceSummary.actorVariantCandidates
+              << " actor_variant_resolved=" << modelInstanceSummary.actorVariantResolved
+              << " actor_variant_unresolved=" << modelInstanceSummary.actorVariantUnresolved
+              << " actor_variant_actor_rows=" << modelInstanceSummary.actorVariantActorRows
+              << " actor_variant_gameplay_identity_rows="
+              << modelInstanceSummary.actorVariantGameplayIdentityRows
+              << " scripted_objects=" << modelInstanceSummary.scriptedObjects
+              << " scripted_objects_with_collision_visuals="
+              << modelInstanceSummary.scriptedObjectsWithCollisionVisuals
+              << " missing_scripted_object_collision_visuals="
+              << modelInstanceSummary.missingScriptedObjectCollisionVisuals
+              << " materials=" << sidecars.materialAliases.textures.size()
+              << " resolved_dtx=" << resolvedTextureCount
+              << " dtx_headers=" << loadedDtxHeaderCount
+              << " dtx_headers_matching_sidecar=" << matchedDtxHeaderCount
+              << " dtx_mip_payloads=" << dtxMipPayloadCount
+              << " dtx_decoded_preview_mips=" << dtxDecodedPreviewMipCount
+              << " dtx_section_metadata_records=" << dtxSectionMetadataCount
+              << " dtx_section_payloads_available=" << dtxSectionPayloadAvailableCount
+              << " dtx_command_strings=" << dtxCommandStringCount
+              << " texture_caches=" << cacheTextureCount
+              << " source_dtx_hashes=" << sourceDtxHashCount
+              << " cache_hashes=" << cacheHashCount
+              << " stale_caches=" << staleCacheCount
+              << " raw_object_asset_refs=" << rawObjectAssetReferenceCount
+              << " optional_raw_object_asset_refs=" << optionalRawObjectAssetReferenceCount
+              << " unresolved_raw_object_asset_refs=" << unresolvedRawObjectAssetReferenceCount
+              << " unresolved_optional_raw_object_asset_refs=" << unresolvedOptionalRawObjectAssetReferenceCount
+              << " asset_graph_total=" << assetSummary.total
+              << " asset_graph_resolved=" << assetSummary.resolved
+              << " asset_graph_unresolved=" << assetSummary.unresolved
+              << " asset_graph_ambiguous=" << assetSummary.ambiguous
+              << " asset_graph_stale=" << assetSummary.stale
+              << " asset_graph_required_unresolved=" << assetSummary.requiredUnresolved
+              << " asset_graph_required_ambiguous=" << assetSummary.requiredAmbiguous
+              << " asset_graph_optional_unresolved=" << assetSummary.optionalUnresolved
+              << " mechanisms=" << mechanismSummary.total
+              << " mechanism_unresolved_targets=" << mechanismSummary.unresolvedTargets
+              << " mechanism_unresolved_required_targets=" << mechanismSummary.unresolvedRequiredTargets
+              << " mechanism_incomplete_linear_motion=" << mechanismSummary.incompleteLinearMotion
+              << " mechanism_incomplete_rotation_motion=" << mechanismSummary.incompleteRotationMotion
+              << " mechanism_trigger_outputs=" << mechanismSummary.triggerOutputs
+              << " mechanism_unresolved_trigger_outputs=" << mechanismSummary.unresolvedTriggerOutputs
+              << " script_registered_triggers=" << scriptRegisteredTriggers
+              << " script_trigger_edges=" << scriptTriggerEdges
+              << " script_movement_commands=" << scriptMovementCommands
+              << " script_unknown_commands=" << scriptUnknownCommands
+              << " script_command_count=" << scriptCommandCount
+              << " unresolved_events=" << sidecars.events.unresolved.size()
+              << " unresolved_event_warnings=" << unresolvedEventWarnings
+              << " unresolved_event_errors=" << unresolvedEventErrors
+              << " unresolved_event_rotation_candidates=" << unresolvedEventRotationCandidates
+              << " unresolved_event_position_candidates=" << unresolvedEventPositionCandidates
+              << " mechanism_movable_world_models=" << mechanismSummary.movableWorldModels
+              << " mechanism_world_model_targets_with_movable_role="
+              << mechanismSummary.worldModelTargetsWithMovableRole
+              << " mechanism_world_model_targets_without_movable_role="
+              << mechanismSummary.worldModelTargetsWithoutMovableRole
+              << " mechanism_world_model_targets_missing_model=" << mechanismSummary.worldModelTargetsMissingModel
+              << " mechanism_world_model_targets_with_polygon_group="
+              << mechanismSummary.worldModelTargetsWithPolygonGroup
+              << " mechanism_world_model_targets_missing_polygon_group="
+              << mechanismSummary.worldModelTargetsMissingPolygonGroup
+              << " mechanism_world_model_targets_mismatched_polygon_group="
+              << mechanismSummary.worldModelTargetsMismatchedPolygonGroup
+              << " mechanism_preview_candidates=" << mechanismPreviewSummary.candidates
+              << " mechanism_preview_target_found=" << mechanismPreviewSummary.targetFound
+              << " mechanism_preview_transformed_triangles=" << mechanismPreviewSummary.transformedTriangles
+              << " mechanism_preview_changed_bounds=" << mechanismPreviewSummary.changedBounds
+              << " validation_report=" << validationReportPath.generic_string()
+              << " validation_summary_report=" << validationSummaryReportPath.generic_string()
+              << " event_objects=" << sidecars.events.objects.size() << '\n';
+    return 0;
+}
+
+int EditorHeadlessDiagnostics::runVerifyMm9DatFilters(
+    const std::filesystem::path &basePath,
+    const std::string &levelFileName) const
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(
+            basePath,
+            m_config.assetRoot,
+            m_config.assetScaleTier,
+            m_config.assetScaleProfile,
+            m_config.activeWorldId))
+    {
+        std::cerr << "Editor headless MM9 DAT filters failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    std::filesystem::path levelPath =
+        activeWorldEditorPath(assetFileSystem, std::filesystem::path("maps") / levelFileName);
+
+    if (!std::filesystem::exists(levelPath))
+    {
+        levelPath = assetFileSystem.getDevelopmentRoot()
+            / std::filesystem::path("worlds")
+            / assetFileSystem.getActiveWorldId()
+            / "maps"
+            / levelFileName;
+    }
+
+    EditorDocument document;
+    std::string failure;
+
+    if (!document.loadMapPhysicalPath(assetFileSystem, levelPath, failure))
+    {
+        std::cerr << "Editor headless MM9 DAT filters failed: " << failure << '\n';
+        return 1;
+    }
+
+    if (document.kind() != EditorDocument::Kind::Mm9Dat
+        || !document.hasMm9DatLoadedSidecars()
+        || !document.hasMm9DatWorld()
+        || document.mm9DatRenderMesh().triangles.empty())
+    {
+        std::cerr << "Editor headless MM9 DAT filters failed: MM9 DAT document is incomplete\n";
+        return 1;
+    }
+
+    const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
+    const Game::Mm9DatRenderMesh &renderMesh = document.mm9DatRenderMesh();
+    const Game::Mm9DatRenderFilterResult filters =
+        Game::classifyMm9DatRenderMeshFilters(
+            renderMesh,
+            mm9ModelRenderRolesFromSidecar(sidecars.datWorld),
+            sidecars.datWorld.userPortals.size());
+
+    if (filters.entries.size() != renderMesh.triangles.size()
+        || filters.summary.totalTriangles != renderMesh.triangles.size()
+        || filters.summary.unclassifiedTriangles != 0)
+    {
+        std::cerr << "Editor headless MM9 DAT filters failed: classifier did not cover every render triangle\n";
+        return 1;
+    }
+
+    size_t defaultRenderedTriangles = 0;
+    size_t skyTriangles = 0;
+    size_t physicsTriangles = 0;
+    size_t waterTriangles = 0;
+    size_t visibleWaterTriangles = 0;
+    size_t waterVolumeTriangles = 0;
+    size_t waterVolumeTrianglesWithoutHelper = 0;
+    size_t railTriangles = 0;
+    size_t railTrianglesWithoutHelper = 0;
+    size_t visibilityTriangles = 0;
+    size_t invisibleTriangles = 0;
+    size_t helperTriangles = 0;
+    size_t triggerTriangles = 0;
+    size_t defaultHiddenTriangles = 0;
+    size_t datSolidTriangles = 0;
+    size_t datPhysicsBlockerTriangles = 0;
+    size_t datVisibilityBlockerTriangles = 0;
+    size_t datNotAStepTriangles = 0;
+    size_t datPortalSurfaceTriangles = 0;
+    const size_t portalOverlayVertices = sidecars.datWorld.userPortals.size() * 24;
+    const size_t objectOverlayVertices = countMm9ObjectOverlayVertices(document.mm9ObjectLayer());
+
+    for (const Game::Mm9DatRenderFilterEntry &entry : filters.entries)
+    {
+        if (entry.triangleIndex >= renderMesh.triangles.size())
+        {
+            std::cerr << "Editor headless MM9 DAT filters failed: classifier entry triangle index is out of range\n";
+            return 1;
+        }
+
+        const uint32_t datSurfaceFlags = renderMesh.triangles[entry.triangleIndex].surfaceFlags;
+        const bool renderable =
+            (entry.flags
+                & (Game::Mm9DatRenderFilterVisual
+                    | Game::Mm9DatRenderFilterSky
+                    | Game::Mm9DatRenderFilterWater
+                    | Game::Mm9DatRenderFilterTerrain
+                    | Game::Mm9DatRenderFilterPhysics
+                    | Game::Mm9DatRenderFilterMovable)) != 0;
+        const bool hiddenInDefault =
+            (entry.flags
+                & (Game::Mm9DatRenderFilterInvisible
+                    | Game::Mm9DatRenderFilterWaterVolume
+                    | Game::Mm9DatRenderFilterRail
+                    | Game::Mm9DatRenderFilterVisibility
+                    | Game::Mm9DatRenderFilterTrigger)) != 0;
+
+        if (renderable && !hiddenInDefault)
+        {
+            ++defaultRenderedTriangles;
+        }
+
+        if (hiddenInDefault)
+        {
+            ++defaultHiddenTriangles;
+        }
+
+        if ((entry.flags & Game::Mm9DatRenderFilterSky) != 0)
+        {
+            ++skyTriangles;
+        }
+
+        if ((entry.flags & Game::Mm9DatRenderFilterPhysics) != 0)
+        {
+            ++physicsTriangles;
+        }
+
+        if ((entry.flags & Game::Mm9DatRenderFilterWater) != 0)
+        {
+            ++waterTriangles;
+        }
+
+        if ((entry.flags & Game::Mm9DatRenderFilterVisibleWater) != 0)
+        {
+            ++visibleWaterTriangles;
+        }
+
+        if ((entry.flags & Game::Mm9DatRenderFilterWaterVolume) != 0)
+        {
+            ++waterVolumeTriangles;
+            if ((entry.flags & Game::Mm9DatRenderFilterHelper) == 0)
+            {
+                ++waterVolumeTrianglesWithoutHelper;
+            }
+        }
+
+        if ((entry.flags & Game::Mm9DatRenderFilterRail) != 0)
+        {
+            ++railTriangles;
+            if ((entry.flags & Game::Mm9DatRenderFilterHelper) == 0)
+            {
+                ++railTrianglesWithoutHelper;
+            }
+        }
+
+        if ((entry.flags & Game::Mm9DatRenderFilterVisibility) != 0)
+        {
+            ++visibilityTriangles;
+        }
+
+        if ((entry.flags & Game::Mm9DatRenderFilterInvisible) != 0)
+        {
+            ++invisibleTriangles;
+        }
+
+        if ((entry.flags & Game::Mm9DatRenderFilterHelper) != 0)
+        {
+            ++helperTriangles;
+        }
+
+        if ((entry.flags & Game::Mm9DatRenderFilterTrigger) != 0)
+        {
+            ++triggerTriangles;
+        }
+
+        if ((datSurfaceFlags & Game::Mm9DatSurfaceFlagSolid) != 0)
+        {
+            ++datSolidTriangles;
+        }
+
+        if ((datSurfaceFlags & Game::Mm9DatSurfaceFlagPhysicsBlocker) != 0)
+        {
+            ++datPhysicsBlockerTriangles;
+        }
+
+        if ((datSurfaceFlags & Game::Mm9DatSurfaceFlagVisibilityBlocker) != 0)
+        {
+            ++datVisibilityBlockerTriangles;
+        }
+
+        if ((datSurfaceFlags & Game::Mm9DatSurfaceFlagNotAStep) != 0)
+        {
+            ++datNotAStepTriangles;
+        }
+
+        if ((datSurfaceFlags & Game::Mm9DatSurfaceFlagPortal) != 0)
+        {
+            ++datPortalSurfaceTriangles;
+        }
+    }
+
+    if (defaultRenderedTriangles == 0)
+    {
+        std::cerr << "Editor headless MM9 DAT filters failed: default subset has no renderable triangles\n";
+        return 1;
+    }
+
+    if (sidecars.datWorld.totals.userPortalCount != 0 && portalOverlayVertices == 0)
+    {
+        std::cerr << "Editor headless MM9 DAT filters failed: portal overlay has no vertices\n";
+        return 1;
+    }
+
+    if (document.mm9ObjectLayer().boundsEvidenceObjectCount != 0 && objectOverlayVertices == 0)
+    {
+        std::cerr << "Editor headless MM9 DAT filters failed: object bounds overlay has no vertices\n";
+        return 1;
+    }
+
+    if (skyTriangles != filters.summary.skyTriangles
+        || physicsTriangles != filters.summary.physicsTriangles
+        || waterTriangles != filters.summary.waterTriangles
+        || visibleWaterTriangles != filters.summary.visibleWaterTriangles
+        || waterVolumeTriangles != filters.summary.waterVolumeTriangles
+        || railTriangles != filters.summary.railTriangles
+        || visibilityTriangles != filters.summary.visibilityTriangles
+        || invisibleTriangles != filters.summary.invisibleTriangles
+        || helperTriangles != filters.summary.helperTriangles
+        || triggerTriangles != filters.summary.triggerTriangles)
+    {
+        std::cerr << "Editor headless MM9 DAT filters failed: subset counts do not match classifier summary\n";
+        return 1;
+    }
+
+    if (waterVolumeTrianglesWithoutHelper != 0)
+    {
+        std::cerr << "Editor headless MM9 DAT filters failed: water volumes are not helper geometry\n";
+        return 1;
+    }
+
+    if (railTrianglesWithoutHelper != 0)
+    {
+        std::cerr << "Editor headless MM9 DAT filters failed: rail containers are not helper geometry\n";
+        return 1;
+    }
+
+    if (document.mm9DatLevelMetadata().mapId == "thjorgard"
+        && (visibleWaterTriangles == 0 || waterVolumeTriangles == 0))
+    {
+        std::cerr
+            << "Editor headless MM9 DAT filters failed: Thjorgard must preserve visible Ocean water and "
+               "hidden BlueWater/WaterMarker volume geometry\n";
+        return 1;
+    }
+
+    if ((document.mm9DatLevelMetadata().mapId == "thjorgard"
+            || document.mm9DatLevelMetadata().mapId == "thjorgardcity")
+        && railTriangles == 0)
+    {
+        std::cerr << "Editor headless MM9 DAT filters failed: active map has no classified AITrk/rail geometry\n";
+        return 1;
+    }
+
+    std::cout << "Editor headless MM9 DAT filters passed: " << levelFileName
+              << " total=" << filters.summary.totalTriangles
+              << " default=" << defaultRenderedTriangles
+              << " hidden_from_default=" << defaultHiddenTriangles
+              << " sky=" << skyTriangles
+              << " physics=" << physicsTriangles
+              << " water=" << waterTriangles
+              << " visible_water=" << visibleWaterTriangles
+              << " water_volume=" << waterVolumeTriangles
+              << " rail=" << railTriangles
+              << " visibility=" << visibilityTriangles
+              << " invisible=" << invisibleTriangles
+              << " helper=" << helperTriangles
+              << " trigger=" << triggerTriangles
+              << " dat_solid=" << datSolidTriangles
+              << " dat_physics_blocker=" << datPhysicsBlockerTriangles
+              << " dat_visibility_blocker=" << datVisibilityBlockerTriangles
+              << " dat_not_a_step=" << datNotAStepTriangles
+              << " dat_portal_surface=" << datPortalSurfaceTriangles
+              << " portals=" << filters.summary.portalOverlays
+              << " portal_overlay_vertices=" << portalOverlayVertices
+              << " object_overlay_vertices=" << objectOverlayVertices << '\n';
+    return 0;
+}
+
+int EditorHeadlessDiagnostics::runVerifyMm9EventProvenance(
+    const std::filesystem::path &basePath,
+    const std::string &levelFileName,
+    const std::string &sourceObjectIndexText) const
+{
+    size_t sourceObjectIndex = 0;
+    try
+    {
+        size_t processedCharacters = 0;
+        const unsigned long long parsedIndex = std::stoull(sourceObjectIndexText, &processedCharacters, 10);
+        if (processedCharacters != sourceObjectIndexText.size()
+            || parsedIndex > static_cast<unsigned long long>(std::numeric_limits<size_t>::max()))
+        {
+            std::cerr << "Editor headless MM9 event provenance failed: invalid source object index "
+                      << sourceObjectIndexText << '\n';
+            return 2;
+        }
+        sourceObjectIndex = static_cast<size_t>(parsedIndex);
+    }
+    catch (const std::exception &exception)
+    {
+        std::cerr << "Editor headless MM9 event provenance failed: invalid source object index "
+                  << sourceObjectIndexText << ": " << exception.what() << '\n';
+        return 2;
+    }
+
+    Engine::AssetFileSystem assetFileSystem;
+    if (!assetFileSystem.initialize(
+            basePath,
+            m_config.assetRoot,
+            m_config.assetScaleTier,
+            m_config.assetScaleProfile,
+            m_config.activeWorldId))
+    {
+        std::cerr << "Editor headless MM9 event provenance failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    std::filesystem::path levelPath =
+        activeWorldEditorPath(assetFileSystem, std::filesystem::path("maps") / levelFileName);
+
+    if (!std::filesystem::exists(levelPath))
+    {
+        levelPath = assetFileSystem.getDevelopmentRoot()
+            / std::filesystem::path("worlds")
+            / assetFileSystem.getActiveWorldId()
+            / "maps"
+            / levelFileName;
+    }
+
+    EditorSession session;
+    session.initialize(assetFileSystem);
+    std::string failure;
+    if (!session.openMapPhysicalPath(levelPath, failure))
+    {
+        std::cerr << "Editor headless MM9 event provenance failed: " << failure << '\n';
+        return 1;
+    }
+
+    const EditorDocument &document = session.document();
+    if (document.kind() != EditorDocument::Kind::Mm9Dat || !document.hasMm9DatLoadedSidecars())
+    {
+        std::cerr << "Editor headless MM9 event provenance failed: document is not a loaded MM9 DAT level\n";
+        return 1;
+    }
+
+    const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
+    const Game::Mm9EventsData &events = sidecars.events;
+    size_t eventObjectIndex = 0;
+    const Game::Mm9EventObject *pEventObject =
+        findMm9EventObjectBySourceIndex(events, sourceObjectIndex, &eventObjectIndex);
+    if (pEventObject == nullptr)
+    {
+        std::cerr << "Editor headless MM9 event provenance failed: no generated event object for source object "
+                  << sourceObjectIndex << '\n';
+        return 1;
+    }
+
+    session.select(EditorSelectionKind::Mm9EventObject, eventObjectIndex);
+    if (session.selection().kind != EditorSelectionKind::Mm9EventObject
+        || session.selection().index != eventObjectIndex)
+    {
+        std::cerr << "Editor headless MM9 event provenance failed: event object selection did not stick\n";
+        return 1;
+    }
+
+    const EditorMm9RawObject *pRawObject =
+        findMm9RawObjectBySourceIndex(sidecars.rawObjects, sourceObjectIndex);
+    if (pRawObject == nullptr)
+    {
+        std::cerr << "Editor headless MM9 event provenance failed: no raw object for source object "
+                  << sourceObjectIndex << '\n';
+        return 1;
+    }
+
+    if (pEventObject->rawPropertyCount != pRawObject->properties.size())
+    {
+        std::cerr
+            << "Editor headless MM9 event provenance failed: raw property count mismatch for source object "
+            << sourceObjectIndex << " event=" << pEventObject->rawPropertyCount
+            << " raw=" << pRawObject->properties.size() << '\n';
+        return 1;
+    }
+
+    const std::filesystem::path generatedLuaPath =
+        resolveMm9LevelRelativePath(levelPath, document.mm9DatLevelMetadata().scripts.level);
+    const std::filesystem::path generatedScriptIrPath =
+        resolveMm9LevelRelativePath(levelPath, document.mm9DatLevelMetadata().scripts.scriptIr);
+
+    if (events.generatedLua != document.mm9DatLevelMetadata().scripts.level
+        || events.generatedScriptIr != document.mm9DatLevelMetadata().scripts.scriptIr)
+    {
+        std::cerr
+            << "Editor headless MM9 event provenance failed: events sidecar generated script paths do not match level"
+            << '\n';
+        return 1;
+    }
+
+    if (!std::filesystem::exists(generatedLuaPath) || !std::filesystem::exists(generatedScriptIrPath))
+    {
+        std::cerr
+            << "Editor headless MM9 event provenance failed: generated Lua or script IR is missing"
+            << " lua=" << generatedLuaPath.generic_string()
+            << " script_ir=" << generatedScriptIrPath.generic_string() << '\n';
+        return 1;
+    }
+
+    std::string generatedLuaText;
+    std::string generatedScriptIrText;
+
+    if (!readTextFileContents(generatedLuaPath, generatedLuaText)
+        || !readTextFileContents(generatedScriptIrPath, generatedScriptIrText)
+        || generatedLuaText.empty()
+        || generatedScriptIrText.empty()
+        || generatedLuaText.find("generated from MM9 event sidecars") == std::string::npos
+        || generatedScriptIrText.find("kind: mm9_script_ir") == std::string::npos)
+    {
+        std::cerr
+            << "Editor headless MM9 event provenance failed: generated Lua or script IR is not readable"
+            << " lua=" << generatedLuaPath.generic_string()
+            << " script_ir=" << generatedScriptIrPath.generic_string() << '\n';
+        return 1;
+    }
+
+    bool resolvedMechanismTarget = false;
+    size_t mechanismIndex = 0;
+    const Game::Mm9EventMechanism *pMechanism =
+        findMm9MechanismForObject(events, pEventObject->objectId, &mechanismIndex);
+    if (pMechanism != nullptr)
+    {
+        session.select(EditorSelectionKind::Mm9Mechanism, mechanismIndex);
+        if (session.selection().kind != EditorSelectionKind::Mm9Mechanism
+            || session.selection().index != mechanismIndex)
+        {
+            std::cerr << "Editor headless MM9 event provenance failed: mechanism selection did not stick\n";
+            return 1;
+        }
+
+        const Game::Mm9EventBinding *pBinding = findMm9BindingForObject(events, pEventObject->objectId);
+        if (pBinding == nullptr || pBinding->targets.empty())
+        {
+            std::cerr
+                << "Editor headless MM9 event provenance failed: selected mechanism has no generated binding target"
+                << '\n';
+            return 1;
+        }
+
+        for (const Game::Mm9EventBindingTarget &target : pBinding->targets)
+        {
+            if (target.targetKind == "unresolved")
+            {
+                std::cerr
+                    << "Editor headless MM9 event provenance failed: selected mechanism still has unresolved target"
+                    << '\n';
+                return 1;
+            }
+
+            if (target.targetKind == "odm_bmodel" && target.bmodelIndex)
+            {
+                if (*target.bmodelIndex >= sidecars.datWorld.worldModels.size())
+                {
+                    std::cerr
+                        << "Editor headless MM9 event provenance failed: mechanism target world model is out of range"
+                        << '\n';
+                    return 1;
+                }
+
+                const EditorMm9DatWorldModelSummary &worldModel =
+                    sidecars.datWorld.worldModels[*target.bmodelIndex];
+                if (!target.sourceModelName.empty() && target.sourceModelName != worldModel.sourceName)
+                {
+                    std::cerr
+                        << "Editor headless MM9 event provenance failed: mechanism target source model mismatch"
+                        << " target=" << target.sourceModelName
+                        << " dat=" << worldModel.sourceName << '\n';
+                    return 1;
+                }
+
+                resolvedMechanismTarget = true;
+            }
+        }
+    }
+
+    bool resolvedScript = false;
+    const std::unordered_map<std::string, std::string>::const_iterator scriptNameIterator =
+        pEventObject->normalizedProperties.find("ScriptName");
+    const std::string scriptName = scriptNameIterator == pEventObject->normalizedProperties.end()
+        ? std::string()
+        : mm9TrimScalarText(scriptNameIterator->second);
+    if (!scriptName.empty())
+    {
+        const std::string scriptId = mm9FileNameLowerCopy(scriptName);
+        const Game::Mm9EventScript *pScript = findMm9EventScriptById(events, scriptId);
+        if (pScript == nullptr)
+        {
+            std::cerr
+                << "Editor headless MM9 event provenance failed: selected event object script is missing from events"
+                << " script=" << scriptName << '\n';
+            return 1;
+        }
+
+        std::filesystem::path sourceScriptPath = resolveMm9SourceScriptPath(levelPath, pScript->sourcePath);
+        if (!std::filesystem::exists(sourceScriptPath))
+        {
+            const std::filesystem::path developmentSourceScriptPath =
+                assetFileSystem.getDevelopmentRoot()
+                / std::filesystem::path("worlds")
+                / assetFileSystem.getActiveWorldId()
+                / "source"
+                / "scripts"
+                / pScript->sourcePath;
+            if (std::filesystem::exists(developmentSourceScriptPath))
+            {
+                sourceScriptPath = developmentSourceScriptPath;
+            }
+        }
+        if (!std::filesystem::exists(sourceScriptPath))
+        {
+            std::cerr
+                << "Editor headless MM9 event provenance failed: selected event object source script is missing"
+                << " script=" << sourceScriptPath.generic_string() << '\n';
+            return 1;
+        }
+
+        resolvedScript = true;
+    }
+
+    if (!resolvedMechanismTarget && !resolvedScript)
+    {
+        std::cerr
+            << "Editor headless MM9 event provenance failed: selected object has neither a resolved mechanism target"
+            << " nor a resolved source script\n";
+        return 1;
+    }
+
+    std::cout << "Editor headless MM9 event provenance passed: " << levelFileName
+              << " source_object_index=" << sourceObjectIndex
+              << " object_id=" << pEventObject->objectId
+              << " source_class=" << pEventObject->sourceClass
+              << " source_name=" << pEventObject->sourceName
+              << " event_object_index=" << eventObjectIndex
+              << " raw_properties=" << pRawObject->properties.size()
+              << " mechanism=" << (pMechanism != nullptr ? "true" : "false")
+              << " resolved_mechanism_target=" << (resolvedMechanismTarget ? "true" : "false")
+              << " script=" << (resolvedScript ? "true" : "false")
+              << " generated_lua=" << generatedLuaPath.generic_string()
+              << " generated_lua_bytes=" << generatedLuaText.size()
+              << " generated_script_ir=" << generatedScriptIrPath.generic_string() << '\n';
+    return 0;
+}
+
+int EditorHeadlessDiagnostics::runVerifyMm9Events(
+    const std::filesystem::path &basePath,
+    const std::string &levelFileName) const
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(
+            basePath,
+            m_config.assetRoot,
+            m_config.assetScaleTier,
+            m_config.assetScaleProfile,
+            m_config.activeWorldId))
+    {
+        std::cerr << "Editor headless MM9 events failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    std::filesystem::path levelPath =
+        activeWorldEditorPath(assetFileSystem, std::filesystem::path("maps") / levelFileName);
+
+    if (!std::filesystem::exists(levelPath))
+    {
+        levelPath = assetFileSystem.getDevelopmentRoot()
+            / std::filesystem::path("worlds")
+            / assetFileSystem.getActiveWorldId()
+            / "maps"
+            / levelFileName;
+    }
+
+    EditorSession session;
+    session.initialize(assetFileSystem);
+    std::string failure;
+    if (!session.openMapPhysicalPath(levelPath, failure))
+    {
+        std::cerr << "Editor headless MM9 events failed: " << failure << '\n';
+        return 1;
+    }
+
+    const EditorDocument &document = session.document();
+    if (document.kind() != EditorDocument::Kind::Mm9Dat || !document.hasMm9DatLoadedSidecars())
+    {
+        std::cerr << "Editor headless MM9 events failed: document is not a loaded MM9 DAT level\n";
+        return 1;
+    }
+
+    const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
+    const Game::Mm9EventsData &events = sidecars.events;
+    const std::filesystem::path generatedLuaPath =
+        resolveMm9LevelRelativePath(levelPath, document.mm9DatLevelMetadata().scripts.level);
+    const std::filesystem::path generatedScriptIrPath =
+        resolveMm9LevelRelativePath(levelPath, document.mm9DatLevelMetadata().scripts.scriptIr);
+
+    if (events.generatedLua != document.mm9DatLevelMetadata().scripts.level
+        || events.generatedScriptIr != document.mm9DatLevelMetadata().scripts.scriptIr)
+    {
+        std::cerr << "Editor headless MM9 events failed: generated script paths do not match level metadata\n";
+        return 1;
+    }
+
+    std::string generatedLuaText;
+    std::string generatedScriptIrText;
+    if (!readTextFileContents(generatedLuaPath, generatedLuaText)
+        || !readTextFileContents(generatedScriptIrPath, generatedScriptIrText)
+        || generatedLuaText.find("generated from MM9 event sidecars") == std::string::npos
+        || generatedScriptIrText.find("kind: mm9_script_ir") == std::string::npos)
+    {
+        std::cerr
+            << "Editor headless MM9 events failed: generated Lua or script IR is unreadable"
+            << " lua=" << generatedLuaPath.generic_string()
+            << " script_ir=" << generatedScriptIrPath.generic_string() << '\n';
+        return 1;
+    }
+
+    std::unordered_map<std::string, const Game::Mm9EventObject *> eventObjectsById;
+    eventObjectsById.reserve(events.objects.size());
+    size_t rawPropertyMismatches = 0;
+
+    for (const Game::Mm9EventObject &eventObject : events.objects)
+    {
+        eventObjectsById.emplace(eventObject.objectId, &eventObject);
+        const EditorMm9RawObject *pRawObject =
+            findMm9RawObjectBySourceIndex(sidecars.rawObjects, static_cast<size_t>(eventObject.sourceObjectIndex));
+
+        if (pRawObject == nullptr || pRawObject->properties.size() != eventObject.rawPropertyCount)
+        {
+            ++rawPropertyMismatches;
+        }
+    }
+
+    size_t missingSourceScripts = 0;
+    size_t resolvedSourceScripts = 0;
+
+    for (const Game::Mm9EventScript &script : events.scripts)
+    {
+        std::filesystem::path sourceScriptPath = resolveMm9SourceScriptPath(levelPath, script.sourcePath);
+        if (!std::filesystem::exists(sourceScriptPath))
+        {
+            const std::filesystem::path developmentSourceScriptPath =
+                assetFileSystem.getDevelopmentRoot()
+                / std::filesystem::path("worlds")
+                / assetFileSystem.getActiveWorldId()
+                / "source"
+                / "scripts"
+                / script.sourcePath;
+            if (std::filesystem::exists(developmentSourceScriptPath))
+            {
+                sourceScriptPath = developmentSourceScriptPath;
+            }
+        }
+
+        if (std::filesystem::exists(sourceScriptPath))
+        {
+            ++resolvedSourceScripts;
+        }
+        else
+        {
+            ++missingSourceScripts;
+        }
+    }
+
+    size_t bindingTargets = 0;
+    size_t unresolvedTargets = 0;
+    size_t outOfRangeWorldTargets = 0;
+    size_t missingBindingObjects = 0;
+
+    for (const Game::Mm9EventBinding &binding : events.bindings)
+    {
+        if (eventObjectsById.find(binding.objectId) == eventObjectsById.end())
+        {
+            ++missingBindingObjects;
+        }
+
+        bindingTargets += binding.targets.size();
+
+        for (const Game::Mm9EventBindingTarget &target : binding.targets)
+        {
+            if (target.targetKind == "unresolved")
+            {
+                ++unresolvedTargets;
+            }
+
+            if (target.targetKind == "odm_bmodel"
+                && (!target.bmodelIndex || *target.bmodelIndex >= sidecars.datWorld.worldModels.size()))
+            {
+                ++outOfRangeWorldTargets;
+            }
+        }
+    }
+
+    size_t mechanismsWithMissingObjects = 0;
+    for (const Game::Mm9EventMechanism &mechanism : events.mechanisms)
+    {
+        if (eventObjectsById.find(mechanism.objectId) == eventObjectsById.end())
+        {
+            ++mechanismsWithMissingObjects;
+        }
+    }
+
+    if (rawPropertyMismatches != 0
+        || missingSourceScripts != 0
+        || missingBindingObjects != 0
+        || outOfRangeWorldTargets != 0
+        || mechanismsWithMissingObjects != 0)
+    {
+        std::cerr
+            << "Editor headless MM9 events failed:"
+            << " raw_property_mismatches=" << rawPropertyMismatches
+            << " missing_source_scripts=" << missingSourceScripts
+            << " missing_binding_objects=" << missingBindingObjects
+            << " out_of_range_world_targets=" << outOfRangeWorldTargets
+            << " mechanisms_with_missing_objects=" << mechanismsWithMissingObjects << '\n';
+        return 1;
+    }
+
+    std::cout << "Editor headless MM9 events passed: " << levelFileName
+              << " objects=" << events.objects.size()
+              << " scripts=" << events.scripts.size()
+              << " resolved_source_scripts=" << resolvedSourceScripts
+              << " generated_lua_bytes=" << generatedLuaText.size()
+              << " generated_script_ir_bytes=" << generatedScriptIrText.size()
+              << " mechanisms=" << events.mechanisms.size()
+              << " bindings=" << events.bindings.size()
+              << " binding_targets=" << bindingTargets
+              << " unresolved_targets=" << unresolvedTargets
+              << '\n';
+    return 0;
+}
+
+int EditorHeadlessDiagnostics::runVerifyMm9SourceManifest(const std::filesystem::path &basePath) const
+{
+    Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(
+            basePath,
+            m_config.assetRoot,
+            m_config.assetScaleTier,
+            m_config.assetScaleProfile,
+            m_config.activeWorldId))
+    {
+        std::cerr << "Editor headless MM9 source manifest failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    std::filesystem::path manifestPath =
+        assetFileSystem.getDevelopmentRoot()
+        / std::filesystem::path("worlds")
+        / assetFileSystem.getActiveWorldId()
+        / "source"
+        / "manifest.yml";
+
+    if (!std::filesystem::exists(manifestPath))
+    {
+        manifestPath =
+            assetFileSystem.getEditorDevelopmentRoot()
+            / std::filesystem::path("worlds")
+            / assetFileSystem.getActiveWorldId()
+            / "source"
+            / "manifest.yml";
+    }
+
+    std::string manifestText;
+    if (!readTextFileContents(manifestPath, manifestText))
+    {
+        std::cerr
+            << "Editor headless MM9 source manifest failed: could not read "
+            << manifestPath.generic_string() << '\n';
+        return 1;
+    }
+
+    std::string errorMessage;
+    const std::optional<EditorMm9SourceAssetManifest> manifest =
+        loadMm9SourceAssetManifestFromText(manifestText, errorMessage);
+
+    if (!manifest)
+    {
+        std::cerr
+            << "Editor headless MM9 source manifest failed: could not parse "
+            << manifestPath.generic_string() << ": " << errorMessage << '\n';
+        return 1;
+    }
+
+    const std::vector<EditorMm9SourceAssetFamilyStatus> statuses =
+        inspectMm9SourceAssetManifestFiles(manifestPath, *manifest);
+    const std::vector<std::string> issues =
+        validateMm9SourceAssetManifestFiles(manifestPath, *manifest);
+
+    if (!issues.empty())
+    {
+        std::cerr << "Editor headless MM9 source manifest failed: validation diagnostics:\n";
+
+        for (const std::string &issue : issues)
+        {
+            std::cerr << "  " << issue << '\n';
+        }
+
+        return 1;
+    }
+
+    size_t declaredFamilies = 0;
+    size_t requiredFamilies = 0;
+    size_t totalExpectedFiles = 0;
+    size_t totalActualFiles = 0;
+
+    for (const EditorMm9SourceAssetFamilyStatus &status : statuses)
+    {
+        if (status.declared)
+        {
+            ++declaredFamilies;
+            totalExpectedFiles += status.expectedFileCount;
+            totalActualFiles += status.actualFileCount;
+        }
+
+        if (status.required)
+        {
+            ++requiredFamilies;
+        }
+    }
+
+    std::cout
+        << "Editor headless MM9 source manifest passed:"
+        << " world=" << assetFileSystem.getActiveWorldId()
+        << " families=" << manifest->families.size()
+        << " declared_statuses=" << declaredFamilies
+        << " required_statuses=" << requiredFamilies
+        << " expected_files=" << totalExpectedFiles
+        << " actual_files=" << totalActualFiles
+        << " manifest=" << manifestPath.generic_string() << '\n';
+    return 0;
+}
+
+int EditorHeadlessDiagnostics::runVerifyMm9InspectorSearch(
+    const std::filesystem::path &basePath,
+    const std::string &levelFileName) const
+{
+    struct ExpectedSearch
+    {
+        std::string family;
+        std::string query;
+    };
+
+    Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(
+            basePath,
+            m_config.assetRoot,
+            m_config.assetScaleTier,
+            m_config.assetScaleProfile,
+            m_config.activeWorldId))
+    {
+        std::cerr << "Editor headless MM9 inspector search failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    std::filesystem::path levelPath =
+        activeWorldEditorPath(assetFileSystem, std::filesystem::path("maps") / levelFileName);
+
+    if (!std::filesystem::exists(levelPath))
+    {
+        levelPath = assetFileSystem.getDevelopmentRoot()
+            / std::filesystem::path("worlds")
+            / assetFileSystem.getActiveWorldId()
+            / "maps"
+            / levelFileName;
+    }
+
+    EditorSession session;
+    session.initialize(assetFileSystem);
+
+    std::string failure;
+    if (!session.openMapPhysicalPath(levelPath, failure))
+    {
+        std::cerr << "Editor headless MM9 inspector search failed: " << failure << '\n';
+        return 1;
+    }
+
+    const EditorDocument &document = session.document();
+    if (document.kind() != EditorDocument::Kind::Mm9Dat || !document.hasMm9DatLoadedSidecars())
+    {
+        std::cerr << "Editor headless MM9 inspector search failed: document is not a loaded MM9 DAT level\n";
+        return 1;
+    }
+
+    const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
+    const Game::OutdoorSceneData &sceneData = document.outdoorSceneData();
+    const std::optional<Mm9ModelInstanceActorSourceLookup> actorSourceLookup =
+        loadMm9ModelInstanceActorSourceLookup(assetFileSystem);
+    std::vector<Mm9InspectorSearchEntry> entries;
+
+    for (const EditorMm9DatWorldModelSummary &worldModel : sidecars.datWorld.worldModels)
+    {
+        std::vector<std::string> values = {
+            worldModel.sourceName,
+            worldModel.kind,
+            std::to_string(worldModel.sourceModelIndex),
+        };
+
+        for (const EditorMm9DatWorldModelTexture &texture : worldModel.textures)
+        {
+            values.push_back(texture.sourceTexture);
+        }
+
+        appendMm9InspectorSearchEntry(
+            entries,
+            "world_model",
+            worldModel.sourceName,
+            std::to_string(worldModel.sourceModelIndex),
+            values);
+    }
+
+    for (const EditorMm9MaterialTextureStatus &texture : document.mm9MaterialTextureStatuses())
+    {
+        std::vector<std::string> values = {
+            texture.alias,
+            texture.sourceTexture,
+            texture.sourceAssetFamily,
+            texture.physicalPath,
+            texture.resolvedSourcePath,
+            texture.resolvedSpritePath,
+            texture.resolvedCachePath,
+        };
+        values.insert(values.end(), texture.spriteFrameTextureRefs.begin(), texture.spriteFrameTextureRefs.end());
+        values.insert(
+            values.end(),
+            texture.resolvedSpriteFrameTexturePaths.begin(),
+            texture.resolvedSpriteFrameTexturePaths.end());
+
+        appendMm9InspectorSearchEntry(
+            entries,
+            "texture",
+            texture.alias,
+            std::to_string(texture.textureIndex),
+            values);
+
+        if (texture.placeholderMissingSource
+            || !texture.sourceDtxResolved
+            || texture.sourceDtxAmbiguous
+            || texture.cacheOlderThanSource)
+        {
+            appendMm9InspectorSearchEntry(
+                entries,
+                "diagnostic",
+                "material " + texture.alias,
+                std::to_string(texture.textureIndex),
+                values);
+        }
+    }
+
+    std::unordered_map<int, std::string> rawObjectNamesByIndex;
+
+    for (const EditorMm9RawObject &rawObject : sidecars.rawObjects.objects)
+    {
+        rawObjectNamesByIndex[rawObject.objectIndex] = rawObject.name;
+
+        std::vector<std::string> values = {
+            rawObject.name,
+            std::to_string(rawObject.objectIndex),
+        };
+
+        for (const EditorMm9RawObjectProperty &property : rawObject.properties)
+        {
+            values.push_back(property.name);
+            values.push_back(property.valueJson);
+        }
+
+        appendMm9InspectorSearchEntry(
+            entries,
+            "object",
+            rawObject.name,
+            std::to_string(rawObject.objectIndex),
+            values);
+    }
+
+    for (const Game::Mm9Object &object : document.mm9ObjectLayer().objects)
+    {
+        appendMm9InspectorSearchEntry(
+            entries,
+            "object_source",
+            object.sourceName,
+            std::to_string(object.sourceObjectIndex),
+            {
+                object.sourceClass,
+                object.sourceName,
+                std::to_string(object.sourceObjectIndex),
+                object.hasPosition ? std::to_string(object.positionLt.x) : std::string(),
+                object.hasPosition ? std::to_string(object.positionLt.y) : std::string(),
+                object.hasPosition ? std::to_string(object.positionLt.z) : std::string(),
+                object.hasRotation ? std::to_string(object.rotationLt.x) : std::string(),
+                object.hasRotation ? std::to_string(object.rotationLt.y) : std::string(),
+                object.hasRotation ? std::to_string(object.rotationLt.z) : std::string(),
+                object.hasScale ? std::to_string(object.scale) : std::string(),
+                object.hasDims ? std::to_string(object.dimsLt.x) : std::string(),
+                object.hasDims ? std::to_string(object.dimsLt.y) : std::string(),
+                object.hasDims ? std::to_string(object.dimsLt.z) : std::string(),
+                object.hasRadius ? std::to_string(object.radius) : std::string(),
+                object.visible ? (*object.visible ? "visible" : "hidden") : std::string(),
+                object.solid ? (*object.solid ? "solid" : "nonsolid") : std::string(),
+                object.triggerVolume ? "trigger_volume" : std::string(),
+            });
+    }
+
+    for (const EditorMm9RawObjectAssetReferenceStatus &status : document.mm9RawObjectAssetReferenceStatuses())
+    {
+        const std::string family =
+            (status.sourceFamily == "sounds" || status.sourceFamily == "voices") ? "sound" : status.sourceFamily;
+        const std::vector<std::string> values = {
+            status.sourceClass,
+            status.objectName,
+            status.propertyName,
+            status.sourceFamily,
+            status.sourceValue,
+            status.resolvedSourcePath,
+            status.aliasTargetKey,
+        };
+
+        appendMm9InspectorSearchEntry(
+            entries,
+            family,
+            status.objectName,
+            std::to_string(status.sourceObjectIndex),
+            values);
+
+        if ((!status.resolved || status.ambiguous) && status.required)
+        {
+            appendMm9InspectorSearchEntry(
+                entries,
+                "diagnostic",
+                "asset " + status.objectName,
+                std::to_string(status.sourceObjectIndex),
+                values);
+        }
+    }
+
+    for (const Game::Mm9EventScript &script : sidecars.events.scripts)
+    {
+        appendMm9InspectorSearchEntry(
+            entries,
+            "script",
+            script.scriptId,
+            script.sourcePath,
+            {
+                script.scriptId,
+                script.sourcePath,
+                std::to_string(script.registeredTriggerCount),
+                std::to_string(script.movementCommandCount),
+            });
+    }
+
+    for (const Game::Mm9EventObject &object : sidecars.events.objects)
+    {
+        rawObjectNamesByIndex[object.sourceObjectIndex] = object.sourceName;
+
+        appendMm9InspectorSearchEntry(
+            entries,
+            "event",
+            object.objectId,
+            std::to_string(object.sourceObjectIndex),
+            {
+                object.objectId,
+                object.sourceClass,
+                object.sourceName,
+                object.rawObjectRef,
+            });
+    }
+
+    for (const Game::Mm9EventMechanism &mechanism : sidecars.events.mechanisms)
+    {
+        appendMm9InspectorSearchEntry(
+            entries,
+            "mechanism",
+            mechanism.mechanismId,
+            std::to_string(mechanism.sourceObjectIndex),
+            {
+                mechanism.mechanismId,
+                mechanism.objectId,
+                mechanism.sourceClass,
+                mechanism.sourceName,
+                mechanism.kind,
+            });
+    }
+
+    for (const Game::Mm9EventBinding &binding : sidecars.events.bindings)
+    {
+        const std::unordered_map<int, std::string>::const_iterator rawObjectNameIt =
+            rawObjectNamesByIndex.find(binding.sourceObjectIndex);
+        const std::string rawObjectName =
+            rawObjectNameIt != rawObjectNamesByIndex.end() ? rawObjectNameIt->second : std::string();
+
+        for (const Game::Mm9EventBindingTarget &target : binding.targets)
+        {
+            appendMm9InspectorSearchEntry(
+                entries,
+                "binding",
+                binding.objectId,
+                std::to_string(binding.sourceObjectIndex),
+                {
+                    binding.objectId,
+                    rawObjectName,
+                    target.targetKind,
+                    target.targetId,
+                    target.confidence,
+                    target.bmodelName,
+                    target.sourceModelName,
+                });
+        }
+    }
+
+    for (const Game::Mm9LightObject &light : document.mm9LightLayer().lights)
+    {
+        appendMm9InspectorSearchEntry(
+            entries,
+            "light",
+            light.sourceName,
+            std::to_string(light.sourceObjectIndex),
+            {
+                light.sourceClass,
+                light.sourceName,
+                std::to_string(light.sourceObjectIndex),
+                light.hasLightRadius ? std::to_string(light.lightRadius) : std::string(),
+                light.hasLightGroup ? light.lightGroup : std::string(),
+                light.hasPosition ? std::to_string(light.positionLt.x) : std::string(),
+                light.hasPosition ? std::to_string(light.positionLt.y) : std::string(),
+                light.hasPosition ? std::to_string(light.positionLt.z) : std::string(),
+            });
+    }
+
+    for (const Game::Mm9SoundObject &sound : document.mm9SoundLayer().objects)
+    {
+        std::vector<std::string> values = {
+            sound.sourceClass,
+            sound.sourceName,
+            std::to_string(sound.sourceObjectIndex),
+            sound.hasSoundRadius ? std::to_string(sound.soundRadius) : std::string(),
+            sound.hasPosition ? std::to_string(sound.positionLt.x) : std::string(),
+            sound.hasPosition ? std::to_string(sound.positionLt.y) : std::string(),
+            sound.hasPosition ? std::to_string(sound.positionLt.z) : std::string(),
+        };
+
+        for (const Game::Mm9SoundSourceReference &reference : sound.references)
+        {
+            values.push_back(reference.propertyName);
+            values.push_back(reference.sourceFamily);
+            values.push_back(reference.sourceValue);
+            values.push_back(reference.normalizedKey);
+            values.push_back(reference.resolvedSourcePath);
+        }
+
+        appendMm9InspectorSearchEntry(
+            entries,
+            "sound_object",
+            sound.sourceName,
+            std::to_string(sound.sourceObjectIndex),
+            values);
+    }
+
+    for (const Game::Mm9SpawnObject &spawn : document.mm9SpawnLayer().objects)
+    {
+        appendMm9InspectorSearchEntry(
+            entries,
+            "spawn_source",
+            spawn.sourceName,
+            std::to_string(spawn.sourceObjectIndex),
+            {
+                spawn.sourceClass,
+                spawn.sourceName,
+                std::to_string(spawn.sourceObjectIndex),
+                spawn.spawnLevel ? std::to_string(*spawn.spawnLevel) : std::string(),
+                spawn.spawnObject ? *spawn.spawnObject : std::string(),
+                spawn.npcProps ? std::to_string(*spawn.npcProps) : std::string(),
+                spawn.npcNumber ? std::to_string(*spawn.npcNumber) : std::string(),
+                spawn.hasPosition ? std::to_string(spawn.positionLt.x) : std::string(),
+                spawn.hasPosition ? std::to_string(spawn.positionLt.y) : std::string(),
+                spawn.hasPosition ? std::to_string(spawn.positionLt.z) : std::string(),
+            });
+    }
+
+    const Mm9MechanismValidationSummary mechanismSummary =
+        summarizeMm9Mechanisms(sidecars.events, sidecars.datWorld);
+
+    for (const Mm9MechanismValidationSummary::UnresolvedMechanismTarget &unresolved : mechanismSummary.unresolved)
+    {
+        std::vector<std::string> values = {
+            unresolved.mechanismId,
+            unresolved.sourceClass,
+            unresolved.sourceName,
+            unresolved.targetKind,
+            unresolved.confidence,
+            unresolved.required ? "required" : "optional",
+        };
+
+        for (const Mm9MechanismValidationSummary::CandidateWorldModel &candidate : unresolved.nearestWorldModels)
+        {
+            values.push_back(candidate.sourceName);
+            values.push_back(std::to_string(candidate.sourceModelIndex));
+        }
+
+        appendMm9InspectorSearchEntry(
+            entries,
+            "diagnostic",
+            "mechanism " + unresolved.sourceName,
+            std::to_string(unresolved.sourceObjectIndex),
+            values);
+    }
+
+    for (const std::string &diagnostic : document.validate())
+    {
+        appendMm9InspectorSearchEntry(entries, "diagnostic", "document validation", levelFileName, {diagnostic});
+    }
+
+    for (const Game::OutdoorSceneModelInstance &modelInstance : sceneData.modelInstances)
+    {
+        const std::vector<std::string> values = {
+            modelInstance.instanceId,
+            modelInstance.sourceRef,
+            modelInstance.sourceKind,
+            modelInstance.sourceClass,
+            modelInstance.sourceName,
+            modelInstance.sourceModel,
+            modelInstance.sourceSkin,
+            modelInstance.modelAsset,
+            modelInstance.modelSkinBinding,
+        };
+
+        appendMm9InspectorSearchEntry(
+            entries,
+            "model",
+            modelInstance.instanceId,
+            modelInstance.sourceRef,
+            values);
+
+        const Mm9ResolvedModelInstanceActorSource resolvedSource =
+            resolveMm9ModelInstanceActorSource(
+                modelInstance,
+                actorSourceLookup ? &*actorSourceLookup : nullptr);
+
+        appendMm9InspectorSearchEntry(
+            entries,
+            "actor_variant",
+            resolvedSource.variantId.empty() ? modelInstance.sourceName : resolvedSource.variantId,
+            modelInstance.sourceRef,
+            {
+                resolvedSource.variantId,
+                resolvedSource.sourceModel,
+                resolvedSource.sourceSkin,
+                resolvedSource.inferredFromActorClass ? "actor table" : "object source",
+                mm9ModelInstanceActorVariantAssetPath(resolvedSource.sourceModel, resolvedSource.sourceSkin),
+                modelInstance.sourceClass,
+                modelInstance.sourceName,
+                resolvedSource.actorRow.level,
+                resolvedSource.actorRow.hitPoints,
+                resolvedSource.actorRow.armorClass,
+                resolvedSource.actorRow.speed,
+                resolvedSource.actorRow.hostilityGroup,
+                resolvedSource.actorRow.scriptName,
+                resolvedSource.actorRow.footSound,
+                resolvedSource.actorRow.voiceRadius,
+            });
+    }
+
+    std::vector<ExpectedSearch> expectedSearches = {
+        {"texture", "RAIL"},
+        {"world_model", "BlueWater0"},
+        {"object", "BlueWater0"},
+        {"script", "PROPANIM.scr"},
+        {"model", "Barrel"},
+        {"actor_variant", "peasant"},
+        {"light", "Light"},
+        {"sound_object", "Sound"},
+        {"diagnostic", "MTNDOWN"},
+    };
+
+    if (document.mm9DatLevelMetadata().mapId == "thjorgardcity")
+    {
+        expectedSearches.push_back({"object", "BembStudy3"});
+        expectedSearches.push_back({"mechanism", "BembStudy3"});
+        expectedSearches.push_back({"binding", "BembStudy3"});
+        expectedSearches.push_back({"binding", "shared_rotation_point_exact_source_object_position"});
+    }
+    else
+    {
+        expectedSearches.push_back({"object", "HalfOrcCaptain0"});
+    }
+
+    for (const ExpectedSearch &expected : expectedSearches)
+    {
+        const size_t matches = countMm9InspectorSearchMatches(entries, expected.family, expected.query);
+
+        if (matches == 0)
+        {
+            std::cerr
+                << "Editor headless MM9 inspector search failed: query did not match"
+                << " level=" << levelFileName
+                << " family=" << expected.family
+                << " query=" << expected.query << '\n';
+            return 1;
+        }
+    }
+
+    std::cout
+        << "Editor headless MM9 inspector search passed: " << levelFileName
+        << " entries=" << entries.size()
+        << " world_models=" << countMm9InspectorSearchFamily(entries, "world_model")
+        << " textures=" << countMm9InspectorSearchFamily(entries, "texture")
+        << " objects=" << countMm9InspectorSearchFamily(entries, "object")
+        << " object_sources=" << countMm9InspectorSearchFamily(entries, "object_source")
+        << " scripts=" << countMm9InspectorSearchFamily(entries, "script")
+        << " sounds=" << countMm9InspectorSearchFamily(entries, "sound")
+        << " lights=" << countMm9InspectorSearchFamily(entries, "light")
+        << " sound_objects=" << countMm9InspectorSearchFamily(entries, "sound_object")
+        << " spawn_sources=" << countMm9InspectorSearchFamily(entries, "spawn_source")
+        << " models=" << countMm9InspectorSearchFamily(entries, "model")
+        << " actor_variants=" << countMm9InspectorSearchFamily(entries, "actor_variant")
+        << " diagnostics=" << countMm9InspectorSearchFamily(entries, "diagnostic")
+        << '\n';
+    return 0;
+}
+
+int EditorHeadlessDiagnostics::runVerifyDocumentDispatch(const std::filesystem::path &basePath) const
+{
+    struct DispatchCase
+    {
+        std::string worldId;
+        std::filesystem::path mapRelativePath;
+        EditorDocument::Kind expectedKind;
+        bool requireMm9Sidecars = false;
+    };
+
+    const auto kindName = [](EditorDocument::Kind kind) -> const char *
+    {
+        switch (kind)
+        {
+        case EditorDocument::Kind::None:
+            return "None";
+        case EditorDocument::Kind::Outdoor:
+            return "Outdoor";
+        case EditorDocument::Kind::Indoor:
+            return "Indoor";
+        case EditorDocument::Kind::Mm9Dat:
+            return "Mm9Dat";
+        }
+
+        return "Unknown";
+    };
+
+    const std::vector<DispatchCase> dispatchCases = {
+        {"mm9", "thjorgard.level.yml", EditorDocument::Kind::Mm9Dat, true},
+        {"mm9", "thjorgardcity.level.yml", EditorDocument::Kind::Mm9Dat, true},
+        {"mm8", "out01.odm", EditorDocument::Kind::Outdoor, false},
+        {"mm8", "d18.blv", EditorDocument::Kind::Indoor, false},
+        {"mm7", "7out01.odm", EditorDocument::Kind::Outdoor, false},
+        {"mm7", "7d06.blv", EditorDocument::Kind::Indoor, false},
+        {"mm6", "oute3.odm", EditorDocument::Kind::Outdoor, false},
+        {"mm6", "6d01.blv", EditorDocument::Kind::Indoor, false},
+    };
+
+    size_t verifiedCases = 0;
+    size_t verifiedMm9Cases = 0;
+    size_t verifiedOutdoorCases = 0;
+    size_t verifiedIndoorCases = 0;
+
+    for (const DispatchCase &dispatchCase : dispatchCases)
+    {
+        Engine::AssetFileSystem assetFileSystem;
+
+        if (!assetFileSystem.initialize(
+                basePath,
+                m_config.assetRoot,
+                m_config.assetScaleTier,
+                m_config.assetScaleProfile,
+                dispatchCase.worldId))
+        {
+            std::cerr
+                << "Editor headless document dispatch failed: could not initialize asset file system for world "
+                << dispatchCase.worldId << '\n';
+            return 1;
+        }
+
+        std::filesystem::path mapPath =
+            assetFileSystem.getDevelopmentRoot()
+            / std::filesystem::path("worlds")
+            / dispatchCase.worldId
+            / "maps"
+            / dispatchCase.mapRelativePath;
+
+        if (!std::filesystem::exists(mapPath))
+        {
+            mapPath =
+                assetFileSystem.getEditorDevelopmentRoot()
+                / std::filesystem::path("worlds")
+                / dispatchCase.worldId
+                / "maps"
+                / dispatchCase.mapRelativePath;
+        }
+
+        if (!std::filesystem::exists(mapPath))
+        {
+            std::cerr
+                << "Editor headless document dispatch failed: missing map path "
+                << dispatchCase.worldId << "/" << dispatchCase.mapRelativePath.generic_string() << '\n';
+            return 1;
+        }
+
+        EditorDocument document;
+        std::string failure;
+
+        if (!document.loadMapPhysicalPath(assetFileSystem, mapPath, failure))
+        {
+            std::cerr
+                << "Editor headless document dispatch failed: could not open "
+                << mapPath.generic_string() << ": " << failure << '\n';
+            return 1;
+        }
+
+        if (document.kind() != dispatchCase.expectedKind)
+        {
+            std::cerr
+                << "Editor headless document dispatch failed: "
+                << dispatchCase.worldId << "/" << dispatchCase.mapRelativePath.generic_string()
+                << " expected_kind=" << kindName(dispatchCase.expectedKind)
+                << " actual_kind=" << kindName(document.kind()) << '\n';
+            return 1;
+        }
+
+        if (dispatchCase.expectedKind != EditorDocument::Kind::Mm9Dat && document.hasMm9DatLoadedSidecars())
+        {
+            std::cerr
+                << "Editor headless document dispatch failed: legacy map unexpectedly loaded MM9 sidecars for "
+                << dispatchCase.worldId << "/" << dispatchCase.mapRelativePath.generic_string() << '\n';
+            return 1;
+        }
+
+        if (dispatchCase.requireMm9Sidecars
+            && (!document.hasMm9DatLoadedSidecars()
+                || !document.hasMm9DatWorld()
+                || document.mm9DatRenderMesh().triangles.empty()))
+        {
+            std::cerr
+                << "Editor headless document dispatch failed: MM9 level did not load native DAT sidecars/world for "
+                << dispatchCase.worldId << "/" << dispatchCase.mapRelativePath.generic_string() << '\n';
+            return 1;
+        }
+
+        ++verifiedCases;
+
+        if (document.kind() == EditorDocument::Kind::Mm9Dat)
+        {
+            ++verifiedMm9Cases;
+        }
+        else if (document.kind() == EditorDocument::Kind::Outdoor)
+        {
+            ++verifiedOutdoorCases;
+        }
+        else if (document.kind() == EditorDocument::Kind::Indoor)
+        {
+            ++verifiedIndoorCases;
+        }
+    }
+
+    std::cout
+        << "Editor headless document dispatch passed:"
+        << " cases=" << verifiedCases
+        << " mm9_dat=" << verifiedMm9Cases
+        << " outdoor=" << verifiedOutdoorCases
+        << " indoor=" << verifiedIndoorCases << '\n';
+    return 0;
+}
+
+int EditorHeadlessDiagnostics::runVerifyAllMm9DatLevels(const std::filesystem::path &basePath) const
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(
+            basePath,
+            m_config.assetRoot,
+            m_config.assetScaleTier,
+            m_config.assetScaleProfile,
+            m_config.activeWorldId))
+    {
+        std::cerr << "Editor headless diagnostics failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    std::filesystem::path mapsRoot = activeWorldEditorPath(assetFileSystem, "maps");
+
+    if (!std::filesystem::exists(mapsRoot))
+    {
+        mapsRoot = assetFileSystem.getDevelopmentRoot()
+            / std::filesystem::path("worlds")
+            / assetFileSystem.getActiveWorldId()
+            / "maps";
+    }
+
+    if (!std::filesystem::exists(mapsRoot))
+    {
+        std::cerr << "Editor headless MM9 DAT all-level verification failed: maps root is missing: "
+                  << mapsRoot.generic_string() << '\n';
+        return 1;
+    }
+
+    const auto collectLevelPaths =
+        [](const std::filesystem::path &root)
+        {
+            std::vector<std::filesystem::path> paths;
+
+            if (!std::filesystem::exists(root))
+            {
+                return paths;
+            }
+
+            for (const std::filesystem::directory_entry &entry : std::filesystem::directory_iterator(root))
+            {
+                if (!entry.is_regular_file())
+                {
+                    continue;
+                }
+
+                const std::string fileName = entry.path().filename().string();
+
+                if (fileName.size() >= 10 && fileName.ends_with(".level.yml"))
+                {
+                    paths.push_back(entry.path());
+                }
+            }
+
+            std::sort(paths.begin(), paths.end());
+            return paths;
+        };
+
+    std::vector<std::filesystem::path> levelPaths = collectLevelPaths(mapsRoot);
+
+    if (levelPaths.empty())
+    {
+        mapsRoot = assetFileSystem.getDevelopmentRoot()
+            / std::filesystem::path("worlds")
+            / assetFileSystem.getActiveWorldId()
+            / "maps";
+        levelPaths = collectLevelPaths(mapsRoot);
+    }
+
+    if (levelPaths.empty())
+    {
+        std::cerr << "Editor headless MM9 DAT all-level verification failed: no *.level.yml files found in "
+                  << mapsRoot.generic_string() << '\n';
+        return 1;
+    }
+
+    EditorDocument document;
+    size_t totalWorldModels = 0;
+    size_t totalMaterials = 0;
+    size_t totalResolvedTextures = 0;
+    size_t totalSourceDtxHashes = 0;
+    size_t totalCacheHashes = 0;
+    size_t totalStaleCaches = 0;
+    size_t totalDecodedPBlocks = 0;
+    size_t totalEventObjects = 0;
+    size_t totalRawObjectAssetReferences = 0;
+    size_t totalUnresolvedRawObjectAssetReferences = 0;
+    size_t totalUnresolvedOptionalRawObjectAssetReferences = 0;
+    size_t totalAssetGraphReferences = 0;
+    size_t totalAssetGraphResolved = 0;
+    size_t totalAssetGraphUnresolved = 0;
+    size_t totalAssetGraphAmbiguous = 0;
+    size_t totalAssetGraphStale = 0;
+    size_t totalAssetGraphRequiredUnresolved = 0;
+    size_t totalAssetGraphRequiredAmbiguous = 0;
+    size_t totalAssetGraphOptionalUnresolved = 0;
+    size_t totalReadOnlySourcePaths = 0;
+    size_t totalGeneratedPaths = 0;
+    size_t totalAuthoredPaths = 0;
+    size_t totalNativeMeshTriangles = 0;
+    size_t totalNativeMeshDegenerateTriangles = 0;
+    size_t totalNativeSyntheticPicks = 0;
+    size_t totalNativeMaterialAssignments = 0;
+    size_t totalNativeMaterialPreviews = 0;
+    size_t totalNativeCameraFrames = 0;
+    size_t totalNativeFilterVisual = 0;
+    size_t totalNativeFilterInvisible = 0;
+    size_t totalNativeFilterHelper = 0;
+    size_t totalNativeFilterPhysics = 0;
+    size_t totalNativeFilterVisibility = 0;
+    size_t totalNativeFilterPortals = 0;
+    size_t portalizedMapCount = 0;
+
+    for (const std::filesystem::path &levelPath : levelPaths)
+    {
+        std::string failure;
+
+        if (!document.loadMapPhysicalPath(assetFileSystem, levelPath, failure))
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << levelPath.filename().string() << ": " << failure << '\n';
+            return 1;
+        }
+
+        if (document.kind() != EditorDocument::Kind::Mm9Dat)
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << levelPath.filename().string() << ": document kind is not Mm9Dat\n";
+            return 1;
+        }
+
+        const std::string fileName = levelPath.filename().string();
+        const std::string expectedMapId = fileName.substr(0, fileName.size() - std::string(".level.yml").size());
+
+        if (document.mm9DatLevelMetadata().mapId != expectedMapId)
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << fileName << ": stale or mismatched map id, expected=" << expectedMapId
+                      << " actual=" << document.mm9DatLevelMetadata().mapId << '\n';
+            return 1;
+        }
+
+        if (!document.hasMm9DatLoadedSidecars())
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << fileName << ": sidecars were not loaded\n";
+            return 1;
+        }
+
+        if (!document.hasMm9DatWorld() || document.mm9DatRenderMesh().triangles.empty())
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << fileName << ": source DAT world render mesh was not built\n";
+            return 1;
+        }
+
+        const std::vector<std::string> diagnostics = document.validate();
+
+        if (!diagnostics.empty())
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << fileName << ": validation diagnostics:\n";
+
+            for (const std::string &diagnostic : diagnostics)
+            {
+                std::cerr << "  " << diagnostic << '\n';
+            }
+
+            return 1;
+        }
+
+        const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
+        const Game::Mm9DatRenderMesh &datRenderMesh = document.mm9DatRenderMesh();
+        size_t readOnlySourcePathCount = 0;
+        size_t generatedPathCount = 0;
+        size_t authoredPathCount = 0;
+        size_t resolvedTextureCount = 0;
+        size_t loadedDtxHeaderCount = 0;
+        size_t sourceDtxHashCount = 0;
+        size_t cacheHashCount = 0;
+        size_t staleCacheCount = 0;
+        size_t unresolvedRawObjectAssetReferenceCount = 0;
+        size_t unresolvedOptionalRawObjectAssetReferenceCount = 0;
+
+        for (const EditorMm9MaterialTextureStatus &status : document.mm9MaterialTextureStatuses())
+        {
+            if (status.sourceDtxResolved)
+            {
+                ++resolvedTextureCount;
+            }
+
+            if (status.dtxHeaderLoaded)
+            {
+                ++loadedDtxHeaderCount;
+            }
+
+            if (status.sourceDtxHashLoaded)
+            {
+                ++sourceDtxHashCount;
+            }
+
+            if (status.cacheHashLoaded)
+            {
+                ++cacheHashCount;
+            }
+
+            if (status.cacheOlderThanSource)
+            {
+                ++staleCacheCount;
+            }
+        }
+
+        for (const EditorMm9RawObjectAssetReferenceStatus &status : document.mm9RawObjectAssetReferenceStatuses())
+        {
+            if (!status.resolved || status.ambiguous)
+            {
+                if (status.required)
+                {
+                    ++unresolvedRawObjectAssetReferenceCount;
+                }
+                else
+                {
+                    ++unresolvedOptionalRawObjectAssetReferenceCount;
+                }
+            }
+        }
+
+        for (const EditorMm9DocumentPathStatus &status : document.mm9DocumentPathStatuses())
+        {
+            if (status.sourceReadOnly)
+            {
+                ++readOnlySourcePathCount;
+
+                if (!status.exists)
+                {
+                    std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                              << fileName << ": read-only source path is missing: "
+                              << status.resolvedPath << '\n';
+                    return 1;
+                }
+            }
+
+            if (status.generated)
+            {
+                ++generatedPathCount;
+            }
+
+            if (status.authored)
+            {
+                ++authoredPathCount;
+            }
+        }
+
+        if (document.mm9DatWorld().worldModels.size() != sidecars.datWorld.worldModels.size()
+            || datRenderMesh.sourcePolyCount != sidecars.datWorld.totals.sourcePolyCount)
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << fileName << ": parsed DAT geometry counts do not match sidecar\n";
+            return 1;
+        }
+
+        if (document.mm9DatRenderMaterialAssignments().size() != datRenderMesh.triangles.size())
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << fileName << ": native material assignment count does not match mesh\n";
+            return 1;
+        }
+
+        const Game::Mm9DatRenderBounds nativeBounds = Game::computeMm9DatRenderBounds(datRenderMesh);
+        const Game::Mm9DatCameraFrame nativeCameraFrame = Game::frameMm9DatRenderMeshCamera(datRenderMesh);
+        const Game::Mm9DatRenderFilterResult nativeFilters =
+            Game::classifyMm9DatRenderMeshFilters(
+                datRenderMesh,
+                mm9ModelRenderRolesFromSidecar(sidecars.datWorld),
+                sidecars.datWorld.userPortals.size());
+
+        if (!nativeBounds.valid || !nativeCameraFrame.valid)
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << fileName << ": native DAT camera frame could not be built\n";
+            return 1;
+        }
+
+        if (nativeFilters.entries.size() != datRenderMesh.triangles.size()
+            || nativeFilters.summary.totalTriangles != datRenderMesh.triangles.size()
+            || nativeFilters.summary.unclassifiedTriangles != 0)
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << fileName << ": native DAT display filters are incomplete\n";
+            return 1;
+        }
+
+        size_t nativeMaterialPreviewCount = 0;
+
+        for (const Game::Mm9DatRenderMaterialAssignment &assignment : document.mm9DatRenderMaterialAssignments())
+        {
+            if (!assignment.assigned || assignment.ambiguous)
+            {
+                std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                          << fileName << ": native mesh triangle has no unique material alias: "
+                          << assignment.sourceTexture << '\n';
+                return 1;
+            }
+
+            if (assignment.previewCacheAvailable)
+            {
+                ++nativeMaterialPreviewCount;
+            }
+        }
+
+        std::optional<Game::Mm9DatRenderMeshPickHit> nativePickHit;
+        std::string nativePickFailure;
+
+        if (!validateMm9SyntheticPick(datRenderMesh, nativePickHit, nativePickFailure))
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << fileName << ": " << nativePickFailure << '\n';
+            return 1;
+        }
+
+        if (readOnlySourcePathCount < 2 || generatedPathCount == 0 || authoredPathCount == 0)
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << fileName << ": incomplete document path role inventory\n";
+            return 1;
+        }
+
+        std::string saveFailure;
+
+        if (document.saveSource(saveFailure)
+            || saveFailure.find("source/* immutable") == std::string::npos)
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << fileName << ": MM9 saveSource did not reject source mutation: "
+                      << saveFailure << '\n';
+            return 1;
+        }
+
+        std::string buildFailure;
+
+        if (document.buildRuntime(buildFailure)
+            || buildFailure.find("DAT/DTX runtime path") == std::string::npos)
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << fileName << ": MM9 buildRuntime did not reject ODM/BLV build: "
+                      << buildFailure << '\n';
+            return 1;
+        }
+
+        if (!sidecars.materialAliases.textures.empty()
+            && (resolvedTextureCount == 0 || loadedDtxHeaderCount == 0))
+        {
+            std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                      << fileName << ": material inspection did not resolve any source DTX/header\n";
+            return 1;
+        }
+
+        if (document.mm9DatLevelMetadata().runtime.visibility == "dat_bsp_portal")
+        {
+            ++portalizedMapCount;
+
+            if (sidecars.datWorld.totals.leafCount == 0)
+            {
+                std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                          << fileName << ": portalized DAT map has no decoded leaves\n";
+                return 1;
+            }
+        }
+
+        totalWorldModels += sidecars.datWorld.worldModels.size();
+        totalMaterials += sidecars.materialAliases.textures.size();
+        totalResolvedTextures += resolvedTextureCount;
+        totalSourceDtxHashes += sourceDtxHashCount;
+        totalCacheHashes += cacheHashCount;
+        totalStaleCaches += staleCacheCount;
+        totalEventObjects += sidecars.events.objects.size();
+        totalRawObjectAssetReferences += document.mm9RawObjectAssetReferenceStatuses().size();
+        totalUnresolvedRawObjectAssetReferences += unresolvedRawObjectAssetReferenceCount;
+        totalUnresolvedOptionalRawObjectAssetReferences += unresolvedOptionalRawObjectAssetReferenceCount;
+        totalAssetGraphReferences += document.mm9AssetDependencySummary().total;
+        totalAssetGraphResolved += document.mm9AssetDependencySummary().resolved;
+        totalAssetGraphUnresolved += document.mm9AssetDependencySummary().unresolved;
+        totalAssetGraphAmbiguous += document.mm9AssetDependencySummary().ambiguous;
+        totalAssetGraphStale += document.mm9AssetDependencySummary().stale;
+        totalAssetGraphRequiredUnresolved += document.mm9AssetDependencySummary().requiredUnresolved;
+        totalAssetGraphRequiredAmbiguous += document.mm9AssetDependencySummary().requiredAmbiguous;
+        totalAssetGraphOptionalUnresolved += document.mm9AssetDependencySummary().optionalUnresolved;
+        totalReadOnlySourcePaths += readOnlySourcePathCount;
+        totalGeneratedPaths += generatedPathCount;
+        totalAuthoredPaths += authoredPathCount;
+        totalNativeMeshTriangles += datRenderMesh.triangles.size();
+        totalNativeMeshDegenerateTriangles += datRenderMesh.skippedDegenerateTriangleCount;
+        ++totalNativeSyntheticPicks;
+        totalNativeMaterialAssignments += document.mm9DatRenderMaterialAssignments().size();
+        totalNativeMaterialPreviews += nativeMaterialPreviewCount;
+        ++totalNativeCameraFrames;
+        totalNativeFilterVisual += nativeFilters.summary.visualTriangles;
+        totalNativeFilterInvisible += nativeFilters.summary.invisibleTriangles;
+        totalNativeFilterHelper += nativeFilters.summary.helperTriangles;
+        totalNativeFilterPhysics += nativeFilters.summary.physicsTriangles;
+        totalNativeFilterVisibility += nativeFilters.summary.visibilityTriangles;
+        totalNativeFilterPortals += nativeFilters.summary.portalOverlays;
+
+        for (const EditorMm9DatWorldModelSummary &model : sidecars.datWorld.worldModels)
+        {
+            if (model.pblockTable.decodedSummary && model.pblockTable.recordCount)
+            {
+                ++totalDecodedPBlocks;
+            }
+        }
+    }
+
+    std::cout << "Editor headless MM9 DAT all-level verification passed:"
+              << " levels=" << levelPaths.size()
+              << " portalized=" << portalizedMapCount
+              << " world_models=" << totalWorldModels
+              << " materials=" << totalMaterials
+              << " resolved_dtx=" << totalResolvedTextures
+              << " source_dtx_hashes=" << totalSourceDtxHashes
+              << " cache_hashes=" << totalCacheHashes
+              << " stale_caches=" << totalStaleCaches
+              << " decoded_pblocks=" << totalDecodedPBlocks
+              << " raw_object_asset_refs=" << totalRawObjectAssetReferences
+              << " unresolved_raw_object_asset_refs=" << totalUnresolvedRawObjectAssetReferences
+              << " unresolved_optional_raw_object_asset_refs="
+              << totalUnresolvedOptionalRawObjectAssetReferences
+              << " asset_graph_total=" << totalAssetGraphReferences
+              << " asset_graph_resolved=" << totalAssetGraphResolved
+              << " asset_graph_unresolved=" << totalAssetGraphUnresolved
+              << " asset_graph_ambiguous=" << totalAssetGraphAmbiguous
+              << " asset_graph_stale=" << totalAssetGraphStale
+              << " asset_graph_required_unresolved=" << totalAssetGraphRequiredUnresolved
+              << " asset_graph_required_ambiguous=" << totalAssetGraphRequiredAmbiguous
+              << " asset_graph_optional_unresolved=" << totalAssetGraphOptionalUnresolved
+              << " readonly_source_paths=" << totalReadOnlySourcePaths
+              << " generated_paths=" << totalGeneratedPaths
+              << " authored_paths=" << totalAuthoredPaths
+              << " native_mesh_triangles=" << totalNativeMeshTriangles
+              << " native_mesh_degenerate_triangles=" << totalNativeMeshDegenerateTriangles
+              << " native_synthetic_picks=" << totalNativeSyntheticPicks
+              << " native_material_assignments=" << totalNativeMaterialAssignments
+              << " native_material_previews=" << totalNativeMaterialPreviews
+              << " native_camera_frames=" << totalNativeCameraFrames
+              << " native_filter_visual=" << totalNativeFilterVisual
+              << " native_filter_invisible=" << totalNativeFilterInvisible
+              << " native_filter_helper=" << totalNativeFilterHelper
+              << " native_filter_physics=" << totalNativeFilterPhysics
+              << " native_filter_visibility=" << totalNativeFilterVisibility
+              << " native_filter_portals=" << totalNativeFilterPortals
+              << " event_objects=" << totalEventObjects << '\n';
     return 0;
 }
 }

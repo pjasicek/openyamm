@@ -53,7 +53,8 @@ bool loadImportedModelsFromFile(
     const std::filesystem::path &path,
     std::vector<ImportedModel> &models,
     std::string &errorMessage,
-    bool mergeCoplanarFaces = false);
+    bool mergeCoplanarFaces = false,
+    bool flipGltfV = true);
 
 bool loadImportedModelFromFile(
     const std::filesystem::path &path,

@@ -262,6 +262,36 @@ TEST_CASE("party quest bits survive save data round trip")
     CHECK_FALSE(restoredParty.hasQuestBit(37));
 }
 
+TEST_CASE("party arena state survives save data round trip")
+{
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+    party.startArenaFight(OpenYAMM::Game::ArenaDifficulty::Lord, 15000);
+
+    OpenYAMM::Game::GameSaveData saveData = {};
+    saveData.mapFileName = "arena_roundtrip.blv";
+    saveData.party = party.snapshot();
+
+    const std::filesystem::path savePath =
+        std::filesystem::temp_directory_path() / "openyamm_arena_state_roundtrip.oysav";
+    std::string error;
+    REQUIRE(OpenYAMM::Game::saveGameDataToPath(savePath, saveData, error));
+
+    const std::optional<OpenYAMM::Game::GameSaveData> loaded =
+        OpenYAMM::Game::loadGameDataFromPath(savePath, error);
+    std::filesystem::remove(savePath);
+
+    REQUIRE(loaded.has_value());
+
+    OpenYAMM::Game::Party restoredParty = {};
+    restoredParty.seed(createRegressionPartySeed());
+    restoredParty.restoreSnapshot(loaded->party);
+
+    CHECK_EQ(restoredParty.arenaVisitState(), OpenYAMM::Game::ArenaVisitState::Fighting);
+    CHECK_EQ(restoredParty.arenaDifficulty(), OpenYAMM::Game::ArenaDifficulty::Lord);
+    CHECK_EQ(restoredParty.arenaGoldReward(), 15000);
+}
+
 TEST_CASE("party continent reputations survive save data round trip")
 {
     OpenYAMM::Game::Party party = {};

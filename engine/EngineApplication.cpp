@@ -217,6 +217,35 @@ void invokeShutdownCallback(const EngineApplication::ShutdownCallback &shutdownC
         shutdownCallback();
     }
 }
+
+class ShutdownCallbackGuard
+{
+public:
+    explicit ShutdownCallbackGuard(const EngineApplication::ShutdownCallback &shutdownCallback)
+        : m_pShutdownCallback(&shutdownCallback)
+    {
+    }
+
+    ShutdownCallbackGuard(const ShutdownCallbackGuard &) = delete;
+    ShutdownCallbackGuard &operator=(const ShutdownCallbackGuard &) = delete;
+
+    ~ShutdownCallbackGuard()
+    {
+        if (m_active && m_pShutdownCallback != nullptr)
+        {
+            invokeShutdownCallback(*m_pShutdownCallback);
+        }
+    }
+
+    void dismiss()
+    {
+        m_active = false;
+    }
+
+private:
+    const EngineApplication::ShutdownCallback *m_pShutdownCallback = nullptr;
+    bool m_active = true;
+};
 }
 
 EngineApplication::EngineApplication(
@@ -301,9 +330,12 @@ int EngineApplication::run() const
         return 1;
     }
 
+    ShutdownCallbackGuard shutdownGuard(m_shutdownCallback);
+
     if (m_renderSetupCallback && !m_renderSetupCallback())
     {
         invokeShutdownCallback(m_shutdownCallback);
+        shutdownGuard.dismiss();
         return 1;
     }
 
@@ -599,6 +631,7 @@ int EngineApplication::run() const
 #endif
 
     invokeShutdownCallback(m_shutdownCallback);
+    shutdownGuard.dismiss();
 
     return 0;
 }

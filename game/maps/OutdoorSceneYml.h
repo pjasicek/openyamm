@@ -8,6 +8,7 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <array>
 #include <optional>
 #include <string>
 #include <vector>
@@ -86,6 +87,17 @@ struct OutdoorSceneInteractiveFace
     uint16_t cogTrigger = 0;
 };
 
+struct OutdoorSceneBModelFaceSource
+{
+    size_t bmodelIndex = 0;
+    size_t faceIndex = 0;
+    std::string sourceKind;
+    size_t sourceModelIndex = 0;
+    std::string sourceModelName;
+    size_t sourcePolyIndex = 0;
+    std::string textureAlias;
+};
+
 struct OutdoorSceneEntity
 {
     size_t entityIndex = 0;
@@ -97,6 +109,26 @@ struct OutdoorSceneSpawn
 {
     size_t spawnIndex = 0;
     OutdoorSpawn spawn = {};
+};
+
+struct OutdoorSceneModelInstance
+{
+    std::string instanceId;
+    std::string sourceRef;
+    std::string sourceKind;
+    size_t sourceObjectIndex = 0;
+    std::string sourceClass;
+    std::string sourceName;
+    std::string sourceModel;
+    std::string sourceSkin;
+    std::string modelAsset;
+    std::string modelSkinBinding;
+    int x = 0;
+    int y = 0;
+    int z = 0;
+    std::array<float, 4> rotationQuat = {0.0f, 0.0f, 0.0f, 1.0f};
+    std::array<float, 3> scale = {1.0f, 1.0f, 1.0f};
+    std::string collisionMode = "none";
 };
 
 struct OutdoorSceneFaceAttributeOverride
@@ -121,13 +153,16 @@ struct OutdoorSceneData
     int formatVersion = 0;
     std::string geometryFile;
     std::optional<std::string> legacyCompanionFile;
+    std::optional<std::string> sourceMetadataFile;
     MapRuntimeRestrictions runtimeRestrictions = {};
     OutdoorSceneEnvironment environment = {};
     std::vector<OutdoorSceneTerrainAttributeOverride> terrainAttributeOverrides;
     std::vector<OutdoorSceneTerrainFootstepSoundOverride> terrainFootstepSoundOverrides;
+    std::vector<OutdoorSceneBModelFaceSource> bmodelFaceSources;
     std::vector<OutdoorSceneInteractiveFace> interactiveFaces;
     std::vector<OutdoorSceneEntity> entities;
     std::vector<OutdoorSceneSpawn> spawns;
+    std::vector<OutdoorSceneModelInstance> modelInstances;
     OutdoorSceneInitialState initialState = {};
 };
 
@@ -136,6 +171,10 @@ class OutdoorSceneYmlLoader
 public:
     std::optional<OutdoorSceneData> loadFromText(const std::string &yamlText, std::string &errorMessage) const;
     bool applyOverlayFromText(
+        OutdoorSceneData &sceneData,
+        const std::string &yamlText,
+        std::string &errorMessage) const;
+    bool applySourceMetadataFromText(
         OutdoorSceneData &sceneData,
         const std::string &yamlText,
         std::string &errorMessage) const;

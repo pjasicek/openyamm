@@ -831,6 +831,7 @@ bool appendPrimitiveToImportedModel(
     const cgltf_primitive &primitive,
     const float worldTransform[16],
     ImportedModel &model,
+    bool flipGltfV,
     std::string &errorMessage)
 {
     const cgltf_accessor *pPositionAccessor = findAttributeAccessor(primitive, cgltf_attribute_type_position);
@@ -880,7 +881,10 @@ bool appendPrimitiveToImportedModel(
 
             if (readAccessorFloatComponents(*pTexCoordAccessor, vertexIndex, 2, texCoordValues))
             {
-                texCoords[vertexIndex] = {texCoordValues[0], 1.0f - texCoordValues[1]};
+                texCoords[vertexIndex] = {
+                    texCoordValues[0],
+                    flipGltfV ? 1.0f - texCoordValues[1] : texCoordValues[1]
+                };
                 hasTexCoord[vertexIndex] = true;
             }
         }
@@ -905,6 +909,7 @@ bool appendNodeMeshesToImportedModels(
     const cgltf_data &data,
     const cgltf_node &node,
     std::vector<ImportedModel> &models,
+    bool flipGltfV,
     std::string &errorMessage)
 {
     float worldTransform[16] = {};
@@ -923,6 +928,7 @@ bool appendNodeMeshesToImportedModels(
                     node.mesh->primitives[primitiveIndex],
                     worldTransform,
                     model,
+                    flipGltfV,
                     errorMessage))
             {
                 return false;
@@ -937,7 +943,7 @@ bool appendNodeMeshesToImportedModels(
 
     for (cgltf_size childIndex = 0; childIndex < node.children_count; ++childIndex)
     {
-        if (!appendNodeMeshesToImportedModels(path, data, *node.children[childIndex], models, errorMessage))
+        if (!appendNodeMeshesToImportedModels(path, data, *node.children[childIndex], models, flipGltfV, errorMessage))
         {
             return false;
         }
@@ -949,6 +955,7 @@ bool appendNodeMeshesToImportedModels(
 bool loadGltfModelsFromFile(
     const std::filesystem::path &path,
     std::vector<ImportedModel> &models,
+    bool flipGltfV,
     std::string &errorMessage)
 {
     models.clear();
@@ -982,7 +989,13 @@ bool loadGltfModelsFromFile(
     {
         for (cgltf_size nodeIndex = 0; nodeIndex < pScene->nodes_count; ++nodeIndex)
         {
-            if (!appendNodeMeshesToImportedModels(path, *pData, *pScene->nodes[nodeIndex], models, errorMessage))
+            if (!appendNodeMeshesToImportedModels(
+                    path,
+                    *pData,
+                    *pScene->nodes[nodeIndex],
+                    models,
+                    flipGltfV,
+                    errorMessage))
             {
                 cgltf_free(pData);
                 return false;
@@ -998,7 +1011,13 @@ bool loadGltfModelsFromFile(
                 continue;
             }
 
-            if (!appendNodeMeshesToImportedModels(path, *pData, pData->nodes[nodeIndex], models, errorMessage))
+            if (!appendNodeMeshesToImportedModels(
+                    path,
+                    *pData,
+                    pData->nodes[nodeIndex],
+                    models,
+                    flipGltfV,
+                    errorMessage))
             {
                 cgltf_free(pData);
                 return false;
@@ -1034,6 +1053,32 @@ struct ImportedModelSharedEdgeMatch
     size_t faceAEdgeIndex = 0;
     size_t faceBEdgeIndex = 0;
 };
+
+struct ImportedModelEdgeKey
+{
+    size_t positionA = 0;
+    size_t positionB = 0;
+
+    bool operator==(const ImportedModelEdgeKey &other) const
+    {
+        return positionA == other.positionA && positionB == other.positionB;
+    }
+};
+
+struct ImportedModelEdgeKeyHash
+{
+    size_t operator()(const ImportedModelEdgeKey &key) const
+    {
+        return key.positionA * 1315423911u + key.positionB;
+    }
+};
+
+ImportedModelEdgeKey unorderedImportedModelEdgeKey(const ImportedModelFace &face, size_t edgeIndex)
+{
+    const size_t start = face.vertices[edgeIndex].positionIndex;
+    const size_t end = face.vertices[(edgeIndex + 1) % face.vertices.size()].positionIndex;
+    return {std::min(start, end), std::max(start, end)};
+}
 
 struct ImportedModelBoundaryEdge
 {
@@ -1483,29 +1528,79 @@ void mergeImportedModelCoplanarFaces(ImportedModel &model)
         return;
     }
 
-    bool merged = true;
+    std::unordered_map<ImportedModelEdgeKey, std::vector<size_t>, ImportedModelEdgeKeyHash> faceIndicesByEdge;
+    std::vector<bool> consumed(model.faces.size(), false);
+    std::vector<ImportedModelFace> mergedFaces;
+    mergedFaces.reserve(model.faces.size());
 
-    while (merged)
+    for (size_t faceIndex = 0; faceIndex < model.faces.size(); ++faceIndex)
     {
-        merged = false;
+        const ImportedModelFace &face = model.faces[faceIndex];
 
-        for (size_t faceIndexA = 0; faceIndexA < model.faces.size() && !merged; ++faceIndexA)
+        if (face.vertices.size() != 3)
         {
-            for (size_t faceIndexB = faceIndexA + 1; faceIndexB < model.faces.size(); ++faceIndexB)
-            {
-                ImportedModelFace mergedFace = {};
+            continue;
+        }
 
-                if (!tryMergeImportedTriangleFaces(model, model.faces[faceIndexA], model.faces[faceIndexB], mergedFace))
+        bool merged = false;
+
+        for (size_t edgeIndex = 0; edgeIndex < face.vertices.size() && !merged; ++edgeIndex)
+        {
+            const ImportedModelEdgeKey edgeKey = unorderedImportedModelEdgeKey(face, edgeIndex);
+            std::vector<size_t> &candidateFaceIndices = faceIndicesByEdge[edgeKey];
+
+            for (size_t candidateFaceIndex : candidateFaceIndices)
+            {
+                if (consumed[candidateFaceIndex])
                 {
                     continue;
                 }
 
-                model.faces[faceIndexA] = std::move(mergedFace);
-                model.faces.erase(model.faces.begin() + faceIndexB);
+                ImportedModelFace mergedFace = {};
+
+                if (!tryMergeImportedTriangleFaces(model, model.faces[candidateFaceIndex], face, mergedFace))
+                {
+                    continue;
+                }
+
+                consumed[candidateFaceIndex] = true;
+                consumed[faceIndex] = true;
+                mergedFaces.push_back(std::move(mergedFace));
                 merged = true;
                 break;
             }
         }
+
+        if (merged)
+        {
+            continue;
+        }
+
+        for (size_t edgeIndex = 0; edgeIndex < face.vertices.size(); ++edgeIndex)
+        {
+            faceIndicesByEdge[unorderedImportedModelEdgeKey(face, edgeIndex)].push_back(faceIndex);
+        }
+    }
+
+    std::vector<ImportedModelFace> outputFaces;
+    outputFaces.reserve(model.faces.size());
+
+    for (size_t faceIndex = 0; faceIndex < model.faces.size(); ++faceIndex)
+    {
+        if (!consumed[faceIndex])
+        {
+            outputFaces.push_back(std::move(model.faces[faceIndex]));
+        }
+    }
+
+    outputFaces.insert(
+        outputFaces.end(),
+        std::make_move_iterator(mergedFaces.begin()),
+        std::make_move_iterator(mergedFaces.end()));
+
+    if (outputFaces.size() < model.faces.size())
+    {
+        model.faces = std::move(outputFaces);
     }
 }
 
@@ -1515,7 +1610,8 @@ bool loadImportedModelsFromFile(
     const std::filesystem::path &path,
     std::vector<ImportedModel> &models,
     std::string &errorMessage,
-    bool mergeCoplanarFaces)
+    bool mergeCoplanarFaces,
+    bool flipGltfV)
 {
     switch (importedModelFileTypeFromPath(path))
     {
@@ -1545,7 +1641,7 @@ bool loadImportedModelsFromFile(
 
     case ImportedModelFileType::Gltf:
     case ImportedModelFileType::Glb:
-        if (!loadGltfModelsFromFile(path, models, errorMessage))
+        if (!loadGltfModelsFromFile(path, models, flipGltfV, errorMessage))
         {
             return false;
         }

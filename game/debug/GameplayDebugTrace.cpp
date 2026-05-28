@@ -1,6 +1,7 @@
 #include "game/debug/GameplayDebugTrace.h"
 
 #include "game/events/EvtEnums.h"
+#include "game/mm9/Mm9DialogueRuntime.h"
 #include "game/tables/ItemTable.h"
 
 #include <algorithm>
@@ -400,6 +401,19 @@ std::string gameplayDebugTraceItemSummary(uint32_t itemId, const ItemTable *pIte
     }
 
     return out.str();
+}
+
+std::string gameplayDebugTraceMm9KeyQbitSummary(uint32_t qbitId)
+{
+    if (!mm9QbitIdIsKeyMapping(qbitId))
+    {
+        return {};
+    }
+
+    const int32_t rawKeyId = mm9RawKeyIdForQbit(qbitId);
+    return "raw_id=" + std::to_string(rawKeyId)
+        + " qbit_id=" + std::to_string(qbitId)
+        + " state_id=\"mm9.keys." + std::to_string(rawKeyId) + "\"";
 }
 
 const char *gameplayDebugTraceMechanismStateName(uint16_t state)

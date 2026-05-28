@@ -258,6 +258,22 @@ struct CharacterBuffState
     }
 };
 
+enum class ArenaVisitState : uint8_t
+{
+    Initial = 0,
+    Fighting = 1,
+    Won = 2,
+};
+
+enum class ArenaDifficulty : uint8_t
+{
+    Invalid = 0,
+    Page = 1,
+    Squire = 2,
+    Knight = 3,
+    Lord = 4,
+};
+
 class Party
 {
 public:
@@ -289,6 +305,9 @@ public:
         uint32_t hardLandingSoundCount = 0;
         uint32_t monsterTargetSelectionCounter = 0;
         uint32_t houseStockSeed = 0;
+        ArenaVisitState arenaVisitState = ArenaVisitState::Initial;
+        ArenaDifficulty arenaDifficulty = ArenaDifficulty::Invalid;
+        int arenaGoldReward = 0;
         float lastFallDamageDistance = 0.0f;
         std::unordered_set<uint32_t> foundArtifactItems;
         std::unordered_set<uint32_t> arcomageWonHouseIds;
@@ -351,6 +370,12 @@ public:
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
     void reset();
+    ArenaVisitState arenaVisitState() const;
+    ArenaDifficulty arenaDifficulty() const;
+    int arenaGoldReward() const;
+    void resetArenaVisitState();
+    void startArenaFight(ArenaDifficulty difficulty, int goldReward);
+    void markArenaWon();
     void seed(const PartySeed &seed);
     void applyMovementEffects(const OutdoorMovementEffects &effects);
     void applyEventRuntimeState(const EventRuntimeState &runtimeState, bool grantItemsToInventory = true);
@@ -633,6 +658,9 @@ private:
     uint32_t m_hardLandingSoundCount = 0;
     uint32_t m_monsterTargetSelectionCounter = 0;
     uint32_t m_houseStockSeed = 0;
+    ArenaVisitState m_arenaVisitState = ArenaVisitState::Initial;
+    ArenaDifficulty m_arenaDifficulty = ArenaDifficulty::Invalid;
+    int m_arenaGoldReward = 0;
     float m_lastFallDamageDistance = 0.0f;
     std::string m_lastStatus;
     std::unordered_set<uint32_t> m_foundArtifactItems;

@@ -27,6 +27,11 @@ const MapEncounterInfo *getEncounterInfo(const MapStatsEntry &map, int encounter
         return &map.encounter3;
     }
 
+    if (encounterSlot == 4)
+    {
+        return &map.encounter4;
+    }
+
     return nullptr;
 }
 

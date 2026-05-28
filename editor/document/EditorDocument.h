@@ -2,6 +2,7 @@
 
 #include "engine/AssetFileSystem.h"
 #include "editor/document/IndoorGeometryMetadata.h"
+#include "editor/document/Mm9DatLevelMetadata.h"
 #include "editor/document/OutdoorGeometryMetadata.h"
 #include "editor/document/OutdoorMapPackageMetadata.h"
 #include "editor/document/OutdoorTerrainMetadata.h"
@@ -9,6 +10,7 @@
 #include "game/maps/MapDeltaData.h"
 #include "game/maps/IndoorSceneYml.h"
 #include "game/maps/OutdoorSceneYml.h"
+#include "game/mm9/Mm9DatWorld.h"
 #include "game/outdoor/OutdoorMapData.h"
 
 #include <filesystem>
@@ -25,7 +27,8 @@ public:
     {
         None,
         Outdoor,
-        Indoor
+        Indoor,
+        Mm9Dat
     };
 
     bool loadOutdoorMapPackage(
@@ -39,6 +42,10 @@ public:
     bool loadMapPhysicalPath(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::filesystem::path &path,
+        std::string &errorMessage);
+    bool loadMm9DatLevelPhysicalPath(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::filesystem::path &levelPhysicalPath,
         std::string &errorMessage);
     bool createNewOutdoorMapPackage(
         const Engine::AssetFileSystem &assetFileSystem,
@@ -110,6 +117,28 @@ public:
     Game::IndoorMapData &mutableIndoorGeometry();
     Game::IndoorSceneData &mutableIndoorSceneData();
     const Game::IndoorSceneData &indoorSceneData() const;
+    const EditorMm9DatLevelMetadata &mm9DatLevelMetadata() const;
+    const EditorMm9LoadedSidecars &mm9DatLoadedSidecars() const;
+    const Game::Mm9DatWorld &mm9DatWorld() const;
+    const Game::Mm9DatRenderMesh &mm9DatRenderMesh() const;
+    const Game::Mm9DatRenderBounds &mm9DatRenderBounds() const;
+    const std::vector<Game::Mm9DatRenderMaterialAssignment> &mm9DatRenderMaterialAssignments() const;
+    const Game::Mm9ObjectLayer &mm9ObjectLayer() const;
+    const Game::Mm9LightLayer &mm9LightLayer() const;
+    const Game::Mm9SoundLayer &mm9SoundLayer() const;
+    const Game::Mm9SpawnLayer &mm9SpawnLayer() const;
+    const std::vector<EditorMm9MaterialTextureStatus> &mm9MaterialTextureStatuses() const;
+    const std::vector<EditorMm9RawObjectAssetReferenceStatus> &mm9RawObjectAssetReferenceStatuses() const;
+    const EditorMm9AssetDependencySummary &mm9AssetDependencySummary() const;
+    const std::vector<EditorMm9DocumentPathStatus> &mm9DocumentPathStatuses() const;
+    const EditorMm9SourceAssetManifest &mm9SourceAssetManifest() const;
+    const std::filesystem::path &mm9SourceAssetManifestPhysicalPath() const;
+    const std::vector<EditorMm9SourceAssetFamilyStatus> &mm9SourceAssetFamilyStatuses() const;
+    const std::vector<std::string> &mm9DatLevelLoadDiagnostics() const;
+    const std::vector<std::string> &mm9SourceAssetManifestDiagnostics() const;
+    bool hasMm9DatLoadedSidecars() const;
+    bool hasMm9DatWorld() const;
+    bool hasMm9SourceAssetManifest() const;
     bool hasIndoorGeometryMetadata() const;
     const EditorIndoorGeometryMetadata &indoorGeometryMetadata() const;
     EditorIndoorGeometryMetadata &mutableIndoorGeometryMetadata();
@@ -197,6 +226,29 @@ private:
     Game::OutdoorSceneData m_outdoorSceneData = {};
     Game::IndoorMapData m_indoorGeometry = {};
     Game::IndoorSceneData m_indoorSceneData = {};
+    EditorMm9DatLevelMetadata m_mm9DatLevelMetadata = {};
+    EditorMm9LoadedSidecars m_mm9DatLoadedSidecars = {};
+    Game::Mm9DatWorld m_mm9DatWorld = {};
+    Game::Mm9DatRenderMesh m_mm9DatRenderMesh = {};
+    Game::Mm9DatRenderBounds m_mm9DatRenderBounds = {};
+    std::vector<Game::Mm9DatRenderMaterialAssignment> m_mm9DatRenderMaterialAssignments;
+    Game::Mm9ObjectLayer m_mm9ObjectLayer = {};
+    Game::Mm9LightLayer m_mm9LightLayer = {};
+    Game::Mm9SoundLayer m_mm9SoundLayer = {};
+    Game::Mm9SpawnLayer m_mm9SpawnLayer = {};
+    std::vector<EditorMm9MaterialTextureStatus> m_mm9MaterialTextureStatuses;
+    std::vector<EditorMm9RawObjectAssetReferenceStatus> m_mm9RawObjectAssetReferenceStatuses;
+    EditorMm9AssetDependencySummary m_mm9AssetDependencySummary = {};
+    std::vector<EditorMm9DocumentPathStatus> m_mm9DocumentPathStatuses;
+    EditorMm9MaterialInspectionCache m_mm9MaterialInspectionCache = {};
+    EditorMm9SourceAssetManifest m_mm9SourceAssetManifest = {};
+    std::filesystem::path m_mm9SourceAssetManifestPhysicalPath;
+    std::vector<EditorMm9SourceAssetFamilyStatus> m_mm9SourceAssetFamilyStatuses;
+    std::vector<std::string> m_mm9DatLevelLoadDiagnostics;
+    std::vector<std::string> m_mm9SourceAssetManifestDiagnostics;
+    bool m_hasMm9DatLoadedSidecars = false;
+    bool m_hasMm9DatWorld = false;
+    bool m_hasMm9SourceAssetManifest = false;
     bool m_hasIndoorGeometryMetadata = false;
     EditorIndoorGeometryMetadata m_indoorGeometryMetadata = {};
     EditorOutdoorGeometryMetadata m_outdoorGeometryMetadata = {};

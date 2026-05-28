@@ -36,7 +36,16 @@ enum class EditorSelectionKind
     SpriteObject,
     Chest,
     Light,
-    Door
+    Door,
+    ModelInstance,
+    Mm9ScriptedObject,
+    Mm9WorldModel,
+    Mm9DatPolygon,
+    Mm9MaterialTexture,
+    Mm9RawObject,
+    Mm9EventObject,
+    Mm9Mechanism,
+    Mm9EventScript
 };
 
 struct EditorSelection

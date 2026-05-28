@@ -10,6 +10,10 @@
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayHeldItemController.h"
 #include "game/app/GameSession.h"
+#include "game/mm9/Mm9DialoguePackage.h"
+#include "game/mm9/Mm9DialogueUi.h"
+#include "game/mm9/Mm9InteractionRouting.h"
+#include "game/mm9/Mm9ServiceRuntime.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/SpawnPreview.h"
@@ -28,8 +32,10 @@
 #include <cmath>
 #include <cstring>
 #include <limits>
+#include <memory>
 #include <optional>
 #include <unordered_map>
+#include <utility>
 
 namespace OpenYAMM::Game
 {
@@ -39,18 +45,50 @@ constexpr float InspectRayEpsilon = 0.0001f;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float PartyAttackProjectileSourceHeight = 192.0f / 3.0f;
 
-std::array<float, 3> outdoorBModelRuntimeOffset(
+std::string formatMm9ServiceActivation(const Mm9DialogueServiceRequest &request)
+{
+    return "mm9_service_request"
+        " kind=" + mm9ServiceKindName(request.kind)
+        + " opcode=" + std::to_string(request.opcode)
+        + " rude_id=" + std::to_string(request.rudeId)
+        + " node_id=" + std::to_string(request.nodeId)
+        + " source_row=" + std::to_string(request.sourceRow)
+        + " map=" + request.owner.mapId
+        + " object_index=" + std::to_string(request.owner.objectIndex)
+        + " object_name=" + request.owner.objectName
+        + " script_name=" + request.owner.scriptName;
+}
+
+class OutdoorMm9DialogueServiceHandler : public Mm9ServiceRuntime
+{
+public:
+    void openService(const Mm9DialogueServiceRequest &request) override
+    {
+        Mm9ServiceRuntime::openService(request);
+    }
+};
+
+struct OutdoorBModelRuntimeTransform
+{
+    float dx = 0.0f;
+    float dy = 0.0f;
+    float dz = 0.0f;
+    bool hasRotation = false;
+    float pivotX = 0.0f;
+    float pivotY = 0.0f;
+    float pivotZ = 0.0f;
+    float radiansX = 0.0f;
+    float radiansY = 0.0f;
+    float radiansZ = 0.0f;
+};
+
+OutdoorBModelRuntimeTransform outdoorBModelRuntimeTransform(
     const EventRuntimeState *pEventRuntimeState,
     size_t bModelIndex)
 {
-    if (pEventRuntimeState == nullptr)
+    if (pEventRuntimeState == nullptr || pEventRuntimeState->outdoorModelMechanisms.empty())
     {
-        return {0.0f, 0.0f, 0.0f};
-    }
-
-    if (pEventRuntimeState->outdoorModelMechanisms.empty())
-    {
-        return {0.0f, 0.0f, 0.0f};
+        return {};
     }
 
     for (const std::pair<const uint32_t, EventRuntimeState::OutdoorModelMechanismDefinition> &entry :
@@ -92,14 +130,74 @@ std::array<float, 3> outdoorBModelRuntimeOffset(
             fraction = 1.0f - std::clamp(mechanism.timeSinceTriggeredMs / moveTimeMs, 0.0f, 1.0f);
         }
 
-        return {
-            static_cast<float>(definition.dx) * fraction,
-            static_cast<float>(definition.dy) * fraction,
-            static_cast<float>(definition.dz) * fraction
-        };
+        OutdoorBModelRuntimeTransform transform = {};
+        transform.dx = static_cast<float>(definition.dx) * fraction;
+        transform.dy = static_cast<float>(definition.dy) * fraction;
+        transform.dz = static_cast<float>(definition.dz) * fraction;
+        transform.hasRotation = definition.hasRotation;
+        transform.pivotX = definition.rotationPivotX;
+        transform.pivotY = definition.rotationPivotY;
+        transform.pivotZ = definition.rotationPivotZ;
+        transform.radiansX = definition.rotationDegreesX * fraction * Pi / 180.0f;
+        transform.radiansY = definition.rotationDegreesY * fraction * Pi / 180.0f;
+        transform.radiansZ = definition.rotationDegreesZ * fraction * Pi / 180.0f;
+        return transform;
     }
 
-    return {0.0f, 0.0f, 0.0f};
+    return {};
+}
+
+bx::Vec3 applyOutdoorBModelRuntimeTransform(
+    const bx::Vec3 &point,
+    const OutdoorBModelRuntimeTransform &transform)
+{
+    bx::Vec3 result = point;
+
+    if (transform.hasRotation)
+    {
+        float x = point.x - transform.pivotX;
+        float y = point.y - transform.pivotY;
+        float z = point.z - transform.pivotZ;
+
+        if (transform.radiansX != 0.0f)
+        {
+            const float cosine = std::cos(transform.radiansX);
+            const float sine = std::sin(transform.radiansX);
+            const float rotatedY = y * cosine - z * sine;
+            const float rotatedZ = y * sine + z * cosine;
+            y = rotatedY;
+            z = rotatedZ;
+        }
+
+        if (transform.radiansY != 0.0f)
+        {
+            const float cosine = std::cos(transform.radiansY);
+            const float sine = std::sin(transform.radiansY);
+            const float rotatedX = x * cosine + z * sine;
+            const float rotatedZ = -x * sine + z * cosine;
+            x = rotatedX;
+            z = rotatedZ;
+        }
+
+        if (transform.radiansZ != 0.0f)
+        {
+            const float cosine = std::cos(transform.radiansZ);
+            const float sine = std::sin(transform.radiansZ);
+            const float rotatedX = x * cosine - y * sine;
+            const float rotatedY = x * sine + y * cosine;
+            x = rotatedX;
+            y = rotatedY;
+        }
+
+        result.x = transform.pivotX + x;
+        result.y = transform.pivotY + y;
+        result.z = transform.pivotZ + z;
+    }
+
+    result.x += transform.dx;
+    result.y += transform.dy;
+    result.z += transform.dz;
+    return result;
 }
 
 std::optional<uint16_t> outdoorBModelRuntimeCogTriggeredNumber(
@@ -674,7 +772,7 @@ std::optional<float> intersectOutdoorFaceRay(
     const OutdoorBModelFace &face,
     const bx::Vec3 &rayOrigin,
     const bx::Vec3 &rayDirection,
-    const std::array<float, 3> &offset = {0.0f, 0.0f, 0.0f})
+    const OutdoorBModelRuntimeTransform &transform = {})
 {
     std::optional<float> bestDistance;
 
@@ -699,9 +797,9 @@ std::optional<float> intersectOutdoorFaceRay(
             }
 
             triangleVertices[triangleVertexSlot] = outdoorBModelVertexToWorld(bModel.vertices[vertexIndex]);
-            triangleVertices[triangleVertexSlot].x += offset[0];
-            triangleVertices[triangleVertexSlot].y += offset[1];
-            triangleVertices[triangleVertexSlot].z += offset[2];
+            triangleVertices[triangleVertexSlot] = applyOutdoorBModelRuntimeTransform(
+                triangleVertices[triangleVertexSlot],
+                transform);
         }
 
         if (!validTriangle)
@@ -963,6 +1061,67 @@ std::optional<float> intersectOutdoorTerrainRay(
 }
 
 } // namespace
+
+bool OutdoorInteractionController::ensureMm9DialogueRuntime(OutdoorGameView &view, std::string &errorMessage)
+{
+    if (view.m_pAssetFileSystem == nullptr)
+    {
+        errorMessage = "MM9 dialogue package cannot load without an asset file system";
+        return false;
+    }
+
+    Party *pParty = view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr;
+    if (pParty == nullptr)
+    {
+        errorMessage = "MM9 dialogue runtime cannot start without party state";
+        return false;
+    }
+
+    if (!view.m_mm9DialoguePackage.has_value())
+    {
+        Mm9DialoguePackage package = {};
+        if (!loadMm9DialoguePackage(*view.m_pAssetFileSystem, package))
+        {
+            errorMessage = "MM9 dialogue package could not be loaded";
+            return false;
+        }
+
+        if (!package.errors.empty())
+        {
+            errorMessage = package.errors.front().virtualPath + ": " + package.errors.front().message;
+            return false;
+        }
+
+        view.m_mm9DialoguePackage = std::move(package);
+    }
+
+    if (view.m_mm9DialogueRuntime == nullptr || view.m_mm9ScriptRuntime == nullptr)
+    {
+        view.m_mm9DialogueRuntime = std::make_unique<Mm9DialogueRuntime>(*view.m_mm9DialoguePackage, *pParty);
+        view.m_mm9ScriptRuntime =
+            std::make_unique<Mm9ScriptRuntime>(*view.m_mm9DialoguePackage, *view.m_mm9DialogueRuntime);
+        view.m_mm9ScriptRuntime->restoreState(view.m_gameSession.mm9ScriptState());
+    }
+
+    return true;
+}
+
+void OutdoorInteractionController::playMm9GreetingSound(
+    OutdoorGameView &view,
+    const Mm9ScriptRuntimeAudioRequest &request,
+    const OutdoorGameView::InspectHit &inspectHit)
+{
+    if (request.soundName.empty() || view.m_pGameAudioSystem == nullptr)
+    {
+        return;
+    }
+
+    view.m_pGameAudioSystem->playSoundByName(
+        request.soundName,
+        GameAudioSystem::PlaybackGroup::World,
+        SoundScope::World,
+        GameAudioSystem::WorldPosition{inspectHit.hitX, inspectHit.hitY, inspectHit.hitZ});
+}
 
 std::optional<size_t> OutdoorInteractionController::resolveSpellActionHoveredActorIndex(const OutdoorGameView &view)
 {
@@ -1385,6 +1544,23 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectHitFromGameplay
         else if (eventTargetHit.targetKind == GameplayWorldEventTargetKind::Spawn)
         {
             inspectHit.kind = "spawn";
+        }
+        else if (eventTargetHit.targetKind == GameplayWorldEventTargetKind::Object)
+        {
+            inspectHit.kind = "mm9_scripted_object";
+            const std::optional<Mm9InteractionObjectBinding> mm9Binding =
+                mm9InteractionObjectBindingFromWorldHit(worldHit);
+            if (mm9Binding)
+            {
+                inspectHit.mm9MapId = mm9Binding->mapId;
+                inspectHit.mm9ObjectId = mm9Binding->objectId;
+                inspectHit.mm9SourceObjectIndex = static_cast<size_t>(mm9Binding->sourceObjectIndex);
+                inspectHit.mm9SourceClass = mm9Binding->sourceClass;
+                inspectHit.mm9SourceName = mm9Binding->sourceName;
+                inspectHit.mm9VisualId = mm9Binding->visualId;
+                inspectHit.mm9ScriptName = mm9Binding->scriptName;
+                inspectHit.mm9ScriptParams = mm9Binding->scriptParams;
+            }
         }
         else
         {
@@ -2198,7 +2374,95 @@ std::optional<std::string> OutdoorInteractionController::resolveEventTargetHover
         return resolveEventHintText(view, inspectHit.cogTriggeredNumber);
     }
 
+    if (inspectHit.kind == "mm9_scripted_object")
+    {
+        const OutdoorGameView::Mm9ScriptedBillboardInstance *pInstance =
+            mm9ScriptedBillboardInstanceForInspectHit(view, inspectHit);
+
+        if (pInstance != nullptr && !pInstance->sourceName.empty())
+        {
+            return pInstance->sourceName;
+        }
+
+        if (!inspectHit.mm9SourceName.empty())
+        {
+            return inspectHit.mm9SourceName;
+        }
+
+        if (!inspectHit.mm9VisualId.empty())
+        {
+            return inspectHit.mm9VisualId;
+        }
+
+        return inspectHit.name.empty() ? std::optional<std::string>("MM9 object") : inspectHit.name;
+    }
+
     return std::nullopt;
+}
+
+const OutdoorGameView::Mm9ScriptedBillboardInstance *
+OutdoorInteractionController::mm9ScriptedBillboardInstanceForInspectHit(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit)
+{
+    if (inspectHit.kind != "mm9_scripted_object"
+        || inspectHit.bModelIndex >= view.m_mm9ScriptedBillboardInstances.size())
+    {
+        return nullptr;
+    }
+
+    return &view.m_mm9ScriptedBillboardInstances[inspectHit.bModelIndex];
+}
+
+void OutdoorInteractionController::populateMm9ScriptedBillboardInspectHit(
+    const OutdoorGameView::Mm9ScriptedBillboardInstance &instance,
+    size_t instanceIndex,
+    float distance,
+    OutdoorGameView::InspectHit &inspectHit)
+{
+    inspectHit.hasHit = true;
+    inspectHit.kind = "mm9_scripted_object";
+    inspectHit.bModelIndex = instanceIndex;
+    inspectHit.faceIndex = 0;
+    inspectHit.name =
+        !instance.sourceName.empty()
+            ? instance.sourceName
+            : (!instance.objectId.empty() ? instance.objectId : instance.visualId);
+    inspectHit.distance = distance;
+    inspectHit.mm9MapId = instance.mapId;
+    inspectHit.mm9ObjectId = instance.objectId;
+    inspectHit.mm9SourceObjectIndex = instance.sourceObjectIndex;
+    inspectHit.mm9SourceClass = instance.sourceClass;
+    inspectHit.mm9SourceName = instance.sourceName;
+    inspectHit.mm9VisualId = instance.visualId;
+    inspectHit.mm9SourceModel = instance.sourceModel;
+    inspectHit.mm9SourceSkin = instance.sourceSkin;
+    inspectHit.mm9ScriptName = instance.scriptName;
+    inspectHit.mm9ScriptParams = instance.scriptParams;
+    inspectHit.mm9CollisionRadius = instance.radius;
+    inspectHit.mm9CollisionHeight = instance.height;
+    inspectHit.mm9MovementState = instance.movementState;
+    inspectHit.mm9CurrentClip = instance.currentClip;
+}
+
+std::string OutdoorInteractionController::formatMm9ScriptedBillboardInteractionLog(
+    const OutdoorGameView::InspectHit &inspectHit)
+{
+    return "mm9_scripted_object_use"
+        " map=" + inspectHit.mm9MapId
+        + " object_id=" + inspectHit.mm9ObjectId
+        + " source_object_index=" + std::to_string(inspectHit.mm9SourceObjectIndex)
+        + " source_class=" + inspectHit.mm9SourceClass
+        + " source_name=" + inspectHit.mm9SourceName
+        + " visual_id=" + inspectHit.mm9VisualId
+        + " source_model=" + inspectHit.mm9SourceModel
+        + " source_skin=" + inspectHit.mm9SourceSkin
+        + " script_name=" + inspectHit.mm9ScriptName
+        + " script_params=" + inspectHit.mm9ScriptParams
+        + " collision_radius=" + std::to_string(inspectHit.mm9CollisionRadius)
+        + " collision_height=" + std::to_string(inspectHit.mm9CollisionHeight)
+        + " movement_state=" + inspectHit.mm9MovementState
+        + " current_clip=" + inspectHit.mm9CurrentClip;
 }
 
 std::string OutdoorInteractionController::resolveActorInspectDisplayName(
@@ -2346,6 +2610,23 @@ GameplayWorldHit OutdoorInteractionController::translateInspectHitToGameplayWorl
         objectHit.distance = inspectHit.distance;
         worldHit.object = objectHit;
         return worldHit;
+    }
+
+    if (inspectHit.kind == "mm9_scripted_object")
+    {
+        Mm9InteractionObjectBinding binding = {};
+        binding.mapId = inspectHit.mm9MapId;
+        binding.objectId = inspectHit.mm9ObjectId;
+        binding.sourceObjectIndex = static_cast<int32_t>(inspectHit.mm9SourceObjectIndex);
+        binding.sourceClass = inspectHit.mm9SourceClass;
+        binding.sourceName = !inspectHit.mm9SourceName.empty() ? inspectHit.mm9SourceName : inspectHit.name;
+        binding.visualId = inspectHit.mm9VisualId;
+        binding.scriptName = inspectHit.mm9ScriptName;
+        binding.scriptParams = inspectHit.mm9ScriptParams;
+        binding.routerTargetIndex = inspectHit.bModelIndex;
+        binding.hitPoint = hitPoint;
+        binding.distance = inspectHit.distance;
+        return buildMm9ScriptedObjectWorldHit(binding);
     }
 
     GameplayEventTargetHit eventTargetHit = {};
@@ -2623,7 +2904,10 @@ GameplayHoverStatusPayload OutdoorInteractionController::refreshWorldHover(
     const auto prefersTargetOutline =
         [](const OutdoorGameView::InspectHit &inspectHit)
         {
-            return inspectHit.hasHit && (inspectHit.kind == "actor" || inspectHit.kind == "world_item");
+            return inspectHit.hasHit
+                && (inspectHit.kind == "actor"
+                    || inspectHit.kind == "world_item"
+                    || inspectHit.kind == "mm9_scripted_object");
         };
 
     if (request.probeKind == GameplayWorldHoverProbeKind::PendingSpell)
@@ -3690,7 +3974,8 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
         for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
         {
             const OutdoorBModel &bModel = outdoorMapData.bmodels[bModelIndex];
-            const std::array<float, 3> bmodelOffset = outdoorBModelRuntimeOffset(pEventRuntimeState, bModelIndex);
+            const OutdoorBModelRuntimeTransform bmodelTransform =
+                outdoorBModelRuntimeTransform(pEventRuntimeState, bModelIndex);
             const std::optional<uint16_t> runtimeCogTriggeredNumber =
                 outdoorBModelRuntimeCogTriggeredNumber(pEventRuntimeState, bModelIndex);
 
@@ -3737,9 +4022,9 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
 
                         triangleVertices[triangleVertexSlot] =
                             outdoorBModelVertexToWorld(bModel.vertices[vertexIndex]);
-                        triangleVertices[triangleVertexSlot].x += bmodelOffset[0];
-                        triangleVertices[triangleVertexSlot].y += bmodelOffset[1];
-                        triangleVertices[triangleVertexSlot].z += bmodelOffset[2];
+                        triangleVertices[triangleVertexSlot] = applyOutdoorBModelRuntimeTransform(
+                            triangleVertices[triangleVertexSlot],
+                            bmodelTransform);
                     }
 
                     if (!isTriangleValid)
@@ -4303,6 +4588,41 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
         }
     }
 
+    if (!ignoreActors && view.m_mm9ScriptedBillboardVisuals)
+    {
+        for (size_t instanceIndex = 0; instanceIndex < view.m_mm9ScriptedBillboardInstances.size(); ++instanceIndex)
+        {
+            const OutdoorGameView::Mm9ScriptedBillboardInstance &instance =
+                view.m_mm9ScriptedBillboardInstances[instanceIndex];
+            if (!instance.visible || !instance.pickable)
+            {
+                continue;
+            }
+
+            const float halfExtent = std::max(InteractionActorMinHalfExtent, instance.radius);
+            const float height = std::max(InteractionActorMinHeight, instance.height);
+            const float baseZ = instance.z + instance.verticalOffset;
+            float distance = 0.0f;
+            const bx::Vec3 minBounds = {
+                instance.x - halfExtent,
+                instance.y - halfExtent,
+                baseZ
+            };
+            const bx::Vec3 maxBounds = {
+                instance.x + halfExtent,
+                instance.y + halfExtent,
+                baseZ + height
+            };
+
+            if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
+                && isVisibleInspectDistance(distance)
+                && (!bestHit.hasHit || distance < bestHit.distance))
+            {
+                populateMm9ScriptedBillboardInspectHit(instance, instanceIndex, distance, bestHit);
+            }
+        }
+    }
+
     if (view.m_pOutdoorWorldRuntime != nullptr)
     {
         for (size_t worldItemIndex = 0; worldItemIndex < view.m_pOutdoorWorldRuntime->worldItemCount(); ++worldItemIndex)
@@ -4656,7 +4976,8 @@ OutdoorGameView::InspectHit OutdoorInteractionController::pickKeyboardInteractio
     for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
     {
         const OutdoorBModel &bModel = outdoorMapData.bmodels[bModelIndex];
-        const std::array<float, 3> bmodelOffset = outdoorBModelRuntimeOffset(pEventRuntimeState, bModelIndex);
+        const OutdoorBModelRuntimeTransform bmodelTransform =
+            outdoorBModelRuntimeTransform(pEventRuntimeState, bModelIndex);
         const std::optional<uint16_t> runtimeCogTriggeredNumber =
             outdoorBModelRuntimeCogTriggeredNumber(pEventRuntimeState, bModelIndex);
 
@@ -4686,9 +5007,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::pickKeyboardInteractio
 
                 ProjectedPoint projected = {};
                 bx::Vec3 vertex = outdoorBModelVertexToWorld(bModel.vertices[vertexIndex]);
-                vertex.x += bmodelOffset[0];
-                vertex.y += bmodelOffset[1];
-                vertex.z += bmodelOffset[2];
+                vertex = applyOutdoorBModelRuntimeTransform(vertex, bmodelTransform);
 
                 if (!projectWorldPointToScreen(
                         vertex,
@@ -4744,7 +5063,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::pickKeyboardInteractio
             }
 
             const std::optional<float> faceDistance =
-                intersectOutdoorFaceRay(bModel, face, rayOrigin, rayDirection, bmodelOffset);
+                intersectOutdoorFaceRay(bModel, face, rayOrigin, rayDirection, bmodelTransform);
 
             if (!faceDistance.has_value())
             {
@@ -5206,6 +5525,70 @@ bool OutdoorInteractionController::tryActivateEventTargetInspectEvent(
         return false;
     }
 
+    if (inspectHit.kind == "mm9_scripted_object")
+    {
+        OutdoorGameView::InspectHit resolvedHit = inspectHit;
+        const OutdoorGameView::Mm9ScriptedBillboardInstance *pInstance =
+            mm9ScriptedBillboardInstanceForInspectHit(view, inspectHit);
+
+        if (pInstance != nullptr)
+        {
+            populateMm9ScriptedBillboardInspectHit(
+                *pInstance,
+                inspectHit.bModelIndex,
+                inspectHit.distance,
+                resolvedHit);
+            resolvedHit.hitX = inspectHit.hitX;
+            resolvedHit.hitY = inspectHit.hitY;
+            resolvedHit.hitZ = inspectHit.hitZ;
+        }
+        else if (resolvedHit.mm9MapId.empty())
+        {
+            pEventRuntimeState->lastActivationResult = "invalid MM9 scripted object target";
+            return false;
+        }
+
+        const std::string interactionLog = formatMm9ScriptedBillboardInteractionLog(resolvedHit);
+        GAMEPLAY_DEBUG_TRACE(interactionLog);
+        pEventRuntimeState->lastActivationResult = interactionLog;
+
+        std::string runtimeError;
+        if (!ensureMm9DialogueRuntime(view, runtimeError))
+        {
+            pEventRuntimeState->lastActivationResult = runtimeError;
+            view.setStatusBarEvent(runtimeError);
+            return false;
+        }
+
+        const Mm9ObjectActivationResult activation =
+            view.m_mm9ScriptRuntime->activateObject(
+                resolvedHit.mm9MapId,
+                static_cast<int32_t>(resolvedHit.mm9SourceObjectIndex));
+        view.m_gameSession.setMm9ScriptState(view.m_mm9ScriptRuntime->state());
+        if (activation.audioRequest)
+        {
+            playMm9GreetingSound(view, *activation.audioRequest, resolvedHit);
+        }
+
+        if (!activation.openedDialogue)
+        {
+            const std::string activationError = activation.error.empty()
+                ? "MM9 object did not open dialogue"
+                : activation.error;
+            pEventRuntimeState->lastActivationResult = activationError;
+            view.setStatusBarEvent(activationError);
+            return false;
+        }
+
+        GameplayScreenRuntime &screenRuntime = view.m_gameSession.gameplayScreenRuntime();
+        screenRuntime.eventDialogSelectionIndex() = 0;
+        screenRuntime.resetDialogueOverlayInteractionState();
+        screenRuntime.activeEventDialog() = buildMm9DialogueContent(*view.m_mm9DialogueRuntime);
+        view.setStatusBarEvent(
+            resolvedHit.name.empty() ? std::string("MM9 dialogue") : ("Talk: " + resolvedHit.name));
+        return screenRuntime.activeEventDialog().isActive;
+    }
+
     uint16_t eventId = 0;
 
     std::optional<EventRuntimeState::ActiveDecorationContext> decorationContext;
@@ -5322,6 +5705,13 @@ bool OutdoorInteractionController::tryActivateEventTargetInspectEvent(
 
     if (!executed)
     {
+        if (view.m_pOutdoorWorldRuntime != nullptr
+            && view.m_pOutdoorWorldRuntime->triggerMm9MechanismByRuntimeId(eventId, "Use"))
+        {
+            pEventRuntimeState->activeEventMapNoteSourcePoint = previousMapNoteSourcePoint;
+            return true;
+        }
+
         pEventRuntimeState->activeEventMapNoteSourcePoint = previousMapNoteSourcePoint;
 
         if (view.m_pOutdoorWorldRuntime != nullptr)
@@ -5505,6 +5895,12 @@ bool OutdoorInteractionController::canActivateEventTargetInspectEvent(
         return false;
     }
 
+    if (inspectHit.kind == "mm9_scripted_object")
+    {
+        return mm9ScriptedBillboardInstanceForInspectHit(view, inspectHit) != nullptr
+            || !inspectHit.mm9MapId.empty();
+    }
+
     if (inspectHit.kind == "entity")
     {
         if (resolveOutdoorEntityScriptEventId(inspectHit.eventIdSecondary) != 0)
@@ -5672,6 +6068,69 @@ bool OutdoorInteractionController::dispatchWorldActivation(
     }
 
     return tryActivateInspectEvent(view, inspectHit);
+}
+
+bool OutdoorInteractionController::executeMm9DialogueAction(
+    OutdoorGameView &view,
+    const EventDialogAction &action,
+    EventDialogContent &content)
+{
+    if (view.m_mm9DialogueRuntime == nullptr || view.m_mm9ScriptRuntime == nullptr)
+    {
+        return false;
+    }
+
+    OutdoorMm9DialogueServiceHandler serviceHandler;
+    Mm9DialogueUiActionResult result =
+        OpenYAMM::Game::executeMm9DialogueAction(*view.m_mm9DialogueRuntime, action, &serviceHandler);
+    if (!result.handled)
+    {
+        return false;
+    }
+
+    if (serviceHandler.activeSession())
+    {
+        const Mm9ServiceSession &serviceSession = *serviceHandler.activeSession();
+        const Mm9DialogueServiceRequest &serviceRequest = serviceSession.request;
+        const std::string activation = formatMm9ServiceActivation(serviceRequest);
+        GAMEPLAY_DEBUG_TRACE(activation);
+
+        EventRuntimeState *pEventRuntimeState =
+            view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+        if (pEventRuntimeState != nullptr)
+        {
+            pEventRuntimeState->lastActivationResult = activation;
+        }
+
+        view.setStatusBarEvent(serviceSession.statusText);
+        result.content.lines.push_back(
+            serviceSession.statusText + " (" + mm9ServiceSessionStatusName(serviceSession.status) + ")");
+    }
+
+    if (result.selection.kind == Mm9DialogueSelectionKind::Close
+        && !result.selection.onRudeExitLabel.empty()
+        && !result.selection.owner.scriptName.empty())
+    {
+        std::optional<std::string> scriptError;
+        if (!view.m_mm9ScriptRuntime->runLabel(
+                result.selection.owner.scriptName,
+                result.selection.onRudeExitLabel,
+                scriptError))
+        {
+            EventRuntimeState *pEventRuntimeState =
+                view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+            const std::string errorText = scriptError.value_or("failed to run MM9 OnRudeExit callback");
+            if (pEventRuntimeState != nullptr)
+            {
+                pEventRuntimeState->lastActivationResult = errorText;
+            }
+            view.setStatusBarEvent(errorText);
+        }
+        view.m_gameSession.setMm9ScriptState(view.m_mm9ScriptRuntime->state());
+    }
+
+    content = std::move(result.content);
+    return true;
 }
 
 bool OutdoorInteractionController::canActivateTelekinesisTarget(

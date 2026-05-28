@@ -8,6 +8,7 @@
 #include <array>
 #include <cctype>
 #include <cmath>
+#include <cstdint>
 #include <limits>
 #include <optional>
 #include <unordered_map>
@@ -144,6 +145,65 @@ Game::IndoorVertex convertPosition(const ImportedModelPosition &position, float 
     vertex.z = scaledCoordinate(position.z, scale);
     return vertex;
 }
+
+struct IndoorVertexKey
+{
+    int x = 0;
+    int y = 0;
+    int z = 0;
+
+    bool operator==(const IndoorVertexKey &other) const
+    {
+        return x == other.x && y == other.y && z == other.z;
+    }
+};
+
+struct IndoorVertexKeyHash
+{
+    size_t operator()(const IndoorVertexKey &key) const
+    {
+        uint64_t hash = static_cast<uint32_t>(key.x);
+        hash = (hash ^ static_cast<uint32_t>(key.y)) * 1099511628211ull;
+        hash = (hash ^ static_cast<uint32_t>(key.z)) * 1099511628211ull;
+        return static_cast<size_t>(hash);
+    }
+};
+
+class IndoorVertexInterner
+{
+public:
+    bool intern(
+        const Game::IndoorVertex &vertex,
+        Game::IndoorMapData &indoorGeometry,
+        uint16_t &vertexId,
+        std::string &errorMessage)
+    {
+        const IndoorVertexKey key = {vertex.x, vertex.y, vertex.z};
+        const std::unordered_map<IndoorVertexKey, uint16_t, IndoorVertexKeyHash>::const_iterator iterator =
+            m_vertexIds.find(key);
+
+        if (iterator != m_vertexIds.end())
+        {
+            vertexId = iterator->second;
+            return true;
+        }
+
+        if (indoorGeometry.vertices.size() >= MaxIndoorBlvVertexCount)
+        {
+            errorMessage = "indoor source compiler exceeded 65536 unique vertices";
+            return false;
+        }
+
+        vertexId = static_cast<uint16_t>(indoorGeometry.vertices.size());
+        indoorGeometry.vertices.push_back(vertex);
+        m_vertexIds.emplace(key, vertexId);
+        return true;
+    }
+
+private:
+    static constexpr size_t MaxIndoorBlvVertexCount = 0x10000u;
+    std::unordered_map<IndoorVertexKey, uint16_t, IndoorVertexKeyHash> m_vertexIds;
+};
 
 std::string roomIdFromSourceNode(const std::string &sourceNodeName)
 {
@@ -437,21 +497,24 @@ bool appendModelVertices(
     Game::IndoorMapData &indoorGeometry,
     Game::IndoorSector *pSector,
     bool *pBoundsInitialized,
-    size_t &vertexBase,
+    IndoorVertexInterner &vertexInterner,
+    std::vector<uint16_t> &positionVertexIds,
     std::string &errorMessage)
 {
-    if (indoorGeometry.vertices.size() + model.positions.size() > 0xffffu)
-    {
-        errorMessage = "indoor source compiler exceeded 65535 vertices";
-        return false;
-    }
-
-    vertexBase = indoorGeometry.vertices.size();
+    positionVertexIds.clear();
+    positionVertexIds.reserve(model.positions.size());
 
     for (const ImportedModelPosition &position : model.positions)
     {
         Game::IndoorVertex vertex = convertPosition(position, scale);
-        indoorGeometry.vertices.push_back(vertex);
+        uint16_t vertexId = 0;
+
+        if (!vertexInterner.intern(vertex, indoorGeometry, vertexId, errorMessage))
+        {
+            return false;
+        }
+
+        positionVertexIds.push_back(vertexId);
 
         if (pSector != nullptr && pBoundsInitialized != nullptr)
         {
@@ -465,7 +528,7 @@ bool appendModelVertices(
 bool appendImportedFaces(
     const ImportedModel &model,
     const std::unordered_map<std::string, std::string> &materialTextureLookup,
-    size_t vertexBase,
+    const std::vector<uint16_t> &positionVertexIds,
     uint16_t roomNumber,
     uint16_t roomBehindNumber,
     uint32_t attributes,
@@ -507,7 +570,13 @@ bool appendImportedFaces(
                 return false;
             }
 
-            face.vertexIndices.push_back(static_cast<uint16_t>(vertexBase + importedVertex.positionIndex));
+            if (importedVertex.positionIndex >= positionVertexIds.size())
+            {
+                errorMessage = "indoor source compiler found a face vertex outside the remapped vertex range";
+                return false;
+            }
+
+            face.vertexIndices.push_back(positionVertexIds[importedVertex.positionIndex]);
 
             if (importedVertex.hasUv)
             {
@@ -537,6 +606,7 @@ bool compileRoomModel(
     const std::unordered_map<std::string, std::string> &materialTextureLookup,
     uint16_t sectorIndex,
     float scale,
+    IndoorVertexInterner &vertexInterner,
     Game::IndoorMapData &indoorGeometry,
     IndoorSourceGeometryCompileResult &result,
     std::string &errorMessage)
@@ -544,9 +614,17 @@ bool compileRoomModel(
     Game::IndoorSector sector = {};
     sector.firstBspNode = -1;
     bool boundsInitialized = false;
-    size_t vertexBase = 0;
+    std::vector<uint16_t> positionVertexIds;
 
-    if (!appendModelVertices(model, scale, indoorGeometry, &sector, &boundsInitialized, vertexBase, errorMessage))
+    if (!appendModelVertices(
+            model,
+            scale,
+            indoorGeometry,
+            &sector,
+            &boundsInitialized,
+            vertexInterner,
+            positionVertexIds,
+            errorMessage))
     {
         return false;
     }
@@ -556,7 +634,7 @@ bool compileRoomModel(
     if (!appendImportedFaces(
             model,
             materialTextureLookup,
-            vertexBase,
+            positionVertexIds,
             sectorIndex,
             sectorIndex,
             0,
@@ -627,6 +705,7 @@ bool compilePortalModel(
     const std::unordered_map<std::string, uint16_t> &roomSectorById,
     const std::unordered_map<std::string, std::string> &materialTextureLookup,
     float scale,
+    IndoorVertexInterner &vertexInterner,
     Game::IndoorMapData &indoorGeometry,
     IndoorSourceGeometryCompileResult &result,
     std::string &errorMessage)
@@ -649,9 +728,17 @@ bool compilePortalModel(
         return false;
     }
 
-    size_t vertexBase = 0;
+    std::vector<uint16_t> positionVertexIds;
 
-    if (!appendModelVertices(model, scale, indoorGeometry, nullptr, nullptr, vertexBase, errorMessage))
+    if (!appendModelVertices(
+            model,
+            scale,
+            indoorGeometry,
+            nullptr,
+            nullptr,
+            vertexInterner,
+            positionVertexIds,
+            errorMessage))
     {
         return false;
     }
@@ -662,7 +749,7 @@ bool compilePortalModel(
     if (!appendImportedFaces(
             model,
             materialTextureLookup,
-            vertexBase,
+            positionVertexIds,
             frontIterator->second,
             backIterator->second,
             portalAttributes,
@@ -888,6 +975,7 @@ bool compileTriggerSurfaceModel(
     const EditorIndoorGeometrySurfaceMetadata *pSurfaceMetadata,
     const std::unordered_map<std::string, std::string> &materialTextureLookup,
     float scale,
+    IndoorVertexInterner &vertexInterner,
     Game::IndoorMapData &indoorGeometry,
     IndoorSourceGeometryCompileResult &result,
     std::string &errorMessage)
@@ -895,9 +983,17 @@ bool compileTriggerSurfaceModel(
     const uint16_t sectorIndex = chooseMechanismSector(indoorGeometry, model, scale);
     Game::IndoorSector &sector = indoorGeometry.sectors[sectorIndex];
     bool boundsInitialized = true;
-    size_t vertexBase = 0;
+    std::vector<uint16_t> positionVertexIds;
 
-    if (!appendModelVertices(model, scale, indoorGeometry, &sector, &boundsInitialized, vertexBase, errorMessage))
+    if (!appendModelVertices(
+            model,
+            scale,
+            indoorGeometry,
+            &sector,
+            &boundsInitialized,
+            vertexInterner,
+            positionVertexIds,
+            errorMessage))
     {
         return false;
     }
@@ -918,7 +1014,7 @@ bool compileTriggerSurfaceModel(
     if (!appendImportedFaces(
             model,
             materialTextureLookup,
-            vertexBase,
+            positionVertexIds,
             sectorIndex,
             sectorIndex,
             attributes,
@@ -1079,9 +1175,18 @@ bool compileMechanismModel(
     const uint16_t sectorIndex = chooseMechanismSector(indoorGeometry, model, scale);
     Game::IndoorSector &sector = indoorGeometry.sectors[sectorIndex];
     bool boundsInitialized = true;
-    size_t vertexBase = 0;
+    IndoorVertexInterner mechanismVertexInterner;
+    std::vector<uint16_t> positionVertexIds;
 
-    if (!appendModelVertices(model, scale, indoorGeometry, &sector, &boundsInitialized, vertexBase, errorMessage))
+    if (!appendModelVertices(
+            model,
+            scale,
+            indoorGeometry,
+            &sector,
+            &boundsInitialized,
+            mechanismVertexInterner,
+            positionVertexIds,
+            errorMessage))
     {
         return false;
     }
@@ -1091,7 +1196,7 @@ bool compileMechanismModel(
     if (!appendImportedFaces(
             model,
             materialTextureLookup,
-            vertexBase,
+            positionVertexIds,
             sectorIndex,
             sectorIndex,
             0,
@@ -1105,11 +1210,14 @@ bool compileMechanismModel(
     }
 
     std::vector<uint16_t> vertexIds;
-    vertexIds.reserve(model.positions.size());
+    vertexIds.reserve(positionVertexIds.size());
 
-    for (size_t vertexOffset = 0; vertexOffset < model.positions.size(); ++vertexOffset)
+    for (uint16_t vertexId : positionVertexIds)
     {
-        vertexIds.push_back(static_cast<uint16_t>(vertexBase + vertexOffset));
+        if (std::find(vertexIds.begin(), vertexIds.end(), vertexId) == vertexIds.end())
+        {
+            vertexIds.push_back(vertexId);
+        }
     }
 
     for (uint16_t faceIndex : appendedFaceIds)
@@ -1166,7 +1274,7 @@ bool compileIndoorSourceGeometry(
     result = {};
     std::vector<ImportedModel> models;
 
-    if (!loadImportedModelsFromFile(sourcePath, models, errorMessage, false))
+    if (!loadImportedModelsFromFile(sourcePath, models, errorMessage, metadata.importSettings.mergeCoplanarFaces))
     {
         return false;
     }
@@ -1185,6 +1293,7 @@ bool compileIndoorSourceGeometry(
     const std::unordered_map<std::string, const EditorIndoorGeometrySpawnMetadata *> spawnLookup =
         buildSourceNodeLookup(metadata.spawns);
     std::unordered_map<std::string, uint16_t> roomSectorById;
+    IndoorVertexInterner staticVertexInterner;
 
     result.indoorGeometry.version = 8;
 
@@ -1206,6 +1315,7 @@ bool compileIndoorSourceGeometry(
                 materialTextureLookup,
                 sectorIndex,
                 metadata.source.unitScale,
+                staticVertexInterner,
                 result.indoorGeometry,
                 result,
                 errorMessage))
@@ -1235,6 +1345,7 @@ bool compileIndoorSourceGeometry(
                 roomSectorById,
                 materialTextureLookup,
                 metadata.source.unitScale,
+                staticVertexInterner,
                 result.indoorGeometry,
                 result,
                 errorMessage))
@@ -1257,6 +1368,7 @@ bool compileIndoorSourceGeometry(
                 findSurfaceMetadata(surfaceLookup, sourceNodeName),
                 materialTextureLookup,
                 metadata.source.unitScale,
+                staticVertexInterner,
                 result.indoorGeometry,
                 result,
                 errorMessage))

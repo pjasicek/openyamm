@@ -24,6 +24,7 @@ struct EditorIndoorGeometryImportSettings
 {
     std::string sourceFormat = "glb";
     float mergeVerticesEpsilon = 0.01f;
+    bool mergeCoplanarFaces = false;
     bool triangulateNgons = true;
     bool generateBsp = true;
     bool generateOutlines = true;

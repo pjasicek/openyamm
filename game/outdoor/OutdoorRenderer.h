@@ -117,6 +117,14 @@ private:
         float farClipDistance,
         bool useLocalFxLighting);
     static void renderContextActionGeometryHighlight(OutdoorGameView &view, uint16_t viewId);
+    static const OutdoorGameView::Mm9AnimatedActorTextureHandle *ensureMm9AnimatedActorTexture(
+        OutdoorGameView &view,
+        const std::string &textureName);
+    static void renderMm9AnimatedActorModels(
+        OutdoorGameView &view,
+        uint16_t viewId,
+        const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState,
+        float farClipDistance);
     static void renderPendingSpellAreaPreview(OutdoorGameView &view, uint16_t viewId);
 };
 } // namespace OpenYAMM::Game

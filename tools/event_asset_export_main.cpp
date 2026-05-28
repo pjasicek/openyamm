@@ -1930,6 +1930,7 @@ void populateMapEncounterNames(LegacyLuaExportLookups &lookups, const MapStatsEn
         &pMapEntry->encounter1,
         &pMapEntry->encounter2,
         &pMapEntry->encounter3,
+        &pMapEntry->encounter4,
     };
 
     constexpr size_t EncounterCount = sizeof(encounters) / sizeof(encounters[0]);

@@ -2108,6 +2108,42 @@ void Party::reset()
     seed(createDefaultSeed());
 }
 
+ArenaVisitState Party::arenaVisitState() const
+{
+    return m_arenaVisitState;
+}
+
+ArenaDifficulty Party::arenaDifficulty() const
+{
+    return m_arenaDifficulty;
+}
+
+int Party::arenaGoldReward() const
+{
+    return m_arenaGoldReward;
+}
+
+void Party::resetArenaVisitState()
+{
+    m_arenaVisitState = ArenaVisitState::Initial;
+    m_arenaDifficulty = ArenaDifficulty::Invalid;
+    m_arenaGoldReward = 0;
+}
+
+void Party::startArenaFight(ArenaDifficulty difficulty, int goldReward)
+{
+    m_arenaVisitState = ArenaVisitState::Fighting;
+    m_arenaDifficulty = difficulty;
+    m_arenaGoldReward = std::max(0, goldReward);
+}
+
+void Party::markArenaWon()
+{
+    m_arenaVisitState = ArenaVisitState::Won;
+    m_arenaDifficulty = ArenaDifficulty::Invalid;
+    m_arenaGoldReward = 0;
+}
+
 void Party::setItemTable(const ItemTable *pItemTable)
 {
     m_pItemTable = pItemTable;
@@ -2307,6 +2343,9 @@ Party::Snapshot Party::snapshot() const
     snapshot.hardLandingSoundCount = m_hardLandingSoundCount;
     snapshot.monsterTargetSelectionCounter = m_monsterTargetSelectionCounter;
     snapshot.houseStockSeed = m_houseStockSeed;
+    snapshot.arenaVisitState = m_arenaVisitState;
+    snapshot.arenaDifficulty = m_arenaDifficulty;
+    snapshot.arenaGoldReward = m_arenaGoldReward;
     snapshot.lastFallDamageDistance = m_lastFallDamageDistance;
     snapshot.foundArtifactItems = m_foundArtifactItems;
     snapshot.arcomageWonHouseIds = m_arcomageWonHouseIds;
@@ -2352,6 +2391,9 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
     m_hardLandingSoundCount = snapshot.hardLandingSoundCount;
     m_monsterTargetSelectionCounter = snapshot.monsterTargetSelectionCounter;
     m_houseStockSeed = snapshot.houseStockSeed;
+    m_arenaVisitState = snapshot.arenaVisitState;
+    m_arenaDifficulty = snapshot.arenaDifficulty;
+    m_arenaGoldReward = snapshot.arenaGoldReward;
     m_lastFallDamageDistance = snapshot.lastFallDamageDistance;
     m_foundArtifactItems = snapshot.foundArtifactItems;
     m_arcomageWonHouseIds = snapshot.arcomageWonHouseIds;
@@ -2418,6 +2460,7 @@ void Party::seed(const PartySeed &seed)
     m_fineGold = 0;
     m_monsterTargetSelectionCounter = 0;
     m_houseStockSeed = generateHouseStockSeed();
+    resetArenaVisitState();
     m_foundArtifactItems.clear();
     m_everOwnedItemIds.clear();
     m_continentReputations.clear();

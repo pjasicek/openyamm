@@ -71,6 +71,11 @@ public:
         SoundRef sound,
         PlaybackGroup group,
         const std::optional<WorldPosition> &position = std::nullopt);
+    bool playSoundByName(
+        const std::string &soundName,
+        PlaybackGroup group,
+        SoundScope scope = SoundScope::World,
+        const std::optional<WorldPosition> &position = std::nullopt);
     uint64_t playSoundInstance(
         uint32_t soundId,
         PlaybackGroup group,

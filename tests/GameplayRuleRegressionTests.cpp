@@ -2723,6 +2723,52 @@ TEST_CASE("outdoor actor movement ignores pre-existing actor overlap")
     CHECK(resolved.x > state.x + 32.0f);
 }
 
+TEST_CASE("outdoor party collision can block on non-reporting actor collider")
+{
+    const SyntheticOutdoorWaterBoundaryScenario boundary = createSyntheticOutdoorWaterBoundaryScenario();
+    OpenYAMM::Game::OutdoorMovementController movementController(
+        boundary.mapData,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt);
+
+    const OpenYAMM::Game::OutdoorMoveState state =
+        movementController.initializeState(boundary.landX, boundary.landY, 0.0f);
+
+    OpenYAMM::Game::OutdoorActorCollision blocker = {};
+    blocker.source = OpenYAMM::Game::OutdoorActorCollisionSource::Mm9ScriptedObject;
+    blocker.sourceIndex = 123;
+    blocker.radius = 64;
+    blocker.height = 160;
+    blocker.worldX = static_cast<int>(std::lround(state.x + 160.0f));
+    blocker.worldY = static_cast<int>(std::lround(state.y));
+    blocker.worldZ = static_cast<int>(std::lround(state.footZ));
+    blocker.reportContact = false;
+    movementController.setActorColliders({blocker});
+
+    std::vector<size_t> contactedActorIndices;
+    const OpenYAMM::Game::OutdoorMoveState resolved =
+        movementController.resolveMove(
+            state,
+            512.0f,
+            0.0f,
+            0.0f,
+            false,
+            false,
+            false,
+            false,
+            false,
+            512.0f,
+            0.0f,
+            4000.0f,
+            0.5f,
+            &contactedActorIndices);
+
+    CHECK(contactedActorIndices.empty());
+    CHECK(resolved.x < state.x + 100.0f);
+}
+
 TEST_CASE("outdoor party can move out of pre-existing decoration overlap")
 {
     const SyntheticOutdoorWaterBoundaryScenario boundary = createSyntheticOutdoorWaterBoundaryScenario();

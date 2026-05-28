@@ -280,6 +280,18 @@ int runApplication(int argc, char **argv)
         return diagnostics.runProfileFullMapLoad(argv[0], arguments[1]);
     }
 
+    if (arguments.size() == 2 && arguments[0] == "--headless-mm9-billboard-smoke")
+    {
+        OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
+        return diagnostics.runMm9BillboardSmoke(argv[0], arguments[1]);
+    }
+
+    if (arguments.size() == 2 && arguments[0] == "--headless-mm9-dialogue-smoke")
+    {
+        OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
+        return diagnostics.runMm9DialogueSmoke(argv[0], arguments[1]);
+    }
+
     if (arguments.size() == 5 && arguments[0] == "--headless-simulate-actor")
     {
         const std::string mapFileName = arguments[1];

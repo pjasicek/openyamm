@@ -703,7 +703,7 @@ void resolveActorCylinderOverlaps(
                 continue;
             }
 
-            if (pContactedActorIndices != nullptr)
+            if (collider.reportContact && pContactedActorIndices != nullptr)
             {
                 pContactedActorIndices->push_back(collider.sourceIndex);
             }
@@ -2222,7 +2222,9 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
 
             if (hit.kind == CollisionHit::Kind::Actor)
             {
-                if (hit.colliderIndex < m_actorColliders.size() && pContactedActorIndices != nullptr)
+                if (hit.colliderIndex < m_actorColliders.size()
+                    && m_actorColliders[hit.colliderIndex].reportContact
+                    && pContactedActorIndices != nullptr)
                 {
                     pContactedActorIndices->push_back(m_actorColliders[hit.colliderIndex].sourceIndex);
                 }
@@ -2717,7 +2719,7 @@ OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
                     static_cast<float>(m_actorColliders[hit.colliderIndex].worldZ)
                 };
 
-                if (pContactedActorIndices != nullptr)
+                if (m_actorColliders[hit.colliderIndex].reportContact && pContactedActorIndices != nullptr)
                 {
                     pContactedActorIndices->push_back(m_actorColliders[hit.colliderIndex].sourceIndex);
                 }

@@ -3,6 +3,7 @@
 #include "game/audio/SoundIds.h"
 #include "game/events/EvtEnums.h"
 #include "game/events/ISceneEventContext.h"
+#include "game/gameplay/ArenaRuntime.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/HouseInteraction.h"
@@ -3660,6 +3661,36 @@ TEST_CASE("mm6 free haven armsmaster teachers use mmerge topic data")
     CHECK_EQ(
         winstonDialog.actions[*grandmasterIndex].kind,
         OpenYAMM::Game::EventDialogActionKind::MasteryTeacherOffer);
+}
+
+TEST_CASE("arena NPC topic opens difficulty offer")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+    harness.eventRuntimeState().npcTopicOverrides[StonNpcId][3] = OpenYAMM::Game::ArenaNpcTopicId;
+
+    const OpenYAMM::Game::EventDialogContent &dialog = harness.openNpcDialogue(StonNpcId);
+    std::optional<size_t> arenaIndex = std::nullopt;
+
+    for (size_t actionIndex = 0; actionIndex < dialog.actions.size(); ++actionIndex)
+    {
+        if (dialog.actions[actionIndex].kind == OpenYAMM::Game::EventDialogActionKind::NpcTopic
+            && dialog.actions[actionIndex].id == OpenYAMM::Game::ArenaNpcTopicId)
+        {
+            arenaIndex = actionIndex;
+            break;
+        }
+    }
+
+    REQUIRE(arenaIndex.has_value());
+
+    const OpenYAMM::Game::EventDialogContent &offerDialog = harness.executeAndPresent(*arenaIndex);
+
+    CHECK(dialogContainsText(offerDialog, "Welcome to the Arena of Life and Death"));
+    CHECK(dialogHasAction(offerDialog, OpenYAMM::Game::EventDialogActionKind::ArenaDifficulty, "Page"));
+    CHECK(dialogHasAction(offerDialog, OpenYAMM::Game::EventDialogActionKind::ArenaDifficulty, "Squire"));
+    CHECK(dialogHasAction(offerDialog, OpenYAMM::Game::EventDialogActionKind::ArenaDifficulty, "Knight"));
+    CHECK(dialogHasAction(offerDialog, OpenYAMM::Game::EventDialogActionKind::ArenaDifficulty, "Lord"));
 }
 
 TEST_CASE("mastery teacher topics are identified from merged table and vanilla range only")

@@ -222,6 +222,7 @@ public:
     const std::string &mapName() const override;
     const MonsterTable *monsterTable() const override;
     const MergedBolsterMonsterTable *mergedBolsterMonsterTable() const override;
+    std::string currentMapWorldId() const override;
     bool isIndoorMap() const override;
     bool allowsLloydsBeacon() const override;
     float currentGameMinutes() const override;
@@ -367,6 +368,13 @@ public:
         float y,
         float z,
         uint32_t group) override;
+    bool summonArenaMonsterById(
+        int16_t monsterId,
+        float x,
+        float y,
+        float z,
+        uint32_t group) override;
+    bool teleportPartyTo(float x, float y, float z, int32_t directionDegrees) override;
     bool tryStartArmageddon(
         size_t casterMemberIndex,
         uint32_t skillLevel,

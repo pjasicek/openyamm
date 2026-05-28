@@ -34,6 +34,7 @@
 namespace OpenYAMM::Game
 {
 struct GameplayInputFrame;
+struct Mm9DialoguePackage;
 
 class GameSession
 {
@@ -131,6 +132,7 @@ public:
     const std::unordered_map<std::string, IndoorSceneRuntime::Snapshot> &indoorSceneStates() const;
     std::unordered_map<std::string, IndoorSceneRuntime::Snapshot> &indoorSceneStates();
     void storeIndoorSceneState(const std::string &mapFileName, const IndoorSceneRuntime::Snapshot &snapshot);
+    void clearMapRuntimeState(const std::string &mapFileName, const std::string &canonicalId);
 
     const std::unordered_map<std::string, int32_t> &namedGlobalVars() const;
     int32_t namedGlobalVar(const std::string &name, int32_t defaultValue = 0) const;
@@ -138,6 +140,10 @@ public:
     void clearNamedGlobalVar(const std::string &name);
     void mergeNamedGlobalVarsFromRuntime(const EventRuntimeState &runtimeState);
     void applyNamedGlobalVarsToRuntime(EventRuntimeState &runtimeState) const;
+    const Mm9ScriptRuntimeState &mm9ScriptState() const;
+    void initializeMm9ScriptState(const Mm9DialoguePackage &package);
+    void setMm9ScriptState(const Mm9ScriptRuntimeState &state);
+    void clearMm9ScriptState();
 
     void setOutdoorCameraAngles(float yawRadians, float pitchRadians);
     float outdoorCameraYawRadians() const;
@@ -270,6 +276,7 @@ private:
     std::optional<IndoorSceneRuntime::Snapshot> m_currentIndoorSceneState;
     std::unordered_map<std::string, IndoorSceneRuntime::Snapshot> m_indoorSceneStates;
     std::unordered_map<std::string, int32_t> m_namedGlobalVars;
+    Mm9ScriptRuntimeState m_mm9ScriptState;
     float m_gameMinutes = 9.0f * 60.0f;
     float m_outdoorCameraYawRadians = 0.0f;
     float m_outdoorCameraPitchRadians = 0.0f;

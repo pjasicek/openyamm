@@ -17,6 +17,8 @@
 #include "game/gameplay/HouseServiceRuntime.h"
 #include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
+#include "game/mm9/Mm9AnimatedActorBinding.h"
+#include "game/mm9/Mm9AnimatedModelSidecar.h"
 #include "game/tables/ItemTable.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
 #include "game/outdoor/OutdoorSpatialFxRuntime.h"
@@ -68,6 +70,7 @@
 #include <sstream>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -662,6 +665,15 @@ constexpr float HudFontIntegerSnapThreshold = 0.1f;
 constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
 constexpr uint64_t OutdoorFrameTimingWindowNanoseconds = 3ULL * 1000ULL * 1000ULL * 1000ULL;
 constexpr uint64_t OutdoorFrameTimingLogThresholdNanoseconds = 8ULL * 1000ULL * 1000ULL;
+
+float yawRadiansFromQuaternion(const std::array<float, 4> &quaternion)
+{
+    const float x = quaternion[0];
+    const float y = quaternion[1];
+    const float z = quaternion[2];
+    const float w = quaternion[3];
+    return std::atan2(2.0f * (w * z + x * y), 1.0f - 2.0f * (y * y + z * z));
+}
 
 std::string actPaletteCacheKey(int16_t paletteId, const std::string &worldId)
 {
@@ -2990,10 +3002,12 @@ bool OutdoorGameView::initialize(
     const std::optional<DecorationBillboardSet> &outdoorDecorationBillboardSet,
     const std::optional<ActorPreviewBillboardSet> &outdoorActorPreviewBillboardSet,
     const std::optional<SpriteObjectBillboardSet> &outdoorSpriteObjectBillboardSet,
-        const std::optional<MapDeltaData> &outdoorMapDeltaData,
-        GameAudioSystem *pGameAudioSystem,
-        OutdoorSceneRuntime &sceneRuntime,
-        const GameSettings &settings)
+    const std::optional<OutdoorSceneData> &outdoorSceneData,
+    const std::optional<Mm9EventsData> &mm9EventsData,
+    const std::optional<MapDeltaData> &outdoorMapDeltaData,
+    GameAudioSystem *pGameAudioSystem,
+    OutdoorSceneRuntime &sceneRuntime,
+    const GameSettings &settings)
 {
     shutdown();
     OutdoorViewLoadTimingLogger timingLogger(map.fileName);
@@ -3015,6 +3029,169 @@ bool OutdoorGameView::initialize(
     m_pOutdoorWorldRuntime->bindGlobalEventProgram(&sceneRuntime.globalEventProgram());
     m_pOutdoorWorldRuntime->setWorldFxSystem(&m_worldFxSystem);
     m_gameSettings = settings;
+
+    if (normalizeWorldId(map.worldId) == "mm9" && outdoorSceneData)
+    {
+        Mm9ScriptedBillboardVisualSet visualSet = {};
+        std::string visualError;
+        const bool loadedScriptedBillboardVisuals =
+            visualSet.loadFromAssetFileSystem(assetFileSystem, visualError);
+
+        if (!loadedScriptedBillboardVisuals
+            && !visualError.empty()
+            && assetFileSystem.exists(Mm9ScriptedBillboardVisualRoot))
+        {
+            std::cerr << "Failed to load MM9 scripted billboard visuals for " << map.fileName
+                      << ": " << visualError << '\n';
+        }
+
+        const std::string mapId = normalizeMapFileStem(map.fileName);
+        const auto logMissingVisual =
+            [&map](const Mm9ScriptedBillboardInstance &instance)
+            {
+                std::cerr
+                    << "MM9 scripted billboard missing visual"
+                    << " map=" << (instance.mapId.empty() ? map.fileName : instance.mapId)
+                    << " object_id=" << instance.objectId
+                    << " source_object_index=" << instance.sourceObjectIndex
+                    << " source_class=" << instance.sourceClass
+                    << " source_name=" << instance.sourceName
+                    << " visual_id=" << instance.visualId
+                    << " source_model=" << instance.sourceModel
+                    << " source_skin=" << instance.sourceSkin
+                    << " script_name=" << instance.scriptName
+                    << " script_params=" << instance.scriptParams
+                    << " reason=" << instance.missingVisualReason
+                    << '\n';
+            };
+
+        Mm9ScriptedObjectRuntime scriptedObjectRuntime = {};
+        scriptedObjectRuntime.initialize(
+            mapId,
+            *outdoorSceneData,
+            visualSet,
+            mm9EventsData ? &*mm9EventsData : nullptr);
+
+        m_mm9ScriptedBillboardInstances = scriptedObjectRuntime.objects();
+        if (loadedScriptedBillboardVisuals)
+        {
+            for (const Mm9ScriptedBillboardInstance &instance : m_mm9ScriptedBillboardInstances)
+            {
+                if (instance.missingVisual)
+                {
+                    logMissingVisual(instance);
+                }
+            }
+        }
+
+        m_mm9ScriptedObjectRuntime = std::move(scriptedObjectRuntime);
+        m_mm9ScriptedBillboardVisuals = std::move(visualSet);
+
+        m_mm9AnimatedActorInstances.clear();
+        const std::optional<std::filesystem::path> registryPath =
+            assetFileSystem.resolvePhysicalPath("worlds/mm9/models/model_registry.yml");
+        if (registryPath.has_value())
+        {
+            Mm9AnimatedModelResolver resolver = {};
+            std::string resolverError;
+            if (resolver.loadRegistry(*registryPath, resolverError))
+            {
+                std::unordered_map<std::string, std::shared_ptr<AnimatedModelAsset>> assetCache;
+                for (const Mm9ScriptedObject &object : m_mm9ScriptedBillboardInstances)
+                {
+                    if (object.sourceModel.empty())
+                    {
+                        continue;
+                    }
+
+                    std::vector<AnimatedModelDiagnostic> diagnostics;
+                    const std::optional<Mm9AnimatedActorResolvedSource> resolved =
+                        resolveMm9AnimatedActorVisualSource(object, resolver, diagnostics);
+                    if (!resolved.has_value())
+                    {
+                        for (const AnimatedModelDiagnostic &diagnostic : diagnostics)
+                        {
+                            if (diagnostic.error)
+                            {
+                                std::cerr << diagnostic.message << '\n';
+                            }
+                        }
+                        continue;
+                    }
+
+                    const std::string assetKey = resolved->resolution.modelAssetPath.generic_string();
+                    std::shared_ptr<AnimatedModelAsset> asset;
+                    const auto assetIterator = assetCache.find(assetKey);
+                    if (assetIterator != assetCache.end())
+                    {
+                        asset = assetIterator->second;
+                    }
+                    else
+                    {
+                        std::string assetError;
+                        std::optional<AnimatedModelAsset> loadedAsset =
+                            loadAnimatedModelAsset(resolved->resolution.modelAssetPath, assetError);
+                        if (!loadedAsset.has_value())
+                        {
+                            std::cerr << assetError << '\n';
+                            continue;
+                        }
+
+                        std::optional<Mm9AnimatedModelSidecar> sidecar =
+                            loadMm9AnimatedModelSidecar(resolved->resolution.modelSidecarPath, assetError);
+                        if (!sidecar.has_value())
+                        {
+                            std::cerr << assetError << '\n';
+                            continue;
+                        }
+
+                        mergeMm9AnimatedModelSidecar(*sidecar, *loadedAsset);
+                        if (loadedAsset->hasErrors())
+                        {
+                            for (const AnimatedModelDiagnostic &diagnostic : loadedAsset->diagnostics)
+                            {
+                                if (diagnostic.error)
+                                {
+                                    std::cerr << diagnostic.message << '\n';
+                                }
+                            }
+                            continue;
+                        }
+
+                        asset = std::make_shared<AnimatedModelAsset>(std::move(*loadedAsset));
+                        assetCache.emplace(assetKey, asset);
+                    }
+
+                    Mm9AnimatedActorVisual visual = {};
+                    if (!initializeMm9AnimatedActorVisual(
+                            resolved->source,
+                            resolved->resolution,
+                            *asset,
+                            visual))
+                    {
+                        for (const AnimatedModelDiagnostic &diagnostic : visual.diagnostics)
+                        {
+                            if (diagnostic.error)
+                            {
+                                std::cerr << diagnostic.message << '\n';
+                            }
+                        }
+                        continue;
+                    }
+
+                    m_mm9AnimatedActorInstances.push_back(Mm9AnimatedActorInstance{
+                        .visual = std::move(visual),
+                        .asset = asset,
+                    });
+                }
+            }
+            else
+            {
+                std::cerr << resolverError << '\n';
+            }
+        }
+    }
+
     refreshViewDistanceCache();
     m_gameSession.gameplayScreenRuntime().bindSceneAdapter(this);
     m_gameSession.gameplayScreenRuntime().bindAudioSystem(m_pGameAudioSystem);
@@ -3154,8 +3331,10 @@ bool OutdoorGameView::initialize(
     m_spellAreaPreviewColorBUniformHandle = bgfx::createUniform("u_spellAreaColorB", bgfx::UniformType::Vec4);
     timingLogger.stage("outdoor uniforms created");
 
-    if (!bgfx::isValid(m_vertexBufferHandle)
-        || !bgfx::isValid(m_indexBufferHandle)
+    const bool requiresTerrainHeightmapResources = normalizeWorldId(map.worldId) != "mm9";
+
+    if ((requiresTerrainHeightmapResources
+            && (!bgfx::isValid(m_vertexBufferHandle) || !bgfx::isValid(m_indexBufferHandle)))
         || !bgfx::isValid(m_programHandle)
         || !bgfx::isValid(m_outdoorLitBillboardProgramHandle)
         || !m_worldFxRenderResources.isReady()
@@ -3367,6 +3546,28 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
         };
 
     updateHouseVideoPlayback(deltaSeconds);
+    const uint64_t animatedActorUpdateBeginTickCount =
+        m_gameSettings.performanceTrace ? SDL_GetTicksNS() : 0;
+
+    for (Mm9AnimatedActorInstance &instance : m_mm9AnimatedActorInstances)
+    {
+        if (instance.asset)
+        {
+            if (m_gameSettings.performanceTrace)
+            {
+                ++m_outdoorAnimatedModelRenderDiagnostics.evaluatedSkeletons;
+                m_outdoorAnimatedModelRenderDiagnostics.evaluatedNodes += instance.asset->nodes.size();
+            }
+            updateMm9AnimatedActorVisual(instance.visual, *instance.asset, deltaSeconds);
+        }
+    }
+
+    if (m_gameSettings.performanceTrace && animatedActorUpdateBeginTickCount != 0)
+    {
+        m_outdoorAnimatedModelRenderDiagnostics.cpuAnimationNanoseconds +=
+            SDL_GetTicksNS() - animatedActorUpdateBeginTickCount;
+    }
+
     updateItemInspectOverlayState(width, height, input);
     updateActorInspectOverlayState(width, height, input);
     captureFrameTimingStage(overlayStageNanoseconds);
@@ -3566,6 +3767,10 @@ void OutdoorGameView::shutdown()
         m_isInitialized = false;
         m_map.reset();
         m_outdoorMapData.reset();
+        m_mm9ScriptedBillboardVisuals.reset();
+        m_mm9ScriptedObjectRuntime.reset();
+        m_mm9ScriptedBillboardInstances.clear();
+        m_mm9AnimatedActorInstances.clear();
         m_pOutdoorPartyRuntime = nullptr;
         m_pAssetFileSystem = nullptr;
         m_pOutdoorSceneRuntime = nullptr;
@@ -3578,6 +3783,7 @@ void OutdoorGameView::shutdown()
         m_pOutdoorWorldRuntime = nullptr;
         resetLightingStats(m_outdoorLightingStats);
         m_outdoorSpriteRenderDiagnostics = {};
+        m_outdoorAnimatedModelRenderDiagnostics = {};
         m_lastOutdoorLightingStatsLogElapsedTime = 0.0f;
     };
 
@@ -3633,6 +3839,9 @@ void OutdoorGameView::shutdown()
         m_bmodelTextureAnimations.clear();
         m_resolvedBModelDrawGroups.clear();
         m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
+        m_animatedModelRenderResources.reset();
+        m_mm9AnimatedActorTextureHandles.clear();
+        m_mm9AnimatedActorTextureIndexByName.clear();
 
         m_texturedBModelBatches.clear();
         OutdoorBillboardRenderer::invalidateRenderAssets(*this);
@@ -3669,6 +3878,7 @@ void OutdoorGameView::shutdown()
     }
 
     ParticleRenderer::shutdownResources(m_worldFxRenderResources);
+    AnimatedModelRenderer::shutdownResources(m_animatedModelRenderResources);
 
     if (bgfx::isValid(m_outdoorTexturedFogProgramHandle))
     {
@@ -3822,6 +4032,17 @@ void OutdoorGameView::shutdown()
 
     m_texturedBModelBatches.clear();
     m_bmodelTextureAnimations.clear();
+    for (Mm9AnimatedActorTextureHandle &textureHandle : m_mm9AnimatedActorTextureHandles)
+    {
+        if (bgfx::isValid(textureHandle.textureHandle))
+        {
+            bgfx::destroy(textureHandle.textureHandle);
+            textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+        }
+    }
+    m_mm9AnimatedActorTextureHandles.clear();
+    m_mm9AnimatedActorTextureIndexByName.clear();
+
     for (ResolvedBModelDrawGroup &group : m_resolvedBModelDrawGroups)
     {
         if (bgfx::isValid(group.vertexBufferHandle))
@@ -3901,6 +4122,9 @@ void OutdoorGameView::shutdown()
     }
 
     resetRuntimeState();
+    m_mm9ScriptRuntime.reset();
+    m_mm9DialogueRuntime.reset();
+    m_mm9DialoguePackage.reset();
     m_pGameAudioSystem = nullptr;
     m_outdoorDecorationBillboardSet.reset();
     m_outdoorActorPreviewBillboardSet.reset();
@@ -3910,6 +4134,7 @@ void OutdoorGameView::shutdown()
     m_lastOutdoorFxLightUniformUpdateElapsedTime = -1.0f;
     resetLightingStats(m_outdoorLightingStats);
     m_outdoorSpriteRenderDiagnostics = {};
+    m_outdoorAnimatedModelRenderDiagnostics = {};
     m_lastOutdoorLightingStatsLogElapsedTime = 0.0f;
     m_cachedSkyVertices.clear();
     m_cachedSkyTextureName.clear();
@@ -4910,6 +5135,18 @@ void OutdoorGameView::executeActiveDialogAction()
     {
         m_pOutdoorWorldRuntime->executeActiveDialogAction();
     }
+}
+
+const std::vector<Mm9ScriptedObject> &
+OutdoorGameView::mm9ScriptedBillboardInstances() const
+{
+    return m_mm9ScriptedBillboardInstances;
+}
+
+const std::vector<OutdoorGameView::Mm9AnimatedActorInstance> &
+OutdoorGameView::mm9AnimatedActorInstances() const
+{
+    return m_mm9AnimatedActorInstances;
 }
 
 GameSettings &OutdoorGameView::mutableSettings()

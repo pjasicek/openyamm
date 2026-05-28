@@ -109,6 +109,13 @@ struct GameplayEventTargetContextActionMetadata
     std::optional<uint32_t> houseId;
     std::optional<std::string> targetMap;
     std::optional<std::string> targetName;
+    std::optional<int32_t> mm9SourceObjectIndex;
+    std::optional<std::string> mm9ObjectId;
+    std::optional<std::string> mm9SourceClass;
+    std::optional<std::string> mm9SourceName;
+    std::optional<std::string> mm9VisualId;
+    std::optional<std::string> mm9ScriptName;
+    std::optional<std::string> mm9ScriptParams;
     std::vector<uint32_t> chestIds;
     bool hidden = false;
 };

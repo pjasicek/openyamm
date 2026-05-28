@@ -898,6 +898,29 @@ bool GameAudioSystem::playSound(
     return playResolvedSound(*virtualPath, group, position, false, sound.id, "playSound") != 0;
 }
 
+bool GameAudioSystem::playSoundByName(
+    const std::string &soundName,
+    PlaybackGroup group,
+    SoundScope scope,
+    const std::optional<WorldPosition> &position)
+{
+    const std::optional<std::string> virtualPath = m_soundCatalog.buildVirtualPathByName(scope, soundName);
+    if (!virtualPath)
+    {
+        if (audioTraceEnabled())
+        {
+            logAudioTracePrefix("request", "playSoundByName");
+            std::cerr << " name=\"" << soundName << "\" group=" << playbackGroupName(group)
+                      << " loop=0 result=unresolved";
+            logAudioTracePosition(position);
+            std::cerr << '\n';
+        }
+        return false;
+    }
+
+    return playResolvedSound(*virtualPath, group, position, false, 0, "playSoundByName") != 0;
+}
+
 uint64_t GameAudioSystem::playSoundInstance(
     uint32_t soundId,
     PlaybackGroup group,

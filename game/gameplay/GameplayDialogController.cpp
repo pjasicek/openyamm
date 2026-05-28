@@ -3,6 +3,7 @@
 #include "game/StringUtils.h"
 #include "game/audio/SoundIds.h"
 #include "game/debug/GameplayDebugTrace.h"
+#include "game/gameplay/ArenaRuntime.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/HouseInteraction.h"
@@ -24,6 +25,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <optional>
+#include <random>
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -102,6 +104,10 @@ const char *eventDialogActionKindName(EventDialogActionKind kind)
             return "guild_membership_join";
         case EventDialogActionKind::GeneratedMercenaryJoinOffer:
             return "generated_mercenary_join_offer";
+        case EventDialogActionKind::ArenaDifficulty:
+            return "arena_difficulty";
+        case EventDialogActionKind::Mm9Topic:
+            return "mm9_topic";
     }
 
     return "unknown";
@@ -1329,6 +1335,105 @@ void playCommonUiSound(GameplayDialogController::Context &context, SoundId sound
     }
 }
 
+std::mt19937 &arenaRuntimeRng()
+{
+    static thread_local std::mt19937 rng(std::random_device{}());
+    return rng;
+}
+
+void reopenNpcTalk(GameplayDialogController::Context &context, uint32_t npcId)
+{
+    setPendingDialogueContext(
+        context.eventRuntimeState,
+        DialogueContextKind::NpcTalk,
+        npcId,
+        currentDialogueHostHouseId(context.eventRuntimeState));
+}
+
+GameplayDialogController::Result executeArenaTopic(GameplayDialogController::Context &context, uint32_t npcId)
+{
+    GameplayDialogController::Result result = {};
+    result.previousMessageCount = context.eventRuntimeState.messages.size();
+
+    if (context.pParty == nullptr || context.pWorldRuntime == nullptr)
+    {
+        return result;
+    }
+
+    if (context.pParty->arenaVisitState() == ArenaVisitState::Initial)
+    {
+        EventRuntimeState::DialogueOfferState offer = {};
+        offer.kind = DialogueOfferKind::Arena;
+        offer.npcId = npcId;
+        offer.topicId = ArenaNpcTopicId;
+        context.eventRuntimeState.dialogueState.currentOffer = offer;
+        context.eventRuntimeState.messages.push_back(
+            "Welcome to the Arena of Life and Death. Remember, you are only allowed one arena combat per visit. "
+            "To fight an arena battle, select the option that best describes your abilities and return to me if "
+            "you survive.");
+        reopenNpcTalk(context, npcId);
+        result.shouldOpenPendingEventDialog = true;
+        return result;
+    }
+
+    if (context.pParty->arenaVisitState() == ArenaVisitState::Won)
+    {
+        context.eventRuntimeState.messages.push_back("You already won this trip to the Arena.");
+        reopenNpcTalk(context, npcId);
+        result.shouldOpenPendingEventDialog = true;
+        return result;
+    }
+
+    if (!arenaFightIsComplete(*context.pWorldRuntime))
+    {
+        context.pWorldRuntime->teleportPartyTo(3849.0f, 5770.0f, 1.0f, 90);
+        context.pParty->requestSound(SoundId::Heroism);
+        result.shouldCloseActiveDialog = true;
+        return result;
+    }
+
+    const int reward = context.pParty->arenaGoldReward();
+
+    if (claimArenaReward(*context.pParty))
+    {
+        context.eventRuntimeState.messages.push_back(
+            "Congratulations on your win. Here's your stuff. " + std::to_string(reward) + " gold.");
+    }
+
+    reopenNpcTalk(context, npcId);
+    result.shouldOpenPendingEventDialog = true;
+    return result;
+}
+
+GameplayDialogController::Result executeArenaDifficulty(
+    GameplayDialogController::Context &context,
+    uint32_t actionId)
+{
+    GameplayDialogController::Result result = {};
+    result.previousMessageCount = context.eventRuntimeState.messages.size();
+
+    if (context.pParty == nullptr || context.pWorldRuntime == nullptr)
+    {
+        return result;
+    }
+
+    const ArenaDifficulty difficulty = arenaDifficultyFromActionId(actionId);
+
+    if (!startArenaFight(*context.pParty, *context.pWorldRuntime, difficulty, arenaRuntimeRng()))
+    {
+        context.eventRuntimeState.messages.push_back("The Arena Master cannot summon opponents right now.");
+        reopenNpcTalk(context, context.activeEventDialog.sourceId);
+        result.shouldOpenPendingEventDialog = true;
+        return result;
+    }
+
+    context.eventRuntimeState.dialogueState.currentOffer.reset();
+    context.eventRuntimeState.messages.push_back("Please wait while I summon the monsters. Good luck.");
+    playCommonUiSound(context, SoundId::Heroism);
+    result.shouldCloseActiveDialog = true;
+    return result;
+}
+
 void cancelMapTransition(GameplayDialogController::Context &context)
 {
     const uint32_t sourceId =
@@ -1945,6 +2050,22 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             result.shouldOpenPendingEventDialog = true;
         }
 
+        return result;
+    }
+
+    if (action.kind == EventDialogActionKind::ArenaDifficulty)
+    {
+        return executeArenaDifficulty(context, action.id);
+    }
+
+    if (action.kind == EventDialogActionKind::Mm9Topic)
+    {
+        EventDialogContent updatedContent = {};
+        if (context.pWorldRuntime != nullptr
+            && context.pWorldRuntime->executeMm9DialogueAction(action, updatedContent))
+        {
+            context.activeEventDialog = std::move(updatedContent);
+        }
         return result;
     }
 
@@ -3246,6 +3367,11 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         const std::optional<EventRuntimeState::PendingDialogueContext> previousPendingDialogueContext =
             context.eventRuntimeState.pendingDialogueContext;
         bool executed = false;
+
+        if (action.id == ArenaNpcTopicId)
+        {
+            return executeArenaTopic(context, npcId);
+        }
 
         if (action.textOnly && context.pNpcDialogTable != nullptr)
         {

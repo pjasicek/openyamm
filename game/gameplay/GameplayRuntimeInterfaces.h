@@ -22,6 +22,8 @@ struct GameplayMinimapLineState;
 struct GameplayMinimapMarkerState;
 struct GameplayInputFrame;
 struct PartySpellCastResult;
+struct EventDialogAction;
+struct EventDialogContent;
 
 struct GameplayWorldUiRenderState
 {
@@ -79,6 +81,7 @@ struct GameplayRuntimeActorState
     float preciseZ = 0.0f;
     uint16_t radius = 0;
     uint16_t height = 0;
+    uint32_t group = 0;
     bool isDead = false;
     bool isInvisible = false;
     bool hostileToParty = false;
@@ -411,6 +414,10 @@ public:
     {
         return nullptr;
     }
+    virtual std::string currentMapWorldId() const
+    {
+        return {};
+    }
     virtual bool isIndoorMap() const = 0;
     virtual bool isUnderwaterMap() const
     {
@@ -622,6 +629,23 @@ public:
         (void)group;
         return false;
     }
+    virtual bool summonArenaMonsterById(
+        int16_t monsterId,
+        float x,
+        float y,
+        float z,
+        uint32_t group)
+    {
+        return summonHostileMonsterById(monsterId, 1, x, y, z, group);
+    }
+    virtual bool teleportPartyTo(float x, float y, float z, int32_t directionDegrees)
+    {
+        (void)x;
+        (void)y;
+        (void)z;
+        (void)directionDegrees;
+        return false;
+    }
     virtual bool tryStartArmageddon(
         size_t casterMemberIndex,
         uint32_t skillLevel,
@@ -631,6 +655,12 @@ public:
         const GameplayWorldHit &hit,
         GameplayInteractionMethod interactionMethod) const = 0;
     virtual bool activateWorldHit(const GameplayWorldHit &hit) = 0;
+    virtual bool executeMm9DialogueAction(const EventDialogAction &action, EventDialogContent &content)
+    {
+        (void)action;
+        (void)content;
+        return false;
+    }
     virtual bool activateWorldHitFromSpell(const GameplayWorldHit &hit, uint32_t spellId)
     {
         (void)spellId;

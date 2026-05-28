@@ -55,6 +55,8 @@ enum class MonsterKind : uint32_t
 };
 
 uint32_t monsterKindFlag(MonsterKind kind);
+const char *mergedMonsterSourceWorldId(int16_t monsterId);
+bool mergedMonsterBelongsToWorld(int16_t monsterId, const std::string &worldId);
 
 struct MonsterEntry
 {

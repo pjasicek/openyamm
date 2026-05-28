@@ -6,6 +6,7 @@
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/GameplayInputFrame.h"
+#include "game/maps/MapIdentity.h"
 #include "game/ui/GameplaySpellTargetingOverlayRenderer.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
 #include "game/outdoor/OutdoorFogProfile.h"
@@ -14,6 +15,8 @@
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorLightingRuntime.h"
+#include "game/mm9/Mm9DtxTexture.h"
+#include "game/render/AnimatedModelRenderer.h"
 #include "game/render/TextureFiltering.h"
 #include "game/StringUtils.h"
 #include "engine/ImageAssetLoader.h"
@@ -166,6 +169,122 @@ uint32_t makeTintedFogColor(
 bool outdoorFaceHasInvisibleAttribute(uint32_t attributes)
 {
     return hasFaceAttribute(attributes, FaceAttribute::Invisible);
+}
+
+bool shouldRenderTerrainHeightmap(const OutdoorMapData &outdoorMapData)
+{
+    return normalizeWorldId(outdoorMapData.worldId) != "mm9";
+}
+
+bool endsWithMm9IgnoreCase(const std::string &value, const std::string &suffix)
+{
+    return value.size() >= suffix.size()
+        && toLowerCopy(value.substr(value.size() - suffix.size())) == toLowerCopy(suffix);
+}
+
+std::vector<std::string> splitMm9TextureRef(const std::string &textureRef)
+{
+    std::string normalizedTextureRef = textureRef;
+    std::replace(normalizedTextureRef.begin(), normalizedTextureRef.end(), '\\', '/');
+
+    while (!normalizedTextureRef.empty() && normalizedTextureRef.front() == '/')
+    {
+        normalizedTextureRef.erase(normalizedTextureRef.begin());
+    }
+
+    std::vector<std::string> components;
+    size_t cursor = 0;
+
+    while (cursor < normalizedTextureRef.size())
+    {
+        const size_t separator = normalizedTextureRef.find('/', cursor);
+        const size_t end = separator == std::string::npos ? normalizedTextureRef.size() : separator;
+
+        if (end > cursor)
+        {
+            components.push_back(normalizedTextureRef.substr(cursor, end - cursor));
+        }
+
+        if (separator == std::string::npos)
+        {
+            break;
+        }
+
+        cursor = separator + 1;
+    }
+
+    return components;
+}
+
+std::optional<std::filesystem::path> resolveCaseInsensitiveChildPath(
+    const std::filesystem::path &root,
+    const std::string &relativePath)
+{
+    std::error_code errorCode;
+    std::filesystem::path current = root;
+
+    if (!std::filesystem::exists(current, errorCode) || errorCode)
+    {
+        return std::nullopt;
+    }
+
+    for (const std::string &component : splitMm9TextureRef(relativePath))
+    {
+        const std::string componentKey = toLowerCopy(component);
+        bool found = false;
+
+        std::filesystem::directory_iterator iterator(current, errorCode);
+        if (errorCode)
+        {
+            return std::nullopt;
+        }
+
+        for (const std::filesystem::directory_entry &entry : iterator)
+        {
+            if (toLowerCopy(entry.path().filename().string()) == componentKey)
+            {
+                current = entry.path();
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+        {
+            return std::nullopt;
+        }
+    }
+
+    return current;
+}
+
+std::optional<std::filesystem::path> resolveMm9SourceTexturePath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &textureName)
+{
+    if (textureName.empty())
+    {
+        return std::nullopt;
+    }
+
+    std::string textureRef = textureName;
+
+    if (!endsWithMm9IgnoreCase(textureRef, ".dtx"))
+    {
+        textureRef += ".dtx";
+    }
+
+    const std::string virtualPath = "worlds/mm9/source/" + textureRef;
+    const std::optional<std::filesystem::path> exactPath = assetFileSystem.resolvePhysicalPath(virtualPath);
+
+    if (exactPath)
+    {
+        return exactPath;
+    }
+
+    const std::filesystem::path sourceRoot =
+        assetFileSystem.getDevelopmentRoot() / "worlds" / "mm9" / "source";
+    return resolveCaseInsensitiveChildPath(sourceRoot, textureRef);
 }
 
 uint32_t withAlpha(uint32_t abgr, uint8_t alpha)
@@ -1075,18 +1194,27 @@ uint64_t outdoorSurfaceVisualRevision(
     return revision;
 }
 
-std::array<float, 3> outdoorBModelRuntimeOffset(
+struct OutdoorBModelRuntimeTransform
+{
+    float dx = 0.0f;
+    float dy = 0.0f;
+    float dz = 0.0f;
+    bool hasRotation = false;
+    float pivotX = 0.0f;
+    float pivotY = 0.0f;
+    float pivotZ = 0.0f;
+    float radiansX = 0.0f;
+    float radiansY = 0.0f;
+    float radiansZ = 0.0f;
+};
+
+OutdoorBModelRuntimeTransform outdoorBModelRuntimeTransform(
     const EventRuntimeState *pEventRuntimeState,
     size_t bModelIndex)
 {
-    if (pEventRuntimeState == nullptr)
+    if (pEventRuntimeState == nullptr || pEventRuntimeState->outdoorModelMechanisms.empty())
     {
-        return {0.0f, 0.0f, 0.0f};
-    }
-
-    if (pEventRuntimeState->outdoorModelMechanisms.empty())
-    {
-        return {0.0f, 0.0f, 0.0f};
+        return {};
     }
 
     for (const std::pair<const uint32_t, EventRuntimeState::OutdoorModelMechanismDefinition> &entry :
@@ -1128,14 +1256,73 @@ std::array<float, 3> outdoorBModelRuntimeOffset(
             fraction = 1.0f - std::clamp(mechanism.timeSinceTriggeredMs / moveTimeMs, 0.0f, 1.0f);
         }
 
-        return {
-            static_cast<float>(definition.dx) * fraction,
-            static_cast<float>(definition.dy) * fraction,
-            static_cast<float>(definition.dz) * fraction
-        };
+        OutdoorBModelRuntimeTransform transform = {};
+        transform.dx = static_cast<float>(definition.dx) * fraction;
+        transform.dy = static_cast<float>(definition.dy) * fraction;
+        transform.dz = static_cast<float>(definition.dz) * fraction;
+        transform.hasRotation = definition.hasRotation;
+        transform.pivotX = definition.rotationPivotX;
+        transform.pivotY = definition.rotationPivotY;
+        transform.pivotZ = definition.rotationPivotZ;
+        transform.radiansX = definition.rotationDegreesX * fraction * Pi / 180.0f;
+        transform.radiansY = definition.rotationDegreesY * fraction * Pi / 180.0f;
+        transform.radiansZ = definition.rotationDegreesZ * fraction * Pi / 180.0f;
+        return transform;
     }
 
-    return {0.0f, 0.0f, 0.0f};
+    return {};
+}
+
+void applyOutdoorBModelRuntimeTransform(
+    float &pointX,
+    float &pointY,
+    float &pointZ,
+    const OutdoorBModelRuntimeTransform &transform)
+{
+    if (transform.hasRotation)
+    {
+        float x = pointX - transform.pivotX;
+        float y = pointY - transform.pivotY;
+        float z = pointZ - transform.pivotZ;
+
+        if (transform.radiansX != 0.0f)
+        {
+            const float cosine = std::cos(transform.radiansX);
+            const float sine = std::sin(transform.radiansX);
+            const float rotatedY = y * cosine - z * sine;
+            const float rotatedZ = y * sine + z * cosine;
+            y = rotatedY;
+            z = rotatedZ;
+        }
+
+        if (transform.radiansY != 0.0f)
+        {
+            const float cosine = std::cos(transform.radiansY);
+            const float sine = std::sin(transform.radiansY);
+            const float rotatedX = x * cosine + z * sine;
+            const float rotatedZ = -x * sine + z * cosine;
+            x = rotatedX;
+            z = rotatedZ;
+        }
+
+        if (transform.radiansZ != 0.0f)
+        {
+            const float cosine = std::cos(transform.radiansZ);
+            const float sine = std::sin(transform.radiansZ);
+            const float rotatedX = x * cosine - y * sine;
+            const float rotatedY = x * sine + y * cosine;
+            x = rotatedX;
+            y = rotatedY;
+        }
+
+        pointX = transform.pivotX + x;
+        pointY = transform.pivotY + y;
+        pointZ = transform.pivotZ + z;
+    }
+
+    pointX += transform.dx;
+    pointY += transform.dy;
+    pointZ += transform.dz;
 }
 
 const EventRuntimeState::OutdoorModelMechanismDefinition *outdoorModelMechanismDefinitionForBModel(
@@ -1462,8 +1649,28 @@ void OutdoorRenderer::applyOutdoorFxLightUniforms(OutdoorGameView &view, const b
                   << " fx_shadow_items=" << spriteStats.fxContactShadowItems
                   << " fx_shadow_submits=" << spriteStats.fxContactShadowSubmits
                   << '\n';
+
+        const OutdoorGameView::OutdoorAnimatedModelRenderDiagnostics &animatedModelStats =
+            view.m_outdoorAnimatedModelRenderDiagnostics;
+        std::cout << "[OutdoorAnimatedModelPerf]"
+                  << " visible_models=" << animatedModelStats.visibleAnimatedModels
+                  << " evaluated_skeletons=" << animatedModelStats.evaluatedSkeletons
+                  << " evaluated_nodes=" << animatedModelStats.evaluatedNodes
+                  << " render_prep_draw_items=" << animatedModelStats.renderPrepDrawItems
+                  << " submitted_draws=" << animatedModelStats.submittedDraws
+                  << " submitted_triangles=" << animatedModelStats.submittedTriangles
+                  << " uploaded_bone_matrices=" << animatedModelStats.uploadedBoneMatrices
+                  << " material_switches=" << animatedModelStats.materialSwitches
+                  << " texture_uploads=" << animatedModelStats.textureUploads
+                  << " missing_textures=" << animatedModelStats.missingTextures
+                  << " failed_texture_uploads=" << animatedModelStats.failedTextureUploads
+                  << " skipped_draw_items=" << animatedModelStats.skippedDrawItems
+                  << " cpu_animation_us=" << nanosecondsToMicroseconds(
+                      animatedModelStats.cpuAnimationNanoseconds)
+                  << '\n';
         resetLightingStats(view.m_outdoorLightingStats);
         view.m_outdoorSpriteRenderDiagnostics = {};
+        view.m_outdoorAnimatedModelRenderDiagnostics = {};
         view.m_lastOutdoorLightingStatsLogElapsedTime = view.m_elapsedTime;
     }
 }
@@ -1622,14 +1829,16 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
 
         const size_t oldSize = groupVertices.size();
         groupVertices.insert(groupVertices.end(), batch.vertices.begin(), batch.vertices.end());
-        const std::array<float, 3> bmodelOffset =
-            outdoorBModelRuntimeOffset(pEventRuntimeState, batch.bModelIndex);
+        const OutdoorBModelRuntimeTransform bmodelTransform =
+            outdoorBModelRuntimeTransform(pEventRuntimeState, batch.bModelIndex);
 
         for (size_t vertexIndex = oldSize; vertexIndex < groupVertices.size(); ++vertexIndex)
         {
-            groupVertices[vertexIndex].x += bmodelOffset[0];
-            groupVertices[vertexIndex].y += bmodelOffset[1];
-            groupVertices[vertexIndex].z += bmodelOffset[2];
+            applyOutdoorBModelRuntimeTransform(
+                groupVertices[vertexIndex].x,
+                groupVertices[vertexIndex].y,
+                groupVertices[vertexIndex].z,
+                bmodelTransform);
             groupVertices[vertexIndex].secretPulse = secretPulse;
             groupVertices[vertexIndex].flowUPerSecond = flowInfo[0];
             groupVertices[vertexIndex].flowVPerSecond = flowInfo[1];
@@ -2493,12 +2702,19 @@ bool OutdoorRenderer::initializeWorldRenderResources(
     OutdoorGameView::TexturedTerrainVertex::init();
     OutdoorGameView::LitBillboardVertex::init();
     OutdoorGameView::ForcePerspectiveVertex::init();
-    const std::vector<OutdoorGameView::TerrainVertex> vertices = buildTerrainVertices(outdoorMapData);
-    const std::vector<uint16_t> indices = buildTerrainIndices();
+    const bool renderTerrainHeightmap = shouldRenderTerrainHeightmap(outdoorMapData);
+    std::vector<OutdoorGameView::TerrainVertex> vertices;
+    std::vector<uint16_t> indices;
     std::vector<OutdoorGameView::TexturedTerrainVertex> texturedTerrainVertices;
-    const std::vector<OutdoorGameView::TerrainVertex> filledTerrainVertices = buildFilledTerrainVertices(
-        outdoorMapData,
-        outdoorTileColors);
+    std::vector<OutdoorGameView::TerrainVertex> filledTerrainVertices;
+
+    if (renderTerrainHeightmap)
+    {
+        vertices = buildTerrainVertices(outdoorMapData);
+        indices = buildTerrainIndices();
+        filledTerrainVertices = buildFilledTerrainVertices(outdoorMapData, outdoorTileColors);
+    }
+
     const std::vector<OutdoorGameView::TerrainVertex> bmodelVertices = buildBModelWireframeVertices(outdoorMapData);
     const std::vector<OutdoorGameView::TerrainVertex> bmodelCollisionVertices = buildBModelCollisionFaceVertices(
         outdoorMapData);
@@ -2507,7 +2723,7 @@ bool OutdoorRenderer::initializeWorldRenderResources(
     const std::vector<OutdoorGameView::TerrainVertex> spawnMarkerVertices =
         buildSpawnMarkerVertices(outdoorMapData);
 
-    if (outdoorTerrainTextureAtlas)
+    if (renderTerrainHeightmap && outdoorTerrainTextureAtlas)
     {
         texturedTerrainVertices = buildTexturedTerrainVertices(outdoorMapData, *outdoorTerrainTextureAtlas);
         buildTexturedTerrainChunks(view, texturedTerrainVertices);
@@ -2517,22 +2733,30 @@ bool OutdoorRenderer::initializeWorldRenderResources(
         destroyTexturedTerrainChunks(view);
     }
 
-    initializeAnimatedWaterTileState(view, outdoorTerrainTextureAtlas);
+    initializeAnimatedWaterTileState(
+        view,
+        renderTerrainHeightmap ? outdoorTerrainTextureAtlas : std::optional<OutdoorTerrainTextureAtlas>{});
 
-    if (vertices.empty() || indices.empty())
+    if (renderTerrainHeightmap && (vertices.empty() || indices.empty()))
     {
         std::cerr << "OutdoorGameView received empty terrain mesh.\n";
         return false;
     }
 
-    view.m_vertexBufferHandle = bgfx::createVertexBuffer(
-        bgfx::copy(
-            vertices.data(),
-            static_cast<uint32_t>(vertices.size() * sizeof(OutdoorGameView::TerrainVertex))),
-        OutdoorGameView::TerrainVertex::ms_layout);
+    if (!vertices.empty())
+    {
+        view.m_vertexBufferHandle = bgfx::createVertexBuffer(
+            bgfx::copy(
+                vertices.data(),
+                static_cast<uint32_t>(vertices.size() * sizeof(OutdoorGameView::TerrainVertex))),
+            OutdoorGameView::TerrainVertex::ms_layout);
+    }
 
-    view.m_indexBufferHandle = bgfx::createIndexBuffer(
-        bgfx::copy(indices.data(), static_cast<uint32_t>(indices.size() * sizeof(uint16_t))));
+    if (!indices.empty())
+    {
+        view.m_indexBufferHandle = bgfx::createIndexBuffer(
+            bgfx::copy(indices.data(), static_cast<uint32_t>(indices.size() * sizeof(uint16_t))));
+    }
 
     if (!texturedTerrainVertices.empty())
     {
@@ -2619,8 +2843,9 @@ bool OutdoorRenderer::initializeWorldRenderResources(
         loadProgramHandle("vs_outdoor_textured_fog", "fs_outdoor_textured_fog");
     view.m_outdoorForcePerspectiveProgramHandle =
         loadProgramHandle("vs_outdoor_force_perspective", "fs_outdoor_force_perspective");
+    AnimatedModelRenderer::initializeResources(view.m_animatedModelRenderResources);
 
-    if (outdoorTerrainTextureAtlas && !outdoorTerrainTextureAtlas->pixels.empty())
+    if (renderTerrainHeightmap && outdoorTerrainTextureAtlas && !outdoorTerrainTextureAtlas->pixels.empty())
     {
         view.m_terrainTextureAtlasHandle = createBgraTexture2D(
             uint16_t(outdoorTerrainTextureAtlas->width),
@@ -3023,8 +3248,8 @@ void OutdoorRenderer::renderContextActionGeometryHighlight(OutdoorGameView &view
             continue;
         }
 
-        const std::array<float, 3> bmodelOffset =
-            outdoorBModelRuntimeOffset(pEventRuntimeState, batch.bModelIndex);
+        const OutdoorBModelRuntimeTransform bmodelTransform =
+            outdoorBModelRuntimeTransform(pEventRuntimeState, batch.bModelIndex);
         bx::Vec3 normal = {0.0f, 0.0f, 0.0f};
 
         if (view.m_outdoorMapData
@@ -3047,11 +3272,17 @@ void OutdoorRenderer::renderContextActionGeometryHighlight(OutdoorGameView &view
 
         for (const OutdoorGameView::TexturedTerrainVertex &vertex : batch.vertices)
         {
+            OutdoorGameView::TexturedTerrainVertex transformedVertex = vertex;
+            applyOutdoorBModelRuntimeTransform(
+                transformedVertex.x,
+                transformedVertex.y,
+                transformedVertex.z,
+                bmodelTransform);
             highlightVertices.push_back(
                 {
-                    vertex.x + bmodelOffset[0] + offset.x,
-                    vertex.y + bmodelOffset[1] + offset.y,
-                    vertex.z + bmodelOffset[2] + offset.z,
+                    transformedVertex.x + offset.x,
+                    transformedVertex.y + offset.y,
+                    transformedVertex.z + offset.z,
                     color
                 });
         }
@@ -3112,6 +3343,196 @@ void OutdoorRenderer::destroySkyResources(OutdoorGameView &view)
     }
 
     invalidateSkyResources(view);
+}
+
+const OutdoorGameView::Mm9AnimatedActorTextureHandle *OutdoorRenderer::ensureMm9AnimatedActorTexture(
+    OutdoorGameView &view,
+    const std::string &textureName)
+{
+    if (textureName.empty())
+    {
+        return nullptr;
+    }
+
+    const std::string normalizedTextureName = toLowerCopy(textureName);
+    const auto cachedTextureIt = view.m_mm9AnimatedActorTextureIndexByName.find(normalizedTextureName);
+
+    if (cachedTextureIt != view.m_mm9AnimatedActorTextureIndexByName.end()
+        && cachedTextureIt->second < view.m_mm9AnimatedActorTextureHandles.size())
+    {
+        return &view.m_mm9AnimatedActorTextureHandles[cachedTextureIt->second];
+    }
+
+    OutdoorGameView::Mm9AnimatedActorTextureHandle textureHandle = {};
+    textureHandle.textureName = normalizedTextureName;
+
+    if (view.m_pAssetFileSystem == nullptr)
+    {
+        if (view.m_gameSettings.performanceTrace)
+        {
+            ++view.m_outdoorAnimatedModelRenderDiagnostics.missingTextures;
+        }
+        std::cerr << "MM9 animated actor texture skipped without asset filesystem: " << textureName << '\n';
+    }
+    else
+    {
+        const std::optional<std::filesystem::path> texturePath =
+            resolveMm9SourceTexturePath(*view.m_pAssetFileSystem, textureName);
+
+        if (!texturePath)
+        {
+            if (view.m_gameSettings.performanceTrace)
+            {
+                ++view.m_outdoorAnimatedModelRenderDiagnostics.missingTextures;
+            }
+            std::cerr << "MM9 animated actor texture not found: " << textureName << '\n';
+        }
+        else
+        {
+            std::string errorMessage;
+            const std::optional<Mm9DtxTexture> texture = loadMm9DtxTexture(*texturePath, errorMessage);
+
+            if (!texture)
+            {
+                if (view.m_gameSettings.performanceTrace)
+                {
+                    ++view.m_outdoorAnimatedModelRenderDiagnostics.missingTextures;
+                }
+                std::cerr << "MM9 animated actor texture decode failed: "
+                          << texturePath->string()
+                          << ": "
+                          << errorMessage
+                          << '\n';
+            }
+            else if (texture->width > std::numeric_limits<uint16_t>::max()
+                || texture->height > std::numeric_limits<uint16_t>::max()
+                || texture->pixelsBgra.size() > std::numeric_limits<uint32_t>::max())
+            {
+                if (view.m_gameSettings.performanceTrace)
+                {
+                    ++view.m_outdoorAnimatedModelRenderDiagnostics.failedTextureUploads;
+                }
+                std::cerr << "MM9 animated actor texture too large: " << texturePath->string() << '\n';
+            }
+            else
+            {
+                textureHandle.width = static_cast<int>(texture->width);
+                textureHandle.height = static_cast<int>(texture->height);
+                textureHandle.textureHandle = createBgraTexture2D(
+                    static_cast<uint16_t>(texture->width),
+                    static_cast<uint16_t>(texture->height),
+                    texture->pixelsBgra.data(),
+                    static_cast<uint32_t>(texture->pixelsBgra.size()),
+                    TextureFilterProfile::BModel);
+
+                if (!bgfx::isValid(textureHandle.textureHandle))
+                {
+                    if (view.m_gameSettings.performanceTrace)
+                    {
+                        ++view.m_outdoorAnimatedModelRenderDiagnostics.failedTextureUploads;
+                    }
+                    std::cerr << "MM9 animated actor texture upload failed: " << texturePath->string() << '\n';
+                }
+                else if (view.m_gameSettings.performanceTrace)
+                {
+                    ++view.m_outdoorAnimatedModelRenderDiagnostics.textureUploads;
+                }
+            }
+        }
+    }
+
+    const size_t textureIndex = view.m_mm9AnimatedActorTextureHandles.size();
+    view.m_mm9AnimatedActorTextureIndexByName[normalizedTextureName] = textureIndex;
+    view.m_mm9AnimatedActorTextureHandles.push_back(textureHandle);
+    return &view.m_mm9AnimatedActorTextureHandles.back();
+}
+
+void OutdoorRenderer::renderMm9AnimatedActorModels(
+    OutdoorGameView &view,
+    uint16_t viewId,
+    const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState,
+    float farClipDistance)
+{
+    if (!view.m_showActors
+        || view.m_mm9AnimatedActorInstances.empty()
+        || !view.m_animatedModelRenderResources.isReady())
+    {
+        return;
+    }
+
+    const OutdoorFogParameters worldFogParameters = buildOutdoorWorldFogParameters(
+        view.m_pOutdoorWorldRuntime,
+        pAtmosphereState,
+        farClipDistance);
+    AnimatedModelFogParameters animatedModelFogParameters = {};
+    animatedModelFogParameters.color = worldFogParameters.color;
+    animatedModelFogParameters.densities = worldFogParameters.densities;
+    animatedModelFogParameters.distances = worldFogParameters.distances;
+
+    std::string previousTextureName;
+
+    for (const OutdoorGameView::Mm9AnimatedActorInstance &instance : view.m_mm9AnimatedActorInstances)
+    {
+        if (!instance.visual.visible)
+        {
+            continue;
+        }
+
+        if (view.m_gameSettings.performanceTrace)
+        {
+            ++view.m_outdoorAnimatedModelRenderDiagnostics.visibleAnimatedModels;
+        }
+
+        for (const AnimatedModelDrawItem &drawItem : instance.visual.renderPrepCache.drawItems)
+        {
+            if (view.m_gameSettings.performanceTrace)
+            {
+                ++view.m_outdoorAnimatedModelRenderDiagnostics.renderPrepDrawItems;
+            }
+
+            const OutdoorGameView::Mm9AnimatedActorTextureHandle *pTexture =
+                ensureMm9AnimatedActorTexture(view, drawItem.texture);
+
+            if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+            {
+                if (view.m_gameSettings.performanceTrace)
+                {
+                    ++view.m_outdoorAnimatedModelRenderDiagnostics.skippedDrawItems;
+                }
+                continue;
+            }
+
+            const bool submitted = AnimatedModelRenderer::submitDrawItem(
+                view.m_animatedModelRenderResources,
+                viewId,
+                drawItem,
+                instance.visual.modelToWorld,
+                pTexture->textureHandle,
+                &animatedModelFogParameters);
+
+            if (view.m_gameSettings.performanceTrace)
+            {
+                if (submitted)
+                {
+                    ++view.m_outdoorAnimatedModelRenderDiagnostics.submittedDraws;
+                    view.m_outdoorAnimatedModelRenderDiagnostics.submittedTriangles +=
+                        drawItem.indices.size() / 3u;
+                    view.m_outdoorAnimatedModelRenderDiagnostics.uploadedBoneMatrices +=
+                        drawItem.bonePalette.size();
+
+                    if (!previousTextureName.empty() && previousTextureName != drawItem.texture)
+                    {
+                        ++view.m_outdoorAnimatedModelRenderDiagnostics.materialSwitches;
+                    }
+                    previousTextureName = drawItem.texture;
+                }
+                else
+                {
+                    ++view.m_outdoorAnimatedModelRenderDiagnostics.skippedDrawItems;
+                }
+            }
+        }
+    }
 }
 
 void OutdoorRenderer::renderWorldPasses(
@@ -3246,7 +3667,9 @@ void OutdoorRenderer::renderWorldPasses(
             }
         }
 
-        if (view.m_showTerrainWireframe)
+        if (view.m_showTerrainWireframe
+            && bgfx::isValid(view.m_vertexBufferHandle)
+            && bgfx::isValid(view.m_indexBufferHandle))
         {
             bgfx::setTransform(modelMatrix);
             bgfx::setVertexBuffer(0, view.m_vertexBufferHandle);
@@ -3479,15 +3902,13 @@ void OutdoorRenderer::renderWorldPasses(
                     }
 
                     const float secretPulse = secretFaceVertexFlag(effectiveAttributes);
-                    const std::array<float, 3> bmodelOffset =
-                        outdoorBModelRuntimeOffset(pEventRuntimeState, batch.bModelIndex);
+                    const OutdoorBModelRuntimeTransform bmodelTransform =
+                        outdoorBModelRuntimeTransform(pEventRuntimeState, batch.bModelIndex);
                     std::vector<OutdoorGameView::TexturedTerrainVertex> vertices = batch.vertices;
 
                     for (OutdoorGameView::TexturedTerrainVertex &vertex : vertices)
                     {
-                        vertex.x += bmodelOffset[0];
-                        vertex.y += bmodelOffset[1];
-                        vertex.z += bmodelOffset[2];
+                        applyOutdoorBModelRuntimeTransform(vertex.x, vertex.y, vertex.z, bmodelTransform);
                         vertex.secretPulse = secretPulse;
                         vertex.flowUPerSecond = flowInfo[0];
                         vertex.flowVPerSecond = flowInfo[1];
@@ -3607,6 +4028,7 @@ void OutdoorRenderer::renderWorldPasses(
 
     renderBloodSplats(view, MainViewId, cameraPosition, farClipDistance, useLocalFxLighting);
     renderContextActionGeometryHighlight(view, MainViewId);
+    renderMm9AnimatedActorModels(view, MainViewId, pAtmosphereState, farClipDistance);
 
     if (view.m_gameSettings.shadows && (view.m_showSpriteObjects || view.m_showActors))
     {
@@ -4593,7 +5015,9 @@ void OutdoorRenderer::renderActorCollisionOverlays(
     const bx::Vec3 &cameraPosition)
 {
     if (!view.m_showActorCollisionBoxes
-        || (!view.m_outdoorActorPreviewBillboardSet && view.m_pOutdoorWorldRuntime == nullptr))
+        || (!view.m_outdoorActorPreviewBillboardSet
+            && view.m_pOutdoorWorldRuntime == nullptr
+            && view.m_mm9ScriptedBillboardInstances.empty()))
     {
         return;
     }
@@ -4603,7 +5027,7 @@ void OutdoorRenderer::renderActorCollisionOverlays(
         view.m_outdoorActorPreviewBillboardSet ? view.m_outdoorActorPreviewBillboardSet->billboards.size() : 0;
     const size_t runtimeActorCount =
         view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->mapActorCount() : 0;
-    vertices.reserve((billboardCount + runtimeActorCount) * 24);
+    vertices.reserve((billboardCount + runtimeActorCount + view.m_mm9ScriptedBillboardInstances.size()) * 30);
     std::vector<bool> coveredRuntimeActors;
 
     if (view.m_pOutdoorWorldRuntime != nullptr)
@@ -4618,34 +5042,23 @@ void OutdoorRenderer::renderActorCollisionOverlays(
             vertices.push_back({end.x, end.y, end.z, color});
         };
 
-    const auto appendActorOverlay =
-        [&view, &appendLine](
-            int actorX,
-            int actorY,
-            int actorZ,
-            uint16_t actorRadius,
-            uint16_t actorHeight,
-            bool isDead,
-            bool hostileToParty)
+    const auto appendVolumeOverlay =
+        [&appendLine](
+            float centerX,
+            float centerY,
+            float minZ,
+            float radius,
+            float height,
+            uint32_t color,
+            uint32_t centerColor)
         {
-            const uint32_t color = hostileToParty ? 0xff6060ffu : 0xff60ff60u;
-            const uint32_t centerColor = 0xff40ffffu;
-            const float halfExtent = static_cast<float>(std::max<uint16_t>(actorRadius, 32));
-            const float height = static_cast<float>(std::max<uint16_t>(actorHeight, 64));
-            const float minX = static_cast<float>(actorX) - halfExtent;
-            const float maxX = static_cast<float>(actorX) + halfExtent;
-            const float minY = static_cast<float>(actorY) - halfExtent;
-            const float maxY = static_cast<float>(actorY) + halfExtent;
-            const float minZ = view.m_outdoorMapData.has_value()
-                ? resolveActorAabbBaseZ(
-                    *view.m_outdoorMapData,
-                    nullptr,
-                    actorX,
-                    actorY,
-                    actorZ,
-                    isDead)
-                : static_cast<float>(actorZ);
-            const float maxZ = minZ + height;
+            const float halfExtent = std::max(radius, 32.0f);
+            const float volumeHeight = std::max(height, 64.0f);
+            const float minX = centerX - halfExtent;
+            const float maxX = centerX + halfExtent;
+            const float minY = centerY - halfExtent;
+            const float maxY = centerY + halfExtent;
+            const float maxZ = minZ + volumeHeight;
 
             const bx::Vec3 bottom00 = {minX, minY, minZ};
             const bx::Vec3 bottom01 = {minX, maxY, minZ};
@@ -4668,18 +5081,39 @@ void OutdoorRenderer::renderActorCollisionOverlays(
             appendLine(bottom01, top01, color);
             appendLine(bottom10, top10, color);
             appendLine(bottom11, top11, color);
-            appendLine(
-                {static_cast<float>(actorX), static_cast<float>(actorY), minZ},
-                {static_cast<float>(actorX), static_cast<float>(actorY), maxZ},
-                centerColor);
-            appendLine(
-                {minX, static_cast<float>(actorY), minZ},
-                {maxX, static_cast<float>(actorY), minZ},
-                centerColor);
-            appendLine(
-                {static_cast<float>(actorX), minY, minZ},
-                {static_cast<float>(actorX), maxY, minZ},
-                centerColor);
+            appendLine({centerX, centerY, minZ}, {centerX, centerY, maxZ}, centerColor);
+            appendLine({minX, centerY, minZ}, {maxX, centerY, minZ}, centerColor);
+            appendLine({centerX, minY, minZ}, {centerX, maxY, minZ}, centerColor);
+        };
+
+    const auto appendActorOverlay =
+        [&view, &appendVolumeOverlay](
+            int actorX,
+            int actorY,
+            int actorZ,
+            uint16_t actorRadius,
+            uint16_t actorHeight,
+            bool isDead,
+            bool hostileToParty)
+        {
+            const float minZ = view.m_outdoorMapData.has_value()
+                ? resolveActorAabbBaseZ(
+                    *view.m_outdoorMapData,
+                    nullptr,
+                    actorX,
+                    actorY,
+                    actorZ,
+                    isDead)
+                : static_cast<float>(actorZ);
+            const uint32_t color = hostileToParty ? 0xff6060ffu : 0xff60ff60u;
+            appendVolumeOverlay(
+                static_cast<float>(actorX),
+                static_cast<float>(actorY),
+                minZ,
+                static_cast<float>(actorRadius),
+                static_cast<float>(actorHeight),
+                color,
+                0xff40ffffu);
         };
 
     if (view.m_outdoorActorPreviewBillboardSet)
@@ -4765,6 +5199,38 @@ void OutdoorRenderer::renderActorCollisionOverlays(
                 pRuntimeActor->height,
                 pRuntimeActor->isDead,
                 pRuntimeActor->hostileToParty && !outdoorActorIsPartyControlled(pRuntimeActor->controlMode));
+        }
+    }
+
+    if (!view.m_mm9ScriptedBillboardInstances.empty())
+    {
+        for (const OutdoorGameView::Mm9ScriptedBillboardInstance &instance :
+            view.m_mm9ScriptedBillboardInstances)
+        {
+            if (!instance.visible)
+            {
+                continue;
+            }
+
+            const float overlayDeltaX = instance.x - cameraPosition.x;
+            const float overlayDeltaY = instance.y - cameraPosition.y;
+            const float overlayDeltaZ = instance.z - cameraPosition.z;
+            const float overlayDistanceSquared =
+                overlayDeltaX * overlayDeltaX + overlayDeltaY * overlayDeltaY + overlayDeltaZ * overlayDeltaZ;
+
+            if (overlayDistanceSquared > view.m_viewDistanceCache.actorBillboardDistanceSquared)
+            {
+                continue;
+            }
+
+            appendVolumeOverlay(
+                instance.x,
+                instance.y,
+                instance.z + instance.verticalOffset,
+                instance.radius,
+                instance.height,
+                0xffdcee20u,
+                0xffffffffu);
         }
     }
 

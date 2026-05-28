@@ -6,6 +6,7 @@
 #include <cstring>
 #include <fstream>
 #include <limits>
+#include <map>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
@@ -15,7 +16,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 60;
+constexpr uint32_t SaveVersion = 82;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -57,6 +58,28 @@ constexpr uint32_t SaveVersionCharacterConditionStartTimes = 57;
 constexpr uint32_t SaveVersionHiredNpcFollowerAbilityUseDay = 58;
 constexpr uint32_t SaveVersionMonsterBolsterRewards = 59;
 constexpr uint32_t SaveVersionMonsterBolsterDamageDice = 60;
+constexpr uint32_t SaveVersionPartyArenaState = 61;
+constexpr uint32_t SaveVersionMm9ScriptRuntimeState = 62;
+constexpr uint32_t SaveVersionMm9ScriptObjectState = 63;
+constexpr uint32_t SaveVersionMm9ScriptTriggerDispatch = 64;
+constexpr uint32_t SaveVersionMm9ScriptMapVars = 65;
+constexpr uint32_t SaveVersionMm9ScriptArrays = 66;
+constexpr uint32_t SaveVersionMm9ScriptObjectCommandState = 67;
+constexpr uint32_t SaveVersionMm9ScriptPresentationState = 68;
+constexpr uint32_t SaveVersionMm9ScriptMovementState = 69;
+constexpr uint32_t SaveVersionMm9ScriptAiState = 70;
+constexpr uint32_t SaveVersionMm9ScriptModelState = 71;
+constexpr uint32_t SaveVersionMm9ScriptControlState = 72;
+constexpr uint32_t SaveVersionMm9ScriptDamageState = 73;
+constexpr uint32_t SaveVersionMm9ScriptStringPropertyState = 74;
+constexpr uint32_t SaveVersionMm9ScriptPartyCommandState = 75;
+constexpr uint32_t SaveVersionMm9ScriptSchedulerState = 76;
+constexpr uint32_t SaveVersionMm9ScriptCallbackState = 77;
+constexpr uint32_t SaveVersionMm9ScriptCallbackOwnerState = 78;
+constexpr uint32_t SaveVersionMm9ScriptAnimationRequestState = 79;
+constexpr uint32_t SaveVersionMm9ScriptAudioRequestState = 80;
+constexpr uint32_t SaveVersionMm9ScriptAttributeEffectState = 81;
+constexpr uint32_t SaveVersionMm9ScriptFxPresentationRequestState = 82;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -175,6 +198,42 @@ void writeValue(BinaryWriter &writer, const HiredNpcFollower &value);
 bool readValue(BinaryReader &reader, HiredNpcFollower &value);
 void writeValue(BinaryWriter &writer, const GameplayProjectileService::Snapshot &value);
 bool readValue(BinaryReader &reader, GameplayProjectileService::Snapshot &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeTriggerRegistration &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeTriggerRegistration &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeTriggerDispatch &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeTriggerDispatch &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeCallback &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeCallback &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeAudioRequest &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeAudioRequest &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeVec3 &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeVec3 &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeMovementRequest &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeMovementRequest &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeSpawnRequest &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeSpawnRequest &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeAiRequest &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeAiRequest &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeAnimationRequest &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeAnimationRequest &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeClientFxRequest &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeClientFxRequest &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimePresentationRequest &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimePresentationRequest &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeAttachmentRequest &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeAttachmentRequest &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimePromotionRequest &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimePromotionRequest &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimePartyCommandRequest &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimePartyCommandRequest &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeControlRequest &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeControlRequest &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeScheduledInvocation &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeScheduledInvocation &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeAttributeEffect &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeAttributeEffect &value);
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeDamageRequest &value);
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeDamageRequest &value);
 
 bool canReadSerializedElementCount(const BinaryReader &reader, uint64_t count)
 {
@@ -408,6 +467,52 @@ bool readValue(BinaryReader &reader, std::unordered_map<K, V> &value)
 
     value.clear();
     value.reserve(static_cast<size_t>(size));
+
+    for (uint64_t index = 0; index < size; ++index)
+    {
+        K key = {};
+        V entry = {};
+
+        if (!readValue(reader, key) || !readValue(reader, entry))
+        {
+            return false;
+        }
+
+        value.emplace(std::move(key), std::move(entry));
+    }
+
+    return true;
+}
+
+template <typename K, typename V>
+void writeValue(BinaryWriter &writer, const std::map<K, V> &value)
+{
+    const uint64_t size = static_cast<uint64_t>(value.size());
+    writeValue(writer, size);
+
+    for (const auto &[key, entry] : value)
+    {
+        writeValue(writer, key);
+        writeValue(writer, entry);
+    }
+}
+
+template <typename K, typename V>
+bool readValue(BinaryReader &reader, std::map<K, V> &value)
+{
+    uint64_t size = 0;
+
+    if (!readValue(reader, size))
+    {
+        return false;
+    }
+
+    if (!canReadSerializedElementCount(reader, size))
+    {
+        return false;
+    }
+
+    value.clear();
 
     for (uint64_t index = 0; index < size; ++index)
     {
@@ -961,6 +1066,9 @@ void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
     writeValue(writer, value.hardLandingSoundCount);
     writeValue(writer, value.monsterTargetSelectionCounter);
     writeValue(writer, value.houseStockSeed);
+    writeValue(writer, value.arenaVisitState);
+    writeValue(writer, value.arenaDifficulty);
+    writeValue(writer, value.arenaGoldReward);
     writeValue(writer, value.lastFallDamageDistance);
     writeValue(writer, value.foundArtifactItems);
     writeValue(writer, value.arcomageWonHouseIds);
@@ -999,6 +1107,9 @@ bool readValue(BinaryReader &reader, Party::Snapshot &value)
         && readValue(reader, value.hardLandingSoundCount)
         && readValue(reader, value.monsterTargetSelectionCounter)
         && readValue(reader, value.houseStockSeed)
+        && (reader.version() < SaveVersionPartyArenaState || readValue(reader, value.arenaVisitState))
+        && (reader.version() < SaveVersionPartyArenaState || readValue(reader, value.arenaDifficulty))
+        && (reader.version() < SaveVersionPartyArenaState || readValue(reader, value.arenaGoldReward))
         && readValue(reader, value.lastFallDamageDistance)
         && readValue(reader, value.foundArtifactItems)
         && readValue(reader, value.arcomageWonHouseIds)
@@ -1381,6 +1492,13 @@ void writeValue(BinaryWriter &writer, const EventRuntimeState::OutdoorModelMecha
     writeValue(writer, value.dx);
     writeValue(writer, value.dy);
     writeValue(writer, value.dz);
+    writeValue(writer, value.hasRotation);
+    writeValue(writer, value.rotationPivotX);
+    writeValue(writer, value.rotationPivotY);
+    writeValue(writer, value.rotationPivotZ);
+    writeValue(writer, value.rotationDegreesX);
+    writeValue(writer, value.rotationDegreesY);
+    writeValue(writer, value.rotationDegreesZ);
     writeValue(writer, value.moveTimeMs);
     writeValue(writer, value.closed);
     writeValue(writer, value.moveParty);
@@ -1394,6 +1512,13 @@ bool readValue(BinaryReader &reader, EventRuntimeState::OutdoorModelMechanismDef
         && readValue(reader, value.dx)
         && readValue(reader, value.dy)
         && readValue(reader, value.dz)
+        && readValue(reader, value.hasRotation)
+        && readValue(reader, value.rotationPivotX)
+        && readValue(reader, value.rotationPivotY)
+        && readValue(reader, value.rotationPivotZ)
+        && readValue(reader, value.rotationDegreesX)
+        && readValue(reader, value.rotationDegreesY)
+        && readValue(reader, value.rotationDegreesZ)
         && readValue(reader, value.moveTimeMs)
         && readValue(reader, value.closed)
         && readValue(reader, value.moveParty);
@@ -1937,6 +2062,501 @@ bool readValue(BinaryReader &reader, EventRuntimeState &value)
     }
 
     return true;
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeCallback &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.mapId);
+    writeValue(writer, value.objectIndex);
+    writeValue(writer, value.kind);
+    writeValue(writer, value.selector);
+    writeValue(writer, value.label);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeCallback &value)
+{
+    return readValue(reader, value.scriptSource)
+        && (reader.version() < SaveVersionMm9ScriptCallbackOwnerState || readValue(reader, value.mapId))
+        && (reader.version() < SaveVersionMm9ScriptCallbackOwnerState || readValue(reader, value.objectIndex))
+        && readValue(reader, value.kind)
+        && readValue(reader, value.selector)
+        && readValue(reader, value.label)
+        && readValue(reader, value.line);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeAudioRequest &value)
+{
+    writeValue(writer, value.mapId);
+    writeValue(writer, value.objectIndex);
+    writeValue(writer, value.objectName);
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.operation);
+    writeValue(writer, value.soundName);
+    writeValue(writer, value.soundHandle);
+    writeValue(writer, value.handleVar);
+    writeValue(writer, value.callbackLabel);
+    writeValue(writer, value.radius);
+    writeValue(writer, value.volume);
+    writeValue(writer, value.loop);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeAudioRequest &value)
+{
+    return readValue(reader, value.mapId)
+        && readValue(reader, value.objectIndex)
+        && readValue(reader, value.objectName)
+        && readValue(reader, value.scriptSource)
+        && readValue(reader, value.operation)
+        && readValue(reader, value.soundName)
+        && readValue(reader, value.soundHandle)
+        && readValue(reader, value.handleVar)
+        && readValue(reader, value.callbackLabel)
+        && readValue(reader, value.radius)
+        && readValue(reader, value.volume)
+        && readValue(reader, value.loop)
+        && readValue(reader, value.line);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeState &value)
+{
+    writeValue(writer, value.consoleNumVars);
+    writeValue(writer, value.consoleStrVars);
+    writeValue(writer, value.mapNumVars);
+    writeValue(writer, value.mapStrVars);
+    writeValue(writer, value.scriptNumVars);
+    writeValue(writer, value.scriptStrVars);
+    writeValue(writer, value.scriptNumArrays);
+    writeValue(writer, value.scriptStrArrays);
+    writeValue(writer, value.objectHandleVars);
+    writeValue(writer, value.soundHandleVars);
+    writeValue(writer, value.objectTargetHandles);
+    writeValue(writer, value.objectStats);
+    writeValue(writer, value.objectStringProperties);
+    writeValue(writer, value.objectFlags);
+    writeValue(writer, value.removedObjects);
+    writeValue(writer, value.activeSoundHandles);
+    writeValue(writer, value.audioRequests);
+    writeValue(writer, value.nextSoundHandleId);
+    writeValue(writer, value.objectPositions);
+    writeValue(writer, value.objectFaceDirs);
+    writeValue(writer, value.objectLinks);
+    writeValue(writer, value.objectScriptOverrides);
+    writeValue(writer, value.movementRequests);
+    writeValue(writer, value.spawnRequests);
+    writeValue(writer, value.nextSpawnHandleId);
+    writeValue(writer, value.objectFriends);
+    writeValue(writer, value.objectEnemies);
+    writeValue(writer, value.objectAiStates);
+    writeValue(writer, value.objectAttackStates);
+    writeValue(writer, value.aiRequests);
+    writeValue(writer, value.animationRequests);
+    writeValue(writer, value.clientFxRequests);
+    writeValue(writer, value.presentationRequests);
+    writeValue(writer, value.objectModelFilenames);
+    writeValue(writer, value.attachmentRequests);
+    writeValue(writer, value.promotionRequests);
+    writeValue(writer, value.partyCommandRequests);
+    writeValue(writer, value.controlRequests);
+    writeValue(writer, value.scriptTimeSeconds);
+    writeValue(writer, value.scheduledInvocations);
+    writeValue(writer, value.attributeEffects);
+    writeValue(writer, value.damageRequests);
+    writeValue(writer, value.objectNumberProperties);
+    writeValue(writer, value.triggers);
+    writeValue(writer, value.triggerDispatches);
+    writeValue(writer, value.registeredCallbacks);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeState &value)
+{
+    const bool ok = readValue(reader, value.consoleNumVars)
+        && readValue(reader, value.consoleStrVars)
+        && (reader.version() < SaveVersionMm9ScriptMapVars || readValue(reader, value.mapNumVars))
+        && (reader.version() < SaveVersionMm9ScriptMapVars || readValue(reader, value.mapStrVars))
+        && (reader.version() < SaveVersionMm9ScriptObjectState || readValue(reader, value.scriptNumVars))
+        && (reader.version() < SaveVersionMm9ScriptObjectState || readValue(reader, value.scriptStrVars))
+        && (reader.version() < SaveVersionMm9ScriptArrays || readValue(reader, value.scriptNumArrays))
+        && (reader.version() < SaveVersionMm9ScriptArrays || readValue(reader, value.scriptStrArrays))
+        && (reader.version() < SaveVersionMm9ScriptObjectState || readValue(reader, value.objectHandleVars))
+        && (reader.version() < SaveVersionMm9ScriptPresentationState || readValue(reader, value.soundHandleVars))
+        && (reader.version() < SaveVersionMm9ScriptObjectCommandState
+            || readValue(reader, value.objectTargetHandles))
+        && (reader.version() < SaveVersionMm9ScriptObjectCommandState || readValue(reader, value.objectStats))
+        && (reader.version() < SaveVersionMm9ScriptStringPropertyState
+            || readValue(reader, value.objectStringProperties))
+        && (reader.version() < SaveVersionMm9ScriptObjectCommandState || readValue(reader, value.objectFlags))
+        && (reader.version() < SaveVersionMm9ScriptObjectCommandState || readValue(reader, value.removedObjects))
+        && (reader.version() < SaveVersionMm9ScriptPresentationState || readValue(reader, value.activeSoundHandles))
+        && (reader.version() < SaveVersionMm9ScriptAudioRequestState || readValue(reader, value.audioRequests))
+        && (reader.version() < SaveVersionMm9ScriptPresentationState || readValue(reader, value.nextSoundHandleId))
+        && (reader.version() < SaveVersionMm9ScriptMovementState || readValue(reader, value.objectPositions))
+        && (reader.version() < SaveVersionMm9ScriptMovementState || readValue(reader, value.objectFaceDirs))
+        && (reader.version() < SaveVersionMm9ScriptMovementState || readValue(reader, value.objectLinks))
+        && (reader.version() < SaveVersionMm9ScriptMovementState || readValue(reader, value.objectScriptOverrides))
+        && (reader.version() < SaveVersionMm9ScriptMovementState || readValue(reader, value.movementRequests))
+        && (reader.version() < SaveVersionMm9ScriptMovementState || readValue(reader, value.spawnRequests))
+        && (reader.version() < SaveVersionMm9ScriptMovementState || readValue(reader, value.nextSpawnHandleId))
+        && (reader.version() < SaveVersionMm9ScriptAiState || readValue(reader, value.objectFriends))
+        && (reader.version() < SaveVersionMm9ScriptAiState || readValue(reader, value.objectEnemies))
+        && (reader.version() < SaveVersionMm9ScriptAiState || readValue(reader, value.objectAiStates))
+        && (reader.version() < SaveVersionMm9ScriptAiState || readValue(reader, value.objectAttackStates))
+        && (reader.version() < SaveVersionMm9ScriptAiState || readValue(reader, value.aiRequests))
+        && (reader.version() < SaveVersionMm9ScriptAnimationRequestState
+            || readValue(reader, value.animationRequests))
+        && (reader.version() < SaveVersionMm9ScriptFxPresentationRequestState
+            || readValue(reader, value.clientFxRequests))
+        && (reader.version() < SaveVersionMm9ScriptFxPresentationRequestState
+            || readValue(reader, value.presentationRequests))
+        && (reader.version() < SaveVersionMm9ScriptModelState || readValue(reader, value.objectModelFilenames))
+        && (reader.version() < SaveVersionMm9ScriptModelState || readValue(reader, value.attachmentRequests))
+        && (reader.version() < SaveVersionMm9ScriptModelState || readValue(reader, value.promotionRequests))
+        && (reader.version() < SaveVersionMm9ScriptPartyCommandState
+            || readValue(reader, value.partyCommandRequests))
+        && (reader.version() < SaveVersionMm9ScriptControlState || readValue(reader, value.controlRequests))
+        && (reader.version() < SaveVersionMm9ScriptSchedulerState || readValue(reader, value.scriptTimeSeconds))
+        && (reader.version() < SaveVersionMm9ScriptSchedulerState || readValue(reader, value.scheduledInvocations))
+        && (reader.version() < SaveVersionMm9ScriptAttributeEffectState
+            || readValue(reader, value.attributeEffects))
+        && (reader.version() < SaveVersionMm9ScriptDamageState || readValue(reader, value.damageRequests))
+        && (reader.version() < SaveVersionMm9ScriptObjectState || readValue(reader, value.objectNumberProperties))
+        && (reader.version() < SaveVersionMm9ScriptObjectState || readValue(reader, value.triggers))
+        && (reader.version() < SaveVersionMm9ScriptTriggerDispatch || readValue(reader, value.triggerDispatches))
+        && (reader.version() < SaveVersionMm9ScriptCallbackState || readValue(reader, value.registeredCallbacks));
+    return ok;
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeTriggerRegistration &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.mapId);
+    writeValue(writer, value.objectIndex);
+    writeValue(writer, value.triggerName);
+    writeValue(writer, value.label);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeTriggerRegistration &value)
+{
+    return readValue(reader, value.scriptSource)
+        && readValue(reader, value.mapId)
+        && readValue(reader, value.objectIndex)
+        && readValue(reader, value.triggerName)
+        && readValue(reader, value.label)
+        && readValue(reader, value.line);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeTriggerDispatch &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.mapId);
+    writeValue(writer, value.objectIndex);
+    writeValue(writer, value.targetHandle);
+    writeValue(writer, value.message);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeTriggerDispatch &value)
+{
+    return readValue(reader, value.scriptSource)
+        && readValue(reader, value.mapId)
+        && readValue(reader, value.objectIndex)
+        && readValue(reader, value.targetHandle)
+        && readValue(reader, value.message)
+        && readValue(reader, value.line);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeVec3 &value)
+{
+    writeValue(writer, value.x);
+    writeValue(writer, value.y);
+    writeValue(writer, value.z);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeVec3 &value)
+{
+    return readValue(reader, value.x)
+        && readValue(reader, value.y)
+        && readValue(reader, value.z);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeMovementRequest &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.objectHandle);
+    writeValue(writer, value.operation);
+    writeValue(writer, value.targetHandle);
+    writeValue(writer, value.targetPosition);
+    writeValue(writer, value.direction);
+    writeValue(writer, value.speed);
+    writeValue(writer, value.distance);
+    writeValue(writer, value.callbackLabel);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeMovementRequest &value)
+{
+    return readValue(reader, value.scriptSource)
+        && readValue(reader, value.objectHandle)
+        && readValue(reader, value.operation)
+        && readValue(reader, value.targetHandle)
+        && readValue(reader, value.targetPosition)
+        && readValue(reader, value.direction)
+        && readValue(reader, value.speed)
+        && readValue(reader, value.distance)
+        && readValue(reader, value.callbackLabel)
+        && readValue(reader, value.line);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeSpawnRequest &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.spawnedHandle);
+    writeValue(writer, value.handleVar);
+    writeValue(writer, value.position);
+    writeValue(writer, value.parameter);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeSpawnRequest &value)
+{
+    return readValue(reader, value.scriptSource)
+        && readValue(reader, value.spawnedHandle)
+        && readValue(reader, value.handleVar)
+        && readValue(reader, value.position)
+        && readValue(reader, value.parameter)
+        && readValue(reader, value.line);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeAiRequest &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.objectHandle);
+    writeValue(writer, value.operation);
+    writeValue(writer, value.targetHandle);
+    writeValue(writer, value.callbackLabel);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeAiRequest &value)
+{
+    return readValue(reader, value.scriptSource)
+        && readValue(reader, value.objectHandle)
+        && readValue(reader, value.operation)
+        && readValue(reader, value.targetHandle)
+        && readValue(reader, value.callbackLabel)
+        && readValue(reader, value.line);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeAnimationRequest &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.objectHandle);
+    writeValue(writer, value.operation);
+    writeValue(writer, value.animationName);
+    writeValue(writer, value.callbackLabel);
+    writeValue(writer, value.loopCount);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeAnimationRequest &value)
+{
+    return readValue(reader, value.scriptSource)
+        && readValue(reader, value.objectHandle)
+        && readValue(reader, value.operation)
+        && readValue(reader, value.animationName)
+        && readValue(reader, value.callbackLabel)
+        && readValue(reader, value.loopCount)
+        && readValue(reader, value.line);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeClientFxRequest &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.objectHandle);
+    writeValue(writer, value.operation);
+    writeValue(writer, value.effectName);
+    writeValue(writer, value.attach);
+    writeValue(writer, value.loop);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeClientFxRequest &value)
+{
+    return readValue(reader, value.scriptSource)
+        && readValue(reader, value.objectHandle)
+        && readValue(reader, value.operation)
+        && readValue(reader, value.effectName)
+        && readValue(reader, value.attach)
+        && readValue(reader, value.loop)
+        && readValue(reader, value.line);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimePresentationRequest &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.operation);
+    writeValue(writer, value.arguments);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimePresentationRequest &value)
+{
+    return readValue(reader, value.scriptSource)
+        && readValue(reader, value.operation)
+        && readValue(reader, value.arguments)
+        && readValue(reader, value.line);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeAttachmentRequest &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.objectHandle);
+    writeValue(writer, value.modelName);
+    writeValue(writer, value.textureName);
+    writeValue(writer, value.socketName);
+    writeValue(writer, value.attachedHandle);
+    writeValue(writer, value.line);
+    writeValue(writer, value.operation);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeAttachmentRequest &value)
+{
+    const bool ok = readValue(reader, value.scriptSource)
+        && readValue(reader, value.objectHandle)
+        && readValue(reader, value.modelName)
+        && readValue(reader, value.textureName)
+        && readValue(reader, value.socketName)
+        && readValue(reader, value.attachedHandle)
+        && readValue(reader, value.line)
+        && (reader.version() < SaveVersionMm9ScriptPartyCommandState || readValue(reader, value.operation));
+    if (ok && value.operation.empty())
+    {
+        value.operation = "attachprop";
+    }
+    return ok;
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimePromotionRequest &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.promotionName);
+    writeValue(writer, value.characterToken);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimePromotionRequest &value)
+{
+    return readValue(reader, value.scriptSource)
+        && readValue(reader, value.promotionName)
+        && readValue(reader, value.characterToken)
+        && readValue(reader, value.line);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimePartyCommandRequest &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.operation);
+    writeValue(writer, value.arguments);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimePartyCommandRequest &value)
+{
+    return readValue(reader, value.scriptSource)
+        && readValue(reader, value.operation)
+        && readValue(reader, value.arguments)
+        && readValue(reader, value.line);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeControlRequest &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.operation);
+    writeValue(writer, value.label);
+    writeValue(writer, value.conditionText);
+    writeValue(writer, value.conditionResult);
+    writeValue(writer, value.minDelay);
+    writeValue(writer, value.maxDelay);
+    writeValue(writer, value.exitValue);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeControlRequest &value)
+{
+    return readValue(reader, value.scriptSource)
+        && readValue(reader, value.operation)
+        && readValue(reader, value.label)
+        && readValue(reader, value.conditionText)
+        && readValue(reader, value.conditionResult)
+        && readValue(reader, value.minDelay)
+        && readValue(reader, value.maxDelay)
+        && readValue(reader, value.exitValue)
+        && readValue(reader, value.line);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeScheduledInvocation &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.operation);
+    writeValue(writer, value.mapId);
+    writeValue(writer, value.objectIndex);
+    writeValue(writer, value.label);
+    writeValue(writer, value.dueTimeSeconds);
+    writeValue(writer, value.minDelay);
+    writeValue(writer, value.maxDelay);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeScheduledInvocation &value)
+{
+    return readValue(reader, value.scriptSource)
+        && readValue(reader, value.operation)
+        && readValue(reader, value.mapId)
+        && readValue(reader, value.objectIndex)
+        && readValue(reader, value.label)
+        && readValue(reader, value.dueTimeSeconds)
+        && readValue(reader, value.minDelay)
+        && readValue(reader, value.maxDelay)
+        && readValue(reader, value.line);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeAttributeEffect &value)
+{
+    writeValue(writer, value.memberIndex);
+    writeValue(writer, value.attributeId);
+    writeValue(writer, value.amount);
+    writeValue(writer, value.expiresAtSeconds);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeAttributeEffect &value)
+{
+    return readValue(reader, value.memberIndex)
+        && readValue(reader, value.attributeId)
+        && readValue(reader, value.amount)
+        && readValue(reader, value.expiresAtSeconds);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9ScriptRuntimeDamageRequest &value)
+{
+    writeValue(writer, value.scriptSource);
+    writeValue(writer, value.targetHandle);
+    writeValue(writer, value.amount);
+    writeValue(writer, value.damageType);
+    writeValue(writer, value.noReaction);
+    writeValue(writer, value.line);
+}
+
+bool readValue(BinaryReader &reader, Mm9ScriptRuntimeDamageRequest &value)
+{
+    return readValue(reader, value.scriptSource)
+        && readValue(reader, value.targetHandle)
+        && readValue(reader, value.amount)
+        && readValue(reader, value.damageType)
+        && readValue(reader, value.noReaction)
+        && readValue(reader, value.line);
 }
 
 void writeValue(BinaryWriter &writer, const MapDeltaChest &value)
@@ -2898,6 +3518,7 @@ void writeValue(BinaryWriter &writer, const GameSaveData &value)
     writeValue(writer, value.mapFileName);
     writeValue(writer, value.party);
     writeValue(writer, value.namedGlobalVars);
+    writeValue(writer, value.mm9ScriptState);
     writeValue(writer, value.hasOutdoorRuntimeState);
     writeValue(writer, value.outdoorParty);
     writeValue(writer, value.outdoorWorld);
@@ -2918,6 +3539,7 @@ bool readValue(BinaryReader &reader, GameSaveData &value)
         && readValue(reader, value.mapFileName)
         && readValue(reader, value.party)
         && (reader.version() < SaveVersionSessionNamedGlobalVars || readValue(reader, value.namedGlobalVars))
+        && (reader.version() < SaveVersionMm9ScriptRuntimeState || readValue(reader, value.mm9ScriptState))
         && readValue(reader, value.hasOutdoorRuntimeState)
         && readValue(reader, value.outdoorParty)
         && readValue(reader, value.outdoorWorld)

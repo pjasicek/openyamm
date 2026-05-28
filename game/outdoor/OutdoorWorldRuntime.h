@@ -119,6 +119,7 @@ public:
         None,
         Party,
         Actor,
+        Mm9ScriptedObject,
         BModel,
         Terrain,
     };
@@ -333,6 +334,7 @@ public:
         ProjectileCollisionKind kind = ProjectileCollisionKind::None;
         std::string colliderName;
         size_t actorIndex = static_cast<size_t>(-1);
+        size_t mm9ScriptedObjectIndex = static_cast<size_t>(-1);
         size_t faceIndex = static_cast<size_t>(-1);
         bool waterTerrainImpact = false;
     };
@@ -538,17 +540,20 @@ public:
         GameplayCombatController *pGameplayCombatController = nullptr,
         GameplayFxService *pGameplayFxService = nullptr,
         const MergedBolsterMapTable *pMergedBolsterMapTable = nullptr,
-        const MergedBolsterMonsterTable *pMergedBolsterMonsterTable = nullptr
+        const MergedBolsterMonsterTable *pMergedBolsterMonsterTable = nullptr,
+        const std::optional<Mm9EventsData> &mm9EventsData = std::nullopt
     );
 
     bool isInitialized() const;
     void setBolsterMonstersEnabled(bool enabled);
     void bindInteractionView(OutdoorGameView *pView);
     void bindGlobalEventProgram(const std::optional<ScriptedEventProgram> *pGlobalEventProgram);
+    size_t appendMm9ScriptedBillboardMovementColliders(std::vector<OutdoorActorCollision> &colliders) const;
     int mapId() const;
     const std::string &mapName() const override;
     const MonsterTable *monsterTable() const override;
     const MergedBolsterMonsterTable *mergedBolsterMonsterTable() const override;
+    std::string currentMapWorldId() const override;
     bool isIndoorMap() const override;
     bool isUnderwaterMap() const override;
     bool allowsLloydsBeacon() const override;
@@ -751,6 +756,7 @@ public:
         const GameplayWorldHit &hit,
         GameplayInteractionMethod interactionMethod) const override;
     bool activateWorldHit(const GameplayWorldHit &hit) override;
+    bool executeMm9DialogueAction(const EventDialogAction &action, EventDialogContent &content) override;
     bool activateWorldHitFromSpell(const GameplayWorldHit &hit, uint32_t spellId) override;
     bool canActivateTelekinesisTarget(const GameplayWorldHit &hit) const override;
     bool activateTelekinesisTarget(const GameplayWorldHit &hit) override;
@@ -843,6 +849,8 @@ public:
         uint32_t moveTimeMs,
         bool closed,
         bool moveParty) override;
+    bool triggerMm9Object(const std::string &objectName, const std::string &messageName);
+    bool triggerMm9MechanismByRuntimeId(uint32_t mechanismId, const std::string &messageName);
     EventRuntimeState *eventRuntimeState() override;
     const EventRuntimeState *eventRuntimeState() const override;
     bool castEventSpell(
@@ -1240,6 +1248,8 @@ private:
     std::optional<ChestViewState> m_activeChestView;
     std::optional<GameplayWorldPoint> m_pendingEventSourcePoint;
     std::optional<EventRuntimeState> m_eventRuntimeState;
+    std::optional<Mm9EventsData> m_mm9EventsData;
+    std::unordered_map<uint32_t, std::string> m_mm9MechanismNameByRuntimeId;
     mutable ActorInspectPreviewAnimationState m_actorInspectPreviewAnimation = {};
     const ItemTable *m_pItemTable = nullptr;
     Party *m_pParty = nullptr;
@@ -1403,5 +1413,6 @@ private:
     void updateArmageddon(float deltaSeconds, float partyX, float partyY, float partyZ);
     void resolveArmageddonDetonation(float partyX, float partyY, float partyZ);
     void refreshAtmosphereState();
+    void registerMm9OutdoorMechanisms();
 };
 }

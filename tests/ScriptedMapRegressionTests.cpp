@@ -4789,7 +4789,16 @@ TEST_CASE("mm7 global mmmerge supplement applies custom CrossContinents and hatc
         CHECK(party.hasQuestBit(545));
         CHECK_EQ(runtimeState.npcTopicOverrides[381][0], 822u);
 
-        party.setEventVariableValue(static_cast<uint16_t>(OpenYAMM::Game::EvtVariable::ArenaWinsKnight), 5);
+        party.setEventVariableValue(static_cast<uint16_t>(OpenYAMM::Game::EvtVariable::ArenaWinsKnight), 4);
+        REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 822, runtimeState, &party));
+        pMember = party.member(0);
+        REQUIRE(pMember != nullptr);
+        CHECK_EQ(pMember->className, "Cavalier");
+        CHECK_FALSE(party.hasQuestBit(1568));
+        CHECK_FALSE(party.hasQuestBit(1569));
+        CHECK(party.hasQuestBit(545));
+
+        party.setEventVariableValue(static_cast<uint16_t>(OpenYAMM::Game::EvtVariable::ArenaWinsLord), 1);
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 822, runtimeState, &party));
         pMember = party.member(0);
         REQUIRE(pMember != nullptr);
@@ -7315,6 +7324,29 @@ TEST_CASE("mm7 world prefixed monster sprites load for indoor actor previews")
     CHECK_FALSE(billboardSet.textures.empty());
 }
 
+TEST_CASE("arena actor preview tables include dynamically summoned monster families")
+{
+    const OpenYAMM::Tests::RegressionMapLoader &mapLoader = requireRegressionMapLoader();
+    const OpenYAMM::Game::MapAssetInfo *pLoadedMap = loadCachedIndoorMapWithCompanionOptions(
+        mapLoader.assetFileSystem,
+        mapLoader.gameDataLoader,
+        "d42.blv",
+        OpenYAMM::Game::MapLoadPurpose::ActorPreviews,
+        OpenYAMM::Game::MapCompanionLoadOptions{
+            .allowSceneYml = true,
+            .allowLegacyCompanion = true,
+        });
+    REQUIRE(pLoadedMap != nullptr);
+    CHECK(pLoadedMap->map.runtimeRestrictions.isArena);
+    REQUIRE(pLoadedMap->indoorActorPreviewBillboardSet.has_value());
+
+    const OpenYAMM::Game::ActorPreviewBillboardSet &billboardSet =
+        *pLoadedMap->indoorActorPreviewBillboardSet;
+
+    CHECK(billboardSet.spriteFrameTable.findFrameIndexBySpriteName("m441s").has_value());
+    CHECK(billboardSet.spriteFrameTable.findFrameIndexBySpriteName("7m415s").has_value());
+}
+
 TEST_CASE("mm7 nighon actor previews load world sprite packages")
 {
     const OpenYAMM::Tests::RegressionMapLoader &mapLoader = requireRegressionMapLoader();
@@ -7837,6 +7869,178 @@ TEST_CASE("mm6 darkmoor indoor decoration billboards keep editor room ownership"
             ("missing Darkmoor decoration billboard " + std::to_string(expected.entityIndex)).c_str());
         CHECK_EQ(billboardIt->sectorId, expected.sectorId);
     }
+}
+
+TEST_CASE("mm9 outdoor bmodel aliases load map-local generated bitmaps")
+{
+    const OpenYAMM::Tests::RegressionMapLoader &mapLoader = requireRegressionMapLoader();
+    const OpenYAMM::Game::MapAssetInfo *pLoadedMap = loadCachedOutdoorMapWithCompanionOptions(
+        mapLoader.assetFileSystem,
+        mapLoader.gameDataLoader,
+        "thronheim.odm",
+        OpenYAMM::Game::MapLoadPurpose::RenderSurfaces,
+        OpenYAMM::Game::MapCompanionLoadOptions{
+            .allowSceneYml = true,
+            .allowLegacyCompanion = true,
+        });
+    REQUIRE(pLoadedMap != nullptr);
+    REQUIRE(pLoadedMap->outdoorMapData.has_value());
+    REQUIRE(pLoadedMap->outdoorBModelTextureSet.has_value());
+
+    const OpenYAMM::Game::OutdoorBModelTextureSet &textureSet = *pLoadedMap->outdoorBModelTextureSet;
+    CHECK(bitmapTextureSetContains(textureSet.textures, "THRONHE001"));
+    CHECK(bitmapTextureSetContains(textureSet.textures, "THRONHE002"));
+    CHECK(bitmapTextureSetContains(textureSet.textures, "THRONHE004"));
+
+    const std::vector<OpenYAMM::Game::OutdoorBitmapTexture>::const_iterator textureIt =
+        std::find_if(
+            textureSet.textures.begin(),
+            textureSet.textures.end(),
+            [](const OpenYAMM::Game::OutdoorBitmapTexture &texture)
+            {
+                return OpenYAMM::Game::toLowerCopy(texture.textureName) == "thronhe002";
+            });
+    REQUIRE(textureIt != textureSet.textures.end());
+    CHECK_EQ(textureIt->physicalWidth, 256);
+    CHECK_EQ(textureIt->physicalHeight, 256);
+    CHECK_EQ(textureIt->pixels.size(), static_cast<size_t>(256 * 256 * 4));
+
+    uint64_t blueTotal = 0;
+    uint64_t greenTotal = 0;
+    uint64_t redTotal = 0;
+    for (size_t offset = 0; offset + 3u < textureIt->pixels.size(); offset += 4u)
+    {
+        blueTotal += textureIt->pixels[offset + 0u];
+        greenTotal += textureIt->pixels[offset + 1u];
+        redTotal += textureIt->pixels[offset + 2u];
+    }
+    CHECK_GT(greenTotal, redTotal);
+    CHECK_GT(greenTotal, blueTotal);
+
+    const uint32_t invisibleAttribute = OpenYAMM::Game::faceAttributeBit(OpenYAMM::Game::FaceAttribute::Invisible);
+    const uint32_t untouchableAttribute = OpenYAMM::Game::faceAttributeBit(OpenYAMM::Game::FaceAttribute::Untouchable);
+    size_t helperFaceCount = 0;
+    size_t visibleBspFaceCount = 0;
+    for (const OpenYAMM::Game::OutdoorBModel &bmodel : pLoadedMap->outdoorMapData->bmodels)
+    {
+        const std::string bmodelName = OpenYAMM::Game::toLowerCopy(bmodel.name);
+        for (const OpenYAMM::Game::OutdoorBModelFace &face : bmodel.faces)
+        {
+            const std::string textureName = OpenYAMM::Game::toLowerCopy(face.textureName);
+            const bool isExplicitHelperFace = textureName == "soundonly"
+                || textureName == "invisible"
+                || textureName.starts_with("invisib");
+            if (isExplicitHelperFace)
+            {
+                ++helperFaceCount;
+                CHECK_EQ(face.attributes & invisibleAttribute, invisibleAttribute);
+                CHECK_EQ(face.attributes & untouchableAttribute, untouchableAttribute);
+            }
+            else if (bmodelName == "physicsbsp" || bmodelName == "visbsp")
+            {
+                ++visibleBspFaceCount;
+                CHECK_EQ(face.attributes & invisibleAttribute, 0u);
+            }
+        }
+    }
+    CHECK_GT(helperFaceCount, 0u);
+    CHECK_GT(visibleBspFaceCount, 0u);
+
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    const std::filesystem::path materialAliasesPath =
+        sourceRoot / "assets_dev" / "worlds" / "mm9" / "maps" / "thronheim.material_aliases.yml";
+    std::ifstream materialAliases(materialAliasesPath);
+    REQUIRE(materialAliases.good());
+    const std::string materialAliasesText(
+        (std::istreambuf_iterator<char>(materialAliases)),
+        std::istreambuf_iterator<char>());
+    CHECK(materialAliasesText.find("source_texture: \"TEXTURES\\\\A7Thronheim\\\\terrain\\\\thronheimgrass.dtx\"")
+        != std::string::npos);
+    CHECK(materialAliasesText.find("emitted_bitmap: \"thronheim.bitmaps/THRONHE002.bmp\"") != std::string::npos);
+    CHECK(materialAliasesText.find("dtx_surface_flag: 14") != std::string::npos);
+
+    const OpenYAMM::Game::MapAssetInfo *pLoadedCityMap = loadCachedOutdoorMapWithCompanionOptions(
+        mapLoader.assetFileSystem,
+        mapLoader.gameDataLoader,
+        "thronheimcity.odm",
+        OpenYAMM::Game::MapLoadPurpose::RenderSurfaces,
+        OpenYAMM::Game::MapCompanionLoadOptions{
+            .allowSceneYml = true,
+            .allowLegacyCompanion = true,
+        });
+    REQUIRE(pLoadedCityMap != nullptr);
+    REQUIRE(pLoadedCityMap->outdoorMapData.has_value());
+    REQUIRE(pLoadedCityMap->outdoorBModelTextureSet.has_value());
+
+    const OpenYAMM::Game::OutdoorBModelTextureSet &cityTextureSet = *pLoadedCityMap->outdoorBModelTextureSet;
+    const std::vector<OpenYAMM::Game::OutdoorBitmapTexture>::const_iterator cityWallTextureIt =
+        std::find_if(
+            cityTextureSet.textures.begin(),
+            cityTextureSet.textures.end(),
+            [](const OpenYAMM::Game::OutdoorBitmapTexture &texture)
+            {
+                return OpenYAMM::Game::toLowerCopy(texture.textureName) == "thronhe002";
+            });
+    REQUIRE(cityWallTextureIt != cityTextureSet.textures.end());
+    CHECK_EQ(cityWallTextureIt->physicalWidth, 128);
+    CHECK_EQ(cityWallTextureIt->physicalHeight, 128);
+
+    uint64_t cityWallBlueTotal = 0;
+    uint64_t cityWallGreenTotal = 0;
+    uint64_t cityWallRedTotal = 0;
+    for (size_t offset = 0; offset + 3u < cityWallTextureIt->pixels.size(); offset += 4u)
+    {
+        cityWallBlueTotal += cityWallTextureIt->pixels[offset + 0u];
+        cityWallGreenTotal += cityWallTextureIt->pixels[offset + 1u];
+        cityWallRedTotal += cityWallTextureIt->pixels[offset + 2u];
+    }
+    CHECK_GT(cityWallRedTotal, cityWallGreenTotal);
+    CHECK_GT(cityWallGreenTotal, cityWallBlueTotal);
+
+    size_t hiddenAiTrackFaceCount = 0;
+    for (const OpenYAMM::Game::OutdoorBModel &bmodel : pLoadedCityMap->outdoorMapData->bmodels)
+    {
+        const std::string bmodelName = OpenYAMM::Game::toLowerCopy(bmodel.name);
+        if (!bmodelName.starts_with("aitrk"))
+        {
+            continue;
+        }
+
+        for (const OpenYAMM::Game::OutdoorBModelFace &face : bmodel.faces)
+        {
+            ++hiddenAiTrackFaceCount;
+            CHECK_EQ(face.attributes & invisibleAttribute, invisibleAttribute);
+            CHECK_EQ(face.attributes & untouchableAttribute, untouchableAttribute);
+        }
+    }
+    CHECK_GT(hiddenAiTrackFaceCount, 0u);
+
+    const std::filesystem::path cityMaterialAliasesPath =
+        sourceRoot / "assets_dev" / "worlds" / "mm9" / "maps" / "thronheimcity.material_aliases.yml";
+    std::ifstream cityMaterialAliases(cityMaterialAliasesPath);
+    REQUIRE(cityMaterialAliases.good());
+    const std::string cityMaterialAliasesText(
+        (std::istreambuf_iterator<char>(cityMaterialAliases)),
+        std::istreambuf_iterator<char>());
+    CHECK(cityMaterialAliasesText.find("source_texture: \"TEXTURES\\\\A7Thronheim\\\\walls\\\\thronheimwallcity.dtx\"")
+        != std::string::npos);
+    CHECK(cityMaterialAliasesText.find("emitted_bitmap: \"thronheimcity.bitmaps/THRONHE002.bmp\"")
+        != std::string::npos);
+
+    const std::filesystem::path tree04ModelPath = sourceRoot
+        / "assets_dev" / "worlds" / "mm9" / "models" / "props" / "plantsandtrees" / "tree04" / "variants"
+        / "tree04_treebark2_treebranch3" / "tree04_treebark2_treebranch3.model.yml";
+    std::ifstream tree04Model(tree04ModelPath);
+    REQUIRE(tree04Model.good());
+    const std::string tree04ModelText(
+        (std::istreambuf_iterator<char>(tree04Model)),
+        std::istreambuf_iterator<char>());
+    CHECK(tree04ModelText.find("TREE04.abc") != std::string::npos);
+    CHECK(tree04ModelText.find("treebark2.png") != std::string::npos);
+    CHECK(tree04ModelText.find("treebranch3.png") != std::string::npos);
+    CHECK(tree04ModelText.find("alphaMode: MASK") != std::string::npos);
+    CHECK(tree04ModelText.find("doubleSided: true") != std::string::npos);
+    CHECK(tree04ModelText.find("PEASANTMALE.abc") == std::string::npos);
 }
 
 TEST_CASE("outdoor water bmodel faces load terrain-owned animation frames")

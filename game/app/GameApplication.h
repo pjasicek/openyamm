@@ -228,6 +228,7 @@ private:
     void loadOrCreateSettings();
     void applyCurrentSettingsToActiveRuntime();
     void applyStartupDebugSettingsToActiveRuntime();
+    bool initializeMm9NewGameStateIfNeeded();
     void requestApplicationQuit() const;
     void reportQuickSaveStatus(const std::string &status);
     void handleSdlEvent(const SDL_Event &event);

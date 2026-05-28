@@ -6,6 +6,7 @@
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayInteractionController.h"
 #include "game/gameplay/GameplayScreenController.h"
+#include "game/mm9/Mm9ScriptRuntime.h"
 #include "game/ui/GameplaySpellTargetingOverlayRenderer.h"
 
 #include <cassert>
@@ -76,6 +77,13 @@ void pulseGameplayAction(GameplayInputFrame &input, KeyboardAction action)
     GameplayButtonInputState &state = input.actions[keyboardActionIndex(action)];
     state.held = true;
     state.pressed = true;
+    state.released = false;
+}
+
+void holdGameplayAction(GameplayInputFrame &input, KeyboardAction action)
+{
+    GameplayButtonInputState &state = input.actions[keyboardActionIndex(action)];
+    state.held = true;
     state.released = false;
 }
 
@@ -208,6 +216,7 @@ void GameSession::clear()
     m_currentIndoorSceneState.reset();
     m_indoorSceneStates.clear();
     m_namedGlobalVars.clear();
+    m_mm9ScriptState = {};
     m_gameMinutes = 9.0f * 60.0f;
     m_outdoorCameraYawRadians = 0.0f;
     m_outdoorCameraPitchRadians = 0.0f;
@@ -696,8 +705,16 @@ void GameSession::updateGameplay(
         recordDiagnostics(m_gameplayUpdatePerformanceDiagnostics.sharedInputNanoseconds, sharedInputBeginTickCount);
 
         GameplayInputFrame worldInput = input;
+        const bool gameplayHudAttackPointerActive =
+            m_overlayInteractionState.gameplayHudClickLatch
+            && m_overlayInteractionState.gameplayHudPressedTarget.type == GameplayHudPointerTargetType::AttackButton;
 
-        if (m_overlayInteractionState.gameplayHudAttackRequested)
+        if (gameplayHudAttackPointerActive)
+        {
+            holdGameplayAction(worldInput, KeyboardAction::Attack);
+            worldInput.leftMouseButton = {};
+        }
+        else if (m_overlayInteractionState.gameplayHudAttackRequested)
         {
             pulseGameplayAction(worldInput, KeyboardAction::Attack);
             m_overlayInteractionState.gameplayHudAttackRequested = false;
@@ -711,7 +728,8 @@ void GameSession::updateGameplay(
 
         const bool gameplayHudPointerActive =
             m_overlayInteractionState.gameplayHudClickLatch
-            && m_overlayInteractionState.gameplayHudPressedTarget.type != GameplayHudPointerTargetType::None;
+            && m_overlayInteractionState.gameplayHudPressedTarget.type != GameplayHudPointerTargetType::None
+            && m_overlayInteractionState.gameplayHudPressedTarget.type != GameplayHudPointerTargetType::AttackButton;
         const bool gameplayCursorModeActive = m_sharedInputFrameResult.mouseLookPolicy.cursorModeActive;
         const bool pendingSpellTargetActive = m_gameplayScreenState.pendingSpellTarget().active;
         const bool modalWorldInputBlocked =
@@ -1045,6 +1063,23 @@ void GameSession::storeIndoorSceneState(const std::string &mapFileName, const In
     m_indoorSceneStates[mapFileName] = normalizedSnapshot;
 }
 
+void GameSession::clearMapRuntimeState(const std::string &mapFileName, const std::string &canonicalId)
+{
+    const auto eraseKey =
+        [](auto &states, const std::string &key)
+        {
+            if (!key.empty())
+            {
+                states.erase(key);
+            }
+        };
+
+    eraseKey(m_outdoorWorldStates, mapFileName);
+    eraseKey(m_outdoorWorldStates, canonicalId);
+    eraseKey(m_indoorSceneStates, mapFileName);
+    eraseKey(m_indoorSceneStates, canonicalId);
+}
+
 const std::unordered_map<std::string, int32_t> &GameSession::namedGlobalVars() const
 {
     return m_namedGlobalVars;
@@ -1088,6 +1123,26 @@ void GameSession::applyNamedGlobalVarsToRuntime(EventRuntimeState &runtimeState)
     {
         runtimeState.namedGlobalVars[name] = value;
     }
+}
+
+const Mm9ScriptRuntimeState &GameSession::mm9ScriptState() const
+{
+    return m_mm9ScriptState;
+}
+
+void GameSession::initializeMm9ScriptState(const Mm9DialoguePackage &package)
+{
+    m_mm9ScriptState = createInitialMm9ScriptRuntimeState(package);
+}
+
+void GameSession::setMm9ScriptState(const Mm9ScriptRuntimeState &state)
+{
+    m_mm9ScriptState = state;
+}
+
+void GameSession::clearMm9ScriptState()
+{
+    m_mm9ScriptState = {};
 }
 
 void GameSession::setOutdoorCameraAngles(float yawRadians, float pitchRadians)
@@ -1270,6 +1325,7 @@ std::optional<GameSaveData> GameSession::buildSaveData() const
     saveData.mapFileName = m_currentMapFileName;
     saveData.party = m_partyState->snapshot();
     saveData.namedGlobalVars = m_namedGlobalVars;
+    saveData.mm9ScriptState = m_mm9ScriptState;
     saveData.savedGameMinutes = m_gameMinutes;
 
     if (m_outdoorPartyState && m_currentOutdoorWorldState)
@@ -1341,6 +1397,7 @@ void GameSession::restoreFromSaveData(const GameSaveData &saveData)
     m_currentMapFileName = saveData.mapFileName;
     m_gameMinutes = std::max(0.0f, saveData.savedGameMinutes);
     m_namedGlobalVars = saveData.namedGlobalVars;
+    m_mm9ScriptState = saveData.mm9ScriptState;
     const bool collectLegacyNamedGlobalVars = m_namedGlobalVars.empty();
 
     if (m_gameMinutes <= 0.0f)

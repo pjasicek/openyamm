@@ -2,8 +2,11 @@
 #include "engine/ImageAssetLoader.h"
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "editor/import/ObjModelImport.h"
+#include "editor/model/Mm9ModelInstanceActorResolver.h"
 
 #include "game/maps/TerrainTileData.h"
+#include "game/mm9/Mm9DatWorld.h"
+#include "game/mm9/Mm9DtxTexture.h"
 #include "game/SpawnPreview.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/data/ActorNameResolver.h"
@@ -23,6 +26,7 @@
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <iterator>
 #include <limits>
 #include <optional>
 #include <sstream>
@@ -475,7 +479,45 @@ std::vector<std::string> collectEditableMapFileNames(const Engine::AssetFileSyst
 struct OpenableMapEntry
 {
     std::filesystem::path physicalPath;
+    std::string kindLabel;
 };
+
+std::string openableMapKindLabel(const std::filesystem::path &path)
+{
+    const std::string fileNameLower = toLowerCopy(path.filename().string());
+    const std::string extension = toLowerCopy(path.extension().string());
+    const std::string normalizedPath = toLowerCopy(path.generic_string());
+    const bool underMm9World =
+        normalizedPath.find("/worlds/mm9/") != std::string::npos
+        || normalizedPath.find("\\worlds\\mm9\\") != std::string::npos;
+
+    if (fileNameLower.ends_with(".level.yml"))
+    {
+        return underMm9World ? "MM9 DAT" : "DAT Level";
+    }
+
+    if (fileNameLower.ends_with(".scene.yml"))
+    {
+        return "Scene";
+    }
+
+    if (fileNameLower.ends_with(".map.yml"))
+    {
+        return "Map YAML";
+    }
+
+    if (extension == ".odm")
+    {
+        return underMm9World ? "MM9 Compat ODM" : "ODM";
+    }
+
+    if (extension == ".blv")
+    {
+        return underMm9World ? "MM9 Compat BLV" : "BLV";
+    }
+
+    return "Map";
+}
 
 std::vector<std::filesystem::path> collectChildDirectories(const std::filesystem::path &directoryPath)
 {
@@ -523,7 +565,10 @@ std::vector<OpenableMapEntry> collectOpenableMapEntries(
 
             const std::string fileNameLower = toLowerCopy(path.filename().string());
 
-            if (extension == ".yml" && !fileNameLower.ends_with(".scene.yml") && !fileNameLower.ends_with(".map.yml"))
+            if (extension == ".yml"
+                && !fileNameLower.ends_with(".scene.yml")
+                && !fileNameLower.ends_with(".map.yml")
+                && !fileNameLower.ends_with(".level.yml"))
             {
                 continue;
             }
@@ -537,6 +582,7 @@ std::vector<OpenableMapEntry> collectOpenableMapEntries(
 
             OpenableMapEntry openableEntry = {};
             openableEntry.physicalPath = path;
+            openableEntry.kindLabel = openableMapKindLabel(path);
             entries.push_back(openableEntry);
         }
     }
@@ -1119,6 +1165,17 @@ UiIcon selectionKindIcon(EditorSelectionKind kind)
     case EditorSelectionKind::Door:
         return UiIcon::Face;
 
+    case EditorSelectionKind::ModelInstance:
+    case EditorSelectionKind::Mm9ScriptedObject:
+    case EditorSelectionKind::Mm9WorldModel:
+    case EditorSelectionKind::Mm9DatPolygon:
+    case EditorSelectionKind::Mm9MaterialTexture:
+    case EditorSelectionKind::Mm9RawObject:
+    case EditorSelectionKind::Mm9EventObject:
+    case EditorSelectionKind::Mm9Mechanism:
+    case EditorSelectionKind::Mm9EventScript:
+        return UiIcon::Object;
+
     case EditorSelectionKind::None:
     default:
         return UiIcon::Select;
@@ -1176,6 +1233,477 @@ bool matchesSceneFilter(const char *pFilterText, const std::string &label)
     }
 
     return toLowerCopy(label).find(filter) != std::string::npos;
+}
+
+std::string mm9Vec3Text(const EditorMm9Vec3 &value)
+{
+    char buffer[128] = {};
+    std::snprintf(buffer, sizeof(buffer), "%.3f, %.3f, %.3f", value.x, value.y, value.z);
+    return buffer;
+}
+
+std::string mm9DatVec3Text(const Game::Mm9DatVec3 &value)
+{
+    char buffer[128] = {};
+    std::snprintf(buffer, sizeof(buffer), "%.3f, %.3f, %.3f", value.x, value.y, value.z);
+    return buffer;
+}
+
+struct Mm9MovableWorldModelCandidate
+{
+    size_t sourceModelIndex = 0;
+    std::string sourceName;
+    EditorMm9Vec3 worldTranslationLt;
+    float distanceLt = 0.0f;
+};
+
+float mm9DistanceLt(const std::vector<float> &pointLt, const EditorMm9Vec3 &positionLt)
+{
+    if (pointLt.size() < 3)
+    {
+        return 0.0f;
+    }
+
+    const float deltaX = pointLt[0] - positionLt.x;
+    const float deltaY = pointLt[1] - positionLt.y;
+    const float deltaZ = pointLt[2] - positionLt.z;
+    return std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+}
+
+std::vector<Mm9MovableWorldModelCandidate> nearestMm9MovableWorldModels(
+    const EditorMm9DatWorldSidecar &datWorld,
+    const std::vector<float> &pointLt,
+    size_t maxCandidates)
+{
+    std::vector<Mm9MovableWorldModelCandidate> candidates;
+
+    if (pointLt.size() < 3 || maxCandidates == 0)
+    {
+        return candidates;
+    }
+
+    for (const EditorMm9DatWorldModelSummary &worldModel : datWorld.worldModels)
+    {
+        if (!worldModel.roles.movable)
+        {
+            continue;
+        }
+
+        Mm9MovableWorldModelCandidate candidate = {};
+        candidate.sourceModelIndex = worldModel.sourceModelIndex;
+        candidate.sourceName = worldModel.sourceName;
+        candidate.worldTranslationLt = worldModel.worldTranslationLt;
+        candidate.distanceLt = mm9DistanceLt(pointLt, worldModel.worldTranslationLt);
+        candidates.push_back(std::move(candidate));
+    }
+
+    std::sort(
+        candidates.begin(),
+        candidates.end(),
+        [](const Mm9MovableWorldModelCandidate &left, const Mm9MovableWorldModelCandidate &right)
+        {
+            return left.distanceLt < right.distanceLt;
+        });
+
+    if (candidates.size() > maxCandidates)
+    {
+        candidates.resize(maxCandidates);
+    }
+
+    return candidates;
+}
+
+std::string hex32Text(uint32_t value)
+{
+    char buffer[32] = {};
+    std::snprintf(buffer, sizeof(buffer), "0x%08X", static_cast<unsigned>(value));
+    return buffer;
+}
+
+std::string hex16Text(uint16_t value)
+{
+    char buffer[32] = {};
+    std::snprintf(buffer, sizeof(buffer), "0x%04X", static_cast<unsigned>(value));
+    return buffer;
+}
+
+void appendMm9SurfaceFlagName(std::vector<std::string> &names, uint32_t flags, uint32_t bit, const char *pName)
+{
+    if ((flags & bit) != 0)
+    {
+        names.push_back(pName);
+    }
+}
+
+std::string mm9SurfaceFlagsText(uint32_t flags)
+{
+    std::vector<std::string> names;
+    appendMm9SurfaceFlagName(names, flags, Game::Mm9DatSurfaceFlagSolid, "SURF_SOLID");
+    appendMm9SurfaceFlagName(names, flags, Game::Mm9DatSurfaceFlagNonexistent, "SURF_NONEXISTENT");
+    appendMm9SurfaceFlagName(names, flags, Game::Mm9DatSurfaceFlagInvisible, "SURF_INVISIBLE");
+    appendMm9SurfaceFlagName(names, flags, Game::Mm9DatSurfaceFlagTransparent, "SURF_TRANSPARENT");
+    appendMm9SurfaceFlagName(names, flags, Game::Mm9DatSurfaceFlagSky, "SURF_SKY");
+    appendMm9SurfaceFlagName(names, flags, Game::Mm9DatSurfaceFlagPortal, "SURF_PORTAL");
+    appendMm9SurfaceFlagName(names, flags, Game::Mm9DatSurfaceFlagPhysicsBlocker, "SURF_PHYSICSBLOCKER");
+    appendMm9SurfaceFlagName(names, flags, Game::Mm9DatSurfaceFlagVisibilityBlocker, "SURF_VISBLOCKER");
+    appendMm9SurfaceFlagName(names, flags, Game::Mm9DatSurfaceFlagNotAStep, "SURF_NOTASTEP");
+
+    std::string text = hex32Text(flags);
+
+    if (!names.empty())
+    {
+        text += " (";
+        text += names.front();
+
+        for (size_t index = 1; index < names.size(); ++index)
+        {
+            text += ", " + names[index];
+        }
+
+        text += ")";
+    }
+
+    return text;
+}
+
+std::string mm9WorldModelRolesText(const EditorMm9DatWorldModelRoles &roles)
+{
+    std::vector<std::string> roleNames;
+
+    if (roles.visible)
+    {
+        roleNames.push_back("visible");
+    }
+    if (roles.terrain)
+    {
+        roleNames.push_back("terrain");
+    }
+    if (roles.physicsBsp)
+    {
+        roleNames.push_back("physics_bsp");
+    }
+    if (roles.visBsp)
+    {
+        roleNames.push_back("vis_bsp");
+    }
+    if (roles.sky)
+    {
+        roleNames.push_back("sky");
+    }
+    if (roles.water)
+    {
+        roleNames.push_back("water");
+    }
+    if (roles.triggerOrVolume)
+    {
+        roleNames.push_back("trigger_or_volume");
+    }
+    if (roles.movable)
+    {
+        roleNames.push_back("movable");
+    }
+
+    if (roleNames.empty())
+    {
+        return "<none>";
+    }
+
+    std::string text = roleNames.front();
+
+    for (size_t index = 1; index < roleNames.size(); ++index)
+    {
+        text += ", " + roleNames[index];
+    }
+
+    return text;
+}
+
+Game::Mm9DatModelRenderRole mm9ModelRenderRoleFromSidecarModel(const EditorMm9DatWorldModelSummary &model)
+{
+    Game::Mm9DatModelRenderRole role = {};
+    role.sourceModelIndex = model.sourceModelIndex;
+    role.visible = model.roles.visible;
+    role.terrain = model.roles.terrain;
+    role.physicsBsp = model.roles.physicsBsp;
+    role.visBsp = model.roles.visBsp;
+    role.sky = model.roles.sky;
+    role.water = model.roles.water;
+    role.triggerOrVolume = model.roles.triggerOrVolume;
+    role.movable = model.roles.movable;
+    return role;
+}
+
+std::vector<Game::Mm9DatModelRenderRole> mm9ModelRenderRolesFromSidecar(
+    const EditorMm9DatWorldSidecar &datWorld)
+{
+    std::vector<Game::Mm9DatModelRenderRole> roles;
+    roles.reserve(datWorld.worldModels.size());
+
+    for (const EditorMm9DatWorldModelSummary &model : datWorld.worldModels)
+    {
+        roles.push_back(mm9ModelRenderRoleFromSidecarModel(model));
+    }
+
+    return roles;
+}
+
+bool mm9DatFilterEntryShouldRenderInDefaultEditorView(const Game::Mm9DatRenderFilterEntry &filterEntry)
+{
+    const bool renderable =
+        (filterEntry.flags
+            & (Game::Mm9DatRenderFilterVisual
+                | Game::Mm9DatRenderFilterSky
+                | Game::Mm9DatRenderFilterWater
+                | Game::Mm9DatRenderFilterTerrain
+                | Game::Mm9DatRenderFilterPhysics
+                | Game::Mm9DatRenderFilterMovable)) != 0;
+    const bool hidden =
+        (filterEntry.flags
+            & (Game::Mm9DatRenderFilterInvisible
+                | Game::Mm9DatRenderFilterWaterVolume
+                | Game::Mm9DatRenderFilterRail
+                | Game::Mm9DatRenderFilterVisibility
+                | Game::Mm9DatRenderFilterTrigger)) != 0;
+    return renderable && !hidden;
+}
+
+std::string boolText(bool value)
+{
+    return value ? "true" : "false";
+}
+
+struct ReadOnlyTextPreview
+{
+    std::filesystem::path path;
+    std::string text;
+    uintmax_t fileSizeBytes = 0;
+    bool exists = false;
+    bool loaded = false;
+    bool truncated = false;
+};
+
+std::filesystem::path resolveMm9LevelRelativePath(
+    const EditorDocument &document,
+    const std::string &path)
+{
+    if (path.empty())
+    {
+        return {};
+    }
+
+    const std::filesystem::path parsedPath(path);
+
+    if (parsedPath.is_absolute())
+    {
+        return parsedPath;
+    }
+
+    return (document.scenePhysicalPath().parent_path() / parsedPath).lexically_normal();
+}
+
+ReadOnlyTextPreview loadReadOnlyTextPreview(
+    const std::filesystem::path &path,
+    size_t maxBytes = 200 * 1024)
+{
+    ReadOnlyTextPreview preview = {};
+    preview.path = path;
+    preview.exists = !path.empty() && std::filesystem::exists(path);
+
+    if (!preview.exists)
+    {
+        return preview;
+    }
+
+    std::error_code errorCode;
+    preview.fileSizeBytes = std::filesystem::file_size(path, errorCode);
+
+    if (errorCode)
+    {
+        preview.fileSizeBytes = 0;
+    }
+
+    std::ifstream input(path, std::ios::binary);
+
+    if (!input)
+    {
+        return preview;
+    }
+
+    std::string text;
+    const size_t readBytes = preview.fileSizeBytes == 0
+        ? maxBytes
+        : std::min<size_t>(static_cast<size_t>(preview.fileSizeBytes), maxBytes);
+    text.resize(readBytes);
+
+    if (readBytes > 0)
+    {
+        input.read(text.data(), static_cast<std::streamsize>(readBytes));
+        text.resize(static_cast<size_t>(input.gcount()));
+    }
+
+    preview.loaded = true;
+    preview.truncated = preview.fileSizeBytes > text.size();
+    preview.text = std::move(text);
+    return preview;
+}
+
+void appendMm9DtxFlagName(std::vector<std::string> &names, int flags, int bit, const char *pName)
+{
+    if ((flags & bit) != 0)
+    {
+        names.push_back(pName);
+    }
+}
+
+std::string mm9DtxFlagsText(int flags)
+{
+    std::vector<std::string> names;
+    appendMm9DtxFlagName(names, flags, 1 << 0, "FULLBRITE");
+    appendMm9DtxFlagName(names, flags, 1 << 1, "PREFER16BIT");
+    appendMm9DtxFlagName(names, flags, 1 << 2, "MIPSALLOCED");
+    appendMm9DtxFlagName(names, flags, 1 << 3, "SECTIONSFIXED");
+    appendMm9DtxFlagName(names, flags, 1 << 6, "NOSYSCACHE");
+    appendMm9DtxFlagName(names, flags, 1 << 7, "PREFER4444");
+    appendMm9DtxFlagName(names, flags, 1 << 8, "PREFER5551");
+    appendMm9DtxFlagName(names, flags, 1 << 9, "32BITSYSCOPY");
+    appendMm9DtxFlagName(names, flags, 1 << 10, "CUBEMAP");
+    appendMm9DtxFlagName(names, flags, 1 << 11, "BUMPMAP");
+    appendMm9DtxFlagName(names, flags, 1 << 12, "LUMBUMPMAP");
+
+    std::string text = std::to_string(flags);
+
+    if (!names.empty())
+    {
+        text += " (";
+        text += names.front();
+
+        for (size_t index = 1; index < names.size(); ++index)
+        {
+            text += ", " + names[index];
+        }
+
+        text += ")";
+    }
+
+    return text;
+}
+
+std::string mm9DtxExtraBytesText(const EditorMm9DtxHeader &header)
+{
+    std::ostringstream stream;
+    stream << "[";
+
+    for (size_t index = 0; index < header.extraBytes.size(); ++index)
+    {
+        if (index > 0)
+        {
+            stream << ", ";
+        }
+
+        stream << header.extraBytes[index];
+    }
+
+    stream << "]";
+    return stream.str();
+}
+
+const EditorMm9RawObjectProperty *findMm9RawObjectProperty(
+    const EditorMm9RawObject &object,
+    const std::string &propertyName)
+{
+    for (const EditorMm9RawObjectProperty &property : object.properties)
+    {
+        if (toLowerCopy(property.name) == toLowerCopy(propertyName))
+        {
+            return &property;
+        }
+    }
+
+    return nullptr;
+}
+
+std::string mm9RawObjectPropertyValue(
+    const EditorMm9RawObject &object,
+    const std::string &propertyName)
+{
+    const EditorMm9RawObjectProperty *pProperty = findMm9RawObjectProperty(object, propertyName);
+
+    if (pProperty == nullptr)
+    {
+        return "<none>";
+    }
+
+    return pProperty->valueJson.empty() ? std::string("<empty>") : pProperty->valueJson;
+}
+
+std::string joinMm9Classifications(const std::vector<std::string> &classifications)
+{
+    if (classifications.empty())
+    {
+        return "<none>";
+    }
+
+    std::string text = classifications.front();
+
+    for (size_t index = 1; index < classifications.size(); ++index)
+    {
+        text += ", " + classifications[index];
+    }
+
+    return text;
+}
+
+std::string mm9FloatVectorText(const std::vector<float> &values)
+{
+    if (values.empty())
+    {
+        return "<none>";
+    }
+
+    std::ostringstream stream;
+    stream << "[";
+
+    for (size_t index = 0; index < values.size(); ++index)
+    {
+        if (index > 0)
+        {
+            stream << ", ";
+        }
+
+        stream << values[index];
+    }
+
+    stream << "]";
+    return stream.str();
+}
+
+std::string mm9OptionalBoolText(bool value, bool present)
+{
+    if (!present)
+    {
+        return "<unknown>";
+    }
+
+    return value ? "true" : "false";
+}
+
+bool isMm9ScriptedModelInstanceForEditor(
+    const EditorDocument &document,
+    const Game::OutdoorSceneModelInstance &modelInstance,
+    const Mm9ModelInstanceActorSourceLookup *pActorSourceLookup)
+{
+    if (document.kind() != EditorDocument::Kind::Outdoor
+        || toLowerCopy(document.outdoorGeometry().worldId) != "mm9")
+    {
+        return false;
+    }
+
+    if (canResolveMm9ModelInstanceActorSource(modelInstance, pActorSourceLookup))
+    {
+        return true;
+    }
+
+    return !modelInstance.sourceModel.empty() && toLowerCopy(modelInstance.sourceClass) != "prop";
 }
 
 bool indoorRoomMatchesFilter(std::optional<uint16_t> roomId, int filterRoomId)
@@ -1467,6 +1995,27 @@ std::string activeEditorContextSummary(const EditorSession &session, const Edito
         break;
     case EditorSelectionKind::SpriteObject:
         pMode = "Object Place";
+        break;
+    case EditorSelectionKind::Mm9WorldModel:
+        pMode = "DAT World Model";
+        break;
+    case EditorSelectionKind::Mm9DatPolygon:
+        pMode = "DAT Polygon";
+        break;
+    case EditorSelectionKind::Mm9MaterialTexture:
+        pMode = "DTX Texture";
+        break;
+    case EditorSelectionKind::Mm9RawObject:
+        pMode = "DAT Raw Object";
+        break;
+    case EditorSelectionKind::Mm9EventObject:
+        pMode = "MM9 Event Object";
+        break;
+    case EditorSelectionKind::Mm9Mechanism:
+        pMode = "MM9 Mechanism";
+        break;
+    case EditorSelectionKind::Mm9EventScript:
+        pMode = "MM9 Script";
         break;
     case EditorSelectionKind::None:
     default:
@@ -1825,6 +2374,150 @@ std::pair<std::string, std::string> inspectorSelectionSummary(const EditorSessio
         }
 
         return {"Door", "Index " + std::to_string(selection.index)};
+
+    case EditorSelectionKind::ModelInstance:
+    case EditorSelectionKind::Mm9ScriptedObject:
+        if (document.kind() == EditorDocument::Kind::Outdoor)
+        {
+            const Game::OutdoorSceneData &sceneData = document.outdoorSceneData();
+
+            if (selection.index < sceneData.modelInstances.size())
+            {
+                const Game::OutdoorSceneModelInstance &modelInstance = sceneData.modelInstances[selection.index];
+                const std::string name = modelInstance.sourceName.empty()
+                    ? modelInstance.instanceId
+                    : modelInstance.sourceName;
+                return {
+                    selection.kind == EditorSelectionKind::Mm9ScriptedObject
+                        ? "MM9 Scripted Object"
+                        : "Model Instance",
+                    name};
+            }
+        }
+
+        return {
+            selection.kind == EditorSelectionKind::Mm9ScriptedObject ? "MM9 Scripted Object" : "Model Instance",
+            "Index " + std::to_string(selection.index)};
+
+    case EditorSelectionKind::Mm9WorldModel:
+        if (document.kind() == EditorDocument::Kind::Mm9Dat && document.hasMm9DatLoadedSidecars())
+        {
+            const EditorMm9DatWorldSidecar &datWorld = document.mm9DatLoadedSidecars().datWorld;
+
+            if (selection.index < datWorld.worldModels.size())
+            {
+                const EditorMm9DatWorldModelSummary &model = datWorld.worldModels[selection.index];
+                return {
+                    "DAT World Model",
+                    std::to_string(model.sourceModelIndex) + " - "
+                        + (model.sourceName.empty() ? std::string("<unnamed>") : model.sourceName)};
+            }
+        }
+
+        return {"DAT World Model", "Index " + std::to_string(selection.index)};
+
+    case EditorSelectionKind::Mm9DatPolygon:
+        if (document.kind() == EditorDocument::Kind::Mm9Dat && document.hasMm9DatWorld())
+        {
+            const Game::Mm9DatRenderMesh &mesh = document.mm9DatRenderMesh();
+
+            if (selection.index < mesh.triangles.size())
+            {
+                const Game::Mm9DatRenderTriangle &triangle = mesh.triangles[selection.index];
+                return {
+                    "DAT Polygon",
+                    "Model " + std::to_string(triangle.sourceModelIndex)
+                        + " / Poly " + std::to_string(triangle.sourcePolyIndex)
+                        + " / Surface " + std::to_string(triangle.sourceSurfaceIndex)};
+            }
+        }
+
+        return {"DAT Polygon", "Triangle " + std::to_string(selection.index)};
+
+    case EditorSelectionKind::Mm9MaterialTexture:
+        if (document.kind() == EditorDocument::Kind::Mm9Dat && document.hasMm9DatLoadedSidecars())
+        {
+            const EditorMm9MaterialAliasesSidecar &materials =
+                document.mm9DatLoadedSidecars().materialAliases;
+
+            if (selection.index < materials.textures.size())
+            {
+                const EditorMm9MaterialTexture &texture = materials.textures[selection.index];
+                return {
+                    "DTX Texture",
+                    texture.alias + " - "
+                        + (texture.sourceTexture.empty()
+                            ? std::string("<missing source>")
+                            : texture.sourceTexture)};
+            }
+        }
+
+        return {"DTX Texture", "Index " + std::to_string(selection.index)};
+
+    case EditorSelectionKind::Mm9RawObject:
+        if (document.kind() == EditorDocument::Kind::Mm9Dat && document.hasMm9DatLoadedSidecars())
+        {
+            const EditorMm9RawObjectsSidecar &rawObjects = document.mm9DatLoadedSidecars().rawObjects;
+
+            if (selection.index < rawObjects.objects.size())
+            {
+                const EditorMm9RawObject &object = rawObjects.objects[selection.index];
+                return {
+                    "DAT Raw Object",
+                    std::to_string(object.objectIndex) + " - "
+                        + (object.name.empty() ? std::string("<unnamed>") : object.name)};
+            }
+        }
+
+        return {"DAT Raw Object", "Index " + std::to_string(selection.index)};
+
+    case EditorSelectionKind::Mm9EventObject:
+        if (document.kind() == EditorDocument::Kind::Mm9Dat && document.hasMm9DatLoadedSidecars())
+        {
+            const Game::Mm9EventsData &events = document.mm9DatLoadedSidecars().events;
+
+            if (selection.index < events.objects.size())
+            {
+                const Game::Mm9EventObject &object = events.objects[selection.index];
+                return {
+                    "MM9 Event Object",
+                    std::to_string(object.sourceObjectIndex) + " - "
+                        + (object.sourceName.empty() ? object.sourceClass : object.sourceName)};
+            }
+        }
+
+        return {"MM9 Event Object", "Index " + std::to_string(selection.index)};
+
+    case EditorSelectionKind::Mm9Mechanism:
+        if (document.kind() == EditorDocument::Kind::Mm9Dat && document.hasMm9DatLoadedSidecars())
+        {
+            const Game::Mm9EventsData &events = document.mm9DatLoadedSidecars().events;
+
+            if (selection.index < events.mechanisms.size())
+            {
+                const Game::Mm9EventMechanism &mechanism = events.mechanisms[selection.index];
+                return {
+                    "MM9 Mechanism",
+                    std::to_string(mechanism.sourceObjectIndex) + " - "
+                        + (mechanism.sourceName.empty() ? mechanism.sourceClass : mechanism.sourceName)};
+            }
+        }
+
+        return {"MM9 Mechanism", "Index " + std::to_string(selection.index)};
+
+    case EditorSelectionKind::Mm9EventScript:
+        if (document.kind() == EditorDocument::Kind::Mm9Dat && document.hasMm9DatLoadedSidecars())
+        {
+            const Game::Mm9EventsData &events = document.mm9DatLoadedSidecars().events;
+
+            if (selection.index < events.scripts.size())
+            {
+                const Game::Mm9EventScript &script = events.scripts[selection.index];
+                return {"MM9 Script", script.scriptId};
+            }
+        }
+
+        return {"MM9 Script", "Index " + std::to_string(selection.index)};
     }
 
     return {"Selection", {}};
@@ -2151,6 +2844,546 @@ void renderInspectorReadOnlyField(const char *pLabel, const char *pValue)
     ImGui::TextUnformatted(pValue);
 }
 
+void renderInspectorCopyButton(const char *pId, const std::string &value)
+{
+    const bool canCopy = !value.empty() && value != "<none>" && value != "<unknown>" && value != "<unavailable>";
+
+    ImGui::PushID(pId);
+    ImGui::BeginDisabled(!canCopy);
+    if (ImGui::SmallButton("Copy"))
+    {
+        ImGui::SetClipboardText(value.c_str());
+    }
+    ImGui::EndDisabled();
+
+    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+    {
+        ImGui::SetTooltip(canCopy ? "Copy value" : "No value to copy");
+    }
+
+    ImGui::PopID();
+}
+
+std::string localPathFileUrl(const std::string &pathText)
+{
+    std::error_code pathError;
+    std::filesystem::path path(pathText);
+
+    if (path.is_relative())
+    {
+        path = std::filesystem::current_path(pathError) / path;
+    }
+
+    if (!pathError)
+    {
+        path = std::filesystem::weakly_canonical(path, pathError);
+    }
+
+    if (pathError)
+    {
+        path = std::filesystem::absolute(std::filesystem::path(pathText), pathError);
+    }
+
+    std::string genericPath = path.generic_string();
+
+#if defined(_WIN32)
+    return "file:///" + genericPath;
+#else
+    return "file://" + genericPath;
+#endif
+}
+
+void renderInspectorOpenPathButton(const char *pId, const std::string &pathText)
+{
+    const bool hasPath = !pathText.empty() && pathText != "<none>" && pathText != "<unknown>";
+    const bool canOpen = hasPath && std::filesystem::exists(std::filesystem::path(pathText));
+
+    ImGui::PushID(pId);
+    ImGui::BeginDisabled(!canOpen);
+    if (ImGui::SmallButton("Open"))
+    {
+        const std::string url = localPathFileUrl(pathText);
+        SDL_OpenURL(url.c_str());
+    }
+    ImGui::EndDisabled();
+
+    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+    {
+        ImGui::SetTooltip(canOpen ? "Open file" : "Path does not exist");
+    }
+
+    ImGui::PopID();
+}
+
+bool renderInspectorJumpButton(const char *pLabel, bool enabled)
+{
+    bool clicked = false;
+
+    ImGui::BeginDisabled(!enabled);
+    clicked = ImGui::SmallButton(pLabel);
+    ImGui::EndDisabled();
+
+    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+    {
+        ImGui::SetTooltip(enabled ? "Select linked inspector row" : "Linked row is unavailable");
+    }
+
+    return clicked && enabled;
+}
+
+void renderInspectorCopyableReadOnlyField(const char *pLabel, const std::string &value)
+{
+    beginInspectorFieldRow(pLabel);
+    renderInspectorCopyButton(pLabel, value);
+    ImGui::SameLine();
+    ImGui::TextUnformatted(value.c_str());
+}
+
+void renderInspectorCopyableReadOnlyField(const char *pLabel, const char *pValue)
+{
+    renderInspectorCopyableReadOnlyField(pLabel, std::string(pValue != nullptr ? pValue : ""));
+}
+
+void renderInspectorCopyOpenReadOnlyField(
+    const char *pLabel,
+    const std::string &value,
+    const std::string &openPath)
+{
+    beginInspectorFieldRow(pLabel);
+    renderInspectorCopyButton((std::string(pLabel) + "Copy").c_str(), value);
+    ImGui::SameLine();
+    renderInspectorOpenPathButton((std::string(pLabel) + "Open").c_str(), openPath);
+    ImGui::SameLine();
+    ImGui::TextUnformatted(value.c_str());
+}
+
+std::optional<size_t> findMm9RawObjectIndexBySourceObjectIndex(
+    const EditorMm9RawObjectsSidecar &rawObjects,
+    int sourceObjectIndex)
+{
+    if (sourceObjectIndex < 0)
+    {
+        return std::nullopt;
+    }
+
+    for (size_t objectIndex = 0; objectIndex < rawObjects.objects.size(); ++objectIndex)
+    {
+        if (rawObjects.objects[objectIndex].objectIndex == static_cast<size_t>(sourceObjectIndex))
+        {
+            return objectIndex;
+        }
+    }
+
+    return std::nullopt;
+}
+
+std::optional<size_t> findMm9EventObjectIndexByObjectId(
+    const Game::Mm9EventsData &events,
+    const std::string &objectId)
+{
+    for (size_t eventObjectIndex = 0; eventObjectIndex < events.objects.size(); ++eventObjectIndex)
+    {
+        if (events.objects[eventObjectIndex].objectId == objectId)
+        {
+            return eventObjectIndex;
+        }
+    }
+
+    return std::nullopt;
+}
+
+std::optional<size_t> findMm9MechanismIndexByObjectId(
+    const Game::Mm9EventsData &events,
+    const std::string &objectId)
+{
+    for (size_t mechanismIndex = 0; mechanismIndex < events.mechanisms.size(); ++mechanismIndex)
+    {
+        if (events.mechanisms[mechanismIndex].objectId == objectId)
+        {
+            return mechanismIndex;
+        }
+    }
+
+    return std::nullopt;
+}
+
+std::optional<size_t> findMm9WorldModelIndexBySourceModelIndex(
+    const EditorMm9DatWorldSidecar &datWorld,
+    size_t sourceModelIndex)
+{
+    for (size_t worldModelIndex = 0; worldModelIndex < datWorld.worldModels.size(); ++worldModelIndex)
+    {
+        if (datWorld.worldModels[worldModelIndex].sourceModelIndex == sourceModelIndex)
+        {
+            return worldModelIndex;
+        }
+    }
+
+    return std::nullopt;
+}
+
+const Game::Mm9EventBinding *findMm9EventBindingForObject(
+    const Game::Mm9EventsData &events,
+    const std::string &objectId)
+{
+    for (const Game::Mm9EventBinding &binding : events.bindings)
+    {
+        if (binding.objectId == objectId)
+        {
+            return &binding;
+        }
+    }
+
+    return nullptr;
+}
+
+bool isMm9RequiredMechanismTarget(const Game::Mm9EventMechanism &mechanism)
+{
+    return mechanism.sourceClass != "ScriptObject";
+}
+
+struct Mm9ReferenceValidationUiSummary
+{
+    size_t missingDocumentPaths = 0;
+    size_t sourceManifestIssues = 0;
+    size_t assetGraphBlockingIssues = 0;
+    size_t materialBlockingIssues = 0;
+    size_t materialWarnings = 0;
+    size_t rawObjectAssetBlockingIssues = 0;
+    size_t documentValidationIssues = 0;
+};
+
+struct Mm9NormalizedDiagnosticUiEntry
+{
+    std::string severity;
+    std::string sourceFile;
+    std::string sourceIndexPath;
+    std::string sidecarPath;
+    std::string resolver;
+    std::string suggestedOwner;
+    std::string message;
+};
+
+size_t mm9ReferenceValidationBlockingIssueCount(const Mm9ReferenceValidationUiSummary &summary)
+{
+    return summary.missingDocumentPaths
+        + summary.sourceManifestIssues
+        + summary.assetGraphBlockingIssues
+        + summary.materialBlockingIssues
+        + summary.rawObjectAssetBlockingIssues
+        + summary.documentValidationIssues;
+}
+
+bool isMm9MaterialTextureBlockingIssue(const EditorMm9MaterialTextureStatus &status)
+{
+    const bool requiredSource = status.datReferenceCount > 0 || !status.sourceTexture.empty();
+    bool invalid =
+        requiredSource
+        && !status.placeholderMissingSource
+        && (!status.sourceDtxResolved
+            || status.sourceDtxAmbiguous
+            || !status.sourcePathExists
+            || !status.dtxHeaderLoaded
+            || !status.dtxHeaderMatchesSidecar);
+
+    if (status.sourceAssetFamily == "sprites")
+    {
+        invalid =
+            requiredSource
+            && (!status.sourceSpriteResolved
+                || status.sourceSpriteAmbiguous
+                || !status.sourceSpritePathExists
+                || !status.sourceSpriteParsed
+                || status.spriteFrameTextureCount == 0
+                || status.unresolvedSpriteFrameTextureCount != 0
+                || status.ambiguousSpriteFrameTextureCount != 0);
+    }
+
+    return invalid;
+}
+
+std::vector<Mm9NormalizedDiagnosticUiEntry> collectMm9NormalizedDiagnostics(
+    const EditorSession &session,
+    const EditorDocument &document)
+{
+    std::vector<Mm9NormalizedDiagnosticUiEntry> diagnostics;
+
+    if (document.kind() != EditorDocument::Kind::Mm9Dat)
+    {
+        return diagnostics;
+    }
+
+    const EditorMm9DatLevelMetadata &metadata = document.mm9DatLevelMetadata();
+
+    const auto addDiagnostic =
+        [&diagnostics](
+            const std::string &severity,
+            const std::string &sourceFile,
+            const std::string &sourceIndexPath,
+            const std::string &sidecarPath,
+            const std::string &resolver,
+            const std::string &suggestedOwner,
+            const std::string &message)
+    {
+        Mm9NormalizedDiagnosticUiEntry diagnostic = {};
+        diagnostic.severity = severity;
+        diagnostic.sourceFile = sourceFile;
+        diagnostic.sourceIndexPath = sourceIndexPath;
+        diagnostic.sidecarPath = sidecarPath;
+        diagnostic.resolver = resolver;
+        diagnostic.suggestedOwner = suggestedOwner;
+        diagnostic.message = message;
+        diagnostics.push_back(std::move(diagnostic));
+    };
+
+    for (const std::string &message : session.validationMessages())
+    {
+        addDiagnostic(
+            "error",
+            document.sceneVirtualPath(),
+            "",
+            document.sceneVirtualPath(),
+            "editor_document_validator",
+            "parser",
+            message);
+    }
+
+    for (const EditorMm9DocumentPathStatus &status : document.mm9DocumentPathStatuses())
+    {
+        if (status.exists)
+        {
+            continue;
+        }
+
+        const bool requiredPath = isMm9DocumentPathRequired(status);
+        const bool cachePath = status.role == "generated_cache";
+
+        addDiagnostic(
+            requiredPath ? "error" : (cachePath ? "warning" : "info"),
+            document.sceneVirtualPath(),
+            "document_paths/" + status.label,
+            status.relativePath,
+            "mm9_document_path_inventory",
+            status.sourceReadOnly ? "source asset mirror" : "sidecar generator",
+            "document path is missing: " + status.relativePath);
+    }
+
+    for (const std::string &message : document.mm9SourceAssetManifestDiagnostics())
+    {
+        addDiagnostic(
+            "error",
+            "source/manifest.yml",
+            "",
+            "source/manifest.yml",
+            "mm9_source_manifest_validator",
+            "source asset mirror",
+            message);
+    }
+
+    for (const EditorMm9SourceAssetFamilyStatus &status : document.mm9SourceAssetFamilyStatuses())
+    {
+        if (status.declared && status.packageDirectoryExists && status.expectedFileCount == status.actualFileCount)
+        {
+            continue;
+        }
+
+        std::string message;
+
+        if (!status.declared)
+        {
+            message = "source manifest family is missing: " + status.id;
+        }
+        else if (!status.packageDirectoryExists)
+        {
+            message = "source package directory is missing: " + status.package;
+        }
+        else
+        {
+            message = "source family file count mismatch: " + status.id
+                + " expected=" + std::to_string(status.expectedFileCount)
+                + " actual=" + std::to_string(status.actualFileCount);
+        }
+
+        addDiagnostic(
+            "error",
+            "source/manifest.yml",
+            "families/" + status.id,
+            "source/manifest.yml",
+            "mm9_source_manifest_validator",
+            "source asset mirror",
+            message);
+    }
+
+    for (const EditorMm9MaterialTextureStatus &status : document.mm9MaterialTextureStatuses())
+    {
+        if (isMm9MaterialTextureBlockingIssue(status))
+        {
+            addDiagnostic(
+                "error",
+                status.physicalPath,
+                "material_textures/" + std::to_string(status.textureIndex),
+                metadata.sidecars.materials,
+                "mm9_material_texture_resolver",
+                status.sourceDtxAmbiguous || status.sourceSpriteAmbiguous ? "authored override" : "source asset mirror",
+                "material texture reference is unresolved or ambiguous: " + status.sourceTexture);
+        }
+
+        if (status.cacheOlderThanSource)
+        {
+            addDiagnostic(
+                "error",
+                status.physicalPath,
+                "material_textures/" + std::to_string(status.textureIndex),
+                status.emittedBitmap,
+                "mm9_material_cache_validator",
+                "sidecar generator",
+                "generated material cache is older than source DTX: " + status.sourceTexture);
+        }
+
+        if (status.placeholderMissingSource && status.datReferenceCount > 0)
+        {
+            addDiagnostic(
+                "warning",
+                status.physicalPath.empty() ? status.sourceTexture : status.physicalPath,
+                "material_textures/" + std::to_string(status.textureIndex),
+                metadata.sidecars.materials,
+                "mm9_material_texture_resolver",
+                "source asset mirror",
+                "DAT material alias still renders from a placeholder cache: " + status.sourceTexture
+                    + " dat_refs=" + std::to_string(status.datReferenceCount));
+        }
+    }
+
+    for (const EditorMm9RawObjectAssetReferenceStatus &status : document.mm9RawObjectAssetReferenceStatuses())
+    {
+        if (status.resolved && !status.ambiguous)
+        {
+            continue;
+        }
+
+        addDiagnostic(
+            status.required ? "error" : "warning",
+            metadata.source.dat,
+            "raw_objects/" + std::to_string(status.sourceObjectIndex)
+                + "/properties/" + std::to_string(status.propertyIndex),
+            metadata.sidecars.rawObjects,
+            "mm9_raw_object_asset_resolver",
+            status.ambiguous ? "authored override" : "source asset mirror",
+            (status.required ? "required" : "optional")
+                + std::string(" raw object asset reference is unresolved or ambiguous: ")
+                + status.sourceFamily + " " + status.sourceValue);
+    }
+
+    if (!document.hasMm9DatLoadedSidecars())
+    {
+        return diagnostics;
+    }
+
+    const Game::Mm9EventsData &events = document.mm9DatLoadedSidecars().events;
+
+    for (const Game::Mm9EventMechanism &mechanism : events.mechanisms)
+    {
+        const Game::Mm9EventBinding *pBinding = findMm9EventBindingForObject(events, mechanism.objectId);
+        bool hasResolvedTarget = false;
+        bool hasUnresolvedTarget = pBinding == nullptr || pBinding->targets.empty();
+
+        if (pBinding != nullptr)
+        {
+            for (const Game::Mm9EventBindingTarget &target : pBinding->targets)
+            {
+                if ((target.targetKind == "odm_bmodel" && target.bmodelIndex)
+                    || (target.targetKind == "model_instance" && !target.targetId.empty()))
+                {
+                    hasResolvedTarget = true;
+                }
+
+                if (target.targetKind == "unresolved")
+                {
+                    hasUnresolvedTarget = true;
+                }
+            }
+        }
+
+        if (hasResolvedTarget && !hasUnresolvedTarget)
+        {
+            continue;
+        }
+
+        const bool required = isMm9RequiredMechanismTarget(mechanism);
+        addDiagnostic(
+            required ? "error" : "warning",
+            metadata.source.dat,
+            "raw_objects/" + std::to_string(mechanism.sourceObjectIndex),
+            metadata.sidecars.events,
+            "mm9_mechanism_target_resolver",
+            "sidecar generator",
+            "mechanism target is unresolved: " + mechanism.sourceName);
+    }
+
+    return diagnostics;
+}
+
+Mm9ReferenceValidationUiSummary collectMm9ReferenceValidationUiSummary(
+    const EditorSession &session,
+    const EditorDocument &document)
+{
+    Mm9ReferenceValidationUiSummary summary = {};
+    summary.documentValidationIssues = session.validationMessages().size();
+
+    for (const EditorMm9DocumentPathStatus &status : document.mm9DocumentPathStatuses())
+    {
+        if (!status.exists && isMm9DocumentPathRequired(status))
+        {
+            ++summary.missingDocumentPaths;
+        }
+    }
+
+    summary.sourceManifestIssues = document.mm9SourceAssetManifestDiagnostics().size();
+
+    for (const EditorMm9SourceAssetFamilyStatus &status : document.mm9SourceAssetFamilyStatuses())
+    {
+        if (!status.declared || !status.packageDirectoryExists)
+        {
+            ++summary.sourceManifestIssues;
+        }
+        else if (status.expectedFileCount != status.actualFileCount)
+        {
+            ++summary.sourceManifestIssues;
+        }
+    }
+
+    const EditorMm9AssetDependencySummary &assetSummary = document.mm9AssetDependencySummary();
+    summary.assetGraphBlockingIssues = assetSummary.requiredUnresolved + assetSummary.requiredAmbiguous;
+
+    for (const EditorMm9MaterialTextureStatus &status : document.mm9MaterialTextureStatuses())
+    {
+        if (isMm9MaterialTextureBlockingIssue(status))
+        {
+            ++summary.materialBlockingIssues;
+        }
+
+        if (status.cacheOlderThanSource)
+        {
+            ++summary.materialWarnings;
+        }
+
+        if (status.placeholderMissingSource && status.datReferenceCount > 0)
+        {
+            ++summary.materialWarnings;
+        }
+    }
+
+    for (const EditorMm9RawObjectAssetReferenceStatus &status : document.mm9RawObjectAssetReferenceStatuses())
+    {
+        if (status.required && (!status.resolved || status.ambiguous))
+        {
+            ++summary.rawObjectAssetBlockingIssues;
+        }
+    }
+
+    return summary;
+}
+
 const char *bmodelBulkFaceScopeLabel(BModelBulkFaceScope scope)
 {
     switch (scope)
@@ -2222,6 +3455,31 @@ void repairOutdoorSceneFaceReferencesAfterDelete(
                 return false;
             }),
         sceneData.interactiveFaces.end());
+
+    sceneData.bmodelFaceSources.erase(
+        std::remove_if(
+            sceneData.bmodelFaceSources.begin(),
+            sceneData.bmodelFaceSources.end(),
+            [bmodelIndex, deletedFaceIndex](Game::OutdoorSceneBModelFaceSource &faceSource)
+            {
+                if (faceSource.bmodelIndex != bmodelIndex)
+                {
+                    return false;
+                }
+
+                if (faceSource.faceIndex == deletedFaceIndex)
+                {
+                    return true;
+                }
+
+                if (faceSource.faceIndex > deletedFaceIndex)
+                {
+                    --faceSource.faceIndex;
+                }
+
+                return false;
+            }),
+        sceneData.bmodelFaceSources.end());
 
     sceneData.initialState.faceAttributeOverrides.erase(
         std::remove_if(
@@ -5171,6 +6429,22 @@ const Game::OutdoorSceneInteractiveFace *findInteractiveFace(
     return nullptr;
 }
 
+const Game::OutdoorSceneBModelFaceSource *findBModelFaceSource(
+    const Game::OutdoorSceneData &sceneData,
+    size_t bmodelIndex,
+    size_t faceIndex)
+{
+    for (const Game::OutdoorSceneBModelFaceSource &faceSource : sceneData.bmodelFaceSources)
+    {
+        if (faceSource.bmodelIndex == bmodelIndex && faceSource.faceIndex == faceIndex)
+        {
+            return &faceSource;
+        }
+    }
+
+    return nullptr;
+}
+
 Game::OutdoorSceneInteractiveFace makeInteractiveFaceEntry(
     size_t bmodelIndex,
     size_t faceIndex,
@@ -5487,6 +6761,26 @@ void EditorMainWindow::ensureEditorStateLoaded(EditorSession &session)
         m_viewport.setShowBModels(parseBoolValue(iterator->second));
     }
 
+    if (const auto iterator = values.find("show_mm9_dat_portals"); iterator != values.end())
+    {
+        m_viewport.setShowMm9DatPortals(parseBoolValue(iterator->second));
+    }
+
+    if (const auto iterator = values.find("show_mm9_world_model_bounds"); iterator != values.end())
+    {
+        m_viewport.setShowMm9WorldModelBounds(parseBoolValue(iterator->second));
+    }
+
+    if (const auto iterator = values.find("show_mm9_object_bounds"); iterator != values.end())
+    {
+        m_viewport.setShowMm9ObjectBounds(parseBoolValue(iterator->second));
+    }
+
+    if (const auto iterator = values.find("show_mm9_asset_issue_markers"); iterator != values.end())
+    {
+        m_viewport.setShowMm9AssetIssueMarkers(parseBoolValue(iterator->second));
+    }
+
     if (const auto iterator = values.find("show_indoor_portals"); iterator != values.end())
     {
         m_viewport.setShowIndoorPortals(parseBoolValue(iterator->second));
@@ -5677,6 +6971,10 @@ void EditorMainWindow::persistEditorStateIfNeeded(const EditorSession &session)
     output << "preview_material_mode=" << static_cast<int>(m_viewport.previewMaterialMode()) << '\n';
     output << "preview_selected_only=" << (m_viewport.forcePreviewOnSelectedOnly() ? 1 : 0) << '\n';
     output << "show_bmodels=" << (m_viewport.showBModels() ? 1 : 0) << '\n';
+    output << "show_mm9_dat_portals=" << (m_viewport.showMm9DatPortals() ? 1 : 0) << '\n';
+    output << "show_mm9_world_model_bounds=" << (m_viewport.showMm9WorldModelBounds() ? 1 : 0) << '\n';
+    output << "show_mm9_object_bounds=" << (m_viewport.showMm9ObjectBounds() ? 1 : 0) << '\n';
+    output << "show_mm9_asset_issue_markers=" << (m_viewport.showMm9AssetIssueMarkers() ? 1 : 0) << '\n';
     output << "show_indoor_portals=" << (m_viewport.showIndoorPortals() ? 1 : 0) << '\n';
     output << "show_indoor_floors=" << (m_viewport.showIndoorFloors() ? 1 : 0) << '\n';
     output << "show_indoor_ceilings=" << (m_viewport.showIndoorCeilings() ? 1 : 0) << '\n';
@@ -5748,6 +7046,50 @@ uint16_t EditorMainWindow::viewportWidth() const
 uint16_t EditorMainWindow::viewportHeight() const
 {
     return m_viewportHeight;
+}
+
+const EditorOutdoorViewport::RenderSubmissionStats &EditorMainWindow::lastViewportRenderSubmissionStats() const
+{
+    return m_viewport.lastRenderSubmissionStats();
+}
+
+void renderReadOnlyTextPreviewSection(
+    const char *pLabel,
+    const char *pId,
+    const ReadOnlyTextPreview &preview,
+    bool defaultOpen = false)
+{
+    if (!beginInspectorSectionBlock(pLabel, defaultOpen))
+    {
+        return;
+    }
+
+    if (beginInspectorPropertyTable(pId))
+    {
+        renderInspectorReadOnlyField("Path", preview.path.empty() ? std::string("<none>") : preview.path.generic_string());
+        renderInspectorReadOnlyField("Exists", boolText(preview.exists));
+        renderInspectorReadOnlyField("Loaded", boolText(preview.loaded));
+        renderInspectorReadOnlyField("Read Only", "true");
+        renderInspectorReadOnlyField("Bytes", std::to_string(preview.fileSizeBytes));
+        renderInspectorReadOnlyField("Preview Truncated", boolText(preview.truncated));
+        ImGui::EndTable();
+    }
+
+    if (!preview.loaded)
+    {
+        ImGui::TextDisabled("File is not available for preview.");
+        endInspectorSectionBlock();
+        return;
+    }
+
+    const std::string childId = std::string(pId) + "Text";
+    if (ImGui::BeginChild(childId.c_str(), ImVec2(0.0f, 260.0f), ImGuiChildFlags_Borders))
+    {
+        ImGui::TextUnformatted(preview.text.c_str(), preview.text.c_str() + preview.text.size());
+    }
+    ImGui::EndChild();
+
+    endInspectorSectionBlock();
 }
 
 void EditorMainWindow::ensureDefaultDockLayout()
@@ -5909,6 +7251,8 @@ void EditorMainWindow::renderToolbar(EditorSession &session)
     ImGui::SetNextWindowDockID(editorDockspaceId(), ImGuiCond_FirstUseEver);
     const bool isIndoorDocument =
         session.hasDocument() && session.document().kind() == EditorDocument::Kind::Indoor;
+    const bool isMm9DatDocument =
+        session.hasDocument() && session.document().kind() == EditorDocument::Kind::Mm9Dat;
 
     const ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar |
         ImGuiWindowFlags_NoScrollWithMouse;
@@ -5968,24 +7312,50 @@ void EditorMainWindow::renderToolbar(EditorSession &session)
         std::max(
             rowWidth({iconPillWidth("World"), iconPillWidth("Local"), iconPillWidth("Snap")}),
             ImGui::CalcTextSize("Snap Step").x + style.ItemSpacing.x + 64.0f)) + cardInnerPadding;
-    const float viewWidth = std::max(
-        rowWidth({
-            iconPillWidth("Terrain"),
-            iconPillWidth("Grid"),
-            iconPillWidth("Textured"),
-            iconPillWidth("Clay"),
-            iconPillWidth("Entities"),
-            iconPillWidth("Actors"),
-            iconPillWidth(isIndoorDocument ? "Event Faces" : "Events")
-        }),
-        rowWidth({
-            iconPillWidth("BModels"),
-            iconPillWidth("Wire"),
-            iconPillWidth("Grid Preview"),
-            iconPillWidth("Selected"),
-            iconPillWidth("Spawns"),
-            iconPillWidth("Objects")
-        })) + cardInnerPadding;
+    const float primaryViewWidth = rowWidth({
+        iconPillWidth("Terrain"),
+        iconPillWidth("Grid"),
+        iconPillWidth("Textured"),
+        iconPillWidth("Clay"),
+        iconPillWidth("Entities"),
+        iconPillWidth("Actors"),
+        iconPillWidth(isIndoorDocument ? "Event Faces" : "Events")
+    });
+    float secondaryViewWidth = rowWidth({
+        iconPillWidth("BModels"),
+        iconPillWidth("Wire"),
+        iconPillWidth("Grid Preview"),
+        iconPillWidth("Selected"),
+        iconPillWidth("Spawns"),
+        iconPillWidth("Objects")
+    });
+
+    if (isMm9DatDocument)
+    {
+        secondaryViewWidth = std::max(
+            secondaryViewWidth,
+            rowWidth({
+                iconPillWidth("BModels"),
+                iconPillWidth("Models"),
+                iconPillWidth("DAT"),
+                iconPillWidth("Sky"),
+                iconPillWidth("Physics"),
+                iconPillWidth("Water"),
+                iconPillWidth("Vis"),
+                iconPillWidth("Invisible"),
+                iconPillWidth("Helper"),
+                iconPillWidth("Trigger"),
+                iconPillWidth("Portals"),
+                iconPillWidth("Bounds"),
+                iconPillWidth("Wire"),
+                iconPillWidth("Grid Preview"),
+                iconPillWidth("Selected"),
+                iconPillWidth("Spawns"),
+                iconPillWidth("Objects")
+            }));
+    }
+
+    const float viewWidth = std::max(primaryViewWidth, secondaryViewWidth) + cardInnerPadding;
 
     renderToolbarStatus(session);
     ImGui::Separator();
@@ -6353,6 +7723,8 @@ void EditorMainWindow::renderViewToolbar(const EditorSession &session)
 {
     const bool isIndoorDocument =
         session.hasDocument() && session.document().kind() == EditorDocument::Kind::Indoor;
+    const bool isMm9DatDocument =
+        session.hasDocument() && session.document().kind() == EditorDocument::Kind::Mm9Dat;
     bool hasPrimaryItem = false;
     const auto samePrimaryLine = [&hasPrimaryItem]()
     {
@@ -6445,6 +7817,102 @@ void EditorMainWindow::renderViewToolbar(const EditorSession &session)
         if (renderSecondaryIconTogglePill("ViewBModels", "BModels", UiIcon::Face, showBModels))
         {
             m_viewport.setShowBModels(!showBModels);
+        }
+    }
+
+    if (isMm9DatDocument)
+    {
+        sameSecondaryLine();
+        bool showModelInstances = m_viewport.showModelInstances();
+        if (renderSecondaryIconTogglePill("ViewMm9Models", "Models", UiIcon::Object, showModelInstances))
+        {
+            m_viewport.setShowModelInstances(!showModelInstances);
+        }
+
+        const auto renderMm9DatSubsetToggle =
+            [this, &sameSecondaryLine](
+                const char *pId,
+                const char *pLabel,
+                EditorOutdoorViewport::Mm9DatWorldRenderSubset subset)
+        {
+            sameSecondaryLine();
+            if (renderSecondaryIconTogglePill(
+                    pId,
+                    pLabel,
+                    UiIcon::Face,
+                    m_viewport.mm9DatWorldRenderSubset() == subset))
+            {
+                m_viewport.setMm9DatWorldRenderSubset(subset);
+            }
+        };
+
+        renderMm9DatSubsetToggle(
+            "ViewMm9DatWorld",
+            "DAT",
+            EditorOutdoorViewport::Mm9DatWorldRenderSubset::Default);
+        renderMm9DatSubsetToggle(
+            "ViewMm9DatSky",
+            "Sky",
+            EditorOutdoorViewport::Mm9DatWorldRenderSubset::Sky);
+        renderMm9DatSubsetToggle(
+            "ViewMm9DatPhysics",
+            "Physics",
+            EditorOutdoorViewport::Mm9DatWorldRenderSubset::Physics);
+        renderMm9DatSubsetToggle(
+            "ViewMm9DatWater",
+            "Water",
+            EditorOutdoorViewport::Mm9DatWorldRenderSubset::Water);
+        renderMm9DatSubsetToggle(
+            "ViewMm9DatVisibility",
+            "Vis",
+            EditorOutdoorViewport::Mm9DatWorldRenderSubset::Visibility);
+        renderMm9DatSubsetToggle(
+            "ViewMm9DatInvisible",
+            "Invisible",
+            EditorOutdoorViewport::Mm9DatWorldRenderSubset::Invisible);
+        renderMm9DatSubsetToggle(
+            "ViewMm9DatHelper",
+            "Helper",
+            EditorOutdoorViewport::Mm9DatWorldRenderSubset::Helper);
+        renderMm9DatSubsetToggle(
+            "ViewMm9DatTrigger",
+            "Trigger",
+            EditorOutdoorViewport::Mm9DatWorldRenderSubset::Trigger);
+
+        sameSecondaryLine();
+        bool showMm9Portals = m_viewport.showMm9DatPortals();
+        if (renderSecondaryIconTogglePill("ViewMm9DatPortals", "Portals", UiIcon::Face, showMm9Portals))
+        {
+            m_viewport.setShowMm9DatPortals(!showMm9Portals);
+        }
+
+        sameSecondaryLine();
+        bool showMm9WorldModelBounds = m_viewport.showMm9WorldModelBounds();
+        if (renderSecondaryIconTogglePill(
+                "ViewMm9WorldModelBounds",
+                "World Bounds",
+                UiIcon::Object,
+                showMm9WorldModelBounds))
+        {
+            m_viewport.setShowMm9WorldModelBounds(!showMm9WorldModelBounds);
+        }
+
+        sameSecondaryLine();
+        bool showMm9ObjectBounds = m_viewport.showMm9ObjectBounds();
+        if (renderSecondaryIconTogglePill("ViewMm9ObjectBounds", "Bounds", UiIcon::Object, showMm9ObjectBounds))
+        {
+            m_viewport.setShowMm9ObjectBounds(!showMm9ObjectBounds);
+        }
+
+        sameSecondaryLine();
+        bool showMm9AssetIssueMarkers = m_viewport.showMm9AssetIssueMarkers();
+        if (renderSecondaryIconTogglePill(
+                "ViewMm9AssetIssueMarkers",
+                "Issues",
+                UiIcon::Select,
+                showMm9AssetIssueMarkers))
+        {
+            m_viewport.setShowMm9AssetIssueMarkers(!showMm9AssetIssueMarkers);
         }
     }
 
@@ -6660,6 +8128,34 @@ void EditorMainWindow::renderToolbarStatus(const EditorSession &session)
             session.validationMessages().empty() ? 0xD7F0DB : 0xF2DEC2,
             session.validationMessages().empty() ? 0x5FA36A : 0xD0A44C,
             session.validationMessages().empty() ? 0x1A2B1D : 0x332814);
+        ImGui::SameLine();
+        const bx::Vec3 &cameraPosition = m_viewport.cameraPosition();
+        ImGui::TextDisabled(
+            "X %.0f  Y %.0f  Z %.0f",
+            cameraPosition.x,
+            cameraPosition.y,
+            cameraPosition.z);
+        if (session.hasDocument() && session.document().kind() == EditorDocument::Kind::Mm9Dat)
+        {
+            const EditorOutdoorViewport::RenderSubmissionStats &submissionStats = m_viewport.lastRenderSubmissionStats();
+            ImGui::SameLine();
+            const std::string mm9StatsText =
+                "DAT Vtx " + std::to_string(submissionStats.datWorldSubmittedVertices)
+                + " · Model Vtx " + std::to_string(submissionStats.modelInstanceSubmittedVertices)
+                + " · Overlay Vtx "
+                + std::to_string(
+                    submissionStats.mm9DatPortalOverlayVertices
+                    + submissionStats.mm9DatWorldModelOverlayVertices
+                    + submissionStats.mm9DatObjectOverlayVertices
+                    + submissionStats.mm9DatSourceMarkerVertices
+                    + submissionStats.mm9DatAssetIssueMarkerVertices
+                    + submissionStats.mm9DatMechanismTargetMarkerVertices);
+            renderStatusPill(
+                mm9StatsText.c_str(),
+                submissionStats.modelInstanceSubmittedVertices == 0 ? 0xF2DEC2 : 0xD7F0DB,
+                submissionStats.modelInstanceSubmittedVertices == 0 ? 0xB9873D : 0x5FA36A,
+                submissionStats.modelInstanceSubmittedVertices == 0 ? 0x3A2B18 : 0x1A2B1D);
+        }
 
         if (!m_statusMessage.empty())
         {
@@ -6781,6 +8277,98 @@ std::optional<std::pair<int, int>> EditorMainWindow::bitmapPreviewTextureSize(
     const auto existingIt = m_bitmapPreviewTextureSizes.find(normalizedName);
 
     if (existingIt == m_bitmapPreviewTextureSizes.end())
+    {
+        return std::nullopt;
+    }
+
+    if (existingIt->second.first <= 0 || existingIt->second.second <= 0)
+    {
+        return std::nullopt;
+    }
+
+    return existingIt->second;
+}
+
+std::optional<bgfx::TextureHandle> EditorMainWindow::ensureMm9DtxMipPreviewTexture(
+    const std::filesystem::path &sourcePath,
+    size_t mipLevel) const
+{
+    if (sourcePath.empty())
+    {
+        return std::nullopt;
+    }
+
+    const std::string cacheKey = sourcePath.lexically_normal().generic_string() + "|" + std::to_string(mipLevel);
+    const auto existingIt = m_mm9DtxMipPreviewTextures.find(cacheKey);
+
+    if (existingIt != m_mm9DtxMipPreviewTextures.end())
+    {
+        if (bgfx::isValid(existingIt->second))
+        {
+            return existingIt->second;
+        }
+
+        return std::nullopt;
+    }
+
+    std::ifstream input(sourcePath, std::ios::binary);
+
+    if (!input)
+    {
+        const bgfx::TextureHandle invalidHandle = BGFX_INVALID_HANDLE;
+        m_mm9DtxMipPreviewTextures.emplace(cacheKey, invalidHandle);
+        m_mm9DtxMipPreviewTextureSizes.emplace(cacheKey, std::pair<int, int>{0, 0});
+        return std::nullopt;
+    }
+
+    const std::vector<uint8_t> bytes{
+        std::istreambuf_iterator<char>(input),
+        std::istreambuf_iterator<char>()};
+    std::string errorMessage;
+    const std::optional<Game::Mm9DtxTexture> texture =
+        Game::decodeMm9DtxMipTexture(bytes, mipLevel, errorMessage);
+
+    if (!texture
+        || texture->width == 0
+        || texture->height == 0
+        || texture->pixelsBgra.empty())
+    {
+        const bgfx::TextureHandle invalidHandle = BGFX_INVALID_HANDLE;
+        m_mm9DtxMipPreviewTextures.emplace(cacheKey, invalidHandle);
+        m_mm9DtxMipPreviewTextureSizes.emplace(cacheKey, std::pair<int, int>{0, 0});
+        return std::nullopt;
+    }
+
+    const bgfx::TextureHandle textureHandle = bgfx::createTexture2D(
+        static_cast<uint16_t>(texture->width),
+        static_cast<uint16_t>(texture->height),
+        false,
+        1,
+        bgfx::TextureFormat::BGRA8,
+        BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT | BGFX_SAMPLER_MIP_POINT,
+        bgfx::copy(texture->pixelsBgra.data(), static_cast<uint32_t>(texture->pixelsBgra.size())));
+
+    m_mm9DtxMipPreviewTextures.emplace(cacheKey, textureHandle);
+    m_mm9DtxMipPreviewTextureSizes.emplace(
+        cacheKey,
+        std::pair<int, int>{static_cast<int>(texture->width), static_cast<int>(texture->height)});
+
+    if (!bgfx::isValid(textureHandle))
+    {
+        return std::nullopt;
+    }
+
+    return textureHandle;
+}
+
+std::optional<std::pair<int, int>> EditorMainWindow::mm9DtxMipPreviewTextureSize(
+    const std::filesystem::path &sourcePath,
+    size_t mipLevel) const
+{
+    const std::string cacheKey = sourcePath.lexically_normal().generic_string() + "|" + std::to_string(mipLevel);
+    const auto existingIt = m_mm9DtxMipPreviewTextureSizes.find(cacheKey);
+
+    if (existingIt == m_mm9DtxMipPreviewTextureSizes.end())
     {
         return std::nullopt;
     }
@@ -7032,6 +8620,17 @@ void EditorMainWindow::destroyBitmapPreviewTextures()
 
     m_bitmapPreviewTextures.clear();
     m_bitmapPreviewTextureSizes.clear();
+
+    for (const auto &[name, textureHandle] : m_mm9DtxMipPreviewTextures)
+    {
+        if (bgfx::isValid(textureHandle))
+        {
+            bgfx::destroy(textureHandle);
+        }
+    }
+
+    m_mm9DtxMipPreviewTextures.clear();
+    m_mm9DtxMipPreviewTextureSizes.clear();
 }
 
 bool EditorMainWindow::renderBitmapTextureSelector(
@@ -8281,11 +9880,11 @@ void EditorMainWindow::renderOpenOutdoorMapModal(EditorSession &session)
 {
     if (m_openOpenOutdoorMapModal)
     {
-        ImGui::OpenPopup("Open Outdoor Map");
+        ImGui::OpenPopup("Open Map");
         m_openOpenOutdoorMapModal = false;
     }
 
-    if (!ImGui::BeginPopupModal("Open Outdoor Map", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+    if (!ImGui::BeginPopupModal("Open Map", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
     {
         return;
     }
@@ -8348,7 +9947,7 @@ void EditorMainWindow::renderOpenOutdoorMapModal(EditorSession &session)
         return true;
     };
 
-    ImGui::TextUnformatted("Open an authored outdoor or indoor scene package.");
+    ImGui::TextUnformatted("Open an authored scene package or MM9 DAT level.");
     ImGui::Separator();
     ImGui::TextWrapped("Directory: %s", m_openMapBrowserDirectory.generic_string().c_str());
 
@@ -8406,8 +10005,9 @@ void EditorMainWindow::renderOpenOutdoorMapModal(EditorSession &session)
         for (const OpenableMapEntry &mapEntry : mapFiles)
         {
             const std::string fileName = mapEntry.physicalPath.filename().string();
+            const std::string visibleLabel = "[" + mapEntry.kindLabel + "] " + fileName;
 
-            if (!filter.empty() && toLowerCopy(fileName).find(filter) == std::string::npos)
+            if (!filter.empty() && toLowerCopy(visibleLabel).find(filter) == std::string::npos)
             {
                 continue;
             }
@@ -8416,7 +10016,7 @@ void EditorMainWindow::renderOpenOutdoorMapModal(EditorSession &session)
             const bool selected =
                 toLowerCopy(m_openMapSelectedRelativePath) == toLowerCopy(mapEntry.physicalPath.generic_string());
 
-            if (ImGui::Selectable(fileName.c_str(), selected))
+            if (ImGui::Selectable(visibleLabel.c_str(), selected))
             {
                 m_openMapSelectedRelativePath = mapEntry.physicalPath.generic_string();
 
@@ -9182,6 +10782,940 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
         return;
     }
 
+    if (session.document().kind() == EditorDocument::Kind::Mm9Dat)
+    {
+        const EditorDocument &document = session.document();
+        const EditorMm9DatLevelMetadata &metadata = document.mm9DatLevelMetadata();
+
+        ImGui::PushStyleColor(ImGuiCol_Header, colorFromRgb(0x2B2318));
+        ImGui::PushStyleColor(ImGuiCol_HeaderHovered, colorFromRgb(0x3A2F1F));
+        ImGui::PushStyleColor(ImGuiCol_HeaderActive, colorFromRgb(0x5B4323));
+        ImGui::PushStyleColor(ImGuiCol_ChildBg, colorFromRgb(0x171B1F));
+        ImGui::PushStyleColor(ImGuiCol_Border, colorFromRgb(0x313944));
+        if (ImGui::BeginChild("SceneHeaderCard", ImVec2(0.0f, 38.0f), ImGuiChildFlags_Borders))
+        {
+            ImGui::SetNextItemWidth(-1.0f);
+            ImGui::InputTextWithHint("##SceneFilter", "Search MM9 level...", m_sceneFilter, sizeof(m_sceneFilter));
+        }
+        ImGui::EndChild();
+        ImGui::PopStyleColor(5);
+        ImGui::Spacing();
+
+        ImGui::PushStyleColor(ImGuiCol_Header, colorFromRgb(0x3C2D18));
+        ImGui::PushStyleColor(ImGuiCol_HeaderHovered, colorFromRgb(0x4E3B21));
+        ImGui::PushStyleColor(ImGuiCol_HeaderActive, colorFromRgb(0x654A27));
+        ImGui::PushStyleColor(ImGuiCol_TextSelectedBg, ImVec4(0.34f, 0.24f, 0.12f, 0.72f));
+
+        const bool summarySelected = session.selection().kind == EditorSelectionKind::Summary;
+
+        if (matchesSceneFilter(m_sceneFilter, "Level Summary") && ImGui::Selectable("Level Summary", summarySelected))
+        {
+            session.select(EditorSelectionKind::Summary);
+        }
+
+        if (document.hasMm9DatLoadedSidecars())
+        {
+            const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
+            const std::string worldModelsLabel =
+                "DAT World Models (" + std::to_string(sidecars.datWorld.worldModels.size()) + ")";
+
+            if (ImGui::TreeNodeEx(worldModelsLabel.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+            {
+                ImGuiListClipper clipper;
+                clipper.Begin(static_cast<int>(sidecars.datWorld.worldModels.size()));
+
+                while (clipper.Step())
+                {
+                    for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+                    {
+                        const EditorMm9DatWorldModelSummary &model =
+                            sidecars.datWorld.worldModels[static_cast<size_t>(itemIndex)];
+                        const std::string label =
+                            std::to_string(model.sourceModelIndex)
+                            + " - "
+                            + (model.sourceName.empty() ? std::string("<unnamed>") : model.sourceName)
+                            + " - "
+                            + model.kind;
+
+                        if (!matchesSceneFilter(m_sceneFilter, label))
+                        {
+                            continue;
+                        }
+
+                        const size_t modelIndex = static_cast<size_t>(itemIndex);
+                        ImGui::PushID(static_cast<int>(modelIndex));
+                        const bool selected =
+                            session.selection().kind == EditorSelectionKind::Mm9WorldModel
+                            && session.selection().index == modelIndex;
+
+                        if (ImGui::Selectable(label.c_str(), selected))
+                        {
+                            session.select(EditorSelectionKind::Mm9WorldModel, modelIndex);
+                        }
+
+                        ImGui::PopID();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+
+            const std::string objectsLabel =
+                "Raw Objects (" + std::to_string(sidecars.rawObjects.objects.size()) + ")";
+
+            if (ImGui::TreeNodeEx(objectsLabel.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+            {
+                ImGuiListClipper clipper;
+                clipper.Begin(static_cast<int>(sidecars.rawObjects.objects.size()));
+
+                while (clipper.Step())
+                {
+                    for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+                    {
+                        const EditorMm9RawObject &object =
+                            sidecars.rawObjects.objects[static_cast<size_t>(itemIndex)];
+                        const std::string label =
+                            std::to_string(object.objectIndex)
+                            + " - "
+                            + (object.name.empty() ? std::string("<unnamed>") : object.name)
+                            + " - properties "
+                            + std::to_string(object.properties.size());
+
+                        if (!matchesSceneFilter(m_sceneFilter, label))
+                        {
+                            continue;
+                        }
+
+                        const size_t objectIndex = static_cast<size_t>(itemIndex);
+                        ImGui::PushID(static_cast<int>(objectIndex));
+                        const bool selected =
+                            session.selection().kind == EditorSelectionKind::Mm9RawObject
+                            && session.selection().index == objectIndex;
+
+                        if (ImGui::Selectable(label.c_str(), selected))
+                        {
+                            session.select(EditorSelectionKind::Mm9RawObject, objectIndex);
+                        }
+
+                        ImGui::PopID();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+
+            const std::string materialsLabel =
+                "Materials (" + std::to_string(sidecars.materialAliases.textures.size()) + ")";
+
+            if (ImGui::TreeNodeEx(materialsLabel.c_str()))
+            {
+                ImGuiListClipper clipper;
+                clipper.Begin(static_cast<int>(sidecars.materialAliases.textures.size()));
+
+                while (clipper.Step())
+                {
+                    for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+                    {
+                        const EditorMm9MaterialTexture &texture =
+                            sidecars.materialAliases.textures[static_cast<size_t>(itemIndex)];
+                        const std::string label =
+                            texture.alias
+                            + " - "
+                            + (texture.sourceTexture.empty() ? std::string("<missing source>") : texture.sourceTexture);
+
+                        if (!matchesSceneFilter(m_sceneFilter, label))
+                        {
+                            continue;
+                        }
+
+                        const size_t textureIndex = static_cast<size_t>(itemIndex);
+                        ImGui::PushID(static_cast<int>(textureIndex));
+                        const bool selected =
+                            session.selection().kind == EditorSelectionKind::Mm9MaterialTexture
+                            && session.selection().index == textureIndex;
+
+                        if (ImGui::Selectable(label.c_str(), selected))
+                        {
+                            session.select(EditorSelectionKind::Mm9MaterialTexture, textureIndex);
+                        }
+
+                        ImGui::PopID();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+
+            const std::string eventsLabel =
+                "Event Objects (" + std::to_string(sidecars.events.objects.size()) + ")";
+
+            if (ImGui::TreeNodeEx(eventsLabel.c_str()))
+            {
+                ImGuiListClipper clipper;
+                clipper.Begin(static_cast<int>(sidecars.events.objects.size()));
+
+                while (clipper.Step())
+                {
+                    for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+                    {
+                        const Game::Mm9EventObject &object =
+                            sidecars.events.objects[static_cast<size_t>(itemIndex)];
+                        const std::string label =
+                            std::to_string(object.sourceObjectIndex)
+                            + " - "
+                            + (object.sourceName.empty() ? std::string("<unnamed>") : object.sourceName)
+                            + " - "
+                            + object.sourceClass;
+
+                        if (!matchesSceneFilter(m_sceneFilter, label))
+                        {
+                            continue;
+                        }
+
+                        const size_t eventObjectIndex = static_cast<size_t>(itemIndex);
+                        ImGui::PushID(static_cast<int>(eventObjectIndex));
+                        const bool selected =
+                            session.selection().kind == EditorSelectionKind::Mm9EventObject
+                            && session.selection().index == eventObjectIndex;
+
+                        if (ImGui::Selectable(label.c_str(), selected))
+                        {
+                            session.select(EditorSelectionKind::Mm9EventObject, eventObjectIndex);
+                        }
+
+                        ImGui::PopID();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+
+            const std::string mechanismsLabel =
+                "Mechanisms (" + std::to_string(sidecars.events.mechanisms.size()) + ")";
+
+            if (ImGui::TreeNodeEx(mechanismsLabel.c_str()))
+            {
+                ImGuiListClipper clipper;
+                clipper.Begin(static_cast<int>(sidecars.events.mechanisms.size()));
+
+                while (clipper.Step())
+                {
+                    for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+                    {
+                        const Game::Mm9EventMechanism &mechanism =
+                            sidecars.events.mechanisms[static_cast<size_t>(itemIndex)];
+                        const std::string label =
+                            std::to_string(mechanism.sourceObjectIndex)
+                            + " - "
+                            + (mechanism.sourceName.empty() ? std::string("<unnamed>") : mechanism.sourceName)
+                            + " - "
+                            + (mechanism.kind.empty() ? mechanism.sourceClass : mechanism.kind);
+
+                        if (!matchesSceneFilter(m_sceneFilter, label))
+                        {
+                            continue;
+                        }
+
+                        const size_t mechanismIndex = static_cast<size_t>(itemIndex);
+                        ImGui::PushID(static_cast<int>(mechanismIndex));
+                        const bool selected =
+                            session.selection().kind == EditorSelectionKind::Mm9Mechanism
+                            && session.selection().index == mechanismIndex;
+
+                        if (ImGui::Selectable(label.c_str(), selected))
+                        {
+                            session.select(EditorSelectionKind::Mm9Mechanism, mechanismIndex);
+                        }
+
+                        ImGui::PopID();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+
+            const std::string scriptsLabel =
+                "Scripts (" + std::to_string(sidecars.events.scripts.size()) + ")";
+
+            if (ImGui::TreeNodeEx(scriptsLabel.c_str()))
+            {
+                ImGuiListClipper clipper;
+                clipper.Begin(static_cast<int>(sidecars.events.scripts.size()));
+
+                while (clipper.Step())
+                {
+                    for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+                    {
+                        const Game::Mm9EventScript &script =
+                            sidecars.events.scripts[static_cast<size_t>(itemIndex)];
+                        const std::string label =
+                            script.scriptId
+                            + " - "
+                            + std::to_string(script.registeredTriggerCount)
+                            + " triggers";
+
+                        if (!matchesSceneFilter(m_sceneFilter, label))
+                        {
+                            continue;
+                        }
+
+                        const size_t scriptIndex = static_cast<size_t>(itemIndex);
+                        ImGui::PushID(static_cast<int>(scriptIndex));
+                        const bool selected =
+                            session.selection().kind == EditorSelectionKind::Mm9EventScript
+                            && session.selection().index == scriptIndex;
+
+                        if (ImGui::Selectable(label.c_str(), selected))
+                        {
+                            session.select(EditorSelectionKind::Mm9EventScript, scriptIndex);
+                        }
+
+                        ImGui::PopID();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+
+            const Game::OutdoorSceneData &mm9SceneData = document.outdoorSceneData();
+            const Engine::AssetFileSystem *pAssetFileSystem = session.assetFileSystem();
+            const Mm9ModelInstanceActorSourceLookup *pActorSourceLookup =
+                pAssetFileSystem != nullptr
+                    ? cachedMm9ModelInstanceActorSourceLookup(*pAssetFileSystem)
+                    : nullptr;
+            const auto rawObjectIndexForSourceObject =
+                [&sidecars](size_t sourceObjectIndex) -> std::optional<size_t>
+                {
+                    for (size_t objectIndex = 0; objectIndex < sidecars.rawObjects.objects.size(); ++objectIndex)
+                    {
+                        if (sidecars.rawObjects.objects[objectIndex].objectIndex == sourceObjectIndex)
+                        {
+                            return objectIndex;
+                        }
+                    }
+
+                    return std::nullopt;
+                };
+
+            const Game::Mm9ObjectLayer &objectLayer = document.mm9ObjectLayer();
+            const std::string objectSourcesLabel =
+                "Object Source Transforms (" + std::to_string(objectLayer.objects.size()) + ")";
+
+            if (ImGui::TreeNodeEx(objectSourcesLabel.c_str()))
+            {
+                ImGuiListClipper clipper;
+                clipper.Begin(static_cast<int>(objectLayer.objects.size()));
+
+                while (clipper.Step())
+                {
+                    for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+                    {
+                        const size_t objectSourceIndex = static_cast<size_t>(itemIndex);
+                        const Game::Mm9Object &object = objectLayer.objects[objectSourceIndex];
+                        std::string label =
+                            std::to_string(object.sourceObjectIndex)
+                            + " - "
+                            + (object.sourceName.empty() ? std::string("<unnamed>") : object.sourceName)
+                            + " - "
+                            + object.sourceClass;
+
+                        if (object.hasBoundsEvidence)
+                        {
+                            label += " - bounds";
+                        }
+
+                        if (object.triggerVolume)
+                        {
+                            label += " - trigger";
+                        }
+
+                        if (!matchesSceneFilter(m_sceneFilter, label))
+                        {
+                            continue;
+                        }
+
+                        const std::optional<size_t> rawObjectIndex =
+                            rawObjectIndexForSourceObject(object.sourceObjectIndex);
+                        const bool selected =
+                            rawObjectIndex
+                            && session.selection().kind == EditorSelectionKind::Mm9RawObject
+                            && session.selection().index == *rawObjectIndex;
+
+                        ImGui::PushID(static_cast<int>(objectSourceIndex));
+                        if (ImGui::Selectable(label.c_str(), selected) && rawObjectIndex)
+                        {
+                            session.select(EditorSelectionKind::Mm9RawObject, *rawObjectIndex);
+                        }
+                        ImGui::PopID();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+
+            const Game::Mm9LightLayer &lightLayer = document.mm9LightLayer();
+            const std::string lightsLabel =
+                "Light Objects (" + std::to_string(lightLayer.lights.size()) + ")";
+
+            if (ImGui::TreeNodeEx(lightsLabel.c_str()))
+            {
+                ImGuiListClipper clipper;
+                clipper.Begin(static_cast<int>(lightLayer.lights.size()));
+
+                while (clipper.Step())
+                {
+                    for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+                    {
+                        const size_t lightIndex = static_cast<size_t>(itemIndex);
+                        const Game::Mm9LightObject &light = lightLayer.lights[lightIndex];
+                        std::string label =
+                            std::to_string(light.sourceObjectIndex)
+                            + " - "
+                            + (light.sourceName.empty() ? std::string("<unnamed>") : light.sourceName)
+                            + " - "
+                            + light.sourceClass
+                            + " - radius "
+                            + (light.hasLightRadius ? std::to_string(light.lightRadius) : std::string("<missing>"));
+
+                        if (!matchesSceneFilter(m_sceneFilter, label))
+                        {
+                            continue;
+                        }
+
+                        const std::optional<size_t> rawObjectIndex =
+                            rawObjectIndexForSourceObject(light.sourceObjectIndex);
+                        const bool selected =
+                            rawObjectIndex
+                            && session.selection().kind == EditorSelectionKind::Mm9RawObject
+                            && session.selection().index == *rawObjectIndex;
+
+                        ImGui::PushID(static_cast<int>(lightIndex));
+                        if (ImGui::Selectable(label.c_str(), selected) && rawObjectIndex)
+                        {
+                            session.select(EditorSelectionKind::Mm9RawObject, *rawObjectIndex);
+                        }
+                        ImGui::PopID();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+
+            const Game::Mm9SoundLayer &soundLayer = document.mm9SoundLayer();
+            const std::string soundsLabel =
+                "Sound Objects (" + std::to_string(soundLayer.objects.size()) + ")";
+
+            if (ImGui::TreeNodeEx(soundsLabel.c_str()))
+            {
+                ImGuiListClipper clipper;
+                clipper.Begin(static_cast<int>(soundLayer.objects.size()));
+
+                while (clipper.Step())
+                {
+                    for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+                    {
+                        const size_t soundIndex = static_cast<size_t>(itemIndex);
+                        const Game::Mm9SoundObject &sound = soundLayer.objects[soundIndex];
+                        std::string label =
+                            std::to_string(sound.sourceObjectIndex)
+                            + " - "
+                            + (sound.sourceName.empty() ? std::string("<unnamed>") : sound.sourceName)
+                            + " - "
+                            + sound.sourceClass
+                            + " - refs "
+                            + std::to_string(sound.references.size());
+
+                        for (const Game::Mm9SoundSourceReference &reference : sound.references)
+                        {
+                            label += " - " + reference.propertyName + ":" + reference.sourceValue;
+                        }
+
+                        if (!matchesSceneFilter(m_sceneFilter, label))
+                        {
+                            continue;
+                        }
+
+                        const std::optional<size_t> rawObjectIndex =
+                            rawObjectIndexForSourceObject(sound.sourceObjectIndex);
+                        const bool selected =
+                            rawObjectIndex
+                            && session.selection().kind == EditorSelectionKind::Mm9RawObject
+                            && session.selection().index == *rawObjectIndex;
+
+                        ImGui::PushID(static_cast<int>(soundIndex));
+                        if (ImGui::Selectable(label.c_str(), selected) && rawObjectIndex)
+                        {
+                            session.select(EditorSelectionKind::Mm9RawObject, *rawObjectIndex);
+                        }
+                        ImGui::PopID();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+
+            const Game::Mm9SpawnLayer &spawnLayer = document.mm9SpawnLayer();
+            const std::string spawnLabel =
+                "Spawn Source Objects (" + std::to_string(spawnLayer.objects.size()) + ")";
+
+            if (ImGui::TreeNodeEx(spawnLabel.c_str()))
+            {
+                ImGuiListClipper clipper;
+                clipper.Begin(static_cast<int>(spawnLayer.objects.size()));
+
+                while (clipper.Step())
+                {
+                    for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+                    {
+                        const size_t spawnIndex = static_cast<size_t>(itemIndex);
+                        const Game::Mm9SpawnObject &spawn = spawnLayer.objects[spawnIndex];
+                        std::string label =
+                            std::to_string(spawn.sourceObjectIndex)
+                            + " - "
+                            + (spawn.sourceName.empty() ? std::string("<unnamed>") : spawn.sourceName)
+                            + " - "
+                            + spawn.sourceClass;
+
+                        if (spawn.spawnLevel)
+                        {
+                            label += " - level " + std::to_string(*spawn.spawnLevel);
+                        }
+
+                        if (spawn.npcNumber)
+                        {
+                            label += " - npc " + std::to_string(*spawn.npcNumber);
+                        }
+
+                        if (spawn.spawnObject && !spawn.spawnObject->empty())
+                        {
+                            label += " - object " + *spawn.spawnObject;
+                        }
+
+                        if (!matchesSceneFilter(m_sceneFilter, label))
+                        {
+                            continue;
+                        }
+
+                        const std::optional<size_t> rawObjectIndex =
+                            rawObjectIndexForSourceObject(spawn.sourceObjectIndex);
+                        const bool selected =
+                            rawObjectIndex
+                            && session.selection().kind == EditorSelectionKind::Mm9RawObject
+                            && session.selection().index == *rawObjectIndex;
+
+                        ImGui::PushID(static_cast<int>(spawnIndex));
+                        if (ImGui::Selectable(label.c_str(), selected) && rawObjectIndex)
+                        {
+                            session.select(EditorSelectionKind::Mm9RawObject, *rawObjectIndex);
+                        }
+                        ImGui::PopID();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+
+            const std::string sourceRefsLabel =
+                "Source Asset References ("
+                + std::to_string(document.mm9RawObjectAssetReferenceStatuses().size())
+                + ")";
+
+            if (ImGui::TreeNodeEx(sourceRefsLabel.c_str()))
+            {
+                ImGuiListClipper clipper;
+                clipper.Begin(static_cast<int>(document.mm9RawObjectAssetReferenceStatuses().size()));
+
+                while (clipper.Step())
+                {
+                    for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+                    {
+                        const EditorMm9RawObjectAssetReferenceStatus &status =
+                            document.mm9RawObjectAssetReferenceStatuses()[static_cast<size_t>(itemIndex)];
+                        std::string label =
+                            status.sourceFamily
+                            + " - "
+                            + status.objectName
+                            + " - "
+                            + status.propertyName
+                            + " - "
+                            + status.sourceValue;
+
+                        if (!status.resolvedSourcePath.empty())
+                        {
+                            label += " -> " + status.resolvedSourcePath;
+                        }
+
+                        if (!matchesSceneFilter(m_sceneFilter, label))
+                        {
+                            continue;
+                        }
+
+                        const std::optional<size_t> rawObjectIndex =
+                            rawObjectIndexForSourceObject(status.sourceObjectIndex);
+                        const bool selected =
+                            rawObjectIndex
+                            && session.selection().kind == EditorSelectionKind::Mm9RawObject
+                            && session.selection().index == *rawObjectIndex;
+
+                        ImGui::PushID(itemIndex);
+                        if (ImGui::Selectable(label.c_str(), selected) && rawObjectIndex)
+                        {
+                            session.select(EditorSelectionKind::Mm9RawObject, *rawObjectIndex);
+                        }
+                        ImGui::PopID();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+
+            const std::string mm9ModelInstancesLabel =
+                "Model Instances (" + std::to_string(mm9SceneData.modelInstances.size()) + ")";
+
+            if (ImGui::TreeNodeEx(mm9ModelInstancesLabel.c_str()))
+            {
+                ImGuiListClipper clipper;
+                clipper.Begin(static_cast<int>(mm9SceneData.modelInstances.size()));
+
+                while (clipper.Step())
+                {
+                    for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+                    {
+                        const size_t modelInstanceIndex = static_cast<size_t>(itemIndex);
+                        const Game::OutdoorSceneModelInstance &modelInstance =
+                            mm9SceneData.modelInstances[modelInstanceIndex];
+                        const bool scripted =
+                            isMm9ScriptedModelInstanceForEditor(
+                                document,
+                                modelInstance,
+                                pActorSourceLookup);
+                        const EditorSelectionKind selectionKind =
+                            scripted ? EditorSelectionKind::Mm9ScriptedObject : EditorSelectionKind::ModelInstance;
+                        std::string label =
+                            modelInstance.sourceName
+                            + " - "
+                            + modelInstance.sourceClass
+                            + " - "
+                            + modelInstance.sourceModel
+                            + " - "
+                            + modelInstance.sourceSkin
+                            + " - "
+                            + modelInstance.modelAsset;
+
+                        if (!matchesSceneFilter(m_sceneFilter, label))
+                        {
+                            continue;
+                        }
+
+                        const bool selected =
+                            session.selection().kind == selectionKind
+                            && session.selection().index == modelInstanceIndex;
+
+                        ImGui::PushID(static_cast<int>(modelInstanceIndex));
+                        if (ImGui::Selectable(label.c_str(), selected))
+                        {
+                            session.select(selectionKind, modelInstanceIndex);
+                        }
+                        ImGui::PopID();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+
+            const std::string actorVariantsLabel =
+                "Actor Variants (" + std::to_string(mm9SceneData.modelInstances.size()) + ")";
+
+            if (ImGui::TreeNodeEx(actorVariantsLabel.c_str()))
+            {
+                ImGuiListClipper clipper;
+                clipper.Begin(static_cast<int>(mm9SceneData.modelInstances.size()));
+
+                while (clipper.Step())
+                {
+                    for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+                    {
+                        const size_t modelInstanceIndex = static_cast<size_t>(itemIndex);
+                        const Game::OutdoorSceneModelInstance &modelInstance =
+                            mm9SceneData.modelInstances[modelInstanceIndex];
+                        const Mm9ResolvedModelInstanceActorSource resolvedSource =
+                            resolveMm9ModelInstanceActorSource(
+                                modelInstance,
+                                pActorSourceLookup);
+                        const std::string resolvedAsset =
+                            mm9ModelInstanceActorVariantAssetPath(
+                                resolvedSource.sourceModel,
+                                resolvedSource.sourceSkin);
+                        std::string label =
+                            (resolvedSource.variantId.empty() ? modelInstance.sourceName : resolvedSource.variantId)
+                            + " - "
+                            + (resolvedSource.actorRow.monsterName.empty()
+                                ? modelInstance.sourceClass
+                                : resolvedSource.actorRow.monsterName)
+                            + " - "
+                            + (resolvedSource.actorRow.typePicture.empty()
+                                ? std::string("<no type picture>")
+                                : resolvedSource.actorRow.typePicture)
+                            + " - "
+                            + resolvedSource.sourceModel
+                            + " - "
+                            + resolvedSource.sourceSkin
+                            + " - "
+                            + resolvedAsset;
+
+                        if (!matchesSceneFilter(m_sceneFilter, label))
+                        {
+                            continue;
+                        }
+
+                        const bool selected =
+                            session.selection().kind == EditorSelectionKind::ModelInstance
+                            && session.selection().index == modelInstanceIndex;
+
+                        ImGui::PushID(static_cast<int>(modelInstanceIndex));
+                        if (ImGui::Selectable(label.c_str(), selected))
+                        {
+                            session.select(EditorSelectionKind::ModelInstance, modelInstanceIndex);
+                        }
+                        ImGui::PopID();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+
+            size_t diagnosticCount = session.validationMessages().size();
+            for (const EditorMm9MaterialTextureStatus &status : document.mm9MaterialTextureStatuses())
+            {
+                if (status.placeholderMissingSource
+                    || !status.sourceDtxResolved
+                    || status.sourceDtxAmbiguous
+                    || status.cacheOlderThanSource)
+                {
+                    ++diagnosticCount;
+                }
+            }
+
+            for (const EditorMm9RawObjectAssetReferenceStatus &status :
+                document.mm9RawObjectAssetReferenceStatuses())
+            {
+                if (status.required && (!status.resolved || status.ambiguous))
+                {
+                    ++diagnosticCount;
+                }
+            }
+
+            for (const Game::Mm9EventMechanism &mechanism : sidecars.events.mechanisms)
+            {
+                bool hasBinding = false;
+                bool hasResolvedTarget = false;
+                bool hasUnresolvedTarget = false;
+
+                for (const Game::Mm9EventBinding &binding : sidecars.events.bindings)
+                {
+                    if (binding.objectId != mechanism.objectId)
+                    {
+                        continue;
+                    }
+
+                    hasBinding = true;
+
+                    for (const Game::Mm9EventBindingTarget &target : binding.targets)
+                    {
+                        if ((target.targetKind == "odm_bmodel" && target.bmodelIndex)
+                            || (target.targetKind == "model_instance" && !target.targetId.empty()))
+                        {
+                            hasResolvedTarget = true;
+                        }
+
+                        if (target.targetKind == "unresolved")
+                        {
+                            hasUnresolvedTarget = true;
+                        }
+                    }
+                }
+
+                if (!hasBinding || !hasResolvedTarget || hasUnresolvedTarget)
+                {
+                    ++diagnosticCount;
+                }
+            }
+
+            const std::string diagnosticsLabel =
+                "Diagnostics (" + std::to_string(diagnosticCount) + ")";
+
+            if (ImGui::TreeNodeEx(diagnosticsLabel.c_str()))
+            {
+                for (size_t diagnosticIndex = 0; diagnosticIndex < session.validationMessages().size(); ++diagnosticIndex)
+                {
+                    const std::string label = "document - " + session.validationMessages()[diagnosticIndex];
+
+                    if (matchesSceneFilter(m_sceneFilter, label))
+                    {
+                        ImGui::BulletText("%s", label.c_str());
+                    }
+                }
+
+                for (const EditorMm9MaterialTextureStatus &status : document.mm9MaterialTextureStatuses())
+                {
+                    if (!status.placeholderMissingSource
+                        && status.sourceDtxResolved
+                        && !status.sourceDtxAmbiguous
+                        && !status.cacheOlderThanSource)
+                    {
+                        continue;
+                    }
+
+                    const std::string label =
+                        "material - "
+                        + status.alias
+                        + " - "
+                        + status.sourceTexture
+                        + " - "
+                        + status.resolvedSourcePath;
+
+                    if (!matchesSceneFilter(m_sceneFilter, label))
+                    {
+                        continue;
+                    }
+
+                    const bool selected =
+                        session.selection().kind == EditorSelectionKind::Mm9MaterialTexture
+                        && session.selection().index == status.textureIndex;
+
+                    ImGui::PushID(static_cast<int>(status.textureIndex));
+                    if (ImGui::Selectable(label.c_str(), selected))
+                    {
+                        session.select(EditorSelectionKind::Mm9MaterialTexture, status.textureIndex);
+                    }
+                    ImGui::PopID();
+                }
+
+                for (const EditorMm9RawObjectAssetReferenceStatus &status :
+                    document.mm9RawObjectAssetReferenceStatuses())
+                {
+                    if (!status.required || (status.resolved && !status.ambiguous))
+                    {
+                        continue;
+                    }
+
+                    const std::string label =
+                        "asset - "
+                        + status.objectName
+                        + " - "
+                        + status.sourceFamily
+                        + " - "
+                        + status.sourceValue;
+
+                    if (!matchesSceneFilter(m_sceneFilter, label))
+                    {
+                        continue;
+                    }
+
+                    const std::optional<size_t> rawObjectIndex =
+                        rawObjectIndexForSourceObject(status.sourceObjectIndex);
+                    const bool selected =
+                        rawObjectIndex
+                        && session.selection().kind == EditorSelectionKind::Mm9RawObject
+                        && session.selection().index == *rawObjectIndex;
+
+                    ImGui::PushID(static_cast<int>(status.sourceObjectIndex));
+                    if (ImGui::Selectable(label.c_str(), selected) && rawObjectIndex)
+                    {
+                        session.select(EditorSelectionKind::Mm9RawObject, *rawObjectIndex);
+                    }
+                    ImGui::PopID();
+                }
+
+                for (size_t mechanismIndex = 0; mechanismIndex < sidecars.events.mechanisms.size(); ++mechanismIndex)
+                {
+                    const Game::Mm9EventMechanism &mechanism = sidecars.events.mechanisms[mechanismIndex];
+                    bool hasBinding = false;
+                    bool hasResolvedTarget = false;
+                    bool hasUnresolvedTarget = false;
+
+                    for (const Game::Mm9EventBinding &binding : sidecars.events.bindings)
+                    {
+                        if (binding.objectId != mechanism.objectId)
+                        {
+                            continue;
+                        }
+
+                        hasBinding = true;
+
+                        for (const Game::Mm9EventBindingTarget &target : binding.targets)
+                        {
+                            if ((target.targetKind == "odm_bmodel" && target.bmodelIndex)
+                                || (target.targetKind == "model_instance" && !target.targetId.empty()))
+                            {
+                                hasResolvedTarget = true;
+                            }
+
+                            if (target.targetKind == "unresolved")
+                            {
+                                hasUnresolvedTarget = true;
+                            }
+                        }
+                    }
+
+                    if (hasBinding && hasResolvedTarget && !hasUnresolvedTarget)
+                    {
+                        continue;
+                    }
+
+                    const std::string label =
+                        "mechanism - "
+                        + mechanism.sourceName
+                        + " - "
+                        + mechanism.sourceClass
+                        + " - "
+                        + mechanism.mechanismId;
+
+                    if (!matchesSceneFilter(m_sceneFilter, label))
+                    {
+                        continue;
+                    }
+
+                    const bool selected =
+                        session.selection().kind == EditorSelectionKind::Mm9Mechanism
+                        && session.selection().index == mechanismIndex;
+
+                    ImGui::PushID(static_cast<int>(mechanismIndex));
+                    if (ImGui::Selectable(label.c_str(), selected))
+                    {
+                        session.select(EditorSelectionKind::Mm9Mechanism, mechanismIndex);
+                    }
+                    ImGui::PopID();
+                }
+
+                ImGui::TreePop();
+            }
+        }
+        else
+        {
+            ImGui::TextDisabled("MM9 sidecars are not loaded.");
+        }
+
+        if (ImGui::TreeNodeEx("Declared Sidecars"))
+        {
+            ImGui::BulletText("DAT world: %s", metadata.sidecars.datWorld.c_str());
+            ImGui::BulletText("Raw objects: %s", metadata.sidecars.rawObjects.c_str());
+            ImGui::BulletText("Materials: %s", metadata.sidecars.materials.c_str());
+            ImGui::BulletText("Events: %s", metadata.sidecars.events.c_str());
+            ImGui::BulletText(
+                "Source asset aliases: %s",
+                metadata.sidecars.sourceAssetAliases
+                    ? metadata.sidecars.sourceAssetAliases->c_str()
+                    : "<none>");
+            ImGui::BulletText("Lua: %s", metadata.scripts.level.c_str());
+            ImGui::TreePop();
+        }
+
+        ImGui::PopStyleColor(4);
+        ImGui::End();
+        return;
+    }
+
     const Game::OutdoorSceneData &sceneData = session.document().outdoorSceneData();
     bool pendingDuplicate = false;
     bool pendingDelete = false;
@@ -9428,6 +11962,151 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
         ImGui::TreePop();
     }
 
+    const Engine::AssetFileSystem *pAssetFileSystem = session.assetFileSystem();
+    const Mm9ModelInstanceActorSourceLookup *pMm9ActorSourceLookup =
+        pAssetFileSystem != nullptr
+            ? cachedMm9ModelInstanceActorSourceLookup(*pAssetFileSystem)
+            : nullptr;
+    std::vector<size_t> scriptedModelInstanceIndices;
+    std::vector<size_t> regularModelInstanceIndices;
+    scriptedModelInstanceIndices.reserve(sceneData.modelInstances.size());
+    regularModelInstanceIndices.reserve(sceneData.modelInstances.size());
+
+    for (size_t modelInstanceIndex = 0; modelInstanceIndex < sceneData.modelInstances.size(); ++modelInstanceIndex)
+    {
+        const Game::OutdoorSceneModelInstance &modelInstance = sceneData.modelInstances[modelInstanceIndex];
+
+        if (isMm9ScriptedModelInstanceForEditor(
+                session.document(),
+                modelInstance,
+                pMm9ActorSourceLookup))
+        {
+            scriptedModelInstanceIndices.push_back(modelInstanceIndex);
+        }
+        else
+        {
+            regularModelInstanceIndices.push_back(modelInstanceIndex);
+        }
+    }
+
+    if (!scriptedModelInstanceIndices.empty())
+    {
+        const std::string scriptedObjectsLabel =
+            "MM9 Scripted Objects (" + std::to_string(scriptedModelInstanceIndices.size()) + ")";
+
+        if (ImGui::TreeNodeEx(scriptedObjectsLabel.c_str()))
+        {
+            ImGuiListClipper clipper;
+            clipper.Begin(static_cast<int>(scriptedModelInstanceIndices.size()));
+
+            while (clipper.Step())
+            {
+                for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+                {
+                    const size_t modelInstanceIndex = scriptedModelInstanceIndices[static_cast<size_t>(itemIndex)];
+                    const Game::OutdoorSceneModelInstance &modelInstance =
+                        sceneData.modelInstances[modelInstanceIndex];
+                    const bool isSelected =
+                        session.selection().kind == EditorSelectionKind::Mm9ScriptedObject
+                        && session.selection().index == modelInstanceIndex;
+                    std::string label = modelInstance.sourceName.empty()
+                        ? modelInstance.instanceId
+                        : modelInstance.sourceName + "##mm9_scripted_object" + std::to_string(itemIndex);
+
+                    if (!modelInstance.sourceClass.empty())
+                    {
+                        label += " - " + modelInstance.sourceClass;
+                    }
+
+                    if (!matchesSceneFilter(m_sceneFilter, label))
+                    {
+                        continue;
+                    }
+
+                    if (ImGui::Selectable(label.c_str(), isSelected))
+                    {
+                        session.select(EditorSelectionKind::Mm9ScriptedObject, modelInstanceIndex);
+                    }
+
+                    focusOutlinerSelection(EditorSelectionKind::Mm9ScriptedObject, modelInstanceIndex);
+
+                    if (ImGui::IsItemHovered())
+                    {
+                        ImGui::BeginTooltip();
+                        ImGui::Text("Source: %s", modelInstance.sourceRef.c_str());
+                        ImGui::Text("Class: %s", modelInstance.sourceClass.c_str());
+                        ImGui::Text("Scripted object backed by model instance %zu", modelInstanceIndex);
+                        ImGui::Text(
+                            "Position: %d, %d, %d",
+                            modelInstance.x,
+                            modelInstance.y,
+                            modelInstance.z);
+                        ImGui::EndTooltip();
+                    }
+                }
+            }
+
+            ImGui::TreePop();
+        }
+    }
+
+    const std::string modelInstancesLabel =
+        "Model Instances (" + std::to_string(regularModelInstanceIndices.size()) + ")";
+
+    if (ImGui::TreeNodeEx(modelInstancesLabel.c_str()))
+    {
+        ImGuiListClipper clipper;
+        clipper.Begin(static_cast<int>(regularModelInstanceIndices.size()));
+
+        while (clipper.Step())
+        {
+            for (int itemIndex = clipper.DisplayStart; itemIndex < clipper.DisplayEnd; ++itemIndex)
+            {
+                const size_t modelInstanceIndex = regularModelInstanceIndices[static_cast<size_t>(itemIndex)];
+                const Game::OutdoorSceneModelInstance &modelInstance =
+                    sceneData.modelInstances[modelInstanceIndex];
+                const bool isSelected =
+                    session.selection().kind == EditorSelectionKind::ModelInstance
+                    && session.selection().index == modelInstanceIndex;
+                std::string label = modelInstance.sourceName.empty()
+                    ? modelInstance.instanceId
+                    : modelInstance.sourceName + "##model_instance" + std::to_string(itemIndex);
+
+                if (!modelInstance.modelAsset.empty())
+                {
+                    label += " - " + modelInstance.modelAsset;
+                }
+
+                if (!matchesSceneFilter(m_sceneFilter, label))
+                {
+                    continue;
+                }
+
+                if (ImGui::Selectable(label.c_str(), isSelected))
+                {
+                    session.select(EditorSelectionKind::ModelInstance, modelInstanceIndex);
+                }
+
+                focusOutlinerSelection(EditorSelectionKind::ModelInstance, modelInstanceIndex);
+
+                if (ImGui::IsItemHovered())
+                {
+                    ImGui::BeginTooltip();
+                    ImGui::Text("Source: %s", modelInstance.sourceRef.c_str());
+                    ImGui::Text("Class: %s", modelInstance.sourceClass.c_str());
+                    ImGui::Text(
+                        "Position: %d, %d, %d",
+                        modelInstance.x,
+                        modelInstance.y,
+                        modelInstance.z);
+                    ImGui::EndTooltip();
+                }
+            }
+        }
+
+        ImGui::TreePop();
+    }
+
     const std::string actorsLabel = "Actors (" + std::to_string(sceneData.initialState.actors.size()) + ")";
 
     if (ImGui::TreeNodeEx(actorsLabel.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
@@ -9650,6 +12329,15 @@ void EditorMainWindow::renderInspector(EditorSession &session)
         case EditorSelectionKind::Chest:
         case EditorSelectionKind::Light:
         case EditorSelectionKind::Door:
+        case EditorSelectionKind::ModelInstance:
+        case EditorSelectionKind::Mm9ScriptedObject:
+        case EditorSelectionKind::Mm9WorldModel:
+        case EditorSelectionKind::Mm9DatPolygon:
+        case EditorSelectionKind::Mm9MaterialTexture:
+        case EditorSelectionKind::Mm9RawObject:
+        case EditorSelectionKind::Mm9EventObject:
+        case EditorSelectionKind::Mm9Mechanism:
+        case EditorSelectionKind::Mm9EventScript:
             break;
         }
     }
@@ -9796,6 +12484,328 @@ void EditorMainWindow::renderInspector(EditorSession &session)
     case EditorSelectionKind::Door:
         renderIndoorDoorInspector(session, session.selection().index);
         break;
+
+    case EditorSelectionKind::ModelInstance:
+    case EditorSelectionKind::Mm9ScriptedObject:
+        if (session.document().kind() == EditorDocument::Kind::Outdoor
+            || session.document().kind() == EditorDocument::Kind::Mm9Dat)
+        {
+            const Game::OutdoorSceneData &sceneData = session.document().outdoorSceneData();
+
+            if (session.selection().index < sceneData.modelInstances.size())
+            {
+                const Game::OutdoorSceneModelInstance &modelInstance =
+                    sceneData.modelInstances[session.selection().index];
+                if (session.selection().kind == EditorSelectionKind::Mm9ScriptedObject)
+                {
+                    ImGui::TextUnformatted("MM9 Scripted Object");
+                    ImGui::Text("Model Instance Index: %zu", session.selection().index);
+                    ImGui::Separator();
+                }
+                ImGui::Text("Source: %s", modelInstance.sourceRef.c_str());
+                ImGui::Text("Class: %s", modelInstance.sourceClass.c_str());
+                ImGui::Text("Name: %s", modelInstance.sourceName.c_str());
+                ImGui::Text("Model: %s", modelInstance.sourceModel.c_str());
+                ImGui::Text("Skin: %s", modelInstance.sourceSkin.c_str());
+                ImGui::Text("Asset: %s", modelInstance.modelAsset.c_str());
+
+                const Engine::AssetFileSystem *pAssetFileSystem = session.assetFileSystem();
+                const Mm9ModelInstanceActorSourceLookup *pActorSourceLookup =
+                    pAssetFileSystem != nullptr
+                        ? cachedMm9ModelInstanceActorSourceLookup(*pAssetFileSystem)
+                        : nullptr;
+                const Mm9ResolvedModelInstanceActorSource resolvedSource =
+                    resolveMm9ModelInstanceActorSource(
+                        modelInstance,
+                        pActorSourceLookup);
+                if (session.document().kind() == EditorDocument::Kind::Mm9Dat)
+                {
+                    const EditorDocument &document = session.document();
+                    const std::string resolvedAsset =
+                        mm9ModelInstanceActorVariantAssetPath(
+                            resolvedSource.sourceModel,
+                            resolvedSource.sourceSkin);
+                    std::string resolvedAssetOpenPath;
+
+                    if (pAssetFileSystem != nullptr)
+                    {
+                        const std::optional<std::filesystem::path> physicalAssetPath =
+                            pAssetFileSystem->resolvePhysicalPath(resolvedAsset);
+
+                        if (physicalAssetPath)
+                        {
+                            resolvedAssetOpenPath = physicalAssetPath->generic_string();
+                        }
+                    }
+
+                    std::optional<size_t> linkedRawObjectIndex;
+                    std::optional<size_t> linkedEventObjectIndex;
+                    std::optional<size_t> linkedMechanismIndex;
+
+                    if (document.hasMm9DatLoadedSidecars()
+                        && modelInstance.sourceObjectIndex <= static_cast<size_t>(std::numeric_limits<int>::max()))
+                    {
+                        const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
+                        linkedRawObjectIndex =
+                            findMm9RawObjectIndexBySourceObjectIndex(
+                                sidecars.rawObjects,
+                                static_cast<int>(modelInstance.sourceObjectIndex));
+
+                        for (size_t eventObjectIndex = 0; eventObjectIndex < sidecars.events.objects.size();
+                            ++eventObjectIndex)
+                        {
+                            const Game::Mm9EventObject &eventObject = sidecars.events.objects[eventObjectIndex];
+
+                            if (eventObject.sourceObjectIndex == static_cast<int>(modelInstance.sourceObjectIndex))
+                            {
+                                linkedEventObjectIndex = eventObjectIndex;
+                                linkedMechanismIndex =
+                                    findMm9MechanismIndexByObjectId(sidecars.events, eventObject.objectId);
+                                break;
+                            }
+                        }
+                    }
+
+                    if (beginInspectorSectionBlock("Actor/Monster Variant"))
+                    {
+                        if (beginInspectorPropertyTable("Mm9ActorVariantFields"))
+                        {
+                            const bool completeVariant =
+                                !resolvedSource.sourceModel.empty()
+                                && !resolvedSource.sourceSkin.empty()
+                                && (!resolvedSource.inferredFromActorClass
+                                    || !resolvedSource.actorRow.row.empty());
+
+                            renderInspectorReadOnlyField("Complete", completeVariant ? "true" : "false");
+                            renderInspectorCopyableReadOnlyField(
+                                "Variant Id",
+                                resolvedSource.variantId.empty()
+                                    ? std::string("<object source>")
+                                    : resolvedSource.variantId);
+                            renderInspectorReadOnlyField(
+                                "Resolution",
+                                resolvedSource.inferredFromActorClass ? "actor table" : "object source");
+                            renderInspectorCopyableReadOnlyField(
+                                "Actor Table",
+                                resolvedSource.actorRow.table.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.table);
+                            renderInspectorCopyableReadOnlyField(
+                                "Actor Row",
+                                resolvedSource.actorRow.row.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.row);
+                            renderInspectorCopyableReadOnlyField(
+                                "Actor Number",
+                                resolvedSource.actorRow.number.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.number);
+                            renderInspectorCopyableReadOnlyField(
+                                "Monster Name",
+                                resolvedSource.actorRow.monsterName.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.monsterName);
+                            renderInspectorCopyableReadOnlyField(
+                                "Type Picture",
+                                resolvedSource.actorRow.typePicture.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.typePicture);
+                            renderInspectorCopyableReadOnlyField(
+                                "Base Name",
+                                resolvedSource.actorRow.baseName.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.baseName);
+                            renderInspectorCopyableReadOnlyField(
+                                "Level",
+                                resolvedSource.actorRow.level.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.level);
+                            renderInspectorCopyableReadOnlyField(
+                                "Hit Points",
+                                resolvedSource.actorRow.hitPoints.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.hitPoints);
+                            renderInspectorCopyableReadOnlyField(
+                                "Armor Class",
+                                resolvedSource.actorRow.armorClass.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.armorClass);
+                            renderInspectorCopyableReadOnlyField(
+                                "Experience",
+                                resolvedSource.actorRow.experience.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.experience);
+                            renderInspectorCopyableReadOnlyField(
+                                "Speed",
+                                resolvedSource.actorRow.speed.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.speed);
+                            renderInspectorCopyableReadOnlyField(
+                                "Hostility Group",
+                                resolvedSource.actorRow.hostilityGroup.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.hostilityGroup);
+                            renderInspectorCopyableReadOnlyField(
+                                "Is Monster",
+                                resolvedSource.actorRow.isMonster.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.isMonster);
+                            renderInspectorCopyableReadOnlyField(
+                                "Script",
+                                resolvedSource.actorRow.scriptName.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.scriptName);
+                            renderInspectorCopyableReadOnlyField(
+                                "Foot Sound",
+                                resolvedSource.actorRow.footSound.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.footSound);
+                            renderInspectorCopyableReadOnlyField(
+                                "Voice Radius",
+                                resolvedSource.actorRow.voiceRadius.empty()
+                                    ? std::string("<none>")
+                                    : resolvedSource.actorRow.voiceRadius);
+                            renderInspectorCopyableReadOnlyField("Resolved Model", resolvedSource.sourceModel);
+                            renderInspectorCopyableReadOnlyField("Resolved Skin", resolvedSource.sourceSkin);
+                            renderInspectorCopyOpenReadOnlyField(
+                                "Generated Variant Asset",
+                                resolvedAsset,
+                                resolvedAssetOpenPath);
+                            renderInspectorCopyableReadOnlyField(
+                                "Source Object Index",
+                                std::to_string(modelInstance.sourceObjectIndex));
+                            ImGui::EndTable();
+                        }
+
+                        if (renderInspectorJumpButton("Select Raw Object", linkedRawObjectIndex.has_value()))
+                        {
+                            session.select(EditorSelectionKind::Mm9RawObject, *linkedRawObjectIndex);
+                        }
+
+                        ImGui::SameLine();
+
+                        if (renderInspectorJumpButton("Select Event Object", linkedEventObjectIndex.has_value()))
+                        {
+                            session.select(EditorSelectionKind::Mm9EventObject, *linkedEventObjectIndex);
+                        }
+
+                        ImGui::SameLine();
+
+                        if (renderInspectorJumpButton("Select Mechanism", linkedMechanismIndex.has_value()))
+                        {
+                            session.select(EditorSelectionKind::Mm9Mechanism, *linkedMechanismIndex);
+                        }
+
+                        endInspectorSectionBlock();
+                    }
+
+                    if (beginInspectorSectionBlock("Variant Source Assets", false))
+                    {
+                        size_t variantAssetReferenceCount = 0;
+
+                        for (const EditorMm9RawObjectAssetReferenceStatus &status :
+                            document.mm9RawObjectAssetReferenceStatuses())
+                        {
+                            if (status.sourceObjectIndex != modelInstance.sourceObjectIndex
+                                || (status.sourceFamily != "models" && status.sourceFamily != "skins"))
+                            {
+                                continue;
+                            }
+
+                            if (variantAssetReferenceCount == 0)
+                            {
+                                if (!ImGui::BeginTable(
+                                        "Mm9ActorVariantSourceAssets",
+                                        7,
+                                        ImGuiTableFlags_SizingStretchProp))
+                                {
+                                    break;
+                                }
+
+                                ImGui::TableSetupColumn("Family", ImGuiTableColumnFlags_WidthFixed, 84.0f);
+                                ImGui::TableSetupColumn("Property", ImGuiTableColumnFlags_WidthStretch);
+                                ImGui::TableSetupColumn("Raw Value", ImGuiTableColumnFlags_WidthStretch);
+                                ImGui::TableSetupColumn("Required", ImGuiTableColumnFlags_WidthFixed, 72.0f);
+                                ImGui::TableSetupColumn("Resolved", ImGuiTableColumnFlags_WidthFixed, 72.0f);
+                                ImGui::TableSetupColumn("Ambiguous", ImGuiTableColumnFlags_WidthFixed, 82.0f);
+                                ImGui::TableSetupColumn("Source Path", ImGuiTableColumnFlags_WidthStretch);
+                                ImGui::TableHeadersRow();
+                            }
+
+                            ++variantAssetReferenceCount;
+                            ImGui::TableNextRow();
+                            ImGui::TableSetColumnIndex(0);
+                            ImGui::TextUnformatted(status.sourceFamily.c_str());
+                            ImGui::TableSetColumnIndex(1);
+                            ImGui::TextUnformatted(status.propertyName.c_str());
+                            ImGui::TableSetColumnIndex(2);
+                            ImGui::TextUnformatted(status.sourceValue.c_str());
+                            ImGui::TableSetColumnIndex(3);
+                            ImGui::TextUnformatted(status.required ? "true" : "false");
+                            ImGui::TableSetColumnIndex(4);
+                            ImGui::TextUnformatted(status.resolved ? "true" : "false");
+                            ImGui::TableSetColumnIndex(5);
+                            ImGui::TextUnformatted(status.ambiguous ? "true" : "false");
+                            ImGui::TableSetColumnIndex(6);
+                            ImGui::TextUnformatted(status.resolvedSourcePath.c_str());
+                        }
+
+                        if (variantAssetReferenceCount > 0)
+                        {
+                            ImGui::EndTable();
+                        }
+                        else
+                        {
+                            ImGui::TextDisabled("No model or skin source-asset references for this instance.");
+                        }
+
+                        endInspectorSectionBlock();
+                    }
+                }
+                else if (resolvedSource.inferredFromActorClass)
+                {
+                    ImGui::Separator();
+                    ImGui::Text("Resolved Model: %s", resolvedSource.sourceModel.c_str());
+                    ImGui::Text("Resolved Skin: %s", resolvedSource.sourceSkin.c_str());
+                    ImGui::Text(
+                        "Resolved Asset: %s",
+                        mm9ModelInstanceActorVariantAssetPath(
+                            resolvedSource.sourceModel,
+                            resolvedSource.sourceSkin).c_str());
+                }
+
+                ImGui::Text("Position: %d, %d, %d", modelInstance.x, modelInstance.y, modelInstance.z);
+            }
+        }
+        break;
+
+    case EditorSelectionKind::Mm9WorldModel:
+        renderMm9DatWorldModelInspector(session, session.selection().index);
+        break;
+
+    case EditorSelectionKind::Mm9DatPolygon:
+        renderMm9DatPolygonInspector(session, session.selection().index);
+        break;
+
+    case EditorSelectionKind::Mm9MaterialTexture:
+        renderMm9MaterialTextureInspector(session, session.selection().index);
+        break;
+
+    case EditorSelectionKind::Mm9RawObject:
+        renderMm9RawObjectInspector(session, session.selection().index);
+        break;
+
+    case EditorSelectionKind::Mm9EventObject:
+        renderMm9EventObjectInspector(session, session.selection().index);
+        break;
+
+    case EditorSelectionKind::Mm9Mechanism:
+        renderMm9MechanismInspector(session, session.selection().index);
+        break;
+
+    case EditorSelectionKind::Mm9EventScript:
+        renderMm9EventScriptInspector(session, session.selection().index);
+        break;
     }
 
     ImGui::End();
@@ -9908,6 +12918,12 @@ void EditorMainWindow::renderDocumentSummary(EditorSession &session)
 {
     const EditorDocument &document = session.document();
 
+    if (document.kind() == EditorDocument::Kind::Mm9Dat)
+    {
+        renderMm9DatDocumentSummary(session);
+        return;
+    }
+
     if (document.kind() == EditorDocument::Kind::Indoor)
     {
         renderIndoorDocumentSummary(session);
@@ -9931,6 +12947,7 @@ void EditorMainWindow::renderDocumentSummary(EditorSession &session)
     ImGui::Text("Faces: %zu", totalFaceCount);
     ImGui::Text("Entities: %zu", sceneData.entities.size());
     ImGui::Text("Spawns: %zu", sceneData.spawns.size());
+    ImGui::Text("Model Instances: %zu", sceneData.modelInstances.size());
     ImGui::Text("Actors: %zu", sceneData.initialState.actors.size());
     ImGui::Text("Sprite Objects: %zu", sceneData.initialState.spriteObjects.size());
     ImGui::Text("Chests: %zu", sceneData.initialState.chests.size());
@@ -9949,6 +12966,3090 @@ void EditorMainWindow::renderDocumentSummary(EditorSession &session)
             ImGui::BulletText("%s", session.validationMessages()[index].c_str());
         }
     }
+}
+
+void EditorMainWindow::renderMm9DatDocumentSummary(EditorSession &session)
+{
+    const EditorDocument &document = session.document();
+    const EditorMm9DatLevelMetadata &metadata = document.mm9DatLevelMetadata();
+    const Mm9ReferenceValidationUiSummary referenceValidationSummary =
+        collectMm9ReferenceValidationUiSummary(session, document);
+    const size_t referenceValidationBlockingIssues =
+        mm9ReferenceValidationBlockingIssueCount(referenceValidationSummary);
+    const std::vector<Mm9NormalizedDiagnosticUiEntry> diagnostics =
+        collectMm9NormalizedDiagnostics(session, document);
+
+    if (beginInspectorSectionBlock("Level"))
+    {
+        if (beginInspectorPropertyTable("Mm9DatLevelFields"))
+        {
+            renderInspectorReadOnlyField("Kind", metadata.kind);
+            renderInspectorReadOnlyField("Map Id", metadata.mapId);
+            renderInspectorReadOnlyField("Display Name", metadata.displayName);
+            renderInspectorReadOnlyField("Runtime Backend", metadata.runtime.worldBackend);
+            renderInspectorReadOnlyField("Classification", metadata.runtime.classification);
+            renderInspectorReadOnlyField("Confidence", metadata.runtime.classificationConfidence);
+            renderInspectorReadOnlyField("Visibility", metadata.runtime.visibility);
+            renderInspectorReadOnlyField("Collision", metadata.runtime.collision);
+            renderInspectorReadOnlyField("Render", metadata.runtime.render);
+            renderInspectorReadOnlyField("Sky", metadata.runtime.sky ? "true" : "false");
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Reference Validation"))
+    {
+        if (beginInspectorPropertyTable("Mm9ReferenceValidationFields"))
+        {
+            renderInspectorReadOnlyField(
+                "Blocking Issues",
+                std::to_string(referenceValidationBlockingIssues));
+            renderInspectorReadOnlyField(
+                "Missing Document Paths",
+                std::to_string(referenceValidationSummary.missingDocumentPaths));
+            renderInspectorReadOnlyField(
+                "Source Manifest Issues",
+                std::to_string(referenceValidationSummary.sourceManifestIssues));
+            renderInspectorReadOnlyField(
+                "Asset Graph Blocking",
+                std::to_string(referenceValidationSummary.assetGraphBlockingIssues));
+            renderInspectorReadOnlyField(
+                "Material Blocking",
+                std::to_string(referenceValidationSummary.materialBlockingIssues));
+            renderInspectorReadOnlyField(
+                "Raw Object Asset Blocking",
+                std::to_string(referenceValidationSummary.rawObjectAssetBlockingIssues));
+            renderInspectorReadOnlyField(
+                "Document Validation Issues",
+                std::to_string(referenceValidationSummary.documentValidationIssues));
+            renderInspectorReadOnlyField(
+                "Warnings",
+                std::to_string(referenceValidationSummary.materialWarnings));
+            ImGui::EndTable();
+        }
+
+        if (ImGui::Button("Validate Referenced Sidecars And Assets", ImVec2(280.0f, 0.0f)))
+        {
+            if (referenceValidationBlockingIssues == 0)
+            {
+                setStatusMessage(
+                    StatusMessageKind::Success,
+                    "MM9 referenced sidecars and required assets validate cleanly.");
+            }
+            else
+            {
+                setStatusMessage(
+                    StatusMessageKind::Error,
+                    "MM9 reference validation found "
+                        + std::to_string(referenceValidationBlockingIssues)
+                        + " blocking issue(s).");
+            }
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Diagnostics", false))
+    {
+        size_t errorCount = 0;
+        size_t warningCount = 0;
+        size_t infoCount = 0;
+
+        for (const Mm9NormalizedDiagnosticUiEntry &diagnostic : diagnostics)
+        {
+            if (diagnostic.severity == "error")
+            {
+                ++errorCount;
+            }
+            else if (diagnostic.severity == "warning")
+            {
+                ++warningCount;
+            }
+            else
+            {
+                ++infoCount;
+            }
+        }
+
+        if (beginInspectorPropertyTable("Mm9NormalizedDiagnosticSummary"))
+        {
+            renderInspectorReadOnlyField("Total", std::to_string(diagnostics.size()));
+            renderInspectorReadOnlyField("Errors", std::to_string(errorCount));
+            renderInspectorReadOnlyField("Warnings", std::to_string(warningCount));
+            renderInspectorReadOnlyField("Info", std::to_string(infoCount));
+            ImGui::EndTable();
+        }
+
+        const std::vector<EditorMm9DiagnosticSeverityRule> &severityRules = mm9DiagnosticSeverityRules();
+        if (!severityRules.empty()
+            && ImGui::BeginTable("Mm9DiagnosticSeverityPolicy", 4, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("Severity", ImGuiTableColumnFlags_WidthFixed, 72.0f);
+            ImGui::TableSetupColumn("Blocks", ImGuiTableColumnFlags_WidthFixed, 56.0f);
+            ImGui::TableSetupColumn("Owner", ImGuiTableColumnFlags_WidthStretch, 0.25f);
+            ImGui::TableSetupColumn("Category", ImGuiTableColumnFlags_WidthStretch, 0.75f);
+            ImGui::TableHeadersRow();
+
+            for (const EditorMm9DiagnosticSeverityRule &rule : severityRules)
+            {
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::TextUnformatted(rule.severity.c_str());
+                ImGui::TableSetColumnIndex(1);
+                ImGui::TextUnformatted(rule.blocksCleanValidation ? "yes" : "no");
+                ImGui::TableSetColumnIndex(2);
+                ImGui::TextUnformatted(rule.suggestedOwner.c_str());
+                ImGui::TableSetColumnIndex(3);
+                ImGui::TextWrapped("%s", rule.category.c_str());
+            }
+
+            ImGui::EndTable();
+        }
+
+        if (diagnostics.empty())
+        {
+            ImGui::TextDisabled("No normalized diagnostics.");
+        }
+        else if (ImGui::BeginTable("Mm9NormalizedDiagnostics", 7, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("Severity", ImGuiTableColumnFlags_WidthFixed, 72.0f);
+            ImGui::TableSetupColumn("Source", ImGuiTableColumnFlags_WidthStretch, 0.18f);
+            ImGui::TableSetupColumn("Index", ImGuiTableColumnFlags_WidthStretch, 0.16f);
+            ImGui::TableSetupColumn("Sidecar", ImGuiTableColumnFlags_WidthStretch, 0.18f);
+            ImGui::TableSetupColumn("Resolver", ImGuiTableColumnFlags_WidthStretch, 0.18f);
+            ImGui::TableSetupColumn("Owner", ImGuiTableColumnFlags_WidthStretch, 0.14f);
+            ImGui::TableSetupColumn("Message", ImGuiTableColumnFlags_WidthStretch, 0.28f);
+            ImGui::TableHeadersRow();
+
+            for (const Mm9NormalizedDiagnosticUiEntry &diagnostic : diagnostics)
+            {
+                const uint32_t severityColor =
+                    diagnostic.severity == "error" ? 0xE7A46C
+                    : (diagnostic.severity == "warning" ? 0xD8B277 : 0xAAB3BD);
+
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::TextColored(colorFromRgb(severityColor), "%s", diagnostic.severity.c_str());
+                ImGui::TableSetColumnIndex(1);
+                ImGui::TextUnformatted(diagnostic.sourceFile.c_str());
+                ImGui::TableSetColumnIndex(2);
+                ImGui::TextUnformatted(diagnostic.sourceIndexPath.c_str());
+                ImGui::TableSetColumnIndex(3);
+                ImGui::TextUnformatted(diagnostic.sidecarPath.c_str());
+                ImGui::TableSetColumnIndex(4);
+                ImGui::TextUnformatted(diagnostic.resolver.c_str());
+                ImGui::TableSetColumnIndex(5);
+                ImGui::TextUnformatted(diagnostic.suggestedOwner.c_str());
+                ImGui::TableSetColumnIndex(6);
+                ImGui::TextWrapped("%s", diagnostic.message.c_str());
+            }
+
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Source"))
+    {
+        if (beginInspectorPropertyTable("Mm9DatSourceFields"))
+        {
+            renderInspectorCopyOpenReadOnlyField(
+                "Level",
+                document.sceneVirtualPath(),
+                document.scenePhysicalPath().generic_string());
+            renderInspectorCopyOpenReadOnlyField(
+                "DAT",
+                metadata.source.dat,
+                resolveMm9LevelRelativePath(document, metadata.source.dat).generic_string());
+            renderInspectorCopyOpenReadOnlyField(
+                "Original DAT",
+                metadata.source.originalDat,
+                resolveMm9LevelRelativePath(document, metadata.source.originalDat).generic_string());
+            renderInspectorReadOnlyField("DAT Version", std::to_string(metadata.source.datVersion));
+            renderInspectorCopyableReadOnlyField("Content Hash", metadata.source.contentHash);
+            renderInspectorReadOnlyField("Source Game", metadata.source.sourceGame);
+            renderInspectorReadOnlyField(
+                "Sidecars Loaded",
+                document.hasMm9DatLoadedSidecars() ? "true" : "false");
+            renderInspectorReadOnlyField(
+                "Source DAT Parsed",
+                document.hasMm9DatWorld() ? "true" : "false");
+
+            if (document.hasMm9DatWorld())
+            {
+                renderInspectorReadOnlyField(
+                    "Native DAT Models",
+                    std::to_string(document.mm9DatWorld().worldModels.size()));
+                renderInspectorReadOnlyField(
+                    "Native Mesh Triangles",
+                    std::to_string(document.mm9DatRenderMesh().triangles.size()));
+            }
+
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Document Paths"))
+    {
+        const std::vector<EditorMm9DocumentPathStatus> &pathStatuses = document.mm9DocumentPathStatuses();
+        size_t readOnlySourceCount = 0;
+        size_t generatedCount = 0;
+        size_t authoredCount = 0;
+        size_t compatibilityCount = 0;
+
+        for (const EditorMm9DocumentPathStatus &status : pathStatuses)
+        {
+            if (status.sourceReadOnly)
+            {
+                ++readOnlySourceCount;
+            }
+
+            if (status.generated)
+            {
+                ++generatedCount;
+            }
+
+            if (status.authored)
+            {
+                ++authoredCount;
+            }
+
+            if (status.compatibilityDerived)
+            {
+                ++compatibilityCount;
+            }
+        }
+
+        if (beginInspectorPropertyTable("Mm9DocumentPathSummary"))
+        {
+            renderInspectorReadOnlyField("Paths", std::to_string(pathStatuses.size()));
+            renderInspectorReadOnlyField("Read-only Source", std::to_string(readOnlySourceCount));
+            renderInspectorReadOnlyField("Generated", std::to_string(generatedCount));
+            renderInspectorReadOnlyField("Authored", std::to_string(authoredCount));
+            renderInspectorReadOnlyField("Derived Compat", std::to_string(compatibilityCount));
+            ImGui::EndTable();
+        }
+
+        if (!pathStatuses.empty()
+            && ImGui::BeginTable("Mm9DocumentPathStatuses", 6, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("Label", ImGuiTableColumnFlags_WidthStretch, 0.18f);
+            ImGui::TableSetupColumn("Role", ImGuiTableColumnFlags_WidthStretch, 0.22f);
+            ImGui::TableSetupColumn("Path", ImGuiTableColumnFlags_WidthStretch, 0.42f);
+            ImGui::TableSetupColumn("Exists", ImGuiTableColumnFlags_WidthFixed, 58.0f);
+            ImGui::TableSetupColumn("Source", ImGuiTableColumnFlags_WidthFixed, 62.0f);
+            ImGui::TableSetupColumn("Actions", ImGuiTableColumnFlags_WidthFixed, 112.0f);
+            ImGui::TableHeadersRow();
+
+            for (const EditorMm9DocumentPathStatus &status : pathStatuses)
+            {
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::TextUnformatted(status.label.c_str());
+                ImGui::TableSetColumnIndex(1);
+                ImGui::TextUnformatted(status.role.c_str());
+                ImGui::TableSetColumnIndex(2);
+                ImGui::TextUnformatted(status.relativePath.c_str());
+                ImGui::TableSetColumnIndex(3);
+                ImGui::TextUnformatted(status.exists ? "yes" : "no");
+                ImGui::TableSetColumnIndex(4);
+                ImGui::TextUnformatted(status.sourceReadOnly ? "ro" : "w");
+                ImGui::TableSetColumnIndex(5);
+                renderInspectorCopyButton(
+                    ("Mm9DocumentPathStatus" + status.label + status.relativePath).c_str(),
+                    status.relativePath);
+                ImGui::SameLine();
+                renderInspectorOpenPathButton(
+                    ("Mm9DocumentPathStatusOpen" + status.label + status.resolvedPath).c_str(),
+                    status.resolvedPath);
+            }
+
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Source Manifest"))
+    {
+        const std::vector<EditorMm9SourceAssetFamilyStatus> &familyStatuses =
+            document.mm9SourceAssetFamilyStatuses();
+        size_t expectedTotal = 0;
+        size_t actualTotal = 0;
+        size_t mismatchCount = 0;
+        size_t missingCount = 0;
+
+        for (const EditorMm9SourceAssetFamilyStatus &status : familyStatuses)
+        {
+            expectedTotal += status.expectedFileCount;
+            actualTotal += status.actualFileCount;
+
+            if (!status.declared || !status.packageDirectoryExists)
+            {
+                ++missingCount;
+            }
+            else if (status.expectedFileCount != status.actualFileCount)
+            {
+                ++mismatchCount;
+            }
+        }
+
+        if (beginInspectorPropertyTable("Mm9SourceManifestFields"))
+        {
+            renderInspectorCopyOpenReadOnlyField(
+                "Manifest",
+                document.mm9SourceAssetManifestPhysicalPath().generic_string(),
+                document.mm9SourceAssetManifestPhysicalPath().generic_string());
+            renderInspectorReadOnlyField(
+                "Loaded",
+                document.hasMm9SourceAssetManifest() ? "true" : "false");
+
+            if (document.hasMm9SourceAssetManifest())
+            {
+                const EditorMm9SourceAssetManifest &manifest = document.mm9SourceAssetManifest();
+                renderInspectorReadOnlyField("Kind", manifest.kind);
+                renderInspectorReadOnlyField("Format", std::to_string(manifest.formatVersion));
+                renderInspectorCopyableReadOnlyField("Source Root", manifest.sourceRoot);
+                renderInspectorCopyableReadOnlyField("Package Root", manifest.packageRoot);
+                renderInspectorReadOnlyField("Families", std::to_string(manifest.families.size()));
+                renderInspectorReadOnlyField("Expected Files", std::to_string(expectedTotal));
+                renderInspectorReadOnlyField("Actual Files", std::to_string(actualTotal));
+                renderInspectorReadOnlyField("Missing Families", std::to_string(missingCount));
+                renderInspectorReadOnlyField("Count Mismatches", std::to_string(mismatchCount));
+                renderInspectorReadOnlyField(
+                    "Source Truth",
+                    manifest.policy.sourceTruth ? "true" : "false");
+                renderInspectorReadOnlyField(
+                    "Generated Cache",
+                    manifest.policy.generatedCache ? "true" : "false");
+            }
+
+            ImGui::EndTable();
+        }
+
+        if (!familyStatuses.empty()
+            && ImGui::BeginTable("Mm9SourceManifestFamilies", 6, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("Family", ImGuiTableColumnFlags_WidthStretch, 0.18f);
+            ImGui::TableSetupColumn("Source", ImGuiTableColumnFlags_WidthStretch, 0.24f);
+            ImGui::TableSetupColumn("Package", ImGuiTableColumnFlags_WidthStretch, 0.24f);
+            ImGui::TableSetupColumn("Expected", ImGuiTableColumnFlags_WidthFixed, 76.0f);
+            ImGui::TableSetupColumn("Actual", ImGuiTableColumnFlags_WidthFixed, 76.0f);
+            ImGui::TableSetupColumn("Actions", ImGuiTableColumnFlags_WidthFixed, 112.0f);
+            ImGui::TableHeadersRow();
+
+            for (const EditorMm9SourceAssetFamilyStatus &status : familyStatuses)
+            {
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::TextUnformatted(status.id.c_str());
+                ImGui::TableSetColumnIndex(1);
+                ImGui::TextUnformatted(status.source.c_str());
+                ImGui::TableSetColumnIndex(2);
+                ImGui::TextUnformatted(status.package.c_str());
+                ImGui::TableSetColumnIndex(3);
+                ImGui::Text("%zu", status.expectedFileCount);
+                ImGui::TableSetColumnIndex(4);
+                ImGui::Text("%zu", status.actualFileCount);
+                ImGui::TableSetColumnIndex(5);
+                renderInspectorCopyButton(
+                    ("Mm9SourceManifestFamily" + status.id).c_str(),
+                    status.source.empty() ? status.package : status.source);
+                ImGui::SameLine();
+                renderInspectorOpenPathButton(
+                    ("Mm9SourceManifestFamilyOpen" + status.id).c_str(),
+                    (document.mm9SourceAssetManifestPhysicalPath().parent_path() / status.package).generic_string());
+            }
+
+            ImGui::EndTable();
+        }
+
+        if (!document.mm9SourceAssetManifestDiagnostics().empty())
+        {
+            ImGui::Text("Source Manifest Issues: %zu", document.mm9SourceAssetManifestDiagnostics().size());
+
+            for (const std::string &message : document.mm9SourceAssetManifestDiagnostics())
+            {
+                ImGui::BulletText("%s", message.c_str());
+            }
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (document.hasMm9DatLoadedSidecars() && beginInspectorSectionBlock("Loaded Sidecars"))
+    {
+        const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
+
+        if (beginInspectorPropertyTable("Mm9DatLoadedSidecarCounts"))
+        {
+            renderInspectorReadOnlyField("World Models", std::to_string(sidecars.datWorld.worldModels.size()));
+            renderInspectorReadOnlyField("DAT Objects", std::to_string(sidecars.datWorld.totals.objectCount));
+            renderInspectorReadOnlyField("Source Polys", std::to_string(sidecars.datWorld.totals.sourcePolyCount));
+            renderInspectorReadOnlyField("Surfaces", std::to_string(sidecars.datWorld.totals.surfaceCount));
+            renderInspectorReadOnlyField("Leaves", std::to_string(sidecars.datWorld.totals.leafCount));
+            renderInspectorReadOnlyField("User Portals", std::to_string(sidecars.datWorld.totals.userPortalCount));
+            renderInspectorReadOnlyField(
+                "Leaf References",
+                std::to_string(sidecars.datWorld.totals.leafReferenceCount));
+            renderInspectorReadOnlyField(
+                "Invalid Leaf Refs",
+                std::to_string(sidecars.datWorld.totals.invalidLeafReferenceCount));
+            renderInspectorReadOnlyField("Raw Objects", std::to_string(sidecars.rawObjects.objects.size()));
+            renderInspectorReadOnlyField(
+                "Unknown Properties",
+                std::to_string(sidecars.rawObjects.unknownPropertyCount));
+            renderInspectorReadOnlyField("Materials", std::to_string(sidecars.materialAliases.textures.size()));
+            renderInspectorReadOnlyField("Events Objects", std::to_string(sidecars.events.objects.size()));
+            renderInspectorReadOnlyField("Mechanisms", std::to_string(sidecars.events.mechanismCount));
+            renderInspectorReadOnlyField("Triggers", std::to_string(sidecars.events.triggerCount));
+            renderInspectorReadOnlyField("Interactions", std::to_string(sidecars.events.interactionCount));
+            renderInspectorReadOnlyField("Unresolved Events", std::to_string(sidecars.events.unresolvedCount));
+            renderInspectorReadOnlyField(
+                "Object Transforms",
+                std::to_string(document.mm9ObjectLayer().positionedObjectCount));
+            renderInspectorReadOnlyField(
+                "Object Bounds",
+                std::to_string(document.mm9ObjectLayer().boundsEvidenceObjectCount));
+            renderInspectorReadOnlyField(
+                "Trigger Volumes",
+                std::to_string(document.mm9ObjectLayer().triggerVolumeCount));
+            renderInspectorReadOnlyField("Light Objects", std::to_string(document.mm9LightLayer().lights.size()));
+            renderInspectorReadOnlyField(
+                "Static Render Lights",
+                std::to_string(Game::buildMm9StaticRenderLights(document.mm9LightLayer()).size()));
+            renderInspectorReadOnlyField(
+                "Light Diagnostics",
+                std::to_string(document.mm9LightLayer().diagnostics.size()));
+            renderInspectorReadOnlyField("Sound Objects", std::to_string(document.mm9SoundLayer().objects.size()));
+            renderInspectorReadOnlyField("Sound References", std::to_string(document.mm9SoundLayer().referenceCount));
+            renderInspectorReadOnlyField(
+                "Resolved Sound Refs",
+                std::to_string(document.mm9SoundLayer().resolvedReferenceCount));
+            renderInspectorReadOnlyField(
+                "Unresolved Required Sound Refs",
+                std::to_string(document.mm9SoundLayer().unresolvedRequiredReferenceCount));
+            renderInspectorReadOnlyField(
+                "Spawn Source Objects",
+                std::to_string(document.mm9SpawnLayer().objects.size()));
+            renderInspectorReadOnlyField(
+                "Spawn NPC Numbers",
+                std::to_string(document.mm9SpawnLayer().npcNumberCount));
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (document.hasMm9DatLoadedSidecars() && beginInspectorSectionBlock("Unresolved Event Evidence", false))
+    {
+        const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
+        const std::vector<Game::Mm9EventUnresolved> &unresolvedEvents = sidecars.events.unresolved;
+
+        if (unresolvedEvents.empty())
+        {
+            ImGui::TextDisabled("No unresolved generated event entries.");
+        }
+        else if (ImGui::BeginTable("Mm9UnresolvedEventEvidence", 8, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("Kind", ImGuiTableColumnFlags_WidthStretch, 0.18f);
+            ImGui::TableSetupColumn("Severity", ImGuiTableColumnFlags_WidthStretch, 0.10f);
+            ImGui::TableSetupColumn("Source", ImGuiTableColumnFlags_WidthFixed, 72.0f);
+            ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_WidthStretch, 0.18f);
+            ImGui::TableSetupColumn("Class", ImGuiTableColumnFlags_WidthStretch, 0.14f);
+            ImGui::TableSetupColumn("Rot Candidates", ImGuiTableColumnFlags_WidthFixed, 96.0f);
+            ImGui::TableSetupColumn("Pos Candidates", ImGuiTableColumnFlags_WidthFixed, 96.0f);
+            ImGui::TableSetupColumn("Actions", ImGuiTableColumnFlags_WidthFixed, 116.0f);
+            ImGui::TableHeadersRow();
+
+            for (size_t unresolvedIndex = 0; unresolvedIndex < unresolvedEvents.size(); ++unresolvedIndex)
+            {
+                const Game::Mm9EventUnresolved &entry = unresolvedEvents[unresolvedIndex];
+                const std::optional<size_t> rawObjectIndex =
+                    findMm9RawObjectIndexBySourceObjectIndex(sidecars.rawObjects, entry.sourceObjectIndex);
+
+                ImGui::PushID(static_cast<int>(unresolvedIndex));
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::TextUnformatted(entry.kind.c_str());
+                ImGui::TableSetColumnIndex(1);
+                ImGui::TextUnformatted(entry.severity.empty() ? "<unknown>" : entry.severity.c_str());
+                ImGui::TableSetColumnIndex(2);
+                ImGui::Text("%d", entry.sourceObjectIndex);
+                ImGui::TableSetColumnIndex(3);
+                ImGui::TextUnformatted(entry.sourceName.c_str());
+                ImGui::TableSetColumnIndex(4);
+                ImGui::TextUnformatted(entry.sourceClass.c_str());
+                ImGui::TableSetColumnIndex(5);
+                ImGui::Text("%zu", entry.nearestMovableWorldModelsByRotationPoint.size());
+                ImGui::TableSetColumnIndex(6);
+                ImGui::Text("%zu", entry.nearestMovableWorldModelsByPosition.size());
+                ImGui::TableSetColumnIndex(7);
+                if (renderInspectorJumpButton("Select Raw", rawObjectIndex.has_value()))
+                {
+                    session.select(EditorSelectionKind::Mm9RawObject, *rawObjectIndex);
+                }
+                ImGui::PopID();
+            }
+
+            ImGui::EndTable();
+        }
+
+        for (size_t unresolvedIndex = 0; unresolvedIndex < unresolvedEvents.size(); ++unresolvedIndex)
+        {
+            const Game::Mm9EventUnresolved &entry = unresolvedEvents[unresolvedIndex];
+
+            if (entry.nearestMovableWorldModelsByRotationPoint.empty()
+                && entry.nearestMovableWorldModelsByPosition.empty())
+            {
+                continue;
+            }
+
+            const std::string label = "Evidence "
+                + std::to_string(entry.sourceObjectIndex)
+                + " "
+                + (entry.sourceName.empty() ? entry.kind : entry.sourceName);
+            ImGui::SetNextItemOpen(false, ImGuiCond_FirstUseEver);
+            if (!ImGui::TreeNodeEx(label.c_str()))
+            {
+                continue;
+            }
+
+            const auto renderCandidates =
+                [](const char *pLabel,
+                   const std::vector<Game::Mm9EventBindingTarget::MovableWorldModelCandidate> &candidates)
+            {
+                if (candidates.empty())
+                {
+                    return;
+                }
+
+                if (!ImGui::TreeNodeEx(pLabel))
+                {
+                    return;
+                }
+
+                for (size_t candidateIndex = 0; candidateIndex < candidates.size(); ++candidateIndex)
+                {
+                    const Game::Mm9EventBindingTarget::MovableWorldModelCandidate &candidate =
+                        candidates[candidateIndex];
+                    ImGui::PushID(static_cast<int>(candidateIndex));
+                    if (beginInspectorPropertyTable("Mm9UnresolvedEventCandidate"))
+                    {
+                        renderInspectorCopyableReadOnlyField(
+                            "Source Model Index",
+                            std::to_string(candidate.sourceModelIndex));
+                        renderInspectorCopyableReadOnlyField("Source Model Name", candidate.sourceName);
+                        renderInspectorReadOnlyField("Movable", candidate.movable ? "true" : "false");
+                        renderInspectorReadOnlyField(
+                            "World Translation LT",
+                            mm9FloatVectorText(candidate.worldTranslationLt));
+                        renderInspectorReadOnlyField("Distance LT", std::to_string(candidate.distanceLt));
+                        renderInspectorReadOnlyField(
+                            "Exact Binding Claims",
+                            std::to_string(candidate.claimedByExactBindings.size()));
+                        ImGui::EndTable();
+                    }
+                    ImGui::PopID();
+                }
+
+                ImGui::TreePop();
+            };
+
+            renderCandidates(
+                "Nearest Movable World Models By Rotation Point",
+                entry.nearestMovableWorldModelsByRotationPoint);
+            renderCandidates(
+                "Nearest Movable World Models By Position",
+                entry.nearestMovableWorldModelsByPosition);
+            ImGui::TreePop();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (document.hasMm9DatLoadedSidecars() && beginInspectorSectionBlock("Asset Dependency Graph"))
+    {
+        const EditorMm9AssetDependencySummary &summary = document.mm9AssetDependencySummary();
+
+        if (beginInspectorPropertyTable("Mm9AssetDependencyGraphSummary"))
+        {
+            renderInspectorReadOnlyField("Total", std::to_string(summary.total));
+            renderInspectorReadOnlyField("Resolved", std::to_string(summary.resolved));
+            renderInspectorReadOnlyField("Unresolved", std::to_string(summary.unresolved));
+            renderInspectorReadOnlyField("Ambiguous", std::to_string(summary.ambiguous));
+            renderInspectorReadOnlyField("Stale", std::to_string(summary.stale));
+            renderInspectorReadOnlyField("Required Unresolved", std::to_string(summary.requiredUnresolved));
+            renderInspectorReadOnlyField("Required Ambiguous", std::to_string(summary.requiredAmbiguous));
+            renderInspectorReadOnlyField("Optional Unresolved", std::to_string(summary.optionalUnresolved));
+            ImGui::EndTable();
+        }
+
+        if (!summary.families.empty()
+            && ImGui::BeginTable("Mm9AssetDependencyGraphFamilies", 9, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("Family", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Total", ImGuiTableColumnFlags_WidthFixed, 64.0f);
+            ImGui::TableSetupColumn("Resolved", ImGuiTableColumnFlags_WidthFixed, 78.0f);
+            ImGui::TableSetupColumn("Unresolved", ImGuiTableColumnFlags_WidthFixed, 88.0f);
+            ImGui::TableSetupColumn("Ambiguous", ImGuiTableColumnFlags_WidthFixed, 88.0f);
+            ImGui::TableSetupColumn("Stale", ImGuiTableColumnFlags_WidthFixed, 64.0f);
+            ImGui::TableSetupColumn("Req Unres", ImGuiTableColumnFlags_WidthFixed, 82.0f);
+            ImGui::TableSetupColumn("Req Ambig", ImGuiTableColumnFlags_WidthFixed, 82.0f);
+            ImGui::TableSetupColumn("Opt Unres", ImGuiTableColumnFlags_WidthFixed, 82.0f);
+            ImGui::TableHeadersRow();
+
+            for (const EditorMm9AssetDependencyFamilySummary &family : summary.families)
+            {
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::TextUnformatted(family.family.c_str());
+                ImGui::TableSetColumnIndex(1);
+                ImGui::Text("%zu", family.total);
+                ImGui::TableSetColumnIndex(2);
+                ImGui::Text("%zu", family.resolved);
+                ImGui::TableSetColumnIndex(3);
+                ImGui::Text("%zu", family.unresolved);
+                ImGui::TableSetColumnIndex(4);
+                ImGui::Text("%zu", family.ambiguous);
+                ImGui::TableSetColumnIndex(5);
+                ImGui::Text("%zu", family.stale);
+                ImGui::TableSetColumnIndex(6);
+                ImGui::Text("%zu", family.requiredUnresolved);
+                ImGui::TableSetColumnIndex(7);
+                ImGui::Text("%zu", family.requiredAmbiguous);
+                ImGui::TableSetColumnIndex(8);
+                ImGui::Text("%zu", family.optionalUnresolved);
+            }
+
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Sidecar Paths", false))
+    {
+        if (beginInspectorPropertyTable("Mm9DatSidecarPathFields"))
+        {
+            renderInspectorCopyOpenReadOnlyField(
+                "DAT World",
+                metadata.sidecars.datWorld,
+                resolveMm9LevelRelativePath(document, metadata.sidecars.datWorld).generic_string());
+            renderInspectorCopyOpenReadOnlyField(
+                "Raw Objects",
+                metadata.sidecars.rawObjects,
+                resolveMm9LevelRelativePath(document, metadata.sidecars.rawObjects).generic_string());
+            renderInspectorCopyOpenReadOnlyField(
+                "Materials",
+                metadata.sidecars.materials,
+                resolveMm9LevelRelativePath(document, metadata.sidecars.materials).generic_string());
+            renderInspectorCopyOpenReadOnlyField(
+                "Events",
+                metadata.sidecars.events,
+                resolveMm9LevelRelativePath(document, metadata.sidecars.events).generic_string());
+            renderInspectorCopyOpenReadOnlyField(
+                "Source Asset Aliases",
+                metadata.sidecars.sourceAssetAliases
+                    ? *metadata.sidecars.sourceAssetAliases
+                    : std::string("<none>"),
+                metadata.sidecars.sourceAssetAliases
+                    ? resolveMm9LevelRelativePath(document, *metadata.sidecars.sourceAssetAliases).generic_string()
+                    : std::string());
+            renderInspectorCopyOpenReadOnlyField(
+                "Level Lua",
+                metadata.scripts.level,
+                resolveMm9LevelRelativePath(document, metadata.scripts.level).generic_string());
+            renderInspectorCopyOpenReadOnlyField(
+                "Script IR",
+                metadata.scripts.scriptIr,
+                resolveMm9LevelRelativePath(document, metadata.scripts.scriptIr).generic_string());
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Compatibility", false))
+    {
+        if (beginInspectorPropertyTable("Mm9DatCompatibilityFields"))
+        {
+            renderInspectorCopyableReadOnlyField("Legacy Target", metadata.compatibility.legacyTargetFormat);
+            renderInspectorReadOnlyField(
+                "ODM/BLV Derived",
+                metadata.compatibility.generatedOdmBlvAreDerived ? "true" : "false");
+            renderInspectorCopyOpenReadOnlyField(
+                "ODM Compat",
+                metadata.sidecars.odmCompat ? *metadata.sidecars.odmCompat : std::string("<none>"),
+                metadata.sidecars.odmCompat
+                    ? resolveMm9LevelRelativePath(document, *metadata.sidecars.odmCompat).generic_string()
+                    : std::string());
+            renderInspectorCopyOpenReadOnlyField(
+                "BLV Compat",
+                metadata.sidecars.blvCompat ? *metadata.sidecars.blvCompat : std::string("<none>"),
+                metadata.sidecars.blvCompat
+                    ? resolveMm9LevelRelativePath(document, *metadata.sidecars.blvCompat).generic_string()
+                    : std::string());
+            renderInspectorCopyOpenReadOnlyField(
+                "Scene Compat",
+                metadata.sidecars.sceneCompat ? *metadata.sidecars.sceneCompat : std::string("<none>"),
+                metadata.sidecars.sceneCompat
+                    ? resolveMm9LevelRelativePath(document, *metadata.sidecars.sceneCompat).generic_string()
+                    : std::string());
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (!session.validationMessages().empty() && beginInspectorSectionBlock("Diagnostics"))
+    {
+        ImGui::Text("Validation Issues: %zu", session.validationMessages().size());
+
+        for (const std::string &message : session.validationMessages())
+        {
+            ImGui::BulletText("%s", message.c_str());
+        }
+
+        endInspectorSectionBlock();
+    }
+}
+
+void EditorMainWindow::renderMm9DatWorldModelInspector(EditorSession &session, size_t worldModelIndex)
+{
+    const EditorDocument &document = session.document();
+
+    if (document.kind() != EditorDocument::Kind::Mm9Dat || !document.hasMm9DatLoadedSidecars())
+    {
+        ImGui::TextDisabled("MM9 DAT sidecars are not loaded.");
+        return;
+    }
+
+    const EditorMm9DatWorldSidecar &datWorld = document.mm9DatLoadedSidecars().datWorld;
+    const EditorMm9MaterialAliasesSidecar &materials = document.mm9DatLoadedSidecars().materialAliases;
+    const std::vector<EditorMm9MaterialTextureStatus> &materialStatuses =
+        document.mm9MaterialTextureStatuses();
+
+    if (worldModelIndex >= datWorld.worldModels.size())
+    {
+        ImGui::Text("DAT world model index %zu is out of range.", worldModelIndex);
+        return;
+    }
+
+    const EditorMm9DatWorldModelSummary &model = datWorld.worldModels[worldModelIndex];
+    const auto normalizedMm9TextureReference = [](const std::string &value)
+    {
+        std::string normalized = toLowerCopy(value);
+
+        for (char &character : normalized)
+        {
+            if (character == '\\')
+            {
+                character = '/';
+            }
+        }
+
+        return normalized;
+    };
+    const auto findMaterialStatusForTexture =
+        [&materialStatuses, &normalizedMm9TextureReference](
+            const EditorMm9DatWorldModelTexture &texture) -> const EditorMm9MaterialTextureStatus *
+    {
+        const std::string textureKey = normalizedMm9TextureReference(texture.sourceTexture);
+
+        for (const EditorMm9MaterialTextureStatus &status : materialStatuses)
+        {
+            if (normalizedMm9TextureReference(status.sourceTexture) == textureKey)
+            {
+                return &status;
+            }
+        }
+
+        return nullptr;
+    };
+
+    if (beginInspectorSectionBlock("DAT World Model"))
+    {
+        if (beginInspectorPropertyTable("Mm9DatWorldModelFields"))
+        {
+            renderInspectorCopyableReadOnlyField("Source Index", std::to_string(model.sourceModelIndex));
+            renderInspectorCopyableReadOnlyField(
+                "Source Name",
+                model.sourceName.empty() ? std::string("<unnamed>") : model.sourceName);
+            renderInspectorReadOnlyField("Kind", model.kind);
+            renderInspectorReadOnlyField("Roles", mm9WorldModelRolesText(model.roles));
+            renderInspectorReadOnlyField("World Info Flags", std::to_string(model.worldInfoFlags));
+            renderInspectorReadOnlyField("Bounds Min LT", mm9Vec3Text(model.boundsMinLt));
+            renderInspectorReadOnlyField("Bounds Max LT", mm9Vec3Text(model.boundsMaxLt));
+            renderInspectorReadOnlyField("World Translation LT", mm9Vec3Text(model.worldTranslationLt));
+            renderInspectorReadOnlyField("Points", std::to_string(model.pointCount));
+            renderInspectorReadOnlyField("Planes", std::to_string(model.planeCount));
+            renderInspectorReadOnlyField("Surfaces", std::to_string(model.surfaceCount));
+            renderInspectorReadOnlyField("Polygons", std::to_string(model.polyCount));
+            renderInspectorReadOnlyField("Nodes", std::to_string(model.nodeCount));
+            renderInspectorReadOnlyField("Leaves", std::to_string(model.leafCount));
+            renderInspectorReadOnlyField("User Portals", std::to_string(model.userPortalCount));
+            renderInspectorReadOnlyField("Textures", std::to_string(model.textures.size()));
+            renderInspectorReadOnlyField("Root Node Index", std::to_string(model.rootNodeIndex));
+            renderInspectorReadOnlyField("Section Count", std::to_string(model.sectionCount));
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("BSP Counts And Unknowns", false))
+    {
+        if (beginInspectorPropertyTable("Mm9DatWorldModelBspCountFields"))
+        {
+            renderInspectorReadOnlyField("Vert Count", std::to_string(model.bspCounts.vertCount));
+            renderInspectorReadOnlyField(
+                "Total Vis List Size",
+                std::to_string(model.bspCounts.totalVisListSize));
+            renderInspectorReadOnlyField("Leaf List Count", std::to_string(model.bspCounts.leafListCount));
+            renderInspectorReadOnlyField(
+                "Texture Name Length",
+                std::to_string(model.bspCounts.textureNameLength));
+            renderInspectorReadOnlyField("BSP Texture Count", std::to_string(model.bspCounts.textureCount));
+            renderInspectorReadOnlyField(
+                "Unknown Value",
+                std::to_string(model.unknownValues.worldBspUnknownValue));
+            renderInspectorReadOnlyField(
+                "Unknown Value 2",
+                std::to_string(model.unknownValues.worldBspUnknownValue2));
+            renderInspectorReadOnlyField(
+                "Unknown Value 3",
+                std::to_string(model.unknownValues.worldBspUnknownValue3));
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Reference Validation", false))
+    {
+        if (beginInspectorPropertyTable("Mm9DatWorldModelReferenceValidationFields"))
+        {
+            renderInspectorReadOnlyField(
+                "Invalid Surface Texture Refs",
+                std::to_string(model.referenceValidation.invalidSurfaceTextureRefs));
+            renderInspectorReadOnlyField(
+                "Invalid Polygon Surface Refs",
+                std::to_string(model.referenceValidation.invalidPolySurfaceRefs));
+            renderInspectorReadOnlyField(
+                "Invalid Polygon Plane Refs",
+                std::to_string(model.referenceValidation.invalidPolyPlaneRefs));
+            renderInspectorReadOnlyField(
+                "Invalid Polygon Vertex Refs",
+                std::to_string(model.referenceValidation.invalidPolyVertexRefs));
+            renderInspectorReadOnlyField(
+                "Invalid Node Polygon Refs",
+                std::to_string(model.referenceValidation.invalidNodePolyRefs));
+            renderInspectorReadOnlyField(
+                "Invalid Root Node Refs",
+                std::to_string(model.referenceValidation.invalidRootNodeRefs));
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("PBlock And Source Preservation", false))
+    {
+        if (beginInspectorPropertyTable("Mm9DatWorldModelPBlockFields"))
+        {
+            renderInspectorReadOnlyField(
+                "Preserved In Source DAT",
+                model.pblockTable.preservedInSourceDat ? "true" : "false");
+            renderInspectorReadOnlyField("Decoded Summary", model.pblockTable.decodedSummary ? "true" : "false");
+            renderInspectorReadOnlyField(
+                "Record Count",
+                model.pblockTable.recordCount
+                    ? std::to_string(*model.pblockTable.recordCount)
+                    : std::string("<not decoded>"));
+            renderInspectorReadOnlyField(
+                "Dimensions",
+                std::to_string(model.pblockTable.dimA) + ", "
+                    + std::to_string(model.pblockTable.dimB) + ", "
+                    + std::to_string(model.pblockTable.dimC));
+            renderInspectorReadOnlyField("Bounds Min LT", mm9Vec3Text(model.pblockTable.boundsMinLt));
+            renderInspectorReadOnlyField("Bounds Max LT", mm9Vec3Text(model.pblockTable.boundsMaxLt));
+            renderInspectorReadOnlyField("Parser Status", datWorld.validation.parseStatus);
+            renderInspectorReadOnlyField("Unknown Field Policy", datWorld.validation.unknownFieldPolicy);
+            renderInspectorReadOnlyField("PBlock Status", datWorld.validation.pblockSummaryStatus);
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Textures", false))
+    {
+        if (model.textures.empty())
+        {
+            ImGui::TextDisabled("No texture references.");
+        }
+        else if (ImGui::BeginTable("Mm9DatWorldModelTextures", 7, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("Index", ImGuiTableColumnFlags_WidthFixed, 70.0f);
+            ImGui::TableSetupColumn("Source Texture", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Alias", ImGuiTableColumnFlags_WidthFixed, 120.0f);
+            ImGui::TableSetupColumn("Resolved DTX", ImGuiTableColumnFlags_WidthFixed, 92.0f);
+            ImGui::TableSetupColumn("Ambiguous", ImGuiTableColumnFlags_WidthFixed, 86.0f);
+            ImGui::TableSetupColumn("Path", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Actions", ImGuiTableColumnFlags_WidthFixed, 112.0f);
+            ImGui::TableHeadersRow();
+
+            for (const EditorMm9DatWorldModelTexture &texture : model.textures)
+            {
+                const EditorMm9MaterialTextureStatus *pStatus = findMaterialStatusForTexture(texture);
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::Text("%zu", texture.textureIndex);
+                ImGui::TableSetColumnIndex(1);
+                ImGui::TextUnformatted(texture.sourceTexture.c_str());
+                ImGui::TableSetColumnIndex(2);
+
+                if (pStatus != nullptr && !pStatus->alias.empty())
+                {
+                    ImGui::PushID(static_cast<int>(texture.textureIndex));
+                    const bool canSelectMaterial = pStatus->textureIndex < materials.textures.size();
+
+                    if (canSelectMaterial && ImGui::Selectable(pStatus->alias.c_str(), false))
+                    {
+                        session.select(EditorSelectionKind::Mm9MaterialTexture, pStatus->textureIndex);
+                    }
+                    else if (!canSelectMaterial)
+                    {
+                        ImGui::TextUnformatted(pStatus->alias.c_str());
+                    }
+
+                    ImGui::PopID();
+                }
+                else
+                {
+                    ImGui::TextDisabled("<unresolved>");
+                }
+
+                ImGui::TableSetColumnIndex(3);
+                ImGui::TextUnformatted(pStatus != nullptr && pStatus->sourceDtxResolved ? "true" : "false");
+                ImGui::TableSetColumnIndex(4);
+                ImGui::TextUnformatted(pStatus != nullptr && pStatus->sourceDtxAmbiguous ? "true" : "false");
+                ImGui::TableSetColumnIndex(5);
+                ImGui::TextUnformatted(pStatus != nullptr ? pStatus->resolvedSourcePath.c_str() : "");
+                ImGui::TableSetColumnIndex(6);
+                renderInspectorCopyButton(
+                    ("Mm9WorldModelTexture" + std::to_string(texture.textureIndex)).c_str(),
+                    pStatus != nullptr && !pStatus->resolvedSourcePath.empty()
+                        ? pStatus->resolvedSourcePath
+                        : texture.sourceTexture);
+                ImGui::SameLine();
+                renderInspectorOpenPathButton(
+                    ("Mm9WorldModelTextureOpen" + std::to_string(texture.textureIndex)).c_str(),
+                    pStatus != nullptr ? pStatus->resolvedSourcePath : std::string());
+            }
+
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Surface Flags", false))
+    {
+        if (ImGui::BeginTable("Mm9DatWorldModelSurfaceFlags", 2, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("DAT Surface Flags", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Count", ImGuiTableColumnFlags_WidthFixed, 80.0f);
+            ImGui::TableHeadersRow();
+
+            for (const EditorMm9DatWorldHistogramEntry &entry : model.surfaceFlagHistogram)
+            {
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::Text("%d", entry.key);
+                ImGui::TableSetColumnIndex(1);
+                ImGui::Text("%zu", entry.count);
+            }
+
+            ImGui::EndTable();
+        }
+
+        ImGui::Spacing();
+
+        if (ImGui::BeginTable("Mm9DatWorldModelTextureUserFlags", 2, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("DTX Texture User Flag", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Count", ImGuiTableColumnFlags_WidthFixed, 80.0f);
+            ImGui::TableHeadersRow();
+
+            for (const EditorMm9DatWorldHistogramEntry &entry : model.textureUserFlagHistogram)
+            {
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::Text("%d", entry.key);
+                ImGui::TableSetColumnIndex(1);
+                ImGui::Text("%zu", entry.count);
+            }
+
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("World Leaf References", false))
+    {
+        if (beginInspectorPropertyTable("Mm9DatLeafReferenceFields"))
+        {
+            renderInspectorReadOnlyField("Decode", datWorld.leafReferences.decode);
+            renderInspectorReadOnlyField("Total Refs", std::to_string(datWorld.leafReferences.totalRefs));
+            renderInspectorReadOnlyField("Invalid Refs", std::to_string(datWorld.leafReferences.invalidRefs));
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("User Portals", false))
+    {
+        size_t matchingPortalCount = 0;
+
+        for (const EditorMm9DatUserPortalSummary &portal : datWorld.userPortals)
+        {
+            if (portal.sourceModelIndex == model.sourceModelIndex)
+            {
+                ++matchingPortalCount;
+            }
+        }
+
+        if (matchingPortalCount == 0)
+        {
+            ImGui::TextDisabled("No user portals on this world model.");
+        }
+        else if (ImGui::BeginTable("Mm9DatWorldModelUserPortals", 5, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("Index", ImGuiTableColumnFlags_WidthFixed, 62.0f);
+            ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Center LT", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Dims LT", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Raw Short", ImGuiTableColumnFlags_WidthFixed, 78.0f);
+            ImGui::TableHeadersRow();
+
+            for (const EditorMm9DatUserPortalSummary &portal : datWorld.userPortals)
+            {
+                if (portal.sourceModelIndex != model.sourceModelIndex)
+                {
+                    continue;
+                }
+
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::Text("%zu", portal.portalIndex);
+                ImGui::TableSetColumnIndex(1);
+                ImGui::TextUnformatted(portal.name.c_str());
+                ImGui::TableSetColumnIndex(2);
+                ImGui::TextUnformatted(mm9Vec3Text(portal.centerLt).c_str());
+                ImGui::TableSetColumnIndex(3);
+                ImGui::TextUnformatted(mm9Vec3Text(portal.dimsLt).c_str());
+                ImGui::TableSetColumnIndex(4);
+                ImGui::Text("%d", portal.rawUnknowns.unknownShort);
+            }
+
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+}
+
+void EditorMainWindow::renderMm9DatPolygonInspector(EditorSession &session, size_t triangleIndex)
+{
+    const EditorDocument &document = session.document();
+
+    if (document.kind() != EditorDocument::Kind::Mm9Dat || !document.hasMm9DatWorld())
+    {
+        ImGui::TextDisabled("MM9 DAT world is not loaded.");
+        return;
+    }
+
+    const Game::Mm9DatRenderMesh &mesh = document.mm9DatRenderMesh();
+
+    if (triangleIndex >= mesh.triangles.size())
+    {
+        ImGui::Text("DAT render triangle index %zu is out of range.", triangleIndex);
+        return;
+    }
+
+    const Game::Mm9DatRenderTriangle &triangle = mesh.triangles[triangleIndex];
+    const Game::Mm9DatWorld &world = document.mm9DatWorld();
+    const Game::Mm9DatWorldModel *pModel = nullptr;
+    const Game::Mm9DatPoly *pPoly = nullptr;
+    const Game::Mm9DatSurface *pSurface = nullptr;
+    const Game::Mm9DatPlane *pPlane = nullptr;
+
+    if (triangle.sourceModelIndex < world.worldModels.size())
+    {
+        pModel = &world.worldModels[triangle.sourceModelIndex];
+
+        if (triangle.sourcePolyIndex < pModel->polies.size())
+        {
+            pPoly = &pModel->polies[triangle.sourcePolyIndex];
+        }
+
+        if (triangle.sourceSurfaceIndex < pModel->surfaces.size())
+        {
+            pSurface = &pModel->surfaces[triangle.sourceSurfaceIndex];
+        }
+
+        if (pPoly != nullptr && pPoly->planeIndex < pModel->planes.size())
+        {
+            pPlane = &pModel->planes[pPoly->planeIndex];
+        }
+    }
+
+    const std::vector<Game::Mm9DatRenderMaterialAssignment> &assignments =
+        document.mm9DatRenderMaterialAssignments();
+    const Game::Mm9DatRenderMaterialAssignment *pAssignment = nullptr;
+
+    if (triangleIndex < assignments.size() && assignments[triangleIndex].triangleIndex == triangleIndex)
+    {
+        pAssignment = &assignments[triangleIndex];
+    }
+    else
+    {
+        for (const Game::Mm9DatRenderMaterialAssignment &assignment : assignments)
+        {
+            if (assignment.triangleIndex == triangleIndex)
+            {
+                pAssignment = &assignment;
+                break;
+            }
+        }
+    }
+
+    const std::vector<EditorMm9MaterialTextureStatus> &materialStatuses =
+        document.mm9MaterialTextureStatuses();
+    const EditorMm9MaterialTextureStatus *pMaterialStatus = nullptr;
+
+    if (pAssignment != nullptr && pAssignment->materialIndex < materialStatuses.size())
+    {
+        pMaterialStatus = &materialStatuses[pAssignment->materialIndex];
+    }
+
+    const float minX = std::min(
+        triangle.vertices[0].x,
+        std::min(triangle.vertices[1].x, triangle.vertices[2].x));
+    const float minY = std::min(
+        triangle.vertices[0].y,
+        std::min(triangle.vertices[1].y, triangle.vertices[2].y));
+    const float minZ = std::min(
+        triangle.vertices[0].z,
+        std::min(triangle.vertices[1].z, triangle.vertices[2].z));
+    const float maxX = std::max(
+        triangle.vertices[0].x,
+        std::max(triangle.vertices[1].x, triangle.vertices[2].x));
+    const float maxY = std::max(
+        triangle.vertices[0].y,
+        std::max(triangle.vertices[1].y, triangle.vertices[2].y));
+    const float maxZ = std::max(
+        triangle.vertices[0].z,
+        std::max(triangle.vertices[1].z, triangle.vertices[2].z));
+    const Game::Mm9DatVec3 renderBoundsMin = {minX, minY, minZ};
+    const Game::Mm9DatVec3 renderBoundsMax = {maxX, maxY, maxZ};
+    Game::Mm9DatRenderFilterEntry filterEntry = {};
+    bool hasFilterEntry = false;
+
+    if (document.hasMm9DatLoadedSidecars())
+    {
+        const EditorMm9DatWorldSidecar &datWorld = document.mm9DatLoadedSidecars().datWorld;
+        const Game::Mm9DatRenderFilterResult filters = Game::classifyMm9DatRenderMeshFilters(
+            mesh,
+            mm9ModelRenderRolesFromSidecar(datWorld),
+            datWorld.userPortals.size());
+
+        if (triangleIndex < filters.entries.size() && filters.entries[triangleIndex].triangleIndex == triangleIndex)
+        {
+            filterEntry = filters.entries[triangleIndex];
+            hasFilterEntry = true;
+        }
+        else
+        {
+            for (const Game::Mm9DatRenderFilterEntry &entry : filters.entries)
+            {
+                if (entry.triangleIndex == triangleIndex)
+                {
+                    filterEntry = entry;
+                    hasFilterEntry = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (beginInspectorSectionBlock("DAT Polygon"))
+    {
+        if (beginInspectorPropertyTable("Mm9DatPolygonFields"))
+        {
+            renderInspectorCopyableReadOnlyField("Render Triangle", std::to_string(triangleIndex));
+            renderInspectorCopyableReadOnlyField("Source Model Index", std::to_string(triangle.sourceModelIndex));
+            renderInspectorCopyableReadOnlyField(
+                "Source Model Name",
+                triangle.sourceModelName.empty() ? std::string("<unnamed>") : triangle.sourceModelName);
+            renderInspectorCopyableReadOnlyField("Source Polygon Index", std::to_string(triangle.sourcePolyIndex));
+            renderInspectorCopyableReadOnlyField("Source Surface Index", std::to_string(triangle.sourceSurfaceIndex));
+            renderInspectorCopyableReadOnlyField("Source Texture Index", std::to_string(triangle.sourceTextureIndex));
+            renderInspectorCopyableReadOnlyField("Source Texture", triangle.sourceTexture);
+            renderInspectorReadOnlyField("Plane Orientation Flipped", triangle.sourcePlaneOrientationFlipped
+                ? "true"
+                : "false");
+            renderInspectorReadOnlyField("Render Bounds Min", mm9DatVec3Text(renderBoundsMin));
+            renderInspectorReadOnlyField("Render Bounds Max", mm9DatVec3Text(renderBoundsMax));
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Surface Participation"))
+    {
+        if (beginInspectorPropertyTable("Mm9DatPolygonParticipationFields"))
+        {
+            if (hasFilterEntry)
+            {
+                renderInspectorReadOnlyField("Filter Flags", hex32Text(filterEntry.flags));
+                renderInspectorReadOnlyField(
+                    "Default Rendered",
+                    boolText(mm9DatFilterEntryShouldRenderInDefaultEditorView(filterEntry)));
+                renderInspectorReadOnlyField("In Pick Mesh", "true");
+                renderInspectorReadOnlyField(
+                    "Visual Art",
+                    boolText((filterEntry.flags & Game::Mm9DatRenderFilterVisual) != 0));
+                renderInspectorReadOnlyField(
+                    "Invisible Surface",
+                    boolText((filterEntry.flags & Game::Mm9DatRenderFilterInvisible) != 0));
+                renderInspectorReadOnlyField(
+                    "Physics",
+                    boolText((filterEntry.flags & Game::Mm9DatRenderFilterPhysics) != 0));
+                renderInspectorReadOnlyField(
+                    "Visibility",
+                    boolText((filterEntry.flags & Game::Mm9DatRenderFilterVisibility) != 0));
+                renderInspectorReadOnlyField(
+                    "Trigger Or Volume",
+                    boolText((filterEntry.flags & Game::Mm9DatRenderFilterTrigger) != 0));
+                renderInspectorReadOnlyField(
+                    "Sky",
+                    boolText((filterEntry.flags & Game::Mm9DatRenderFilterSky) != 0));
+                renderInspectorReadOnlyField(
+                    "Water",
+                    boolText((filterEntry.flags & Game::Mm9DatRenderFilterWater) != 0));
+                renderInspectorReadOnlyField(
+                    "Visible Water",
+                    boolText((filterEntry.flags & Game::Mm9DatRenderFilterVisibleWater) != 0));
+                renderInspectorReadOnlyField(
+                    "Water Volume Or Marker",
+                    boolText((filterEntry.flags & Game::Mm9DatRenderFilterWaterVolume) != 0));
+                renderInspectorReadOnlyField(
+                    "Rail Or AIRail Helper",
+                    boolText((filterEntry.flags & Game::Mm9DatRenderFilterRail) != 0));
+                renderInspectorReadOnlyField(
+                    "Terrain",
+                    boolText((filterEntry.flags & Game::Mm9DatRenderFilterTerrain) != 0));
+                renderInspectorReadOnlyField(
+                    "Movable",
+                    boolText((filterEntry.flags & Game::Mm9DatRenderFilterMovable) != 0));
+                renderInspectorReadOnlyField(
+                    "Helper Geometry",
+                    boolText((filterEntry.flags & Game::Mm9DatRenderFilterHelper) != 0));
+            }
+            else
+            {
+                renderInspectorReadOnlyField("Classifier", "<sidecar unavailable>");
+            }
+
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Collision And Material"))
+    {
+        if (beginInspectorPropertyTable("Mm9DatPolygonCollisionMaterialFields"))
+        {
+            const uint32_t datSurfaceFlags = triangle.surfaceFlags;
+            const uint32_t dtxUserFlags =
+                pMaterialStatus != nullptr && pMaterialStatus->dtxHeader
+                    ? static_cast<uint32_t>(pMaterialStatus->dtxHeader->userFlags)
+                    : 0u;
+            const bool dtxUserFlagsKnown = pMaterialStatus != nullptr && pMaterialStatus->dtxHeader.has_value();
+            const bool datSolid = (datSurfaceFlags & Game::Mm9DatSurfaceFlagSolid) != 0;
+            const bool datPhysicsBlocker =
+                (datSurfaceFlags & Game::Mm9DatSurfaceFlagPhysicsBlocker) != 0
+                || (hasFilterEntry && (filterEntry.flags & Game::Mm9DatRenderFilterPhysics) != 0);
+            const bool datVisibilityBlocker =
+                (datSurfaceFlags & Game::Mm9DatSurfaceFlagVisibilityBlocker) != 0
+                || (hasFilterEntry && (filterEntry.flags & Game::Mm9DatRenderFilterVisibility) != 0);
+
+            renderInspectorReadOnlyField("DAT Surface Flags", mm9SurfaceFlagsText(datSurfaceFlags));
+            renderInspectorReadOnlyField(
+                "DTX User/Material Flags",
+                dtxUserFlagsKnown ? mm9SurfaceFlagsText(dtxUserFlags) : std::string("<unavailable>"));
+            renderInspectorReadOnlyField("Solid Candidate", boolText(datSolid));
+            renderInspectorReadOnlyField("Physics Blocker", boolText(datPhysicsBlocker));
+            renderInspectorReadOnlyField("Visibility Blocker", boolText(datVisibilityBlocker));
+            renderInspectorReadOnlyField(
+                "Not A Step",
+                boolText((datSurfaceFlags & Game::Mm9DatSurfaceFlagNotAStep) != 0));
+            renderInspectorReadOnlyField(
+                "Portal Surface",
+                boolText((datSurfaceFlags & Game::Mm9DatSurfaceFlagPortal) != 0));
+            renderInspectorReadOnlyField(
+                "Invisible Surface",
+                boolText((datSurfaceFlags & Game::Mm9DatSurfaceFlagInvisible) != 0));
+            renderInspectorReadOnlyField(
+                "Sky Surface",
+                boolText((datSurfaceFlags & Game::Mm9DatSurfaceFlagSky) != 0));
+            renderInspectorReadOnlyField(
+                "Contact Metadata Source",
+                dtxUserFlagsKnown ? "DTX m_UserFlags" : "DTX header unavailable");
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Surface And Material"))
+    {
+        if (beginInspectorPropertyTable("Mm9DatPolygonSurfaceMaterialFields"))
+        {
+            renderInspectorReadOnlyField("DAT Surface Flags", mm9SurfaceFlagsText(triangle.surfaceFlags));
+            renderInspectorReadOnlyField("DAT Texture Flags", hex16Text(triangle.textureFlags));
+
+            if (pSurface != nullptr)
+            {
+                renderInspectorReadOnlyField("Surface Unknown", hex32Text(pSurface->unknown));
+                renderInspectorReadOnlyField("Surface Unknown 2", hex32Text(pSurface->unknown2));
+                renderInspectorReadOnlyField("Surface Texture Index", std::to_string(pSurface->textureIndex));
+                renderInspectorReadOnlyField("Effect Name", pSurface->effectName);
+                renderInspectorReadOnlyField("Effect Param", pSurface->effectParam);
+                renderInspectorReadOnlyField("UV Origin LT", mm9DatVec3Text(pSurface->uvOriginLt));
+                renderInspectorReadOnlyField("UV U LT", mm9DatVec3Text(pSurface->uvULt));
+                renderInspectorReadOnlyField("UV V LT", mm9DatVec3Text(pSurface->uvVLt));
+            }
+            else
+            {
+                renderInspectorReadOnlyField("Surface Record", "<out of range>");
+            }
+
+            if (pAssignment != nullptr)
+            {
+                renderInspectorCopyableReadOnlyField("Material Alias", pAssignment->alias);
+                renderInspectorReadOnlyField(
+                    "Material Candidates",
+                    std::to_string(pAssignment->materialCandidateCount));
+                renderInspectorReadOnlyField("Material Assigned", pAssignment->assigned ? "true" : "false");
+                renderInspectorReadOnlyField("Material Ambiguous", pAssignment->ambiguous ? "true" : "false");
+                renderInspectorCopyableReadOnlyField("Resolved Source DTX", pAssignment->resolvedSourcePath);
+            }
+
+            if (pMaterialStatus != nullptr && pMaterialStatus->dtxHeader)
+            {
+                const EditorMm9DtxHeader &header = *pMaterialStatus->dtxHeader;
+                renderInspectorReadOnlyField(
+                    "DTX User Flags",
+                    mm9SurfaceFlagsText(static_cast<uint32_t>(header.userFlags)));
+                renderInspectorReadOnlyField(
+                    "DTX Surface Flag",
+                    mm9SurfaceFlagsText(static_cast<uint32_t>(header.surfaceFlag)));
+                renderInspectorReadOnlyField("DTX Texture Group", std::to_string(header.textureGroup));
+            }
+
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Source Polygon"))
+    {
+        if (beginInspectorPropertyTable("Mm9DatPolygonSourceFields"))
+        {
+            if (pPoly != nullptr)
+            {
+                renderInspectorReadOnlyField("Center LT", mm9DatVec3Text(pPoly->centerLt));
+                renderInspectorReadOnlyField("Lightmap Width", std::to_string(pPoly->lightmapWidth));
+                renderInspectorReadOnlyField("Lightmap Height", std::to_string(pPoly->lightmapHeight));
+                renderInspectorReadOnlyField("Unknown Flag", hex16Text(pPoly->unknownFlag));
+                renderInspectorReadOnlyField("Unknown List Count", std::to_string(pPoly->unknownList.size()));
+                renderInspectorReadOnlyField("Surface Index", std::to_string(pPoly->surfaceIndex));
+                renderInspectorReadOnlyField("Plane Index", std::to_string(pPoly->planeIndex));
+                renderInspectorReadOnlyField("Vertex Count", std::to_string(pPoly->vertices.size()));
+            }
+            else
+            {
+                renderInspectorReadOnlyField("Polygon Record", "<out of range>");
+            }
+
+            if (pPlane != nullptr)
+            {
+                renderInspectorReadOnlyField("Plane Normal LT", mm9DatVec3Text(pPlane->normalLt));
+                renderInspectorReadOnlyField("Plane Distance", std::to_string(pPlane->distance));
+            }
+            else
+            {
+                renderInspectorReadOnlyField("Plane Record", "<out of range>");
+            }
+
+            ImGui::EndTable();
+        }
+
+        if (pPoly != nullptr && pModel != nullptr && ImGui::BeginTable(
+                "Mm9DatPolygonVertices",
+                6,
+                ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("Vertex", ImGuiTableColumnFlags_WidthFixed, 64.0f);
+            ImGui::TableSetupColumn("Point", ImGuiTableColumnFlags_WidthFixed, 64.0f);
+            ImGui::TableSetupColumn("Position LT", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Normal LT", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Dummy", ImGuiTableColumnFlags_WidthFixed, 96.0f);
+            ImGui::TableSetupColumn("Valid", ImGuiTableColumnFlags_WidthFixed, 64.0f);
+            ImGui::TableHeadersRow();
+
+            for (size_t vertexIndex = 0; vertexIndex < pPoly->vertices.size(); ++vertexIndex)
+            {
+                const Game::Mm9DatPolyVertex &vertex = pPoly->vertices[vertexIndex];
+                const bool pointValid = vertex.pointIndex < pModel->pointsLt.size();
+                const bool normalValid = vertex.pointIndex < pModel->pointNormalsLt.size();
+                char dummyBuffer[32] = {};
+                std::snprintf(
+                    dummyBuffer,
+                    sizeof(dummyBuffer),
+                    "%02X %02X %02X",
+                    static_cast<unsigned>(vertex.rawDummy[0]),
+                    static_cast<unsigned>(vertex.rawDummy[1]),
+                    static_cast<unsigned>(vertex.rawDummy[2]));
+
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::Text("%zu", vertexIndex);
+                ImGui::TableSetColumnIndex(1);
+                ImGui::Text("%u", static_cast<unsigned>(vertex.pointIndex));
+                ImGui::TableSetColumnIndex(2);
+                ImGui::TextUnformatted(pointValid
+                    ? mm9DatVec3Text(pModel->pointsLt[vertex.pointIndex]).c_str()
+                    : "<out of range>");
+                ImGui::TableSetColumnIndex(3);
+                ImGui::TextUnformatted(normalValid
+                    ? mm9DatVec3Text(pModel->pointNormalsLt[vertex.pointIndex]).c_str()
+                    : "<out of range>");
+                ImGui::TableSetColumnIndex(4);
+                ImGui::TextUnformatted(dummyBuffer);
+                ImGui::TableSetColumnIndex(5);
+                ImGui::TextUnformatted(pointValid ? "true" : "false");
+            }
+
+            ImGui::EndTable();
+        }
+
+        if (ImGui::BeginTable("Mm9DatRenderTriangleVertices", 5, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("Triangle Vertex", ImGuiTableColumnFlags_WidthFixed, 110.0f);
+            ImGui::TableSetupColumn("X", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Y", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Z", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("UV Pixels", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableHeadersRow();
+
+            for (size_t vertexIndex = 0; vertexIndex < triangle.vertices.size(); ++vertexIndex)
+            {
+                const Game::Mm9DatRenderVertex &vertex = triangle.vertices[vertexIndex];
+                char uvBuffer[64] = {};
+                std::snprintf(uvBuffer, sizeof(uvBuffer), "%.3f, %.3f", vertex.uPixels, vertex.vPixels);
+
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::Text("%zu", vertexIndex);
+                ImGui::TableSetColumnIndex(1);
+                ImGui::Text("%.3f", vertex.x);
+                ImGui::TableSetColumnIndex(2);
+                ImGui::Text("%.3f", vertex.y);
+                ImGui::TableSetColumnIndex(3);
+                ImGui::Text("%.3f", vertex.z);
+                ImGui::TableSetColumnIndex(4);
+                ImGui::TextUnformatted(uvBuffer);
+            }
+
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+}
+
+void EditorMainWindow::renderMm9MaterialTextureInspector(EditorSession &session, size_t textureIndex)
+{
+    const EditorDocument &document = session.document();
+
+    if (document.kind() != EditorDocument::Kind::Mm9Dat || !document.hasMm9DatLoadedSidecars())
+    {
+        ImGui::TextDisabled("MM9 DAT sidecars are not loaded.");
+        return;
+    }
+
+    const EditorMm9MaterialAliasesSidecar &materials = document.mm9DatLoadedSidecars().materialAliases;
+
+    if (textureIndex >= materials.textures.size())
+    {
+        ImGui::Text("DTX texture index %zu is out of range.", textureIndex);
+        return;
+    }
+
+    const EditorMm9MaterialTexture &texture = materials.textures[textureIndex];
+    const std::vector<EditorMm9MaterialTextureStatus> &statuses = document.mm9MaterialTextureStatuses();
+    const EditorMm9MaterialTextureStatus *pStatus =
+        textureIndex < statuses.size() ? &statuses[textureIndex] : nullptr;
+
+    if (beginInspectorSectionBlock("Material Alias"))
+    {
+        if (beginInspectorPropertyTable("Mm9MaterialAliasFields"))
+        {
+            renderInspectorCopyableReadOnlyField("Alias", texture.alias);
+            renderInspectorCopyableReadOnlyField("Source Texture", texture.sourceTexture);
+            renderInspectorCopyOpenReadOnlyField(
+                "Original Physical Path",
+                texture.physicalPath,
+                resolveMm9LevelRelativePath(document, texture.physicalPath).generic_string());
+            renderInspectorCopyOpenReadOnlyField(
+                "Generated Cache",
+                texture.emittedBitmap,
+                resolveMm9LevelRelativePath(document, texture.emittedBitmap).generic_string());
+            renderInspectorReadOnlyField("Cache Mode", texture.emittedBitmapMode);
+
+            if (pStatus != nullptr)
+            {
+                renderInspectorReadOnlyField("Source Asset Family", pStatus->sourceAssetFamily);
+                renderInspectorCopyOpenReadOnlyField(
+                    "Resolved Source",
+                    pStatus->resolvedSourcePath,
+                    pStatus->resolvedSourcePath);
+                renderInspectorReadOnlyField("Source Exists", pStatus->sourcePathExists ? "true" : "false");
+                renderInspectorCopyableReadOnlyField(
+                    "Source DTX SHA-256",
+                    pStatus->sourceDtxHashLoaded ? pStatus->sourceDtxSha256 : "");
+                renderInspectorReadOnlyField(
+                    "Source DTX Bytes",
+                    pStatus->sourceDtxHashLoaded ? std::to_string(pStatus->sourceDtxSizeBytes) : "");
+                renderInspectorReadOnlyField(
+                    "Source DTX Candidates",
+                    std::to_string(pStatus->sourceDtxCandidateCount));
+                renderInspectorReadOnlyField(
+                    "Source DTX Resolved",
+                    pStatus->sourceDtxResolved ? "true" : "false");
+                renderInspectorReadOnlyField(
+                    "Source DTX Ambiguous",
+                    pStatus->sourceDtxAmbiguous ? "true" : "false");
+                renderInspectorCopyOpenReadOnlyField(
+                    "Resolved SPR",
+                    pStatus->resolvedSpritePath,
+                    pStatus->resolvedSpritePath);
+                renderInspectorReadOnlyField("Source SPR Exists", pStatus->sourceSpritePathExists ? "true" : "false");
+                renderInspectorReadOnlyField(
+                    "Source SPR Candidates",
+                    std::to_string(pStatus->sourceSpriteCandidateCount));
+                renderInspectorReadOnlyField(
+                    "Source SPR Resolved",
+                    pStatus->sourceSpriteResolved ? "true" : "false");
+                renderInspectorReadOnlyField(
+                    "Source SPR Ambiguous",
+                    pStatus->sourceSpriteAmbiguous ? "true" : "false");
+                renderInspectorReadOnlyField("Source SPR Parsed", pStatus->sourceSpriteParsed ? "true" : "false");
+                renderInspectorReadOnlyField(
+                    "SPR Frame Textures",
+                    std::to_string(pStatus->spriteFrameTextureCount));
+                renderInspectorReadOnlyField(
+                    "Resolved SPR Frame Textures",
+                    std::to_string(pStatus->resolvedSpriteFrameTextureCount));
+                renderInspectorReadOnlyField(
+                    "Unresolved SPR Frame Textures",
+                    std::to_string(pStatus->unresolvedSpriteFrameTextureCount));
+                renderInspectorReadOnlyField(
+                    "Ambiguous SPR Frame Textures",
+                    std::to_string(pStatus->ambiguousSpriteFrameTextureCount));
+                renderInspectorCopyOpenReadOnlyField(
+                    "Resolved Cache",
+                    pStatus->resolvedCachePath,
+                    pStatus->resolvedCachePath);
+                renderInspectorReadOnlyField("Cache Exists", pStatus->cachePathExists ? "true" : "false");
+                renderInspectorReadOnlyField(
+                    "Cache SHA-256",
+                    pStatus->cacheHashLoaded ? pStatus->cacheSha256 : "");
+                renderInspectorReadOnlyField(
+                    "Cache Bytes",
+                    pStatus->cacheHashLoaded ? std::to_string(pStatus->cacheSizeBytes) : "");
+                renderInspectorReadOnlyField(
+                    "Cache Timestamp Known",
+                    pStatus->cacheFreshnessKnown ? "true" : "false");
+                renderInspectorReadOnlyField(
+                    "Cache Newer Than Source",
+                    pStatus->cacheNewerThanSource ? "true" : "false");
+                renderInspectorReadOnlyField(
+                    "Cache Older Than Source",
+                    pStatus->cacheOlderThanSource ? "true" : "false");
+                renderInspectorReadOnlyField("DAT References", std::to_string(pStatus->datReferenceCount));
+                renderInspectorReadOnlyField(
+                    "Aliases For Source",
+                    std::to_string(pStatus->materialAliasCountForSource));
+                renderInspectorReadOnlyField(
+                    "Placeholder Missing Source",
+                    pStatus->placeholderMissingSource ? "true" : "false");
+            }
+
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (pStatus != nullptr && pStatus->sourceSpriteAmbiguous && beginInspectorSectionBlock("Source SPR Candidates"))
+    {
+        for (const std::string &candidate : pStatus->sourceSpriteCandidates)
+        {
+            renderInspectorCopyButton(("Mm9SourceSpriteCandidate" + candidate).c_str(), candidate);
+            ImGui::SameLine();
+            renderInspectorOpenPathButton(("Mm9SourceSpriteCandidateOpen" + candidate).c_str(), candidate);
+            ImGui::SameLine();
+            ImGui::BulletText("%s", candidate.c_str());
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (pStatus != nullptr
+        && (!pStatus->spriteFrameTextureRefs.empty()
+            || !pStatus->resolvedSpriteFrameTexturePaths.empty()
+            || !pStatus->unresolvedSpriteFrameTextureRefs.empty()
+            || !pStatus->ambiguousSpriteFrameTextureRefs.empty())
+        && beginInspectorSectionBlock("SPR Frame Textures"))
+    {
+        for (const std::string &frameTextureRef : pStatus->spriteFrameTextureRefs)
+        {
+            renderInspectorCopyButton(("Mm9SpriteFrameTextureRef" + frameTextureRef).c_str(), frameTextureRef);
+            ImGui::SameLine();
+            ImGui::BulletText("%s", frameTextureRef.c_str());
+        }
+
+        if (!pStatus->resolvedSpriteFrameTexturePaths.empty())
+        {
+            ImGui::SeparatorText("Resolved Source DTX");
+
+            for (const std::string &frameTexturePath : pStatus->resolvedSpriteFrameTexturePaths)
+            {
+                renderInspectorCopyButton(("Mm9SpriteFrameTexturePath" + frameTexturePath).c_str(), frameTexturePath);
+                ImGui::SameLine();
+                renderInspectorOpenPathButton(
+                    ("Mm9SpriteFrameTexturePathOpen" + frameTexturePath).c_str(),
+                    frameTexturePath);
+                ImGui::SameLine();
+                ImGui::BulletText("%s", frameTexturePath.c_str());
+            }
+        }
+
+        if (!pStatus->unresolvedSpriteFrameTextureRefs.empty())
+        {
+            ImGui::SeparatorText("Unresolved");
+
+            for (const std::string &frameTextureRef : pStatus->unresolvedSpriteFrameTextureRefs)
+            {
+                renderInspectorCopyButton(("Mm9UnresolvedSpriteFrameTextureRef" + frameTextureRef).c_str(), frameTextureRef);
+                ImGui::SameLine();
+                ImGui::BulletText("%s", frameTextureRef.c_str());
+            }
+        }
+
+        if (!pStatus->ambiguousSpriteFrameTextureRefs.empty())
+        {
+            ImGui::SeparatorText("Ambiguous");
+
+            for (const std::string &frameTextureRef : pStatus->ambiguousSpriteFrameTextureRefs)
+            {
+                renderInspectorCopyButton(("Mm9AmbiguousSpriteFrameTextureRef" + frameTextureRef).c_str(), frameTextureRef);
+                ImGui::SameLine();
+                ImGui::BulletText("%s", frameTextureRef.c_str());
+            }
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (pStatus != nullptr && pStatus->sourceDtxAmbiguous && beginInspectorSectionBlock("Source DTX Candidates"))
+    {
+        for (const std::string &candidate : pStatus->sourceDtxCandidates)
+        {
+            renderInspectorCopyButton(("Mm9SourceDtxCandidate" + candidate).c_str(), candidate);
+            ImGui::SameLine();
+            renderInspectorOpenPathButton(("Mm9SourceDtxCandidateOpen" + candidate).c_str(), candidate);
+            ImGui::SameLine();
+            ImGui::BulletText("%s", candidate.c_str());
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("DTX Header"))
+    {
+        if (beginInspectorPropertyTable("Mm9MaterialDtxHeaderFields"))
+        {
+            renderInspectorReadOnlyField("Width", std::to_string(texture.width));
+            renderInspectorReadOnlyField("Height", std::to_string(texture.height));
+            renderInspectorReadOnlyField("User/Surface Flags", std::to_string(texture.dtxSurfaceFlag));
+            renderInspectorReadOnlyField("Texture Group", std::to_string(texture.dtxTextureGroup));
+            renderInspectorReadOnlyField("BPP", std::to_string(texture.dtxBpp));
+            renderInspectorReadOnlyField("Mipmap Count", std::to_string(texture.dtxMipmapCount));
+            renderInspectorReadOnlyField("Mipmaps Used", std::to_string(texture.dtxMipmapsUsed));
+            renderInspectorReadOnlyField("Flags", mm9DtxFlagsText(texture.dtxFlags));
+            renderInspectorReadOnlyField("Detail Scale", std::to_string(texture.dtxDetailScale));
+            renderInspectorReadOnlyField("Detail Angle", std::to_string(texture.dtxDetailAngle));
+            renderInspectorReadOnlyField("Command", texture.dtxCommandString);
+
+            if (pStatus != nullptr)
+            {
+                renderInspectorReadOnlyField("Header Loaded", pStatus->dtxHeaderLoaded ? "true" : "false");
+                renderInspectorReadOnlyField(
+                    "Header Matches Sidecar",
+                    pStatus->dtxHeaderMatchesSidecar ? "true" : "false");
+
+                if (pStatus->dtxHeader)
+                {
+                    const EditorMm9DtxHeader &header = *pStatus->dtxHeader;
+                    renderInspectorReadOnlyField("Source Version", std::to_string(header.version));
+                    renderInspectorReadOnlyField("Source File Type", std::to_string(header.fileType));
+                    renderInspectorReadOnlyField("Source Width", std::to_string(header.width));
+                    renderInspectorReadOnlyField("Source Height", std::to_string(header.height));
+                    renderInspectorReadOnlyField("Source Mipmap Count", std::to_string(header.mipmapCount));
+                    renderInspectorReadOnlyField("Source Section Count", std::to_string(header.sectionCount));
+                    renderInspectorReadOnlyField("Source Mipmaps Used", std::to_string(header.mipmapsUsed));
+                    renderInspectorReadOnlyField("Source Flags", mm9DtxFlagsText(header.flags));
+                    renderInspectorReadOnlyField("Source User Flags", std::to_string(header.userFlags));
+                    renderInspectorReadOnlyField("Source Surface Flag Alias", std::to_string(header.surfaceFlag));
+                    renderInspectorReadOnlyField("Source Texture Group", std::to_string(header.textureGroup));
+                    renderInspectorReadOnlyField("Source BPP", std::to_string(header.bpp));
+                    renderInspectorReadOnlyField("Source Extra Bytes", mm9DtxExtraBytesText(header));
+                    renderInspectorReadOnlyField("Source Detail Scale", std::to_string(header.detailScale));
+                    renderInspectorReadOnlyField("Source Detail Angle", std::to_string(header.detailAngle));
+                    renderInspectorReadOnlyField("Source Section Count Alias", std::to_string(header.lightFlag));
+                    renderInspectorReadOnlyField("Source Unknown", std::to_string(header.unknown));
+                    renderInspectorReadOnlyField("Source Non S3TC Offset", std::to_string(header.nonS3tcOffset));
+                    renderInspectorReadOnlyField("Source UI Mipmap Offset", std::to_string(header.uiMipmapOffset));
+                    renderInspectorReadOnlyField("Source Priority", std::to_string(header.texturePriority));
+                    renderInspectorReadOnlyField("Source Command", header.commandString);
+                }
+            }
+
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (pStatus != nullptr
+        && pStatus->dtxHeader
+        && beginInspectorSectionBlock("DTX Mip Payloads", false))
+    {
+        const EditorMm9DtxHeader &header = *pStatus->dtxHeader;
+
+        if (header.mips.empty())
+        {
+            ImGui::TextDisabled("Mip payload layout is unavailable.");
+        }
+        else if (ImGui::BeginTable("Mm9MaterialDtxMips", 7, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("Level", ImGuiTableColumnFlags_WidthFixed, 56.0f);
+            ImGui::TableSetupColumn("Width", ImGuiTableColumnFlags_WidthFixed, 72.0f);
+            ImGui::TableSetupColumn("Height", ImGuiTableColumnFlags_WidthFixed, 72.0f);
+            ImGui::TableSetupColumn("Offset", ImGuiTableColumnFlags_WidthFixed, 92.0f);
+            ImGui::TableSetupColumn("Bytes", ImGuiTableColumnFlags_WidthFixed, 92.0f);
+            ImGui::TableSetupColumn("Available", ImGuiTableColumnFlags_WidthFixed, 86.0f);
+            ImGui::TableSetupColumn("Decoded", ImGuiTableColumnFlags_WidthFixed, 78.0f);
+            ImGui::TableHeadersRow();
+
+            for (const EditorMm9DtxMipLevel &mip : header.mips)
+            {
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::Text("%zu", mip.level);
+                ImGui::TableSetColumnIndex(1);
+                ImGui::Text("%u", mip.width);
+                ImGui::TableSetColumnIndex(2);
+                ImGui::Text("%u", mip.height);
+                ImGui::TableSetColumnIndex(3);
+                ImGui::Text("%zu", mip.payloadOffset);
+                ImGui::TableSetColumnIndex(4);
+                ImGui::Text("%zu", mip.payloadSize);
+                ImGui::TableSetColumnIndex(5);
+                ImGui::TextUnformatted(mip.payloadAvailable ? "true" : "false");
+                ImGui::TableSetColumnIndex(6);
+                ImGui::TextUnformatted(mip.decodedPreviewAvailable ? "true" : "false");
+            }
+
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (pStatus != nullptr
+        && pStatus->dtxHeader
+        && pStatus->sourcePathExists
+        && beginInspectorSectionBlock("DTX Decoded Preview", false))
+    {
+        const EditorMm9DtxHeader &header = *pStatus->dtxHeader;
+        const std::filesystem::path sourcePath(pStatus->resolvedSourcePath);
+        bool renderedAnyPreview = false;
+
+        for (const EditorMm9DtxMipLevel &mip : header.mips)
+        {
+            if (!mip.decodedPreviewAvailable)
+            {
+                continue;
+            }
+
+            const std::optional<bgfx::TextureHandle> textureHandle =
+                ensureMm9DtxMipPreviewTexture(sourcePath, mip.level);
+
+            if (!textureHandle || !bgfx::isValid(*textureHandle))
+            {
+                continue;
+            }
+
+            const std::optional<std::pair<int, int>> textureSize =
+                mm9DtxMipPreviewTextureSize(sourcePath, mip.level);
+            const float sourceWidth =
+                textureSize ? static_cast<float>(textureSize->first) : static_cast<float>(mip.width);
+            const float sourceHeight =
+                textureSize ? static_cast<float>(textureSize->second) : static_cast<float>(mip.height);
+            const float maxPreviewSize = mip.level == 0 ? 160.0f : 96.0f;
+            const float scale = sourceWidth > 0.0f && sourceHeight > 0.0f
+                ? std::min(1.0f, maxPreviewSize / std::max(sourceWidth, sourceHeight))
+                : 1.0f;
+            const ImVec2 imageSize(
+                std::max(1.0f, sourceWidth * scale),
+                std::max(1.0f, sourceHeight * scale));
+
+            if (renderedAnyPreview)
+            {
+                ImGui::SameLine();
+            }
+
+            ImGui::BeginGroup();
+            ImGui::Text("Mip %zu", mip.level);
+            ImGui::TextDisabled("%ux%u", mip.width, mip.height);
+            ImGui::Image(
+                static_cast<ImTextureID>(static_cast<uintptr_t>(textureHandle->idx + 1)),
+                imageSize,
+                ImVec2(0.0f, 0.0f),
+                ImVec2(1.0f, 1.0f));
+            ImGui::EndGroup();
+            renderedAnyPreview = true;
+        }
+
+        if (!renderedAnyPreview)
+        {
+            ImGui::TextDisabled("No decoded mip previews available.");
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (pStatus != nullptr
+        && pStatus->dtxHeader
+        && beginInspectorSectionBlock("DTX Sections", false))
+    {
+        const EditorMm9DtxHeader &header = *pStatus->dtxHeader;
+
+        if (header.sections.empty())
+        {
+            ImGui::TextDisabled("No DTX sections.");
+        }
+        else if (ImGui::BeginTable("Mm9MaterialDtxSections", 6, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("Index", ImGuiTableColumnFlags_WidthFixed, 56.0f);
+            ImGui::TableSetupColumn("Type", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Offset", ImGuiTableColumnFlags_WidthFixed, 92.0f);
+            ImGui::TableSetupColumn("Bytes", ImGuiTableColumnFlags_WidthFixed, 92.0f);
+            ImGui::TableSetupColumn("Available", ImGuiTableColumnFlags_WidthFixed, 86.0f);
+            ImGui::TableHeadersRow();
+
+            for (const EditorMm9DtxSection &section : header.sections)
+            {
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::Text("%zu", section.sectionIndex);
+                ImGui::TableSetColumnIndex(1);
+                ImGui::TextUnformatted(section.type.c_str());
+                ImGui::TableSetColumnIndex(2);
+                ImGui::TextUnformatted(section.name.c_str());
+                ImGui::TableSetColumnIndex(3);
+                ImGui::Text("%zu", section.payloadOffset);
+                ImGui::TableSetColumnIndex(4);
+                ImGui::Text("%zu", section.payloadSize);
+                ImGui::TableSetColumnIndex(5);
+                ImGui::TextUnformatted(section.payloadAvailable ? "true" : "false");
+            }
+
+            ImGui::EndTable();
+        }
+
+        if (header.trailingBytes > 0)
+        {
+            ImGui::Text("Trailing bytes: %zu", header.trailingBytes);
+        }
+
+        endInspectorSectionBlock();
+    }
+}
+
+void EditorMainWindow::renderMm9RawObjectInspector(EditorSession &session, size_t objectIndex)
+{
+    const EditorDocument &document = session.document();
+
+    if (document.kind() != EditorDocument::Kind::Mm9Dat || !document.hasMm9DatLoadedSidecars())
+    {
+        ImGui::TextDisabled("MM9 DAT sidecars are not loaded.");
+        return;
+    }
+
+    const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
+    const EditorMm9RawObjectsSidecar &rawObjects = sidecars.rawObjects;
+
+    if (objectIndex >= rawObjects.objects.size())
+    {
+        ImGui::Text("DAT raw object index %zu is out of range.", objectIndex);
+        return;
+    }
+
+    const EditorMm9RawObject &object = rawObjects.objects[objectIndex];
+
+    if (beginInspectorSectionBlock("DAT Raw Object"))
+    {
+        if (beginInspectorPropertyTable("Mm9RawObjectFields"))
+        {
+            renderInspectorCopyableReadOnlyField("Source Object Index", std::to_string(object.objectIndex));
+            renderInspectorCopyableReadOnlyField("Source Class", object.name);
+            renderInspectorCopyableReadOnlyField("Name Property", mm9RawObjectPropertyValue(object, "Name"));
+            renderInspectorReadOnlyField("Position", mm9RawObjectPropertyValue(object, "Pos"));
+            renderInspectorReadOnlyField("Rotation", mm9RawObjectPropertyValue(object, "Rotation"));
+            renderInspectorReadOnlyField("Scale", mm9RawObjectPropertyValue(object, "Scale"));
+            renderInspectorReadOnlyField("Dims", mm9RawObjectPropertyValue(object, "Dims"));
+            renderInspectorReadOnlyField("Data Length", std::to_string(object.dataLength));
+            renderInspectorReadOnlyField("Property Count", std::to_string(object.propertyCount));
+            renderInspectorReadOnlyField(
+                "Trailing Bytes",
+                object.trailingHex.empty() ? std::string("<none>") : object.trailingHex);
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Event Binding", false))
+    {
+        const Game::Mm9EventObject *pEventObject = nullptr;
+        std::optional<size_t> linkedEventObjectIndex;
+        std::optional<size_t> linkedMechanismIndex;
+
+        for (size_t eventObjectIndex = 0; eventObjectIndex < sidecars.events.objects.size(); ++eventObjectIndex)
+        {
+            const Game::Mm9EventObject &eventObject = sidecars.events.objects[eventObjectIndex];
+
+            if (eventObject.sourceObjectIndex == static_cast<int>(object.objectIndex))
+            {
+                pEventObject = &eventObject;
+                linkedEventObjectIndex = eventObjectIndex;
+                linkedMechanismIndex = findMm9MechanismIndexByObjectId(sidecars.events, eventObject.objectId);
+                break;
+            }
+        }
+
+        if (pEventObject == nullptr)
+        {
+            ImGui::TextDisabled("No generated event object for this source object.");
+        }
+        else if (beginInspectorPropertyTable("Mm9RawObjectEventFields"))
+        {
+            renderInspectorCopyableReadOnlyField("Object Id", pEventObject->objectId);
+            renderInspectorCopyableReadOnlyField("Source Class", pEventObject->sourceClass);
+            renderInspectorCopyableReadOnlyField("Source Name", pEventObject->sourceName);
+            renderInspectorCopyableReadOnlyField("Raw Object Ref", pEventObject->rawObjectRef);
+            renderInspectorReadOnlyField("Raw Properties", std::to_string(pEventObject->rawPropertyCount));
+            renderInspectorReadOnlyField(
+                "Classifications",
+                pEventObject->classifications.empty()
+                    ? std::string("<none>")
+                    : pEventObject->classifications.front());
+            ImGui::EndTable();
+
+            if (renderInspectorJumpButton("Select Event Object", linkedEventObjectIndex.has_value()))
+            {
+                session.select(EditorSelectionKind::Mm9EventObject, *linkedEventObjectIndex);
+            }
+
+            ImGui::SameLine();
+
+            if (renderInspectorJumpButton("Select Mechanism", linkedMechanismIndex.has_value()))
+            {
+                session.select(EditorSelectionKind::Mm9Mechanism, *linkedMechanismIndex);
+            }
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Source Asset References", false))
+    {
+        size_t referenceCount = 0;
+        size_t requiredUnresolvedCount = 0;
+        size_t optionalUnresolvedCount = 0;
+        size_t ambiguousCount = 0;
+
+        for (const EditorMm9RawObjectAssetReferenceStatus &status : document.mm9RawObjectAssetReferenceStatuses())
+        {
+            if (status.sourceObjectIndex != object.objectIndex)
+            {
+                continue;
+            }
+
+            if (status.ambiguous)
+            {
+                ++ambiguousCount;
+            }
+
+            if (!status.resolved || status.ambiguous)
+            {
+                if (status.required)
+                {
+                    ++requiredUnresolvedCount;
+                }
+                else
+                {
+                    ++optionalUnresolvedCount;
+                }
+            }
+        }
+
+        if (beginInspectorPropertyTable("Mm9RawObjectAssetReferenceSummary"))
+        {
+            renderInspectorReadOnlyField("Required Issues", std::to_string(requiredUnresolvedCount));
+            renderInspectorReadOnlyField("Optional Issues", std::to_string(optionalUnresolvedCount));
+            renderInspectorReadOnlyField("Ambiguous", std::to_string(ambiguousCount));
+            ImGui::EndTable();
+        }
+
+        const auto rawObjectAssetIssueLabel =
+            [](const EditorMm9RawObjectAssetReferenceStatus &status) -> const char *
+        {
+            if (status.ambiguous)
+            {
+                return status.required ? "ambiguous required" : "ambiguous optional";
+            }
+
+            if (!status.resolved)
+            {
+                return status.required ? "unresolved required" : "unresolved optional";
+            }
+
+            if (status.aliasApplied)
+            {
+                return "resolved by alias";
+            }
+
+            return "resolved";
+        };
+
+        for (const EditorMm9RawObjectAssetReferenceStatus &status : document.mm9RawObjectAssetReferenceStatuses())
+        {
+            if (status.sourceObjectIndex != object.objectIndex)
+            {
+                continue;
+            }
+
+            if (referenceCount == 0)
+            {
+                if (!ImGui::BeginTable("Mm9RawObjectAssetReferences", 9, ImGuiTableFlags_SizingStretchProp))
+                {
+                    break;
+                }
+
+                ImGui::TableSetupColumn("Property", ImGuiTableColumnFlags_WidthStretch);
+                ImGui::TableSetupColumn("Issue", ImGuiTableColumnFlags_WidthFixed, 132.0f);
+                ImGui::TableSetupColumn("Family", ImGuiTableColumnFlags_WidthFixed, 96.0f);
+                ImGui::TableSetupColumn("Value", ImGuiTableColumnFlags_WidthStretch);
+                ImGui::TableSetupColumn("Required", ImGuiTableColumnFlags_WidthFixed, 76.0f);
+                ImGui::TableSetupColumn("Resolved", ImGuiTableColumnFlags_WidthFixed, 72.0f);
+                ImGui::TableSetupColumn("Ambiguous", ImGuiTableColumnFlags_WidthFixed, 82.0f);
+                ImGui::TableSetupColumn("Path", ImGuiTableColumnFlags_WidthStretch);
+                ImGui::TableSetupColumn("Actions", ImGuiTableColumnFlags_WidthFixed, 112.0f);
+                ImGui::TableHeadersRow();
+            }
+
+            ++referenceCount;
+            ImGui::TableNextRow();
+            ImGui::TableSetColumnIndex(0);
+            ImGui::TextUnformatted(status.propertyName.c_str());
+            ImGui::TableSetColumnIndex(1);
+            if (!status.resolved || status.ambiguous)
+            {
+                ImGui::TextColored(colorFromRgb(status.required ? 0xE7A46C : 0xD8B277), "%s",
+                    rawObjectAssetIssueLabel(status));
+            }
+            else
+            {
+                ImGui::TextUnformatted(rawObjectAssetIssueLabel(status));
+            }
+            ImGui::TableSetColumnIndex(2);
+            ImGui::TextUnformatted(status.sourceFamily.c_str());
+            ImGui::TableSetColumnIndex(3);
+            ImGui::TextUnformatted(status.sourceValue.c_str());
+            ImGui::TableSetColumnIndex(4);
+            ImGui::TextUnformatted(status.required ? "true" : "false");
+            ImGui::TableSetColumnIndex(5);
+            ImGui::TextUnformatted(status.resolved ? "true" : "false");
+            ImGui::TableSetColumnIndex(6);
+            ImGui::TextUnformatted(status.ambiguous ? "true" : "false");
+            ImGui::TableSetColumnIndex(7);
+            ImGui::TextUnformatted(status.resolvedSourcePath.c_str());
+            ImGui::TableSetColumnIndex(8);
+            renderInspectorCopyButton(
+                ("Mm9RawObjectAssetReference" + std::to_string(status.sourceObjectIndex) + status.propertyName).c_str(),
+                status.resolvedSourcePath.empty() ? status.sourceValue : status.resolvedSourcePath);
+            ImGui::SameLine();
+            renderInspectorOpenPathButton(
+                ("Mm9RawObjectAssetReferenceOpen"
+                    + std::to_string(status.sourceObjectIndex)
+                    + status.propertyName).c_str(),
+                status.resolvedSourcePath);
+        }
+
+        if (referenceCount > 0)
+        {
+            ImGui::EndTable();
+        }
+        else
+        {
+            ImGui::TextDisabled("No source asset references detected from string properties.");
+        }
+
+        bool candidateTableOpen = false;
+
+        for (const EditorMm9RawObjectAssetReferenceStatus &status : document.mm9RawObjectAssetReferenceStatuses())
+        {
+            if (status.sourceObjectIndex != object.objectIndex || status.sourceCandidates.empty())
+            {
+                continue;
+            }
+
+            if (!candidateTableOpen)
+            {
+                candidateTableOpen =
+                    ImGui::BeginTable("Mm9RawObjectAssetReferenceCandidates", 4, ImGuiTableFlags_SizingStretchProp);
+
+                if (!candidateTableOpen)
+                {
+                    break;
+                }
+
+                ImGui::TableSetupColumn("Property", ImGuiTableColumnFlags_WidthStretch);
+                ImGui::TableSetupColumn("Family", ImGuiTableColumnFlags_WidthFixed, 96.0f);
+                ImGui::TableSetupColumn("Candidate", ImGuiTableColumnFlags_WidthStretch);
+                ImGui::TableSetupColumn("Actions", ImGuiTableColumnFlags_WidthFixed, 112.0f);
+                ImGui::TableHeadersRow();
+            }
+
+            for (const std::string &candidate : status.sourceCandidates)
+            {
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::TextUnformatted(status.propertyName.c_str());
+                ImGui::TableSetColumnIndex(1);
+                ImGui::TextUnformatted(status.sourceFamily.c_str());
+                ImGui::TableSetColumnIndex(2);
+                ImGui::TextUnformatted(candidate.c_str());
+                ImGui::TableSetColumnIndex(3);
+                renderInspectorCopyButton(("Mm9RawObjectAssetCandidate" + candidate).c_str(), candidate);
+                ImGui::SameLine();
+                renderInspectorOpenPathButton(("Mm9RawObjectAssetCandidateOpen" + candidate).c_str(), candidate);
+            }
+        }
+
+        if (candidateTableOpen)
+        {
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Raw Properties"))
+    {
+        if (object.properties.empty())
+        {
+            ImGui::TextDisabled("No raw properties.");
+        }
+        else if (ImGui::BeginTable("Mm9RawObjectProperties", 8, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("Index", ImGuiTableColumnFlags_WidthFixed, 54.0f);
+            ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Code", ImGuiTableColumnFlags_WidthFixed, 54.0f);
+            ImGui::TableSetupColumn("Flags", ImGuiTableColumnFlags_WidthFixed, 64.0f);
+            ImGui::TableSetupColumn("Declared", ImGuiTableColumnFlags_WidthFixed, 74.0f);
+            ImGui::TableSetupColumn("Consumed", ImGuiTableColumnFlags_WidthFixed, 78.0f);
+            ImGui::TableSetupColumn("Decoded", ImGuiTableColumnFlags_WidthFixed, 66.0f);
+            ImGui::TableSetupColumn("Value", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableHeadersRow();
+
+            for (size_t propertyIndex = 0; propertyIndex < object.properties.size(); ++propertyIndex)
+            {
+                const EditorMm9RawObjectProperty &property = object.properties[propertyIndex];
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::Text("%zu", propertyIndex);
+                ImGui::TableSetColumnIndex(1);
+                ImGui::TextUnformatted(property.name.c_str());
+                ImGui::TableSetColumnIndex(2);
+                ImGui::Text("%d", property.code);
+                ImGui::TableSetColumnIndex(3);
+                ImGui::Text("%d", property.flags);
+                ImGui::TableSetColumnIndex(4);
+                ImGui::Text("%zu", property.declaredDataLength);
+                ImGui::TableSetColumnIndex(5);
+                ImGui::Text("%zu", property.consumedDataLength);
+                ImGui::TableSetColumnIndex(6);
+                ImGui::TextUnformatted(property.decoded ? "true" : "false");
+                ImGui::TableSetColumnIndex(7);
+                ImGui::TextUnformatted(property.valueJson.c_str());
+            }
+
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Raw Property Bytes", false))
+    {
+        for (size_t propertyIndex = 0; propertyIndex < object.properties.size(); ++propertyIndex)
+        {
+            const EditorMm9RawObjectProperty &property = object.properties[propertyIndex];
+            const std::string label = std::to_string(propertyIndex) + " - " + property.name;
+
+            if (ImGui::TreeNodeEx(label.c_str()))
+            {
+                if (beginInspectorPropertyTable("Mm9RawObjectPropertyBytes"))
+                {
+                    renderInspectorReadOnlyField("Raw Hex", property.rawHex);
+                    renderInspectorReadOnlyField("Value JSON", property.valueJson);
+                    renderInspectorReadOnlyField("Declared Length", std::to_string(property.declaredDataLength));
+                    renderInspectorReadOnlyField("Consumed Length", std::to_string(property.consumedDataLength));
+                    renderInspectorReadOnlyField("Decoded", property.decoded ? "true" : "false");
+                    ImGui::EndTable();
+                }
+                ImGui::TreePop();
+            }
+        }
+        endInspectorSectionBlock();
+    }
+}
+
+void EditorMainWindow::renderMm9EventObjectInspector(EditorSession &session, size_t eventObjectIndex)
+{
+    const EditorDocument &document = session.document();
+
+    if (document.kind() != EditorDocument::Kind::Mm9Dat || !document.hasMm9DatLoadedSidecars())
+    {
+        ImGui::TextDisabled("MM9 DAT sidecars are not loaded.");
+        return;
+    }
+
+    const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
+
+    if (eventObjectIndex >= sidecars.events.objects.size())
+    {
+        ImGui::Text("MM9 event object index %zu is out of range.", eventObjectIndex);
+        return;
+    }
+
+    const Game::Mm9EventObject &eventObject = sidecars.events.objects[eventObjectIndex];
+    const std::optional<size_t> linkedRawObjectIndex =
+        findMm9RawObjectIndexBySourceObjectIndex(sidecars.rawObjects, eventObject.sourceObjectIndex);
+    const std::optional<size_t> linkedMechanismIndex =
+        findMm9MechanismIndexByObjectId(sidecars.events, eventObject.objectId);
+
+    if (beginInspectorSectionBlock("Event Object"))
+    {
+        if (beginInspectorPropertyTable("Mm9EventObjectFields"))
+        {
+            renderInspectorCopyableReadOnlyField("Object Id", eventObject.objectId);
+            renderInspectorCopyableReadOnlyField("Source Object Index", std::to_string(eventObject.sourceObjectIndex));
+            renderInspectorCopyableReadOnlyField("Source Class", eventObject.sourceClass);
+            renderInspectorCopyableReadOnlyField("Source Name", eventObject.sourceName);
+            renderInspectorReadOnlyField("Classifications", joinMm9Classifications(eventObject.classifications));
+            renderInspectorCopyableReadOnlyField("Raw Object Ref", eventObject.rawObjectRef);
+            renderInspectorReadOnlyField("Raw Property Count", std::to_string(eventObject.rawPropertyCount));
+            ImGui::EndTable();
+        }
+
+        if (renderInspectorJumpButton("Select Raw Object", linkedRawObjectIndex.has_value()))
+        {
+            session.select(EditorSelectionKind::Mm9RawObject, *linkedRawObjectIndex);
+        }
+
+        ImGui::SameLine();
+
+        if (renderInspectorJumpButton("Select Mechanism", linkedMechanismIndex.has_value()))
+        {
+            session.select(EditorSelectionKind::Mm9Mechanism, *linkedMechanismIndex);
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Normalized Properties", false))
+    {
+        if (eventObject.normalizedProperties.empty())
+        {
+            ImGui::TextDisabled("No normalized properties.");
+        }
+        else if (beginInspectorPropertyTable("Mm9EventObjectNormalizedProperties"))
+        {
+            for (const std::pair<const std::string, std::string> &property : eventObject.normalizedProperties)
+            {
+                renderInspectorReadOnlyField(property.first.c_str(), property.second);
+            }
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Raw Property Evidence", false))
+    {
+        if (eventObject.rawProperties.empty())
+        {
+            ImGui::TextDisabled("No raw property refs.");
+        }
+        else if (ImGui::BeginTable("Mm9EventObjectRawProperties", 6, ImGuiTableFlags_SizingStretchProp))
+        {
+            ImGui::TableSetupColumn("Index", ImGuiTableColumnFlags_WidthFixed, 54.0f);
+            ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Decoded", ImGuiTableColumnFlags_WidthFixed, 66.0f);
+            ImGui::TableSetupColumn("Code", ImGuiTableColumnFlags_WidthFixed, 54.0f);
+            ImGui::TableSetupColumn("Flags", ImGuiTableColumnFlags_WidthFixed, 64.0f);
+            ImGui::TableSetupColumn("Raw Ref", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableHeadersRow();
+
+            for (const Game::Mm9EventObject::RawPropertyRef &property : eventObject.rawProperties)
+            {
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::Text("%zu", property.propertyIndex);
+                ImGui::TableSetColumnIndex(1);
+                ImGui::TextUnformatted(property.name.c_str());
+                ImGui::TableSetColumnIndex(2);
+                ImGui::TextUnformatted(property.decoded ? "true" : "false");
+                ImGui::TableSetColumnIndex(3);
+                ImGui::Text("%d", property.code);
+                ImGui::TableSetColumnIndex(4);
+                ImGui::Text("%d", property.flags);
+                ImGui::TableSetColumnIndex(5);
+                ImGui::TextUnformatted(property.rawRef.c_str());
+            }
+
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Bindings"))
+    {
+        size_t bindingCount = 0;
+
+        for (const Game::Mm9EventBinding &binding : sidecars.events.bindings)
+        {
+            if (binding.objectId != eventObject.objectId)
+            {
+                continue;
+            }
+
+            ++bindingCount;
+
+            for (const Game::Mm9EventBindingTarget &target : binding.targets)
+            {
+                if (beginInspectorPropertyTable("Mm9EventObjectBindingTarget"))
+                {
+                    const std::optional<size_t> linkedWorldModelIndex = target.bmodelIndex
+                        ? findMm9WorldModelIndexBySourceModelIndex(
+                            sidecars.datWorld,
+                            static_cast<size_t>(*target.bmodelIndex))
+                        : std::nullopt;
+                    const EditorMm9DatWorldModelSummary *pTargetWorldModel =
+                        linkedWorldModelIndex && *linkedWorldModelIndex < sidecars.datWorld.worldModels.size()
+                            ? &sidecars.datWorld.worldModels[*linkedWorldModelIndex]
+                            : nullptr;
+
+                    renderInspectorReadOnlyField("Target Kind", target.targetKind);
+                    renderInspectorCopyableReadOnlyField("Target Id", target.targetId);
+                    renderInspectorReadOnlyField("Confidence", target.confidence);
+                    renderInspectorReadOnlyField(
+                        "BModel Index",
+                        target.bmodelIndex ? std::to_string(*target.bmodelIndex) : std::string("<none>"));
+                    renderInspectorCopyableReadOnlyField("BModel Name", target.bmodelName);
+                    renderInspectorCopyableReadOnlyField("Source Model Name", target.sourceModelName);
+                    ImGui::EndTable();
+
+                    if (renderInspectorJumpButton("Select Target World Model", linkedWorldModelIndex.has_value()))
+                    {
+                        session.select(EditorSelectionKind::Mm9WorldModel, *linkedWorldModelIndex);
+                    }
+                }
+                ImGui::Spacing();
+            }
+        }
+
+        if (bindingCount == 0)
+        {
+            ImGui::TextDisabled("No generated bindings for this object.");
+        }
+
+        endInspectorSectionBlock();
+    }
+}
+
+void EditorMainWindow::renderMm9MechanismInspector(EditorSession &session, size_t mechanismIndex)
+{
+    const EditorDocument &document = session.document();
+
+    if (document.kind() != EditorDocument::Kind::Mm9Dat || !document.hasMm9DatLoadedSidecars())
+    {
+        ImGui::TextDisabled("MM9 DAT sidecars are not loaded.");
+        return;
+    }
+
+    const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
+    const Game::Mm9EventsData &events = sidecars.events;
+
+    if (mechanismIndex >= events.mechanisms.size())
+    {
+        ImGui::Text("MM9 mechanism index %zu is out of range.", mechanismIndex);
+        return;
+    }
+
+    const Game::Mm9EventMechanism &mechanism = events.mechanisms[mechanismIndex];
+    const Game::Mm9EventObject *pEventObject = nullptr;
+    const EditorMm9RawObject *pRawObject = nullptr;
+    std::optional<size_t> linkedEventObjectIndex;
+    std::optional<size_t> linkedRawObjectIndex;
+
+    for (size_t eventObjectIndex = 0; eventObjectIndex < events.objects.size(); ++eventObjectIndex)
+    {
+        const Game::Mm9EventObject &eventObject = events.objects[eventObjectIndex];
+
+        if (eventObject.objectId == mechanism.objectId)
+        {
+            pEventObject = &eventObject;
+            linkedEventObjectIndex = eventObjectIndex;
+            break;
+        }
+    }
+
+    for (size_t rawObjectIndex = 0; rawObjectIndex < sidecars.rawObjects.objects.size(); ++rawObjectIndex)
+    {
+        const EditorMm9RawObject &rawObject = sidecars.rawObjects.objects[rawObjectIndex];
+
+        if (rawObject.objectIndex == static_cast<size_t>(mechanism.sourceObjectIndex))
+        {
+            pRawObject = &rawObject;
+            linkedRawObjectIndex = rawObjectIndex;
+            break;
+        }
+    }
+
+    const auto renderSidecarCandidateEvidence =
+        [this](
+            const char *pLabel,
+            const std::vector<Game::Mm9EventBindingTarget::MovableWorldModelCandidate> &candidates)
+    {
+        if (candidates.empty())
+        {
+            return;
+        }
+
+        ImGui::SetNextItemOpen(false, ImGuiCond_FirstUseEver);
+        if (!ImGui::TreeNodeEx(pLabel))
+        {
+            return;
+        }
+
+        for (size_t candidateIndex = 0; candidateIndex < candidates.size(); ++candidateIndex)
+        {
+            const Game::Mm9EventBindingTarget::MovableWorldModelCandidate &candidate = candidates[candidateIndex];
+            ImGui::PushID(static_cast<int>(candidateIndex));
+            if (beginInspectorPropertyTable("Mm9MechanismSidecarWorldModelCandidate"))
+            {
+                renderInspectorCopyableReadOnlyField("Source Model Index", std::to_string(candidate.sourceModelIndex));
+                renderInspectorCopyableReadOnlyField("Source Model Name", candidate.sourceName);
+                renderInspectorReadOnlyField("Movable", candidate.movable ? "true" : "false");
+                renderInspectorReadOnlyField(
+                    "World Translation LT",
+                    mm9FloatVectorText(candidate.worldTranslationLt));
+                renderInspectorReadOnlyField("Distance LT", std::to_string(candidate.distanceLt));
+                renderInspectorReadOnlyField(
+                    "Exact Binding Claims",
+                    std::to_string(candidate.claimedByExactBindings.size()));
+                ImGui::EndTable();
+            }
+
+            if (!candidate.claimedByExactBindings.empty()
+                && beginInspectorPropertyTable("Mm9MechanismSidecarWorldModelCandidateClaims"))
+            {
+                for (size_t claimIndex = 0; claimIndex < candidate.claimedByExactBindings.size(); ++claimIndex)
+                {
+                    const Game::Mm9EventBindingTarget::MovableWorldModelCandidate::ExactBindingClaim &claim =
+                        candidate.claimedByExactBindings[claimIndex];
+                    const std::string label = "Claim " + std::to_string(claimIndex);
+                    std::string claimText = "source_object_index=" + std::to_string(claim.sourceObjectIndex);
+
+                    if (!claim.sourceName.empty())
+                    {
+                        claimText += ", source_name=" + claim.sourceName;
+                    }
+
+                    if (!claim.confidence.empty())
+                    {
+                        claimText += ", confidence=" + claim.confidence;
+                    }
+
+                    renderInspectorCopyableReadOnlyField(label.c_str(), claimText);
+                }
+
+                ImGui::EndTable();
+            }
+
+            ImGui::PopID();
+            ImGui::Spacing();
+        }
+
+        ImGui::TreePop();
+    };
+
+    if (beginInspectorSectionBlock("Mechanism"))
+    {
+        if (beginInspectorPropertyTable("Mm9MechanismFields"))
+        {
+            renderInspectorCopyableReadOnlyField("Mechanism Id", mechanism.mechanismId);
+            renderInspectorCopyableReadOnlyField("Object Id", mechanism.objectId);
+            renderInspectorCopyableReadOnlyField("Source Object Index", std::to_string(mechanism.sourceObjectIndex));
+            renderInspectorCopyableReadOnlyField("Source Class", mechanism.sourceClass);
+            renderInspectorCopyableReadOnlyField("Source Name", mechanism.sourceName);
+            renderInspectorReadOnlyField("Kind", mechanism.kind.empty() ? std::string("<unknown>") : mechanism.kind);
+            renderInspectorReadOnlyField("Event Object Found", pEventObject != nullptr ? "true" : "false");
+            renderInspectorReadOnlyField("Raw Object Found", pRawObject != nullptr ? "true" : "false");
+            ImGui::EndTable();
+        }
+
+        if (renderInspectorJumpButton("Select Event Object", linkedEventObjectIndex.has_value()))
+        {
+            session.select(EditorSelectionKind::Mm9EventObject, *linkedEventObjectIndex);
+        }
+
+        ImGui::SameLine();
+
+        if (renderInspectorJumpButton("Select Raw Object", linkedRawObjectIndex.has_value()))
+        {
+            session.select(EditorSelectionKind::Mm9RawObject, *linkedRawObjectIndex);
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Activation And Motion"))
+    {
+        if (beginInspectorPropertyTable("Mm9MechanismMotionFields"))
+        {
+            renderInspectorReadOnlyField(
+                "Start Open",
+                mm9OptionalBoolText(mechanism.activation.startOpen, mechanism.activation.hasStartOpen));
+            renderInspectorReadOnlyField(
+                "Locked",
+                mm9OptionalBoolText(mechanism.activation.locked, mechanism.activation.hasLocked));
+            renderInspectorReadOnlyField(
+                "Move Dir LT",
+                mechanism.linear.hasMoveDir ? mm9FloatVectorText(mechanism.linear.moveDirLt) : "<unknown>");
+            renderInspectorReadOnlyField(
+                "Move Distance LT",
+                mechanism.linear.hasMoveDist
+                    ? std::to_string(mechanism.linear.moveDistLt)
+                    : std::string("<unknown>"));
+            renderInspectorReadOnlyField(
+                "Open Speed LT/s",
+                mechanism.linear.hasOpenSpeed
+                    ? std::to_string(mechanism.linear.openSpeedLtPerSecond)
+                    : std::string("<unknown>"));
+            renderInspectorReadOnlyField(
+                "Close Speed LT/s",
+                mechanism.linear.hasCloseSpeed
+                    ? std::to_string(mechanism.linear.closeSpeedLtPerSecond)
+                    : std::string("<unknown>"));
+            renderInspectorReadOnlyField(
+                "Rotation Point LT",
+                mechanism.rotation.hasRotationPoint
+                    ? mm9FloatVectorText(mechanism.rotation.rotationPointLt)
+                    : std::string("<unknown>"));
+            renderInspectorReadOnlyField(
+                "Rotation Angles Deg",
+                mechanism.rotation.hasRotationAngles
+                    ? mm9FloatVectorText(mechanism.rotation.rotationAnglesDeg)
+                    : std::string("<unknown>"));
+            renderInspectorReadOnlyField("Trigger Outputs", std::to_string(mechanism.triggerOutputs.size()));
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Trigger Outputs", false))
+    {
+        if (mechanism.triggerOutputs.empty())
+        {
+            ImGui::TextDisabled("No generated trigger outputs for this mechanism.");
+        }
+        else if (beginInspectorPropertyTable("Mm9MechanismTriggerOutputs"))
+        {
+            for (size_t outputIndex = 0; outputIndex < mechanism.triggerOutputs.size(); ++outputIndex)
+            {
+                const Game::Mm9EventTriggerOutput &output = mechanism.triggerOutputs[outputIndex];
+                std::string outputText = "phase=" + output.phase
+                    + ", slot=" + std::to_string(output.slot)
+                    + ", target=" + (output.targetName.empty() ? std::string("<none>") : output.targetName)
+                    + ", message=" + (output.messageName.empty() ? std::string("<none>") : output.messageName)
+                    + ", resolution=" + (output.resolution.empty() ? std::string("<unknown>") : output.resolution);
+                const std::string label = "Output " + std::to_string(outputIndex);
+                renderInspectorCopyableReadOnlyField(label.c_str(), outputText);
+            }
+
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Preview"))
+    {
+        const Game::Mm9EventBinding *pBinding = findMm9EventBindingForObject(events, mechanism.objectId);
+        const bool hasMotion =
+            (mechanism.linear.hasMoveDir
+                && mechanism.linear.hasMoveDist
+                && std::fabs(mechanism.linear.moveDistLt) > 0.0001f)
+            || (mechanism.rotation.hasRotationPoint && mechanism.rotation.hasRotationAngles);
+        bool hasWorldModelTarget = false;
+
+        if (pBinding != nullptr)
+        {
+            for (const Game::Mm9EventBindingTarget &target : pBinding->targets)
+            {
+                if (target.targetKind == "odm_bmodel" && target.bmodelIndex.has_value())
+                {
+                    hasWorldModelTarget = true;
+                    break;
+                }
+            }
+        }
+
+        float previewProgress = 0.0f;
+        const bool hasPreview =
+            m_viewport.tryGetMm9MechanismPreviewProgress(document, mechanismIndex, previewProgress);
+        const bool canPreview = hasMotion && hasWorldModelTarget;
+
+        if (beginInspectorPropertyTable("Mm9MechanismPreviewFields"))
+        {
+            renderInspectorReadOnlyField("Previewable", canPreview ? "true" : "false");
+            renderInspectorReadOnlyField("Target World Model", hasWorldModelTarget ? "true" : "false");
+            renderInspectorReadOnlyField("Motion", hasMotion ? "true" : "false");
+            renderInspectorReadOnlyField("Active", hasPreview ? "true" : "false");
+            renderInspectorReadOnlyField("Progress", std::to_string(previewProgress));
+            ImGui::EndTable();
+        }
+
+        if (canPreview)
+        {
+            float editedProgress = previewProgress;
+            ImGui::SetNextItemWidth(-1.0f);
+            if (ImGui::SliderFloat("Preview Progress", &editedProgress, 0.0f, 1.0f, "%.2f"))
+            {
+                m_viewport.setMm9MechanismPreviewProgress(document, mechanismIndex, editedProgress);
+            }
+
+            if (ImGui::Button("Closed"))
+            {
+                m_viewport.setMm9MechanismPreviewProgress(document, mechanismIndex, 0.0f);
+            }
+
+            ImGui::SameLine();
+
+            if (ImGui::Button("Half"))
+            {
+                m_viewport.setMm9MechanismPreviewProgress(document, mechanismIndex, 0.5f);
+            }
+
+            ImGui::SameLine();
+
+            if (ImGui::Button("Open"))
+            {
+                m_viewport.setMm9MechanismPreviewProgress(document, mechanismIndex, 1.0f);
+            }
+
+            ImGui::SameLine();
+
+            if (ImGui::Button("Clear"))
+            {
+                m_viewport.clearMm9MechanismPreview(document);
+            }
+        }
+        else
+        {
+            ImGui::TextDisabled("Preview requires a generated world-model target and movement data.");
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Source Evidence", false))
+    {
+        if (pEventObject != nullptr && beginInspectorPropertyTable("Mm9MechanismEventEvidence"))
+        {
+            renderInspectorCopyableReadOnlyField("Event Object Id", pEventObject->objectId);
+            renderInspectorCopyableReadOnlyField("Raw Object Ref", pEventObject->rawObjectRef);
+            renderInspectorReadOnlyField("Classifications", joinMm9Classifications(pEventObject->classifications));
+            renderInspectorReadOnlyField("Raw Properties", std::to_string(pEventObject->rawPropertyCount));
+            ImGui::EndTable();
+        }
+
+        if (pRawObject != nullptr && beginInspectorPropertyTable("Mm9MechanismRawObjectEvidence"))
+        {
+            renderInspectorCopyableReadOnlyField("Raw Object Index", std::to_string(pRawObject->objectIndex));
+            renderInspectorCopyableReadOnlyField("Raw Class", pRawObject->name);
+            renderInspectorCopyableReadOnlyField("Name Property", mm9RawObjectPropertyValue(*pRawObject, "Name"));
+            renderInspectorReadOnlyField("Position", mm9RawObjectPropertyValue(*pRawObject, "Pos"));
+            renderInspectorReadOnlyField("Rotation", mm9RawObjectPropertyValue(*pRawObject, "Rotation"));
+            renderInspectorReadOnlyField("Dims", mm9RawObjectPropertyValue(*pRawObject, "Dims"));
+            renderInspectorReadOnlyField("Property Count", std::to_string(pRawObject->propertyCount));
+            ImGui::EndTable();
+        }
+
+        if (pEventObject == nullptr && pRawObject == nullptr)
+        {
+            ImGui::TextDisabled("No event or raw object evidence for this mechanism.");
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Generated Binding Targets"))
+    {
+        size_t bindingCount = 0;
+
+        for (const Game::Mm9EventBinding &binding : events.bindings)
+        {
+            if (binding.objectId != mechanism.objectId)
+            {
+                continue;
+            }
+
+            ++bindingCount;
+
+            for (const Game::Mm9EventBindingTarget &target : binding.targets)
+            {
+                if (beginInspectorPropertyTable("Mm9MechanismBindingTarget"))
+                {
+                    const std::optional<size_t> linkedWorldModelIndex = target.bmodelIndex
+                        ? findMm9WorldModelIndexBySourceModelIndex(
+                            sidecars.datWorld,
+                            static_cast<size_t>(*target.bmodelIndex))
+                        : std::nullopt;
+                    const EditorMm9DatWorldModelSummary *pTargetWorldModel =
+                        linkedWorldModelIndex && *linkedWorldModelIndex < sidecars.datWorld.worldModels.size()
+                            ? &sidecars.datWorld.worldModels[*linkedWorldModelIndex]
+                            : nullptr;
+
+                    renderInspectorReadOnlyField("Target Kind", target.targetKind);
+                    renderInspectorCopyableReadOnlyField("Target Id", target.targetId);
+                    renderInspectorReadOnlyField("Confidence", target.confidence);
+                    renderInspectorReadOnlyField(
+                        "Source World Model Index",
+                        target.bmodelIndex ? std::to_string(*target.bmodelIndex) : std::string("<none>"));
+                    renderInspectorCopyableReadOnlyField("BModel Name", target.bmodelName);
+                    renderInspectorCopyableReadOnlyField("Source World Model Name", target.sourceModelName);
+                    renderInspectorReadOnlyField(
+                        "Source Polygon Group",
+                        target.sourcePolygonGroup.has_value() ? "true" : "false");
+                    renderInspectorReadOnlyField(
+                        "Group Source Model Index",
+                        target.sourcePolygonGroup
+                            ? std::to_string(target.sourcePolygonGroup->sourceModelIndex)
+                            : std::string("<none>"));
+                    renderInspectorCopyableReadOnlyField(
+                        "Group Source Model Name",
+                        target.sourcePolygonGroup
+                            ? target.sourcePolygonGroup->sourceModelName
+                            : std::string("<none>"));
+                    renderInspectorReadOnlyField(
+                        "Group Source Polygons",
+                        target.sourcePolygonGroup
+                            ? std::to_string(target.sourcePolygonGroup->sourcePolyCount)
+                            : std::string("<none>"));
+                    renderInspectorReadOnlyField(
+                        "Group Source Surfaces",
+                        target.sourcePolygonGroup
+                            ? std::to_string(target.sourcePolygonGroup->sourceSurfaceCount)
+                            : std::string("<none>"));
+                    renderInspectorReadOnlyField(
+                        "Target DAT Model Found",
+                        pTargetWorldModel != nullptr ? "true" : "false");
+                    renderInspectorReadOnlyField(
+                        "Target DAT Movable Role",
+                        pTargetWorldModel != nullptr && pTargetWorldModel->roles.movable ? "true" : "false");
+                    renderInspectorReadOnlyField(
+                        "Target DAT Roles",
+                        pTargetWorldModel != nullptr
+                            ? mm9WorldModelRolesText(pTargetWorldModel->roles)
+                            : std::string("<none>"));
+                    ImGui::EndTable();
+
+                    if (renderInspectorJumpButton("Select Target World Model", linkedWorldModelIndex.has_value()))
+                    {
+                        session.select(EditorSelectionKind::Mm9WorldModel, *linkedWorldModelIndex);
+                    }
+                }
+
+                renderSidecarCandidateEvidence(
+                    "Sidecar Candidates By Rotation Point",
+                    target.nearestMovableWorldModelsByRotationPoint);
+                renderSidecarCandidateEvidence(
+                    "Sidecar Candidates By Position",
+                    target.nearestMovableWorldModelsByPosition);
+                ImGui::Spacing();
+            }
+        }
+
+        if (mechanism.rotation.hasRotationPoint && mechanism.rotation.rotationPointLt.size() >= 3)
+        {
+            ImGui::SetNextItemOpen(false, ImGuiCond_FirstUseEver);
+            if (ImGui::TreeNodeEx("Nearest Movable DAT World Models"))
+            {
+                const std::vector<Mm9MovableWorldModelCandidate> candidates =
+                    nearestMm9MovableWorldModels(sidecars.datWorld, mechanism.rotation.rotationPointLt, 5);
+
+                if (candidates.empty())
+                {
+                    ImGui::TextDisabled("No movable world-model candidates near the rotation point.");
+                }
+                else
+                {
+                    for (const Mm9MovableWorldModelCandidate &candidate : candidates)
+                    {
+                        if (beginInspectorPropertyTable("Mm9MechanismNearestWorldModelCandidate"))
+                        {
+                            renderInspectorCopyableReadOnlyField(
+                                "Source Model Index",
+                                std::to_string(candidate.sourceModelIndex));
+                            renderInspectorCopyableReadOnlyField("Source Model Name", candidate.sourceName);
+                            renderInspectorReadOnlyField(
+                                "World Translation LT",
+                                mm9Vec3Text(candidate.worldTranslationLt));
+                            renderInspectorReadOnlyField("Distance LT", std::to_string(candidate.distanceLt));
+                            ImGui::EndTable();
+                        }
+                        ImGui::Spacing();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+        }
+
+        if (bindingCount == 0)
+        {
+            ImGui::TextDisabled("No generated binding targets for this mechanism.");
+        }
+
+        endInspectorSectionBlock();
+    }
+}
+
+void EditorMainWindow::renderMm9EventScriptInspector(EditorSession &session, size_t scriptIndex)
+{
+    const EditorDocument &document = session.document();
+
+    if (document.kind() != EditorDocument::Kind::Mm9Dat || !document.hasMm9DatLoadedSidecars())
+    {
+        ImGui::TextDisabled("MM9 DAT sidecars are not loaded.");
+        return;
+    }
+
+    const Game::Mm9EventsData &events = document.mm9DatLoadedSidecars().events;
+    const EditorMm9DatLevelMetadata &metadata = document.mm9DatLevelMetadata();
+
+    if (scriptIndex >= events.scripts.size())
+    {
+        ImGui::Text("MM9 script index %zu is out of range.", scriptIndex);
+        return;
+    }
+
+    const Game::Mm9EventScript &script = events.scripts[scriptIndex];
+
+    if (beginInspectorSectionBlock("Script Provenance"))
+    {
+        if (beginInspectorPropertyTable("Mm9EventScriptFields"))
+        {
+            renderInspectorCopyableReadOnlyField("Script Id", script.scriptId);
+            renderInspectorCopyOpenReadOnlyField(
+                "Source Path",
+                script.sourcePath,
+                resolveMm9LevelRelativePath(document, script.sourcePath).generic_string());
+            renderInspectorCopyOpenReadOnlyField(
+                "Generated Lua",
+                events.generatedLua,
+                resolveMm9LevelRelativePath(document, events.generatedLua).generic_string());
+            renderInspectorCopyOpenReadOnlyField(
+                "Generated Script IR",
+                events.generatedScriptIr,
+                resolveMm9LevelRelativePath(document, events.generatedScriptIr).generic_string());
+            renderInspectorCopyOpenReadOnlyField(
+                "Authored Source Asset Aliases",
+                metadata.sidecars.sourceAssetAliases
+                    ? *metadata.sidecars.sourceAssetAliases
+                    : std::string("<none>"),
+                metadata.sidecars.sourceAssetAliases
+                    ? resolveMm9LevelRelativePath(document, *metadata.sidecars.sourceAssetAliases).generic_string()
+                    : std::string());
+            renderInspectorReadOnlyField(
+                "Source Asset Alias Role",
+                metadata.sidecars.sourceAssetAliases ? "authored_override" : "none");
+            renderInspectorReadOnlyField("Registered Triggers", std::to_string(script.registeredTriggerCount));
+            renderInspectorReadOnlyField("Trigger Edges", std::to_string(script.triggerEdges.size()));
+            renderInspectorReadOnlyField("Movement Commands", std::to_string(script.movementCommandCount));
+            renderInspectorReadOnlyField("Unknown Commands", std::to_string(script.unknownCommandCount));
+            renderInspectorReadOnlyField("Command Count", std::to_string(script.commandCount));
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Registered Triggers", false))
+    {
+        if (script.registeredTriggers.empty())
+        {
+            ImGui::TextDisabled("No registered script triggers.");
+        }
+        else if (beginInspectorPropertyTable("Mm9EventScriptRegisteredTriggers"))
+        {
+            for (size_t triggerIndex = 0; triggerIndex < script.registeredTriggers.size(); ++triggerIndex)
+            {
+                const Game::Mm9EventScript::RegisteredTrigger &trigger =
+                    script.registeredTriggers[triggerIndex];
+                std::string triggerText = "line=" + std::to_string(trigger.line)
+                    + ", message=" + (trigger.message.empty() ? std::string("<none>") : trigger.message)
+                    + ", callback=" + (trigger.callback.empty() ? std::string("<none>") : trigger.callback);
+                if (!trigger.argumentsRaw.empty())
+                {
+                    triggerText += ", raw=" + trigger.argumentsRaw;
+                }
+                const std::string label = "Trigger " + std::to_string(triggerIndex);
+                renderInspectorCopyableReadOnlyField(label.c_str(), triggerText);
+            }
+
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Trigger Edges", false))
+    {
+        if (script.triggerEdges.empty())
+        {
+            ImGui::TextDisabled("No outgoing script trigger edges.");
+        }
+        else if (beginInspectorPropertyTable("Mm9EventScriptTriggerEdges"))
+        {
+            for (size_t edgeIndex = 0; edgeIndex < script.triggerEdges.size(); ++edgeIndex)
+            {
+                const Game::Mm9EventScript::TriggerEdge &edge = script.triggerEdges[edgeIndex];
+                std::string edgeText = "line=" + std::to_string(edge.line)
+                    + ", target="
+                    + (edge.targetExpression.empty() ? std::string("<none>") : edge.targetExpression)
+                    + ", message="
+                    + (edge.messageExpression.empty() ? std::string("<none>") : edge.messageExpression);
+                if (!edge.argumentsRaw.empty())
+                {
+                    edgeText += ", raw=" + edge.argumentsRaw;
+                }
+                const std::string label = "Edge " + std::to_string(edgeIndex);
+                renderInspectorCopyableReadOnlyField(label.c_str(), edgeText);
+            }
+
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    const auto renderScriptCommands =
+        [](const char *pSectionLabel,
+           const char *pTableId,
+           const char *pEmptyLabel,
+           const std::vector<Game::Mm9EventScript::ScriptCommand> &commands)
+    {
+        if (beginInspectorSectionBlock(pSectionLabel, false))
+        {
+            if (commands.empty())
+            {
+                ImGui::TextDisabled("%s", pEmptyLabel);
+            }
+            else if (beginInspectorPropertyTable(pTableId))
+            {
+                for (size_t commandIndex = 0; commandIndex < commands.size(); ++commandIndex)
+                {
+                    const Game::Mm9EventScript::ScriptCommand &command = commands[commandIndex];
+                    std::string commandText = "line=" + std::to_string(command.line)
+                        + ", command=" + (command.command.empty() ? std::string("<none>") : command.command);
+                    if (!command.argumentsRaw.empty())
+                    {
+                        commandText += ", raw=" + command.argumentsRaw;
+                    }
+                    const std::string label = "Command " + std::to_string(commandIndex);
+                    renderInspectorCopyableReadOnlyField(label.c_str(), commandText);
+                }
+
+                ImGui::EndTable();
+            }
+
+            endInspectorSectionBlock();
+        }
+    };
+
+    renderScriptCommands(
+        "Movement Commands",
+        "Mm9EventScriptMovementCommands",
+        "No movement script commands.",
+        script.movementCommands);
+    renderScriptCommands(
+        "Unknown Commands",
+        "Mm9EventScriptUnknownCommands",
+        "No unknown script commands.",
+        script.unknownCommands);
+
+    const ReadOnlyTextPreview generatedLuaPreview =
+        loadReadOnlyTextPreview(resolveMm9LevelRelativePath(document, events.generatedLua));
+    renderReadOnlyTextPreviewSection(
+        "Generated Lua Preview",
+        "Mm9EventGeneratedLuaPreview",
+        generatedLuaPreview,
+        false);
+
+    const ReadOnlyTextPreview generatedScriptIrPreview =
+        loadReadOnlyTextPreview(resolveMm9LevelRelativePath(document, events.generatedScriptIr));
+    renderReadOnlyTextPreviewSection(
+        "Generated Script IR Preview",
+        "Mm9EventGeneratedScriptIrPreview",
+        generatedScriptIrPreview,
+        false);
 }
 
 std::string extractQuotedIndoorSourceId(const std::string &message)
@@ -11952,7 +18053,7 @@ void EditorMainWindow::renderBModelInspector(EditorSession &session, size_t bmod
                 session.noteDocumentMutated({});
             }
         }
-    
+
         ImGui::SameLine();
 
         if (ImGui::Button("Reset Faces", ImVec2(140.0f, 0.0f)))
@@ -13241,6 +19342,7 @@ void EditorMainWindow::renderInteractiveFaceInspector(EditorSession &session)
 
     Game::OutdoorBModelFace &baseFace = outdoorGeometry.bmodels[bmodelIndex].faces[faceIndex];
     Game::OutdoorSceneInteractiveFace *pInteractiveFace = findInteractiveFace(sceneData, bmodelIndex, faceIndex);
+    const Game::OutdoorSceneBModelFaceSource *pFaceSource = findBModelFaceSource(sceneData, bmodelIndex, faceIndex);
     const std::vector<size_t> &selectedFaceIndices = session.selectedInteractiveFaceIndices();
     bool changed = false;
 
@@ -13250,6 +19352,19 @@ void EditorMainWindow::renderInteractiveFaceInspector(EditorSession &session)
     ImGui::Text("Polygon Type: %u", baseFace.polygonType);
     ImGui::Text("Walkable: %s", Game::isOutdoorWalkablePolygonType(baseFace.polygonType) ? "yes" : "no");
     ImGui::Text("Has Scene Entry: %s", pInteractiveFace != nullptr ? "yes" : "no");
+
+    if (pFaceSource != nullptr)
+    {
+        ImGui::Text(
+            "Source: %s model %zu poly %zu",
+            pFaceSource->sourceKind.c_str(),
+            pFaceSource->sourceModelIndex,
+            pFaceSource->sourcePolyIndex);
+    }
+    else
+    {
+        ImGui::TextDisabled("Source: <none>");
+    }
 
     const auto forEachSelectedFace =
         [&](const auto &callback)
@@ -13603,6 +19718,23 @@ void EditorMainWindow::renderInteractiveFaceInspector(EditorSession &session)
     {
         ImGui::Spacing();
         ImGui::TextDisabled("No scene override. Add an Interactive Face Entry for gameplay-visible changes.");
+    }
+
+    if (pFaceSource != nullptr)
+    {
+        ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
+        if (ImGui::CollapsingHeader("Source Face"))
+        {
+            if (beginInspectorPropertyTable("InteractiveFaceSourceFields"))
+            {
+                renderInspectorReadOnlyField("Source Kind", pFaceSource->sourceKind);
+                renderInspectorReadOnlyField("Source Model Index", std::to_string(pFaceSource->sourceModelIndex));
+                renderInspectorReadOnlyField("Source Model Name", pFaceSource->sourceModelName);
+                renderInspectorReadOnlyField("Source Poly Index", std::to_string(pFaceSource->sourcePolyIndex));
+                renderInspectorReadOnlyField("Texture Alias", pFaceSource->textureAlias);
+                ImGui::EndTable();
+            }
+        }
     }
 
     ImGui::SetNextItemOpen(false, ImGuiCond_FirstUseEver);

@@ -4,6 +4,7 @@
 
 #include "engine/AssetFileSystem.h"
 #include "engine/AudioSystem.h"
+#include "engine/ImageAssetLoader.h"
 #include "game/FaceEnums.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/events/EventDialogContent.h"
@@ -37,7 +38,13 @@
 #include "game/party/PartySpellSystem.h"
 #include "game/items/PriceCalculator.h"
 #include "game/maps/MapAssetLoader.h"
+#include "game/maps/MapIdentity.h"
 #include "game/maps/SaveGame.h"
+#include "game/mm9/Mm9DialoguePackage.h"
+#include "game/mm9/Mm9DialogueRuntime.h"
+#include "game/mm9/Mm9DialogueUi.h"
+#include "game/mm9/Mm9ScriptRuntime.h"
+#include "game/mm9/Mm9ScriptedObjectRuntime.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 #include "game/ui/GameplayUiRuntime.h"
@@ -1146,6 +1153,45 @@ TextureColorStats analyzeTextureColors(const std::vector<uint8_t> &pixels)
         if (green >= 100 && red <= 140 && blue <= 140)
         {
             ++stats.greenPixelCount;
+        }
+    }
+
+    return stats;
+}
+
+struct DecodedBillboardFrameStats
+{
+    size_t visiblePixelCount = 0;
+    bool hasDifferentVisiblePixel = false;
+};
+
+DecodedBillboardFrameStats analyzeDecodedBillboardFrame(const Engine::ImagePixelsBgra &image)
+{
+    DecodedBillboardFrameStats stats = {};
+    std::optional<std::array<uint8_t, 4>> firstVisiblePixel;
+
+    for (size_t offset = 0; offset + 3 < image.pixels.size(); offset += 4)
+    {
+        const std::array<uint8_t, 4> pixel = {
+            image.pixels[offset + 0],
+            image.pixels[offset + 1],
+            image.pixels[offset + 2],
+            image.pixels[offset + 3]
+        };
+
+        if (pixel[3] == 0)
+        {
+            continue;
+        }
+
+        ++stats.visiblePixelCount;
+        if (!firstVisiblePixel)
+        {
+            firstVisiblePixel = pixel;
+        }
+        else if (pixel != *firstVisiblePixel)
+        {
+            stats.hasDifferentVisiblePixel = true;
         }
     }
 
@@ -4104,6 +4150,318 @@ int HeadlessGameplayDiagnostics::runDumpActorPreviewTexture(
               << " magenta_pixels=" << colorStats.magentaPixelCount
               << " green_pixels=" << colorStats.greenPixelCount
               << '\n';
+
+    return 0;
+}
+
+int HeadlessGameplayDiagnostics::runMm9BillboardSmoke(
+    const std::filesystem::path &basePath,
+    const std::string &mapFileName
+) const
+{
+    Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(
+            basePath,
+            m_config.assetRoot,
+            m_config.assetScaleTier,
+            m_config.assetScaleProfile,
+            m_config.activeWorldId))
+    {
+        std::cerr << "MM9 billboard smoke failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    GameDataLoader gameDataLoader;
+
+    if (!gameDataLoader.loadForHeadlessGameplay(assetFileSystem)
+        || !gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
+    {
+        std::cerr << "MM9 billboard smoke failed: could not load map \"" << mapFileName << "\"\n";
+        return 1;
+    }
+
+    const std::optional<MapAssetInfo> &selectedMap = gameDataLoader.getSelectedMap();
+    if (!selectedMap || !selectedMap->outdoorSceneData)
+    {
+        std::cerr << "MM9 billboard smoke failed: selected map has no outdoor scene data\n";
+        return 1;
+    }
+
+    Mm9ScriptedBillboardVisualSet visualSet = {};
+    std::string errorMessage;
+    if (!visualSet.loadFromAssetFileSystem(assetFileSystem, errorMessage))
+    {
+        std::cerr << "MM9 billboard smoke failed: could not load billboard visuals: "
+                  << errorMessage << '\n';
+        return 1;
+    }
+
+    const std::string mapId = normalizeMapFileStem(selectedMap->map.fileName);
+    Mm9ScriptedObjectRuntime runtime = {};
+    runtime.initialize(
+        mapId,
+        *selectedMap->outdoorSceneData,
+        visualSet,
+        selectedMap->mm9EventsData ? &*selectedMap->mm9EventsData : nullptr);
+
+    size_t visibleObjectCount = 0;
+    size_t decodedFrameCount = 0;
+    size_t nonblankFrameCount = 0;
+    size_t missingFrameCount = 0;
+    size_t blankFrameCount = 0;
+    size_t collisionVolumeCount = 0;
+    size_t collisionDebugVertexCount = 0;
+    size_t projectileTargetCount = 0;
+    size_t movementBlockerCount = 0;
+
+    for (const Mm9ScriptedObject &object : runtime.objects())
+    {
+        if (!object.visible || object.missingVisual)
+        {
+            continue;
+        }
+
+        const Mm9ScriptedBillboardVisual *pVisual = visualSet.findVisual(object.visualId);
+        if (pVisual == nullptr)
+        {
+            ++missingFrameCount;
+            continue;
+        }
+
+        const Mm9ScriptedBillboardFrame *pFrame =
+            visualSet.resolveFrame(*pVisual, object.currentClip, "idle", "front", 0);
+        if (pFrame == nullptr || pFrame->path.empty())
+        {
+            ++missingFrameCount;
+            continue;
+        }
+
+        const std::string virtualPath = std::string(Mm9ScriptedBillboardVisualRoot) + "/" + pFrame->path;
+        const std::optional<std::vector<uint8_t>> imageBytes = assetFileSystem.readBinaryFile(virtualPath);
+        if (!imageBytes)
+        {
+            ++missingFrameCount;
+            continue;
+        }
+
+        const std::optional<Engine::ImagePixelsBgra> image =
+            Engine::decodeImagePixelsBgra(*imageBytes, virtualPath);
+        if (!image || image->width <= 0 || image->height <= 0 || image->pixels.empty())
+        {
+            ++missingFrameCount;
+            continue;
+        }
+
+        ++visibleObjectCount;
+        ++decodedFrameCount;
+        if (object.radius > 0.0f && object.height > 0.0f)
+        {
+            ++collisionVolumeCount;
+            collisionDebugVertexCount += 30;
+            if (object.solid)
+            {
+                ++projectileTargetCount;
+                ++movementBlockerCount;
+            }
+        }
+
+        const DecodedBillboardFrameStats frameStats = analyzeDecodedBillboardFrame(*image);
+        if (frameStats.visiblePixelCount > 0 && frameStats.hasDifferentVisiblePixel)
+        {
+            ++nonblankFrameCount;
+        }
+        else
+        {
+            ++blankFrameCount;
+            std::cerr << "MM9 billboard smoke blank frame"
+                      << " object_id=" << object.objectId
+                      << " visual_id=" << object.visualId
+                      << " frame=" << virtualPath
+                      << " visible_pixels=" << frameStats.visiblePixelCount
+                      << '\n';
+        }
+    }
+
+    std::cout << "MM9 billboard smoke: map=" << mapFileName
+              << " runtime_objects=" << runtime.objects().size()
+              << " visible_objects=" << visibleObjectCount
+              << " decoded_frames=" << decodedFrameCount
+              << " nonblank_frames=" << nonblankFrameCount
+              << " missing_frames=" << missingFrameCount
+              << " blank_frames=" << blankFrameCount
+              << " collision_volumes=" << collisionVolumeCount
+              << " collision_debug_vertices=" << collisionDebugVertexCount
+              << " projectile_targets=" << projectileTargetCount
+              << " movement_blockers=" << movementBlockerCount
+              << '\n';
+
+    if (runtime.objects().empty()
+        || visibleObjectCount == 0
+        || decodedFrameCount == 0
+        || nonblankFrameCount != decodedFrameCount
+        || collisionVolumeCount != visibleObjectCount
+        || collisionDebugVertexCount != visibleObjectCount * 30
+        || projectileTargetCount == 0
+        || movementBlockerCount == 0
+        || missingFrameCount != 0
+        || blankFrameCount != 0)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+int HeadlessGameplayDiagnostics::runMm9DialogueSmoke(
+    const std::filesystem::path &basePath,
+    const std::string &mapFileName
+) const
+{
+    Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(
+            basePath,
+            m_config.assetRoot,
+            m_config.assetScaleTier,
+            m_config.assetScaleProfile,
+            m_config.activeWorldId))
+    {
+        std::cerr << "MM9 dialogue smoke failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    GameDataLoader gameDataLoader;
+
+    if (!gameDataLoader.loadForHeadlessGameplay(assetFileSystem)
+        || !gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
+    {
+        std::cerr << "MM9 dialogue smoke failed: could not load map \"" << mapFileName << "\"\n";
+        return 1;
+    }
+
+    const std::optional<MapAssetInfo> &selectedMap = gameDataLoader.getSelectedMap();
+    if (!selectedMap || !selectedMap->outdoorSceneData)
+    {
+        std::cerr << "MM9 dialogue smoke failed: selected map has no outdoor scene data\n";
+        return 1;
+    }
+
+    Mm9ScriptedBillboardVisualSet visualSet = {};
+    std::string errorMessage;
+    if (!visualSet.loadFromAssetFileSystem(assetFileSystem, errorMessage))
+    {
+        std::cerr << "MM9 dialogue smoke failed: could not load billboard visuals: "
+                  << errorMessage << '\n';
+        return 1;
+    }
+
+    Mm9DialoguePackage package = {};
+    if (!loadMm9DialoguePackage(assetFileSystem, package))
+    {
+        std::cerr << "MM9 dialogue smoke failed: could not load dialogue package\n";
+        return 1;
+    }
+
+    if (!package.errors.empty())
+    {
+        std::cerr << "MM9 dialogue smoke failed: "
+                  << package.errors.front().virtualPath
+                  << ": " << package.errors.front().message << '\n';
+        return 1;
+    }
+
+    const std::string mapId = normalizeMapFileStem(selectedMap->map.fileName);
+    Mm9ScriptedObjectRuntime objectRuntime = {};
+    objectRuntime.initialize(
+        mapId,
+        *selectedMap->outdoorSceneData,
+        visualSet,
+        selectedMap->mm9EventsData ? &*selectedMap->mm9EventsData : nullptr);
+
+    Party party = {};
+    party.reset();
+    Mm9DialogueRuntime dialogueRuntime(package, party);
+    Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    const Mm9ScriptedObject *pActivatedObject = nullptr;
+    const Mm9GeneratedObjectDialogueBinding *pActivatedBinding = nullptr;
+    Mm9ObjectActivationResult activation = {};
+    size_t dialogueCandidateCount = 0;
+
+    for (const Mm9ScriptedObject &object : objectRuntime.objects())
+    {
+        const Mm9GeneratedObjectDialogueBinding *pBinding = nullptr;
+        const auto bindingIterator = std::find_if(
+            package.objectBindings.begin(),
+            package.objectBindings.end(),
+            [&mapId, &object](const Mm9GeneratedObjectDialogueBinding &binding)
+            {
+                return binding.mapId == mapId
+                    && binding.objectIndex == static_cast<int32_t>(object.sourceObjectIndex);
+            });
+        if (bindingIterator != package.objectBindings.end())
+        {
+            pBinding = &*bindingIterator;
+        }
+
+        if (pBinding == nullptr || !pBinding->dialogueCapable)
+        {
+            continue;
+        }
+
+        ++dialogueCandidateCount;
+        if (!object.visible || object.missingVisual || !object.movement.stationary)
+        {
+            continue;
+        }
+
+        activation = scriptRuntime.activateObject(mapId, static_cast<int32_t>(object.sourceObjectIndex));
+        if (!activation.openedDialogue)
+        {
+            continue;
+        }
+
+        pActivatedObject = &object;
+        pActivatedBinding = pBinding;
+        break;
+    }
+
+    const EventDialogContent content =
+        pActivatedObject != nullptr ? buildMm9DialogueContent(dialogueRuntime) : EventDialogContent{};
+
+    std::cout << "MM9 dialogue smoke: map=" << mapFileName
+              << " runtime_objects=" << objectRuntime.objects().size()
+              << " dialogue_candidates=" << dialogueCandidateCount;
+
+    if (pActivatedObject != nullptr && pActivatedBinding != nullptr)
+    {
+        std::cout << " activated_object=" << pActivatedObject->sourceObjectIndex
+                  << " object_name=\"" << pActivatedObject->sourceName << "\""
+                  << " rude_id=" << pActivatedBinding->rudeId.value_or(0)
+                  << " script=\"" << pActivatedBinding->scriptName << "\""
+                  << " ran_script=" << (activation.ranScript ? 1 : 0)
+                  << " direct_dialogue=" << (activation.directDialogue ? 1 : 0)
+                  << " queued_greeting=" << (activation.queuedGreetingSound ? 1 : 0)
+                  << " title=\"" << content.title << "\""
+                  << " lines=" << content.lines.size()
+                  << " actions=" << content.actions.size();
+    }
+    else if (!activation.error.empty())
+    {
+        std::cout << " last_error=\"" << activation.error << "\"";
+    }
+
+    std::cout << '\n';
+
+    if (dialogueCandidateCount == 0
+        || pActivatedObject == nullptr
+        || pActivatedBinding == nullptr
+        || !content.isActive
+        || content.actions.empty())
+    {
+        return 1;
+    }
 
     return 0;
 }

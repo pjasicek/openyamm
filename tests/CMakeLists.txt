@@ -1,8 +1,14 @@
 add_executable(openyamm_unit_tests
+    AnimatedModelAssetTests.cpp
+    AnimatedModelRendererTests.cpp
+    Mm9AnimatedActorVisualTests.cpp
+    Mm9AnimatedModelResolverTests.cpp
+    Mm9AnimatedModelSidecarTests.cpp
     AssetFileSystemTests.cpp
     ActorPathRuntimeTests.cpp
     AudioRegressionTests.cpp
     ArcomageRegressionTests.cpp
+    ArenaRuntimeTests.cpp
     ChestRegressionTests.cpp
     ContentManifestTests.cpp
     HouseDialogueRegressionTests.cpp
@@ -24,10 +30,23 @@ add_executable(openyamm_unit_tests
     LegacyLuaExportTests.cpp
     MapStatsRegressionTests.cpp
     MapDeltaDataTests.cpp
+    Mm9EventsYmlTests.cpp
     MM7MechanicsRuntimeTests.cpp
     MercenaryRecruitmentRuntimeTests.cpp
     MonsterTableRegressionTests.cpp
     MergedBaseTablesTests.cpp
+    Mm9DialoguePackageTests.cpp
+    Mm9DialogueRuntimeTests.cpp
+    Mm9DtxTextureTests.cpp
+    Mm9EditorDatLevelMetadataTests.cpp
+    Mm9RudeTranscodeTests.cpp
+    Mm9DatWorldTests.cpp
+    Mm9DatPhysicsQueryTests.cpp
+    Mm9SkyLayerTests.cpp
+    Mm9LightLayerTests.cpp
+    Mm9ModelInstanceActorResolverTests.cpp
+    Mm9ScriptRuntimeCommandTests.cpp
+    Mm9ScriptedBillboardVisualTests.cpp
     OutdoorLightingRuntimeTests.cpp
     PartyRegressionTests.cpp
     PathMapTests.cpp
@@ -48,6 +67,8 @@ add_executable(openyamm_unit_tests
     ../engine/AssetFileSystem.cpp
     ../engine/AssetScaleTier.cpp
     ../engine/ImageAssetLoader.cpp
+    ../editor/document/Mm9DatLevelMetadata.cpp
+    ../editor/model/Mm9ModelInstanceActorResolver.cpp
     ../engine/TextTable.cpp
     ../game/arcomage/ArcomageAi.cpp
     ../game/arcomage/ArcomageLoader.cpp
@@ -62,6 +83,7 @@ add_executable(openyamm_unit_tests
     ../game/events/EventRuntime.cpp
     ../game/events/EventDialogContent.cpp
     ../game/events/ScriptedEventProgram.cpp
+    ../game/gameplay/ArenaRuntime.cpp
     ../game/gameplay/ChestRuntime.cpp
     ../game/gameplay/GameplayBolsterRuntime.cpp
     ../game/gameplay/GameplayActorAiSystem.cpp
@@ -88,9 +110,31 @@ add_executable(openyamm_unit_tests
     ../game/gameplay/CorpseLootRuntime.cpp
     ../game/gameplay/SavePreviewImage.cpp
     ../game/maps/MapDeltaData.cpp
+    ../game/maps/Mm9EventsYml.cpp
+    ../game/mm9/Mm9DialoguePackage.cpp
+    ../game/mm9/Mm9DatWorld.cpp
+    ../game/mm9/Mm9DatPhysicsQuery.cpp
+    ../game/mm9/Mm9SkyLayer.cpp
+    ../game/mm9/Mm9ObjectLayer.cpp
+    ../game/mm9/Mm9LightLayer.cpp
+    ../game/mm9/Mm9SoundLayer.cpp
+    ../game/mm9/Mm9SpawnLayer.cpp
+    ../game/mm9/Mm9JournalContent.cpp
+    ../game/mm9/Mm9InteractionRouting.cpp
+    ../game/mm9/Mm9DialogueRuntime.cpp
+    ../game/mm9/Mm9DialogueUi.cpp
+    ../game/mm9/Mm9AnimatedActorBinding.cpp
+    ../game/mm9/Mm9AnimatedActorVisual.cpp
+    ../game/mm9/Mm9AnimatedModelResolver.cpp
+    ../game/mm9/Mm9AnimatedModelSidecar.cpp
+    ../game/mm9/Mm9DtxTexture.cpp
+    ../game/mm9/Mm9ServiceRuntime.cpp
+    ../game/mm9/Mm9ScriptRuntime.cpp
+    ../game/mm9/Mm9ScriptedObjectRuntime.cpp
     ../game/maps/MapAssetLoader.cpp
     ../game/maps/MapIdentity.cpp
     ../game/maps/SaveGame.cpp
+    ../game/mm9/Mm9ScriptedBillboardVisuals.cpp
     ../game/maps/MapRegistry.cpp
     ../game/maps/IndoorSceneYml.cpp
     ../game/maps/OutdoorSceneYml.cpp
@@ -145,6 +189,8 @@ add_executable(openyamm_unit_tests
     ../game/tables/RaceStartingStatsTable.cpp
     ../game/tables/RosterTable.cpp
     ../game/tables/ReadableScrollTable.cpp
+    ../game/render/AnimatedModelAsset.cpp
+    ../game/render/AnimatedModelRenderer.cpp
     ../game/tables/SpellTable.cpp
     ../game/tables/SpellFxTable.cpp
     ../game/tables/SpeechReactionTable.cpp
@@ -164,6 +210,7 @@ add_executable(openyamm_unit_tests
     ../game/pathfinding/PathMap.cpp
     ../game/pathfinding/PathPlanner.cpp
     ../tools/LegacyLuaExport.cpp
+    ../tools/Mm9RudeTranscode.cpp
     ../tools/legacy_events/EvtProgram.cpp
     ../tools/legacy_events/StrTable.cpp
 )
@@ -173,6 +220,7 @@ target_include_directories(openyamm_unit_tests
         ${CMAKE_SOURCE_DIR}
         ${CMAKE_SOURCE_DIR}/third_party/doctest
         ${OPENYAMM_BGFX_SOURCE_DIR}/include
+        ${OPENYAMM_BGFX_SOURCE_DIR}/3rdparty
         ${OPENYAMM_BIMG_SOURCE_DIR}/include
         ${OPENYAMM_BX_SOURCE_DIR}/include
 )
@@ -182,6 +230,7 @@ target_compile_features(openyamm_unit_tests PRIVATE cxx_std_20)
 target_compile_definitions(openyamm_unit_tests
     PRIVATE
         OPENYAMM_SOURCE_DIR="${CMAKE_SOURCE_DIR}"
+        OPENYAMM_BGFX_SHADER_DIR="${OPENYAMM_RUNTIME_SHADER_DIR}"
 )
 
 target_link_libraries(openyamm_unit_tests
@@ -217,3 +266,37 @@ if (UNIX AND NOT APPLE)
 endif()
 
 add_test(NAME openyamm_unit_tests COMMAND openyamm_unit_tests)
+
+add_executable(openyamm_mm9_outdoor_runtime_tests
+    UnitTestMain.cpp
+    Mm9OutdoorWorldRuntimeTests.cpp
+    ../tools/Mm9RudeTranscode.cpp
+)
+
+target_include_directories(openyamm_mm9_outdoor_runtime_tests
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}
+        ${CMAKE_SOURCE_DIR}/third_party/doctest
+        ${OPENYAMM_BGFX_SOURCE_DIR}/include
+        ${OPENYAMM_BIMG_SOURCE_DIR}/include
+        ${OPENYAMM_BX_SOURCE_DIR}/include
+)
+
+target_compile_features(openyamm_mm9_outdoor_runtime_tests PRIVATE cxx_std_20)
+
+target_compile_definitions(openyamm_mm9_outdoor_runtime_tests
+    PRIVATE
+        OPENYAMM_SOURCE_DIR="${CMAKE_SOURCE_DIR}"
+)
+
+target_link_libraries(openyamm_mm9_outdoor_runtime_tests
+    PRIVATE
+        openyamm_game
+        openyamm_bgfx
+        SDL3::SDL3
+        physfs-static
+        ${OPENYAMM_LUA_TARGET}
+        yaml-cpp::yaml-cpp
+)
+
+add_test(NAME openyamm_mm9_outdoor_runtime_tests COMMAND openyamm_mm9_outdoor_runtime_tests)

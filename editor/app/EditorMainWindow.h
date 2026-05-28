@@ -31,6 +31,7 @@ public:
     int viewportY() const;
     uint16_t viewportWidth() const;
     uint16_t viewportHeight() const;
+    const EditorOutdoorViewport::RenderSubmissionStats &lastViewportRenderSubmissionStats() const;
 
     struct ModelImportInspectionState
     {
@@ -151,6 +152,12 @@ private:
         const std::string &textureName,
         int16_t paletteId = 0,
         bool spriteTexture = false) const;
+    std::optional<bgfx::TextureHandle> ensureMm9DtxMipPreviewTexture(
+        const std::filesystem::path &sourcePath,
+        size_t mipLevel) const;
+    std::optional<std::pair<int, int>> mm9DtxMipPreviewTextureSize(
+        const std::filesystem::path &sourcePath,
+        size_t mipLevel) const;
     bool renderIdOptionSelectorWithBitmapPreview(
         EditorSession &session,
         const char *pLabel,
@@ -179,6 +186,14 @@ private:
     void duplicateSelected(EditorSession &session);
     void deleteSelected(EditorSession &session);
     void renderDocumentSummary(EditorSession &session);
+    void renderMm9DatDocumentSummary(EditorSession &session);
+    void renderMm9DatWorldModelInspector(EditorSession &session, size_t worldModelIndex);
+    void renderMm9DatPolygonInspector(EditorSession &session, size_t triangleIndex);
+    void renderMm9MaterialTextureInspector(EditorSession &session, size_t textureIndex);
+    void renderMm9RawObjectInspector(EditorSession &session, size_t objectIndex);
+    void renderMm9EventObjectInspector(EditorSession &session, size_t eventObjectIndex);
+    void renderMm9MechanismInspector(EditorSession &session, size_t mechanismIndex);
+    void renderMm9EventScriptInspector(EditorSession &session, size_t scriptIndex);
     void renderIndoorDocumentSummary(EditorSession &session);
     void renderEnvironmentInspector(EditorSession &session) const;
     void renderIndoorEnvironmentInspector(EditorSession &session) const;
@@ -277,6 +292,8 @@ private:
     mutable char m_modelBrowserFilter[128] = {};
     mutable std::unordered_map<std::string, bgfx::TextureHandle> m_bitmapPreviewTextures;
     mutable std::unordered_map<std::string, std::pair<int, int>> m_bitmapPreviewTextureSizes;
+    mutable std::unordered_map<std::string, bgfx::TextureHandle> m_mm9DtxMipPreviewTextures;
+    mutable std::unordered_map<std::string, std::pair<int, int>> m_mm9DtxMipPreviewTextureSizes;
     mutable FaceClipboard m_faceClipboard;
     mutable bool m_editorStateLoaded = false;
     mutable std::string m_lastSavedEditorState;
